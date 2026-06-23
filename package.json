@@ -1,0 +1,13 @@
+{
+  "name": "pocoo-vaked-dev",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Personal blog at pocoo.vaked.dev",
+  "scripts": {
+    "build": "node build.mjs"
+  },
+  "dependencies": {
+    "markdown-it": "^14.1.0"
+  }
+}
