@@ -34,6 +34,15 @@ a:hover { text-decoration: underline; }
   margin: 0 auto;
 }
 
+.logo-wrap {
+  margin-bottom: 1rem;
+}
+
+.logo-wrap img {
+  display: block;
+  opacity: 0.85;
+}
+
 .index-head {
   margin-bottom: 3rem;
   padding-bottom: 2rem;

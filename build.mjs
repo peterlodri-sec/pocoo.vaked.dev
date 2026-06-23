@@ -140,6 +140,8 @@ function head({ title, description, prefix, ogType }) {
 <meta name="twitter:title" content="${esc(title)}">
 <meta name="twitter:description" content="${desc}">
 <meta name="theme-color" content="#070b16">
+<link rel="icon" type="image/svg+xml" href="${prefix}assets/logo.svg">
+<link rel="apple-touch-icon" href="${prefix}assets/logo.svg">
 <link rel="alternate" type="application/atom+xml" title="pocoo" href="${prefix}feed.xml">
 <link rel="stylesheet" href="${prefix}assets/blog.css">
 </head>`;
@@ -191,6 +193,7 @@ function renderIndex(posts) {
   ${footerHtml()}
   <main class="index">
     <header class="index-head">
+      <div class="logo-wrap"><img src="assets/logo.svg" alt="vaked" width="48" height="48"></div>
       <h1>pocoo</h1>
       <p class="lede">Technical writing on agentic systems, protocols, and building in public.</p>
     </header>
