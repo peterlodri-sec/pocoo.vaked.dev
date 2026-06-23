@@ -231,3 +231,17 @@ a:hover { text-decoration: underline; }
 
 .prose a { color: var(--accent); }
 .prose a:hover { text-decoration: underline; }
+
+/* ── Footer ─────────────────────────────────────────────────── */
+.site-footer {
+  max-width: 860px;
+  margin: 4rem auto 0;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  color: var(--dim);
+  font-size: 0.78rem;
+  line-height: 2;
+}
+
+.site-footer a { color: var(--dim); }
+.site-footer a:hover { color: var(--accent); text-decoration: none; }

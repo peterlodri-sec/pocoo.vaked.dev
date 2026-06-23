@@ -109,6 +109,20 @@ function telemetryScript(isPost, slug, title) {
 <\/script>`;
 }
 
+// ── Footer ───────────────────────────────────────────────────────────────────
+function footerHtml() {
+  return `<footer class="site-footer">
+  <a href="https://github.com/peterlodri-sec">github</a> ·
+  <a href="https://x.com/0xp3t3rl">x</a> ·
+  <a href="https://chat.vaked.dev">chat</a> ·
+  <a href="https://music.vaked.dev">music</a> ·
+  <a href="https://beat.vaked.dev">beat</a> ·
+  <a href="https://irc.vaked.dev">irc</a> ·
+  <a href="https://protocol.vaked.dev">protocol</a> ·
+  <a href="/feed.xml">feed</a>
+</footer>`;
+}
+
 // ── <head> ────────────────────────────────────────────────────────────────────
 function head({ title, description, prefix, ogType }) {
   const desc = esc(description || "");
@@ -141,6 +155,7 @@ function renderPost(post) {
     ogType: "article",
   })}
 <body>
+  ${footerHtml()}
   <main class="post">
     <p class="back"><a href="../index.html">&larr; all posts</a></p>
     <header class="post-head">
@@ -173,6 +188,7 @@ function renderIndex(posts) {
     ogType: "website",
   })}
 <body>
+  ${footerHtml()}
   <main class="index">
     <header class="index-head">
       <h1>pocoo</h1>
