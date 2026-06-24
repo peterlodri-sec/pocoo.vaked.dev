@@ -2,11 +2,11 @@
 title: "The loop is already here"
 date: 2026-06-24
 tags: [loops, ai, ultrawhale, vaked, philosophy]
-description: "A reply to Armin Ronacher and Boris Cherny on the coming loop. These loops are genuinely new. I know because I spent weeks trying to find words for what I was building."
+description: "A reply to Armin Ronacher's 'The Coming Loop', which quotes Boris Cherny. These loops are genuinely new. I know because I spent weeks trying to find words for what I was building."
 draft: false
 ---
 
-Armin Ronacher wrote [The Coming Loop](https://lucumr.pocoo.org/2026/6/23/the-coming-loop/). Boris Cherny wrote [<!-- TODO: add title and link -->]. Both are describing the same shift from different angles: work enters a queue, machines attempt it, an external harness decides when it's done. The human shrinks to a messenger.
+Armin Ronacher wrote [The Coming Loop](https://lucumr.pocoo.org/2026/6/23/the-coming-loop/), and in it he quotes Boris Cherny. Both are describing the same shift from different angles: work enters a queue, machines attempt it, an external harness decides when it's done. The human shrinks to a messenger.
 
 I agree. And I want to extend, because I think what they're describing is not just a new engineering pattern. It's a genuinely new phenomenon. Not a metaphor. Not a prior idea wearing new clothes. Something that didn't exist before.
 
@@ -99,7 +99,9 @@ That is a harder loop to build. But it is the right one.
 
 ## The escalation
 
-Boris Cherny wrote on X that he doesn't prompt Claude anymore. He has loops running that prompt Claude and figure out what to do. His job is to write loops.
+Boris Cherny, quoted in Armin's piece:
+
+> I don't prompt Claude anymore. I have loops running that prompt Claude and figuring out what to do. My job is to write loops.
 
 I read that and recognized it immediately. And then I noticed I had already moved past it.
 
@@ -154,4 +156,4 @@ This is why I said the genesis contract matters more than the execution. You don
 
 ---
 
-*Reply to Armin Ronacher's [The Coming Loop](https://lucumr.pocoo.org/2026/6/23/the-coming-loop/) and Boris Cherny (on X). Still adding.*
+*Reply to Armin Ronacher's [The Coming Loop](https://lucumr.pocoo.org/2026/6/23/the-coming-loop/), which quotes Boris Cherny.*
