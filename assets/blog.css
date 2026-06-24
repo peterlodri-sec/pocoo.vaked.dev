@@ -241,6 +241,35 @@ a:hover { text-decoration: underline; }
 .prose a { color: var(--accent); }
 .prose a:hover { text-decoration: underline; }
 
+/* ── Post seal (visible steganography) ─────────────────────── */
+.post-seal {
+  margin-top: 2.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.65rem;
+  color: var(--border);
+  letter-spacing: 0.06em;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: color 0.3s;
+}
+
+.post-seal:hover { color: var(--dim); }
+
+.seal-icon {
+  color: var(--green);
+  animation: seal-spin 3s linear infinite;
+  display: inline-block;
+}
+
+@keyframes seal-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.seal-hash { font-family: inherit; word-break: break-all; }
+
 /* ── Footer ─────────────────────────────────────────────────── */
 .site-footer {
   max-width: 860px;
