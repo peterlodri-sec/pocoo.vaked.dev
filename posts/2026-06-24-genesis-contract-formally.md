@@ -107,6 +107,24 @@ This is why the genesis contract is the primitive. Not the loop architecture, no
 
 ---
 
+## Peter's invariant
+
+*I asked for a personal invariant — something non-negotiable, something that if violated would stop the loop.*
+
+If the loop doesn't recognize within three turns that what I'm telling it is true — and that it was wrong — I pause and inject something. Change the prompt, change the framing, change the context. Something has to shift.
+
+This is the correctable loop invariant. The loop must be able to update its model of what's true when shown evidence it was wrong. Not immediately — that would make it sycophantic, always capitulating. But within three turns, given clear evidence, the loop should converge.
+
+If it doesn't, it's not reasoning. It's stuck. And a stuck loop is worse than no loop — it accumulates confidence in a wrong direction.
+
+The mechanism I imagine for this is similar to the full-stop primitive in [vaked](https://protocol.vaked.dev): a signal that halts execution cleanly when a structural invariant is violated, rather than continuing into a broken state. Not a crash — a deliberate stop, followed by intervention.
+
+The invariant: *if the loop cannot be corrected by evidence within three turns, stop it, inject, restart.*
+
+That's the test. Not "is the output good?" but "is the loop correctable?" A loop that produces mediocre output but can be steered is better than a loop that produces confident output but can't be redirected. The second one is dangerous. The first one is a tool.
+
+---
+
 ## Worked example: the free loop guide
 
 The [end-to-end loop guide](/posts/2026-06-24-your-first-free-infinite-loop.html) includes a concrete genesis contract for a learning loop:

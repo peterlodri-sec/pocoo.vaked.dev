@@ -161,15 +161,21 @@ def run_loop(
 **Run it:**
 
 ```python
+# Try this topic to generate headroom/compression training data:
 run_loop(
-    topic="how neural field equations produce visual hallucinations",
-    output_file="neural_fields.jsonl",
-    interval_seconds=8,      # 8 seconds between calls
-    max_iterations=50,        # None = run forever
+    topic="techniques for compressing LLM context windows and tool outputs",
+    output_file="compression_techniques.jsonl",
+    interval_seconds=8,
+    max_iterations=50,
 )
+
+# Or any topic you want to deeply understand:
+# run_loop(topic="how neural field equations produce visual hallucinations", ...)
+# run_loop(topic="Rust ownership model edge cases", ...)
+# run_loop(topic="post-quantum cryptography in TLS 1.3", ...)
 ```
 
-That's the whole loop. 50 iterations, 8 seconds each, ~7 minutes. Free.
+That's the whole loop. 50 iterations, 8 seconds each, ~7 minutes. Free. The compression topic will produce data useful for building a headroom-aware agent — a model that actually understands *why* certain content compresses differently.
 
 ---
 

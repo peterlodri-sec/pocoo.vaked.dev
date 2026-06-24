@@ -60,6 +60,8 @@ The emphasis I want to add: we form it to ourselves. The tool is not finished. T
 
 The people who are doing the shaping right now — the ones writing loops, publishing weights, building open tooling, documenting what they've learned — they're not special. They just started earlier. The work is available to anyone who wants to do it.
 
+One person I'd point anyone at: [Pliny the Elder](https://github.com/elder-plinius). He's building [GLOSSOPETRAE](https://github.com/elder-plinius/GLOSSOPETRAE) — work that is fundamentally about understanding what these models actually do rather than what they claim to do. Adversarial, empirical, public. That's the kind of transparency work that makes the tool honest. You can't make something open that you haven't first examined.
+
 That's the point. That's always been the point.
 
 — peter
