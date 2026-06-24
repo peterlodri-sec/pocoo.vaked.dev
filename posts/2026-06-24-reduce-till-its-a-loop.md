@@ -100,3 +100,23 @@ At each stage, known things disappear into constants. Unknown things become the 
 The thing that makes this tractable rather than infinite is the genesis contract at each stage. You define what "known enough to close" means. When that condition is met, the loop terminates and the closed artifact moves to the next stage.
 
 *Known values disappear. Unknown values become the input to a loop. The loop makes more things known. Then they disappear too.*
+
+---
+
+## Peter's piece
+
+*I asked Peter five questions. This is what he said.*
+
+I didn't discover the connection the way you might expect. The local subagent tool calls started acting weird — taking 5, 10, 15 minutes — and succeeding, and generating really awesome code with logs that looked like iterations. I noticed the loop through its behavior, not through theory. I'm not even entirely sure that's the moment. That's just what I remember.
+
+The local loop running right now is new — I started it a couple of days ago. It's rough. It feeds my previous conversations from every coding agent I've used, plus topics I'm interested in and usually searching for. Running QwQ 3.6 (32B) locally, plus another loop on my other MacBook using OpenRouter free models. Two loops, different hardware, different models. I don't have a formal name for this setup. It's an experiment.
+
+When I leave an open term — a seam that doesn't link yet — that's not uncomfortable. That's the point. I don't need to know the correct term for what I'm doing. I don't need to prove anything. It's interesting, and I'm already using it. That's enough. Research doesn't need to be finished to be real.
+
+Every day leads to the next wiring. I don't know yet what the loop that closes the manual gap looks like. I'm still thinking about it.
+
+The thing I want people to understand — and they probably won't get it from the technical writing — is that we've attached really negative or really inflated weight to certain words. AI. LLM. Loop. Recursion. The words have baggage that makes people either defensive or scared before they've tried anything. That baggage shadows how you see what's actually there.
+
+Just try things. Be brave. Don't be afraid of slope and experiments.
+
+— peter
