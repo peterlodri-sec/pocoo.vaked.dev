@@ -160,6 +160,61 @@ main,footer { position:relative; z-index:1; }
 </script>`;
 }
 
+function indexWaveScript() {
+  return `<style>
+#bg-canvas{position:fixed;inset:0;pointer-events:none;z-index:0;}
+main,footer{position:relative;z-index:1;}
+</style>
+<canvas id="bg-canvas"></canvas>
+<script>
+(function(){
+  var c=document.getElementById('bg-canvas');
+  if(!c||!c.getContext)return;
+  var ctx=c.getContext('2d');
+  var W,H,t=0;
+  function resize(){W=c.width=innerWidth;H=c.height=innerHeight;}
+  resize();
+  window.addEventListener('resize',resize);
+  var waves=[
+    {freq:0.008,amp:0.12,speed:0.35,phase:0,    color:'0,212,255',  alpha:0.12},
+    {freq:0.006,amp:0.09,speed:0.22,phase:2.1,  color:'0,230,96',   alpha:0.08},
+    {freq:0.010,amp:0.07,speed:0.48,phase:4.3,  color:'180,139,255',alpha:0.07},
+  ];
+  function frame(){
+    ctx.clearRect(0,0,W,H);
+    t+=0.012;
+    waves.forEach(function(w){
+      ctx.beginPath();
+      var y0=H*0.62;
+      ctx.moveTo(0,y0);
+      for(var x=0;x<=W;x+=3){
+        var y=y0+Math.sin(x*w.freq+t*w.speed+w.phase)*H*w.amp;
+        ctx.lineTo(x,y);
+      }
+      ctx.lineTo(W,H);ctx.lineTo(0,H);ctx.closePath();
+      var grad=ctx.createLinearGradient(0,y0-H*w.amp,0,H);
+      grad.addColorStop(0,'rgba('+w.color+','+w.alpha+')');
+      grad.addColorStop(1,'rgba('+w.color+',0)');
+      ctx.fillStyle=grad;
+      ctx.fill();
+      // top stroke line
+      ctx.beginPath();
+      ctx.moveTo(0,y0);
+      for(var x=0;x<=W;x+=3){
+        var y=y0+Math.sin(x*w.freq+t*w.speed+w.phase)*H*w.amp;
+        ctx.lineTo(x,y);
+      }
+      ctx.strokeStyle='rgba('+w.color+','+(w.alpha*2.5)+')';
+      ctx.lineWidth=1;
+      ctx.stroke();
+    });
+    requestAnimationFrame(frame);
+  }
+  frame();
+})();
+</script>`;
+}
+
 function sealFragment(hash, isPost) {
   if (!isPost) return "";
   const short = hash.slice(0, 32);
@@ -287,6 +342,7 @@ function renderIndex(posts) {
     prefix: "",
     ogType: "website",
   })}
+${indexWaveScript()}
 <body>
   ${footerHtml()}
   <main class="index">
