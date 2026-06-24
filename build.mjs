@@ -142,7 +142,11 @@ function head({ title, description, prefix, ogType }) {
 <meta name="twitter:description" content="${desc}">
 <meta name="theme-color" content="#070b16">
 <link rel="icon" type="image/svg+xml" href="${prefix}assets/logo.svg">
-<link rel="apple-touch-icon" href="${prefix}assets/logo.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="${prefix}assets/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="${prefix}assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="${prefix}assets/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="alternate" type="application/atom+xml" title="pocoo" href="${prefix}feed.xml">
 <link rel="stylesheet" href="${prefix}assets/blog.css">
 </head>`;
