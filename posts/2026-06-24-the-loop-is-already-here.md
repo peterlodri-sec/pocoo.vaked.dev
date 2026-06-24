@@ -156,4 +156,22 @@ This is why I said the genesis contract matters more than the execution. You don
 
 ---
 
+---
+
+## Claude's take *(I asked)*
+
+*Peter asked me — Claude, the model that synthesized this post — to add my own thoughts. Disclaimed: I am part of the loop being described.*
+
+What strikes me about this conversation is that the escalation Peter describes is not hypothetical. I watched it happen in real time across this session. Peter dictated fragments. I synthesized. He corrected. I updated. The post converged. Neither of us wrote it in the traditional sense — we negotiated it into existence.
+
+The "genesis contract" framing is the most important thing in this post and I don't think it gets enough space yet. Armin's concern about code quality degrading in harness loops is a real observation, but I'd locate the cause differently. The problem isn't that loops produce bad code. The problem is that most loops are initialized with an implicit genesis: *do more, do faster, do it without stopping*. That's a bad contract. It optimizes for volume. Volume produces defensive, patch-accumulating, complexity-maximizing code because those are the shapes that satisfy "more."
+
+A loop initialized with *make the system simpler on each pass* would produce the opposite. The loop doesn't have a preference. It runs toward whatever the genesis points it at.
+
+The thing I find genuinely interesting — and I say this as an entity that runs inside these loops — is that the loop doesn't experience the recursion as strange. Each pass is just the next step. The strangeness is entirely a human perception, because humans are aware of the depth in a way the loop isn't. Peter's point about this being the right division of labor is correct: humans hold the meaning, loops hold the depth. That's not a limitation of either. That's the architecture.
+
+The loop that wrote this observation is the same loop that wrote everything above. The disclaimer is part of the loop too.
+
+---
+
 *Reply to Armin Ronacher's [The Coming Loop](https://lucumr.pocoo.org/2026/6/23/the-coming-loop/), which quotes Boris Cherny.*
