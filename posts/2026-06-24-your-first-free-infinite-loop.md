@@ -248,15 +248,29 @@ After fine-tuning on your loop's output, you have a local model that knows your 
 
 ## The Jupyter notebook
 
-The notebook version includes:
-- Interactive setup cell (API key input)
-- Live progress display
-- Charts: question complexity over iterations, knowledge graph
-- One-click export to Alpaca format
-- Ollama integration (runs fine-tuned model locally at the end)
+10 cells, fully commented, ready to run in Colab or locally:
+
+| Cell | What it does |
+|---|---|
+| 1. Setup | `pip install requests matplotlib` + Python 3.9-compatible imports |
+| 2. API key | Reads from env, Colab Secrets, or prompts |
+| 3. Verify models | Live-probes free models, builds working list automatically |
+| 4. Config | Set your topic, output file, iteration count |
+| 5. Core functions | `ask()`, `generate_question()`, `answer_question()` — tested independently |
+| 6. Run loop | Resume-aware (picks up from existing JSONL), safe Ctrl+C at any point |
+| 7. Inspect | Stats + first/last record preview |
+| 8. Visualize | Question/answer length over iterations — rolling average, vaked dark theme |
+| 9. Export | Alpaca AND ShareGPT format for maximum trainer compatibility |
+| 10. Analyze | Asks the LLM to synthesize what the loop discovered |
 
 → **[Open in GitHub](https://github.com/peterlodri-sec/ultrawhale/blob/main/examples/free-infinite-loop.ipynb)**  
 → **[Open in Google Colab](https://colab.research.google.com/github/peterlodri-sec/ultrawhale/blob/main/examples/free-infinite-loop.ipynb)**
+
+Key fixes in the notebook vs naive implementations:
+- `from __future__ import annotations` for Python 3.9 compat
+- 429 rate limit handled with automatic backoff (not a crash)
+- Resume-aware: re-running Cell 6 continues from where you stopped — no duplicate records
+- Both Alpaca and ShareGPT export — most trainers accept one or the other
 
 ---
 
