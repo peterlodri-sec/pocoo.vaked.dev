@@ -124,3 +124,7 @@ The two MacBooks: one running Ollama with QwQ 3.6 locally, the other hitting Gem
 If I had to replace "AI loop" with something that doesn't carry the baggage — I'd say **data loop**. Or **data bot**. Something that describes what it actually is: a thing that moves data, transforms it, feeds it forward. Not a mind. Not a threat. Just a loop over data.
 
 — peter
+
+---
+
+*Part of the loop series: [the loop is already here](/posts/2026-06-24-the-loop-is-already-here.html) · [genesis contract, formally](/posts/2026-06-24-genesis-contract-formally.html) · [the correctable loop](/posts/2026-06-24-the-correctable-loop.html) · [compressing the loop](/posts/2026-06-24-compressing-the-loop.html) · [your first free loop](/posts/2026-06-24-your-first-free-infinite-loop.html)*

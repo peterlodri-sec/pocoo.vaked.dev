@@ -140,4 +140,4 @@ The invariant clause is the most important. It's what prevents the loop from sat
 
 ---
 
-*See also: [the loop is already here](/posts/2026-06-24-the-loop-is-already-here.html) · [reduce till it's a loop](/posts/2026-06-24-reduce-till-its-a-loop.html) · [compressing the loop](/posts/2026-06-24-compressing-the-loop.html) · [your first free loop](/posts/2026-06-24-your-first-free-infinite-loop.html)*
+*See also: [the loop is already here](/posts/2026-06-24-the-loop-is-already-here.html) · [reduce till it's a loop](/posts/2026-06-24-reduce-till-its-a-loop.html) · [the correctable loop](/posts/2026-06-24-the-correctable-loop.html) · [compressing the loop](/posts/2026-06-24-compressing-the-loop.html) · [your first free loop](/posts/2026-06-24-your-first-free-infinite-loop.html)*
