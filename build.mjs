@@ -267,6 +267,43 @@ async function main() {
   await writeFile(path.join(DIST_DIR, "feed.xml"), renderFeed(posts), "utf8");
   console.log("render: feed.xml");
 
+  // llms.txt — auto-updated with post list
+  const postLines = posts.map((p) =>
+    `- [${p.meta.title}](https://pocoo.vaked.dev/posts/${p.slug}.html): ${p.meta.description || ""}`
+  ).join("\n");
+  const llms = `# pocoo.vaked.dev
+
+> Technical writing on agentic systems, compilers, protocols, and building in public. By Peter Lodri.
+
+## Posts
+
+${postLines}
+
+## Feed
+
+- [Atom feed](https://pocoo.vaked.dev/feed.xml): subscribe for updates
+
+## Vaked ecosystem
+
+- [protocol.vaked.dev](https://protocol.vaked.dev): AG-UI protocol spec + genesis
+- [chat.vaked.dev](https://chat.vaked.dev): G0DM0D3 free-model AI chat
+- [music.vaked.dev](https://music.vaked.dev): ENTHEA psychedelic visualizer
+- [beat.vaked.dev](https://beat.vaked.dev): Vaked-FM swarm avatar
+- [irc.vaked.dev](https://irc.vaked.dev): public IRC community (IRC)
+
+## Dataset
+
+- [PeetPedro/ultrawhale-dogfood](https://huggingface.co/datasets/PeetPedro/ultrawhale-dogfood): live dataset — dogfeed + telemetry
+
+## Author
+
+- GitHub: https://github.com/peterlodri-sec
+- X: https://x.com/0xp3t3rl
+- Mastodon: https://social.crabcc.app/@vakedbot
+`;
+  await writeFile(path.join(DIST_DIR, "llms.txt"), llms, "utf8");
+  console.log("render: llms.txt");
+
   await cp(path.join(ROOT, "assets"), path.join(DIST_DIR, "assets"), { recursive: true });
   if (existsSync(path.join(ROOT, "_headers"))) {
     await cp(path.join(ROOT, "_headers"), path.join(DIST_DIR, "_headers"));
