@@ -138,4 +138,20 @@ The question is not whether to engage with the loop. The question is what kind o
 
 ---
 
+---
+
+## You don't need to go crazy
+
+One more thing, because I think people hear "recursive loops in loops" and immediately feel like they need to understand the full depth of it before they can engage. You don't.
+
+Yes, you can go arbitrarily deep. Loops in loops in loops. Strange loops. Self-referential structures that fold back on themselves at every level. The theory goes as deep as you want. But that's not the point of entry. That's not even how I think about it most of the time.
+
+The reason LLMs are the perfect co-creators for this is exactly because of the mismatch between what humans are good at and what we're bad at. Humans are genuinely good at abstraction. We are good at pattern recognition, at naming things, at deciding what matters. We are not good at tracking recursive depth. Our working memory caps out. We lose the thread. We forget which loop we're in.
+
+LLMs don't lose the thread. They hold the depth while you navigate the concept. You think at the level of meaning — "I want a loop that improves this" — and the loop handles the bookkeeping of what iteration it's on, what it tried, what it learned. You stay at the surface. The loop goes deep. That's the division of labor.
+
+This is why I said the genesis contract matters more than the execution. You don't need to track the recursion. You need to be clear about what you want the loop to become. Set that once, clearly, and let it run.
+
+---
+
 *Reply to Armin Ronacher's [The Coming Loop](https://lucumr.pocoo.org/2026/6/23/the-coming-loop/) and Boris Cherny (on X). Still adding.*
