@@ -117,6 +117,10 @@ Every day leads to the next wiring. I don't know yet what the loop that closes t
 
 The thing I want people to understand — and they probably won't get it from the technical writing — is that we've attached really negative or really inflated weight to certain words. AI. LLM. Loop. Recursion. The words have baggage that makes people either defensive or scared before they've tried anything. That baggage shadows how you see what's actually there.
 
-Just try things. Be brave. Don't be afraid of slope and experiments.
+Just try things. Be brave. Don't be afraid of slop and experiments.
+
+The two MacBooks: one running Ollama with QwQ 3.6 locally, the other hitting Gemma 120B on OpenRouter. They're not talking to each other — two independent experiments running in parallel. The loops are only a few days old so I can't back anything up with numbers. But anecdotally: QwQ tends toward longer output, more new concepts introduced, more further reading suggested. Whether that's the model or the setup or just noise — I don't know yet.
+
+If I had to replace "AI loop" with something that doesn't carry the baggage — I'd say **data loop**. Or **data bot**. Something that describes what it actually is: a thing that moves data, transforms it, feeds it forward. Not a mind. Not a threat. Just a loop over data.
 
 — peter
