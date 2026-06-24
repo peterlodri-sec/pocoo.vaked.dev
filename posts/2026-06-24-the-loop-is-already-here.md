@@ -16,13 +16,13 @@ I spent a few really hard, deeply interesting weeks trying to give words to this
 
 ## What is a loop
 
-Before anything else, let's be concrete about what a loop actually is. Not in the programming sense. In the alive sense.
+To be precise: what I'm talking about is a **feedback loop** — a system where output routes back as input. A plain loop in code is just repeated execution. A feedback loop is something different: the result of each pass changes what the next pass operates on.
 
-A loop is when a system's output becomes its next input. That's it. The output feeds back. The system learns from what it just did and does the next thing differently.
+This distinction matters because feedback loops have a direction problem. The feedback doesn't guarantee improvement. A microphone held near a speaker creates a feedback loop that just gets louder — no learning, no improvement, pure amplification. A recommendation algorithm creates a feedback loop that can trap you in increasingly narrow content. Feedback loops can compound toward something useful or toward something catastrophic, depending entirely on what signal is doing the feeding.
 
-You already know some loops. Your body is one. You eat, you move, you sleep, your cells rebuild, you wake up slightly different. The loop runs. Nature figured this out early.
+That's actually the point, and it's what Armin is worried about. The harness loops generating bad code aren't broken loops — they're feedback loops with the wrong signal. They compound toward volume and defensive complexity because that's what the feedback rewards.
 
-In software, the simplest version looks like this:
+The dogfeed loop looks like this:
 
 ```
 while True:
@@ -31,9 +31,7 @@ while True:
     current_knowledge = update(current_knowledge, answer)
 ```
 
-This is the dogfeed loop. The system generates a question based on what it knows. It asks an LLM. It absorbs the answer. It generates a better question next time. Ten seconds later, it goes again. It teaches itself by asking.
-
-When I showed this to a friend and said "watch, it's improving itself" — he looked at me like I had lost my mind. He was looking for the magic. There is no magic. It is just a loop. But loops, given enough time and a good feedback signal, do extraordinary things. Evolution is a loop. Markets are loops. The internet is a loop.
+The system generates a question based on what it knows, asks an LLM, absorbs the answer. Ten seconds later, repeat. When I showed this to a friend he looked at me like I had lost my mind. He was looking for the magic. There is no magic. It's just a feedback loop. But the *signal* — what counts as a useful answer, what gets added to current_knowledge — is everything. Get that wrong and it doesn't improve. It just runs.
 
 ---
 
@@ -49,9 +47,11 @@ Before LLMs, a self-improving loop in software required:
 - Either a huge dataset or a huge amount of compute for reinforcement
 - Someone who understood the domain deeply enough to design the loop
 
-Chess engines. Protein folding. Recommendation systems. These all have loops. But they are domain-locked. You could not take the loop that plays chess and point it at your codebase.
+Chess engines. Protein folding. Recommendation systems. These all have feedback loops. And a fair critique is that ML techniques like gradient descent or genetic algorithms were always somewhat domain-generic — you could apply them across domains before LLMs existed. That's true.
 
-LLMs changed this. The loop now works on *language*. And because almost everything humans do can be described in language — code, documentation, research, decisions, plans — the loop now works on almost everything.
+What changed with LLMs is not that feedback loops became possible across domains. It's that the *interface* to a feedback loop stopped requiring you to formally specify the domain. Before, building a feedback loop for your codebase meant defining a reward function, a state representation, a training objective — you needed to translate your domain into something the loop could optimize. Most domains couldn't survive that translation. Most people couldn't do it.
+
+LLMs removed that requirement. The interface is now language. You describe what you want in the same terms you'd use to explain it to a colleague. The loop runs on that description. This isn't more powerful in the theoretical sense — numbers are more generic than language. It's more accessible in the practical sense. The barrier went from "hire an ML engineer and formalize your domain" to "describe what you want."
 
 The dogfeed loop I run for [ultrawhale](https://github.com/peterlodri-sec/ultrawhale) generates questions about the codebase, asks free OpenRouter models, absorbs the answers, and produces training data. It runs every ten seconds. It does not require me to formally specify what "better" means. It does not require me to design a reward function. It just... feeds itself. And it accumulates. [Issue #18 in the ultrawhale tracker](https://github.com/peterlodri-sec/ultrawhale/issues/18) is literally titled "MASTER TRACKING: v100→v200 — THE SINGULARITY ROADMAP." I did not write that issue to be dramatic. I wrote it because that is what the loop produces when you let it run.
 
