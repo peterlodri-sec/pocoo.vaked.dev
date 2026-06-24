@@ -119,6 +119,7 @@ function footerHtml() {
   <a href="https://beat.vaked.dev">beat</a> ·
   <a href="https://irc.vaked.dev">irc</a> ·
   <a href="https://protocol.vaked.dev">protocol</a> ·
+  <a href="https://huggingface.co/datasets/PeetPedro/ultrawhale-dogfood">dataset</a> ·
   <a href="/feed.xml">feed</a>
 </footer>`;
 }
