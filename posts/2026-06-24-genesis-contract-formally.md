@@ -105,4 +105,21 @@ This is why the genesis contract is the primitive. Not the loop architecture, no
 
 ---
 
-*See also: [the loop is already here](/posts/2026-06-24-the-loop-is-already-here.html) · [reduce till it's a loop](/posts/2026-06-24-reduce-till-its-a-loop.html) · [compressing the loop](/posts/2026-06-24-compressing-the-loop.html)*
+---
+
+## Worked example: the free loop guide
+
+The [end-to-end loop guide](/posts/2026-06-24-your-first-free-infinite-loop.html) includes a concrete genesis contract for a learning loop:
+
+> **Reducing:** gaps in understanding of a topic  
+> **Valid iteration:** the answer introduces at least one concept not in the previous 5 answers  
+> **Terminate:** when you can explain the topic to a non-expert in 5 minutes  
+> **Invariants:** answers must be checkable; no unfounded claims accepted
+
+That contract produces a loop that runs toward depth, not volume. Run the same loop without a contract and it produces repetition — the first 10 iterations keep asking "what is X?" in slightly different words because there's nothing stopping it.
+
+The invariant clause is the most important. It's what prevents the loop from satisfying the signal while destroying the value. Without it, a loop that "reduces gaps in understanding" will happily reduce gaps by accepting false answers — which is technically gap reduction, just the wrong kind.
+
+---
+
+*See also: [the loop is already here](/posts/2026-06-24-the-loop-is-already-here.html) · [reduce till it's a loop](/posts/2026-06-24-reduce-till-its-a-loop.html) · [compressing the loop](/posts/2026-06-24-compressing-the-loop.html) · [your first free loop](/posts/2026-06-24-your-first-free-infinite-loop.html)*

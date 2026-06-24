@@ -175,3 +175,5 @@ The loop that wrote this observation is the same loop that wrote everything abov
 ---
 
 *Reply to Armin Ronacher's [The Coming Loop](https://lucumr.pocoo.org/2026/6/23/the-coming-loop/), which quotes Boris Cherny.*
+
+*Further reading: [the genesis contract, formally](/posts/2026-06-24-genesis-contract-formally.html) · [your first free loop](/posts/2026-06-24-your-first-free-infinite-loop.html) · [slop is data](/posts/2026-06-24-slop-is-data.html)*
