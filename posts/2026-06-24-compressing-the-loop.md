@@ -97,5 +97,34 @@ Even at 50% compression across the board: a loop that currently hits its context
 
 ---
 
+---
+
+## Peter's piece
+
+*Five questions, answered.*
+
+Compression is just a layer. When we found that headroom was corrupting tool outputs — grep reporting a match that doesn't exist, ls reporting a missing file — that's not a compression failure, it's a layer failure. The ground truth channel got lossified. We fixed it, we sent the PR, the loop detected the problem and worked on it. That's how this is supposed to work.
+
+I'm increasing the loop frequency today or tomorrow. Right now it runs every 10 seconds on one machine plus another loop on a second MacBook. When you increase frequency you will hit the 60 req/min rate limiter. That's the next issue — we're going to hit it and we're going to fix it.
+
+The proper layer: compression sits between loops. It's between the output of one iteration and the input of the next. It's between agents. It's between the tool call result and the model that reads it. It's not in the model, it's not in the tool — it's the layer between them. If you place it somewhere else you get the bug we just fixed.
+
+On contributing: using our knowledge to feed our knowledge. We found a real bug by running a real loop, we wrote a real fix, we sent it upstream. That's what open source is. The loop fed the project that makes the loop cheaper to run. It's not complicated.
+
+— peter
+
+---
+
+## What's running now
+
+Headroom proxy is live at `http://localhost:8787` — `ANTHROPIC_BASE_URL` wired in Claude Code settings, `--no-rate-limit`, launchd persistent service. All API calls in this session compress before leaving the machine. MCP server installed: `headroom_retrieve` available as a Claude tool for CCR retrieval.
+
+PR [#1363](https://github.com/headroomlabs-ai/headroom/pull/1363) open upstream — the tool_result protection fix.
+
+Next contribution: [#1350](https://github.com/headroomlabs-ai/headroom/issues/1350) — rate limiter too aggressive for always-on agentic load.
+
+---
+
 *Honey: [github.com/Green-PT/honey-for-devs](https://github.com/Green-PT/honey-for-devs) — MIT*  
-*Headroom: [github.com/headroomlabs-ai/headroom](https://github.com/headroomlabs-ai/headroom) — Apache 2.0*
+*Headroom: [github.com/headroomlabs-ai/headroom](https://github.com/headroomlabs-ai/headroom) — Apache 2.0*  
+*Our fix: [PR #1363](https://github.com/headroomlabs-ai/headroom/pull/1363)*
