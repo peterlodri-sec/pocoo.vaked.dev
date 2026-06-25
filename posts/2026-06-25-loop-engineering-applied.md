@@ -170,3 +170,17 @@ Threshold=1 (any model votes keep → keep) also gives 0.931 — the override do
 **The lesson:** voting ensembles require models with similar quality floors. Ensembling a well-trained model with a poorly-trained one degrades to the poor one's ceiling. The right ensemble here is v4+v5 (both have override_delta=0), not v3+v4+v5.
 
 Revised: **v4 alone is the production recommendation.** The voting pattern would add value if we had 3+ models at v4-quality — that requires the self-labeling loop to produce more diverse checkpoints rather than sequential iterations.
+
+---
+
+## Definitive per-model comparison (heretic, no-override vs with-override)
+
+| Version | no-override | with-override | override delta |
+|---------|------------|---------------|----------------|
+| v3 | 0.911 | 0.965 | **+0.054** — override essential |
+| v4 | 0.961 | 0.965 | +0.004 — nearly redundant |
+| v5 | 0.961 | 0.965 | +0.004 — nearly redundant |
+
+All three models with override converge to **0.965** — the ceiling imposed by the heretic test set, not the model. v3 needs the override badly (+0.054). v4 and v5 get the last 0.004 from it.
+
+The voting ensemble (0.931) is below v4 no-override (0.961) because v3's votes actively suppress tokens that v4 correctly learned to keep. Any ensemble including v3 degrades toward v3's no-override ceiling. The right production choice is **v4 + override** — or v4 alone once the override is fully internalized.
