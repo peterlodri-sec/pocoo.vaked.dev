@@ -2,7 +2,7 @@
   X-Content-Type-Options: nosniff
   X-Frame-Options: SAMEORIGIN
   Referrer-Policy: strict-origin-when-cross-origin
-  Content-Security-Policy: default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src https://chat.vaked.dev; img-src 'self' data:; base-uri 'none'; form-action 'none'
+  Content-Security-Policy: default-src 'none'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; connect-src 'self' https://chat.vaked.dev https://pocoo.vaked.dev; img-src 'self' data: https://*.googleusercontent.com https://colab.research.google.com; base-uri 'none'; form-action 'none'
 
 /feed.xml
   Content-Type: application/atom+xml; charset=utf-8
