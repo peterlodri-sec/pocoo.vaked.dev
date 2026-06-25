@@ -164,7 +164,7 @@ vastai search offers 'gpu_name=RTX_4090 num_gpus=1 disk_space>=30 inet_up>=1000'
 vastai create instance <OFFER_ID> \
     --image pytorch/pytorch:2.3.0-cuda12.1-cudnn8-runtime \
     --disk 30 \
-    --env "-e HF_TOKEN=$HF_TOKEN -e HF_REPO=peterlodri-sec/kompress-v3" \
+    --env "-e HF_TOKEN=$HF_TOKEN -e HF_REPO=PeetPedro/kompress-v3" \
     --onstart /tmp/vast_onstart.sh
 ```
 
@@ -264,6 +264,6 @@ The Sapir-Whorf frame makes the objective concrete: list the words the agent can
 Code: [ultrawhale/scripts/](https://github.com/peterlodri-sec/ultrawhale/tree/main/scripts)
 Dataset: [PeetPedro/ultrawhale-dogfood](https://huggingface.co/datasets/PeetPedro/ultrawhale-dogfood)
 Base model: [chopratejas/kompress-v2-base](https://huggingface.co/chopratejas/kompress-v2-base)
-Fine-tuned: [peterlodri-sec/kompress-v3](https://huggingface.co/peterlodri-sec/kompress-v3) *(available after training run)*
+Fine-tuned: [PeetPedro/kompress-v3](https://huggingface.co/PeetPedro/kompress-v3) **
 
 *Related: [Compressing the loop](/posts/2026-06-24-compressing-the-loop) · [M3 dogfeed headroom](/posts/2026-06-24-m3-dogfeed-headroom) · [Loop Radio](/posts/2026-06-24-loop-radio)*
