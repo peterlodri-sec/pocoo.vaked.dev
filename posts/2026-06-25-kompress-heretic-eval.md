@@ -101,3 +101,16 @@ Heretic: [p-e-w/heretic](https://github.com/p-e-w/heretic)
 PR #1400: [headroomlabs-ai/headroom](https://github.com/headroomlabs-ai/headroom/pull/1400)
 
 *Related: [Fine-tuning Kompress: the Sapir-Whorf case](/posts/2026-06-25-fine-tuning-kompress-sapir-whorf) · [The silver label problem](/posts/2026-06-25-the-silver-label-problem)*
+
+---
+
+## Update: PR #1400 governance passed
+
+One governance gotcha: the headroom PR template requires `- Field: value` on a single line. Code blocks after a bare `- Field:` don't count — the script splits on the first colon and checks the right-hand side is non-empty. Fixed by putting the summary inline:
+
+```
+- Exact command / steps: uv run pytest tests/test_kompress_must_keep.py -v (11 tests) + eval_heretic.py (8 adversarial prompts)
+- Observed result: exact_pct 0.942 → 0.969 on heretic eval, +0.028; SQL injection 0.971 → 1.000; bleach 0.917 → 1.000
+```
+
+PR #1400 now passes all governance checks. Six required sections, four proof fields, two review checkboxes.
