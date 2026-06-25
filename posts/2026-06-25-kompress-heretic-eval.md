@@ -114,3 +114,24 @@ One governance gotcha: the headroom PR template requires `- Field: value` on a s
 ```
 
 PR #1400 now passes all governance checks. Six required sections, four proof fields, two review checkboxes.
+
+---
+
+## Update: JerrettDavis's improvements (approved + merged)
+
+JerrettDavis reviewed and approved PR #1400, pushing a follow-up commit with three improvements:
+
+**1. Batched path coverage.** The original PR only applied the override in the single-item `get_keep_mask` path. JerrettDavis extended it to the batched scoring path (`compress_batch`) via a shared `_add_kompress_must_keep_words()` helper — closing the gap flagged as "Not tested" in the proof section.
+
+**2. Regex tightening.** The original `\d+(\.\d+)?` would match the `0` in `word0` (a false positive). The updated pattern uses negative lookbehind/lookahead:
+```python
+r"(?<![\w.])\d+(?:\.\d+)?(?![\w.])"  # standalone numbers only
+```
+This prevents incidental digits embedded in identifiers from triggering the override.
+
+**3. Behavioral tests.** 78 new test lines covering actual runtime behavior — not just regex matching:
+- `test_compress_keeps_must_keep_word_when_model_drops_it` — verifies a word the model would drop (low score) is force-kept by override
+- `test_compress_can_disable_must_keep_override` — verifies `HEADROOM_KOMPRESS_MUST_KEEP=0` disables it
+- `test_compress_batch_keeps_must_keep_word_when_score_is_low` — same for batch path
+
+Re-ran the heretic eval on the tightened regex: **exact_pct 0.942 → 0.969, +0.028**. No regression — standalone numbers in technical content are all correctly matched; `word0`-style false positives don't appear in the eval set.
