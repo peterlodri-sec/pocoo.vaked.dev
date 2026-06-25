@@ -145,3 +145,27 @@ Target: keep_rate stays below 0.75, exact_keep_pct above 0.95.
 Fine-tuned model: `PeetPedro/kompress-v3` → `PeetPedro/kompress-v31`
 
 *Related: [Fine-tuning Kompress: the Sapir-Whorf case](/posts/2026-06-25-fine-tuning-kompress-sapir-whorf) · [M3 dogfeed headroom](/posts/2026-06-24-m3-dogfeed-headroom)*
+
+---
+
+## Update: v3.1 and v3.2 confirm the ceiling
+
+After publishing this post we ran two more training iterations:
+
+**v3.1** — same data + domain-tagged pairs (code diffs, logs, JSON, tracebacks) + must_keep_weight=6.0:
+- keep_rate: 0.718 (improving)
+- exact_keep_pct: 0.878 (Q&A test set)
+
+**v3.2** — same as v3.1 but starting from v3.1, LoRA actually found `{'Wo', 'Wqkv'}`, loss 0.0281:
+- keep_rate: 0.713 (improving)
+- exact_keep_pct: 0.877 (Q&A test set)
+
+The keep_rate keeps dropping (good). The exact_keep_pct is stuck at 0.877-0.882.
+
+This is the ceiling predicted by the silver label analysis. The Q&A test set measures compression against ultrawhale references where 28% of must-keep tokens are correctly labeled as "drop". No amount of training escapes that floor — the labels define the target.
+
+**v3.3** — domain-only training: 2000 pairs (500 per domain: code diffs, logs, JSON, agent errors), all with correct must-keep labels in the reference. No ultrawhale. Starting from v3.2.
+
+If exact_keep_pct rises significantly on v3.3, it proves label quality is the bottleneck. If it doesn't, we've found a harder limit.
+
+The hard inference override (headroom PR #1400) runs in parallel — that fix is deterministic and doesn't depend on training.
