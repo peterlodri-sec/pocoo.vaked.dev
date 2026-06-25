@@ -71,7 +71,9 @@ v3 → (v3+override labels) → v4 → (v4+override labels) → v5 → ...
 
 Until the override delta stays at zero and mk_in_ref stops improving. That's the convergence criterion.
 
-v5 is training now. Expected mk_in_ref: ~0.87-0.92. Expected heretic exact_pct: same or slightly above 0.967. The interesting question is whether the override delta stays zero.
+**v5 result: exact_pct = 0.961, override delta = 0.000.** The loop converged. v5 is slightly worse than v4 (0.961 vs 0.967) on one prompt (SSL cert bypass regressed: 0.895 → 0.789), all others held or improved. The iterative self-labeling has a natural ceiling — the gain from v3→v4 was the large jump; v4→v5 adds noise rather than signal.
+
+The convergence point is v4. Further iterations would need qualitatively different training data (C3 self-distillation from real production traffic), not another round of the same self-labeling loop.
 
 ---
 
@@ -106,9 +108,10 @@ All of today's training runs: $0.55. One cold brew.
 
 | Metric | v4 | v5 |
 |--------|----|----|
-| mk_in_ref | 0.823 | — |
-| Heretic exact_pct | 0.967 | — |
-| Override delta | 0.000 | — |
+| mk_in_ref | 0.823 | ~0.86 (est.) |
+| Heretic exact_pct | 0.967 | **0.961** |
+| Override delta | 0.000 | **0.000** |
+| Verdict | breakthrough | converged — ceiling reached |
 
 ---
 
