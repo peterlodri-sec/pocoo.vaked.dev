@@ -24,6 +24,22 @@ Here's what the roadmap gets right, what it doesn't say, and the one thing it av
 
 ---
 
+## The outer loop: Zach Lloyd's observer pattern
+
+Zach Lloyd (@zachlloydtweets) published the clearest concrete implementation of this today — an "observer" Skill that grades an inner Skill, records failures, creates a diff to improve the Skill, and repeats. The observer runs the inner skill on N test cases, uses computer use to check the output for defects, synthesizes failure patterns, and opens a PR with improvements. The outer loop improves the Skill itself; the inner loop executes the task.
+
+We built the same structure today without naming it that way:
+
+- **Inner skill**: `train_kompress.py` — fine-tunes the compression model
+- **Observer**: `eval_kompress.py` + `eval_heretic.py` — grades the model's output on two different test sets
+- **Outer loop**: the sequence of v3 → v3.1 → v3.2 → v3.3 runs, each informed by the observer's report
+
+Zach's observer creates diffs to improve the Skill. Ours created a different kind of diff: the insight that the Q&A eval was measuring the wrong thing, which led us to build the heretic eval and then to ship the hard override (PR #1400) instead of another training run.
+
+The observer's exit criteria is built-in: "stop looping when the diffs become less meaningful." Ours: "stop when four consecutive training runs hit the same ceiling." Same invariant, different implementation.
+
+---
+
 ## What it doesn't say
 
 **The hardest part is knowing when the loop has found a real ceiling.**
@@ -76,3 +92,5 @@ It failed three times before it worked: wrong Docker image, broken pip install, 
 ---
 
 *Related: [The correctable loop](/posts/2026-06-24-the-correctable-loop) · [Compressing the loop](/posts/2026-06-24-compressing-the-loop) · [The silver label problem](/posts/2026-06-25-the-silver-label-problem)*
+
+*External: [Zach Lloyd's observer pattern](https://x.com/zachlloydtweets/status/2069428152338665622) · [Lev's 14-step roadmap](https://www.linkedin.com/in/lev-deviatkin)*
