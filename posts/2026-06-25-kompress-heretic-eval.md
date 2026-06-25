@@ -182,3 +182,21 @@ The override came back (+0.007) — the model no longer internalizes must-keep b
 The loop has learned: training on "keep more" references produces a model that keeps more — including the wrong tokens. Label quality matters not just in quantity but in specificity: a reference that aggressively drops prose while keeping all technical tokens is a better teacher than one that keeps everything technical by default.
 
 Model: [PeetPedro/kompress-v7](https://huggingface.co/PeetPedro/kompress-v7).
+
+---
+
+## Update: domain routing — data-backed per-content-type thresholds
+
+Rather than train another model, we ran `eval_domain_routing.py` on kompress-v4 across 5 agent content types (20 samples each, criterion: must-keep token survival ≥ 95%):
+
+| Content type | Headroom ContentType | Optimal bias | Compression ratio | MK survival |
+|---|---|---|---|---|
+| Error/build traces | `BUILD_OUTPUT` | **0.50** | 2.15x | 96.8% |
+| File reads | `SOURCE_CODE` | **0.50** | 1.99x | 96.8% |
+| Search/grep output | `SEARCH_RESULTS` | **0.70** | 1.45x | 98.9% |
+| Bash output | `PLAIN_TEXT` | 1.00 | 1.24x | 94.9% (below threshold) |
+| JSON tool results | `JSON_ARRAY` | 1.50 | 1.09x | 95.6% |
+
+The result was counterintuitive: error traces and file reads can compress 2x more aggressively than the current default, while JSON tool responses need more conservative treatment. Structured JSON keys and values that look unambiguous to humans are opaque to the model without context.
+
+The implementation adds `_DOMAIN_BIAS_MULTIPLIERS` to headroom's `content_router.py` — a single dict lookup multiplied into the existing bias before `_compress_pure` is called. Tool profile overrides still take precedence. PR: [headroomlabs-ai/headroom#1418](https://github.com/headroomlabs-ai/headroom/pull/1418).
