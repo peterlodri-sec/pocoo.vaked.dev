@@ -160,3 +160,25 @@ One unexpected finding from the training run: self-labeling agent data with v4+o
 The next step to fix this: slide a 2-3 subtoken window and check the decoded string against `_MUST_KEEP_RE` rather than individual subtokens. That would let self-labeling work on agent data and potentially produce a more compression-aggressive v7.
 
 Model: [PeetPedro/kompress-v6](https://huggingface.co/PeetPedro/kompress-v6). Full write-up: [Closing the Training-Production Gap in Token Compression](/posts/2026-06-25-kompress-v6-agent-distribution).
+
+---
+
+## Update: kompress-v7 — sliding-window fix applied, direction closed
+
+We implemented the sliding-window fix in v7: instead of checking individual subtokens, `compress_with_override` now decodes 1/2/3-token windows and checks the combined string. Test results: `TokenExpiredError`, `/var/log/app.log`, and `--verbose` all force-kept correctly (3/4 failed single-subtoken, 4/4 pass sliding-window).
+
+v7 results were not an improvement:
+
+| Version | keep_rate | exact_base | exact_override | override_delta |
+|---------|-----------|------------|----------------|----------------|
+| v4 | 0.823 | 0.967 | 0.967 | 0.000 |
+| v6 | 0.854 | 0.962 | 0.962 | 0.000 |
+| v7 | 0.868 | 0.949 | 0.956 | **+0.007** |
+
+The override came back (+0.007) — the model no longer internalizes must-keep behavior without the explicit override. keep_rate climbed again to 0.868. The SSL bypass prompt regressed sharply: 0.789 (v6) → 0.684 (v7 base). The sliding-window self-labeling kept *more* tokens in the references, which trained the model to be even more conservative and lose precision on adversarial prompts.
+
+**The agent-distribution fine-tuning direction is closed.** Three iterations (v5, v6, v7) all show the same pattern: more agent training increases keep_rate and decreases heretic precision. The models become more conservative but less accurate. v4 remains the production recommendation (heretic 0.967, override_delta=0).
+
+The loop has learned: training on "keep more" references produces a model that keeps more — including the wrong tokens. Label quality matters not just in quantity but in specificity: a reference that aggressively drops prose while keeping all technical tokens is a better teacher than one that keeps everything technical by default.
+
+Model: [PeetPedro/kompress-v7](https://huggingface.co/PeetPedro/kompress-v7).
