@@ -317,8 +317,24 @@ After 16 versions, 8 teachers, 4 data sources, 4 architectures, and one council 
 | v13 | regex | GLM scenarios | 0.951 | -0.004 | $0.10 |
 | v14 | council | v8+GLM | 0.882 | -0.073 | $0.15 |
 | v15 | everything | 983 pairs | 0.878 | -0.077 | $0.13 |
+| v16 | 10x weight | v8 data | 0.972 | +0.017 | $0.10 |
+| v17 | 5x weight | v8 data | 0.963 | +0.008 | $0.10 |
 
-**Total spent chasing v8: ~$1.56. v8 cost: $0.13. v8's margin: untouchable.**
+**Total spent chasing v8: ~$1.76. v8 cost: $0.13. v8 at 3x is the Pareto-optimal tradeoff.**
+
+
+### The Weight Tradeoff (v16, v17)
+
+The loss function has a weight multiplier for must-keep tokens (compiler flags, hex addresses, paths). Default is 3x. We tested higher values:
+
+| Weight | Heretic | Keep Rate | Compression |
+|---|---|---|---|
+| 3x (v8) | 0.955 | 0.854 | 15% |
+| 5x (v17) | 0.963 | 0.963 | 3.7% |
+| 10x (v16) | 0.972 | 0.972 | 2.8% |
+
+Higher weight → higher heretic precision → lower compression. The model becomes so afraid of dropping must-keep tokens that it keeps everything. v8 at 3x is the Pareto-optimal point — the best tradeoff between precision and compression.
+
 
 ### What We Learned
 
