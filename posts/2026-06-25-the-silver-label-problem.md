@@ -223,3 +223,22 @@ The key inversion: **v2-base scores 0.989 on exact_pct** — because it barely c
 Domain training (v3.1, v3.2) shows meaningful improvement on heretic technical content: 0.881 → 0.925-0.929. The Q&A ceiling remains (~0.757-0.768) because the test set labels are still noisy. The override adds ~0.05 on top of the base model score.
 
 The core tradeoff is now clear: compression ratio vs must-keep preservation. v2-base is "safest" for must-keep tokens but barely useful as a compressor. v3+ is a real compressor but needs the override to recover must-keep survival on adversarial technical content.
+
+---
+
+## Experiment A result: self-labeled references worked
+
+v4 trained on self-labeled references (v3+override as the reference generator):
+- mk_in_ref: **0.823** (up from 0.72 ultrawhale, target was 1.0)
+- Q&A exact_pct: 0.880 (same plateau — noisy test labels, expected)
+- **Heretic exact_pct: 0.967** (up from v3's 0.942)
+- Override improvement on heretic: **+0.000**
+
+The last line is the result. The override adds nothing to v4. The model learned to preserve must-keep tokens on its own — it no longer needs the deterministic fallback. Self-labeling with mk_in_ref=0.823 was enough to internalize the behavior the override was enforcing.
+
+The silver label problem is fixable with training. You need:
+1. A reference generator that preserves must-keep tokens (we used v3+override)
+2. Better mk_in_ref than 0.72 (0.823 was sufficient)
+3. Starting from a checkpoint that already understands compression (v3, not v2)
+
+The hard override (PR #1400) remains valuable as a safety net — it catches edge cases the model hasn't seen. But for the core problem, the answer was always label quality, not architecture.
