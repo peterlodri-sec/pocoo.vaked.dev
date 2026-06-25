@@ -1,7 +1,7 @@
 ---
 title: "We ran the loop. Here's what the 14-step roadmap missed."
 date: 2026-06-25
-tags: [loops, kompress, headroom, vast.ai, fine-tuning, meta]
+tags: [loops, kompress, headroom, vast.ai, fine-tuning, meta, agent-engineering, mlops, build-in-public, open-source, llm, claude-code]
 description: "Lev's 14-step loop engineering roadmap is the best structural breakdown I've seen. We ran the loop today — five fine-tune runs, one merged PR, three blog posts, $0.55 compute. Here's what lived up to it and what it doesn't say."
 draft: false
 ---
