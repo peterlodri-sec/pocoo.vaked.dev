@@ -169,3 +169,11 @@ This is the ceiling predicted by the silver label analysis. The Q&A test set mea
 If exact_keep_pct rises significantly on v3.3, it proves label quality is the bottleneck. If it doesn't, we've found a harder limit.
 
 The hard inference override (headroom PR #1400) runs in parallel — that fix is deterministic and doesn't depend on training.
+
+**v3.3** — domain-only, 2000 pairs, loss=0.0007 (near-memorization):
+- keep_rate: 0.724
+- exact_keep_pct: 0.879 (Q&A test set)
+
+Same ceiling. Confirmed: this is a label problem, not a model capacity problem.
+
+The right eval was the wrong eval. See [kompress heretic eval](/posts/2026-06-25-kompress-heretic-eval) for what the model actually achieves on adversarial technical content: 0.942 base, 0.969 with override.
