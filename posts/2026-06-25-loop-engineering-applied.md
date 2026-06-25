@@ -156,3 +156,17 @@ The loop can resume without reconstructing from git history. This is Osmani's "t
 ---
 
 *See also: [The silver label problem](/posts/2026-06-25-the-silver-label-problem) · [Iterative self-labeling](/posts/2026-06-25-iterative-self-labeling) · [We ran the loop](/posts/2026-06-25-we-ran-the-loop)*
+
+---
+
+## Voting ensemble result: negative finding
+
+Running v3+v4+v5 with 2/3 majority threshold on heretic prompts: exact_pct = **0.931** — worse than v4 alone (0.967).
+
+The voting pattern fails here because the ensemble models have different training data quality. v3 was trained on noisy Q&A labels (mk_in_ref=0.72) and votes to drop tokens that v4 correctly learned to keep. Requiring 2/3 models to agree means v4's correct votes get overruled by v3's noisy-label decisions.
+
+Threshold=1 (any model votes keep → keep) also gives 0.931 — the override dominates at that point.
+
+**The lesson:** voting ensembles require models with similar quality floors. Ensembling a well-trained model with a poorly-trained one degrades to the poor one's ceiling. The right ensemble here is v4+v5 (both have override_delta=0), not v3+v4+v5.
+
+Revised: **v4 alone is the production recommendation.** The voting pattern would add value if we had 3+ models at v4-quality — that requires the self-labeling loop to produce more diverse checkpoints rather than sequential iterations.
