@@ -200,3 +200,23 @@ Rather than train another model, we ran `eval_domain_routing.py` on kompress-v4 
 The result was counterintuitive: error traces and file reads can compress 2x more aggressively than the current default, while JSON tool responses need more conservative treatment. Structured JSON keys and values that look unambiguous to humans are opaque to the model without context.
 
 The implementation adds `_DOMAIN_BIAS_MULTIPLIERS` to headroom's `content_router.py` — a single dict lookup multiplied into the existing bias before `_compress_pure` is called. Tool profile overrides still take precedence. PR: [headroomlabs-ai/headroom#1418](https://github.com/headroomlabs-ai/headroom/pull/1418).
+
+---
+
+## Update: expanded benchmark — 32 prompts via Qwen2.5-7B
+
+The original 8 prompts were too few to be reliable. We used Qwen2.5-7B (HuggingFace serverless inference) to generate 24 additional heretic-style adversarial prompts: CVE/CVSS scores, memory addresses, compiler flags, chemical formulas, protein mutations, radioisotopes, cryptographic constants.
+
+Running all three current models on 32 prompts:
+
+| Version | keep_rate | exact_pct (32) | exact_pct (8) | override_delta |
+|---|---|---|---|---|
+| v4 | 0.854 | 0.943 | 0.967 | 0.000 |
+| v6 | 0.746 | 0.942 | 0.962 | 0.000 |
+| v7 | 0.782 | **0.944** | 0.956 | +0.002 |
+
+The 8-prompt gap was overstated. On 32 prompts all three models score within 0.002 of each other (~0.943). The benchmark was measuring noise, not real differences.
+
+One genuine gap: the **compiler flags prompt scores 0.516 across all models** — `-O2`, `--march=native`, `-fPIC` are being dropped. Looking at `_MUST_KEEP_RE`: `--?[a-z][\w-]*` should match these. The issue is likely tokenization: `-O2` splits into `-`, `O`, `2` — none matching the full pattern. A sliding-window fix (like v7's) applied to the override would help, but v7 showed that aggressive sliding-window self-labeling regresses the model. The right fix is adding `[A-Z]\d+` to `_MUST_KEEP_RE` to catch compiler optimization flags like `-O2`, `-O3`, `-Os`.
+
+Eval script now accepts `--prompts-file` for custom JSONL: `python3 scripts/eval_heretic.py --model X --prompts-file data/heretic_expanded.jsonl`. New standard: exact_pct > 0.940 on 32 prompts, override_delta = 0.000.
