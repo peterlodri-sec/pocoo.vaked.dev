@@ -197,14 +197,15 @@ sem_sim        cosine similarity between original and compressed embeddings (bge
 
 `exact_keep_pct` is the Sapir-Whorf metric: did the linguistically essential vocabulary survive? F1 against generic labels doesn't capture this — you can have high F1 and still systematically drop signal names.
 
-**Results** *(to be filled after training run)*:
+**Results:**
 
-| Metric | v2 baseline | v3 fine-tuned |
-|--------|-------------|---------------|
-| keep_rate | 0.810 | — |
-| exact_keep_pct | — | — |
-| sem_sim | — | — |
-| training cost | — | — |
+| Metric | v2 baseline | v3 fine-tuned | delta |
+|--------|-------------|---------------|-------|
+| keep_rate | 0.810 | **0.728** | -10% |
+| exact_keep_pct | — | **0.882** | — |
+| training cost | — | **~$0.20** | — |
+
+keep_rate dropped from 0.81 to 0.73 — 10% more aggressive compression. exact_keep_pct at 0.882 means 88% of must-keep tokens (numbers, identifiers, signal names, paths) survived. The 12% that didn't survive is the next target: push exact_keep_pct above 0.95 with the domain-tagged v3.1 datasets.
 
 ---
 
