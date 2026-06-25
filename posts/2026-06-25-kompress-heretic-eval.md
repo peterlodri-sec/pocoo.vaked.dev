@@ -135,3 +135,28 @@ This prevents incidental digits embedded in identifiers from triggering the over
 - `test_compress_batch_keeps_must_keep_word_when_score_is_low` — same for batch path
 
 Re-ran the heretic eval on the tightened regex: **exact_pct 0.942 → 0.969, +0.028**. No regression — standalone numbers in technical content are all correctly matched; `word0`-style false positives don't appear in the eval set.
+
+---
+
+## Update: kompress-v6 — agent-distribution fine-tune
+
+We trained v6 on 3,000 synthetic Claude Code agent-pattern pairs (bash output, file reads, stack traces, search results, JSON tool responses) merged with the existing 2,003 generic pairs. Fine-tuned from v4 weights for 3 epochs, ~$0.20 on a vast.ai RTX 4090.
+
+Full heretic progression:
+
+| Version | keep_rate | exact_pct | override_delta |
+|---------|-----------|-----------|----------------|
+| v2-base | 0.897 | 0.975 | — |
+| v3 + override | 0.846 | 0.969 | +0.028 |
+| v4 | 0.823 | 0.967 | 0.000 |
+| **v6** | **0.854** | **0.962** | **0.000** |
+
+The interesting result: v6 kept a *higher* proportion of tokens (keep_rate 0.823 → 0.854) while scoring 0.962 on heretic. Agent-pattern training made the model more conservative — it learned that structured technical output is dense with must-keep tokens and it should keep more of it.
+
+Real proxy measurement on the same Claude Code session confirmed: v4 achieved 9.5% compression on the one request that triggered it; v6 achieved 4.2% on a comparable request. Less compression, but the direction is right: fewer must-keep tokens dropped on paths, identifiers, and error class names.
+
+One unexpected finding from the training run: self-labeling agent data with v4+override failed (mk_in_ref collapsed to 0.652). The v4 subword tokenizer splits `TokenExpiredError` into `Token`+`Expired`+`Error` and `/var/log/app.log` into `/`+`var`+`/`+`log`+`...` — individual subtokens that don't match `_MUST_KEEP_RE`, so the force-keep never fires. Generator references (mk_in_ref=1.0 by construction) are better labels than v4-self-labeled ones for agent content.
+
+The next step to fix this: slide a 2-3 subtoken window and check the decoded string against `_MUST_KEEP_RE` rather than individual subtokens. That would let self-labeling work on agent data and potentially produce a more compression-aggressive v7.
+
+Model: [PeetPedro/kompress-v6](https://huggingface.co/PeetPedro/kompress-v6). Full write-up: [Closing the Training-Production Gap in Token Compression](/posts/2026-06-25-kompress-v6-agent-distribution).
