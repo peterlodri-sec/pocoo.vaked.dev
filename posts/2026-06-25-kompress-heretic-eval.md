@@ -220,3 +220,79 @@ The 8-prompt gap was overstated. On 32 prompts all three models score within 0.0
 One genuine gap: the **compiler flags prompt scores 0.516 across all models** — `-O2`, `--march=native`, `-fPIC` are being dropped. Looking at `_MUST_KEEP_RE`: `--?[a-z][\w-]*` should match these. The issue is likely tokenization: `-O2` splits into `-`, `O`, `2` — none matching the full pattern. A sliding-window fix (like v7's) applied to the override would help, but v7 showed that aggressive sliding-window self-labeling regresses the model. The right fix is adding `[A-Z]\d+` to `_MUST_KEEP_RE` to catch compiler optimization flags like `-O2`, `-O3`, `-Os`.
 
 Eval script now accepts `--prompts-file` for custom JSONL: `python3 scripts/eval_heretic.py --model X --prompts-file data/heretic_expanded.jsonl`. New standard: exact_pct > 0.940 on 32 prompts, override_delta = 0.000.
+
+---
+
+## Update (2026-06-25, later): fixing the compiler flag gap — in production, not training
+
+After publishing this post, we traced the compiler flag gap to its root cause and implemented the fix. The answer turned out to be different than expected.
+
+### The tokenizer is the bottleneck
+
+The ModernBERT subword tokenizer splits critical patterns across multiple tokens:
+
+| Pattern | Tokenization | Model scores on subwords |
+|---|---|---|
+| `-O2` | `-`, `O`, `2` | `O`=0.5, `2`=0.8 — no single token matches the full pattern |
+| `Cargo.toml` | `C`, `argo`, `.`, `tom`, `l` | `argo`=0.000, `tom`=0.003 — pure information loss |
+| `TokenExpiredError` | `Token`, `Expired`, `Error` | all ≥0.9 — survives, but fragile |
+| `/var/log/app.log` | `/`, `var`, `/`, `log`, `app`, `.`, `log` | `log`=0.187 in one context — dropped |
+
+The single-token ML classifier can't recognize `argo` as part of `Cargo` or `tom` as part of `.toml`. This isn't a model quality problem — it's a fundamental tokenization mismatch between how the model sees text (subword tokens) and what humans consider atomic (words, flags, paths).
+
+### The v7 dead end
+
+v7 tried to fix this by *training* the model with sliding-window self-labeling — labeling `--verbose` across its 3 subword tokens as "keep all three." The fix worked mechanically: `TokenExpiredError`, `/var/log`, and `--verbose` all passed individual tests. But the model became more conservative across the board (keep_rate 0.823 → 0.868) and regressed on heretic precision (0.967 → 0.956). Training the model to do what regex can do perfectly is the wrong approach.
+
+### The production fix: regex safety net
+
+Instead of retraining, we added a **post-inference regex safety net** directly in the headroom kompress compressor (PR [#1419](https://github.com/headroomlabs-ai/headroom/pull/1419)). After the ML model makes keep/drop decisions, a sliding window of 1–3 words checks each dropped word against a must-keep regex:
+
+```
+0xDEADBEEF          → hex addresses
+-O2, --verbose      → compiler flags  
+/var/log/app.log    → file paths
+HEADROOM_FOO        → ALLCAPS env vars
+TokenExpiredError   → CamelCase identifiers
+Cargo.toml          → dotted names
+.py, .rs, .log      → file extensions
+```
+
+If a window matches, every word in it is force-kept. The regex is `_MUST_KEEP_RE` — the same pattern used in the heretic eval calibration harness.
+
+### Results: 96.2% must-keep survival on agent data
+
+We built an **evaluator-optimizer** (script: `scripts/evaluator_optimizer.py`) that runs v4 self-labeling on real agent tool outputs and measures how many must-keep patterns survive. Qwen2.5-7B-Instruct acts as a "teacher" — when v4 misses patterns, Qwen identifies what was lost and why.
+
+On 50 samples from `kompress_agent_train.jsonl` (bash output, file reads, search results, JSON tool output, error traces):
+
+| Metric | Without override | With override |
+|---|---|---|
+| mk_in_ref survival | 0.652 | **0.962** |
+| Failing pairs (mk < 0.9) | ~all | 3 of 50 |
+
+The 3 remaining failures are edge cases: multi-dot version numbers (`3.28.33`), `=`-separated values (`timeout=123`), and rare error names that don't match the CamelCase pattern. These can be addressed with regex refinements — no model retraining needed.
+
+### Why production regex beats training
+
+This is the central insight of the session:
+
+- **v4 + regex override**: heretic 0.967, agent mk_in_ref 0.962
+- **v7 (trained sliding window)**: heretic 0.956, agent mk_in_ref ~0.87
+
+Training the model to handle tokenization artifacts makes it *more conservative everywhere*, not smarter. The model starts second-guessing its own decisions on tokens that were correctly dropped, increasing keep_rate and decreasing adversarial precision. Regex post-processing is surgical: it catches exactly the patterns it's supposed to, leaves everything else alone, and preserves the model's hard-won precision.
+
+### What ships
+
+Two PRs against headroom, designed to land together:
+
+1. **[#1418](https://github.com/headroomlabs-ai/headroom/pull/1418) — Domain routing**: per-content-type bias multipliers (BUILD_OUTPUT 0.50, SOURCE_CODE 0.50, SEARCH_RESULTS 0.70). 2x compression on code/logs, 1.45x on search. Calibrated WITH the must-keep override active.
+
+2. **[#1419](https://github.com/headroomlabs-ai/headroom/pull/1419) — Must-keep override**: the regex safety net described above. Default on, controlled by `KompressConfig.enable_must_keep_override`. All 81 existing tests pass.
+
+Both changes are in production code. No GPU, no retraining, no model uploads. Just a regex and a bias multiplier.
+
+
+---
+
+*The loop pattern that produced these models is now open source: [LoopKit — your loop engineering starter kit](/posts/2026-06-25-loopkit).*
