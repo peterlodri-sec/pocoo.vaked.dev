@@ -268,9 +268,15 @@ function footerHtml() {
 </footer>`;
 }
 
+const SITE_URL = "https://pocoo.vaked.dev";
+const SITE_NAME = "pocoo";
+const DEFAULT_OG_IMAGE = `${SITE_URL}/assets/og-default.png`;
+
 // ── <head> ────────────────────────────────────────────────────────────────────
-function head({ title, description, prefix, ogType }) {
+function head({ title, description, prefix, ogType, canonicalUrl, ogImage, pubDate, author }) {
   const desc = esc(description || "");
+  const img = ogImage || DEFAULT_OG_IMAGE;
+  const canonical = canonicalUrl || SITE_URL;
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -278,12 +284,23 @@ function head({ title, description, prefix, ogType }) {
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${esc(title)}</title>
 <meta name="description" content="${desc}">
+<link rel="canonical" href="${canonical}">
 <meta property="og:type" content="${ogType}">
+<meta property="og:site_name" content="${SITE_NAME}">
+<meta property="og:url" content="${canonical}">
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${desc}">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="${img}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+${ogType === "article" && pubDate ? `<meta property="article:published_time" content="${pubDate}">` : ""}
+${ogType === "article" && author ? `<meta property="article:author" content="${author}">` : ""}
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@peetpedro">
 <meta name="twitter:title" content="${esc(title)}">
 <meta name="twitter:description" content="${desc}">
+<meta name="twitter:image" content="${img}">
 <meta name="theme-color" content="#070b16">
 <link rel="icon" type="image/svg+xml" href="${prefix}assets/logo.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="${prefix}assets/favicon-32.png">
@@ -300,11 +317,16 @@ function head({ title, description, prefix, ogType }) {
 function renderPost(post) {
   const bodyHtml = md.render(post.body);
   const hash = contentHash(post.meta.title + post.meta.date + post.body);
+  const slug = post.slug;
   return `${head({
     title: `${post.meta.title} · pocoo`,
     description: post.meta.description,
     prefix: "../",
     ogType: "article",
+    canonicalUrl: `${SITE_URL}/posts/${slug}.html`,
+    ogImage: post.meta.image ? `${SITE_URL}/${post.meta.image}` : DEFAULT_OG_IMAGE,
+    pubDate: post.meta.date ? new Date(post.meta.date).toISOString() : undefined,
+    author: post.meta.author || "Lodri Péter",
   })}
 <meta name="content-hash" content="${hash}">
 ${ambientScript(hash, true)}
@@ -341,6 +363,8 @@ function renderIndex(posts) {
     description: "Technical writing on agentic systems, protocols, and building in public.",
     prefix: "",
     ogType: "website",
+    canonicalUrl: SITE_URL,
+    ogImage: DEFAULT_OG_IMAGE,
   })}
 ${indexWaveScript()}
 <body>
