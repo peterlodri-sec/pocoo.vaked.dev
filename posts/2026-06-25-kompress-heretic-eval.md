@@ -296,3 +296,49 @@ Both changes are in production code. No GPU, no retraining, no model uploads. Ju
 ---
 
 *The loop pattern that produced these models is now open source: [LoopKit — your loop engineering starter kit](/posts/2026-06-25-loopkit).*
+
+---
+
+## Final Results — The Complete Kompress Experiment
+
+After 16 versions, 8 teachers, 4 data sources, 4 architectures, and one council — here's the full picture:
+
+| Version | Teacher | Data | Heretic | Δ from v8 | Cost |
+|---|---|---|---|---|---|
+| v2-base | — | — | **0.975** | +0.020 | — |
+| v4 | self-labels | domain | 0.943 | -0.012 | $0.15 |
+| v6 | generator | agent-dist | 0.962 | +0.007 | $0.20 |
+| v7 | sliding-window | agent | 0.956 | +0.001 | $0.20 |
+| **v8** | **Qwen2.5-7B** | **C3+generic** | **0.955** | **0.000** | **$0.13** |
+| v9 | Qwen2.5-7B | C3-only | 0.921 | -0.034 | $0.07 |
+| v10 | Qwen2.5-7B | scaled C3 | 0.947 | -0.008 | $0.13 |
+| v11 | Qwen2.5-7B | large encoder | 0.906 | -0.049 | $0.20 |
+| v12 | Qwen3-Coder | C3+generic | 0.949 | -0.006 | $0.10 |
+| v13 | regex | GLM scenarios | 0.951 | -0.004 | $0.10 |
+| v14 | council | v8+GLM | 0.882 | -0.073 | $0.15 |
+| v15 | everything | 983 pairs | 0.878 | -0.077 | $0.13 |
+
+**Total spent chasing v8: ~$1.56. v8 cost: $0.13. v8's margin: untouchable.**
+
+### What We Learned
+
+1. **Label quality is the bottleneck.** Not model capacity (v11: 0.906), not data quantity (v15: 0.878), not training control (v14: 0.882). Teacher quality and label calibration determine everything.
+
+2. **The sweet spot is small and specific.** v8: 97 carefully labeled pairs at 33% C3 ratio. More data dilutes the signal (v10, v13, v15). Different teachers have different biases (v12 too conservative, v13 too conservative).
+
+3. **Regex in production beats training the model.** The must-keep override (PR #1419) gives 1.000 agent mk_in_ref with v8. Training v7 to learn regex patterns regressed heretic. Post-inference safety nets are surgical — training is blunt.
+
+4. **The outer loop matters more than the inner loop.** 15 of 16 versions were the same inner loop (train → eval). The difference was the outer loop decisions — which teacher, which data, which ratio. This is why we built [LoopKit](https://github.com/peterlodri-sec/loopkit).
+
+5. **v2-base is still the precision ceiling at 0.975.** Every fine-tuning run trades precision for compression. v8's 0.955 is 2% less precise but 50% more compressive. That's the tradeoff.
+
+### What Ships
+
+- **Production model:** [PeetPedro/kompress-v8](https://huggingface.co/PeetPedro/kompress-v8) — heretic 0.955, agent mk_in_ref 1.000 with override
+- **Production override:** [headroom PR #1419](https://github.com/headroomlabs-ai/headroom/pull/1419) — regex safety net
+- **Domain routing:** [headroom PR #1418](https://github.com/headroomlabs-ai/headroom/pull/1418) — 2x compression on code/logs
+- **Benchmarks:** [headroom PR #1432](https://github.com/headroomlabs-ai/headroom/pull/1432) — CI-ready heretic + agent regression + savings dashboard
+- **The loop itself:** [LoopKit](https://github.com/peterlodri-sec/loopkit) — build your own
+- **All 16 models:** [PeetPedro on HuggingFace](https://huggingface.co/PeetPedro)
+
+*This post updated throughout the experiment. Last update: 2026-06-25, after v15.*
