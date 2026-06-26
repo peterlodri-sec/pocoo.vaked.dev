@@ -481,7 +481,11 @@ ${postLines}
   if (existsSync(path.join(ROOT, "_headers"))) {
     await cp(path.join(ROOT, "_headers"), path.join(DIST_DIR, "_headers"));
   }
-  console.log("copy: assets, _headers -> dist/");
+  // Copy demos (standalone HTML, no markdown processing)
+  if (existsSync(path.join(ROOT, "demos"))) {
+    await cp(path.join(ROOT, "demos"), path.join(DIST_DIR, "demos"), { recursive: true });
+  }
+  console.log("copy: assets, _headers, demos -> dist/");
   console.log(`\ndone: ${posts.length} post(s), ${skipped} draft(s) skipped.`);
 }
 
