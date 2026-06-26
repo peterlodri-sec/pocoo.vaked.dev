@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>support · pocoo</title>
+<link rel="stylesheet" href="../assets/blog.css">
+<style>
+  .support-page { max-width:600px; margin:60px auto; padding:0 20px; }
+  .support-page h1 { font-size:2em; margin-bottom:8px; }
+  .support-page p { font-size:1.05em; line-height:1.7; color:#a0a8b8; margin-bottom:16px; }
+  .tiers { display:grid; gap:16px; margin:32px 0; }
+  .tier { background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:24px; transition:.2s; }
+  .tier:hover { border-color:rgba(98,230,201,.3); }
+  .tier h3 { font-size:1.1em; margin-bottom:4px; color:#62e6c9; }
+  .tier .price { font-size:1.4em; font-weight:bold; margin-bottom:8px; }
+  .tier ul { list-style:none; padding:0; color:#9a93b8; font-size:0.9em; line-height:1.8; }
+  .tier ul li::before { content:"✓ "; color:#62e6c9; }
+  .cta { display:inline-block; margin-top:16px; padding:12px 28px; background:linear-gradient(135deg,#b48bff,#62e6c9); color:#05060a; border-radius:8px; text-decoration:none; font-weight:bold; font-size:1em; }
+  .cta:hover { transform:translateY(-1px); box-shadow:0 8px 24px -8px rgba(98,230,201,.3); }
+  .links { margin-top:40px; padding-top:20px; border-top:1px solid rgba(255,255,255,.08); font-size:0.85em; color:#9a93b8; }
+  .links a { color:#62e6c9; }
+</style>
+</head>
+<body>
+<div class="support-page">
+  <h1>support the loop</h1>
+  <p>I build open-source AI infrastructure — compression models, loop engineering toolkits, interactive papers. 20 models on HuggingFace. All public. All free. If this work helps you, consider supporting it.</p>
+
+  <div class="tiers">
+    <div class="tier">
+      <h3>🌱 seed</h3>
+      <div class="price">$3/mo</div>
+      <ul>
+        <li>Early access to blog posts</li>
+        <li>Name in the LoopKit contributors list</li>
+        <li>Discord role</li>
+      </ul>
+      <a href="https://patreon.com/peterlodri" class="cta">support →</a>
+    </div>
+    <div class="tier">
+      <h3>🔁 loop</h3>
+      <div class="price">$9/mo</div>
+      <ul>
+        <li>Everything in seed</li>
+        <li>Monthly experiment report (what I tried, what worked)</li>
+        <li>Access to private research repo</li>
+        <li>Vote on next experiment direction</li>
+      </ul>
+      <a href="https://patreon.com/peterlodri" class="cta">support →</a>
+    </div>
+    <div class="tier">
+      <h3>🏔️ council</h3>
+      <div class="price">$27/mo</div>
+      <ul>
+        <li>Everything in loop</li>
+        <li>1:1 office hours (30 min/month)</li>
+        <li>Co-author acknowledgment in papers</li>
+        <li>Your experiment idea → I run it</li>
+      </ul>
+      <a href="https://patreon.com/peterlodri" class="cta">support →</a>
+    </div>
+  </div>
+
+  <p style="font-size:0.9em;color:#9a93b8">All tiers include: open-source access to everything I build. You're not paying for access — you're funding the next experiment.</p>
+
+  <div class="links">
+    <a href="https://kompress.vaked.dev">paper</a> ·
+    <a href="https://huggingface.co/PeetPedro">models</a> ·
+    <a href="https://github.com/peterlodri-sec/loopkit">loopkit</a> ·
+    <a href="https://github.com/sponsors/peterlodri-sec">github sponsors</a> ·
+    <a href="/">pocoo.vaked.dev</a>
+  </div>
+</div>
+</body>
+</html>
