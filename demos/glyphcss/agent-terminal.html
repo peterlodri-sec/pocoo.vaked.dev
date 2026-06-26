@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LoopKit Agent — Live Terminal</title>
+<script type="module" src="https://esm.sh/glyphcss/elements"></script>
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --fg: #c0caf5;
+    --accent: #7aa2f7;
+    --green: #9ece6a;
+    --red: #f7768e;
+    --yellow: #e0af68;
+    --purple: #bb9af7;
+    --terminal-bg: rgba(10,10,15,0.92);
+    --border: #1a1b26;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', monospace;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* GlyphCSS 3D brain background */
+  .brain-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    opacity: 0.15;
+    filter: blur(1px);
+  }
+  .brain-bg glyph-camera {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Terminal overlay */
+  .terminal {
+    position: fixed;
+    inset: 40px;
+    z-index: 1;
+    background: var(--terminal-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 0 60px rgba(122,162,247,0.08);
+  }
+  .terminal-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    background: rgba(26,27,38,0.8);
+    border-bottom: 1px solid var(--border);
+    font-size: 0.8em;
+    color: #565f89;
+  }
+  .terminal-header .dot { width: 12px; height: 12px; border-radius: 50%; }
+  .terminal-header .dot.red { background: var(--red); }
+  .terminal-header .dot.yellow { background: var(--yellow); }
+  .terminal-header .dot.green { background: var(--green); }
+  .terminal-header .title { margin-left: 8px; color: var(--fg); }
+
+  .terminal-body {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    font-size: 0.85em;
+    line-height: 1.7;
+  }
+  .terminal-body::-webkit-scrollbar { width: 4px; }
+  .terminal-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  /* Terminal lines */
+  .line { margin-bottom: 2px; white-space: pre-wrap; word-break: break-all; }
+  .line .prompt { color: var(--green); }
+  .line .cmd { color: var(--accent); }
+  .line .output { color: #565f89; }
+  .line .error { color: var(--red); }
+  .line .success { color: var(--green); }
+  .line .think { color: var(--purple); font-style: italic; }
+  .line .council { color: var(--yellow); }
+  .line .metric { color: var(--accent); font-weight: bold; }
+  .cursor { animation: blink 1s step-end infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* Status bar */
+  .status-bar {
+    display: flex;
+    gap: 20px;
+    padding: 8px 16px;
+    background: rgba(26,27,38,0.8);
+    border-top: 1px solid var(--border);
+    font-size: 0.75em;
+    color: #565f89;
+  }
+  .status-bar .stat { display: flex; align-items: center; gap: 6px; }
+  .status-bar .stat .val { color: var(--fg); }
+  .status-bar .stat.live .val { color: var(--green); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.5; } }
+
+  /* Live indicator */
+  .live-dot {
+    display: inline-block;
+    width: 8px; height: 8px;
+    background: var(--green);
+    border-radius: 50%;
+    margin-right: 6px;
+  }
+</style>
+</head>
+<body>
+
+<!-- 3D brain background -->
+<div class="brain-bg">
+  <glyph-camera rot-x="30" zoom="0.8" cols="120" rows="60" shading="ascii">
+    <glyph-scene>
+      <glyph-orbit-controls drag wheel></glyph-orbit-controls>
+      <glyph-mesh geometry="icosahedron" material-color="#7aa2f7" opacity="0.4"></glyph-mesh>
+    </glyph-scene>
+  </glyph-camera>
+</div>
+
+<!-- Terminal -->
+<div class="terminal">
+  <div class="terminal-header">
+    <span class="dot red"></span>
+    <span class="dot yellow"></span>
+    <span class="dot green"></span>
+    <span class="title">loopkit agent — orchestrator@kompress — /dev/loop</span>
+  </div>
+
+  <div class="terminal-body" id="terminal">
+    <!-- Filled by JS -->
+  </div>
+
+  <div class="status-bar">
+    <span class="stat live"><span class="live-dot"></span> <span class="val">LIVE</span></span>
+    <span class="stat">loop: <span class="val" id="loopName">kompress</span></span>
+    <span class="stat">version: <span class="val" id="loopVersion">v8</span></span>
+    <span class="stat">heretic: <span class="val" id="loopMetric">0.955</span></span>
+    <span class="stat">budget: <span class="val" id="loopBudget">$4.15</span></span>
+  </div>
+</div>
+
+<script>
+const terminal = document.getElementById('terminal');
+const loopName = document.getElementById('loopName');
+const loopVersion = document.getElementById('loopVersion');
+const loopMetric = document.getElementById('loopMetric');
+const loopBudget = document.getElementById('loopBudget');
+
+// Agent session — simulated from real kompress experiment log
+const session = [
+  { type: 'think', text: 'analyzing current state... 17 models trained, v8 at 0.955 remains undefeated' },
+  { type: 'think', text: 'bottleneck confirmed: label quality, not model capacity (v11: 0.906) or data quantity (v15: 0.878)' },
+  { type: 'cmd', text: '$ council review --loop kompress --round 18' },
+  { type: 'council', text: 'COUNCIL (GLM-5.1): v8 is pareto-optimal at 3x weight. 5x (v17: 0.963) trades +0.008 heretic for -11.3% compression. Not worth it. Recommendation: SHIP v8.' },
+  { type: 'think', text: 'council agrees with empirical results. 3x weight is the optimal tradeoff point.' },
+  { type: 'cmd', text: '$ loop status --all' },
+  { type: 'output', text: 'kompress-v8:    heretic=0.955  keep=0.854  override=0.000  status=PRODUCTION' },
+  { type: 'output', text: 'kompress-v16:   heretic=0.972  keep=0.972  override=0.000  status=PARETO_ENDPOINT' },
+  { type: 'output', text: 'kompress-v17:   heretic=0.963  keep=0.963  override=0.000  status=TRADEOFF' },
+  { type: 'output', text: 'kompress-v15:   heretic=0.878  keep=0.878  override=+0.010  status=REGRESSION' },
+  { type: 'cmd', text: '$ headroom pr list --author peterlodri-sec' },
+  { type: 'output', text: '#1419 must-keep-override: REBASED, awaiting CI' },
+  { type: 'output', text: '#1418 domain-routing: READY FOR REVIEW' },
+  { type: 'output', text: '#1432 benchmarks-evals: OPEN — Tejas followup' },
+  { type: 'output', text: '#1400 hard-override: READY FOR REVIEW' },
+  { type: 'think', text: '4 PRs ready. benchmarks PR has heretic + agent regression + savings dashboard.' },
+  { type: 'cmd', text: '$ modelcard sync --all' },
+  { type: 'success', text: '✓ 18/18 models have cards on HuggingFace' },
+  { type: 'cmd', text: '$ blog deploy --check' },
+  { type: 'success', text: '✓ 26 posts live on pocoo.vaked.dev' },
+  { type: 'success', text: '✓ backrefs: loopkit↔heretic↔paradox↔shipped — all cross-linked' },
+  { type: 'cmd', text: '$ loopkit status' },
+  { type: 'output', text: 'loops: hello, daily_triage, verification, headroom_swebench, kompress' },
+  { type: 'output', text: 'docs: interactive site (peterlodri-sec.github.io/loopkit)' },
+  { type: 'output', text: 'ecosystem: Addy Osmani, LangChain, Cobus Greyling' },
+  { type: 'think', text: 'ecosystem integrated. LoopKit is part of the broader loop engineering movement.' },
+  { type: 'council', text: 'FINAL COUNCIL (GLM-5.1): All experiments complete. v8 is production. Paper written. PRs open. Blog live. 18 models on HF. LoopKit shipped. Budget: $4.15 remaining.' },
+  { type: 'council', text: 'Decision: HANDOFF — the loop is complete. Next researcher picks up deferred baselines.' },
+  { type: 'success', text: '✅ LOOP COMPLETE — 17 versions, 8 teachers, 4 architectures, $38.95 total.' },
+  { type: 'success', text: '✅ The Voting Ensemble Paradox is proven. The fix is 3.0x.' },
+  { type: 'success', text: '✅ kompress-v8 is production. LoopKit is open source. The paper is at ICLR 2027.' },
+  { type: 'think', text: 'until the next loop starts...' },
+];
+
+let i = 0;
+let budget = 4.15;
+
+function addLine(type, text) {
+  const div = document.createElement('div');
+  div.className = 'line';
+  
+  let prefix = '';
+  let cls = type;
+  switch(type) {
+    case 'think': prefix = '  🤔 '; break;
+    case 'cmd': prefix = '\n❯ '; break;
+    case 'council': prefix = '  🏛  '; break;
+    case 'output': prefix = '     '; break;
+    case 'error': prefix = '  ✗  '; break;
+    case 'success': prefix = '  ✓  '; break;
+  }
+  
+  div.innerHTML = `<span class="${cls}">${prefix}${text}</span>`;
+  terminal.appendChild(div);
+  terminal.scrollTop = terminal.scrollHeight;
+}
+
+function typeLine(type, text, speed = 15) {
+  return new Promise(resolve => {
+    const div = document.createElement('div');
+    div.className = 'line';
+    
+    let prefix = '';
+    switch(type) {
+      case 'think': prefix = '  🤔 '; break;
+      case 'cmd': prefix = '\n❯ '; break;
+      case 'council': prefix = '  🏛  '; break;
+      case 'output': prefix = '     '; break;
+      case 'error': prefix = '  ✗  '; break;
+      case 'success': prefix = '  ✓  '; break;
+    }
+    
+    terminal.appendChild(div);
+    let charIndex = 0;
+    
+    function type() {
+      if (charIndex < text.length) {
+        div.innerHTML = `<span class="${type}">${prefix}${text.substring(0, charIndex + 1)}</span>`;
+        if (charIndex === text.length - 1) {
+          // Remove cursor for think lines
+        } else {
+          div.innerHTML += '<span class="cursor">█</span>';
+        }
+        charIndex++;
+        terminal.scrollTop = terminal.scrollHeight;
+        setTimeout(type, speed);
+      } else {
+        div.innerHTML = `<span class="${type}">${prefix}${text}</span>`;
+        resolve();
+      }
+    }
+    type();
+  });
+}
+
+async function runSession() {
+  await new Promise(r => setTimeout(r, 800));
+  addLine('output', 'loopkit agent v0.1 — orchestrator mode');
+  addLine('output', 'connecting to memory...');
+  await new Promise(r => setTimeout(r, 400));
+  addLine('success', 'SQLite memory loaded: 17 experiments, 4 loops');
+  
+  for (const line of session) {
+    if (line.type === 'cmd') {
+      loopVersion.textContent = 'v18-planning';
+      loopMetric.textContent = '...';
+    }
+    
+    await typeLine(line.type, line.text, line.type === 'think' ? 10 : 8);
+    
+    if (line.type === 'council' || line.type === 'cmd') {
+      await new Promise(r => setTimeout(r, 400));
+    }
+    if (line.type === 'output') {
+      await new Promise(r => setTimeout(r, 150));
+    }
+    
+    // Update status bar dynamically
+    if (line.text.includes('SHIP v8')) {
+      loopVersion.textContent = 'v8';
+      loopMetric.textContent = '0.955';
+    }
+    if (line.text.includes('$4.15')) {
+      loopBudget.textContent = '$4.15';
+    }
+  }
+  
+  await new Promise(r => setTimeout(r, 600));
+  addLine('think', 'handoff ready. researcher prompt in longrun-eval-kompress/CONTRIBUTING.md');
+  addLine('think', 'the outer loop is yours now.');
+  
+  loopVersion.textContent = 'v8 (production)';
+  loopMetric.textContent = '0.955';
+  loopBudget.textContent = '$4.15';
+}
+
+runSession();
+</script>
+</body>
+</html>

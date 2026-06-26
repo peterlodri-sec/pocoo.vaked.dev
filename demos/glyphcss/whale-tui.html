@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Whale TUI × GlyphCSS — Live Coding Agent</title>
+<script type="module" src="https://esm.sh/glyphcss/elements"></script>
+<style>
+  :root {
+    --bg: #06060a;
+    --fg: #a9b1d6;
+    --dim: #3b4261;
+    --accent: #3ee8c5;
+    --panel: rgba(6,6,10,0.88);
+    --border: #1a1b26;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', monospace;
+    font-size: 14px;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* Full-viewport GlyphCSS — the hero */
+  .glyph-hero {
+    background: radial-gradient(ellipse at center, #1a1a2e 0%, #06060a 70%);
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+  }
+  .glyph-hero glyph-camera {
+    width: 100vw; height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: camFloat 20s ease-in-out infinite;
+  }
+  @keyframes camFloat {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(2deg); }
+    50% { transform: rotate(0deg); }
+    75% { transform: rotate(-2deg); }
+  }
+  .glyph-hero glyph-camera pre {
+    font-size: 26px !important;
+    line-height: 28px !important;
+    letter-spacing: 1px !important;
+    color: #c0caf5 !important;
+    text-shadow: 0 0 6px rgba(62,232,197,0.4);
+  }
+
+  /* Terminal overlay — floating on top */
+  .terminal-overlay {
+    position: fixed;
+    bottom: 26px;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    max-height: 12vh;
+    display: flex;
+    flex-direction: column;
+    background: rgba(6,6,10,0.90);
+    border-top: 1px solid var(--border);
+    backdrop-filter: blur(12px);
+  }
+  .term-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 14px;
+    font-size: 0.8em;
+    color: var(--dim);
+    border-bottom: 1px solid var(--border);
+  }
+  .term-header .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .term-header .dot.g { background: #9ece6a; }
+  .term-header .dot.b { background: #7aa2f7; }
+
+  .term-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 6px 14px;
+    font-size: 0.85em;
+    line-height: 1.6;
+    max-height: 22vh;
+  }
+  .term-body::-webkit-scrollbar { width: 3px; }
+  .term-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  .term-body .line { padding: 1px 0; white-space: pre-wrap; word-break: break-all; }
+  .term-body .prompt { color: #9ece6a; }
+  .term-body .cmd { color: #7aa2f7; }
+  .term-body .out { color: var(--dim); }
+  .term-body .ok { color: #9ece6a; }
+  .term-body .whale { color: var(--accent); }
+  .term-body .think { color: #bb9af7; font-style: italic; }
+
+  .input-line {
+    display: flex;
+    align-items: center;
+    padding: 8px 14px;
+    border-top: 1px solid var(--border);
+  }
+  .input-line .prompt { margin-right: 8px; color: #9ece6a; font-size:0.9em; }
+  .input-line input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--fg);
+    font: inherit;
+    outline: none;
+  }
+  .input-line input::placeholder { color: var(--dim); }
+
+  /* Status bar */
+  .status-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    display: flex;
+    gap: 16px;
+    padding: 4px 14px;
+    font-size: 0.7em;
+    color: var(--dim);
+    background: rgba(6,6,10,0.95);
+    border-top: 1px solid var(--border);
+  }
+  .status-bar .stat .v { color: var(--fg); }
+  .status-bar .live .v { color: #9ece6a; }
+
+  /* Hint — floating top-right */
+  .hint {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1;
+    color: var(--dim);
+    font-size: 0.65em; opacity: 0.6;
+    pointer-events: none;
+    text-align: right;
+  }
+  .hint .key { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<!-- Full-viewport GlyphCSS -->
+<div class="glyph-hero">
+  <glyph-camera id="liveGlyph" rot-x="20" zoom="0.5" cols="50" rows="30" shading="ascii" glyph-palette="braille">
+    <glyph-scene>
+      <glyph-orbit-controls drag wheel auto-rotate auto-rotate-speed="0.3"></glyph-orbit-controls>
+      <glyph-mesh id="liveMesh" geometry="dodecahedron" material-color="#ffffff" opacity="1.0"></glyph-mesh>
+      <glyph-mesh id="liveMesh2" geometry="torus" material-color="#3ee8c5" opacity="0.4"></glyph-mesh>
+    </glyph-scene>
+  </glyph-camera>
+</div>
+
+<!-- Hint -->
+<div class="hint">
+  🐋 <span class="key">whale</span> loop engineering agent<br>
+  drag to orbit · scroll to zoom<br>
+  try: <span class="key">why is v8 still the best?</span>
+</div>
+
+<!-- Terminal overlay -->
+<div class="terminal-overlay" id="terminalOverlay">
+  <div class="term-header">
+    <span class="dot g"></span><span class="dot b"></span>
+    whale@loopkit — kompress-v8 — 17 versions — $4.15 budget
+  </div>
+  <div class="term-body" id="terminal">
+    <div class="line"><span class="whale">🐋 whale</span> <span class="out">v0.1 — type a command or ask anything</span></div>
+    <div class="line"></div>
+  </div>
+  <div class="input-line">
+    <span class="prompt">❯</span>
+    <input type="text" id="cmdInput" placeholder="why is v8 still the best?" autofocus>
+  </div>
+</div>
+
+<!-- Status bar -->
+<div class="status-bar">
+  <span class="stat live">● <span class="v">LIVE</span></span>
+  <span class="stat">model: <span class="v" id="stModel">v8</span></span>
+  <span class="stat">heretic: <span class="v" id="stHeretic">0.955</span></span>
+  <span class="stat">glyph: <span class="v">ascii·50×30</span></span>
+</div>
+
+<script>
+const term = document.getElementById('terminal');
+const input = document.getElementById('cmdInput');
+const stModel = document.getElementById('stModel');
+const stHeretic = document.getElementById('stHeretic');
+
+function addLine(text, cls = 'out') {
+  const div = document.createElement('div');
+  div.className = 'line';
+  div.innerHTML = text.includes('<') ? text : `<span class="${cls}">${text}</span>`;
+  term.appendChild(div);
+  term.scrollTop = term.scrollHeight;
+}
+function addCmd(cmd) { addLine(`<span class="prompt">❯</span> <span class="cmd">${cmd}</span>`); }
+function addWhale(text) { addLine(`<span class="whale">🐋</span> <span class="think">${text}</span>`); }
+
+const commands = {
+  train: (a) => ({ cmd: `train kompress ${a||'v18'}`, out: [
+    `plan: ${a||'5x weight, 97 C3 + 200 generic, 3 epochs'}`,
+    `execute: launching RTX 4090... epoch1 loss=0.502 epoch2 loss=0.458 epoch3 loss=0.442`,
+    `evaluate: heretic=0.963 keep=0.963 override=0.000`,
+    `decide: SHIP — +0.008 heretic but only 3.7% compression. v8 still optimal.`
+  ]}),
+  evaluate: (a) => ({ cmd: `evaluate ${a||'v8'} on heretic-32`, out: [
+    `loading PeetPedro/kompress-${a||'v8'}... 32-prompt adversarial benchmark:`,
+    `chemical formulas:0.955 CVE ids:0.972 memory addrs:0.943`,
+    `compiler flags:0.990 syscalls:0.968`,
+    `AVERAGE: heretic=0.955 keep=0.854 override=0.000`
+  ]}),
+  bottleneck: () => ({ cmd: 'analyze bottleneck', out: [
+    `bottleneck: label-quality (not capacity, not data quantity)`,
+    `v11(352M):0.906 — bigger model ≠ better precision`,
+    `v15(983pairs):0.878 — more data ≠ better precision`,
+    `v12(Qwen3-Coder):0.949 — stronger teacher ≠ better labels`,
+    `v8(97pairs):0.955 — small, calibrated labels win`
+  ]}),
+  pareto: () => ({ cmd: 'pareto frontier', out: [
+    `weight  heretic  compression`,
+    `3x(v8)  0.955    15%  ← OPTIMAL`,
+    `5x(v17) 0.963     3.7%`,
+    `10x(v16)0.972     2.8%`,
+    `tradeoff is fundamental. 3x is the pareto-optimal point.`
+  ]}),
+  paradox: () => ({ cmd: 'voting ensemble paradox', out: [
+    `theorem: under k-of-N drop voting, ensemble collapses to weakest voter.`,
+    `empirical: ensemble(v3,v3.1,v3.2)=0.931 < v4(alone)=0.967`,
+    `fix: 3.0x asymmetric loss modulation on critical tokens`,
+    `paper: kompress.vaked.dev`
+  ]}),
+  status: () => ({ cmd: 'status --all', out: [
+    `models:18 on HF (cards:18/18)  blog:26 posts  prs:15 open`,
+    `#1419 must-keep-override:rebased  #1418 domain-routing:ready`,
+    `#1432 benchmarks:open  #1400 hard-override:ready`,
+    `loopkit:5 loops, docs site, telegram bot, council`,
+    `budget:$4.15 on vast.ai`
+  ]}),
+  deploy: (a) => ({ cmd: `deploy ${a||'v8'}`, out: [
+    `exporting ONNX... 601MB  uploading to PeetPedro...`,
+    `✓ huggingface.co/PeetPedro/kompress-${a||'v8'}`
+  ]}),
+  help: () => ({ cmd: 'help', out: [
+    `train [vN] · evaluate [vN] · bottleneck · pareto`,
+    `paradox · status · deploy [vN] · clear · help`,
+    `natural language also works — just ask.`
+  ]}),
+};
+
+async function execute(cmd, args, query) {
+  const q = (query || '').toLowerCase().trim();
+  
+  if (commands[cmd] && cmd === q.split(' ')[0]) {
+    const r = commands[cmd](args);
+    addCmd(r.cmd); addWhale('executing...');
+    await new Promise(r => setTimeout(r, 300));
+    r.out.forEach(l => addLine(l));
+    return;
+  }
+  
+  if (!q) return;
+  addCmd(query);
+  addWhale('thinking...');
+  await new Promise(r => setTimeout(r, 500));
+  
+  const patterns = [
+    { re: /^(hi|hey|hello|yo|sup)$/, fn: () => ({out:['hey! try: train · evaluate · bottleneck · pareto · paradox · status · help']}) },
+    { re: /bottleneck|why.*(best|v8|limit|ceiling|still)/, fn: commands.bottleneck },
+    { re: /pareto|weight.*(tradeoff|frontier)|(3x|5x|10x)/, fn: commands.pareto },
+    { re: /paradox|ensemble.*(voting|collapse)|voting.*paradox/, fn: commands.paradox },
+    { re: /eval|heretic|benchmark|score|measure/, fn: () => commands.evaluate(q.match(/v\d+/)?.[0]||'v8') },
+    { re: /deploy|upload|hf|huggingface|publish/, fn: () => commands.deploy(q.match(/v\d+/)?.[0]||'v8') },
+    { re: /train|fine.tune|retrain|experiment|new.*version/, fn: () => commands.train(q.match(/v\d+/)?.[0]||'v18') },
+    { re: /status|live|what.*up|how.*going/, fn: commands.status },
+    { re: /.*/, fn: () => ({out:['no handler. try: help']}) },
+  ];
+  
+  for (const p of patterns) {
+    if (p.re.test(q)) { p.fn().out.forEach(l => addLine(l)); return; }
+  }
+}
+
+input.addEventListener('keydown', async (e) => {
+  if (e.key !== 'Enter') return;
+  const val = input.value.trim();
+  if (!val) return;
+  input.value = '';
+  if (val === 'clear') { term.innerHTML = ''; return; }
+  const words = val.split(' ');
+  await execute(words[0].toLowerCase(), words.slice(1).join(' '), val);
+});
+
+// Live glyph switching
+const liveMesh = document.getElementById('liveMesh');
+const states = {
+  train:    ['torus','#ffffff','0.85'],
+  evaluate: ['icosahedron','#a0ffa0','1.0'],
+  bottleneck: ['cone','#ff8888','1.0'],
+  pareto:   ['dodecahedron','#ffffff','0.9'],
+  paradox:  ['cube','#d0b0ff','1.1'],
+  deploy:   ['sphere','#ffffff','0.75'],
+  default:  ['dodecahedron','#ffffff','0.75'],
+};
+function updateGlyph(state) {
+  const s = states[state] || states.default;
+  liveMesh.setAttribute('geometry', s[0]);
+  liveMesh.setAttribute('material-color', s[1]);
+  document.getElementById('liveGlyph').setAttribute('zoom', s[2]);
+}
+
+const origExec = execute;
+execute = async function(cmd, args, query) {
+  const q = (query||cmd||'').toLowerCase();
+  if (/train|fine.tune|retrain/.test(q)) updateGlyph('train');
+  else if (/eval|heretic|benchmark|score/.test(q)) updateGlyph('evaluate');
+  else if (/bottleneck|why.*best|limit|ceiling/.test(q)) updateGlyph('bottleneck');
+  else if (/pareto|weight|tradeoff|3x/.test(q)) updateGlyph('pareto');
+  else if (/paradox|ensemble|voting/.test(q)) updateGlyph('paradox');
+  else if (/deploy|upload|hf|publish/.test(q)) updateGlyph('deploy');
+  return origExec(cmd, args, query);
+};
+</script>
+</body>
+</html>

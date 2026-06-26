@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>vaked-DYAD — useful info only</title>
+<style>
+  :root {
+    --bg: #08080c;
+    --fg: #a0a8b8;
+    --key: #7aa2f7;
+    --val: #9ece6a;
+    --num: #e0af68;
+    --str: #bb9af7;
+    --bool: #f7768e;
+    --sep: #1a1b26;
+    --accent: #3ee8c5;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', monospace;
+    font-size: 13px;
+    line-height: 1.5;
+    padding: 24px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  h1 { color: var(--accent); font-size:1em; margin-bottom:16px; font-weight:400; }
+  h2 { color: var(--key); font-size:0.9em; margin:24px 0 8px; font-weight:400; border-bottom:1px solid var(--sep); padding-bottom:4px; }
+  
+  .dyad { display:flex; gap:8px; padding:2px 0; }
+  .dyad .k { color:var(--key); min-width:120px; }
+  .dyad .v { color:var(--val); }
+  .dyad .v.num { color:var(--num); }
+  .dyad .v.bool { color:var(--bool); }
+  .dyad .v.str { color:var(--str); }
+  .dyad .v.nil { color:#565f89; font-style:italic; }
+  
+  .block { margin:8px 0; padding:8px 12px; border-left:2px solid var(--sep); }
+  .block.model { border-left-color: var(--accent); }
+  .block.pr { border-left-color: var(--key); }
+  .block.learn { border-left-color: var(--num); }
+  
+  .sep { color:var(--sep); margin:8px 0; }
+  
+  code { color:var(--accent); }
+  
+  /* DYAD language spec */
+  .spec { color:#565f89; font-size:0.8em; margin-bottom:16px; }
+  .spec .k { color:var(--key); }
+  .spec .v { color:var(--val); }
+</style>
+</head>
+<body>
+
+<h1>vaked-DYAD</h1>
+<div class="spec">
+  <span class="k">spec</span>:<span class="v">pair-lang</span>
+  <span class="k">format</span>:<span class="v">key:value</span>
+  <span class="k">types</span>:<span class="v">num str bool nil list</span>
+  <span class="k">list</span>:<span class="v">[v v v]</span>
+  <span class="k">comment</span>:<span class="v">// text</span>
+</div>
+
+<h2>// model — production</h2>
+<div class="block model">
+  <div class="dyad"><span class="k">model</span>:<span class="v str">kompress-v8</span></div>
+  <div class="dyad"><span class="k">params</span>:<span class="v num">149M</span></div>
+  <div class="dyad"><span class="k">arch</span>:<span class="v str">ModernBERT-base</span></div>
+  <div class="dyad"><span class="k">teacher</span>:<span class="v str">Qwen2.5-7B</span></div>
+  <div class="dyad"><span class="k">data</span>:<span class="v num">97</span> <span class="v str">C3</span> + <span class="v num">200</span> <span class="v str">generic</span></div>
+  <div class="dyad"><span class="k">ratio</span>:<span class="v num">33%</span></div>
+  <div class="dyad"><span class="k">epochs</span>:<span class="v num">3</span></div>
+  <div class="dyad"><span class="k">lr</span>:<span class="v num">2e-5</span></div>
+  <div class="dyad"><span class="k">weight</span>:<span class="v num">3.0x</span></div>
+  <div class="dyad"><span class="k">loss</span>:<span class="v num">0.490→0.431</span></div>
+  <div class="dyad"><span class="k">cost</span>:<span class="v num">$0.13</span></div>
+</div>
+
+<h2>// eval</h2>
+<div class="block model">
+  <div class="dyad"><span class="k">heretic</span>:<span class="v num">0.955</span></div>
+  <div class="dyad"><span class="k">keep_rate</span>:<span class="v num">0.854</span></div>
+  <div class="dyad"><span class="k">override</span>:<span class="v num">0.000</span></div>
+  <div class="dyad"><span class="k">agent_mk</span>:<span class="v num">1.000</span></div>
+  <div class="dyad"><span class="k">compression</span>:<span class="v num">15%</span></div>
+  <div class="dyad"><span class="k">prompts</span>:<span class="v num">32</span></div>
+  <div class="dyad"><span class="k">benchmark</span>:<span class="v str">heretic-adversarial</span></div>
+</div>
+
+<h2>// versions — all</h2>
+<div class="block model">
+  <div class="dyad"><span class="k">v2</span>:<span class="v num">0.975</span> <span class="v str">ceiling</span></div>
+  <div class="dyad"><span class="k">v4</span>:<span class="v num">0.943</span> <span class="v str">self-label</span></div>
+  <div class="dyad"><span class="k">v6</span>:<span class="v num">0.962</span> <span class="v str">dead-end</span></div>
+  <div class="dyad"><span class="k">v7</span>:<span class="v num">0.956</span> <span class="v str">dead-end</span></div>
+  <div class="dyad"><span class="k">v8</span>:<span class="v num">0.955</span> <span class="v str">production</span></div>
+  <div class="dyad"><span class="k">v9</span>:<span class="v num">0.921</span> <span class="v str">overfit</span></div>
+  <div class="dyad"><span class="k">v10</span>:<span class="v num">0.947</span> <span class="v str">diminishing</span></div>
+  <div class="dyad"><span class="k">v11</span>:<span class="v num">0.906</span> <span class="v str">large-enc</span></div>
+  <div class="dyad"><span class="k">v12</span>:<span class="v num">0.949</span> <span class="v str">qwen3-teacher</span></div>
+  <div class="dyad"><span class="k">v13</span>:<span class="v num">0.951</span> <span class="v str">glm-scenarios</span></div>
+  <div class="dyad"><span class="k">v14</span>:<span class="v num">0.882</span> <span class="v str">council</span></div>
+  <div class="dyad"><span class="k">v15</span>:<span class="v num">0.878</span> <span class="v str">diluted</span></div>
+  <div class="dyad"><span class="k">v16</span>:<span class="v num">0.972</span> <span class="v str">10x-weight</span></div>
+  <div class="dyad"><span class="k">v17</span>:<span class="v num">0.963</span> <span class="v str">5x-weight</span></div>
+  <div class="dyad"><span class="k">total</span>:<span class="v num">17</span></div>
+  <div class="dyad"><span class="k">dead</span>:<span class="v num">11</span></div>
+  <div class="dyad"><span class="k">cost</span>:<span class="v num">$1.76</span></div>
+</div>
+
+<h2>// weight-tradeoff</h2>
+<div class="block model">
+  <div class="dyad"><span class="k">3x</span>:<span class="v num">0.955</span> <span class="v num">15%</span> <span class="v str">optimal</span></div>
+  <div class="dyad"><span class="k">5x</span>:<span class="v num">0.963</span> <span class="v num">3.7%</span> <span class="v str">precise</span></div>
+  <div class="dyad"><span class="k">10x</span>:<span class="v num">0.972</span> <span class="v num">2.8%</span> <span class="v str">useless</span></div>
+  <div class="dyad"><span class="k">frontier</span>:<span class="v str">pareto-mapped</span></div>
+</div>
+
+<h2>// pr — headroom</h2>
+<div class="block pr">
+  <div class="dyad"><span class="k">#1419</span>:<span class="v str">must-keep-override</span> <span class="v str">rebased</span></div>
+  <div class="dyad"><span class="k">#1418</span>:<span class="v str">domain-routing</span> <span class="v str">ready</span></div>
+  <div class="dyad"><span class="k">#1432</span>:<span class="v str">benchmarks-evals</span> <span class="v str">open</span></div>
+  <div class="dyad"><span class="k">#1400</span>:<span class="v str">hard-override</span> <span class="v str">ready</span></div>
+  <div class="dyad"><span class="k">open</span>:<span class="v num">15</span></div>
+</div>
+
+<h2>// ship — what's live</h2>
+<div class="block model">
+  <div class="dyad"><span class="k">models</span>:<span class="v num">18</span> <span class="v str">huggingface.co/PeetPedro</span></div>
+  <div class="dyad"><span class="k">cards</span>:<span class="v num">18/18</span></div>
+  <div class="dyad"><span class="k">blog</span>:<span class="v num">26</span> <span class="v str">pocoo.vaked.dev</span></div>
+  <div class="dyad"><span class="k">paper</span>:<span class="v str">kompress.vaked.dev</span></div>
+  <div class="dyad"><span class="k">kit</span>:<span class="v str">github.com/peterlodri-sec/loopkit</span></div>
+  <div class="dyad"><span class="k">research</span>:<span class="v str">github.com/peterlodri-sec/longrun-eval-kompress</span></div>
+  <div class="dyad"><span class="k">budget</span>:<span class="v num">$4.15</span></div>
+</div>
+
+<h2>// learn</h2>
+<div class="block learn">
+  <div class="dyad"><span class="k">bottleneck</span>:<span class="v str">label-quality</span></div>
+  <div class="dyad"><span class="k">not</span>:<span class="v nil">capacity</span></div>
+  <div class="dyad"><span class="k">not</span>:<span class="v nil">data-quantity</span></div>
+  <div class="dyad"><span class="k">not</span>:<span class="v nil">architecture</span></div>
+  <div class="dyad"><span class="k">sweet-spot</span>:<span class="v str">97-labeled 200-generic 33% 3x-weight</span></div>
+  <div class="dyad"><span class="k">paradox</span>:<span class="v str">voting-ensemble-collapse — proven</span></div>
+  <div class="dyad"><span class="k">fix</span>:<span class="v str">3.0x-asymmetric-loss-modulation</span></div>
+  <div class="dyad"><span class="k">dead-ends</span>:<span class="v str">are-the-research</span></div>
+</div>
+
+<div class="sep">// eof</div>
+
+</body>
+</html>

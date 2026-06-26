@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GlyphCSS × LoopKit — 3D ASCII Art Demo</title>
+<script type="module" src="https://esm.sh/glyphcss/elements"></script>
+<style>
+  :root {
+    --bg: #0d1117;
+    --fg: #c9d1d9;
+    --accent: #3ee8c5;
+    --card: #161b22;
+    --border: #30363d;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* Hero — full-screen ASCII art */
+  .hero {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background: radial-gradient(ellipse at center, #1a2332 0%, var(--bg) 70%);
+  }
+  .hero glyph-camera {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .hero-overlay {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    pointer-events: none;
+  }
+  .hero-overlay h1 {
+    font-size: 3em;
+    color: var(--accent);
+    text-shadow: 0 0 40px rgba(62,232,197,0.3);
+  }
+  .hero-overlay p {
+    color: #8b949e;
+    font-size: 1.2em;
+    margin-top: 10px;
+  }
+  .hero-overlay .cta {
+    pointer-events: all;
+    margin-top: 20px;
+  }
+  .hero-overlay .cta a {
+    display: inline-block;
+    padding: 10px 24px;
+    background: var(--accent);
+    color: var(--bg);
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    margin: 5px;
+  }
+
+  /* Hotspot styling */
+  glyph-hotspot {
+    display: block;
+    width: 24px;
+    height: 24px;
+    background: var(--accent);
+    border-radius: 50%;
+    cursor: pointer;
+    animation: pulse 2s infinite;
+    opacity: 0.8;
+    transition: transform 0.2s, opacity 0.2s;
+  }
+  glyph-hotspot:hover {
+    transform: scale(1.4);
+    opacity: 1;
+    background: #fff;
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(62,232,197,0.4); }
+    50% { box-shadow: 0 0 0 12px rgba(62,232,197,0); }
+  }
+
+  /* Sections */
+  .section {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 60px 20px;
+  }
+  .section h2 {
+    color: var(--accent);
+    font-size: 1.8em;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 10px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px;
+    transition: border-color 0.2s;
+  }
+  .card:hover { border-color: var(--accent); }
+  .card h3 { color: var(--accent); margin-bottom: 10px; }
+  .card p { color: #8b949e; font-size: 0.95em; }
+  .card a { color: var(--accent); text-decoration: none; }
+
+  /* ASCII art showcase */
+  .showcase {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .showcase-item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    text-align: center;
+  }
+  .showcase-item glyph-camera {
+    display: block;
+    height: 300px;
+  }
+  .showcase-item .label {
+    padding: 12px;
+    color: var(--accent);
+    font-size: 0.9em;
+  }
+
+  footer {
+    text-align: center;
+    padding: 40px 20px;
+    color: #8b949e;
+    font-size: 0.9em;
+    border-top: 1px solid var(--border);
+  }
+  footer a { color: var(--accent); }
+
+  /* Tooltip for hotspots */
+  .tooltip {
+    position: fixed;
+    background: var(--card);
+    border: 1px solid var(--accent);
+    border-radius: 6px;
+    padding: 8px 14px;
+    color: var(--fg);
+    font-size: 0.9em;
+    pointer-events: none;
+    z-index: 100;
+    opacity: 0;
+    transition: opacity 0.2s;
+    white-space: nowrap;
+  }
+  .tooltip.visible { opacity: 1; }
+
+  /* Gap-free block rendering (from glyphcss research) */
+  glyph-camera pre.block-mode {
+    text-shadow: 0.5px 0 0 currentColor;
+    letter-spacing: 1px;
+  }
+
+</style>
+</head>
+<body>
+
+<!-- Hero — 3D ASCII Art background -->
+<div class="hero">
+  <glyph-camera rot-x="20" zoom="1.5">
+    <glyph-scene>
+      <glyph-orbit-controls drag wheel></glyph-orbit-controls>
+      <!-- Dodecahedron as centerpiece -->
+      <glyph-mesh geometry="dodecahedron" material-color="#3ee8c5" opacity="0.7">
+        <!-- Hotspots linking to projects -->
+        <glyph-hotspot at="0,1.3,0" title="kompress-v8 — production model" onclick="location.href='https://huggingface.co/PeetPedro/kompress-v8'"></glyph-hotspot>
+        <glyph-hotspot at="1.3,0,0" title="LoopKit — starter kit" onclick="location.href='https://github.com/peterlodri-sec/loopkit'"></glyph-hotspot>
+        <glyph-hotspot at="-1.3,0,0" title="Paper — ICLR 2027" onclick="location.href='https://kompress.vaked.dev'"></glyph-hotspot>
+        <glyph-hotspot at="0,-1.3,0" title="Blog — the loop shipped" onclick="location.href='https://pocoo.vaked.dev/posts/2026-06-25-the-loop-shipped'"></glyph-hotspot>
+        <glyph-hotspot at="0,0,1.3" title="All 18 models" onclick="location.href='https://huggingface.co/PeetPedro'"></glyph-hotspot>
+        <glyph-hotspot at="0,0,-1.3" title="Research repo" onclick="location.href='https://github.com/peterlodri-sec/longrun-eval-kompress'"></glyph-hotspot>
+      </glyph-mesh>
+    </glyph-scene>
+  </glyph-camera>
+
+  <div class="hero-overlay">
+    <h1>GlyphCSS × LoopKit</h1>
+    <p>3D ASCII art meets loop engineering. Drag to orbit. Click the glowing dots.</p>
+    <div class="cta">
+      <a href="https://github.com/peterlodri-sec/longrun-eval-kompress">📄 Paper</a>
+      <a href="https://huggingface.co/PeetPedro/kompress-v8">🤗 Model</a>
+      <a href="https://glyphcss.com">🎨 GlyphCSS</a>
+    </div>
+  
+  <div class="palette-toggle" style="position:absolute; bottom:20px; z-index:2; display:flex; gap:10px;">
+    <button onclick="setPalette('ascii')" style="padding:6px 14px; background:var(--card); color:var(--fg); border:1px solid var(--border); border-radius:4px; cursor:pointer; font-family:monospace;">ascii</button>
+    <button onclick="setPalette('braille')" style="padding:6px 14px; background:var(--card); color:var(--accent); border:1px solid var(--accent); border-radius:4px; cursor:pointer; font-family:monospace;">braille ★</button>
+    <button onclick="setPalette('blocks')" style="padding:6px 14px; background:var(--card); color:var(--fg); border:1px solid var(--border); border-radius:4px; cursor:pointer; font-family:monospace;">blocks</button>
+  </div>
+  <script>
+    function setPalette(p) {
+      document.querySelectorAll('glyph-mesh').forEach(m => m.setAttribute('glyph-palette', p));
+      // Gap fix for blocks mode
+      const pres = document.querySelectorAll('glyph-camera pre');
+      pres.forEach(pre => {
+        pre.style.textShadow = p === 'blocks' ? '0.5px 0 0 currentColor' : 'none';
+        pre.style.letterSpacing = p === 'blocks' ? '1px' : 'normal';
+      });
+    }
+    // Default to braille — highest resolution, gap-free
+    setTimeout(() => setPalette('braille'), 1000);
+  </script>
+
+</div>
+</div>
+
+<!-- What is GlyphCSS -->
+<div class="section">
+  <h2>What is GlyphCSS?</h2>
+  <p style="color:#8b949e; font-size:1.1em; line-height:1.8;">
+    GlyphCSS renders <strong style="color:var(--fg)">3D models as ASCII art</strong> in a single <code>&lt;pre&gt;</code> element.
+    No WebGL. No canvas. Every character is inspectable, hoverable, clickable.
+    It's the most beautiful abuse of the DOM we've seen since marquee tags.
+  </p>
+  <div class="grid" style="margin-top:30px">
+    <div class="card">
+      <h3>🎮 OBJ, glTF, GLB, STL, VOX</h3>
+      <p>Load any 3D format. GlyphCSS rasterizes polygons into a character grid. One string to textContent per render.</p>
+    </div>
+    <div class="card">
+      <h3>🖱 Interactive Hotspots</h3>
+      <p>Place &lt;glyph-hotspot&gt; at any 3D coordinate. Real DOM events, :hover styles, role="button" accessibility.</p>
+    </div>
+    <div class="card">
+      <h3>⚛ React · Vue · Vanilla</h3>
+      <p>Custom elements for vanilla JS. Wrappers for React and Vue. Even works in the terminal.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ASCII Art Showcase -->
+<div class="showcase">
+  <div class="showcase-item">
+    <glyph-camera rot-x="15" zoom="1.2">
+      <glyph-scene>
+        <glyph-orbit-controls drag></glyph-orbit-controls>
+        <glyph-mesh geometry="torus" material-color="#3ee8c5" opacity="0.6"></glyph-mesh>
+      </glyph-scene>
+    </glyph-camera>
+    <div class="label">Torus — the loop</div>
+  </div>
+  <div class="showcase-item">
+    <glyph-camera rot-x="10" zoom="1.0">
+      <glyph-scene>
+        <glyph-orbit-controls drag></glyph-orbit-controls>
+        <glyph-mesh geometry="cube" material-color="#f78166" opacity="0.6"></glyph-mesh>
+      </glyph-scene>
+    </glyph-camera>
+    <div class="label">Cube — kompress model</div>
+  </div>
+  <div class="showcase-item">
+    <glyph-camera rot-x="20" zoom="1.1">
+      <glyph-scene>
+        <glyph-orbit-controls drag></glyph-orbit-controls>
+        <glyph-mesh geometry="sphere" material-color="#d2a8ff" opacity="0.6"></glyph-mesh>
+      </glyph-scene>
+    </glyph-camera>
+    <div class="label">Sphere — the ensemble</div>
+  </div>
+</div>
+
+<!-- LoopKit Integration -->
+<div class="section">
+  <h2>LoopKit × GlyphCSS</h2>
+  <p style="color:#8b949e; font-size:1.1em; line-height:1.8;">
+    This page is a demo of what GlyphCSS can do. The same pattern powers the
+    <a href="https://kompress.vaked.dev">interactive paper</a> — a WebGL neural
+    field background with live paradox simulation. ASCII art for the demo,
+    WebGL for the paper. Same principle: make the science visible.
+  </p>
+  <div class="grid" style="margin-top:30px">
+    <div class="card">
+      <h3>📄 Paper</h3>
+      <p>Asymmetric Loss Modulation Resolves the Voting Ensemble Paradox.</p>
+      <a href="https://github.com/peterlodri-sec/longrun-eval-kompress">→ Read</a>
+    </div>
+    <div class="card">
+      <h3>🤗 Models</h3>
+      <p>18 kompress models on HuggingFace with full cards and benchmarks.</p>
+      <a href="https://huggingface.co/PeetPedro">→ Browse</a>
+    </div>
+    <div class="card">
+      <h3>🔁 LoopKit</h3>
+      <p>Build your own self-improving systems. The pattern that produced 17 models.</p>
+      <a href="https://github.com/peterlodri-sec/loopkit">→ Fork</a>
+    </div>
+    <div class="card">
+      <h3>📝 Blog</h3>
+      <p>The full kompress experiment log — 17 versions, all dead ends, all lessons.</p>
+      <a href="https://pocoo.vaked.dev/posts/2026-06-25-kompress-heretic-eval">→ Read</a>
+    </div>
+  </div>
+</div>
+
+
+<div class="section">
+  <h2>GlyphCSS Research Findings</h2>
+  <div class="grid" style="margin-top:20px">
+    <div class="card">
+      <h3>🎯 Braille Palette</h3>
+      <p><code>glyphPalette="braille"</code> — 8 dots per cell, gap-free, highest resolution. Built-in, zero config. The fastest path to production-quality renders.</p>
+    </div>
+    <div class="card">
+      <h3>🔧 Block Gap Fix</h3>
+      <p><code>text-shadow: 0.5px 0 0 currentColor</code> on the <code>&lt;pre&gt;</code> eliminates gaps between block characters. 1-line CSS fix.</p>
+    </div>
+    <div class="card">
+      <h3>⚡ 40% Faster</h3>
+      <p>Cross-frame shading cache (PR #10) caches shade values between frames. Significant perf boost for animations.</p>
+    </div>
+    <div class="card">
+      <h3>🔤 Font Extrusion</h3>
+      <p>PR #13 adds Google Fonts → 3D ASCII extrusion. Any web font becomes a 3D glyph mesh.</p>
+    </div>
+  </div>
+</div>
+
+
+<footer>
+  <p>Built with <a href="https://glyphcss.com">GlyphCSS</a> — turn 3D models into ASCII art.</p>
+  <p style="margin-top:8px">
+    <a href="https://github.com/peterlodri-sec/longrun-eval-kompress">Paper</a> ·
+    <a href="https://huggingface.co/PeetPedro">Models</a> ·
+    <a href="https://github.com/peterlodri-sec/loopkit">LoopKit</a> ·
+    <a href="https://pocoo.vaked.dev">Blog</a>
+  </p>
+</footer>
+
+</body>
+</html>
