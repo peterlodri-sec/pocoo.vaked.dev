@@ -232,9 +232,81 @@ def loop():
     write("loop.svg", "".join(s))
 
 
+# ── part 3 hero: the giant component ───────────────────────────────────────────
+def hero3():
+    w, h = 1200, 630
+    rng = random.Random(41)
+    s = [header(w, h)]
+    for _ in range(220):
+        x, y = rng.uniform(0, w), rng.uniform(0, h)
+        s.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{rng.uniform(0.4,1.1):.1f}" fill="{FAINT}" opacity="{rng.uniform(0.05,0.2):.2f}"/>')
+    # one big connected component sprawling across the frame
+    nodes = [(rng.uniform(520, w - 60), rng.uniform(70, h - 70)) for _ in range(46)]
+    for i in range(1, len(nodes)):
+        j = rng.randint(max(0, i - 4), i - 1)          # each new node links back -> connected
+        x1, y1 = nodes[i]; x2, y2 = nodes[j]
+        col = GREEN if rng.random() < 0.6 else PURPLE
+        s.append(f'<line x1="{x1:.1f}" y1="{y1:.1f}" x2="{x2:.1f}" y2="{y2:.1f}" stroke="{col}" stroke-width="1.6" opacity="0.5"/>')
+    for x, y in nodes:
+        s.append(glow_dot(x, y, rng.uniform(2.2, 3.6), CYAN, layers=3))
+    s.append(vignette(w, h))
+    s.append(f'<text x="60" y="120" fill="{TEXT}" font-size="62" font-weight="700" letter-spacing="2">LOW-BIT</text>')
+    s.append(f'<text x="62" y="162" fill="{CYAN}" font-size="24" opacity="0.9">a ternary sci-fi &#183; part 3</text>')
+    s.append(f'<text x="62" y="196" fill="{FAINT}" font-size="17">the night the components merged</text>')
+    s.append("</svg>")
+    write("hero3.svg", "".join(s))
+
+
+# ── the phase transition: scattered clusters -> one giant component ────────────
+def phase():
+    w, h = 1000, 470
+    s = [header(w, h)]
+    s.append(f'<text x="40" y="46" fill="{TEXT}" font-size="22" font-weight="700">a giant component appears near p &#8776; 1/n</text>')
+
+    def panel(ox, title, p, seed):
+        rng = random.Random(seed)
+        n = 34
+        pts = [(ox + rng.uniform(40, 380), rng.uniform(90, h - 60)) for _ in range(n)]
+        parent = list(range(n))
+
+        def find(a):
+            while parent[a] != a:
+                parent[a] = parent[parent[a]]
+                a = parent[a]
+            return a
+        pieces = []
+        for i in range(n):
+            for j in range(i + 1, n):
+                if rng.random() < p:
+                    pieces.append((i, j))
+                    parent[find(i)] = find(j)
+        size = {}
+        for i in range(n):
+            size[find(i)] = size.get(find(i), 0) + 1
+        giant = max(size, key=size.get)
+        for i, j in pieces:
+            big = find(i) == giant
+            col = GREEN if big else DIM
+            op = 0.7 if big else 0.4
+            s.append(f'<line x1="{pts[i][0]:.1f}" y1="{pts[i][1]:.1f}" x2="{pts[j][0]:.1f}" y2="{pts[j][1]:.1f}" stroke="{col}" stroke-width="1.4" opacity="{op}"/>')
+        for i, (x, y) in enumerate(pts):
+            col = CYAN if find(i) == giant else FAINT
+            s.append(glow_dot(x, y, 3.0 if find(i) == giant else 2.0, col, layers=2))
+        frac = size[giant] / n
+        s.append(f'<text x="{ox+40}" y="80" fill="{FAINT}" font-size="15">{title} &#183; largest {frac*100:.0f}% of nodes</text>')
+
+    panel(30, "sub-critical: dust", 0.02, 3)
+    panel(530, "super-critical: one mind", 0.09, 3)
+    s.append(vignette(w, h))
+    s.append("</svg>")
+    write("phase.svg", "".join(s))
+
+
 if __name__ == "__main__":
     hero()
     byte_trit()
     mesh()
     hero2()
     loop()
+    hero3()
+    phase()
