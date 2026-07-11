@@ -106,6 +106,8 @@ Am I cheating? A little. These are undirected, unweighted, simple-graph theorems
 
 ## the Book
 
+![The Book of Proofs, with an Erdős bookmark](/assets/ultragraph/book-of-proofs.png)
+
 Erdős believed God kept a book. Not the moral ledger — a book of proofs, one perfect argument for every theorem, and the mathematician's whole job was to catch a glimpse. He was an atheist who found the whole God business dull, but The Book he took seriously. When a proof was clean enough to hurt, he'd say it was *straight from The Book*. It was the highest thing he could say about anything.
 
 I have been circling two ideas this whole series without naming what they share. The probabilistic method proves a thing exists by showing a random object has it *on average* — you never build the object, you just trust the average. Straight-through estimation trains a 1-bit net by lying about the gradient — you round to $\{-1,0,+1\}$ on the way forward and pretend you didn't on the way back, and trust that the mistake washes out. Same faith, two costumes. Random graphs and ternary nets both live on the belief that "on average" is load-bearing, that you can skip the honest step and the sum still lands.
