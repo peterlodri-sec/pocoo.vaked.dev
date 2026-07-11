@@ -170,7 +170,71 @@ def mesh():
     write("mesh.svg", "".join(s))
 
 
+# ── part 2 hero: the loop that learns between answers ──────────────────────────
+def hero2():
+    w, h = 1200, 630
+    rng = random.Random(23)
+    s = [header(w, h)]
+    for _ in range(240):
+        x, y = rng.uniform(0, w), rng.uniform(0, h)
+        s.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{rng.uniform(0.4,1.1):.1f}" fill="{FAINT}" opacity="{rng.uniform(0.05,0.22):.2f}"/>')
+    # a faint orbital ring on the right — the loop motif
+    cx, cy = 900, 315
+    for i in range(3):
+        r = 150 + i * 22
+        op = 0.16 - i * 0.04
+        s.append(f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="none" stroke="{CYAN}" stroke-width="1.4" opacity="{op:.2f}"/>')
+    # nodes riding the ring, colored by trit
+    for a in range(0, 360, 30):
+        rad = math.radians(a)
+        x, y = cx + 150 * math.cos(rad), cy + 150 * math.sin(rad)
+        col = (GREEN, PURPLE, DIM)[a // 30 % 3]
+        s.append(glow_dot(x, y, 3.0, col, layers=3))
+    s.append(vignette(w, h))
+    s.append(f'<text x="60" y="120" fill="{TEXT}" font-size="62" font-weight="700" letter-spacing="2">LOW-BIT</text>')
+    s.append(f'<text x="62" y="162" fill="{CYAN}" font-size="24" opacity="0.9">a ternary sci-fi &#183; part 2</text>')
+    s.append(f'<text x="62" y="196" fill="{FAINT}" font-size="17">the loop that learns between answers</text>')
+    s.append("</svg>")
+    write("hero2.svg", "".join(s))
+
+
+# ── the loop: dream / wake / speak / correct ───────────────────────────────────
+def loop():
+    w, h = 1000, 460
+    cx, cy, r = 500, 250, 150
+    s = [header(w, h)]
+    s.append(f'<text x="50" y="52" fill="{TEXT}" font-size="24" font-weight="700">the loop &#8212; it is only smart in its sleep</text>')
+    stages = [
+        ("WAKE", "ternary, certain, poor", CYAN, -90),
+        ("SPEAK", "one trit at a time", GREEN, 0),
+        ("WRONG", "correction arrives", PURPLE, 90),
+        ("DREAM", "fp32 ghost, straight-through", "#8fd0ff", 180),
+    ]
+    pts = []
+    for _, _, _, ang in stages:
+        rad = math.radians(ang)
+        pts.append((cx + r * math.cos(rad), cy + r * math.sin(rad)))
+    # arrows around the ring (clockwise)
+    for i in range(4):
+        x1, y1 = pts[i]
+        x2, y2 = pts[(i + 1) % 4]
+        mx, my = (x1 + x2) / 2, (y1 + y2) / 2
+        s.append(f'<path d="M {x1:.0f} {y1:.0f} Q {cx + (mx-cx)*1.35:.0f} {cy + (my-cy)*1.35:.0f} {x2:.0f} {y2:.0f}" '
+                 f'fill="none" stroke="{CYAN}" stroke-width="2" opacity="0.5"/>')
+    for (label, sub, col, ang), (x, y) in zip(stages, pts):
+        s.append(glow_dot(x, y, 6, col, layers=3))
+        s.append(f'<rect x="{x-84}" y="{y-30}" width="168" height="60" rx="12" fill="#0d1526" stroke="{col}" stroke-width="1.6" opacity="0.96"/>')
+        s.append(f'<text x="{x}" y="{y-4}" fill="{TEXT}" font-size="19" text-anchor="middle" font-weight="700">{label}</text>')
+        s.append(f'<text x="{x}" y="{y+18}" fill="{FAINT}" font-size="12" text-anchor="middle">{sub}</text>')
+    s.append(f'<text x="{cx}" y="{cy+5}" fill="{PURPLE}" font-size="16" text-anchor="middle" opacity="0.8">re-quantize</text>')
+    s.append(f'<text x="{cx}" y="{cy+26}" fill="{FAINT}" font-size="12" text-anchor="middle">throw the ghost away</text>')
+    s.append("</svg>")
+    write("loop.svg", "".join(s))
+
+
 if __name__ == "__main__":
     hero()
     byte_trit()
     mesh()
+    hero2()
+    loop()
