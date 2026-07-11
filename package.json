@@ -8,6 +8,7 @@
     "build": "node build.mjs"
   },
   "dependencies": {
-    "markdown-it": "^14.1.0"
+    "markdown-it": "^14.1.0",
+    "markdown-it-mathjax3": "^4.3.2"
   }
 }

@@ -8,6 +8,7 @@ import { createHash } from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import MarkdownIt from "markdown-it";
+import mathjax3 from "markdown-it-mathjax3";
 
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
 const POSTS_DIR = path.join(ROOT, "posts");
@@ -17,7 +18,7 @@ const md = new MarkdownIt({
   html: false,
   linkify: false,
   typographer: false,
-}).enable(["table", "fence", "code"]);
+}).use(mathjax3).enable(["table", "fence", "code"]);
 
 function esc(s) {
   return String(s)
