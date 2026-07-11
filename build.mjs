@@ -20,6 +20,19 @@ const md = new MarkdownIt({
   typographer: false,
 }).use(mathjax3).enable(["table", "fence", "code"]);
 
+// External links open in a new tab (rel=noopener); internal links stay in-tab.
+const _defaultLinkOpen =
+  md.renderer.rules.link_open ||
+  ((tokens, idx, options, env, self) => self.renderToken(tokens, idx, options));
+md.renderer.rules.link_open = (tokens, idx, options, env, self) => {
+  const href = tokens[idx].attrGet("href") || "";
+  if (/^https?:\/\//i.test(href)) {
+    tokens[idx].attrSet("target", "_blank");
+    tokens[idx].attrSet("rel", "noopener noreferrer");
+  }
+  return _defaultLinkOpen(tokens, idx, options, env, self);
+};
+
 function esc(s) {
   return String(s)
     .replace(/&/g, "&amp;")
@@ -256,15 +269,17 @@ function telemetryScript(isPost, slug, title) {
 
 // ── Footer ───────────────────────────────────────────────────────────────────
 function footerHtml() {
+  const ext = (url, label) => `<a href="${url}" target="_blank" rel="noopener noreferrer">${label}</a>`;
   return `<footer class="site-footer">
-  <a href="https://github.com/peterlodri-sec">github</a> ·
-  <a href="https://x.com/0xp3t3rl">x</a> ·
-  <a href="https://chat.vaked.dev">chat</a> ·
-  <a href="https://music.vaked.dev">music</a> ·
-  <a href="https://beat.vaked.dev">beat</a> ·
-  <a href="https://irc.vaked.dev">irc</a> ·
-  <a href="https://protocol.vaked.dev">protocol</a> ·
-  <a href="https://huggingface.co/datasets/PeetPedro/ultrawhale-dogfood">dataset</a> ·
+  <a href="/">home</a> ·
+  ${ext("https://github.com/peterlodri-sec", "github")} ·
+  ${ext("https://x.com/0xp3t3rl", "x")} ·
+  ${ext("https://chat.vaked.dev", "chat")} ·
+  ${ext("https://music.vaked.dev", "music")} ·
+  ${ext("https://beat.vaked.dev", "beat")} ·
+  ${ext("https://irc.vaked.dev", "irc")} ·
+  ${ext("https://protocol.vaked.dev", "protocol")} ·
+  ${ext("https://huggingface.co/datasets/PeetPedro/ultrawhale-dogfood", "dataset")} ·
   <a href="/feed.xml">feed</a>
 </footer>`;
 }

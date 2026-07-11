@@ -283,3 +283,13 @@ a:hover { text-decoration: underline; }
 
 .site-footer a { color: var(--dim); }
 .site-footer a:hover { color: var(--accent); text-decoration: none; }
+
+/* post images scale to the column */
+.prose img, .post img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1.75rem auto;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.06);
+}
