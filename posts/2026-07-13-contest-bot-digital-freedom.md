@@ -90,4 +90,3 @@ That's the difference between talking about the loop and living in it.
 - [python-telegram-bot](https://python-telegram-bot.org/) — the library that made the bot possible.
 - DaVinci Resolve + OBS + CapCut — the free production stack used for the video.
 
-⟳a3f7c8e9b2d14f605a7c93e8d4b67102
