@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" font-family="Menlo,Consolas,monospace">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0d1117"/>
+      <stop offset="100%" stop-color="#161b22"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#58a6ff"/>
+      <stop offset="100%" stop-color="#3fb950"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)" rx="16"/>
+
+  <!-- Terminal title bar -->
+  <rect x="0" y="0" width="1200" height="48" fill="#21262d" rx="16"/>
+  <rect x="0" y="30" width="1200" height="18" fill="#21262d"/>
+  <circle cx="30" cy="24" r="8" fill="#ff7b72"/>
+  <circle cx="56" cy="24" r="8" fill="#d2a8ff"/>
+  <circle cx="82" cy="24" r="8" fill="#3fb950"/>
+  <text x="600" y="30" text-anchor="middle" fill="#8b949e" font-size="14">contest-bot — Digital Freedom Contest</text>
+
+  <!-- Terminal content -->
+  <text x="36" y="100" fill="#58a6ff" font-size="18">$</text>
+  <text x="60" y="100" fill="#e6edf3" font-size="18">uv run contest-bot</text>
+
+  <text x="36" y="140" fill="#8b949e" font-size="17">[INFO] Database initialized</text>
+  <text x="36" y="170" fill="#8b949e" font-size="17">[INFO] ContestBot starting...</text>
+  <text x="36" y="200" fill="#3fb950" font-size="17">✓ Bot is live — waiting for submissions...</text>
+
+  <line x1="36" y1="225" x2="1164" y2="225" stroke="#30363d" stroke-width="1"/>
+
+  <!-- Big submission card -->
+  <rect x="200" y="255" width="800" height="200" rx="16" fill="#21262d" stroke="#30363d" stroke-width="1"/>
+  <text x="400" y="300" fill="#d2a8ff" font-size="20" font-weight="bold" text-anchor="middle">📩 Latest Submission</text>
+  <text x="400" y="340" fill="#e6edf3" font-size="18" text-anchor="middle">@alice · YouTube</text>
+  <text x="400" y="370" fill="#8b949e" font-size="16" text-anchor="middle">"Digital Freedom Basics"</text>
+  <text x="400" y="405" fill="#3fb950" font-size="16" text-anchor="middle">12,450 views · Status: pending</text>
+
+  <!-- Bottom accent -->
+  <rect x="0" y="610" width="1200" height="20" fill="url(#accent)" opacity="0.4" rx="10"/>
+  <text x="600" y="590" text-anchor="middle" fill="#3fb950" font-size="15">open source · MIT · fork it → github.com/peterlodri-sec/telegram-contest</text>
+</svg>
