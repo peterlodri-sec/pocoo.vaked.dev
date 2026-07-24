@@ -41,7 +41,7 @@ That rule has teeth, not vibes. Some places it shows up:
   (`./scripts/check.sh`, or your configured verify command) passes, and the
   result is sealed with a deterministic SHA-256 over the diff *and* the verify
   log. Self-reported success without an execution log is not evidence. This is
-  the [Maxwell's-demon problem](https://pocoo.vaked.dev) of agent work — you
+  the [Maxwell's-demon problem](https://pocoo.vaked.dev/posts/maxwell-demon-honest-work.html) of agent work — you
   cannot let information in without paying for it — solved by refusing to trust
   the demon.
 
