@@ -3,11 +3,11 @@ title: "A small, slow, owned model"
 date: 2026-07-24
 tags: [inference, ai, vaked, entheai, self-hosting, honesty]
 description: "We put up a public coding model. No GPU, ~7 tokens a second, one machine. The point isn't the speed — it's that you can point at it, read what it runs, and it tells you the truth about what it does with your words."
-draft: true
+draft: false
 ---
 
 There is a coding model answering requests right now at
-[coder.vaked.dev](https://coder.vaked.dev). It runs a quantized 14-billion-
+[the node](https://178-156-242-147.sslip.io). It runs a quantized 14-billion-
 parameter model on plain CPU — no GPU — at about seven tokens per second. That
 is slow. A rented frontier API would smoke it on every axis that a benchmark
 measures.
