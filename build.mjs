@@ -229,6 +229,114 @@ main,footer{position:relative;z-index:1;}
 </script>`;
 }
 
+// ── Quantum background (WebGPU, with a 2D fallback) ──────────────────────────
+// A full-screen fragment shader sums a few plane waves — a genuine superposition —
+// so the fringes you see are real interference: phase → hue, |ψ|² → brightness.
+// Seeded per-post by content hash (each post keeps its own rhythm). Browsers without
+// navigator.gpu fall back to a low-res 2D field of the same math. reduced-motion → static.
+function quantumBgScript(hash, isPost) {
+  const seed = hash ? ((parseInt(hash.slice(0, 4), 16) / 65535) * 6.2831853).toFixed(4) : "1.7000";
+  const opacity = isPost ? "0.82" : "1.0";
+  const wgsl = `struct U { res: vec2<f32>, time: f32, seed: f32 };
+@group(0) @binding(0) var<uniform> u: U;
+@vertex
+fn vs(@builtin(vertex_index) vi: u32) -> @builtin(position) vec4<f32> {
+  var p = array<vec2<f32>, 3>(vec2<f32>(-1.0,-1.0), vec2<f32>(3.0,-1.0), vec2<f32>(-1.0,3.0));
+  return vec4<f32>(p[vi], 0.0, 1.0);
+}
+fn h2rgb(h: f32) -> vec3<f32> {
+  let r = clamp(abs(h*6.0-3.0)-1.0, 0.0, 1.0);
+  let g = clamp(2.0-abs(h*6.0-2.0), 0.0, 1.0);
+  let b = clamp(2.0-abs(h*6.0-4.0), 0.0, 1.0);
+  return vec3<f32>(r,g,b);
+}
+@fragment
+fn fs(@builtin(position) fc: vec4<f32>) -> @location(0) vec4<f32> {
+  var uv = fc.xy / u.res - vec2<f32>(0.5, 0.5);
+  uv.x = uv.x * (u.res.x / u.res.y);
+  uv = uv * 4.0;
+  var re = 0.0; var im = 0.0;
+  for (var i = 0; i < 5; i = i + 1) {
+    let fi = f32(i);
+    let ang = u.seed + fi * 1.2566;
+    let k = vec2<f32>(cos(ang), sin(ang)) * (1.4 + fi * 0.55);
+    let w = 0.45 + fi * 0.16 + u.seed * 0.1;
+    let ph = dot(k, uv) - w * u.time;
+    re = re + cos(ph); im = im + sin(ph);
+  }
+  re = re / 5.0; im = im / 5.0;
+  let mag = sqrt(re*re + im*im);
+  let phase = atan2(im, re);
+  let h = 0.52 + (phase / 6.2831853 + 0.5) * 0.26;
+  let col = h2rgb(fract(h));
+  let bright = mag * mag * 0.30 + 0.012;
+  return vec4<f32>(col * bright, 1.0);
+}`;
+  return `<style>
+#bg-canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:${opacity};}
+main,footer{position:relative;z-index:1;}
+</style>
+<canvas id="bg-canvas"></canvas>
+<script id="qbg-wgsl" type="text/wgsl">
+${wgsl}
+<\/script>
+<script>
+(async function(){
+  var c=document.getElementById('bg-canvas'); if(!c) return;
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var SEED = ${seed};
+  var dpr = Math.min(2, window.devicePixelRatio||1);
+  function hue(h){ var r=Math.min(1,Math.max(0,Math.abs(h*6-3)-1)), g=Math.min(1,Math.max(0,2-Math.abs(h*6-2))), b=Math.min(1,Math.max(0,2-Math.abs(h*6-4))); return [r,g,b]; }
+  function fallback(){
+    var ctx=c.getContext('2d'); if(!ctx) return;
+    var LW=112, LH=64;
+    var off=document.createElement('canvas'); off.width=LW; off.height=LH; var octx=off.getContext('2d'); var img=octx.createImageData(LW,LH);
+    function rs(){ c.width=innerWidth; c.height=innerHeight; } rs(); window.addEventListener('resize',rs);
+    var t=0;
+    function fr(){ t+=0.016; var d=img.data, p=0;
+      for(var y=0;y<LH;y++){ for(var x=0;x<LW;x++){
+        var ux=(x/LW-0.5)*(LW/LH)*4, uy=(y/LH-0.5)*4, re=0, im=0;
+        for(var i=0;i<5;i++){ var a=SEED+i*1.2566, kx=Math.cos(a)*(1.4+i*0.55), ky=Math.sin(a)*(1.4+i*0.55), w=0.45+i*0.16+SEED*0.1, ph=kx*ux+ky*uy-w*t; re+=Math.cos(ph); im+=Math.sin(ph); }
+        re/=5; im/=5; var mag=Math.sqrt(re*re+im*im), phase=Math.atan2(im,re);
+        var h=(0.52+(phase/6.2831853+0.5)*0.26)%1; var rgb=hue(h); var br=mag*mag*0.30+0.012;
+        d[p++]=rgb[0]*br*255; d[p++]=rgb[1]*br*255; d[p++]=rgb[2]*br*255; d[p++]=255;
+      }}
+      octx.putImageData(img,0,0); ctx.clearRect(0,0,c.width,c.height); ctx.imageSmoothingEnabled=true; ctx.drawImage(off,0,0,c.width,c.height);
+      if(!reduce) requestAnimationFrame(fr);
+    }
+    fr();
+  }
+  if(!navigator.gpu){ fallback(); return; }
+  try {
+    var adapter = await navigator.gpu.requestAdapter(); if(!adapter){ fallback(); return; }
+    var device = await adapter.requestDevice();
+    var ctx = c.getContext('webgpu'); if(!ctx){ fallback(); return; }
+    var fmt = navigator.gpu.getPreferredCanvasFormat();
+    ctx.configure({ device: device, format: fmt, alphaMode: 'opaque' });
+    var mod = device.createShaderModule({ code: document.getElementById('qbg-wgsl').textContent });
+    var pipe = device.createRenderPipeline({ layout:'auto',
+      vertex:{ module:mod, entryPoint:'vs' },
+      fragment:{ module:mod, entryPoint:'fs', targets:[{ format: fmt }] },
+      primitive:{ topology:'triangle-list' } });
+    var ubuf = device.createBuffer({ size:16, usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST });
+    var bind = device.createBindGroup({ layout: pipe.getBindGroupLayout(0), entries:[{ binding:0, resource:{ buffer: ubuf } }] });
+    function rs(){ c.width=Math.max(1,Math.floor(innerWidth*dpr)); c.height=Math.max(1,Math.floor(innerHeight*dpr)); } rs(); window.addEventListener('resize',rs);
+    var t0=performance.now();
+    function fr(){
+      var t=(performance.now()-t0)/1000;
+      device.queue.writeBuffer(ubuf,0,new Float32Array([c.width,c.height,t,SEED]));
+      var enc=device.createCommandEncoder();
+      var pass=enc.beginRenderPass({ colorAttachments:[{ view: ctx.getCurrentTexture().createView(), clearValue:{r:0,g:0,b:0,a:1}, loadOp:'clear', storeOp:'store' }] });
+      pass.setPipeline(pipe); pass.setBindGroup(0,bind); pass.draw(3); pass.end();
+      device.queue.submit([enc.finish()]);
+      if(!reduce) requestAnimationFrame(fr);
+    }
+    fr();
+  } catch(e){ fallback(); }
+})();
+<\/script>`;
+}
+
 function sealFragment(hash, isPost) {
   if (!isPost) return "";
   const short = hash.slice(0, 32);
@@ -346,7 +454,7 @@ function renderPost(post) {
     author: post.meta.author || "Lodri Péter",
   })}
 <meta name="content-hash" content="${hash}">
-${ambientScript(hash, true)}
+${quantumBgScript(hash, true)}
 <body>
   ${footerHtml()}
   <main class="post">
@@ -383,7 +491,7 @@ function renderIndex(posts) {
     canonicalUrl: SITE_URL,
     ogImage: DEFAULT_OG_IMAGE,
   })}
-${indexWaveScript()}
+${quantumBgScript(null, false)}
 <body>
   ${footerHtml()}
   <main class="index">
