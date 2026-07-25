@@ -280,7 +280,8 @@ function footerHtml() {
   ${ext("https://irc.vaked.dev", "irc")} ·
   ${ext("https://protocol.vaked.dev", "protocol")} ·
   ${ext("https://huggingface.co/datasets/PeetPedro/ultrawhale-dogfood", "dataset")} ·
-  <a href="/feed.xml">feed</a>
+  <a href="/feed.xml">feed</a> ·
+  ${ext("https://blogtrottr.com/?subscribe=" + encodeURIComponent(SITE_URL + "/feed.xml"), "newsletter")}
 </footer>`;
 }
 
