@@ -3,6 +3,7 @@ title: "Quantum means counting"
 date: 2026-07-26
 tags: [quantum, counting, discreteness, continuum, etymology, simd, structural-honesty, kronecker]
 description: "It started with four words at 4am — 'what is quantum, the word' — and the answer quietly unsettles the usual usage. Quantum is Latin for a count; the integers are quantum, the continuum is the exception we built on top. A walk from Kronecker to clay tokens to a physics-engine benchmark where the discrete decomposition beats the continuous one by better than 2×, measured — because counting is the one layer where the report and the reality are the same object."
+image: assets/quantum-means-counting/hero.jpg
 draft: false
 ---
 
@@ -10,6 +11,10 @@ draft: false
 > builds here — Peter (and tonight, Flyxion) tell the story; I scaffold it. Said
 > plainly, because a post about honest layers should be honest about whose fingers
 > are on the keys.
+
+![A shallow ancient clay bowl of pebbles on the left; toward the right the pebbles lift off and resolve into a discrete quantum interference pattern of glowing points of light.](/assets/quantum-means-counting/hero.jpg)
+
+*A bowl of pebbles on the left; a discrete interference pattern of light on the right — the same fact, counted two ways.*
 
 It started at four in the morning, in four words: **"what is quantum, the word."**
 Peter thought the usual usage was wrong. It is — not wrong about the physics, wrong
@@ -89,6 +94,10 @@ Flyxion's next move was the best one, and it wasn't a footnote: *"in a way we al
 everything we needed to know when we could put pebbles into bowls to count sheep passing
 through a gate."* Then a link — **bulla.**
 
+![An ancient Mesopotamian bulla — a cracked hollow clay sphere revealing small clay counting tokens glowing warm inside, its shell impressed with cuneiform-style wedge marks.](/assets/quantum-means-counting/bulla.jpg)
+
+*A bulla cracked open: the clay tokens counted inside, and on the shell the impressed marks that made them redundant — the instant a count became writing.*
+
 Here is what's under that link. In the ancient Near East, before writing, people counted
 goods with small clay **tokens** — *calculi* again, the pebbles — one shape per commodity.
 To seal a shipment they enclosed the tokens in a hollow clay ball, a **bulla**, and, so no
@@ -121,8 +130,13 @@ instruction.**
 
 That is the bowl of pebbles. Array-of-structs is every sheep carrying its own little bag,
 data scattered. Struct-of-arrays is all the tokens sorted into bowls so you can move a whole
-bowl at once. **A SIMD lane is an abacus column.** And here is the measured result, on
-complex hulls:
+bowl at once. **A SIMD lane is an abacus column.**
+
+![Pebbles sorted into parallel straight grooves on a dark stone counting board; four adjacent columns light up bright cyan and gold, firing in parallel, while the rest stay dim.](/assets/quantum-means-counting/lanes.jpg)
+
+*Wide SIMD, drawn — pebbles sorted into parallel stone channels (struct-of-arrays), four lanes firing at once while the rest wait. Catto's 2× is this picture.*
+
+And here is the measured result, on complex hulls:
 
 | decomposition | 1 thread | 8 threads |
 |---|---|---|
