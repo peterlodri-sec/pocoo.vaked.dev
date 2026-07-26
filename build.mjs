@@ -379,6 +379,14 @@ function telemetryScript(isPost, slug, title) {
 function footerHtml() {
   const ext = (url, label) => `<a href="${url}" target="_blank" rel="noopener noreferrer">${label}</a>`;
   return `<footer class="site-footer">
+  <span class="foot-eco">
+  ${ext("https://vaked.dev", "vaked.dev")} ·
+  ${ext("https://attestal.ai", "attestal.ai")} ·
+  ${ext("https://coder.vaked.dev", "coder.vaked.dev")} ·
+  ${ext("https://peterl.dev", "peterl.dev")} ·
+  ${ext("https://huggingface.co/PeetPedro", "PeetPedro ↗")}
+  </span>
+  <br>
   <a href="/">home</a> ·
   ${ext("https://github.com/peterlodri-sec", "github")} ·
   ${ext("https://x.com/0xp3t3rl", "x")} ·
