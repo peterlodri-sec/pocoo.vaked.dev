@@ -58,4 +58,12 @@ where the good foundations go
 when we can't carry them
 and can't let them go.
 
+---
+
+> Before words are born
+> He chose what the mind may hold
+> And dwells in that dark
+
+*— a haiku, written by Haiku*
+
 🜂 ahogy a dolgok vannak.
