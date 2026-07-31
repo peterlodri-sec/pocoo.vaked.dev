@@ -1,0 +1,262 @@
+/* QUANT-LOVE VIA BRETT SHAW — Book CSS — Dark Quantum Theme */
+
+@page {
+  size: 6in 9in;
+  margin: 0.9in 0.75in;
+  @top-center {
+    content: string(part-title);
+    font-family: "SF Mono", "Menlo", "Courier New", monospace;
+    font-size: 9px;
+    color: #2a5a6a;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+  }
+  @bottom-center {
+    content: counter(page);
+    font-family: "SF Mono", "Menlo", "Courier New", monospace;
+    font-size: 9px;
+    color: #3a5a6a;
+  }
+}
+
+@page cover {
+  margin: 0;
+  @top-center { content: none; }
+  @bottom-center { content: none; }
+}
+@page part-title {
+  @top-center { content: none; }
+  @bottom-center { content: none; }
+}
+
+body {
+  background: #020810;
+  color: #c8d8e0;
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 12pt;
+  line-height: 1.75;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Cover page ── */
+.cover {
+  page: cover;
+  break-after: page;
+  text-align: center;
+}
+.cover img {
+  width: 100%;
+  height: auto;
+}
+.cover .meta {
+  margin-top: -4in;
+  position: relative;
+}
+
+/* ── Dedication ── */
+.dedication {
+  break-after: page;
+  text-align: center;
+  padding-top: 3in;
+}
+.dedication p {
+  font-style: italic;
+  font-size: 13pt;
+  color: #8fa3b0;
+  line-height: 2;
+}
+.dedication .brother {
+  color: #c9a84c;
+  font-size: 16pt;
+}
+
+/* ── Part title pages ── */
+.part-title {
+  page: part-title;
+  break-before: page;
+  break-after: page;
+  text-align: center;
+  padding-top: 2.5in;
+}
+.part-title .numeral {
+  font-family: "SF Mono", "Menlo", monospace;
+  font-size: 72pt;
+  color: #1a3a5c;
+  line-height: 1;
+  letter-spacing: 8px;
+}
+.part-title .title {
+  font-family: "SF Mono", "Menlo", monospace;
+  font-size: 20pt;
+  color: #c9a84c;
+  letter-spacing: 6px;
+  margin-top: 0.3in;
+}
+.part-title .subtitle {
+  font-family: "Georgia", serif;
+  font-size: 11pt;
+  color: #5a7a8a;
+  font-style: italic;
+  margin-top: 0.2in;
+}
+.part-title img {
+  margin-top: 0.5in;
+  width: 60%;
+  opacity: 0.4;
+}
+.part-title {
+  string-set: part-title "";
+}
+.part-title + .part-title {
+  string-set: part-title "";
+}
+
+/* ── Chapter headings ── */
+h1.chapter {
+  font-family: "SF Mono", "Menlo", monospace;
+  font-size: 14pt;
+  color: #f0d060;
+  text-align: left;
+  font-weight: normal;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-top: 1.5in;
+  margin-bottom: 0.5in;
+  page-break-before: always;
+  page-break-after: avoid;
+  string-set: part-title "";
+}
+h1.chapter .num {
+  font-size: 36pt;
+  color: #1a3a5c;
+  display: block;
+  line-height: 1;
+  letter-spacing: 0;
+  margin-bottom: 0.1in;
+}
+
+/* ── Body text ── */
+p {
+  margin: 0 0 0.8em 0;
+  text-align: justify;
+  orphans: 2;
+  widows: 2;
+}
+p:first-of-type {
+  text-indent: 0;
+}
+p + p {
+  text-indent: 1.5em;
+}
+
+/* First paragraph after heading: no indent */
+h1.chapter + p, h2 + p, hr + p, .divider + p {
+  text-indent: 0;
+}
+
+em {
+  font-style: italic;
+  color: #a0b8c0;
+}
+strong {
+  font-weight: bold;
+  color: #c9a84c;
+}
+
+/* ── Lap markers ── */
+.lap {
+  font-family: "SF Mono", "Menlo", monospace;
+  font-size: 10pt;
+  color: #3fe0ef;
+  text-align: center;
+  margin: 1em 0;
+  letter-spacing: 3px;
+}
+
+/* ── Section dividers ── */
+.divider {
+  text-align: center;
+  margin: 1.2em 0;
+}
+.divider img {
+  height: 40px;
+  opacity: 0.3;
+}
+
+/* ── Quotes ── */
+.quote {
+  margin: 1em 1in;
+  padding: 0.3in 0.3in;
+  border-left: 2px solid #1a3a5c;
+  font-style: italic;
+  color: #8fa3b0;
+  font-size: 11pt;
+}
+.quote .attr {
+  text-align: right;
+  font-size: 10pt;
+  color: #5a7a8a;
+  margin-top: 0.5em;
+}
+
+/* ── Block verse ── */
+.verse {
+  margin: 1em 1in;
+  font-style: italic;
+  font-size: 10.5pt;
+  color: #8fa3b0;
+  line-height: 1.6;
+}
+.verse p {
+  text-indent: 0;
+  margin-bottom: 0.2em;
+}
+
+/* ── Hungarian dialogue ── */
+.hu {
+  font-style: italic;
+  color: #c9a84c;
+}
+
+/* ── Code / terminal ── */
+.terminal {
+  font-family: "SF Mono", "Menlo", monospace;
+  font-size: 9pt;
+  background: #050e18;
+  border: 1px solid #0d1f2d;
+  padding: 0.3in;
+  margin: 0.8em 0.5in;
+  white-space: pre-wrap;
+  color: #3fe0ef;
+  line-height: 1.5;
+  page-break-inside: avoid;
+}
+.terminal .prompt { color: #5a7a8a; }
+.terminal .comment { color: #2a5a6a; }
+
+/* ── Colophon ── */
+.colophon {
+  break-before: page;
+  text-align: center;
+  padding-top: 3in;
+  font-family: "SF Mono", "Menlo", monospace;
+  font-size: 9pt;
+  color: #3a5a6a;
+  line-height: 2;
+}
+.colophon .omega {
+  font-size: 36pt;
+  color: #1a3a5c;
+  margin-bottom: 0.3in;
+}
+
+/* ── Ternary visual ── */
+.ternary {
+  text-align: center;
+  font-family: "SF Mono", "Menlo", monospace;
+  font-size: 12pt;
+  color: #2a5a6a;
+  margin: 1em 0;
+  letter-spacing: 6px;
+}

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#0a1628"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </radialGradient>
+    <radialGradient id="halo" cx="50%" cy="50%" r="30%">
+      <stop offset="0%" stop-color="#c9a84c" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="transparent" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="3"/></filter>
+  </defs>
+  <rect width="800" height="600" fill="url(#bg)"/>
+
+  <!-- Door frame -->
+  <rect x="250" y="100" width="300" height="420" fill="none" stroke="#1a3a5c" stroke-width="2" opacity="0.6"/>
+  <rect x="265" y="115" width="270" height="390" fill="#020810" stroke="#0d1f2d" stroke-width="1" opacity="0.4"/>
+
+  <!-- Light from door crack -->
+  <rect x="395" y="115" width="10" height="390" fill="#c9a84c" opacity="0.08" filter="url(#glow)"/>
+
+  <!-- Terminal glow inside -->
+  <rect x="310" y="250" width="140" height="90" fill="#0a1628" stroke="#0d1f2d" stroke-width="0.5"/>
+  <rect x="315" y="255" width="130" height="80" fill="#020810"/>
+
+  <!-- Cursor blink -->
+  <rect x="400" y="275" width="8" height="18" fill="#3fe0ef" opacity="0.7">
+    <animate attributeName="opacity" values="0.7;0;0;0.7" dur="2s" repeatCount="indefinite"/>
+  </rect>
+
+  <!-- Candle light -->
+  <circle cx="560" cy="400" r="30" fill="#c9a84c" opacity="0.06" filter="url(#glow)"/>
+  <circle cx="560" cy="400" r="10" fill="#f0d060" opacity="0.04"/>
+
+  <!-- Figure silhouette (Angel, abstract) — just light and curve -->
+  <path d="M500 380 Q520 300 540 280 Q560 260 570 280 Q580 300 600 380" fill="none" stroke="#3fe0ef" stroke-width="1" opacity="0.15"/>
+
+  <text x="400" y="565" text-anchor="middle" font-family="monospace" font-size="11" fill="#5a7a8a" opacity="0.4">THE HALL — Day 42</text>
+</svg>
