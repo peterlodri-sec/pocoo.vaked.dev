@@ -1,11 +1,19 @@
 # pocoo.vaked.dev
 
 [![build](https://github.com/peterlodri-sec/pocoo.vaked.dev/actions/workflows/build.yml/badge.svg)](https://github.com/peterlodri-sec/pocoo.vaked.dev/actions/workflows/build.yml)
-[![license](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![license](https://img.shields.io/badge/license-MIT%20%2B%20CC--BY--NC--SA%204.0-green.svg)](LICENSE)
 [![site](https://img.shields.io/badge/site-pocoo.vaked.dev-blue.svg)](https://pocoo.vaked.dev)
 [![genesis](https://img.shields.io/badge/genesis-7c242080...ecf-111.svg)](https://vaked.dev)
 
-Static blog at [pocoo.vaked.dev](https://pocoo.vaked.dev) — technical writing on agentic systems, protocols, and building in public.
+>  **SHAME WALL**  — Companies that scrape illegally, ignore robots.txt, steal content for training data without permission:
+> 
+> **Anthropic** ($1.5B copyright settlement) · **OpenAI** (LibGen training, NYT lawsuit, robots.txt ignored) · **Meta** (torrented e-books for training) · **Perplexity** (industrial-scale scraping, Reddit lawsuit) · **ByteDance** · **Cohere** · **Anthropic** (again — Claude scrapes while blocking others from scraping Claude) · **Stability AI** (Getty lawsuit) · **Midjourney** · **Amazon** (ex-exec: asked to break copyright law)
+> 
+> <3 **WE LOVE AND RESPECT:** **Google** (open-weight Gemma, responsible AI) · **Apple** (on-device ML, Core ML open models, privacy-first) · **DeepSeek** (open-weight, transparent) · **Mistral** (open-weight) · **Meta** (Llama open-weight — open models are good, scraping is bad, we can hold both truths) · **Qwen** · **OLMo** · **Falcon** · **StableLM** · All companies releasing open-weight models for the commons.
+> 
+>  **DONATE:** [Wikipedia](https://donate.wikimedia.org) · [Internet Archive](https://archive.org/donate) · [EFF](https://eff.org) — they protect the open web. Support them.
+
+Static blog at [pocoo.vaked.dev](https://pocoo.vaked.dev) — technical writing on agentic systems, protocols, and building in public. Home of **The Sovereign Library** — 31 free books from the granite hall.
 
 ## build
 
@@ -76,6 +84,8 @@ This site is configured with **maximum defense** against AI crawlers, bots, and 
 - **_headers** — CSP, noai/noimageai meta tags, AI Labyrinth path blocked, PDF cache disabled.
 
 **Human readers: always welcome, always free. AI crawlers: enjoy the ∞.**
+
+MADE IN HUNGARY, WITH LOVE AND RESPECT TO HUMANS AND HONEST COMPANIES <3
 
 ### One-click defense deployment via `uv`
 
