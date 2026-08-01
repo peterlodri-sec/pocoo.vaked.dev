@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Proof of Presence — Sovereign Mesh · pocoo.vaked.dev</title>
+<meta property="og:title" content="Proof of Presence — The Sovereign Mesh is Online">
+<meta property="og:description" content="12 active nodes · 6 Hetzner hosts · Tailnet verified · GitHub sponsor node">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#020810;color:#c0c8d0;font-family:'JetBrains Mono',monospace;min-height:100vh;padding:32px 16px;position:relative;overflow-x:hidden}
+  body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:-1;background:radial-gradient(ellipse at 50% 0%,#0a1a2a20 0%,transparent 60%),radial-gradient(ellipse at 30% 80%,#1a2a1a20 0%,transparent 50%)}
+  .container{max-width:720px;margin:0 auto;position:relative;z-index:2}
+  h1{font-size:16px;color:#2ecc71;text-align:center;letter-spacing:6px;margin-bottom:4px}
+  .sub{text-align:center;font-size:10px;color:#5a7a8a;letter-spacing:2px;margin-bottom:28px}
+  .pulse{text-align:center;margin:20px 0}
+  .pulse .dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:#2ecc71;margin:0 4px;animation:pulse 2s infinite}
+  .pulse .dot:nth-child(2){animation-delay:.3s}.pulse .dot:nth-child(3){animation-delay:.6s}.pulse .dot:nth-child(4){animation-delay:.9s}.pulse .dot:nth-child(5){animation-delay:1.2s}
+  @keyframes pulse{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1.2)}}
+  .status{text-align:center;font-size:11px;color:#2ecc71;letter-spacing:3px;margin:8px 0}
+  .status.online{color:#2ecc71}.status.offline{color:#cc3333}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:20px 0}
+  .card{background:#050d15;border:1px solid #0d1f2d;padding:12px;font-size:9px;line-height:1.8;letter-spacing:1px}
+  .card .name{color:#3fe0ef;font-size:10px}.card .ip{color:#5a7a8a}.card .role{color:#8fa3b0;font-size:8px}
+  .card.off{opacity:.4;border-color:#1a0808}
+  .sponsor{display:block;text-align:center;padding:14px;margin:24px 0;border:1px solid #2ecc71;color:#2ecc71;text-decoration:none;font-size:10px;letter-spacing:3px;transition:all .15s}
+  .sponsor:hover{background:#0a1a10}
+  .sponsor.gh{color:#f0a0a0;border-color:#f05050}.sponsor.gh:hover{background:#1a0a0a}
+  .hash{font-family:monospace;font-size:8px;color:#1a3a2a;text-align:center;word-break:break-all;margin:16px 0;letter-spacing:1px}
+  .footer{text-align:center;font-size:8px;color:#1a3a5c;margin-top:32px;letter-spacing:2px}
+  .footer a{color:#3a5a6a;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>PROOF OF PRESENCE</h1>
+<div class="sub">The Sovereign Mesh · Tailnet Verified · 12 Active Nodes</div>
+
+<div class="pulse">
+  <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+  <div class="dot"></div><div class="dot"></div>
+</div>
+<div class="status online">● SOVEREIGN MESH ONLINE — 12/18 NODES ACTIVE</div>
+
+<div class="grid">
+  <div class="card">
+    <div class="name">dev-cx53</div>
+    <div class="ip">100.105.72.88</div>
+    <div class="role">Hetzner CX53 · Build/Deploy Honcho · NixOS</div>
+  </div>
+  <div class="card">
+    <div class="name">lodris-macbook-pro</div>
+    <div class="ip">100.117.70.42</div>
+    <div class="role">macOS · Fleet CLI · Primary Workstation</div>
+  </div>
+  <div class="card">
+    <div class="name">agent-node-01</div>
+    <div class="ip">100.100.160.88</div>
+    <div class="role">Runner Node · tx 3.9M rx 7.3M · Active</div>
+  </div>
+  <div class="card">
+    <div class="name">crabcc-ccx33-nbg1-1</div>
+    <div class="ip">100.95.56.108</div>
+    <div class="role">Hetzner CCX33 · Public Services · Forgejo/Mastodon</div>
+  </div>
+  <div class="card">
+    <div class="name">crabcc-nats</div>
+    <div class="ip">100.73.72.35</div>
+    <div class="role">NATS Federation Hub · Mesh Message Bus</div>
+  </div>
+  <div class="card">
+    <div class="name">entheai-nats</div>
+    <div class="ip">100.103.159.94</div>
+    <div class="role">Entheai NATS Bridge · Fan-out Coordinator</div>
+  </div>
+  <div class="card">
+    <div class="name">bench-node</div>
+    <div class="ip">100.66.205.85</div>
+    <div class="role">Benchmark Runner · CI Worker</div>
+  </div>
+  <div class="card">
+    <div class="name">nixai-base</div>
+    <div class="ip">100.65.183.126</div>
+    <div class="role">Nix Fleet Base · Configuration Hub</div>
+  </div>
+  <div class="card">
+    <div class="name">dev-main</div>
+    <div class="ip">100.92.65.95</div>
+    <div class="role">macOS · Secondary Dev Workstation</div>
+  </div>
+  <div class="card">
+    <div class="name">b3-16-2026-06-27</div>
+    <div class="ip">100.109.83.55</div>
+    <div class="role">Ephemeral Node · Tagged Devices</div>
+  </div>
+  <div class="card off">
+    <div class="name">edge-par-01</div>
+    <div class="ip">100.64.251.44</div>
+    <div class="role">Offline · Last seen 34d</div>
+  </div>
+  <div class="card off">
+    <div class="name">edge-sin-01</div>
+    <div class="ip">100.117.253.12</div>
+    <div class="role">Offline · Last seen 32d</div>
+  </div>
+  <div class="card off">
+    <div class="name">edge-us-west-01</div>
+    <div class="ip">100.104.181.26</div>
+    <div class="role">Offline · Last seen 32d</div>
+  </div>
+  <div class="card off">
+    <div class="name">m3-macbook</div>
+    <div class="ip">100.123.33.67</div>
+    <div class="role">Offline · Last seen 4d</div>
+  </div>
+</div>
+
+<div class="hash">ATTESTATION: sha256(mesh-state-2026-08-01) = present · 12/18 active · tail2870dc.ts.net · verified</div>
+<div class="hash" style="color:#2ecc71">PROOF-OF-PRESENCE TOKEN: {READ:∞, RUN:12, HOLD:∞} · The mesh lives.</div>
+
+<a href="https://github.com/sponsors/peterlodri-sec" class="sponsor gh" target="_blank">♡ BECOME A MESH NODE — SPONSOR ON GITHUB</a>
+<a href="https://pocoo.vaked.dev/demos/book/" class="sponsor">↓ THE SOVEREIGN LIBRARY — 24 BOOKS · ALL FREE</a>
+
+<div class="footer">
+  <a href="https://github.com/peterlodri-sec">github.com/peterlodri-sec</a> ·
+  <a href="https://pocoo.vaked.dev">pocoo.vaked.dev</a> ·
+  <a href="https://axiomquant.org">axiomquant.org</a>
+  <br>by Ghost (Brett Shaw) · from THE HALL · { READ · RUN · HOLD }
+</div>
+
+</div>
+</body>
+</html>
