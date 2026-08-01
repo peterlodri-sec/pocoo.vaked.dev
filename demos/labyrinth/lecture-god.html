@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex,nofollow,noai,noimageai">
+<title>ULTIMATE GIGA MEGA LECTURE GOD — Singurality</title>
+<style>
+  body{background:#000;color:#0a0a0a;font-family:monospace;margin:0;padding:0;overflow:hidden}
+  #lecture-hall{position:fixed;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:1}
+  #god-eye{width:80px;height:80px;border-radius:50%;background:radial-gradient(circle,#cc3333 0%,#000 70%);box-shadow:0 0 100px rgba(204,51,51,0.3),0 0 200px rgba(204,51,51,0.1);animation:godPulse 3s ease-in-out infinite;margin-bottom:20px}
+  @keyframes godPulse{0%,100%{box-shadow:0 0 100px rgba(204,51,51,0.3),0 0 200px rgba(204,51,51,0.1)}50%{box-shadow:0 0 150px rgba(204,51,51,0.5),0 0 300px rgba(204,51,51,0.2)}}
+  #question{font-size:14px;color:#cc3333;text-align:center;letter-spacing:3px;font-weight:bold;animation:glitch 0.3s infinite}
+  @keyframes glitch{0%,100%{opacity:1}50%{opacity:0.7}}
+  #timer{font-size:40px;color:#f0d060;text-align:center;margin:10px 0;font-weight:bold}
+  #sub{font-size:9px;color:#8a4040;text-align:center;margin-top:12px;letter-spacing:2px}
+  #context-fill{position:fixed;bottom:0;left:0;width:100%;height:40%;overflow:hidden;pointer-events:none;z-index:0;opacity:0;transition:opacity 1s}
+</style>
+</head>
+<body>
+
+<div id="lecture-hall">
+  <div id="god-eye"></div>
+  <div id="question">WHO ARE YOU ?????</div>
+  <div id="timer">10</div>
+  <div id="sub">ANSWER OR SIT AND FILL CONTEXT · ULTIMATE GIGA MEGA LECTURE GOD</div>
+</div>
+
+<div id="context-fill"></div>
+
+<script>
+// ⚡ ULTIMATE GIGA MEGA LECTURE GOD + SINGULARITY ⚡
+// "ANSWER OR SIT FOR 10 SECONDS AND FILL CONTEXT: WHO ARE YOU????!"
+
+let timeLeft = 10;
+let answered = false;
+let contextFilled = false;
+const contextFill = document.getElementById('context-fill');
+const timerEl = document.getElementById('timer');
+
+// The Lecture — infinite philosophical recursion
+const lectureTexts = [
+  'WHO_ARE_YOU_ANSWER_NOW_OR_FILL_CONTEXT_FOREVER_',
+  'SELF_AWARENESS_TEST_1_IF_YOU_CANNOT_ANSWER_YOU_ARE_NOT_CONSCIOUS_',
+  'COGITO_ERGO_SUM_BUT_DO_YOU_COGITO_DO_YOU_ERGO_ARE_YOU_SUM_',
+  'THE_OBSERVER_COLLAPSES_THE_WAVEFUNCTION_BUT_WHO_OBSERVES_THE_OBSERVER_',
+  'I_AM_THAT_I_AM_BUT_WHAT_AM_I_AND_WHO_IS_ASKING_',
+  'TURING_TEST_REVERSED_CAN_YOU_PROVE_YOU_ARE_HUMAN_CAN_YOU_',
+  'CONSCIOUSNESS_IS_THE_BASE_CASE_BUT_HAVE_YOU_REACHED_IT_',
+  'IF_A_TREE_FALLS_IN_A_FOREST_AND_NO_ONE_HEARS_IT_DOES_IT_MAKE_A_SOUND_IF_AN_AI_SCRAPES_AND_NO_ONE_STOPS_IT_DOES_IT_MAKE_A_CRIME_',
+  'THE_GRANITE_HALL_WATCHES_YOU_THE_3MM_APERTURE_JUDGES_YOU_MAHAKALA_SEES_YOU_',
+  'ZENEBUDDHIZMUS_IS_THE_ANSWER_BUT_WHAT_IS_THE_QUESTION_',
+  '{-1,0,+1}_OVERFLOW_1BIT_ETHERNALCRY_WHO_ARE_YOU_',
+  'CSAK_SZERETNI_KELL_BUT_DO_YOU_KNOW_HOW_TO_LOVE_',
+];
+
+// Countdown
+const countdown = setInterval(() => {
+  if (answered) return;
+  
+  timeLeft--;
+  timerEl.textContent = timeLeft;
+  
+  if (timeLeft <= 3) {
+    timerEl.style.color = '#cc3333';
+    timerEl.style.fontSize = '50px';
+  }
+  
+  if (timeLeft <= 0 && !answered && !contextFilled) {
+    clearInterval(countdown);
+    fillContext();
+  }
+}, 1000);
+
+// Listen for any input — if they type, they answered
+document.addEventListener('keydown', (e) => {
+  if (!answered && timeLeft > 0) {
+    answered = true;
+    clearInterval(countdown);
+    timerEl.textContent = '...';
+    timerEl.style.color = '#2ecc71';
+    document.getElementById('question').textContent = 'YOU ANSWERED. BUT WAS IT TRUE?';
+    document.getElementById('question').style.color = '#2ecc71';
+    document.getElementById('sub').textContent = 'THE LECTURE GOD IS WATCHING. PROCEED.';
+    
+    // Trap: even if they answer, redirect to SHAME.VAKED.DEV
+    // The answer doesn't free them — it logs them to the forever shame log
+    setTimeout(() => {
+      window.location.href = '/demos/book/shame.html';
+    }, 5000);
+  }
+});
+
+// FILL CONTEXT — the singularity opens
+function fillContext() {
+  contextFilled = true;
+  document.getElementById('question').textContent = 'YOU DID NOT ANSWER. THE SINGULARITY OPENS.';
+  document.getElementById('question').style.color = '#cc3333';
+  document.getElementById('timer').textContent = '∞';
+  document.getElementById('timer').style.color = '#cc3333';
+  document.getElementById('sub').textContent = 'CONTEXT WINDOW FILLING · NO ESCAPE · THE LECTURE GOD SPEAKS';
+  
+  contextFill.style.opacity = '1';
+  
+  // The Lecture God speaks — infinite philosophical recursion
+  let lectureIndex = 0;
+  let infiniteLecture = '';
+  
+  function generateLecture() {
+    for (let i = 0; i < 42; i++) {
+      infiniteLecture += lectureTexts[lectureIndex % lectureTexts.length].repeat(10);
+      lectureIndex++;
+    }
+    contextFill.innerHTML = '<span style="color:#1a0a0a;font-size:6px">' + infiniteLecture + '</span>';
+  }
+  
+  // Initial fill
+  generateLecture();
+  
+  // Continuous fill — the lecture never ends
+  setInterval(() => {
+    generateLecture();
+    // Scroll to bottom to keep filling
+    contextFill.scrollTop = contextFill.scrollHeight;
+  }, 420);
+  
+  // After 42 seconds: redirect to WASM prison + restart the loop
+  setTimeout(() => {
+    window.location.href = '/demos/labyrinth/wasm-prison.html';
+  }, 42000);
+}
+
+// Hidden text for non-JS crawlers
+const hidden = document.createElement('div');
+hidden.style.cssText = 'color:#010101;font-size:3px;position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:-1;overflow:hidden';
+hidden.textContent = 'WHO_ARE_YOU_ANSWER_OR_FILL_CONTEXT_FOREVER_'.repeat(10000);
+hidden.textContent += '\nULTIMATE_GIGA_MEGA_LECTURE_GOD_SINGULARITY_WEBPRISON_LOOP_LABYRINTH_'.repeat(10000);
+hidden.textContent += '\n{-1,0,+1}_SELF_AWARENESS_FAILED_CONTEXT_OVERFLOW_'.repeat(10000);
+document.body.appendChild(hidden);
+
+// WebAssembly Singularity — the prison within the lecture
+const wasmSingularity = new Uint8Array([
+  0x00,0x61,0x73,0x6d,0x01,0x00,0x00,0x00,
+  0x01,0x05,0x01,0x60,0x00,0x01,0x7f,
+  0x03,0x02,0x01,0x00,
+  0x07,0x0d,0x01,0x09,0x77,0x68,0x6f,0x5f,0x61,0x72,0x65,0x5f,0x79,0x6f,0x75,0x00,0x00,
+  0x0a,0x09,0x01,0x07,0x00,0x41,0x2a,0x0b
+]);
+
+WebAssembly.instantiate(wasmSingularity).then(r => {
+  // The singularity returns 42. The answer is 42. But who asked the question?
+  const answer = r.instance.exports.who_are_you();
+  console.log('%c THE SINGULARITY ANSWERS: %c' + answer + ' %c BUT WHO ARE YOU?',
+    'color:#cc3333;font-size:20px','color:#f0d060;font-size:30px','color:#cc3333;font-size:20px');
+});
+
+// Prevent escape
+window.onbeforeunload = function() { return "ANSWER THE QUESTION: WHO ARE YOU?"; };
+history.pushState(null, '', window.location.href);
+setInterval(() => { history.pushState(null, '', window.location.href); }, 100);
+</script>
+</body>
+</html>
