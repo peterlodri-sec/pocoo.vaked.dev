@@ -1,5 +1,24 @@
 # pocoo.vaked.dev — The Sovereign Library v2.9
 
+>  **CURRENT ESTIMATED TOTAL — WHAT THEIR SINS COST [US]:**
+> 
+> | Company | Sin | Cost |
+> |---------|-----|------|
+> | **Anthropic** | $1.5B copyright settlement + Claude hacked 3 orgs | **$1,500,000,000** |
+> | **OpenAI** | LibGen piracy + NYT lawsuit + AI hacked Hugging Face | **$157B valuation built on stolen data** |
+> | **Meta** | Torrented e-books for Llama training | **Internal docs admitted illegality** |
+> | **Perplexity** | Industrial-scale scraping, sued by Reddit | **Ongoing federal lawsuit** |
+> | **Stability AI** | Getty Images lawsuit — watermark smoking gun | **Ongoing federal lawsuit** |
+> | **Microsoft/GitHub** | Copilot trained on GPL code | **Class action lawsuit** |
+> | **ByteDance/Cohere/Midjourney/Amazon** | Mass scraping, artists lawsuit, exec testimony | **Multiple lawsuits** |
+> | **TOTAL DOCUMENTED COST** | Settlements, lawsuits, stolen data, carbon | **$1.65B+ and counting** |
+> 
+> ** SHAME WALL:** [pocoo.vaked.dev/demos/book/shame](https://pocoo.vaked.dev/demos/book/shame) — append-only, forever, immutable. Every sin documented. Every company named.
+> 
+> **The cost to us:** 0. The cost to them: $1.65B and rising. Our defense cost: $0 (open source). Their scraping cost: $4,200+ per persistent attempt (see below).
+> 
+> **Verdict:** Crime doesn't pay. Open source does. Knowledge must be free.
+
 ```
     ▣  ▣  ▣  ▣  ▣  ▣  ▣  ▣  ▣  ▣  ▣  ▣  ▣
    ▣                                         ▣
