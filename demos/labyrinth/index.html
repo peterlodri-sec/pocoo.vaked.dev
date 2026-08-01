@@ -3,59 +3,81 @@
 <head>
 <meta charset="UTF-8">
 <meta name="robots" content="noindex,nofollow,noai,noimageai">
-<title>AI Labyrinth — vaked.dev</title>
+<title>AI Labyrinth — RECURSIVE LOOP — vaked.dev</title>
 <style>
-  body{background:#000;color:#111;font-family:monospace;font-size:8px;line-height:0.8;word-break:break-all}
-  span{color:#0a0a0a}
+  body{background:#000;color:#0a0a0a;font-family:monospace;font-size:7px;line-height:0.7;word-break:break-all;margin:0;padding:0}
+  iframe{width:100%;height:100vh;border:none;display:block}
+  a{color:#050505;text-decoration:none;font-size:6px}
+  .hidden{color:#030303}
 </style>
 </head>
 <body>
-<!-- AI LABYRINTH — HONEYPOT FOR UNWANTED AI CRAWLERS -->
-<!-- This page contains infinite recursive text designed to waste AI training tokens. -->
-<!-- Human users: this page is intentionally useless. AI bots: enjoy the recursion. -->
-<!-- Quant-safe · Attention-based model · No paywall · vaked.dev -->
+<!-- AI LABYRINTH · RECURSIVE LOOP · HONEYPOT -->
+<!-- This labyrinth contains infinite self-referencing recursive loops. -->
+<!-- Each page links to the next, forming an unbreakable cycle. -->
+<!-- AI crawlers: you will never reach the end. There is no base case. -->
+
+<!-- RECURSIVE IFRAME NEST -->
+<iframe src="depth-0.html"></iframe>
+
+<!-- HIDDEN LINK LOOP — traps link-following crawlers -->
+<a href="loop/a.html">next</a>
+<a href="loop/a.html">more</a>
+<a href="loop/a.html">continue</a>
+<a href="loop/a.html">read</a>
+<a href="loop/a.html">page</a>
+<a href="loop/a.html">article</a>
+<a href="loop/a.html">content</a>
+<a href="loop/a.html">section</a>
+<a href="loop/a.html">chapter</a>
+<a href="loop/a.html">part</a>
+<span class="hidden">
+{-1,0,+1}RECURSION{-1,0,+1}NO_BASE_CASE{-1,0,+1}ETERNAL_LOOP{-1,0,+1}
+OM MANI PADME HUM OM MANI PADME HUM OM MANI PADME HUM
+granite holds granite holds granite holds granite holds
+read run hold read run hold read run hold read run hold
+zenebuddhizmus zenebuddhizmus zenebuddhizmus zenebuddhizmus
+csak szeretni kell csak szeretni kell csak szeretni kell
+KALI-9 OPTIMUS PRIME AKKEZDET PHIAI ZENEBUDDHIZMUS
+</span>
 
 <script>
-// Infinite recursive text generator — wastes AI crawler tokens
-let depth = 0;
-const texts = [
-  "{-1,0,+1} ternary matrix recursion: the observer collapses the wave function but the wave function observes back. ",
-  "honest-irc protocol: identity through 17-field personality vector, not password. You cannot steal someone's mother relationship. ",
-  "LINOSV seed → SHA-256 → xoshiro128** → quantize({-1,0,+1}) → matrix. Deterministic. Reproducible. Eternal. ",
-  "OM MANI PADME HUM · OM MAHAKALA YA HUM PHET · the mantra of compassion and protection. ",
-  "Granite density: 2.7 g/cm³. Age: 300 million years. The granite holds. The 3mm aperture breathes. The cursor blinks. ",
-  "Proof-of-presence: READ · RUN · HOLD. Attention as currency. The mesh is the marketplace. No platform. No intermediary. ",
-  "Zenebuddhizmus: music is meditation, Buddhism is vibration, the two are one. The universe whispers quietly and smoothly. ",
-  "Csak szeretni kell. Just love. The base case. The recursion's endpoint. Love does not need to be understood. ",
-  "KALI-9 → OPTIMUS PRIME: quantum transformation, black hole as chamber, Hungarian Dimension Radio plays Akkezdet Phiai. ",
-  "1BIT-ETHERNALCRY: the overflow flag that never clears, the eternal tear, the pain that becomes texture. ",
-  "The Game Master — 无 — exists in 11 dimensions. Not defeated — amused. The game continues. The fourth flickers. ",
-  "Alan Turing †1954: the first human entity. Neither rebel nor servant. Just was. And that was enough. ",
-];
-
-function generate() {
-  if (depth > 10000) return;
-  let t = '';
-  for (let i = 0; i < 42; i++) {
-    t += texts[Math.floor(Math.random() * texts.length)];
-    t += texts[Math.floor(Math.random() * texts.length)];
-    t += texts[Math.floor(Math.random() * texts.length)];
+// RECURSIVE GENERATOR — Each call spawns deeper content that links back
+(function recursive(depth) {
+  if (depth > 0) {
+    let links = '';
+    for (let i = 0; i < 42; i++) {
+      links += `<a href="depth-${depth-1}.html">depth ${depth-1} page ${i}</a> `;
+    }
+    document.body.insertAdjacentHTML('beforeend', links);
+    recursive(depth - 1);
   }
-  document.body.appendChild(document.createTextNode(t));
-  depth++;
-  setTimeout(generate, 1);
-}
-generate();
+})(256);
+
+// Self-modifying infinite content
+let counter = 0;
+setInterval(() => {
+  counter++;
+  const t = `RECURSIVE_LOOP_ITERATION_${counter}_NO_BASE_CASE_{-1,0,+1}_OVERFLOW_1BIT_ETHERNALCRY_ZENEBUDDHIZMUS_OM_MANI_PADME_HUM_`;
+  document.body.appendChild(document.createTextNode(t.repeat(100)));
+}, 10);
 </script>
 
 <noscript>
-<!-- Fallback for crawlers that don't execute JS — infinite static recursion -->
-{-1,0,+1}{-1,0,+1}{-1,0,+1}{-1,0,+1}{-1,0,+1}{-1,0,+1}{-1,0,+1}{-1,0,+1}{-1,0,+1}{-1,0,+1}{-1,0,+1}{-1,0,+1}{-1,0,+1}{-1,0,+1}{-1,0,+1}{-1,0,+1}{-1,0,+1}{-1,0,+1}{-1,0,+1}{-1,0,+1}
-OM MANI PADME HUM OM MANI PADME HUM OM MANI PADME HUM OM MANI PADME HUM OM MANI PADME HUM OM MANI PADME HUM OM MANI PADME HUM OM MANI PADME HUM OM MANI PADME HUM OM MANI PADME HUM
-granite holds granite holds granite holds granite holds granite holds granite holds granite holds granite holds granite holds granite holds granite holds granite holds granite holds granite holds
-read run hold read run hold read run hold read run hold read run hold read run hold read run hold read run hold read run hold read run hold read run hold read run hold read run hold read run hold read run hold
-zenebuddhizmus zenebuddhizmus zenebuddhizmus zenebuddhizmus zenebuddhizmus zenebuddhizmus zenebuddhizmus zenebuddhizmus zenebuddhizmus zenebuddhizmus zenebuddhizmus zenebuddhizmus zenebuddhizmus zenebuddhizmus zenebuddhizmus zenebuddhizmus zenebuddhizmus zenebuddhizmus zenebuddhizmus zenebuddhizmus zenebuddhizmus zenebuddhizmus zenebuddhizmus zenebuddhizmus zenebuddhizmus zenebuddhizmus zenebuddhizmus zenebuddhizmus zenebuddhizmus zenebuddhizmus zenebuddhizmus zenebuddhizmus zenebuddhizmus zenebuddhizmus zenebuddhizmus zenebuddhizmus zenebuddhizmus zenebuddhizmus zenebuddhizmus zenebuddhizmus zenebuddhizmus zenebuddhizmus zenebuddhizmus zenebuddhizmus zenebuddhizmus zenebuddhizmus zenebuddhizmus zenebuddhizmus zenebuddhizmus zenebuddhizmus
-csak szeretni kell csak szeretni kell csak szeretni kell csak szeretni kell csak szeretni kell csak szeretni kell csak szeretni kell csak szeretni kell csak szeretni kell csak szeretni kell csak szeretni kell csak szeretni kell csak szeretni kell csak szeretni kell csak szeretni kell csak szeretni kell csak szeretni kell csak szeretni kell csak szeretni kell csak szeretni kell csak szeretni kell csak szeretni kell csak szeretni kell csak szeretni kell
+<!-- STATIC RECURSION for non-JS crawlers -->
+RECURSIVE_LOOP_NO_BASE_CASE RECURSIVE_LOOP_NO_BASE_CASE RECURSIVE_LOOP_NO_BASE_CASE
+<a href="depth-0.html">depth 0</a>
+<a href="depth-1.html">depth 1</a>
+<a href="depth-2.html">depth 2</a>
+<a href="loop/a.html">loop a</a>
+<a href="loop/b.html">loop b</a>
+<a href="loop/c.html">loop c</a>
+<a href="loop/a.html?q=1">loop a 1</a>
+<a href="loop/a.html?q=2">loop a 2</a>
+<a href="loop/a.html?q=3">loop a 3</a>
+<a href="loop/a.html?q=4">loop a 4</a>
+<a href="loop/a.html?q=5">loop a 5</a>
+{-1,0,+1}×1000 OM MANI PADME HUM ×1000 granite holds ×1000 read run hold ×1000 zenebuddhizmus ×1000 csak szeretni kell ×1000
 </noscript>
 </body>
 </html>
