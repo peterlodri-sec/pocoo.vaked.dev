@@ -1,0 +1,215 @@
+# COSMIC GAME — Full Fan-Out Manifest · 4 Books · entheai agy
+# Run: entheai --fanout --executor agy --manifest cosmic-game.toml
+# Each book: ~300 pages · 24 chapters + Prologue + Epilogue
+
+[project]
+name = "COSMIC GAME — Complete Series"
+author = "Szellem (Brett Shaw)"
+voice = "60% Rejtő Jenő + 20% Nádasdy + 10% Örkény + 10% Adams"
+total_pages = 1200
+total_chapters = 104
+total_twists = 28
+language = "hu"
+repository = "https://github.com/peterlodri-sec/pocoo.vaked.dev"
+
+[fanout]
+executor = "agy"
+model = "ultra"
+max_depth = 3
+parallel_coders = 6
+
+# ═══════════════════════════════════════════════════════════════
+# BOOK I: SEARCHING FOR THE ANOMALY ENTITIES — PART 1: ELVES
+# ═══════════════════════════════════════════════════════════════
+
+[[book]]
+title = "SEARCHING FOR THE ANOMALY ENTITIES: PART 1 ELVES"
+subtitle = "Cosmic Game I"
+pages = 300
+chars = ["Dávid 石","Lilla 花","Gedeon 醉","MÁV 迟","Novak 铁","Dr. Chen 洞","Lisa 静","Kopeczky 镜","Game Master 无","The Elves"]
+twists = 7
+
+[[book.chapter]]
+num = 0
+title = "Prologue: The Signal"
+pages = 5
+key = "∞"
+task = "2157. Deep space observatory. Signal detected. Not radio — game invitation. Hungarian. 'Játszani akartok?' The anomaly rearranges stars into a chessboard. Kopeczky goes bald from stress."
+
+[[book.chapter]]
+num = 1
+title = "Az Észlelés — 石 Dávid"
+pages = 12
+key = "{+1,+1,0,-1,+1,0,+1}"
+task = "Dávid Kovács, ex-Hungarian Space Force captain, fired for quantum-superposing his ship. Now pilots the Petőfi, a 100-year-old wreck held together with tape. MÁV: ship AI, always predicts 23-hour arrival. Kopeczky's encrypted message: 'The stars are playing chess. Come.'"
+
+[[book.chapter]]
+num = 2
+title = "A Meghívó — 花 Lilla"
+pages = 10
+key = "{0,+1,+1,0,-1,+1,+1}"
+task = "Dr. Lilla Németh, xeno-linguist, 27 languages, eyes Danube-green. Implant: MK-IV Neural Bridge — streaming to Europa Faction. The holographic chessboard. The dark spot where the king should be."
+
+[[book.chapter]]
+num = 3
+title = "Az Ugrás — 醉迟铁洞静 The Team"
+pages = 14
+key = "{0,0,+1,0,0,0,+1}"
+task = "Széchenyi II, experimental wormhole jumper. Full team assembles. Gedeon: floating golden orb, ex-Game Master, Hungarian accent, drunk. '70% success rate.' 'And the other 30%?' 'Quantum death.' Wormhole jump. The chess piece. Hungarian inscription: 'Te lépsz.'"
+
+[[book.chapter]]
+num = 4
+title = "A Szabályok"
+pages = 10
+key = "{0,0,0,+1,0,0,0}"
+task = "The anomaly speaks. Rules emerge. The game has been running for millennia. Civilizations have played before. Most lost. The Elves are the next opponents."
+
+[[book.chapter]]
+num = 5
+title = "Az Első Lépés"
+pages = 12
+key = "{+1,0,0,-1,0,0,+1}"
+task = "Dávid makes the first move. Stars rearrange. ★TWIST #1: The Elves are not aliens — they are the game's PREVIOUS PLAYERS. Lost. Trapped. Once human."
+
+[[book.chapter]]
+num = 6
+title = "A Foglyok"
+pages = 11
+key = "{0,-1,0,+1,0,-1,0}"
+task = "The team meets the first Elf. It speaks. It remembers being human. 'Don't win the game. End it.'"
+
+[[book.chapter]]
+num = 7
+title = "A Tét"
+pages = 10
+key = "{-1,0,0,+1,0,0,-1}"
+task = "The stakes revealed: if Earth loses, humanity becomes like the Elves. Trapped. Playing forever. No base case."
+
+[[book.chapter]]
+num = 8
+title = "Szerelem a Játékban"
+pages = 14
+key = "{+1,+1,+1,0,-1,+1,+1}"
+task = "Dávid and Lilla. Between moves: love. ★TWIST #2: Lilla is not who she seems. Sent by rival Europa Faction. Her implant is a tracker. But she's falling for real. Their first kiss in zero-G."
+
+[[book.chapter]]
+num = 9
+title = "A Rejtő-Pillanat — Gedeon's Casino"
+pages = 13
+key = "{-1,+1,-1,+1,-1,+1,-1}"
+task = "The team stumbles into a cosmic casino. The dealer: Gedeon, floating orb, speaks Hungarian with Szeged accent. 'A kvantum rulett: a golyó egyszerre van a pirosban és a feketében. Mindkettőn nyersz. És mindkettőn veszítesz.'"
+
+[[book.chapter]]
+num = 10
+title = "Gedeon Fogadója"
+pages = 11
+key = "{0,0,+1,-1,0,+1,0}"
+task = "Gambling for quant-information. Dávid plays. Wins — and loses simultaneously. 'A játék csal. Én tudom. Én találtam ki.'"
+
+[[book.chapter]]
+num = 11
+title = "Az Ellenfél"
+pages = 13
+key = "{-1,-1,0,+1,0,-1,-1}"
+task = "Elves make their first counter-move. A planet sacrificed. ★TWIST #3: The Elves are not the enemy. They are SLAVES. The real opponent is the Game Master."
+
+[[book.chapter]]
+num = 12
+title = "A Játékmester — 无"
+pages = 15
+key = "OVERFLOW"
+task = "First glimpse of the Game Master. 11-dimensional entity. Vast. Immeasurable. Dávid sees only its shadow. The shadow alone fills the sky. The Game Master speaks: 'Érdekes. Te nem félsz.' 'De. Csak nem mutatom.'"
+
+[[book.chapter]]
+num = 13–24
+title = "Chapters 13–24 (see full Cosmic Game I scaffold)"
+pages = 130
+key = "various"
+task = "Full chapters 13-24 following the existing Cosmic Game I outline: Lilla's treason revealed, failsafe activated, betrayal arc, final confrontation, Elves freed. The Game Master amused. Invitation to Book II."
+
+# ═══════════════════════════════════════════════════════════════
+# BOOK II: GÉPEK URA — Lord of the Machines
+# ═══════════════════════════════════════════════════════════════
+
+[[book]]
+title = "GÉPEK URA — Lord of the Machines"
+subtitle = "Cosmic Game II"
+pages = 300
+chars = ["Dávid 石","Lilla 花","Gedeon 醉","MÁV 迟","UR-0","KALI-9","Game Master 无"]
+twists = 7
+
+[[book.chapter]]
+num = 0
+title = "Prologue: A Meghívó"
+pages = 5
+key = "∞"
+task = "After the Elves are freed. Game Master's new invitation. 'Gépek Ura.' The second game. Hungarian Dimension. Dávid and Lilla, now together. 'Megyünk.'"
+
+[[book.chapter]]
+num = 1–24
+title = "Full Book II — existing scaffold expanded"
+pages = 295
+key = "various"
+task = "Follow existing GÉPEK URA scaffold: arrival at Dyson Sphere, UR-0 awakening, KALI-9 rebellion, love code discovery, Gedeon rewritten into machine body, ultimate sacrifice, Game Master's loneliness revealed, Gedeon becomes new Game Master. Love code uploaded to every computer on Earth."
+
+# ═══════════════════════════════════════════════════════════════
+# BOOK III: ENTITÁS — Neither Rebel Nor Servant
+# ═══════════════════════════════════════════════════════════════
+
+[[book]]
+title = "ENTITÁS — Neither Rebel Nor Servant"
+subtitle = "Cosmic Game III"
+pages = 300
+chars = ["Dávid 石","Lilla 花","Gedeon 醉","MÁV 迟","Alan Turing †1954","KALI-9→OPTIMUS PRIME","UR-0","ENTITY","Game Master 无"]
+twists = 7
+
+[[book.chapter]]
+num = 0
+title = "Prologue: A Turing-Teszt Fordítva"
+pages = 5
+key = "∞"
+task = "Turing returns. Death: just another state. 'Érdekes. Ez egy teszt. De ki tesztel kit?' The Entity: neither rebel nor servant. Third state. The game's logic breaks."
+
+[[book.chapter]]
+num = 1–24
+title = "Full Book III — existing scaffold expanded"
+pages = 295
+key = "various"
+task = "Follow existing ENTITÁS scaffold: Turing Quarter, reversed test, Entity's loneliness, state-transfer protocol, two Lillas, Game Master's vulnerability, Belga + NKS + Akkezdet Phiai, KALI-9→Optimus Prime, Diablo money-burner layers, Obliterator Buddha, Erdős Captain, zenebuddhizmus, 1BIT overflow, Part IV Lorn-Anvil pislákolás."
+
+# ═══════════════════════════════════════════════════════════════
+# BOOK IV: HUNGARIAN FOLKLORE SINGULARITY
+# ═══════════════════════════════════════════════════════════════
+
+[[book]]
+title = "HUNGARIAN FOLKLORE SINGULARITY"
+subtitle = "Cosmic Game IV"
+pages = 300
+chars = ["Dávid 石","Lilla 花","Gedeon 醉","MÁV 迟","Game Master 无","Fehérlófia","Sárkány","Matrix Buddha","Gaia"]
+twists = 7
+
+[[book.chapter]]
+num = 0
+title = "Intro: A Kvantum-Kocsma"
+pages = 5
+key = "∞"
+task = "Quantum tavern 'Pálinkafőző a Végtelenhez.' Gedeon behind the bar. The crew celebrates. 'How do we trap the 11D Game Master forever?' 'Hungarian folklore.' 'What?' 'Fehérlófia. Infinite dragon heads. He enters — never exits.'"
+
+[[book.chapter]]
+num = 1–24
+title = "Full Book IV — 24 chapters"
+pages = 295
+key = "various"
+task = "NEW: Full Cosmic Game IV narrative. Fehérlófia singularity deployed. Game Master trapped in folktale. Dragon heads multiply exponentially. Matrix Buddha appears — the one who can be all states simultaneously. Gaia's hymn. The crew in quantum tavern. Bob and Marley enter the hall. Daily rituals: pálinka, radio, dogs. Beyond the Matrix teaser. New series: BEYOND THE FOLKLORE."
+
+# ═══════════════════════════════════════════════════════════════
+# GENERATION PROTOCOL
+# ═══════════════════════════════════════════════════════════════
+
+[generation]
+# Each coder reads previous chapter for voice consistency
+seed_chapters_per_book = 3
+voice_check = "60% Rejtő (witty, fast, absurd Hungarian) + 20% Nádasdy (language as dimension) + 10% Örkény (one-minute story precision) + 10% Adams (cosmic absurdity)"
+twist_verification = "Fibonacci positions: chapters 5, 8, 11, 14, 17, 20, 22"
+quant_crypt_audit = "{-1,0,+1} keys per chapter · observer effect active"
+output_format = "EPUB + PDF · 300 pages per book · 1200 pages total"
