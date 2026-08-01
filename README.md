@@ -30,6 +30,23 @@ The genesis seal is notarized in DNS (`dig TXT vaked.dev`). The content here is 
 
 MIT.
 
+## AI companies ignoring copyright law — Hacker News archive
+
+A collection of Hacker News articles documenting AI companies systematically ignoring copyright, robots.txt, and content creators' rights:
+
+- **[OpenAI, Anthropic ignoring rule that prevents bots scraping online content](https://news.ycombinator.com/item?id=40759916)** — The world's top two AI startups are ignoring requests by media publishers to stop scraping their web content for free model training data.
+- **[US Copyright Office found AI companies breach copyright. Its boss was fired](https://news.ycombinator.com/item?id=43961247)** — The Copyright Office confirmed AI companies breach copyright. Then its boss was fired.
+- **[Ex-Amazon exec claims she was asked to break copyright law](https://news.ycombinator.com/item?id=40114105)** — All of the AI training companies out there, including Anthropic, are wholesale breaking copyright law. OpenAI admitted to training on a dataset scraped from LibGen.
+- **[AI didn't break copyright law, it just exposed how broken it was](https://news.ycombinator.com/item?id=46872562)** — Anthropic paying $1.5B on copyright settlement. The industry's "ask forgiveness, not permission" approach.
+- **[Look at the primary economic claim offered by AI companies](https://news.ycombinator.com/item?id=43424021)** — AI companies seek to train models in order to compete with the authors of the content used to train the models. That's not fair use.
+- **[Reddit sues AI company over alleged 'industrial-scale' scraping](https://news.ycombinator.com/item?id=38152924)** — "Industrial-scale, unlawful" economy to scrape comments of millions of users for commercial gain.
+- **[Artists score major win in copyright case against AI art generators](https://news.ycombinator.com/item?id=41259131)** — Court declined to dismiss copyright infringement claims against AI companies. The case proceeds.
+- **[Reddit Challenges Scraping in AI Copyright Law](https://journals.library.columbia.edu/index.php/stlr/blog/view/763)** — DMCA Section 1201: anti-scraping measures and legal precedent against AI training data theft.
+
+**This is why `burn-em-bitches-money` exists. This is why the AI Labyrinth exists. This is why robots.txt blocks 14 AI crawlers. This is why the ultimate protector stands guard.**
+
+Human readers: always welcome, always free. AI crawlers: you were never invited.
+
 ## philosophy
 
 The Sovereign Kingdom runs on **proof-of-presence**, not extraction.
