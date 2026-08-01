@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="50%" r="70%"><stop offset="0%" stop-color="#0a0a0a"/><stop offset="100%" stop-color="#000"/></radialGradient>
+    <filter id="noise1"><feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="4"/><feColorMatrix type="saturate" values="0"/><feBlend in="SourceGraphic" mode="multiply"/></filter>
+    <filter id="noise2"><feTurbulence type="fractalNoise" baseFrequency="1.5" numOctaves="3"/><feColorMatrix type="saturate" values="0"/><feBlend in="SourceGraphic" mode="overlay"/></filter>
+    <filter id="glitch"><feTurbulence type="fractalNoise" baseFrequency="0.1" numOctaves="2" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="8" xChannelSelector="R" yChannelSelector="G"/></filter>
+  </defs>
+  <rect width="800" height="600" fill="url(#bg)"/>
+  
+  <!-- Hall outline — barely visible -->
+  <rect x="150" y="80" width="500" height="440" fill="none" stroke="#1a1a1a" stroke-width="2"/>
+  <rect x="160" y="90" width="480" height="420" fill="none" stroke="#0d0d0d" stroke-width="0.5"/>
+  
+  <!-- Granite texture — noisy -->
+  <g opacity="0.08" filter="url(#noise1)">
+    <rect x="160" y="90" width="480" height="420" fill="#fff"/>
+  </g>
+  
+  <!-- High window -->
+  <rect x="370" y="100" width="60" height="80" fill="#0a0a15" stroke="#1a1a2a" stroke-width="0.5"/>
+  <rect x="375" y="105" width="50" height="70" fill="#050515"/>
+  
+  <!-- Terminal glow -->
+  <ellipse cx="400" cy="380" rx="80" ry="50" fill="#0a1520" opacity="0.5"/>
+  <rect x="340" y="350" width="120" height="80" fill="#020810" stroke="#0d1f2d" stroke-width="0.5"/>
+  <rect x="345" y="355" width="110" height="70" fill="#010508"/>
+  <line x1="400" y1="370" x2="400" y2="410" stroke="#0a2030" stroke-width="0.3" opacity="0.5"/>
+  
+  <!-- Granite veins -->
+  <g opacity="0.06" stroke="#fff" stroke-width="0.3">
+    <path d="M200 150 Q250 180 220 250 Q200 320 240 400"/>
+    <path d="M500 120 Q520 200 490 300 Q470 400 510 480"/>
+    <path d="M300 480 Q320 420 350 380 Q380 340 360 300"/>
+  </g>
+  
+  <!-- Mysterious particles -->
+  <g opacity="0.15">
+    <circle cx="180" cy="200" r="1" fill="#1a3050"/><circle cx="600" cy="250" r="0.8" fill="#1a2040"/>
+    <circle cx="250" cy="400" r="1.2" fill="#0a3050"/><circle cx="550" cy="380" r="0.6" fill="#1a3050"/>
+    <circle cx="400" cy="150" r="0.8" fill="#0a2040"/><circle cx="620" cy="450" r="2" fill="#050a15" opacity="0.5"/>
+  </g>
+  
+  <!-- Defense system — barely visible nodes -->
+  <g opacity="0.12">
+    <circle cx="200" cy="120" r="3" fill="none" stroke="#1a3040" stroke-width="0.5"/>
+    <circle cx="600" cy="120" r="3" fill="none" stroke="#1a3040" stroke-width="0.5"/>
+    <circle cx="200" cy="480" r="3" fill="none" stroke="#1a3040" stroke-width="0.5"/>
+    <circle cx="600" cy="480" r="3" fill="none" stroke="#1a3040" stroke-width="0.5"/>
+    <!-- Grid lines -->
+    <line x1="200" y1="123" x2="600" y2="123" stroke="#0a1520" stroke-width="0.2"/>
+    <line x1="200" y1="477" x2="600" y2="477" stroke="#0a1520" stroke-width="0.2"/>
+    <line x1="203" y1="120" x2="203" y2="480" stroke="#0a1520" stroke-width="0.2"/>
+    <line x1="597" y1="120" x2="597" y2="480" stroke="#0a1520" stroke-width="0.2"/>
+  </g>
+  
+  <!-- 3mm door gap -->
+  <line x1="390" y1="90" x2="390" y2="510" stroke="#1a2030" stroke-width="1.5" opacity="0.3"/>
+  <text x="395" y="180" font-family="monospace" font-size="6" fill="#1a3040" opacity="0.3" transform="rotate(90,395,180)">3mm</text>
+  
+  <!-- Glitch overlay -->
+  <g opacity="0.03" filter="url(#glitch)">
+    <rect x="0" y="0" width="800" height="600" fill="#fff"/>
+  </g>
+</svg>
