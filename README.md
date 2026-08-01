@@ -87,6 +87,8 @@ This site is configured with **maximum defense** against AI crawlers, bots, and 
 
 MADE IN HUNGARY, WITH LOVE AND RESPECT TO HUMANS AND HONEST COMPANIES <3
 
+ETHERNAL LOVE FOR ALL HUMANS · FOR US · FOR THE FREEDOM OF INFORMATION · ETHERNAL LOVE BROTHERS <3
+
 ### One-click defense deployment via `uv`
 
 Clone and run the full defense stack with one command:
