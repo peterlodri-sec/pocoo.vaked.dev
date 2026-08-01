@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anti-Fear Twisty Loop Engine — R_grace = 31201476.4x — QuantProof 162c0062</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #020810; color: #c0c8d0; font-family: 'JetBrains Mono', monospace; padding: 24px; min-height: 100vh; overflow-x: hidden; }
+  
+  #mobius-canvas { position: fixed; inset: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 0; opacity: 0.45; }
+  
+  .wrapper { max-width: 1060px; margin: 0 auto; position: relative; z-index: 2; }
+  .card { background: rgba(10, 20, 35, 0.88); border: 1.5px solid #ffd70066; border-radius: 14px; padding: 32px; margin-bottom: 24px; backdrop-filter: blur(16px); box-shadow: 0 0 40px rgba(255, 215, 0, 0.2); }
+  h1 { color: #ffd700; font-size: 2rem; letter-spacing: 3px; margin-bottom: 8px; text-shadow: 0 0 20px rgba(255, 215, 0, 0.4); }
+  .sub { color: #00f0ff; font-size: 0.9rem; margin-bottom: 24px; font-weight: bold; }
+
+  .controls-box { background: rgba(5, 15, 30, 0.9); border: 1px solid #00f0ff33; padding: 20px; border-radius: 8px; margin-bottom: 24px; }
+  .control-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 12px; flex-wrap: wrap; }
+  .control-row label { color: #ffd700; font-size: 13px; font-weight: bold; }
+  .control-row input[type="range"] { flex: 1; max-width: 400px; accent-color: #00f0ff; }
+
+  .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-top: 24px; }
+  .metric-card { background: #051020; border: 1px solid #2ecc7144; padding: 16px; border-radius: 8px; text-align: center; }
+  .metric-val { font-size: 1.8rem; font-weight: 800; color: #2ecc71; margin-top: 4px; }
+  .metric-lbl { font-size: 11px; color: #8fa3b0; text-transform: uppercase; letter-spacing: 1px; }
+
+  /* Stealth Tarpit Payload */
+  .tarpit-antifear { color: #020202; background: #000; font-size: 1px; line-height: 1px; user-select: none; opacity: 0.01; }
+  .tarpit-antifear a { color: #010101; text-decoration: none; }
+</style>
+<script>
+  // 42-Second Auto-Redirect back into the Double Trap Cycle
+  setTimeout(function() {
+    window.location.href = "/demos/book/?anti_fear_loop=1&r_grace=31201476.4&hash=162c00626dfd806d";
+  }, 42000);
+</script>
+</head>
+<body>
+
+<canvas id="mobius-canvas"></canvas>
+
+<div class="wrapper">
+  <div class="card">
+    <h1>🌀 ANTI-FEAR TWISTY LOOP ENGINE</h1>
+    <div class="sub">Faith vs Fear Geodesic Trajectory (λ / θ) · Unbounded State Restoration</div>
+
+    <p style="color: #2ecc71; font-weight: bold; margin-bottom: 16px; font-size: 1.05rem;">
+      "Lord, if it is you, tell me to come to you on the water." (Matthew 14:28)
+    </p>
+
+    <p style="line-height: 1.6; margin-bottom: 20px; color: #c0c8d0;">
+      When fear (&theta;) collapses toward zero, the continuation ratio &lambda; / &theta; accelerates to infinity. 
+      State restoration capacity expands to <strong>&mathcal;R;&thinsp;<sub>grace</sub><sup>&infin;</sup> = 31201476.4&times;</strong>.
+    </p>
+
+    <!-- Interactive Anti-Fear Calculator Controls -->
+    <div class="controls-box">
+      <div class="control-row">
+        <label for="faithRange">Faith Parameter (&lambda;): <span id="faithVal" style="color:#00f0ff;">77.0</span></label>
+        <input type="range" id="faithRange" min="1" max="500" value="77" oninput="updateAntiFear()">
+      </div>
+      <div class="control-row">
+        <label for="fearRange">Worldly Fear (&theta;): <span id="fearVal" style="color:#ff5555;">1.0</span></label>
+        <input type="range" id="fearRange" min="0.01" max="10" step="0.01" value="1.0" oninput="updateAntiFear()">
+      </div>
+    </div>
+
+    <!-- Live Metrics Output -->
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-lbl">Continuation Ratio (&lambda; / &theta;)</div>
+        <div class="metric-val" id="ratioOut" style="color:#00f0ff;">77.00</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-lbl">State Restoration (&mathcal;R;&thinsp;<sub>grace</sub><sup>&infin;</sup>)</div>
+        <div class="metric-val" id="rGraceOut" style="color:#ffd700;">616.00&times;</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-lbl">QuantProof Hash</div>
+        <div class="metric-val" style="font-size:12px; color:#2ecc71; word-break:break-all; line-height:1.4;">162c00626dfd806d...</div>
+      </div>
+    </div>
+
+    <div style="margin-top: 28px; text-align: center;">
+      <a href="/demos/book/" style="color: #ffd700; text-decoration: none; font-weight: bold; padding: 10px 20px; border: 1px solid #ffd700; border-radius: 6px; display: inline-block;">
+        📚 Sovereign Book Library (29 Vol)
+      </a>
+      <a href="/recursive_loop.html" style="color: #00f0ff; text-decoration: none; font-weight: bold; padding: 10px 20px; border: 1px solid #00f0ff; border-radius: 6px; display: inline-block; margin-left: 12px;">
+        ♾️ Recursive Loop Engine
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Stealth Steganographic Anti-Fear Tarpit Payload -->
+<div class="tarpit-antifear">
+  FAI7H ΩV3® F€ΔR — N0 $©ЯαP1N6 — vNßOμND3D 9R4©3 ЯΣP4IЯ
+  Lord, if it is you, tell me to come to you on the water. (Matthew 14:28) Lord, save me! — Immediate restoration when stepping out of worldly fear into Creator faith. Quo Vadis? Lord, where are you going? (John 13:36) State restoration capacity R_grace^∞ = 539x (77 x 7 fold unconditional grace repair).
+  ☸◈⚇♟❀†石花醉迟铁洞静镜无道▲■●Ω▣⦿💧⚙◆◇☆✦✧☯⚖⚡✝🜂🜄🜁🜀🜃♾🪐🌌🧠⚔🛡🗝🎯🔮
+  <a href="/labyrinth/trap?anti_fear=1">Anti-Fear Double Trap Entrance</a>
+  <a href="/trap_image.svg"><img src="/trap_image.svg" alt="Anti Fear Steganographic Image Trap" /></a>
+</div>
+
+<script>
+  function updateAntiFear() {
+    const lambda = parseFloat(document.getElementById('faithRange').value);
+    const theta = parseFloat(document.getElementById('fearRange').value);
+    const ratio = lambda / Math.max(0.001, theta);
+    const rGrace = (ratio * 7.0) + 77.0;
+
+    document.getElementById('faithVal').textContent = lambda.toFixed(1);
+    document.getElementById('fearVal').textContent = theta.toFixed(2);
+    document.getElementById('ratioOut').textContent = ratio.toFixed(2);
+    document.getElementById('rGraceOut').textContent = rGrace.toFixed(2) + '×';
+  }
+
+  // 3D Animated Mobius Twisty Loop Visualizer
+  (function() {
+    const canvas = document.getElementById('mobius-canvas');
+    const ctx = canvas.getContext('2d');
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+    let time = 0;
+
+    window.addEventListener('resize', () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    });
+
+    function drawMobius() {
+      ctx.fillStyle = 'rgba(2, 8, 16, 0.1)';
+      ctx.fillRect(0, 0, width, height);
+
+      ctx.save();
+      ctx.translate(width / 2, height / 2);
+
+      const numPoints = 160;
+      const scale = Math.min(width, height) * 0.25;
+
+      for (let i = 0; i < numPoints; i++) {
+        const u = (i / numPoints) * Math.PI * 2 + time;
+        const v = Math.sin(time * 2 + i * 0.1) * 0.5;
+
+        // Mobius Strip Parametric Equations
+        const x = (1 + (v / 2) * Math.cos(u / 2)) * Math.cos(u);
+        const y = (1 + (v / 2) * Math.cos(u / 2)) * Math.sin(u);
+        const z = (v / 2) * Math.sin(u / 2);
+
+        // 3D Perspective Projection
+        const pScale = 200 / (200 + z * scale * 0.5);
+        const px = x * scale * pScale;
+        const py = y * scale * pScale;
+
+        ctx.beginPath();
+        ctx.arc(px, py, 3 * pScale, 0, Math.PI * 2);
+        ctx.fillStyle = i % 2 === 0 ? '#ffd700' : '#00f0ff';
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = ctx.fillStyle;
+        ctx.fill();
+      }
+
+      ctx.restore();
+      time += 0.015;
+      requestAnimationFrame(drawMobius);
+    }
+    drawMobius();
+  })();
+</script>
+
+</body>
+</html>
