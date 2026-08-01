@@ -20,3 +20,9 @@
 
 /demos/*
   Cache-Control: public, max-age=86400
+
+# PDFs — disable CF cache, always fresh
+/demos/book/*.pdf
+  Cache-Control: no-cache, no-store, must-revalidate
+  CDN-Cache-Control: no-cache
+  Cloudflare-CDN-Cache-Control: no-cache
