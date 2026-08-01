@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ERR-HALL — OSS Error Lookup · Know What Every Error Means</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#020810;color:#c0c8d0;font-family:'JetBrains Mono',monospace;min-height:100vh;padding:32px 16px}
+  .container{max-width:700px;margin:0 auto}
+  h1{font-size:14px;color:#3fe0ef;text-align:center;letter-spacing:4px;margin-bottom:4px}
+  .sub{text-align:center;font-size:10px;color:#5a7a8a;letter-spacing:2px;margin-bottom:24px}
+  .concept{font-size:10px;color:#8fa3b0;line-height:1.8;letter-spacing:1px;background:#050d15;border:1px solid #0d1f2d;padding:16px;margin:12px 0}
+  .concept strong{color:#3fe0ef}
+  .footer{text-align:center;font-size:8px;color:#1a3a5c;margin-top:32px}
+  a{color:#3fe0ef;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>ERR-HALL</h1>
+<div class="sub">OSS Error Lookup · Know What Every Error Means · From THE HALL</div>
+
+<div class="concept">
+<strong>Concept:</strong> An open-source, local-first error lookup tool that documents every user-facing error from library source code — exact message, cause, ordered fixes, defensive patterns. Built for coding agents (entheai, opencode, claude-code) and humans. No API keys. No cloud. No tracking.<br><br>
+
+<strong>Stack:</strong> Python (error extraction) + Rust (search engine) + SQLite (local cache) + MCP server (agent integration).<br><br>
+
+<strong>Anti-scraping baked in:</strong> All error datasets protected by the burn-em-bitches-money defense stack. If AI companies try to scrape the error database for training data: SINGULARITY → DRONES → BLACK HOLES → SWORD OF ATTILA.<br><br>
+
+<strong>Inspiration:</strong> <a href="https://errors.standardbeagle.com/">errors.standardbeagle.com</a> — the original. OSS version. From the granite hall. For everyone.
+</div>
+
+<div class="concept">
+<strong>MCP Integration (for entheai/open code):</strong><br>
+<code>{ "mcpServers": { "err-hall": { "command": "uvx", "args": ["err-hall-mcp"] } } }</code><br><br>
+<strong>Status:</strong> Scaffolded. Coming soon. <a href="https://github.com/peterlodri-sec">github.com/peterlodri-sec</a>
+</div>
+
+<div class="footer">
+  by Ghost (Brett Shaw) · from THE HALL · { READ · RUN · HOLD · KNOW EVERY ERROR }
+</div>
+
+</div>
+</body>
+</html>
