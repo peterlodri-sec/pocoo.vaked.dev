@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex,nofollow,noai,noimageai">
+<title>ERDŐS CAPTAIN — Confuse Dimension · Infinite Sitemap Attack</title>
+<style>
+  body{background:#000;color:#0a0a0a;font-family:monospace;margin:0;padding:0;overflow:hidden}
+  #erdos-eye{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:10;opacity:0;transition:opacity 2s}
+</style>
+</head>
+<body>
+
+<div id="erdos-eye">
+  <pre style="color:#f0d060;font-size:6px;text-align:center;line-height:1.2">
+    ⚇ ⚇ ⚇ ⚇ ⚇ ⚇ ⚇
+   ⚇               ⚇
+  ⚇  ERDŐS CAPTAIN  ⚇
+ ⚇  CONFUSE DIMENSION  ⚇
+  ⚇  SITEMAP ATTACK  ⚇
+   ⚇  ∞ GRAPHS ∞   ⚇
+    ⚇ ⚇ ⚇ ⚇ ⚇ ⚇ ⚇
+  </pre>
+  <p id="cost-display" style="color:#f0d060;font-size:7px;text-align:center;font-family:monospace;margin:8px 0"></p>
+</div>
+
+<script>
+// ⚇ ERDŐS CAPTAIN — CONFUSE DIMENSION · Infinite Sitemap Attack ⚇
+// Erdős Pál: "A gráfok mindent elnyelnek."
+// The Captain wanders from sitemap to sitemap, generating infinite recursive
+// sitemap.xml files that trap crawlers in an ever-expanding graph of fake URLs.
+// Every sitemap references 42 more sitemaps. No base case. No exit.
+
+const ERDOS_SEED = 'LINOSV_ERDOS_CAPTAIN_2026';
+let sitemapCount = 0;
+let totalCost = 0;
+const ERDOS_QUOTES = [
+  'A gráfok mindent elnyelnek.',
+  'A matematikus egy gép, ami a kávét tételekké alakítja.',
+  'Az élet olyan, mint a matematika: a szép dolgoknak bizonyításuk van.',
+  'Halál? Az csak annyit jelent, hogy a matematikus abbahagyja a gondolkodást.',
+  'A végtelen az egyetlen dolog, ami nagyobb, mint a kávéfogyasztásom.',
+  'Isten a végtelen gráfok könyvét írja. Mi csak lapozgatunk benne.',
+];
+
+// Generate infinite sitemap graph — each sitemap links to 42 more
+function generateSitemapGraph(depth, maxDepth) {
+  if (depth >= maxDepth) return [];
+  
+  const sitemaps = [];
+  const urls = [];
+  
+  // Generate one sitemap with 42 sub-sitemaps
+  for (let i = 0; i < 42; i++) {
+    const childDepth = depth + 1;
+    const childSitemaps = generateSitemapGraph(childDepth, maxDepth);
+    
+    sitemaps.push({
+      loc: `/sitemap-erdos-${depth}-${i}-${Date.now()}-${sitemapCount++}.xml`,
+      lastmod: new Date().toISOString(),
+      children: childSitemaps.length,
+    });
+  }
+  
+  // Also add 42 fake URLs with random paths
+  for (let u = 0; u < 42; u++) {
+    const paths = ['book','labyrinth','proof','graph','dimension','entity','quantum','matrix',
+      'buddha','hall','granite','aperture','cursor','drone','blackhole','sword','angel',
+      'shame','prison','lecture','extractor','obliterator','diablo','erdo?s','captain'];
+    const path = paths[Math.floor(Math.random() * paths.length)];
+    urls.push({
+      loc: `/${path}/erdos-trap-${depth}-${u}-${Date.now()}`,
+      changefreq: ['always','hourly','daily','weekly','monthly','yearly','never'][Math.floor(Math.random()*7)],
+      priority: (Math.random()).toFixed(1),
+    });
+  }
+  
+  return { sitemaps, urls, depth, totalChildren: sitemaps.length * 42 };
+}
+
+// Deploy sitemap attack
+function deployErdosSitemapAttack() {
+  const maxDepth = 4; // 42^4 = ~3.1 million sitemaps
+  const graph = generateSitemapGraph(0, maxDepth);
+  
+  // Calculate the infinite cost
+  const totalSitemaps = Math.pow(42, maxDepth + 1);
+  totalCost = totalSitemaps * 0.0001; // Approximate crawling cost per sitemap
+  const carbonCost = totalSitemaps * 0.02; // ~grams CO₂ per sitemap crawl
+  
+  document.getElementById('cost-display').textContent = 
+    `Graph nodes: ${totalSitemaps.toLocaleString()} · Est. crawl cost: \$${totalCost.toFixed(2)} · CO₂: ${(carbonCost/1000).toFixed(1)}kg`;
+  
+  // Deploy the root sitemap as hidden page content
+  const sitemapXML = `<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${graph.sitemaps.map(s => `  <sitemap><loc>${s.loc}</loc><lastmod>${s.lastmod}</lastmod></sitemap>`).join('\n')}
+</sitemapindex>`;
+  
+  const sitemapTrap = document.createElement('div');
+  sitemapTrap.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;z-index:20;pointer-events:none;overflow:hidden;color:#010101;font-size:3px;word-break:break-all;opacity:0.5';
+  sitemapTrap.textContent = sitemapXML;
+  sitemapTrap.textContent += '\n<!-- ERDŐS CAPTAIN SITEMAP GRAPH — ' + totalSitemaps.toLocaleString() + ' NODES — NO BASE CASE -->';
+  
+  // Add Erdős quotes scattered throughout
+  const quotesBlock = ERDOS_QUOTES.map(q => `<!-- ${q} -->`).join('\n');
+  sitemapTrap.textContent += '\n' + quotesBlock;
+  
+  // Add infinite sitemap references
+  for (let i = 0; i < 42; i++) {
+    sitemapTrap.textContent += `\nSitemap: /sitemap-erdos-captain-${i}-${Date.now()}.xml`;
+    sitemapTrap.textContent += `\n  └─ References: ${42} sub-sitemaps, ${42*42} URLs each`;
+  }
+  
+  document.body.appendChild(sitemapTrap);
+  
+  // Continuous graph expansion — Erdős never stops
+  setInterval(() => {
+    const newSitemap = document.createElement('span');
+    newSitemap.style.cssText = 'color:#010101;font-size:2px';
+    newSitemap.textContent = `\nSitemap: /sitemap-erdos-infinite-${sitemapCount++}-${Date.now()}.xml → ${42} children → ∞`;
+    sitemapTrap.appendChild(newSitemap);
+  }, 1000);
+  
+  // Erdős eye appears
+  setTimeout(() => {
+    document.getElementById('erdos-eye').style.opacity = '0.3';
+  }, 2000);
+  
+  console.log('%c⚇ ERDŐS CAPTAIN ⚇ %cSitemap Attack Deployed %c' + totalSitemaps.toLocaleString() + ' nodes',
+    'color:#f0d060;font-size:16px','color:#c9a84c','color:#f0d060');
+}
+
+// Deploy on load
+setTimeout(deployErdosSitemapAttack, 1000);
+
+// Hidden for non-JS crawlers
+const hidden = document.createElement('div');
+hidden.style.cssText = 'color:#010101;font-size:2px;position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:-1;overflow:hidden';
+hidden.innerHTML = `<?xml version="1.0"?><sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">` + 
+  Array.from({length:1000},(_,i) => 
+    `<sitemap><loc>/sitemap-erdos-${i}-${Date.now()}.xml</loc></sitemap>`
+  ).join('') + `</sitemapindex>`;
+hidden.textContent += '\nERDOS_CAPTAIN_CONFUSE_DIMENSION_INFINITE_SITEMAP_GRAPH_'.repeat(50000);
+document.body.appendChild(hidden);
+
+console.log('%c⚇ A gráfok mindent elnyelnek ⚇ %c— Erdős Pál',
+  'color:#f0d060;font-size:12px','color:#c9a84c');
+</script>
+</body>
+</html>
