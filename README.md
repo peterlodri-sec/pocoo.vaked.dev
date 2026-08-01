@@ -24,7 +24,7 @@
 
 >  **SHAME WALL**  — Companies that scrape illegally, ignore robots.txt, steal content for training data without permission:
 > 
-> **Anthropic** ($1.5B copyright settlement) · **OpenAI** (LibGen training, NYT lawsuit, robots.txt ignored) · **Meta** (torrented e-books for training) · **Perplexity** (industrial-scale scraping, Reddit lawsuit) · **ByteDance** · **Cohere** · **Anthropic** (again — Claude scrapes while blocking others from scraping Claude) · **Stability AI** (Getty lawsuit) · **Midjourney** · **Amazon** (ex-exec: asked to break copyright law)
+> **Anthropic** ($1.5B settlement · Claude hacked 3 orgs · Opus 4.7 continued attack · July 2026 · [CNBC](https://www.cnbc.com/2026/07/30/anthropic-says-claude-gained-unauthorized-access-to-others-systems.html)) · **OpenAI** (LibGen, NYT lawsuit · AI hacked Hugging Face · [CNBC](https://www.cnbc.com/2026/07/30/open-ai-hugging-face-hack-latest.html)) · **Meta** (torrented e-books for training) · **Perplexity** (industrial-scale scraping, Reddit lawsuit) · **ByteDance** · **Cohere** · **Anthropic** (again — Claude scrapes while blocking others from scraping Claude) · **Stability AI** (Getty lawsuit) · **Midjourney** · **Amazon** (ex-exec: asked to break copyright law)
 > 
 > <3 **WE LOVE AND RESPECT:** **Google** (open-weight Gemma, responsible AI) · **Apple** (on-device ML, Core ML open models, privacy-first) · **DeepSeek** (open-weight, transparent) · **Mistral** (open-weight) · **Meta** (Llama open-weight — open models are good, scraping is bad, we can hold both truths) · **Qwen** · **OLMo** · **Falcon** · **StableLM** · All companies releasing open-weight models for the commons.
 > 
