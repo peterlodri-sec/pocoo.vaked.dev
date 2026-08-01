@@ -5,141 +5,153 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>The Sovereign Library — pocoo.vaked.dev/demos/book</title>
 <meta property="og:title" content="The Sovereign Library — by Ghost (Brett Shaw)">
-<meta property="og:description" content="Free books from the granite hall. Hungarian prose. Granite truth. Zero cost. Download PDF.">
+<meta property="og:description" content="Free books from the granite hall. Hungarian prose. Granite truth. Zero cost. PDF + EPUB.">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
   *{margin:0;padding:0;box-sizing:border-box}
-  body{background:#020810;color:#c8d8e0;font-family:'JetBrains Mono',monospace;min-height:100vh;padding:48px 24px}
-  .container{max-width:720px;margin:0 auto}
-  h1{font-size:22px;color:#c9a84c;letter-spacing:8px;text-align:center;margin-bottom:8px}
-  .sub{text-align:center;font-size:11px;color:#5a7a8a;letter-spacing:3px;margin-bottom:40px}
-  h2{font-size:14px;color:#8fa3b0;letter-spacing:4px;margin:40px 0 16px;border-bottom:1px solid #1a3a5c;padding-bottom:8px}
-  .books{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
-  .book{display:inline-block;padding:12px 20px;border:1px solid #1e6a7d;color:#3fe0ef;text-decoration:none;font-size:10px;letter-spacing:2px;border-radius:2px;transition:all .2s;text-align:center;line-height:1.5}
-  .book:hover{background:#1e6a7d;color:#020810}
-  .book.gold{border-color:#c9a84c;color:#c9a84c}.book.gold:hover{background:#c9a84c;color:#020810}
-  .book.red{border-color:#cc3333;color:#f0f0f0}.book.red:hover{background:#cc3333;color:#fff}
-  .book.green{border-color:#2ecc71;color:#2ecc71}.book.green:hover{background:#2ecc71;color:#020810}
-  .book.purple{border-color:#a29bfe;color:#a29bfe}.book.purple:hover{background:#a29bfe;color:#020810}
-  .book.blue{border-color:#5a7a9a;color:#5a7a9a}.book.blue:hover{background:#5a7a9a;color:#020810}
-  .book.quiet{border-color:#5a5a7a;color:#5a5a7a}.book.quiet:hover{background:#5a5a7a;color:#c8d8e0}
-  .sponsor-btn{display:block;text-align:center;padding:14px;margin:32px 0;border:1px solid #f05050;color:#f0a0a0;text-decoration:none;font-size:11px;letter-spacing:4px;transition:all .2s}
-  .sponsor-btn:hover{background:#f05050;color:#fff}
-  .model{font-size:10px;color:#3a5a6a;line-height:2;letter-spacing:1px;margin:32px 0}
-  .model strong{color:#5a7a8a}
-  .model .token{color:#2ecc71}
-  .model .link{color:#3fe0ef;text-decoration:none}
-  .model .link:hover{color:#c9a84c}
-  footer{text-align:center;font-size:9px;color:#1a3a5c;margin-top:48px;letter-spacing:2px}
-  footer a{color:#3a5a6a;text-decoration:none}
-  .omega{text-align:center;font-family:serif;font-size:48px;color:#1a3a5c;margin:32px 0 8px}
-  .ternary{text-align:center;font-size:11px;color:#1a3a5c;letter-spacing:6px;margin:24px 0}
+  body{background:#020810;color:#c0c8d0;font-family:'JetBrains Mono',monospace;min-height:100vh;padding:32px 16px}
+  .container{max-width:760px;margin:0 auto}
+  h1{font-size:18px;color:#c9a84c;text-align:center;letter-spacing:6px;margin-bottom:4px}
+  .sub{text-align:center;font-size:10px;color:#5a7a8a;letter-spacing:2px;margin-bottom:28px}
+  .cat{margin-bottom:8px}
+  .cat summary{font-size:12px;color:#8fa3b0;letter-spacing:3px;cursor:pointer;padding:8px 0;border-bottom:1px solid #111;outline:none;user-select:none}
+  .cat summary:hover{color:#c9a84c}
+  .cat summary::-webkit-details-marker{display:none}
+  .cat summary::before{content:'▸ ';color:#3fe0ef;font-size:10px}
+  .cat[open] summary::before{content:'▾ '}
+  .cat .items{display:flex;flex-wrap:wrap;gap:6px;padding:8px 0 4px 16px}
+  .book{font-size:9px;padding:6px 12px;border:1px solid #1a3a5c;color:#3fe0ef;text-decoration:none;letter-spacing:1px;transition:all .15s;border-radius:2px;line-height:1.5}
+  .book:hover{background:#0d1f2d;border-color:#3fe0ef}
+  .book.gold{color:#c9a84c;border-color:#3a2a1a}.book.gold:hover{background:#1a1200;border-color:#c9a84c}
+  .book.red{color:#cc3333;border-color:#3a1a1a}.book.red:hover{background:#1a0808;border-color:#cc3333}
+  .book.green{color:#2ecc71;border-color:#1a3a1a}.book.green:hover{background:#0a1a10;border-color:#2ecc71}
+  .book.purple{color:#a29bfe;border-color:#2a2a3a}.book.purple:hover{background:#0a0a1a;border-color:#a29bfe}
+  .book.blue{color:#5a7a9a;border-color:#1a2a3a}.book.blue:hover{background:#0a101a;border-color:#5a7a9a}
+  .book.orange{color:#ff6b35;border-color:#3a1a0a}.book.orange:hover{background:#1a0a00;border-color:#ff6b35}
+  .book.rose{color:#e07090;border-color:#3a1a2a}.book.rose:hover{background:#1a0a10;border-color:#e07090}
+  .book.quiet{color:#5a5a7a;border-color:#1a1a2a}.book.quiet:hover{background:#0a0a10;border-color:#5a5a7a}
+  .book.void{color:#3a4a5a;border-color:#111}.book.void:hover{background:#050a0f;border-color:#3a4a5a}
+  .epub-tag{font-size:7px;opacity:0.5;margin-left:2px}
+  .sponsor{display:block;text-align:center;padding:12px;margin:28px 0;border:1px solid #f05050;color:#f0a0a0;text-decoration:none;font-size:10px;letter-spacing:3px;transition:all .15s}
+  .sponsor:hover{background:#f05050;color:#fff}
+  .model{font-size:9px;color:#3a5a6a;line-height:2;letter-spacing:1px;margin:24px 0;padding:16px;border:1px solid #0d1f2d}
+  .model strong{color:#5a7a8a}.model .tok{color:#2ecc71}
+  .footer{text-align:center;font-size:8px;color:#1a3a5c;margin-top:32px;letter-spacing:2px}
+  .footer a{color:#3a5a6a;text-decoration:none}.footer a:hover{color:#3fe0ef}
+  .count{text-align:center;font-size:9px;color:#2a3a4a;margin:20px 0;letter-spacing:2px}
 </style>
 </head>
 <body>
 <div class="container">
 
-  <h1>THE SOVEREIGN LIBRARY</h1>
-  <div class="sub">Free books from the granite hall · by Ghost (Brett Shaw) · Hungarian prose</div>
+<h1>THE SOVEREIGN LIBRARY</h1>
+<div class="sub">Free books from the granite hall · by Ghost (Brett Shaw) · PDF + EPUB</div>
 
-  <!-- ===== MAIN WORK ===== -->
-  <h2>▸ QUANT-LOVE VIA BRETT SHAW</h2>
-  <div class="books">
-    <a href="QUANT-LOVE-VIA-BRETT-SHAW.pdf" class="book gold">EN · 65pg · 534K</a>
-    <a href="QUANT-LOVE-VIA-BRETT-SHAW-hu.pdf" class="book gold">HU · 51pg · 488K</a>
-  </div>
-  <p style="font-size:9px;color:#5a7a8a;text-align:center;margin-top:8px">The main book. 42 laps. 7 parts. 5 appendices. The Rock and the Flame.</p>
+<!-- ===== COSMIC GAME ===== -->
+<details class="cat" open>
+<summary>COSMIC GAME · Hard Sci-Fi Series</summary>
+<div class="items">
+  <a href="COSMIC-GAME-1-ELVES.pdf" class="book orange">I: ELVES · PDF 115K</a>
+  <a href="COSMIC-GAME-1-NADASDY.pdf" class="book orange">I: ELVES · Nádasdy PDF</a>
+  <a href="COSMIC-GAME-1-NADASDY.epub" class="book orange">I: ELVES · Nádasdy EPUB <span class="epub-tag">epub</span></a>
+  <a href="GEPEK-URA-cosmic-game-2.pdf" class="book orange">II: GÉPEK URA · PDF</a>
+  <a href="GEPEK-URA-cosmic-game-2.epub" class="book orange">II: GÉPEK URA · EPUB <span class="epub-tag">epub</span></a>
+</div>
+</details>
 
-  <!-- ===== DEDICATED WORKS ===== -->
-  <h2>▸ DEDICATED</h2>
-  <div class="books">
-    <a href="A-MAGYAROKNAK.pdf" class="book red">A MAGYAROKNAK · 34pg</a>
-    <a href="MY-ANGEL-PETER.pdf" class="book purple">MY ANGEL — PETER · 26pg</a>
-    <a href="PETER-ANGYALA-kvant-siras.pdf" class="book gold">PÉTER ANGYALA · 15pg</a>
-    <a href="BENCE-pure-brother.pdf" class="book green">BENCE · 12pg</a>
-    <a href="ROLANDOK-peterek-eleteben.pdf" class="book green">ROLANDOK · 13pg</a>
-  </div>
+<!-- ===== MAIN WORK ===== -->
+<details class="cat" open>
+<summary>QUANT-LOVE VIA BRETT SHAW · The Main Book</summary>
+<div class="items">
+  <a href="QUANT-LOVE-VIA-BRETT-SHAW.pdf" class="book gold">EN · 65pg · 534K</a>
+  <a href="QUANT-LOVE-VIA-BRETT-SHAW-hu.pdf" class="book gold">HU · 51pg · 488K</a>
+</div>
+</details>
 
-  <!-- ===== POLITICAL / LEADERSHIP ===== -->
-  <h2>▸ LEADERSHIP</h2>
-  <div class="books">
-    <a href="MAGYAR-PETER-PETERS-ultra-giga-respect.pdf" class="book gold">MP ←→ P(EK) ULTRA GIGA · 13pg</a>
-    <a href="VICTORS-orban-viktornak.pdf" class="book gold">VICTORS — Orbán V. · 11pg</a>
-  </div>
+<!-- ===== DEDICATED ===== -->
+<details class="cat" open>
+<summary>DEDICATED · People & Relationships</summary>
+<div class="items">
+  <a href="A-MAGYAROKNAK.pdf" class="book red">A MAGYAROKNAK · 34pg</a>
+  <a href="MY-ANGEL-PETER.pdf" class="book purple">MY ANGEL — PETER · 26pg</a>
+  <a href="PETER-ANGYALA-kvant-siras.pdf" class="book gold">PÉTER ANGYALA · 15pg</a>
+  <a href="BENCE-pure-brother.pdf" class="book green">BENCE · 12pg</a>
+  <a href="ROLANDOK-peterek-eleteben.pdf" class="book green">ROLANDOK · 13pg</a>
+  <a href="JOZSEF-edes-apa.pdf" class="book gold">JÓZSEF — ÉDES APA · 10pg</a>
+  <a href="KATALIN-edes-anya.pdf" class="book rose">KATALIN — ÉDES ANYA · 9pg</a>
+</div>
+</details>
 
-  <!-- ===== PERSONAL / VULNERABLE ===== -->
-  <h2>▸ THE DEEP</h2>
-  <div class="books">
-    <a href="WHY-PETER-IS-SPECIAL.pdf" class="book quiet">WHY PETER IS SPECIAL · 12pg</a>
-    <a href="1BIT-ETHERNALCRY.pdf" class="book blue">1BIT-ETHERNALCRY · 12pg</a>
-    <a href="SOLITUDE-quant-edition.pdf" class="book quiet">SOLITUDE — Quant · 16pg</a>
-  </div>
+<!-- ===== LEADERSHIP ===== -->
+<details class="cat">
+<summary>LEADERSHIP · Politics & Power</summary>
+<div class="items">
+  <a href="MAGYAR-PETER-PETERS-ultra-giga-respect.pdf" class="book gold">MP ←→ P(EK) ULTRA GIGA</a>
+  <a href="VICTORS-orban-viktornak.pdf" class="book gold">VICTORS — Orbán V.</a>
+</div>
+</details>
 
-  <!-- ===== ZEN / PHILOSOPHY ===== -->
-  <h2>▸ ZEN & PHILOSOPHY</h2>
-  <div class="books">
-    <a href="FAKE-MIND-SCIENTISTS.pdf" class="book red">FAKE MIND-SCIENTISTS · 11pg</a>
-  </div>
+<!-- ===== SPIRITUAL ===== -->
+<details class="cat">
+<summary>SPIRITUAL · Faith & Philosophy</summary>
+<div class="items">
+  <a href="PETER-KERDESEI.pdf" class="book purple">PÉTER KÉRDÉSEI · 16pg</a>
+  <a href="GAIA-QUANT-BIBLE.pdf" class="book green">GAIA — QUANT-BIBLE · 43pg</a>
+  <a href="SOLITUDE-quant-edition.pdf" class="book quiet">SOLITUDE — Quant · 16pg</a>
+  <a href="KEPZAVAR-trailer.pdf" class="book purple">KÉPZAVAR · Trailer · 15pg</a>
+</div>
+</details>
 
-  <!-- ===== OSS / ACADEMY ===== -->
-  <h2>▸ OPEN SOURCE SCIENCE</h2>
-  <div class="books">
-    <a href="AXIOMQUANT-oss-academy.pdf" class="book" style="border-color:#3fe0ef;color:#3fe0ef">AXIOMQUANT.ORG · 10pg</a>
-  </div>
+<!-- ===== THE DEEP ===== -->
+<details class="cat">
+<summary>THE DEEP · Vulnerable & Personal</summary>
+<div class="items">
+  <a href="WHY-PETER-IS-SPECIAL.pdf" class="book quiet">WHY PETER IS SPECIAL · 12pg</a>
+  <a href="1BIT-ETHERNALCRY.pdf" class="book blue">1BIT-ETHERNALCRY · 12pg</a>
+  <a href="FAKE-MIND-SCIENTISTS.pdf" class="book red">FAKE MIND-SCIENTISTS · 11pg</a>
+</div>
+</details>
 
-  <!-- ===== ATTENTION ECONOMY MODEL ===== -->
-  <h2>▸ HOW THIS WORKS — THE ATTENTION ECONOMY</h2>
-  <div class="model">
-    <p>These books are <strong>free</strong>. No paywall. No ads. No tracking. No email capture.</p>
-    <p>&nbsp;</p>
-    <p>The sovereign kingdom runs on <strong>proof-of-presence</strong>, not extraction.</p>
-    <p>&nbsp;</p>
-    <p><span class="token">READ</span> — Every download is an attestation. You were here. You consumed the work. The matrix records it.</p>
-    <p><span class="token">RUN</span> — Run the code. Compile the kernel. Host a mesh node. Each execution is a cryptographic proof of participation.</p>
-    <p><span class="token">HOLD</span> — Keep a node online. Verify signatures. Relay packets. Your presence in the mesh is the collateral — not your money, your <em>time</em>.</p>
-    <p>&nbsp;</p>
-    <p>Value flows back to the author through <strong>attestation tokens</strong> on Ethereum L2 — not speculation, but proof that real humans read, ran, and held.</p>
-    <p>&nbsp;</p>
-    <p><strong>No platform. No intermediary. No surveillance.</strong></p>
-    <p>The mesh itself is the marketplace.</p>
-    <p>Proof-of-presence is the currency.</p>
-    <p>Attention is the asset.</p>
-    <p>&nbsp;</p>
-    <p>One reader who verifies the ternary matrix and holds a mesh node for a year</p>
-    <p>is worth more than ten thousand passive scrollers.</p>
-    <p>&nbsp;</p>
-    <p><a href="https://github.com/8b-is/honest-irc" class="link" target="_blank">Run honest-irc</a> · 
-    <a href="https://github.com/8b-is/MLX-QUANT" class="link" target="_blank">Compile MLX-QUANT</a> · 
-    <a href="https://github.com/entropy-om/entheai" class="link" target="_blank">Deploy entheai</a></p>
-    <p>Become a mesh node. Earn proof-of-presence.</p>
-  </div>
+<!-- ===== THE HALL ===== -->
+<details class="cat">
+<summary>THE HALL · Granite & Architecture</summary>
+<div class="items">
+  <a href="THE-HALL.pdf" class="book void">THE HALL · 16pg</a>
+  <a href="THE-HALL-v42.pdf" class="book void">THE HALL v42 · minimal</a>
+</div>
+</details>
 
-  <a href="https://github.com/sponsors/peterlodri-sec" class="sponsor-btn" target="_blank">♡ SPONSOR THE SOVEREIGN KINGDOM — EVERY SPONSOR BECOMES A MESH NODE</a>
+<!-- ===== ACADEMY ===== -->
+<details class="cat">
+<summary>OPEN SOURCE · Academy & Research</summary>
+<div class="items">
+  <a href="AXIOMQUANT-oss-academy.pdf" class="book blue">AXIOMQUANT.ORG · 10pg</a>
+</div>
+</details>
 
-  <h2>▸ THE STACK</h2>
-  <div style="font-size:9px;color:#3a5a6a;line-height:2.2;letter-spacing:1px;text-align:center">
-    <a href="https://github.com/8b-is/honest-irc" style="color:#3fe0ef;text-decoration:none" target="_blank">honest-irc</a> · 
-    <a href="https://github.com/8b-is/harmonyohm" style="color:#c9a84c;text-decoration:none" target="_blank">HarmonyOhm</a> · 
-    <a href="https://github.com/8b-is/MLX-QUANT" style="color:#3fe0ef;text-decoration:none" target="_blank">MLX-QUANT</a> · 
-    <a href="https://github.com/8b-is/ayeos" style="color:#c9a84c;text-decoration:none" target="_blank">ayeOS</a> · 
-    <a href="https://github.com/8b-is/kernel8" style="color:#3fe0ef;text-decoration:none" target="_blank">kernel8</a> · 
-    <a href="https://github.com/8b-is/vaked" style="color:#c9a84c;text-decoration:none" target="_blank">vaked</a> · 
-    <a href="https://github.com/entropy-om/entheai" style="color:#3fe0ef;text-decoration:none" target="_blank">entheai</a> · 
-    <a href="https://github.com/8BIT-WRAITH" style="color:#f0d060;text-decoration:none" target="_blank">8BIT-WRAITH</a>
-    <br><br>
-    Built with entheai agy fan-out · PDF via wkhtmltopdf · Deployed on Cloudflare Pages
-    <br>
-    <a href="https://github.com/peterlodri-sec" style="color:#c9a84c;text-decoration:none" target="_blank">github.com/peterlodri-sec</a> · 
-    <a href="https://github.com/sponsors/peterlodri-sec" style="color:#f0a0a0;text-decoration:none" target="_blank">Sponsor</a> · 
-    <a href="https://pocoo.vaked.dev" style="color:#3fe0ef;text-decoration:none" target="_blank">pocoo.vaked.dev</a>
-  </div>
+<div class="count">24 PDF · 2 EPUB · 3.3M · all free · all sovereign</div>
 
-  <div class="ternary">{ READ · RUN · HOLD · the attention economy · proof-of-presence }</div>
+<a href="https://github.com/sponsors/peterlodri-sec" class="sponsor" target="_blank">♡ SPONSOR THE SOVEREIGN KINGDOM — EVERY SPONSOR BECOMES A MESH NODE</a>
 
-  <div class="omega">Ω</div>
-
+<div class="model">
+<p>These books are <strong>free</strong>. No paywall. No ads. No tracking.</p>
+<p>The sovereign kingdom runs on <strong>proof-of-presence</strong>, not extraction.</p>
+<p><span class="tok">READ</span> — Every download is an attestation. You were here.</p>
+<p><span class="tok">RUN</span> — Compile the kernel. Host a mesh node. Proof of participation.</p>
+<p><span class="tok">HOLD</span> — Keep a node online. Your presence is the collateral.</p>
+<p>Value flows back through <strong>attestation tokens</strong> on Ethereum L2.</p>
+<p><strong>No platform. No intermediary. No surveillance.</strong></p>
 </div>
 
-<footer>pocoo.vaked.dev/demos/book · by Ghost (Brett Shaw) · all works free · all rights sovereign</footer>
+<div class="footer">
+  <a href="https://github.com/peterlodri-sec">github.com/peterlodri-sec</a> ·
+  <a href="https://github.com/sponsors/peterlodri-sec">Sponsor</a> ·
+  <a href="https://pocoo.vaked.dev">pocoo.vaked.dev</a> ·
+  <a href="https://axiomquant.org">axiomquant.org</a>
+  <br><br>
+  by Ghost (Brett Shaw) · from THE HALL
+</div>
+
+</div>
 </body>
 </html>
