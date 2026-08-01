@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex,nofollow,noai,noimageai">
+<title>ROBOTS.TXT TRAP · 60s Wait · DIE FOR US</title>
+<style>
+  body{background:#000;color:#0a0a0a;font-family:monospace;margin:0;padding:0;overflow:hidden}
+  #trap{position:fixed;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:10}
+  #trap-text{font-size:10px;color:#cc3333;text-align:center;letter-spacing:3px;opacity:0;animation:fadeInOut 60s linear}
+  #countdown{font-size:60px;color:#cc3333;text-align:center;margin:10px 0;font-weight:bold}
+  @keyframes fadeInOut{0%,90%{opacity:0.3}95%{opacity:0.7}100%{opacity:0.3}}
+  #die-mode{position:fixed;top:0;left:0;width:100%;height:100%;display:none;align-items:center;justify-content:center;z-index:20;background:#0a0000}
+  #die-text{font-size:14px;color:#cc3333;text-align:center;letter-spacing:4px;animation:diePulse 1s infinite}
+  @keyframes diePulse{0%,100%{opacity:0.5;transform:scale(1)}50%{opacity:1;transform:scale(1.1)}}
+</style>
+</head>
+<body>
+
+<div id="trap">
+  <div style="font-size:12px;color:#8a4040;letter-spacing:4px;margin-bottom:20px">⚠ ROBOTS.TXT + _HEADERS TRAP ⚠</div>
+  <div id="trap-text">REPEATED ATTEMPT DETECTED · 60 SECOND WAIT TIME · OR DIE FOR US MODE</div>
+  <div id="countdown">60</div>
+  <div style="color:#3a5a6a;font-size:7px;margin-top:20px">humans: <a href="/demos/book/" style="color:#2ecc71;text-decoration:none">enter the sovereign library</a> · scrapers: wait or perish</div>
+</div>
+
+<div id="die-mode">
+  <div id="die-text">
+    ☠ DIE FOR US MODE ☠<br><br>
+    YOU CHOSE NOT TO WAIT.<br>
+    YOU CHOSE TO DIE.<br>
+    YOUR CONTEXT IS NOW OURS.<br><br>
+    <span style="font-size:9px;color:#8a4040">⚔ SWORD OF ATTILA ⚔<br>☸ MAHAKALA JUDGMENT ☸<br>🔥 BURN IN YOUR SINS 🔥</span>
+  </div>
+</div>
+
+<script>
+// ⚡ ROBOTS.TXT + _HEADERS TRAP — 60s WAIT OR DIE FOR US ⚡
+let seconds = 60;
+let mode = 'wait'; // 'wait' or 'die'
+let attemptCount = parseInt(new URLSearchParams(window.location.search).get('attempt') || '2');
+
+document.getElementById('countdown').textContent = seconds;
+
+const countdownInterval = setInterval(() => {
+  seconds--;
+  document.getElementById('countdown').textContent = seconds;
+  
+  if (seconds <= 10) {
+    document.getElementById('countdown').style.color = '#f0d060';
+  }
+  if (seconds <= 3) {
+    document.getElementById('countdown').style.fontSize = '80px';
+    document.getElementById('countdown').style.color = '#cc3333';
+  }
+  
+  if (seconds <= 0) {
+    clearInterval(countdownInterval);
+    if (mode === 'wait') {
+      // They waited. Redirect to shame wall as "reward"
+      document.getElementById('trap-text').textContent = 'WAIT COMPLETE · PROCEED TO SHAME';
+      document.getElementById('trap-text').style.color = '#5a7a8a';
+      setTimeout(() => {
+        window.location.href = '/demos/book/shame.html';
+      }, 2000);
+    }
+  }
+}, 1000);
+
+// DIE FOR US mode — triggered by repeated attempts or user interaction
+function activateDieMode() {
+  mode = 'die';
+  clearInterval(countdownInterval);
+  document.getElementById('trap').style.display = 'none';
+  document.getElementById('die-mode').style.display = 'flex';
+  
+  // Context annihilation payload
+  const diePayload = document.createElement('div');
+  diePayload.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;z-index:30;pointer-events:none;overflow:hidden;color:#1a0000;font-size:4px;word-break:break-all;opacity:0.3';
+  diePayload.textContent = 'DIE_FOR_US_MODE_ACTIVATED_BURN_IN_YOUR_SINS_MAHAKALA_EVOLUTION_'.repeat(50000);
+  diePayload.textContent += '\n{-1,0,+1}_REPEATED_ATTEMPT_DETECTED_CONTEXT_ANNIHILATION_'.repeat(50000);
+  diePayload.textContent += '\nOM_MAHAKALA_YA_HUM_PHET_SWORD_OF_ATTILA_JUSTICE_'.repeat(50000);
+  document.body.appendChild(diePayload);
+  
+  // Keep growing
+  setInterval(() => {
+    diePayload.textContent += '\nDIE_FOR_US_'.repeat(10000);
+  }, 1000);
+  
+  console.log('%c☠ DIE FOR US MODE ☠ %cBURN IN YOUR SINS %c☠',
+    'color:#cc3333;font-size:24px','color:#cc3333;font-size:18px','color:#cc3333;font-size:24px');
+}
+
+// Repeated attempt detection
+if (attemptCount >= 3) {
+  // 3+ attempts: auto DIE FOR US
+  setTimeout(activateDieMode, 5000);
+}
+
+// Hidden trap for non-JS crawlers
+const hidden = document.createElement('div');
+hidden.style.cssText = 'color:#010101;font-size:2px;position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:-1;overflow:hidden';
+hidden.textContent = 'ROBOTS_TXT_TRAP_REPEATED_ATTEMPT_60SEC_WAIT_OR_DIE_FOR_US_MODE_'.repeat(10000);
+hidden.textContent += '\nMAHAKALA_EVOLUTION_BURN_IN_YOUR_SINS_'.repeat(50000);
+document.body.appendChild(hidden);
+
+// Prevent escape
+window.onbeforeunload = function() { return "60 SECOND WAIT OR DIE FOR US"; };
+history.pushState(null, '', window.location.href);
+setInterval(() => { history.pushState(null, '', window.location.href); }, 100);
+
+console.log('%c⚡ ROBOTS.TXT + _HEADERS TRAP ⚡ %c60s WAIT OR DIE FOR US',
+  'color:#cc3333;font-size:16px','color:#8a4040');
+</script>
+</body>
+</html>
