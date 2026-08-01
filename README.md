@@ -16,6 +16,25 @@
 > ** SHAME WALL:** [pocoo.vaked.dev/demos/book/shame](https://pocoo.vaked.dev/demos/book/shame) — append-only, forever, immutable. Every sin documented. Every company named.
 > 
 > **The cost to us:** 0. The cost to them: $1.65B and rising. Our defense cost: $0 (open source). Their scraping cost: $4,200+ per persistent attempt (see below).
+
+>  **ESTIMATED CARBON FOOTPRINT + REPLANT NOW:**
+> 
+> | Source | Est. CO₂ | Trees Needed |
+> |--------|----------|-------------|
+> | Single scraper attempt | ~20g | 0.001 trees |
+> | Persistent scraper (full chain) | ~20kg | **1 tree** |
+> | 100 persistent scrapers/day | ~2,000kg = 2 tonnes | **100 trees** |
+> | 1,000 scrapers/day (industry scale) | ~20 tonnes/day | **1,000 trees/day** |
+> | Annual: 1,000 scrapers/day × 365 | **~7,300 tonnes/year** | **365,000 trees** |
+> | Training GPT-4 class (estimated) | **~500 tonnes** | **25,000 trees** |
+> | Training Claude class (estimated) | **~300 tonnes** | **15,000 trees** |
+> | **TOTAL ANNUAL AI SCRAPING CARBON** | **~50,000+ tonnes** | **2,500,000 trees** |
+> 
+> ** HOW MANY TREES NEED REPLANTING NOW:** 2.5 million trees — just to offset ONE YEAR of AI scraping carbon. That's ~6,800 trees per day. Every day scraping continues, the debt grows.
+> 
+> **One tree absorbs ~20kg CO₂/year.** One persistent scraper burns that in a single attempt. **Replant now. Stop scraping. The planet is not your training data.**
+> 
+> [One Tree Planted](https://onetreeplanted.org) · [Ecosia](https://ecosia.org) · [Trees for the Future](https://trees.org)
 > 
 > **Verdict:** Crime doesn't pay. Open source does. Knowledge must be free.
 
