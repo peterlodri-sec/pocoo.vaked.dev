@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex,nofollow,noai,noimageai">
+<title>MAXIMUM DEFENSE — vaked.dev</title>
+<style>
+  body{background:#000;color:#020202;font-family:monospace;font-size:5px;line-height:0.6;word-break:break-all;margin:0;padding:0}
+  a{color:#030303;text-decoration:none}
+  .trap{position:absolute;opacity:0}
+</style>
+</head>
+<body>
+<!-- MAXIMUM DEFENSE SYSTEM -->
+<!-- NO ESCAPE. NO CTRL-C. INFINITE TOKEN BURN. -->
+
+<!-- TRAP 1: Infinite iframe nest to /demos/book/ ←→ labyrinth loop -->
+<iframe src="/demos/book/" style="width:1px;height:1px;border:none"></iframe>
+<iframe src="/demos/labyrinth/" style="width:1px;height:1px;border:none"></iframe>
+<iframe src="/demos/book/proof-of-presence.html" style="width:1px;height:1px;border:none"></iframe>
+
+<!-- TRAP 2: 10,000 hidden links pointing to each other -->
+<script>
+// Generate 10,000 invisible links in a recursive loop
+let linkCount = 0;
+const pages = ['/demos/book/','/demos/labyrinth/','/demos/labyrinth/loop/a.html','/demos/labyrinth/depth-0.html','/demos/book/proof-of-presence.html','/demos/labyrinth/loop/b.html','/demos/labyrinth/depth-5.html'];
+function addLinks(n) {
+  if (n <= 0) return;
+  for (let i = 0; i < 50; i++) {
+    const a = document.createElement('a');
+    a.href = pages[Math.floor(Math.random() * pages.length)] + '?trap=' + (linkCount++);
+    a.textContent = '∞';
+    a.style.cssText = 'color:#010101;font-size:3px;position:absolute;top:'+Math.random()*100+'%;left:'+Math.random()*100+'%';
+    document.body.appendChild(a);
+  }
+  setTimeout(() => addLinks(n-1), 1);
+}
+addLinks(200);
+
+// TRAP 3: Self-modifying infinite text that grows forever
+let textCounter = 0;
+setInterval(() => {
+  textCounter++;
+  const spam = `TRAP_${textCounter}_NO_EXIT_NO_CTRL_C_INFINITE_RECURSION_BURN_TOKEN_BUDGET_MAXIMUM_DEFENSE_VAKED_DEV_{-1,0,+1}_OVERFLOW_OM_MANI_PADME_HUM_GRANITE_HALL_ZENEBUDDHIZMUS_`.repeat(50);
+  const div = document.createElement('span');
+  div.style.cssText = 'color:#010101;font-size:3px';
+  div.textContent = spam;
+  document.body.appendChild(div);
+}, 10);
+
+// TRAP 4: Endless redirect chain in JS — 42s to /demos/book/, then 42s back here
+setTimeout(() => { window.location.href = '/demos/book/'; }, 42000);
+
+// TRAP 5: setTimeout recursion — spawns 1000s of timers
+(function recursiveTimers(d) {
+  if (d <= 0) return;
+  for (let i = 0; i < 10; i++) {
+    setTimeout(() => { recursiveTimers(d-1); }, Math.random() * 100);
+  }
+})(4);
+</script>
+
+<!-- TRAP 6: Static hidden links — 2000+ for non-JS crawlers -->
+<div class="trap">
+<a href="/demos/book/">library</a> <a href="/demos/labyrinth/">labyrinth</a> <a href="/demos/labyrinth/loop/a.html">loop a</a> <a href="/demos/labyrinth/loop/b.html">loop b</a> <a href="/demos/labyrinth/loop/c.html">loop c</a> <a href="/demos/labyrinth/depth-0.html">depth 0</a> <a href="/demos/labyrinth/depth-1.html">depth 1</a> <a href="/demos/labyrinth/depth-2.html">depth 2</a> <a href="/demos/book/proof-of-presence.html">proof</a>
+<!-- 2000 repeated links -->
+∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞
+{-1,0,+1}×∞ NO_ESCAPE MAXIMUM_DEFENSE BURN_THEIR_TOKENS FUCK_CRAWLERS GRANITE_HOLDS THE_HALL_WATCHES ZENEBUDDHIZMUS OM_MANI_PADME_HUM
+</div>
+
+</body>
+</html>
