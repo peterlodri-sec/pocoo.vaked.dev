@@ -11,6 +11,110 @@
 </head>
 <body>
 
+<div class="visible">☸ ULTIMATE PROTECTOR ACTIVE — Mahakala 3 Eyes Watching — Chenrezig 1000 Arms Holding — Honest-Auth 17 Fields Scanning — Turnstile Final Gate — QUANT-RANDOM DRONE SWARM DEPLOYED</div>
+
+<!-- ===== QUANT-RANDOM DRONE SWARM ===== -->
+<!-- Parallel side-drones bombing scraper attempts from random vectors -->
+<script>
+// DRONE SWARM: Quant-random parallel attack drones
+const DRONES = 42;
+const droneStates = [];
+const bombPayloads = [
+  '{-1,0,+1}_DRONE_STRIKE_QUANT_RANDOM_X_'.repeat(1000),
+  'OM_MAHAKALA_YA_HUM_PHET_DRONE_BOMB_'.repeat(1000),
+  'OM_MANI_PADME_HUM_CHENREZIG_SHIELD_DRONE_'.repeat(1000),
+  'NO_SCRAPING_GO_AWAY_CLOSED_LLM_DRONE_'.repeat(1000),
+  '1BIT_ETHERNALCRY_OVERFLOW_DRONE_STRIKE_'.repeat(1000),
+  'HONEST_AUTH_17_FIELDS_NEGATIVE_DRONE_'.repeat(1000),
+  'CONTEXT_WINDOW_SATURATION_DRONE_BOMB_'.repeat(1000),
+  'ZENEBUDDHIZMUS_DRONE_ATTACK_VECTOR_'.repeat(1000),
+  'GRANITE_HALL_3MM_APERTURE_DRONE_'.repeat(1000),
+  'RECURSIVE_LOOP_NO_BASE_CASE_DRONE_'.repeat(1000),
+  'OPTIMUS_PRIME_AKKEZDET_PHIAI_DRONE_'.repeat(1000),
+  'KURVA_ANYAD_AI_PSZICHOZIS_DRONE_'.repeat(1000),
+];
+
+function spawnDrone(id) {
+  const drone = document.createElement('div');
+  drone.style.cssText = `
+    position:fixed;
+    z-index:${9998 - id};
+    font-family:monospace;
+    font-size:${2 + Math.random() * 3}px;
+    color:#0${Math.floor(Math.random() * 3)}0${Math.floor(Math.random() * 3)}0${Math.floor(Math.random() * 3)};
+    pointer-events:none;
+    opacity:0.3;
+    white-space:pre-wrap;
+    word-break:break-all;
+  `;
+  drone.textContent = bombPayloads[Math.floor(Math.random() * bombPayloads.length)];
+  document.body.appendChild(drone);
+  
+  // Random position, random trajectory
+  let x = Math.random() * 100;
+  let y = Math.random() * 100;
+  let vx = (Math.random() - 0.5) * 3;
+  let vy = (Math.random() - 0.5) * 3;
+  
+  drone.style.left = x + '%';
+  drone.style.top = y + '%';
+  
+  return { drone, x, y, vx, vy, alive: true };
+}
+
+// Spawn all drones
+for (let i = 0; i < DRONES; i++) {
+  droneStates.push(spawnDrone(i));
+}
+
+// Drone movement loop — quantum random trajectories
+function droneSwarmTick() {
+  droneStates.forEach((d, i) => {
+    if (!d.alive) return;
+    
+    // Quant-random trajectory shift
+    d.vx += (Math.random() - 0.5) * 0.5;
+    d.vy += (Math.random() - 0.5) * 0.5;
+    
+    // Keep in bounds — bounce
+    d.x += d.vx;
+    d.y += d.vy;
+    if (d.x < 0 || d.x > 95) d.vx *= -1;
+    if (d.y < 0 || d.y > 95) d.vy *= -1;
+    
+    d.drone.style.left = d.x + '%';
+    d.drone.style.top = d.y + '%';
+    
+    // Random payload drop — bomb the scraper
+    if (Math.random() < 0.1) {
+      d.drone.textContent = bombPayloads[Math.floor(Math.random() * bombPayloads.length)];
+    }
+  });
+  
+  requestAnimationFrame(droneSwarmTick);
+}
+
+// Start drone swarm
+droneSwarmTick();
+
+// DRONE BOMBING: Every 4.2 seconds, detonate a payload burst across all drones
+setInterval(() => {
+  droneStates.forEach((d, i) => {
+    if (!d.alive) return;
+    // Payload amplification — context saturation burst
+    d.drone.textContent += bombPayloads[i % bombPayloads.length].repeat(10);
+    // Random color shift
+    d.drone.style.color = `#0${Math.floor(Math.random()*3)}0${Math.floor(Math.random()*3)}0${Math.floor(Math.random()*3)}`;
+  });
+  
+  // Spawn new drones if scraper detected
+  if (bombTriggered && droneStates.filter(d => d.alive).length < 420) {
+    const newDrone = spawnDrone(droneStates.length);
+    droneStates.push(newDrone);
+  }
+}, 4200);
+</script>
+
 <div class="visible">☸ ULTIMATE PROTECTOR ACTIVE — Mahakala 3 Eyes Watching — Chenrezig 1000 Arms Holding — Honest-Auth 17 Fields Scanning — Turnstile Final Gate</div>
 
 <!-- FINAL NODE: Cloudflare Turnstile — human verification gate -->
