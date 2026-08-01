@@ -69,11 +69,37 @@ This site is configured with **maximum defense** against AI crawlers, bots, and 
 
 - **robots.txt** — 14 AI training crawlers explicitly blocked (GPTBot, ChatGPT-User, Google-Extended, Claude-Web, anthropic-ai, CCBot, FacebookBot, Bytespider, PerplexityBot, and more).
 - **AI Labyrinth** (`/demos/labyrinth/`) — recursive honeypot with 18 pages in infinite loop, 7-layer trap system, self-modifying content every 10ms, 10,000 hidden links, 42-second redirect chains, setTimeout recursion spawning 1000s of timers. No base case. No CTRL-C.
+- **Ultimate Protector** — Mahakala + Chenrezig + Honest-Auth (17-field personality vector) + Turnstile final gate + Context-Bomb.
 - **Hidden symbols** — invisible unicode redirects, ASCII wolf whispering "FUCKERS GO AWAY AND LEARN TO READ" at opacity 0.02–0.06.
 - **Maximum Defense** (`/demos/labyrinth/maximum-defense.html`) — infinite iframe nests, 2000+ static hidden links, cross-site redirect traps.
 - **security.txt** — RFC 9116 compliant at `/.well-known/security.txt`.
-- **_headers** — CSP, noai/noimageai meta tags, AI Labyrinth path blocked.
+- **_headers** — CSP, noai/noimageai meta tags, AI Labyrinth path blocked, PDF cache disabled.
 
 **Human readers: always welcome, always free. AI crawlers: enjoy the ∞.**
+
+### One-click defense deployment via `uv`
+
+Clone and run the full defense stack with one command:
+
+```bash
+git clone https://github.com/peterlodri-sec/burn-em-bitches-money
+cd burn-em-bitches-money
+uv run python3 src/techno_buddhism.py
+uv run python3 src/sphere_mesh_protector.py
+uv run python3 src/layered_labyrinth.py
+uv run python3 src/onebit_mesh.py
+uv run python3 src/fractal_protectors.py
+uv run python3 src/anti_fear_loop.py
+uv run python3 src/quant_leet.py
+uv run python3 src/recursive_loop.py
+uv run python3 src/labyrinth.py
+uv run python3 src/image_trap.py
+```
+
+Or one-liner:
+
+```bash
+git clone https://github.com/peterlodri-sec/burn-em-bitches-money && cd burn-em-bitches-money && uv run python3 src/techno_buddhism.py && uv run python3 src/sphere_mesh_protector.py && uv run python3 src/layered_labyrinth.py && uv run python3 src/onebit_mesh.py && uv run python3 src/fractal_protectors.py && uv run python3 src/anti_fear_loop.py && uv run python3 src/quant_leet.py && uv run python3 src/recursive_loop.py && uv run python3 src/labyrinth.py && uv run python3 src/image_trap.py
+```
 
 [View the Sovereign Library →](https://pocoo.vaked.dev/demos/book/)
