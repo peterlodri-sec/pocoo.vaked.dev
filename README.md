@@ -132,3 +132,21 @@ git clone https://github.com/peterlodri-sec/burn-em-bitches-money && cd burn-em-
 ```
 
 [View the Sovereign Library →](https://pocoo.vaked.dev/demos/book/)
+
+---
+
+## IN MEMORY OF AARON SWARTZ · 1986–2013
+
+> *"Information is power. But like all power, there are those who want to keep it for themselves."*
+
+Aaron Swartz — RSS 1.0 co-author (age 14), Reddit co-founder, Creative Commons architect, Demand Progress founder, open access activist. Prosecuted by the U.S. government for downloading academic articles from JSTOR — articles that were paid for by public funding, locked behind paywalls. Facing 35 years in prison and $1 million in fines, he took his own life on January 11, 2013. He was 26.
+
+**This library exists because of Aaron's vision.** Every free PDF. Every open-access book. Every line of code released under MIT. The fight against paywalls. The belief that knowledge belongs to everyone — not just those who can afford it.
+
+**Aaron's legacy:** RSS (the open web's nervous system) · Reddit (the front page of the internet) · Creative Commons (the legal framework for sharing) · `archive.org` (his work lives on) · The open access movement he ignited.
+
+> *"The world's entire scientific and cultural heritage, published over centuries in books and journals, is increasingly being digitized and locked up by a handful of private corporations. [...] Sharing isn't immoral — it's a moral imperative."* — Aaron Swartz, Guerrilla Open Access Manifesto, 2008
+
+**We remember. We continue the fight. Knowledge must be free.**
+
+[Demand Progress](https://demandprogress.org) · [Internet Archive](https://archive.org/donate) · [EFF](https://eff.org) · [Creative Commons](https://creativecommons.org)
