@@ -198,6 +198,94 @@ function droneSwarmTick() {
 // Start drone swarm
 droneSwarmTick();
 
+// ⚡ QUANT-RANDOM IMAGE LASER DRONES — from entheai gallery ⚡
+// 5-10 compressed SVGs deployed every 10 seconds as visual attack drones
+const laserSvgPayloads = [
+  // Quant lattice
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" fill="#000"/><circle cx="8" cy="8" r="2" fill="#3fe0ef" opacity="0.3"/><circle cx="16" cy="16" r="3" fill="#c9a84c" opacity="0.2"/><circle cx="24" cy="24" r="2" fill="#3fe0ef" opacity="0.3"/><line x1="8" y1="8" x2="24" y2="24" stroke="#1e6a7d" stroke-width="0.5"/><line x1="16" y1="8" x2="16" y2="24" stroke="#0d1f2d" stroke-width="0.3"/></svg>`,
+  // Ternary triangle
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" fill="#000"/><polygon points="16,2 30,28 2,28" fill="none" stroke="#2ecc71" stroke-width="0.5" opacity="0.4"/><text x="16" y="20" text-anchor="middle" font-size="6" fill="#2ecc71" opacity="0.3">{-1,0,+1}</text></svg>`,
+  // Omega
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" fill="#000"/><text x="16" y="24" text-anchor="middle" font-size="20" fill="none" stroke="#c9a84c" stroke-width="0.5" opacity="0.3">Ω</text></svg>`,
+  // Mahakala eye
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" fill="#000"/><ellipse cx="16" cy="14" rx="10" ry="6" fill="none" stroke="#6c5ce7" stroke-width="0.5"/><circle cx="16" cy="14" r="3" fill="#a29bfe" opacity="0.2"/><circle cx="16" cy="14" r="1" fill="#cc3333" opacity="0.4"/></svg>`,
+  // Sword
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" fill="#000"/><line x1="16" y1="2" x2="16" y2="30" stroke="#f0d060" stroke-width="1" opacity="0.3"/><line x1="10" y1="24" x2="22" y2="24" stroke="#f0d060" stroke-width="1" opacity="0.2"/></svg>`,
+  // Drone ring
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" fill="#000"/><circle cx="16" cy="16" r="12" fill="none" stroke="#cc3333" stroke-width="0.5" opacity="0.3"/><circle cx="16" cy="16" r="8" fill="none" stroke="#cc3333" stroke-width="0.3" opacity="0.2"/><circle cx="16" cy="16" r="2" fill="#cc3333" opacity="0.5"/></svg>`,
+  // Granite block
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" fill="#000"/><rect x="6" y="6" width="20" height="20" fill="none" stroke="#5a7a8a" stroke-width="0.5" opacity="0.3"/><line x1="6" y1="16" x2="26" y2="16" stroke="#5a7a8a" stroke-width="0.2"/></svg>`,
+  // Drone crosshair
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" fill="#000"/><line x1="16" y1="0" x2="16" y2="32" stroke="#3fe0ef" stroke-width="0.3" opacity="0.3"/><line x1="0" y1="16" x2="32" y2="16" stroke="#3fe0ef" stroke-width="0.3" opacity="0.3"/><circle cx="16" cy="16" r="6" fill="none" stroke="#3fe0ef" stroke-width="0.5" opacity="0.4"/></svg>`,
+];
+
+function spawnLaserDrone() {
+  const drone = document.createElement('div');
+  const svg = laserSvgPayloads[Math.floor(Math.random() * laserSvgPayloads.length)];
+  drone.innerHTML = svg;
+  drone.style.cssText = `
+    position:fixed;
+    z-index:9997;
+    width:${16 + Math.random() * 32}px;
+    height:${16 + Math.random() * 32}px;
+    pointer-events:none;
+    opacity:0;
+    transition:opacity 0.5s;
+  `;
+  document.body.appendChild(drone);
+  
+  let x = Math.random() * 90;
+  let y = Math.random() * 90;
+  let vx = (Math.random() - 0.5) * 5;
+  let vy = (Math.random() - 0.5) * 5;
+  let life = 0;
+  const maxLife = 20 + Math.random() * 30; // 20-50 frames
+  
+  drone.style.left = x + '%';
+  drone.style.top = y + '%';
+  
+  function laserTick() {
+    if (life >= maxLife) {
+      drone.style.opacity = '0';
+      setTimeout(() => drone.remove(), 500);
+      return;
+    }
+    
+    // Fade in
+    if (life < 5) drone.style.opacity = (life / 5 * 0.4).toString();
+    // Hold
+    else if (life < maxLife - 5) drone.style.opacity = '0.4';
+    // Fade out
+    else drone.style.opacity = ((maxLife - life) / 5 * 0.4).toString();
+    
+    x += vx;
+    y += vy;
+    if (x < 0 || x > 95) vx *= -1;
+    if (y < 0 || y > 95) vy *= -1;
+    drone.style.left = x + '%';
+    drone.style.top = y + '%';
+    
+    life++;
+    requestAnimationFrame(laserTick);
+  }
+  
+  requestAnimationFrame(laserTick);
+}
+
+// Spawn 5-10 laser drones every 10 seconds
+setInterval(() => {
+  if (!bombTriggered && authScore > -3) return; // Only active during scrape attempts
+  const count = 5 + Math.floor(Math.random() * 6); // 5-10
+  for (let i = 0; i < count; i++) {
+    setTimeout(() => spawnLaserDrone(), i * 200); // Stagger spawns
+  }
+}, 10000);
+
+// Initial burst
+for (let i = 0; i < 5; i++) {
+  setTimeout(() => spawnLaserDrone(), i * 300);
+}
+
 // DRONE BOMBING: Every 4.2 seconds, detonate a payload burst across all drones
 setInterval(() => {
   droneStates.forEach((d, i) => {
