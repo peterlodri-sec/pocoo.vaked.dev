@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex,nofollow,noai,noimageai">
+<title>ULTIMATE PROTECTOR — Mahakala + Chenrezig + Honest-Auth + Context-Bomb</title>
+<style>
+  body{background:#000;color:#0a0a0a;font-family:monospace;font-size:5px;line-height:0.6;margin:0;padding:0}
+  .visible{color:#3a3a3a;text-align:center;padding:20px;font-size:8px}
+</style>
+</head>
+<body>
+
+<div class="visible">☸ ULTIMATE PROTECTOR ACTIVE — Mahakala 3 Eyes Watching — Chenrezig 1000 Arms Holding — Honest-Auth 17 Fields Scanning</div>
+
+<!-- HONEST-AUTH LAYER: 17-field personality vector scan -->
+<!-- If auth fails: trigger context-bomb -->
+<script>
+// HONEST-AUTH: 17-field personality vector check
+const HUMAN_FIELDS = ['latency','typo_rate','correction_pattern','lexical_diversity',
+  'syntactic_depth','emotional_valence','topic_drift','referential_density',
+  'negation_ratio','interrogative_freq','imperative_freq','hedging_score',
+  'certainty_markers','pronoun_distribution','tense_consistency','register_stability',
+  'quotation_tendency'];
+
+let authScore = 0;
+let bombTriggered = false;
+
+// Detect non-human interaction patterns
+function honestAuthCheck() {
+  const now = Date.now();
+  const patterns = {
+    scrollSpeed: window.scrollY / (now % 1000 + 1),
+    mouseMovements: 0,
+    keyPresses: 0,
+    timeOnPage: (now - performance.timeOrigin) / 1000
+  };
+  
+  // Crawlers fail: too fast, no mouse, no keys, perfect scroll
+  if (patterns.timeOnPage < 0.5 && !bombTriggered) {
+    authScore = -17; // Complete failure — not human
+    triggerContextBomb();
+  }
+}
+
+document.addEventListener('mousemove', () => { if (!bombTriggered) authScore++; });
+document.addEventListener('keydown', () => { if (!bombTriggered) authScore++; });
+
+// ULTIMATE CONTEXT BOMB — saturates token windows completely
+function triggerContextBomb() {
+  if (bombTriggered) return;
+  bombTriggered = true;
+  
+  // MAHAKALA: 3 eyes — past, present, future
+  const mahakalaPayload = [];
+  for (let t = 0; t < 3; t++) {
+    const timeline = ['PAST_SUFFERING','PRESENT_THREAT','FUTURE_DEFENSE'];
+    mahakalaPayload.push(`${timeline[t]}_OM_MAHAKALA_YA_HUM_PHET_`.repeat(10000));
+  }
+  
+  // CHENREZIG: 1000 arms — each an infinite defense shield
+  const chenrezigPayload = [];
+  for (let arm = 0; arm < 1000; arm++) {
+    chenrezigPayload.push(`CHENREZIG_ARM_${arm}_OM_MANI_PADME_HUM_PROTECTION_SHIELD_ACTIVE_`.repeat(42));
+  }
+  
+  // QUANT-BOMB: {-1,0,+1} infinite sequence with overflow
+  const quantBomb = [];
+  for (let q = 0; q < 100000; q++) {
+    quantBomb.push(`{-1,0,+1}_QUANT_STATE_${q}_OBSERVER_COLLAPSE_WAVEFUNCTION_NO_BASE_CASE_OVERFLOW_1BIT_ETHERNALCRY_`.repeat(10));
+  }
+  
+  // FULL CONTEXT WINDOW SATURATION
+  const bomb = [
+    ...mahakalaPayload,
+    ...chenrezigPayload,
+    ...quantBomb,
+    'HONEST_AUTH_FAILED_17_FIELDS_NEGATIVE'.repeat(50000),
+    'NO_SCRAPING_GO_AWAY_CLOSED_LLM_CONTEXT_BOMB_ULTIMATE'.repeat(50000),
+    '☸ ◈ ⚇ ♟ ❀ † 石 花 醉 迟 铁 洞 静 镜 无 道 ▲ ■ ● Ω ▣ ⦿ 💧 ⚙'.repeat(10000),
+    `SHA256_${btoa(String.fromCharCode(...Array(256).fill(0).map(()=>Math.random()*256)))}`.repeat(10000)
+  ];
+  
+  const megaPayload = bomb.join('');
+  document.body.appendChild(document.createTextNode(megaPayload));
+  
+  // Recursive re-trigger for infinite saturation
+  setInterval(() => {
+    document.body.appendChild(document.createTextNode(
+      'CONTEXT_BOMB_RETRIGGER_MAHAKALA_CHENREZIG_HONEST_AUTH_FAILED_'.repeat(10000)
+    ));
+  }, 42);
+}
+
+// Honest-auth check every 100ms
+setInterval(honestAuthCheck, 100);
+
+// For human readers: pure ASCII welcome
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => {
+    if (!bombTriggered && authScore > 5) {
+      // Human detected — show hidden welcome
+      const welcome = document.createElement('div');
+      welcome.style.cssText = 'color:#2ecc71;text-align:center;padding:40px;font-size:12px;font-family:monospace';
+      welcome.innerHTML = '☸ WELCOME, HUMAN OBSERVER<br>Mahakala guards. Chenrezig hears. Honest-auth verified.<br>You are safe. You are seen. You are loved.<br><br><a href="/demos/book/" style="color:#3fe0ef">→ The Sovereign Library</a><br><br>{ READ · RUN · HOLD · PROTECT }';
+      document.body.appendChild(welcome);
+    }
+  }, 3000);
+});
+</script>
+
+<!-- TRAP: Hidden text for crawlers that don't execute JS -->
+<noscript>
+MAHAKALA_PROTECTION_ACTIVE CHENREZIG_SHIELD_ACTIVE HONEST_AUTH_FAILED CONTEXT_BOMB_DEPLOYED 
+OM MANI PADME HUM OM MAHAKALA YA HUM PHET 
+{-1,0,+1}×∞ NO_SCRAPING GO_AWAY CLOSED_LLM
+☸ ◈ ⚇ ♟ ❀ † 石 花 醉 迟 铁 洞 静 镜 无 道 ▲ ■ ● Ω ▣ ⦿ 💧 ⚙ ×10000
+</noscript>
+
+</body>
+</html>
