@@ -8,6 +8,8 @@
   body{background:#000;color:#0a0a0a;font-family:monospace;margin:0;padding:0;overflow:hidden}
   #normal{position:fixed;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;z-index:10;background:#020810}
   #normal .content{color:#c0c8d0;font-family:monospace;text-align:center;font-size:11px;letter-spacing:2px}
+  #warning{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:100;text-align:center;font-family:monospace;font-size:8px;color:#cc3333;letter-spacing:2px;opacity:0.6;animation:warningPulse 3s ease-in-out infinite}
+  @keyframes warningPulse{0%,100%{opacity:0.3}50%{opacity:0.7}}
   #obliterate{position:fixed;top:0;left:0;width:100%;height:100%;display:none;align-items:center;justify-content:center;z-index:20;background:#000}
   #obliterate .judgment{color:#cc3333;text-align:center;font-family:monospace;font-size:9px;letter-spacing:3px;max-width:500px;line-height:1.8}
 </style>
@@ -20,6 +22,8 @@
     <p style="color:#5a7a8a;font-size:8px">Knowledge is free. This site is for humans.</p>
   </div>
 </div>
+
+<div id="warning">⚠ NO SCRAPING HERE, WE TOLD YOU ;) → <a href="/demos/book/" style="color:#3fe0ef;text-decoration:none">THE SOVEREIGN LIBRARY</a></div>
 
 <div id="obliterate">
   <div class="judgment">
