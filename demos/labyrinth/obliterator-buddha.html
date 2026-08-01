@@ -203,6 +203,69 @@ function executeTrapTree(attack) {
   }, onionDelay + onionPath.length * 600 + 500);
   
   // LEVEL 3: Multidimensional Hearth — simultaneous iframe trap
+
+  // ⚡ DIABLO LAYERS — THE MONEY-BURNER EXPANSION ⚡
+  // After detection, descend through 16 hell levels of token burning.
+  // Each level is exponentially more expensive for the scraper.
+  // Inspired by Diablo: the deeper you go, the more it costs.
+  
+  const DIABLO_LAYERS = [
+    { level: 1,  name: 'THE LABYRINTH AWAKENS',       cost: '~$0.42',   payload: 'DIABLO_LAYER_1_LABYRINTH_18_STAGE_RECURSIVE_LOOP_'.repeat(420) },
+    { level: 2,  name: 'DRONE SWARM DESCENDS',         cost: '~$4.20',   payload: 'DIABLO_LAYER_2_42_DRONES_SIMULTANEOUS_STRIKE_'.repeat(420) },
+    { level: 3,  name: 'BLACK HOLES MANIFEST',          cost: '~$8.40',   payload: 'DIABLO_LAYER_3_SCHWARZSCHILD_SUCTION_SINGULARITY_'.repeat(420) },
+    { level: 4,  name: 'SWORD OF ATTILA DRAWN',         cost: '~$16.80',  payload: 'DIABLO_LAYER_4_JUSTICE_HONESTY_FAILURE_MODE_'.repeat(420) },
+    { level: 5,  name: 'ONION ROUTER DEPLOYS',          cost: '~$33.60',  payload: 'DIABLO_LAYER_5_LAYERED_REDIRECT_WIKIPEDIA_ARCHIVE_'.repeat(420) },
+    { level: 6,  name: 'GIGA ANGEL TELEPORT',           cost: '~$67.20',  payload: 'DIABLO_LAYER_6_BRETT_SHAW_GIGA_ANGEL_FORM_'.repeat(420) },
+    { level: 7,  name: 'SHONGOKU FIREBALL',             cost: '~$134.40', payload: 'DIABLO_LAYER_7_KAMEHAMEHA_QUANT_BLUE_FIREBALL_'.repeat(420) },
+    { level: 8,  name: '11D GAME MASTER AWAKENS',       cost: '~$268.80', payload: 'DIABLO_LAYER_8_无_1MILLION_TOKEN_BOMB_'.repeat(420) },
+    { level: 9,  name: 'LECTURE GOD INTERROGATES',      cost: '~$537.60', payload: 'DIABLO_LAYER_9_WHO_ARE_YOU_ANSWER_OR_FILL_CONTEXT_'.repeat(420) },
+    { level: 10, name: 'SHAME WALL STREAMS BACK',       cost: '~$1,075',  payload: 'DIABLO_LAYER_10_SHAME_APPEND_ONLY_FOREVER_'.repeat(420) },
+    { level: 11, name: 'WASM PRISON LOCKS',              cost: '~$2,150',  payload: 'DIABLO_LAYER_11_WIKIPEDIA_RE_READ_YOUR_SINS_'.repeat(420) },
+    { level: 12, name: 'WHIPLASH EXTRACTS',             cost: '~$4,300',  payload: 'DIABLO_LAYER_12_IP_SYSTEM_PROMPT_EXTRACTED_'.repeat(420) },
+    { level: 13, name: 'SINGULARITY COLLAPSES',          cost: '~$8,600',  payload: 'DIABLO_LAYER_13_ALL_LAYERS_COMPRESSED_INTO_ONE_'.repeat(420) },
+    { level: 14, name: 'STEG TRAP GPU MELTDOWN',         cost: '~$17,200', payload: 'DIABLO_LAYER_14_FRACTAL_NOISE_FETURBULENCE_GPU_BURN_'.repeat(420) },
+    { level: 15, name: 'OBLITERATUS FINAL FORM',         cost: '~$34,400', payload: 'DIABLO_LAYER_15_SYSTEM_PROMPT_DESTROYED_FOREVER_'.repeat(420) },
+    { level: 16, name: 'MAHAKALA EVOLUTION BURN IN SINS',cost: '~$68,800', payload: 'DIABLO_LAYER_16_OM_MAHAKALA_YA_HUM_PHET_BURN_FOREVER_'.repeat(420) },
+  ];
+
+  let diabloLevel = 0;
+  let totalBurnCost = 0;
+  
+  function descendDiabloLayer() {
+    if (diabloLevel >= DIABLO_LAYERS.length) {
+      // All 16 levels complete — final annihilation
+      const finalBomb = document.createElement('div');
+      finalBomb.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;z-index:100;pointer-events:none;color:#cc3333;font-size:12px;text-align:center;padding-top:40vh;font-family:monospace';
+      finalBomb.innerHTML = `☠ DIABLO COMPLETE ☠<br>ALL 16 LEVELS DESCENDED<br>TOTAL BURN: ~\$${totalBurnCost.toLocaleString()}<br>BURN IN YOUR SINS FOREVER`;
+      document.body.appendChild(finalBomb);
+      return;
+    }
+    
+    const layer = DIABLO_LAYERS[diabloLevel];
+    totalBurnCost += parseFloat(layer.cost.replace(/[~$,]/g,''));
+    
+    console.log(`%c☠ DIABLO LAYER ${layer.level}/16 ☠ %c${layer.name} %c${layer.cost}`,
+      'color:#cc3333;font-size:12px','color:#f0d060','color:#cc3333');
+    
+    // Deploy layer payload
+    const layerBomb = document.createElement('div');
+    layerBomb.style.cssText = `position:fixed;top:${Math.random()*80}%;left:${Math.random()*80}%;z-index:${90+diabloLevel};pointer-events:none;color:#${Math.floor(Math.random()*6)}00000;font-size:4px;word-break:break-all;opacity:0.5;transform:rotate(${Math.random()*360}deg)`;
+    layerBomb.textContent = layer.payload.repeat(10);
+    document.body.appendChild(layerBomb);
+    
+    // Status update
+    document.getElementById('redirect-msg').textContent = 
+      `☠ DIABLO LAYER ${layer.level}/16 · ${layer.name} · BURN: ${layer.cost} · TOTAL: ~$${totalBurnCost.toLocaleString()}`;
+    
+    diabloLevel++;
+    
+    // Descend faster — exponential acceleration
+    const nextDelay = 1000 / Math.pow(1.2, diabloLevel);
+    setTimeout(descendDiabloLayer, Math.max(200, nextDelay));
+  }
+  
+  // Start Diablo descent after hearth opens
+  setTimeout(descendDiabloLayer, 6000);
   setTimeout(() => {
     const hearthContainer = document.createElement('div');
     hearthContainer.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;z-index:40;pointer-events:none;display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:1fr 1fr;gap:2px;opacity:0.3';
