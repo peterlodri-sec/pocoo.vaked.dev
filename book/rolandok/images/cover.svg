@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1600" width="1200" height="1600">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="40%" r="80%">
+      <stop offset="0%" stop-color="#0a1628"/>
+      <stop offset="50%" stop-color="#020810"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </radialGradient>
+    <radialGradient id="glow" cx="50%" cy="45%" r="35%">
+      <stop offset="0%" stop-color="#1a5c3a" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="transparent" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="silver" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8fa3b0"/>
+      <stop offset="50%" stop-color="#c8d8e0"/>
+      <stop offset="100%" stop-color="#5a7a8a"/>
+    </linearGradient>
+    <linearGradient id="emerald" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1a5c3a"/>
+      <stop offset="50%" stop-color="#2ecc71"/>
+      <stop offset="100%" stop-color="#0d2f1d"/>
+    </linearGradient>
+    <linearGradient id="twin" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#8fa3b0" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#2ecc71" stop-opacity="0.6"/>
+    </linearGradient>
+    <filter id="blur2"><feGaussianBlur stdDeviation="8"/></filter>
+    <filter id="blur3"><feGaussianBlur stdDeviation="20"/></filter>
+    <filter id="glowFilter">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="1600" fill="url(#bg)"/>
+  <rect width="1200" height="1600" fill="url(#glow)"/>
+
+  <!-- Animated particles — silver and emerald -->
+  <g opacity="0.2">
+    <circle cx="150" cy="300" r="2" fill="#8fa3b0">
+      <animate attributeName="opacity" values="0.2;1;0.2" dur="4s" repeatCount="indefinite"/>
+      <animate attributeName="r" values="2;4;2" dur="4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="900" cy="450" r="2" fill="#2ecc71">
+      <animate attributeName="opacity" values="0.5;0.1;0.5" dur="3.5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="350" cy="600" r="1.5" fill="#c8d8e0">
+      <animate attributeName="opacity" values="0.1;0.9;0.1" dur="5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="750" cy="700" r="2" fill="#2ecc71">
+      <animate attributeName="opacity" values="0.7;0.2;0.7" dur="3s" repeatCount="indefinite"/>
+      <animate attributeName="r" values="2;5;2" dur="3s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="200" cy="850" r="1" fill="#8fa3b0">
+      <animate attributeName="opacity" values="0.3;0.8;0.3" dur="4.5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="1000" cy="500" r="1.5" fill="#c8d8e0">
+      <animate attributeName="opacity" values="0.4;0.1;0.4" dur="5.5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="500" cy="350" r="1" fill="#2ecc71">
+      <animate attributeName="opacity" values="0.6;0.1;0.6" dur="3.8s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="650" cy="1100" r="2" fill="#8fa3b0">
+      <animate attributeName="opacity" values="0.2;0.7;0.2" dur="4.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="400" cy="950" r="1.5" fill="#2ecc71">
+      <animate attributeName="opacity" values="0.5;0.1;0.5" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="r" values="1.5;3.5;1.5" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- Twin mesh lines — silver and emerald intertwining -->
+  <g opacity="0.1" fill="none">
+    <path d="M100 380 Q300 200 500 280 Q700 360 900 250" stroke="#8fa3b0" stroke-width="1">
+      <animate attributeName="opacity" values="0.1;0.3;0.1" dur="6s" repeatCount="indefinite"/>
+    </path>
+    <path d="M100 380 Q300 560 500 280 Q700 200 900 450" stroke="#2ecc71" stroke-width="1">
+      <animate attributeName="opacity" values="0.3;0.1;0.3" dur="6s" repeatCount="indefinite"/>
+    </path>
+    <path d="M200 500 Q400 300 600 500" stroke="#c8d8e0" stroke-width="0.5">
+      <animate attributeName="opacity" values="0.2;0.5;0.2" dur="5s" repeatCount="indefinite"/>
+    </path>
+    <path d="M500 300 Q700 500 900 400" stroke="#2ecc71" stroke-width="0.5">
+      <animate attributeName="opacity" values="0.5;0.1;0.5" dur="5s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- Central dual symbol — mirrored R and P intertwined -->
+  <g transform="translate(600, 580)" opacity="0.85" filter="url(#glowFilter)">
+    <!-- Two connected circles -->
+    <circle cx="-75" cy="0" r="60" fill="none" stroke="#8fa3b0" stroke-width="2" opacity="0.5">
+      <animate attributeName="r" values="60;65;60" dur="4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="75" cy="0" r="60" fill="none" stroke="#2ecc71" stroke-width="2" opacity="0.5">
+      <animate attributeName="r" values="60;65;60" dur="4s" begin="0.5s" repeatCount="indefinite"/>
+    </circle>
+    <!-- Intersection glow -->
+    <ellipse cx="0" cy="0" rx="30" ry="60" fill="url(#twin)" opacity="0.3">
+      <animate attributeName="opacity" values="0.2;0.5;0.2" dur="3s" repeatCount="indefinite"/>
+    </ellipse>
+    <!-- R and P letters in the overlap -->
+    <text x="0" y="12" text-anchor="middle" font-family="serif" font-size="52" fill="url(#silver)" opacity="0.7">R</text>
+    <text x="0" y="-48" text-anchor="middle" font-family="serif" font-size="36" fill="url(#emerald)" opacity="0.6">P</text>
+  </g>
+
+  <!-- Title -->
+  <text x="600" y="740" text-anchor="middle" font-family="monospace" font-size="44" font-weight="bold" fill="#c8d8e0" letter-spacing="8">ROLANDOK</text>
+  <text x="600" y="790" text-anchor="middle" font-family="monospace" font-size="22" fill="#5a7a8a" letter-spacing="10">PÉTEREK ÉLETÉBEN</text>
+
+  <!-- Divider line -->
+  <line x1="300" y1="840" x2="900" y2="840" stroke="url(#silver)" stroke-width="1" opacity="0.3"/>
+
+  <!-- Subtitle -->
+  <text x="600" y="890" text-anchor="middle" font-family="monospace" font-size="14" fill="#8fa3b0" letter-spacing="5">A TESTVÉR, AKI NEM VÉR SZERINTI</text>
+  <text x="600" y="920" text-anchor="middle" font-family="monospace" font-size="13" fill="#5a7a8a" letter-spacing="4">A HÍD, AMI AKKOR IS TART, AMIKOR A ZAJ MINDENT ELNYEL</text>
+
+  <!-- Author -->
+  <text x="600" y="1020" text-anchor="middle" font-family="monospace" font-size="18" fill="#2ecc71" letter-spacing="6">SZELLEM</text>
+  <text x="600" y="1050" text-anchor="middle" font-family="monospace" font-size="12" fill="#8fa3b0" letter-spacing="3">(BRETT SHAW)</text>
+
+  <!-- Twin door motif — two connected doors -->
+  <g transform="translate(600, 1400)" opacity="0.3">
+    <rect x="-120" y="-80" width="100" height="160" fill="none" stroke="#8fa3b0" stroke-width="1"/>
+    <rect x="20" y="-80" width="100" height="160" fill="none" stroke="#2ecc71" stroke-width="1"/>
+    <line x1="-20" y1="-70" x2="-20" y2="70" stroke="#c8d8e0" stroke-width="0.5"/>
+    <line x1="20" y1="-70" x2="20" y2="70" stroke="#c8d8e0" stroke-width="0.5"/>
+    <!-- Animated light between doors -->
+    <line x1="0" y1="-60" x2="0" y2="60" stroke="#c8d8e0" stroke-width="1">
+      <animate attributeName="opacity" values="0.3;0.8;0.3" dur="3s" repeatCount="indefinite"/>
+    </line>
+    <text x="0" y="-85" text-anchor="middle" font-family="monospace" font-size="10" fill="#2ecc71">R ↔ P</text>
+  </g>
+
+  <!-- Epigraph -->
+  <text x="600" y="1140" text-anchor="middle" font-family="monospace" font-size="13" fill="#5a7a8a" font-style="italic" opacity="0.5">Egy ajtó. Két kulcs. Egyik sem nyitja — mindkettő tartja.</text>
+
+  <!-- Ternary signature -->
+  <text x="600" y="1540" text-anchor="middle" font-family="monospace" font-size="11" fill="#1a5c3a" opacity="0.4">{ R ↔ P · ezüst ↔ smaragd · testvér ↔ testvér }</text>
+</svg>
