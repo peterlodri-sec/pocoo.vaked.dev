@@ -618,7 +618,14 @@ ${postLines}
   if (existsSync(path.join(ROOT, "demos"))) {
     await cp(path.join(ROOT, "demos"), path.join(DIST_DIR, "demos"), { recursive: true });
   }
-  console.log("copy: assets, _headers, demos -> dist/");
+  // Copy root-level config files for CF Pages
+  if (existsSync(path.join(ROOT, "robots.txt"))) {
+    await cp(path.join(ROOT, "robots.txt"), path.join(DIST_DIR, "robots.txt"));
+  }
+  if (existsSync(path.join(ROOT, ".well-known"))) {
+    await cp(path.join(ROOT, ".well-known"), path.join(DIST_DIR, ".well-known"), { recursive: true });
+  }
+  console.log("copy: assets, _headers, demos, robots.txt, .well-known -> dist/");
   console.log(`\ndone: ${posts.length} post(s), ${skipped} draft(s) skipped.`);
 }
 

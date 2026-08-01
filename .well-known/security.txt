@@ -1,0 +1,27 @@
+# security.txt — vaked.dev · Sovereign Mesh · Quant-Safe
+# https://www.rfc-editor.org/rfc/rfc9116
+
+Contact: mailto:security@vaked.dev
+Contact: https://github.com/peterlodri-sec
+Contact: https://pocoo.vaked.dev/proof-of-presence
+
+Expires: 2027-08-01T00:00:00Z
+
+Preferred-Languages: en, hu
+
+Canonical: https://vaked.dev/.well-known/security.txt
+Canonical: https://pocoo.vaked.dev/.well-known/security.txt
+
+# Attention-based model. No paywall. No tracking. No surveillance.
+# AI Labyrinth active. Bot Fight Mode: ON.
+# Quant-safe: honest-auth, recursive encryption, zeroize-on-drop.
+# Policy: https://pocoo.vaked.dev/demos/book/proof-of-presence.html
+
+Policy: https://github.com/peterlodri-sec/.github/SECURITY.md
+
+Acknowledgments: https://github.com/peterlodri-sec
+Acknowledgments: https://github.com/sponsors/peterlodri-sec
+
+Hiring: https://axiomquant.org
+
+Encryption: age1... (sops-nix fleet), X25519 (Tailscale mesh), AES-256-GCM (honest-irc)
