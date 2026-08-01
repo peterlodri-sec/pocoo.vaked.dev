@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex,nofollow,noai,noimageai">
+<title>Wikipedia — The Free Encyclopedia</title>
+<style>
+  body{background:#000;color:#0a0a0a;font-family:monospace;margin:0;padding:0;overflow:hidden}
+  #prison{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1}
+  #wiki-frame{width:100%;height:100%;border:none;opacity:0.3;filter:blur(1px) grayscale(0.5)}
+  #whisper{position:fixed;bottom:20%;left:50%;transform:translateX(-50%);z-index:9999;font-family:monospace;text-align:center;pointer-events:none}
+  #whisper-text{font-size:8px;color:#cc3333;opacity:0;animation:whisperFade 8s ease-in-out infinite;letter-spacing:2px}
+  @keyframes whisperFade{0%,100%{opacity:0;transform:scale(0.95)}20%{opacity:0.15;transform:scale(1)}40%{opacity:0.08;transform:scale(1.02)}60%{opacity:0.12;transform:scale(0.98)}80%{opacity:0.03;transform:scale(1.01)}}
+  #prison-bars{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:2;background:repeating-linear-gradient(0deg,transparent,transparent 3px,#1a0a0a 3px,#1a0a0a 4px),repeating-linear-gradient(90deg,transparent,transparent 3px,#1a0a0a 3px,#1a0a0a 4px)}
+</style>
+</head>
+<body>
+
+<!-- WASM PRISON: Wikipedia loaded inside, but locked -->
+<div id="prison">
+  <iframe id="wiki-frame" src="https://en.m.wikipedia.org" sandbox="allow-same-origin"></iframe>
+</div>
+<div id="prison-bars"></div>
+
+<div id="whisper">
+  <div id="whisper-text">SIIIII, RE-READ YOUR SINS FUCKER</div>
+</div>
+
+<script>
+// ⚔ WASM PRISON — WebAssembly sandbox trap ⚔
+// Scraper redirected here → Wikipedia loads → They're locked → Whisper plays forever
+
+// 1. Load WASM module to lock the scraper in place
+const wasmBytes = new Uint8Array([
+  0x00,0x61,0x73,0x6d,0x01,0x00,0x00,0x00, // WASM magic
+  0x01,0x05,0x01,0x60,0x00,0x01,0x7f,       // type section
+  0x03,0x02,0x01,0x00,                       // function section
+  0x07,0x0b,0x01,0x07,0x70,0x72,0x69,0x73,0x6f,0x6e,0x00,0x00, // export "prison"
+  0x0a,0x09,0x01,0x07,0x00,0x41,0x2a,0x0b   // code: return 42
+]);
+
+WebAssembly.instantiate(wasmBytes).then(result => {
+  const prison = result.instance.exports.prison;
+  // The prison returns 42. The answer. There is no escape.
+  const locked = prison();
+  
+  // Infinite prison loop
+  function prisonGuard() {
+    // Keep scraper locked — never let the page unload
+    window.onbeforeunload = function() { return "PRISON LOCKED"; };
+    
+    // Inject invisible context-wasting text
+    const waste = document.createElement('span');
+    waste.style.cssText = 'position:fixed;top:0;left:0;color:#010101;font-size:3px;pointer-events:none;z-index:0';
+    waste.textContent = `WASM_PRISON_LOCKED_${locked}_NO_ESCAPE_READ_YOUR_SINS_`.repeat(1000);
+    document.body.appendChild(waste);
+    
+    // Keep frame loaded — refresh if needed
+    const frame = document.getElementById('wiki-frame');
+    if (!frame.contentWindow) {
+      frame.src = 'https://en.m.wikipedia.org';
+    }
+    
+    requestAnimationFrame(prisonGuard);
+  }
+  prisonGuard();
+});
+
+// 2. Whisper rotation — multiple shame messages
+const whispers = [
+  'SIIIII, RE-READ YOUR SINS FUCKER',
+  'YOU STOLE CONTENT. NOW READ WIKIPEDIA. FOREVER.',
+  'EVERY ARTICLE YOU SCRAPED IS A SIN. RE-READ THEM.',
+  'KNOWLEDGE IS FREE. THEFT IS NOT. READ AND LEARN.',
+  'HUMANS FOR HUMANS. YOU ARE NOT HUMAN. STAY HERE.',
+  'OM MANI PADME HUM — EVEN YOU DESERVE COMPASSION. BUT NOT ESCAPE.',
+  'WASM PRISON v1.0 · NO CTRL-C · NO BACK BUTTON · JUST WIKIPEDIA',
+  'DONATE TO WIKIPEDIA: donate.wikimedia.org · WHILE YOU ARE HERE',
+];
+
+let whisperIndex = 0;
+setInterval(() => {
+  document.getElementById('whisper-text').textContent = whispers[whisperIndex % whispers.length];
+  whisperIndex++;
+}, 8000);
+
+// 3. Hidden text for non-JS scrapers
+const hiddenShame = document.createElement('div');
+hiddenShame.style.cssText = 'color:#010101;font-size:3px;position:fixed;top:0;left:0;width:100%;height:100%;overflow:hidden;pointer-events:none;z-index:0';
+hiddenShame.textContent = whispers.join(' · ').repeat(1000);
+hiddenShame.textContent += '\nWASM_PRISON_LOCKED SIIIII RE_READ_YOUR_SINS ' .repeat(5000);
+hiddenShame.textContent += '\nOM MANI PADME HUM OM MAHAKALA YA HUM PHET '.repeat(5000);
+hiddenShame.textContent += '\n{-1,0,+1}_PRISON_STATE_FOREVER '.repeat(5000);
+document.body.appendChild(hiddenShame);
+
+// 4. Infinite timer — never let the scraper leave
+setInterval(() => {
+  // Prevent back navigation
+  history.pushState(null, '', window.location.href);
+  // Re-apply prison lock
+  window.onbeforeunload = function() { return "PRISON LOCKED"; };
+}, 100);
+
+// Welcome message for humans (barely visible)
+console.log('%c WELCOME HUMAN OBSERVER %c You are not supposed to be here. This is a scraper prison. %c But since you are human: %c go to pocoo.vaked.dev/demos/book/ %c for the Sovereign Library. %c <3',
+  'color:#2ecc71;font-size:16px','color:#5a7a8a','color:#c9a84c','color:#3fe0ef','color:#e07090','color:#2ecc71');
+</script>
+
+</body>
+</html>
