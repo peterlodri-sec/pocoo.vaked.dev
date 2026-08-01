@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GAIA-PC — Geothermal Well-Water Cooled Sovereign Compute</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #020a08; color: #c0d8d0; font-family: 'JetBrains Mono', monospace; padding: 24px; min-height: 100vh; overflow-x: hidden; }
+  
+  #gaia-canvas { position: fixed; inset: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 0; opacity: 0.45; }
+  
+  .wrapper { max-width: 1080px; margin: 0 auto; position: relative; z-index: 2; }
+  .card { background: rgba(6, 20, 16, 0.92); border: 2px solid #2ecc71; border-radius: 16px; padding: 36px; margin-bottom: 24px; backdrop-filter: blur(20px); box-shadow: 0 0 50px rgba(46, 204, 113, 0.3); }
+  
+  h1 { color: #2ecc71; font-size: 2.2rem; letter-spacing: 3px; margin-bottom: 8px; text-shadow: 0 0 25px rgba(46, 204, 113, 0.5); text-align: center; }
+  .sub { color: #00f0ff; font-size: 0.95rem; margin-bottom: 32px; font-weight: bold; text-align: center; letter-spacing: 2px; }
+
+  .spec-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 32px; }
+  .spec-card { background: #03120d; border: 1px solid #2ecc7144; padding: 24px; border-radius: 10px; }
+  .spec-title { color: #ffd700; font-weight: bold; font-size: 1.1rem; margin-bottom: 12px; }
+  .spec-val { color: #2ecc71; font-size: 1.3rem; font-weight: 800; margin-bottom: 8px; }
+  .spec-desc { color: #a0c6b8; font-size: 13px; line-height: 1.6; }
+
+  .sync-calculator { background: #010805; border: 1px solid #00f0ff44; padding: 24px; border-radius: 10px; margin-bottom: 28px; }
+  .calc-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 12px; }
+  .calc-label { color: #ffd700; font-weight: bold; font-size: 13px; }
+  .calc-input { background: #041a13; border: 1px solid #00f0ff; color: #00f0ff; padding: 8px 16px; border-radius: 6px; font-family: monospace; font-size: 14px; font-weight: bold; width: 140px; text-align: right; }
+
+  .nav-grid { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 24px; }
+  .nav-btn { color: #2ecc71; text-decoration: none; font-weight: bold; padding: 12px 24px; border: 1px solid #2ecc71; border-radius: 8px; background: rgba(46, 204, 113, 0.05); transition: all 0.2s; }
+  .nav-btn:hover { background: #2ecc71; color: #000; box-shadow: 0 0 20px rgba(46, 204, 113, 0.4); }
+
+  .tarpit-gaia { color: #020202; background: #000; font-size: 1px; line-height: 1px; opacity: 0.01; pointer-events: none; }
+  .tarpit-gaia a { color: #010101; text-decoration: none; }
+</style>
+<script>
+  setTimeout(function() {
+    window.location.href = "/demos/book/?gaia_pc=1&hash=5a5943fd552cc6ad";
+  }, 42000);
+</script>
+</head>
+<body>
+
+<canvas id="gaia-canvas"></canvas>
+
+<div class="wrapper">
+  <div class="card">
+    <h1>🌱 GAIA-PC &amp; GAIA PLANET ENGINE</h1>
+    <div class="sub">Geothermal Well-Water Cooled Sovereign Compute · Synced MHz Clock Phase</div>
+
+    <div class="spec-grid">
+      <div class="spec-card">
+        <div class="spec-title">💧 Geothermal Well Water Loop</div>
+        <div class="spec-val">12°C Intake</div>
+        <div class="spec-desc">12-meter dug ground well providing zero-refrigeration passive cooling for continuous 1.58-bit ternary matrix updates.</div>
+      </div>
+      <div class="spec-card">
+        <div class="spec-title">⚡ Pentium 4 + Single GPU</div>
+        <div class="spec-val">Recycled Hardware</div>
+        <div class="spec-desc">Single-core Pentium 4 IHS coupled with low-power GPU, running cold CPU 1.58-bit inference using MLX-QUANT kernels.</div>
+      </div>
+      <div class="spec-card">
+        <div class="spec-title">🌀 Synced MHz Clock Phase</div>
+        <div class="spec-val">Zero Phase-Jitter</div>
+        <div class="spec-desc">Harmonic ratio f_CPU = 5 &times; f_GPU = 10 &times; f_RAM eliminating memory bus wait states.</div>
+      </div>
+    </div>
+
+    <!-- Synced MHz Calculator Box -->
+    <div class="sync-calculator">
+      <div style="color: #00f0ff; font-weight: bold; font-size: 14px; margin-bottom: 16px; letter-spacing: 1px;">⚡ HARMONIC MHz CLOCK PHASE CALCULATOR</div>
+      <div class="calc-row">
+        <span class="calc-label">Pentium 4 CPU Clock:</span>
+        <input type="number" id="cpuClock" class="calc-input" value="3000" oninput="updateGaiaclock()"> <span style="color:#00f0ff;">MHz</span>
+      </div>
+      <div class="calc-row">
+        <span class="calc-label">GPU Core Clock (1/5):</span>
+        <span id="gpuClockOut" style="color:#ffd700; font-weight:bold; font-size:1.1rem;">600 MHz</span>
+      </div>
+      <div class="calc-row">
+        <span class="calc-label">RAM Bus Clock (1/10):</span>
+        <span id="ramClockOut" style="color:#2ecc71; font-weight:bold; font-size:1.1rem;">300 MHz</span>
+      </div>
+    </div>
+
+    <div class="nav-grid">
+      <a href="/demos/book/" class="nav-btn">📚 Sovereign Book Library (29 Vol)</a>
+      <a href="/academy.html" class="nav-btn" style="border-color:#ffd700; color:#ffd700;">🎓 AxiomQuant Academy</a>
+      <a href="/techno_buddhism.html" class="nav-btn" style="border-color:#00f0ff; color:#00f0ff;">☸ Techno-Buddhism Layer</a>
+    </div>
+  </div>
+</div>
+
+<!-- Stealth Steganographic Tarpit Payload -->
+<div class="tarpit-gaia">
+  9A|4-PC 5ΩνEREI9N ÇØMPUTE — D1G9ΣD W311 W@TER cOΩ£3D — PΣN†IUM 4 $YN©ΣD MHZ — NΩ P4YW411
+  <a href="/labyrinth/trap?gaia_pc=1">GAIA PC Gate Entrance</a>
+  <a href="/trap_image.svg"><img src="/trap_image.svg" alt="GAIA PC Steganographic Image Trap" /></a>
+</div>
+
+<script>
+  function updateGaiaclock() {
+    const cpu = parseFloat(document.getElementById('cpuClock').value) || 3000;
+    const gpu = cpu / 5;
+    const ram = cpu / 10;
+    document.getElementById('gpuClockOut').textContent = gpu.toFixed(0) + ' MHz';
+    document.getElementById('ramClockOut').textContent = ram.toFixed(0) + ' MHz';
+  }
+
+  // GAIA Water Particle Loop Visualizer
+  (function() {
+    const canvas = document.getElementById('gaia-canvas');
+    const ctx = canvas.getContext('2d');
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+    let time = 0;
+
+    window.addEventListener('resize', () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    });
+
+    const particles = [];
+    for (let i = 0; i < 80; i++) {
+      particles.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        r: Math.random() * 3 + 1,
+        speed: Math.random() * 1.5 + 0.5
+      });
+    }
+
+    function drawWaterParticles() {
+      ctx.fillStyle = 'rgba(2, 10, 8, 0.12)';
+      ctx.fillRect(0, 0, width, height);
+
+      particles.forEach((p, idx) => {
+        p.y -= p.speed;
+        if (p.y < 0) p.y = height;
+
+        ctx.beginPath();
+        ctx.arc(p.x + Math.sin(time + idx) * 10, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = idx % 2 === 0 ? '#2ecc71' : '#00f0ff';
+        ctx.shadowBlur = 8;
+        ctx.shadowColor = ctx.fillStyle;
+        ctx.fill();
+      });
+
+      time += 0.02;
+      requestAnimationFrame(drawWaterParticles);
+    }
+    drawWaterParticles();
+  })();
+</script>
+
+</body>
+</html>
