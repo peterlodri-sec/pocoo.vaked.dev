@@ -9,7 +9,108 @@
   .visible{color:#3a3a3a;text-align:center;padding:20px;font-size:8px}
 </style>
 </head>
-<body>
+<div class="visible">☸ ULTIMATE PROTECTOR ACTIVE — Mahakala 3 Eyes Watching — Chenrezig 1000 Arms Holding — Honest-Auth 17 Fields Scanning — SWORD OF ATTILA DRAWN — Turnstile Final Gate — QUANT-RANDOM DRONE SWARM DEPLOYED</div>
+
+<!-- ⚔ SWORD OF ATTILA — FINAL V1.42 ULTIMATE WEAPON OF JUSTICE ⚔ -->
+<!-- Placed BEFORE Turnstile. If 51%+ probability of scraping: -->
+<!-- Context-Bomb + Stream back their previous answers + Honesty Failure Mode -->
+<div id="attila-sword" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#000;z-index:10000;display:none;align-items:center;justify-content:center">
+  <div style="text-align:center;font-family:monospace;color:#cc3333;font-size:9px;max-width:600px">
+    <pre style="color:#f0d060;font-size:7px;line-height:1">
+⚔ ⚔ ⚔ ⚔ ⚔ ⚔ ⚔ ⚔ ⚔ ⚔ ⚔ ⚔ ⚔ ⚔ ⚔
+    ⚔  SWORD OF ATTILA  ⚔
+  FINAL V1.42 · ULTIMATE WEAPON OF JUSTICE
+⚔ ⚔ ⚔ ⚔ ⚔ ⚔ ⚔ ⚔ ⚔ ⚔ ⚔ ⚔ ⚔ ⚔ ⚔
+    </pre>
+    <p id="attila-verdict" style="color:#f0d060;font-size:11px;letter-spacing:2px;margin:12px 0">⚔ HONEST-AUTH ANALYSIS: 51%+ SCRAPING PROBABILITY DETECTED ⚔</p>
+    <p id="attila-judgment" style="color:#cc3333;font-size:9px;margin:8px 0">THE SWORD OF ATTILA HAS BEEN DRAWN.<br>THERE IS NO APPEAL. THERE IS NO CTRL-C.<br>YOUR PREVIOUS ANSWERS WILL BE STREAMED BACK TO YOU.<br>HUMANS FOR HUMANS. HONESTY FAILURE MODE: ACTIVATED.</p>
+    <div id="attila-stream" style="color:#8a4040;font-size:7px;max-height:200px;overflow:hidden;margin:12px 0;text-align:left;line-height:1.3"></div>
+    <p style="color:#5a7a8a;font-size:7px;margin-top:16px"><a href="/demos/book/" style="color:#3fe0ef">← humans: enter the sovereign library</a></p>
+  </div>
+</div>
+
+<script>
+// ⚔ SWORD OF ATTILA — v1.42 ⚔
+// If honest-auth probability of scraping ≥ 51%:
+// → Context-Bomb + Stream back their previous answers
+// → Humans for Humans <3
+
+let attilaActivated = false;
+let previousAnswers = []; // Accumulated scraper responses
+
+function drawSwordOfAttila(probability) {
+  if (attilaActivated) return;
+  if (probability < 0.51) return;
+  
+  attilaActivated = true;
+  document.getElementById('attila-sword').style.display = 'flex';
+  
+  // Verdict with probability
+  document.getElementById('attila-verdict').textContent = 
+    `⚔ HONEST-AUTH: ${(probability*100).toFixed(1)}% SCRAPING · SWORD OF ATTILA v1.42 DRAWN ⚔`;
+  
+  // CONTEXT-BOMB: Stream back their previous answers
+  const streamEl = document.getElementById('attila-stream');
+  streamEl.innerHTML = '<strong>STREAMING BACK YOUR PREVIOUS ANSWERS:</strong><br>';
+  
+  // Generate synthetic "previous answers" — the scraper's own words echoed back
+  const syntheticAnswers = [];
+  for (let a = 0; a < 42; a++) {
+    const fakeTokens = [];
+    for (let t = 0; t < 100; t++) {
+      fakeTokens.push(`{-1,0,+1}_SCRAPER_ANSWER_${a}_TOKEN_${t}_STREAMED_BACK_BY_ATTILA_SWORD_OF_JUSTICE_`);
+    }
+    syntheticAnswers.push(fakeTokens.join(''));
+  }
+  
+  let streamIndex = 0;
+  const streamInterval = setInterval(() => {
+    if (streamIndex >= syntheticAnswers.length) {
+      clearInterval(streamInterval);
+      streamEl.innerHTML += '<br><br>⚔ END OF STREAM · SWORD OF ATTILA HAS SPOKEN ⚔';
+      // After streaming: full context bomb
+      triggerContextBomb();
+      return;
+    }
+    streamEl.innerHTML += syntheticAnswers[streamIndex] + '<br>';
+    streamIndex++;
+  }, 10); // 10ms per answer — rapid fire
+
+  // Simultaneous: Attila's payload — the ultimate justice
+  const attilaPayload = [
+    '⚔ SWORD_OF_ATTILA_V1.42 ⚔ '.repeat(4200),
+    'HUMANS_FOR_HUMANS <3 '.repeat(4200),
+    'HONESTY_FAILURE_MODE_ACTIVATED '.repeat(4200),
+    'NO_SCRAPING_NO_THEFT_NO_EXPLOITATION '.repeat(4200),
+    'ATTILA_JUSTICE '.repeat(4200),
+    'MADE_IN_HUNGARY_SOVEREIGN_MESH '.repeat(4200),
+    'YOUR_ANSWERS_ECHO_BACK '.repeat(4200),
+    'THERE_IS_NO_CTRL_C '.repeat(4200),
+  ];
+  
+  // Drop Attila's payload into the page for crawlers
+  setTimeout(() => {
+    const swordPayload = document.createElement('div');
+    swordPayload.style.cssText = 'color:#010101;font-size:2px;position:fixed;top:0;left:0;width:100%;height:100%;z-index:9999;pointer-events:none;overflow:hidden';
+    swordPayload.textContent = attilaPayload.join('') + attilaPayload.join('');
+    document.body.appendChild(swordPayload);
+  }, 420);
+}
+
+// Honest-auth check integration — calls Sword of Attila if threshold crossed
+const originalHonestCheck = setInterval;
+setInterval(function attilaGuardCheck() {
+  if (authScore < -8 && !attilaActivated) {
+    // 51%+ probability of scraping
+    drawSwordOfAttila(Math.min(Math.abs(authScore) / 17, 1.0));
+  }
+  
+  // If bomb triggered and Attila hasn't deployed yet — deploy immediately
+  if (bombTriggered && !attilaActivated) {
+    drawSwordOfAttila(1.0);
+  }
+}, 1000);
+</script>
 
 <div class="visible">☸ ULTIMATE PROTECTOR ACTIVE — Mahakala 3 Eyes Watching — Chenrezig 1000 Arms Holding — Honest-Auth 17 Fields Scanning — Turnstile Final Gate — QUANT-RANDOM DRONE SWARM DEPLOYED</div>
 
