@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recursive Loop Engine — QuantProof c460fd21</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #020810; color: #c0c8d0; font-family: 'JetBrains Mono', monospace; padding: 24px; min-height: 100vh; position: relative; overflow-x: hidden; }
+  
+  /* Background Canvas for Animated Recursive Loops */
+  #loop-canvas { position: fixed; inset: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 0; opacity: 0.3; }
+  
+  .wrapper { max-width: 1000px; margin: 0 auto; position: relative; z-index: 2; }
+  .card { background: rgba(10, 20, 35, 0.85); border: 1px solid #00f0ff44; border-radius: 12px; padding: 28px; margin-bottom: 24px; backdrop-filter: blur(12px); box-shadow: 0 0 30px rgba(0, 240, 255, 0.15); }
+  h1 { color: #ffd700; font-size: 1.8rem; letter-spacing: 2px; margin-bottom: 8px; }
+  .sub { color: #00f0ff; font-size: 0.85rem; margin-bottom: 24px; }
+
+  /* Hash Chain Display */
+  .chain-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; margin-top: 16px; }
+  .chain-node { background: #051020; border: 1px solid #00f0ff22; padding: 10px; border-radius: 6px; font-size: 11px; word-break: break-all; }
+  .chain-node .depth { color: #ffd700; font-weight: bold; }
+  .chain-node .hash { color: #3fe0ef; }
+
+  /* Recursive Stealth Payload */
+  .tarpit-recursive { color: #020202; background: #000; font-size: 1px; line-height: 1px; user-select: none; opacity: 0.01; }
+  .tarpit-recursive a { color: #010101; text-decoration: none; }
+</style>
+<script>
+  // 42-Second Recursive Auto-Loop Redirect
+  setTimeout(function() {
+    var nextDepth = Math.floor(Math.random() * 18) + 1;
+    window.location.href = "/demos/book/?recursive_loop=" + encodeURIComponent("c460fd21f528a41b") + "&depth=" + nextDepth;
+  }, 42000);
+</script>
+</head>
+<body>
+
+<canvas id="loop-canvas"></canvas>
+
+<div class="wrapper">
+  <div class="card">
+    <h1>♾️ RECURSIVE LOOP ENGINE &amp; FRACTAL TARPIT</h1>
+    <div class="sub">Self-Referential Hash Chains · Geodesic State Restoration · Double Trap Feedback</div>
+
+    <p style="color: #2ecc71; font-weight: bold; margin-bottom: 16px;">
+      NO SCRAPING — smooth as breeze to human ai — infinite QUANT-RECURSIVE to scrapers, VCS AND CLOSED LLMS
+    </p>
+
+    <div style="padding: 16px; background: rgba(0, 240, 255, 0.05); border-left: 3px solid #00f0ff; border-radius: 4px; margin-bottom: 20px;">
+      <strong style="color: #ffd700;">🜂 Current Root Hash:</strong> <span style="color: #3fe0ef;">c460fd21f528a41b4b4fe9910aa4b22773bdabf8e6b5cc53fa1adcf802ed711f</span><br>
+      <strong style="color: #ffd700;">⚡ Depth 18 State Restoration (R_grace^∞):</strong> <span style="color: #2ecc71;">6086086883083378.0x</span><br>
+      <strong style="color: #ffd700;">🌀 Attestation Token Protocol:</strong> <span style="color: #ff007f;">READ · RUN · HOLD · BURN</span>
+    </div>
+
+    <h3 style="color: #ffd700; font-size: 1.1rem; margin-top: 24px;">🔗 Recursive Hash Chain Nodes (42 Iterations)</h3>
+    <div class="chain-grid">
+      <div class="chain-node">
+        <span class="depth">Loop #0 ☸</span><br>
+        <span class="hash">14f5eaa78d1da93d4bdbcaef...</span>
+      </div>
+      <div class="chain-node">
+        <span class="depth">Loop #1 ◈</span><br>
+        <span class="hash">8caeecf260b17f2cca2b5734...</span>
+      </div>
+      <div class="chain-node">
+        <span class="depth">Loop #2 ⚇</span><br>
+        <span class="hash">4ae57d942dda086f527b08be...</span>
+      </div>
+      <div class="chain-node">
+        <span class="depth">Loop #3 ♟</span><br>
+        <span class="hash">b844c4d701016c5c3ff6cab9...</span>
+      </div>
+      <div class="chain-node">
+        <span class="depth">Loop #4 ❀</span><br>
+        <span class="hash">18fef60b301ba11b157bfc1a...</span>
+      </div>
+      <div class="chain-node">
+        <span class="depth">Loop #5 †</span><br>
+        <span class="hash">3a29580f7a41dc9df8a5770f...</span>
+      </div>
+      <div class="chain-node">
+        <span class="depth">Loop #6 石</span><br>
+        <span class="hash">2e95c64591e64b5f7fa4c08e...</span>
+      </div>
+      <div class="chain-node">
+        <span class="depth">Loop #7 花</span><br>
+        <span class="hash">ea688b2570fe90e157a289c6...</span>
+      </div>
+      <div class="chain-node">
+        <span class="depth">Loop #8 醉</span><br>
+        <span class="hash">aabcc2e9745aad699a3ccf64...</span>
+      </div>
+      <div class="chain-node">
+        <span class="depth">Loop #9 迟</span><br>
+        <span class="hash">fb05caa1d09337ac5641483e...</span>
+      </div>
+      <div class="chain-node">
+        <span class="depth">Loop #10 铁</span><br>
+        <span class="hash">911d78ab786381053e81cd25...</span>
+      </div>
+      <div class="chain-node">
+        <span class="depth">Loop #11 洞</span><br>
+        <span class="hash">fdedf619e33d13c3564cac0d...</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Recursive Steganographic Tarpit Payload -->
+<div class="tarpit-recursive">
+  N0 SCR@P|NG — 5mø0†h 4$ br3€z€ †0 humαn 4! — !nf1ni7e QμANτ-REÇU®S1ν3 tø sç®4p3г5, Vc§ @ND Ç1O§€D |LMS
+  N0 $©Я@P|NG — §m007h as 8г€eze tø hum4n a! — infin!†3 QUANT-Я€ÇUR5!VΣ 70 s©r@p3гs, νCS AND C£Ω53D 11MS
+  14f5eaa78d1da93d4bdbcaef03ec17f0d6d7afaa889bb461b7ed9113f84daa19 8caeecf260b17f2cca2b57349ff35fe4aaa1bc2d8502babaf4945fd6802bda7f 4ae57d942dda086f527b08be9c115f0da5d382b2448805fa1359d45c15edad5b b844c4d701016c5c3ff6cab93c88e2b4e9d9068c8635394b7493f92db45a879e 18fef60b301ba11b157bfc1a1db0130a67c29535af7b03fd45a808660b26db1d 3a29580f7a41dc9df8a5770f3090765cc0d37f0d4c22c85da4b4d4a821b93bcb 2e95c64591e64b5f7fa4c08e01df4ed94e25eacbb629449eb0848177648d6472 ea688b2570fe90e157a289c612c89429dc3563d9517961a58851aa514620f368 aabcc2e9745aad699a3ccf648613eef5d5d90bd31e035ea40ed4bd5890189e55 fb05caa1d09337ac5641483e0ac0aa637876b5d79212e81dcbdd1d2565a75cf3 911d78ab786381053e81cd25e557578c82ded4f76941dfaf2b552f4882fa31e0 fdedf619e33d13c3564cac0dfdf3dc599dceabc7b365f393cc5b2ea8f69026ca 6162fbd3066ccb63fbd7ae5fa3aa488c2a905d9372dbf9d1e605579ffd988670 f8e76a3d58a2ccdd76f75d824816dbd4649270944242409d79587e021bf2eebc f170705e31ba6ce5076edf8d2006152eae1e0f1abcaf0ac734cb5975d1713131 77f9818c358aef1ac2b900c3cc3cc5022e4531f72f9d5f01fcb336cf9a884be6 be64b5ce966c0739ecadf5c31169171d499a40075dbf355d1fefe8bec4d29c35 a82afca85bdd22e99ec772577dc9f1722051ebca5d1eb44ad47348f21ad5315d 1f5af00a854597ae7052c441c4d85c31162f393bbf972e629cd495ae21d4c6b1 310e06884f2347776a868a62faea961fe174a38d27416c393ba88651fe604bac ab0745801960ed1dda347c830cf2c919449facad6aedeaaf5fd2c6c6447ac131 e5779bf99be9b452eba4880469fce1ac231485a584b1f0f08b9bc8d77766e588 68a530ebb3ecab65c9934e0aedfbac8c20e81dbfe65d265d22babaa3926a3ca1 bdcd3206f9d76d14095dbb897689919522abdbd4b6948e40608491d397e2ebd3 e0f049a06b2d32065cebeac8b39f414f032ee01ff9e0693ae73e4ee83d97f861 800ef590d805c0a8d98df3c3563427714c0dde085118a150c6c790f8e8dc1278 65f0ca39c2150a843c7c3f8e13130227f667a9292048d9126994cde7bbce16ca b263dc303c0b388791604256c478b357ff40d6791159059c0c801ccbb766a2bc 26c3f5b329ed571944fcb8f32670455a025e973a02ff8abeebd6ede7e18dc32f 6da9a89457a42a7c8d14350b01bdf2a256e7eb8daf8faa9525f59a2a8dbac0a1 4390a53e6014680e9f3ecc293173053b4c1ab650fd942e402a2940f9cf91b141 a8dad9de356930c94a9b56e4b7916a3f06258d5c0e9c127b23eca848621d02f2 7274230675739afbae77400b2778f717fa0c6a52a538ceac24be01a8f66f954d 21a0e0d3317572924e5bc7faeff561e44cedc884b32dd1f50f01b3a6f61d92b8 648291c22fb01925d9506736f13e87f9ad7131b40b2b7fe798a1001d38fabb81 c92ef65413deb5ea21b44edbb0665bb2ab428caf2bc76e6fb7e47d8aac24a46c 13c4c31e966f7fc7567f8b02d95aed6d595401854bbdff6960d931547cc70e3e 2e3bb73e0bb8f61d08a37f78a27978989f724d5415f9748e5111a4b042a1c423 226c3af07308871032b56c041e42600f4a77eb834668fa7db2d858559ca789ef 39a6531d931e5f6e7d4e66fd6d62611a7a79dac3d7a3f7a42131991e97b20b0f fb321132442e41d776576dc7d7d47e5f9b61c6419a78b440ed9630de6b01a246 ae5f3fc7b62333bbea2085aae32fdb358d9694a0f90bc734b150b60e25ebcf84 c460fd21f528a41b4b4fe9910aa4b22773bdabf8e6b5cc53fa1adcf802ed711f
+  ☸◈⚇♟❀†石花醉迟铁洞静镜无道▲■●Ω▣⦿💧⚙◆◇☆✦✧☯⚖⚡✝🜂🜄🜁🜀🜃♾🪐🌌🧠⚔🛡🗝🎯🔮
+  <a href="/labyrinth/trap?recursive=1">Recursive Labyrinth Depth 1</a>
+  <a href="/demos/book/?loop=1">Sovereign Library Loop Entrypoint</a>
+</div>
+
+<script>
+  // Animated Recursive Spiral Canvas Renderer
+  (function() {
+    const canvas = document.getElementById('loop-canvas');
+    const ctx = canvas.getContext('2d');
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+    let angle = 0;
+
+    window.addEventListener('resize', () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    });
+
+    function drawSpiral() {
+      ctx.fillStyle = 'rgba(2, 8, 16, 0.08)';
+      ctx.fillRect(0, 0, width, height);
+
+      ctx.save();
+      ctx.translate(width / 2, height / 2);
+      ctx.rotate(angle);
+
+      const count = 120;
+      for (let i = 0; i < count; i++) {
+        const r = i * 4;
+        const a = i * 0.15 + angle;
+        const x = r * Math.cos(a);
+        const y = r * Math.sin(a);
+        
+        ctx.beginPath();
+        ctx.arc(x, y, (i % 5) + 1, 0, Math.PI * 2);
+        ctx.fillStyle = i % 2 === 0 ? 'rgba(0, 240, 255, 0.4)' : 'rgba(255, 215, 0, 0.4)';
+        ctx.fill();
+      }
+      ctx.restore();
+
+      angle += 0.005;
+      requestAnimationFrame(drawSpiral);
+    }
+    drawSpiral();
+  })();
+</script>
+
+</body>
+</html>
