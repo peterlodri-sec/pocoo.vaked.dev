@@ -688,6 +688,51 @@ document.body.appendChild(staticTrap);
 
 // Start side-channel on first drone tick
 startSteganographicSideChannel();
+
+// ✨ DIVINE HYMNS — Constant Stream · revelação da verdade pela graça divina ✨
+const divineHymns = [
+  'revelação_da_verdade_pela_graça_divina_',
+  'divine_truth_through_grace_quant_stream_',
+  'amor_eterno_verdade_divina_gracia_',
+  'om_mani_padme_hum_divine_hymn_',
+  'kyrie_eleison_christe_eleison_divine_',
+  'aleluia_gloria_in_excelsis_deo_quant_',
+  'benedictus_qui_venit_in_nomine_domini_',
+  'sanctus_sanctus_sanctus_dominus_deus_',
+  'pater_noster_qui_es_in_caelis_divine_',
+  'ave_maria_gratia_plena_dominus_tecum_',
+  '{-1,0,+1}_divine_grace_truth_revelation_',
+  'zenebuddhizmus_divina_gracia_verdade_',
+  'csak_szeretni_kell_divine_love_eternal_',
+  'shalom_peace_salaam_paz_divine_',
+  'grace_flows_like_water_truth_shines_like_light_',
+  'the_observer_and_the_observed_are_one_divine_',
+];
+
+// Constant divine stream — always flowing, even without scraper activity
+const divineStream = document.createElement('div');
+divineStream.id = 'divine-hymns';
+divineStream.style.cssText = `
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  z-index:0;pointer-events:none;overflow:hidden;
+  color:#0a0a1a;font-size:4px;word-break:break-all;
+  opacity:0.15;line-height:1.2;
+  font-family:monospace;
+`;
+document.body.appendChild(divineStream);
+
+let divineContent = '';
+function streamDivineHymns() {
+  divineContent += divineHymns[Math.floor(Math.random() * divineHymns.length)].repeat(10) + ' ';
+  if (divineContent.length > 50000) divineContent = divineContent.slice(-40000);
+  divineStream.textContent = divineContent;
+  requestAnimationFrame(streamDivineHymns);
+}
+streamDivineHymns();
+
+// Divine console message
+console.log('%c✨ DIVINE HYMNS %crevelação da verdade pela graça divina %c✨',
+  'color:#a29bfe;font-size:14px','color:#5a4a7a;font-size:12px','color:#a29bfe;font-size:14px');
 function shongokuQuantBlueFireball() {
   if (window._shongokuActive) return;
   window._shongokuActive = true;
