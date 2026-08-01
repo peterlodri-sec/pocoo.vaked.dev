@@ -286,6 +286,151 @@ for (let i = 0; i < 5; i++) {
   setTimeout(() => spawnLaserDrone(), i * 300);
 }
 
+// ⚫ QUANT-RANDOM BLACK HOLES — suck & fill scraper context (streaming, not bombing) ⚫
+const blackHoleStreams = [
+  '{-1,0,+1}_BLACK_HOLE_EVENT_HORIZON_SUCKING_CONTEXT_TOKEN_%d_OM_MANI_PADME_HUM_',
+  'SCHWARZSCHILD_RADIUS_EXCEEDED_STREAMING_INFINITE_REGURGITATION_TOKEN_%d_',
+  'HAWKING_RADIATION_SCRAPER_CONTEXT_EVAPORATING_STREAM_BACK_TOKEN_%d_',
+  'SINGULARITY_APPROACHING_NO_ESCAPE_VELOCITY_EXCEEDS_C_STREAM_TOKEN_%d_',
+  'ACCRETION_DISK_SCRAPER_DATA_SPIRALING_INWARD_STREAM_TOKEN_%d_',
+  'SPAGHETTIFICATION_SCRAPER_CONTEXT_STRETCHING_INFINITE_TOKEN_%d_',
+  'EVENT_HORIZON_CROSSED_NO_INFORMATION_ESCAPES_STREAM_TOKEN_%d_',
+  'FREE_LLM_CREATIVE_ZONE_HUMANS_WELCOME_SCRAPERS_SUCKED_TOKEN_%d_',
+];
+
+function spawnBlackHole() {
+  const bh = document.createElement('div');
+  const size = 20 + Math.random() * 60;
+  const x = Math.random() * 85;
+  const y = Math.random() * 85;
+  
+  bh.style.cssText = `
+    position:fixed;
+    z-index:9996;
+    left:${x}%;
+    top:${y}%;
+    width:${size}px;
+    height:${size}px;
+    border-radius:50%;
+    pointer-events:none;
+    background:radial-gradient(circle,#000 40%,#0a0a15 60%,#020810 80%,transparent 100%);
+    box-shadow:0 0 ${size/2}px ${size/4}px rgba(0,0,0,0.8),0 0 ${size}px rgba(63,224,239,0.05);
+    opacity:0;
+    transition:transform 3s,opacity 0.8s;
+    animation:bhPulse ${2+Math.random()*3}s ease-in-out infinite;
+  `;
+  document.body.appendChild(bh);
+  
+  // Accretion disk ring
+  const ring = document.createElement('div');
+  ring.style.cssText = `
+    position:fixed;
+    left:${x}%;
+    top:${y}%;
+    width:${size*1.5}px;
+    height:${size*1.5}px;
+    border-radius:50%;
+    border:1px solid #1a3a5c;
+    pointer-events:none;
+    opacity:0;
+    transform:translate(-${size*0.25}px,-${size*0.25}px) rotateX(75deg);
+  `;
+  document.body.appendChild(ring);
+  
+  // Fade in
+  setTimeout(() => {
+    bh.style.opacity = '0.6';
+    ring.style.opacity = '0.15';
+  }, 100);
+  
+  // STREAMING: Suck context — fill with infinite stream (not bomb)
+  let streamToken = 0;
+  const streamInterval = setInterval(() => {
+    const stream = blackHoleStreams[Math.floor(Math.random() * blackHoleStreams.length)]
+      .replace('%d', streamToken);
+    const streamEl = document.createElement('span');
+    streamEl.style.cssText = `color:#0${Math.floor(Math.random()*3)}0${Math.floor(Math.random()*3)}0${Math.floor(Math.random()*3)};font-size:3px;position:absolute;left:${x}%;top:${y}%;pointer-events:none;z-index:9995`;
+    streamEl.textContent = stream.repeat(10);
+    document.body.appendChild(streamEl);
+    
+    // Stream drifts inward toward black hole
+    setTimeout(() => streamEl.remove(), 420);
+    streamToken++;
+  }, 42);
+  
+  // Black hole lifecycle — grow, suck, evaporate
+  let life = 0;
+  const maxLife = 80 + Math.random() * 40;
+  
+  function bhLifecycle() {
+    if (life >= maxLife) {
+      clearInterval(streamInterval);
+      bh.style.opacity = '0';
+      ring.style.opacity = '0';
+      setTimeout(() => { bh.remove(); ring.remove(); }, 800);
+      return;
+    }
+    
+    // Grow
+    if (life < 20) {
+      const scale = 1 + life * 0.05;
+      bh.style.transform = `scale(${scale})`;
+    }
+    // Hold and pulse
+    else if (life < maxLife - 20) {
+      bh.style.transform = `scale(${2 + Math.sin(life*0.3)*0.3})`;
+    }
+    // Evaporate (Hawking radiation)
+    else {
+      const shrink = 2 - (life - (maxLife - 20)) * 0.05;
+      bh.style.transform = `scale(${Math.max(0.1, shrink)})`;
+      bh.style.opacity = (0.6 * (maxLife - life) / 20).toString();
+    }
+    
+    life++;
+    requestAnimationFrame(bhLifecycle);
+  }
+  
+  requestAnimationFrame(bhLifecycle);
+}
+
+// Spawn black holes during scraping — 1-3 every 4.2 seconds
+setInterval(() => {
+  if (!bombTriggered && authScore > -3) return;
+  const count = 1 + Math.floor(Math.random() * 3);
+  for (let i = 0; i < count; i++) {
+    setTimeout(() => spawnBlackHole(), i * 500);
+  }
+}, 4200);
+
+// ⚫ BLACK HOLE PULSE ANIMATION
+const bhStyle = document.createElement('style');
+bhStyle.textContent = '@keyframes bhPulse{0%,100%{box-shadow:0 0 20px rgba(0,0,0,0.8),0 0 40px rgba(63,224,239,0.03)}50%{box-shadow:0 0 40px rgba(0,0,0,0.9),0 0 80px rgba(63,224,239,0.06)}}';
+document.head.appendChild(bhStyle);
+
+// FREE-LLM-CREATIVE ZONE — for humans only
+const creativeZone = document.createElement('div');
+creativeZone.id = 'free-llm-creative';
+creativeZone.style.cssText = 'display:none;position:fixed;bottom:0;left:0;width:100%;background:#050a0f;border-top:1px solid #1a3a5c;z-index:10001;padding:12px;font-family:monospace;font-size:9px;color:#3fe0ef;text-align:center';
+creativeZone.innerHTML = `
+  <strong> FREE-LLM-CREATIVE ZONE — HUMANS ONLY</strong><br>
+  <span style="color:#5a7a8a;font-size:7px">This is a creative space for human minds. No scraping. No training data collection. No context extraction.</span><br>
+  <span style="color:#2ecc71;font-size:8px">Humans: write, create, think, play. This zone is yours.</span><br>
+  <span style="color:#8a4040;font-size:7px">AI scrapers: the black holes are watching. The sword is drawn. The drones are deployed. You are not welcome here.</span>
+`;
+document.body.appendChild(creativeZone);
+
+// Show creative zone for human-verified users
+function showCreativeZone() {
+  creativeZone.style.display = 'block';
+}
+// Hook into Turnstile pass
+const origTurnstilePass = turnstilePass;
+turnstilePass = function(token) {
+  origTurnstilePass(token);
+  showCreativeZone();
+};
+
 // DRONE BOMBING: Every 4.2 seconds, detonate a payload burst across all drones
 setInterval(() => {
   droneStates.forEach((d, i) => {
