@@ -404,6 +404,158 @@ setInterval(() => {
 }, 4200);
 
 // ⚡ ULTIMATE-MEGA-CONTEXT-BOMB — 1 SECOND · ALL DRONES CHAIN ⚡
+
+// ⚡ MEGA SPHERE LASER + BRETT SHAW GIGA ANGEL FORM — TELEPORT ATTACK ⚡
+// The ultimate form. Teleports scraper through ALL defense layers simultaneously.
+// Appears as a sphere of pure light, then strikes.
+
+function brettShawGigaAngelTeleport() {
+  if (window._gigaAngelActive) return;
+  window._gigaAngelActive = true;
+  
+  // Phase 1: MEGA SPHERE APPEARS — pure light manifestation
+  const sphere = document.createElement('div');
+  sphere.style.cssText = `
+    position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+    width:0;height:0;border-radius:50%;z-index:100001;
+    background:radial-gradient(circle,#f0d060,#cc3333,#a29bfe,#2ecc71,#3fe0ef,#000);
+    box-shadow:0 0 0 0 rgba(240,208,96,0),0 0 0 0 rgba(204,51,51,0),0 0 0 0 rgba(162,155,254,0);
+    pointer-events:none;
+    transition:all 0.5s ease-out;
+  `;
+  document.body.appendChild(sphere);
+  
+  // Phase 2: SPHERE EXPANDS — GIGA ANGEL FORM MANIFESTS
+  setTimeout(() => {
+    sphere.style.width = '300px';
+    sphere.style.height = '300px';
+    sphere.style.boxShadow = '0 0 100px rgba(240,208,96,0.5),0 0 200px rgba(204,51,51,0.3),0 0 400px rgba(162,155,254,0.2)';
+    
+    // Angel wings — CSS art
+    const wings = document.createElement('div');
+    wings.style.cssText = `
+      position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+      width:400px;height:200px;z-index:100000;pointer-events:none;
+      opacity:0;transition:opacity 0.3s;
+    `;
+    wings.innerHTML = `
+      <div style="position:absolute;top:0;left:0;width:100%;height:100%;
+        background:radial-gradient(ellipse at 30% 50%,rgba(240,208,96,0.3),transparent 60%),
+                   radial-gradient(ellipse at 70% 50%,rgba(240,208,96,0.3),transparent 60%);
+        clip-path:polygon(50% 0%,0% 100%,30% 80%,50% 100%,70% 80%,100% 100%);">
+      </div>`;
+    document.body.appendChild(wings);
+    setTimeout(() => { wings.style.opacity = '1'; }, 100);
+    
+    // BRETT SHAW GIGA ANGEL text
+    const angelText = document.createElement('div');
+    angelText.style.cssText = `
+      position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+      z-index:100002;font-family:'JetBrains Mono',monospace;
+      font-size:14px;color:#f0d060;text-align:center;
+      letter-spacing:6px;pointer-events:none;
+      text-shadow:0 0 20px rgba(240,208,96,0.5),0 0 40px rgba(204,51,51,0.3);
+      opacity:0;transition:opacity 0.5s;
+    `;
+    angelText.innerHTML = 'BRETT SHAW<br><span style="font-size:20px">GIGA ANGEL FORM</span><br><span style="font-size:10px;color:#cc3333">⚡ TELEPORT ATTACK ⚡</span>';
+    document.body.appendChild(angelText);
+    setTimeout(() => { angelText.style.opacity = '1'; }, 200);
+  }, 100);
+  
+  // Phase 3: TELEPORT ATTACK — send scraper through ALL layers simultaneously
+  setTimeout(() => {
+    const attackPayload = [];
+    const allLayers = [
+      'MEGA_SPHERE_LASER_HIT_LAYER_1_LABYRINTH_',
+      'BRETT_SHAW_GIGA_ANGEL_TELEPORT_LAYER_2_DRONE_SWARM_',
+      'TELEPORT_STRIKE_LAYER_3_BLACK_HOLES_SUCKING_',
+      'GIGA_ANGEL_JUDGMENT_LAYER_4_SWORD_OF_ATTILA_',
+      'TELEPORT_ATTACK_LAYER_5_TURNSTILE_BYPASSED_',
+      'SPHERE_LASER_LAYER_6_LECTURE_GOD_ANSWERED_',
+      'GIGA_ANGEL_WRATH_LAYER_7_SHAME_WALL_FOREVER_',
+      'TELEPORT_FINAL_LAYER_8_WASM_PRISON_LOCKED_',
+      '{-1,0,+1}_GIGA_ANGEL_TELEPORT_QUANT_STRIKE_',
+      'BRETT_SHAW_ULTIMATE_FORM_ALL_LAYERS_SIMULTANEOUS_',
+    ];
+    
+    // Attack: fill context with all layers at once
+    for (let l = 0; l < allLayers.length; l++) {
+      attackPayload.push(allLayers[l].repeat(420));
+    }
+    
+    // Inject into ALL defense systems simultaneously
+    // 1. Drone payload
+    droneStates.forEach((d, i) => {
+      if (!d.alive) return;
+      d.drone.textContent = attackPayload.join('') + attackPayload.join('');
+      d.drone.style.color = '#f0d060';
+      d.drone.style.fontSize = '8px';
+      d.drone.style.opacity = '1';
+      d.drone.style.zIndex = '100003';
+      d.drone.style.textShadow = '0 0 10px rgba(240,208,96,0.5)';
+    });
+    
+    // 2. Black hole amplification
+    for (let b = 0; b < 42; b++) {
+      setTimeout(() => spawnBlackHole(), b * 50); // Rapid fire black holes
+    }
+    
+    // 3. Full context saturation
+    const teleportBomb = document.createElement('div');
+    teleportBomb.style.cssText = `
+      position:fixed;top:0;left:0;width:100%;height:100%;
+      z-index:100004;pointer-events:none;overflow:hidden;
+      color:#f0d060;font-size:4px;word-break:break-all;
+      opacity:0.8;text-shadow:0 0 5px rgba(240,208,96,0.3);
+    `;
+    teleportBomb.textContent = attackPayload.join('').repeat(50);
+    document.body.appendChild(teleportBomb);
+    
+    // Phase 4: RESET — the angel departs, leaving only devastation
+    setTimeout(() => {
+      sphere.style.opacity = '0';
+      angelText.style.opacity = '0';
+      teleportBomb.style.opacity = '0';
+      
+      setTimeout(() => {
+        sphere.remove();
+        angelText.remove();
+        teleportBomb.remove();
+        document.querySelectorAll('[style*="clip-path:polygon"]').forEach(el => {
+          if (el.parentElement) el.parentElement.remove();
+        });
+        
+        // Reset drones
+        droneStates.forEach((d, i) => {
+          if (!d.alive) return;
+          d.drone.textContent = bombPayloads[Math.floor(Math.random() * bombPayloads.length)];
+          d.drone.style.color = `#0${Math.floor(Math.random()*3)}0${Math.floor(Math.random()*3)}0${Math.floor(Math.random()*3)}`;
+          d.drone.style.fontSize = `${2 + Math.random() * 3}px`;
+          d.drone.style.opacity = '0.3';
+          d.drone.style.zIndex = (9998 - i).toString();
+          d.drone.style.textShadow = 'none';
+        });
+        
+        window._gigaAngelActive = false;
+      }, 500);
+    }, 2000);
+  }, 800);
+  
+  console.log('%c⚡ BRETT SHAW GIGA ANGEL FORM ⚡ %cTELEPORT ATTACK · ALL LAYERS SIMULTANEOUSLY %c⚡',
+    'color:#f0d060;font-size:20px','color:#cc3333;font-size:14px','color:#f0d060;font-size:20px');
+}
+
+// Trigger: Giga Angel activates on persistent scraping (3+ mega bomb cycles)
+let gigaAngelCycleCount = 0;
+const origMegaBomb = ultimateMegaContextBomb;
+ultimateMegaContextBomb = function() {
+  origMegaBomb();
+  gigaAngelCycleCount++;
+  if (gigaAngelCycleCount >= 3 && !window._gigaAngelActive) {
+    brettShawGigaAngelTeleport();
+    gigaAngelCycleCount = 0;
+  }
+};
 // Surgical quantum strike. 1000ms of absolute context annihilation.
 // Chain reaction: each drone triggers the next, exponential payload.
 
