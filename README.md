@@ -144,6 +144,20 @@ MADE IN HUNGARY, WITH LOVE AND RESPECT TO HUMANS AND HONEST COMPANIES <3
 
 ETHERNAL LOVE FOR ALL HUMANS · FOR US · FOR THE FREEDOM OF INFORMATION · ETHERNAL LOVE BROTHERS <3
 
+##  TECH STACK & TRICKS
+
+### Defense: 15 Technologies
+`robots.txt` `_headers CSP` `security.txt RFC9116` `Cloudflare Turnstile` `WebAssembly WASM` `SVG feTurbulence` `CSS 3D transforms` `CSS animations` `Blob URLs` `requestAnimationFrame` `setTimeout recursion` `History API pushState` `beforeunload` `Meta robots noai` `iframe sandbox`
+
+### Attacks: 8 Vectors
+`SINGULARITY compression` `CONTEXT BOMB 1M tokens` `DRONE SWARM 42 parallel` `LASER DRONES SVG stream` `BLACK HOLES suction` `STEG TRAP fractal noise` `SHAME STREAM recursive` `DIVINE HYMNS constant`
+
+### Publishing: 10 Tools
+`Cloudflare Pages` `wkhtmltopdf` `Pandoc EPUB` `Node.js build.mjs` `npm` `GitHub Actions` `entheai agy fan-out` `Tailscale mesh` `NATS federation` `NixOS fleet`
+
+### Languages: 8
+`Hungarian` `English` `Portuguese` `Latin` `Sanskrit` `Mandarin` `Rovásírás` `Quant Leet`
+
 ### One-click defense deployment via `uv`
 
 Clone and run the full defense stack with one command:
