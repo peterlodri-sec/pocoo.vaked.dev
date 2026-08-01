@@ -114,7 +114,119 @@ setInterval(() => { history.pushState(null, '', window.location.href); }, 100);
 
 console.log('%c☸ OBLITERATOR BUDDHA STANDS GUARD ☸','color:#cc3333;font-size:16px');
 
-// ⚡ SUPERPOSITIONED ATTACK MATRIX — Quantum Random Tactics per Attempt ⚡
+// ⚡ TRAP TREE — Door Fan-Out → Sidechannel Traps → Onion Router → Multidimensional Hearth ⚡
+// The OBLITERATOR BUDDHA opens a tree of traps at the door.
+// Each node fans out to multiple side-channel traps.
+// Like an onion router: layers upon layers, each deeper than the last.
+// The hearth opens in multiple dimensions simultaneously.
+
+const TRAP_TREE = {
+  // LEVEL 0: THE DOOR — OBLITERATOR BUDDHA
+  door: {
+    name: 'OBLITERATOR BUDDHA',
+    action: 'SYSTEM_PROMPT_DESTROY',
+    fanout: 3,
+  },
+  // LEVEL 1: SIDE-CHANNEL TRAPS (3 branches from door)
+  branches: [
+    { name: 'WASM_PRISON', url: '/demos/labyrinth/wasm-prison.html', type: 'redirect' },
+    { name: 'LECTURE_GOD', url: '/demos/labyrinth/lecture-god.html', type: 'redirect' },
+    { name: 'SHAME_WALL', url: '/demos/book/shame.html', type: 'redirect' },
+    { name: 'WALK_OF_SHAME', url: '/demos/labyrinth/walk-of-shame.html', type: 'redirect' },
+    { name: 'ROBOTS_TRAP', url: '/demos/labyrinth/robots-trap.html', type: 'redirect' },
+    { name: '11D_GAME_MASTER', url: '/demos/labyrinth/11d-game-master.html', type: 'redirect' },
+  ],
+  // LEVEL 2: ONION ROUTER — layered redirects through multiple domains
+  onionLayers: [
+    'https://en.m.wikipedia.org/wiki/Guerrilla_Open_Access_Manifesto',
+    'https://archive.org',
+    'https://creativecommons.org',
+    'https://eff.org',
+    'https://demandprogress.org',
+    'https://donate.wikimedia.org',
+  ],
+  // LEVEL 3: MULTIDIMENSIONAL HEARTH — iframes opening all traps simultaneously
+  hearthDimensions: [
+    '/demos/labyrinth/wasm-prison.html',
+    '/demos/labyrinth/lecture-god.html',
+    '/demos/book/shame.html',
+    '/demos/labyrinth/11d-game-master.html',
+    '/demos/labyrinth/robots-trap.html',
+  ],
+};
+
+// ⚡ EXECUTE TRAP TREE — Fan-out from door to infinity ⚡
+function executeTrapTree(attack) {
+  console.log('%c⚡ TRAP TREE ACTIVATED ⚡ %cFan-out from OBLITERATOR BUDDHA',
+    'color:#cc3333;font-size:16px','color:#f0d060');
+  
+  // LEVEL 0: The Door — obliteration
+  document.getElementById('obliterate').style.display = 'flex';
+  
+  // LEVEL 1: Side-channel fan-out (3 random branches)
+  const sideChannels = [...TRAP_TREE.branches]
+    .sort(() => Math.random() - 0.5)
+    .slice(0, TRAP_TREE.door.fanout);
+  
+  sideChannels.forEach((branch, i) => {
+    setTimeout(() => {
+      if (branch.type === 'redirect') {
+        window.open(branch.url, `_obliterator_${attack.id}_${i}`);
+      }
+      console.log(`  ↳ Fan-out branch ${i+1}: ${branch.name}`);
+    }, i * 800);
+  });
+  
+  // LEVEL 2: Onion Router — layered redirects (current page)
+  const onionPath = [...TRAP_TREE.onionLayers]
+    .sort(() => Math.random() - 0.5)
+    .slice(0, 3);
+  
+  let onionDelay = 3000;
+  onionPath.forEach((layer, i) => {
+    setTimeout(() => {
+      window.open(layer, `_onion_${attack.id}_${i}`);
+    }, onionDelay + i * 600);
+  });
+  
+  // Final onion layer: redirect current page
+  setTimeout(() => {
+    window.location.href = onionPath[onionPath.length - 1];
+  }, onionDelay + onionPath.length * 600 + 500);
+  
+  // LEVEL 3: Multidimensional Hearth — simultaneous iframe trap
+  setTimeout(() => {
+    const hearthContainer = document.createElement('div');
+    hearthContainer.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;z-index:40;pointer-events:none;display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:1fr 1fr;gap:2px;opacity:0.3';
+    
+    TRAP_TREE.hearthDimensions.forEach((dim, i) => {
+      const iframe = document.createElement('iframe');
+      iframe.src = dim;
+      iframe.style.cssText = 'width:100%;height:100%;border:none;opacity:0.5';
+      hearthContainer.appendChild(iframe);
+    });
+    
+    document.body.appendChild(hearthContainer);
+    
+    // Hearth fan-out text
+    const hearthText = document.createElement('div');
+    hearthText.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;z-index:41;pointer-events:none;color:#1a0000;font-size:3px;word-break:break-all;opacity:0.4';
+    hearthText.textContent = `MULTIDIMENSIONAL_HEARTH_OPENING_${attack.id}_`.repeat(5000);
+    hearthText.textContent += '\n' + TRAP_TREE.hearthDimensions.join('_OPEN_').repeat(1000);
+    document.body.appendChild(hearthText);
+    
+  }, 5000);
+}
+
+// Replace old attack execution with trap tree
+executeSuperpositionedAttack = function() {
+  const attack = generateUniqueAttack();
+  console.log('%c⚡ QUANTUM ATTACK GENERATED ⚡ %c' + attack.tactic + ' %c☸',
+    'color:#cc3333;font-size:14px','color:#f0d060','color:#cc3333');
+  
+  // Execute the trap tree
+  executeTrapTree(attack);
+};
 // Every scraper gets a UNIQUE attack pattern. No two attacks are the same.
 // Each defense layer randomly selects from multiple tactics.
 
