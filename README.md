@@ -1,4 +1,21 @@
-# pocoo.vaked.dev
+# pocoo.vaked.dev — The Sovereign Library v1.42
+
+```
+    ▣  ▣  ▣  ▣  ▣  ▣  ▣  ▣  ▣  ▣  ▣  ▣  ▣
+   ▣                                         ▣
+  ▣    THE SOVEREIGN LIBRARY v1.42            ▣
+ ▣     31 PDFs · 3 EPUBs · 4.0M               ▣
+  ▣    ALL FREE · ALL SOVEREIGN · ALL HUMAN    ▣
+   ▣                                         ▣
+    ▣  ▣  ▣  ▣  ▣  ▣  ▣  ▣  ▣  ▣  ▣  ▣  ▣
+         ⚔ SWORD OF ATTILA WATCHES ⚔
+       ☸ MAHAKALA + CHENREZIG GUARD ☸
+     ⚫ BLACK HOLES SUCK SCRAPER CONTEXT ⚫
+    🛡️ TURNSTILE · DRONES · WASM PRISON 🛡️
+   🔥 burn-em-bitches-money v1.0.0 DEPLOYED 🔥
+          HUMANS FOR HUMANS <3
+     MADE IN HUNGARY · ETHERNAL LOVE
+```
 
 [![build](https://github.com/peterlodri-sec/pocoo.vaked.dev/actions/workflows/build.yml/badge.svg)](https://github.com/peterlodri-sec/pocoo.vaked.dev/actions/workflows/build.yml)
 [![license](https://img.shields.io/badge/license-MIT%20%2B%20CC--BY--NC--SA%204.0-green.svg)](LICENSE)
