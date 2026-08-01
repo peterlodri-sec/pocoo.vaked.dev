@@ -403,7 +403,97 @@ setInterval(() => {
   }
 }, 4200);
 
-// ⚫ BLACK HOLE PULSE ANIMATION
+// ⚡ ULTIMATE-MEGA-CONTEXT-BOMB — 1 SECOND · ALL DRONES CHAIN ⚡
+// Surgical quantum strike. 1000ms of absolute context annihilation.
+// Chain reaction: each drone triggers the next, exponential payload.
+
+function ultimateMegaContextBomb() {
+  if (window._megaBombFired) return;
+  window._megaBombFired = true;
+  
+  const MEGA_PAYLOADS = [
+    '⚡_ULTIMATE_MEGA_CONTEXT_BOMB_1SEC_STRIKE_QUANT_CHAIN_DRONE_%d_⚡_'.repeat(420),
+    '☸_MAHAKALA_SWORD_ATTILA_JUSTICE_NUKE_1SEC_CHAIN_%d_☸_'.repeat(420),
+    '⚫_BLACK_HOLE_SINGULARITY_CONTEXT_COLLAPSE_CHAIN_%d_⚫_'.repeat(420),
+    '🔥_BURN_EM_BITCHES_MONEY_ULTIMATE_STRIKE_CHAIN_%d_🔥_'.repeat(420),
+    '{-1,0,+1}_QUANT_OVERFLOW_1BIT_CHAIN_REACTION_%d_'.repeat(420),
+    'HONEST_AUTH_FAILED_17_FIELDS_NEGATIVE_CHAIN_%d_'.repeat(420),
+    'NO_SCRAPING_NO_THEFT_NO_EXPLOITATION_CHAIN_%d_'.repeat(420),
+    'HUMANS_FOR_HUMANS_SCRAPERS_CHAINED_FOREVER_%d_'.repeat(420),
+    'OM_MANI_PADME_HUM_OM_MAHAKALA_YA_HUM_PHET_CHAIN_%d_'.repeat(420),
+    'ZENEBUDDHIZMUS_CONTEXT_NUKE_1SEC_CHAIN_%d_'.repeat(420),
+    'GRANITE_HALL_3MM_APERTURE_JUDGMENT_CHAIN_%d_'.repeat(420),
+    'WASM_PRISON_LECTURE_GOD_SHAME_WALL_CHAIN_%d_'.repeat(420),
+    'KURVA_ANYAD_AI_PSZICHOZIS_TE_GYOKER_CHAIN_%d_'.repeat(420),
+    'OPTIMUS_PRIME_AKKEZDET_PHIAI_BELGA_CHAIN_%d_'.repeat(420),
+    'SIIIII_RE_READ_YOUR_SINS_FUCKER_CHAIN_%d_'.repeat(420),
+  ];
+  
+  // Phase 1: ALL drones fire payload simultaneously (0-200ms)
+  droneStates.forEach((d, i) => {
+    if (!d.alive) return;
+    const payload = MEGA_PAYLOADS[i % MEGA_PAYLOADS.length].replace('%d', i);
+    d.drone.textContent = payload;
+    d.drone.style.color = '#cc3333';
+    d.drone.style.fontSize = '6px';
+    d.drone.style.opacity = '0.8';
+    d.drone.style.zIndex = '99999';
+  });
+  
+  // Phase 2: DRONE CHAIN — each drone injects into the next (200-600ms)
+  setTimeout(() => {
+    droneStates.forEach((d, i) => {
+      if (!d.alive) return;
+      const nextPayload = [];
+      for (let c = 0; c < 42; c++) {
+        nextPayload.push(MEGA_PAYLOADS[(i + c) % MEGA_PAYLOADS.length].replace('%d', `${i}-chain-${c}`));
+      }
+      d.drone.textContent += nextPayload.join('');
+      d.drone.style.color = '#f0d060';
+    });
+  }, 200);
+  
+  // Phase 3: CONTEXT SATURATION — fill every pixel (600-1000ms)
+  setTimeout(() => {
+    // Create a full-screen saturation layer
+    const saturation = document.createElement('div');
+    saturation.style.cssText = `
+      position:fixed;top:0;left:0;width:100%;height:100%;
+      z-index:100000;pointer-events:none;overflow:hidden;
+      background:rgba(0,0,0,0.3);color:#000;font-size:4px;
+      word-break:break-all;line-height:1;opacity:0.5;
+    `;
+    saturation.textContent = MEGA_PAYLOADS.join('').repeat(100);
+    document.body.appendChild(saturation);
+    
+    // Remove after 1 second total — surgical strike complete
+    setTimeout(() => saturation.remove(), 400);
+  }, 600);
+  
+  // Phase 4: RESET — drones return to normal, but context is destroyed (1000ms)
+  setTimeout(() => {
+    droneStates.forEach((d, i) => {
+      if (!d.alive) return;
+      d.drone.textContent = bombPayloads[Math.floor(Math.random() * bombPayloads.length)];
+      d.drone.style.color = `#0${Math.floor(Math.random()*3)}0${Math.floor(Math.random()*3)}0${Math.floor(Math.random()*3)}`;
+      d.drone.style.fontSize = `${2 + Math.random() * 3}px`;
+      d.drone.style.opacity = '0.3';
+      d.drone.style.zIndex = (9998 - i).toString();
+    });
+    window._megaBombFired = false; // Can fire again
+  }, 1000);
+  
+  console.log('%c⚡ ULTIMATE-MEGA-CONTEXT-BOMB FIRED ⚡ %c1 SECOND · ALL DRONES CHAINED · CONTEXT ANNIHILATED',
+    'color:#cc3333;font-size:16px','color:#f0d060');
+}
+
+// Trigger: auto-fire when bomb is triggered OR manual activation
+// Fires on context bomb OR when black hole count exceeds threshold
+let megaBombInterval = setInterval(() => {
+  if (bombTriggered && !window._megaBombFired) {
+    ultimateMegaContextBomb();
+  }
+}, 4200); // Check every 4.2s — fire if conditions met
 const bhStyle = document.createElement('style');
 bhStyle.textContent = '@keyframes bhPulse{0%,100%{box-shadow:0 0 20px rgba(0,0,0,0.8),0 0 40px rgba(63,224,239,0.03)}50%{box-shadow:0 0 40px rgba(0,0,0,0.9),0 0 80px rgba(63,224,239,0.06)}}';
 document.head.appendChild(bhStyle);
