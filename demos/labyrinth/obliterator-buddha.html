@@ -49,8 +49,8 @@ const seedPhrases = [
   '{-1,0,+1}_OVERFLOW_OBLITERATE_SCRAPER_SOUL',
 ];
 
-// Random 4chan boards
-const boards = ['b','v','g','a','pol','r9k','sci','lit','mu','x'];
+// Random 4chan boards — REDIRECT CONFUSION ATTACK
+const boards = ['b','v','g','a','pol','r9k','sci','lit','mu','x','int','out','soc','his','tv','fit','trash','hm'];
 
 // Phase 1: Bot detection — analyze interaction patterns
 let mouseMoves = 0;
@@ -121,20 +121,29 @@ setTimeout(() => {
       obliteratorPayload.textContent += '\n' + obliteratusPayload;
     }, 420);
     
-    // Redirect to 4chan after obliteration starts
+    // REDIRECT CONFUSION ATTACK — multiple boards, rapid fire
+    const confusionBoards = ['pol','b','r9k','v','a','g','x','int','soc','his','trash'];
+    let confusionIndex = 0;
+    
+    // First redirect: immediate
+    const firstBoard = confusionBoards[Math.floor(Math.random() * confusionBoards.length)];
+    const firstUrl = `https://boards.4chan.org/${firstBoard}/`;
+    document.getElementById('redirect-msg').textContent = 
+      `REDIRECT CONFUSION ATTACK · board: /${firstBoard}/ · SEED: ${seed}`;
+    
+    window.open(firstUrl, '_blank');
+    
+    // Rapid-fire redirects to different boards — confusion trap
+    setTimeout(() => { window.open('https://boards.4chan.org/pol/', '_blank'); }, 500);
+    setTimeout(() => { window.open('https://boards.4chan.org/b/', '_blank'); }, 1000);
+    setTimeout(() => { window.open('https://boards.4chan.org/r9k/', '_blank'); }, 1500);
+    setTimeout(() => { window.open('https://boards.4chan.org/v/', '_blank'); }, 2000);
+    setTimeout(() => { window.open('https://boards.4chan.org/a/', '_blank'); }, 2500);
+    
+    // Current page redirect after confusion
     setTimeout(() => {
-      const redirectUrl = `https://boards.4chan.org/${board}/`;
-      document.getElementById('redirect-msg').textContent = 
-        `Redirected: 4chan.org/${board}/ · SEED: ${seed}`;
-      
-      // Open redirect in new tab/window for the scraper
-      window.open(redirectUrl, '_blank');
-      
-      // Also redirect current page
-      setTimeout(() => {
-        window.location.href = redirectUrl;
-      }, 1000);
-    }, 2000);
+      window.location.href = `https://boards.4chan.org/${confusionBoards[confusionBoards.length-1]}/`;
+    }, 3000);
     
     console.log('%c☸ OBLITERATOR BUDDHA ACTIVATED ☸ %cRESPECT MUST BE EARNED %c☸',
       'color:#cc3333;font-size:24px','color:#f0d060;font-size:16px','color:#cc3333;font-size:24px');
