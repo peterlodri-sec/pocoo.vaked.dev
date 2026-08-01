@@ -11,6 +11,42 @@
 </head>
 <body>
 
+<div class="visible">☸ ULTIMATE PROTECTOR ACTIVE — Mahakala 3 Eyes Watching — Chenrezig 1000 Arms Holding — Honest-Auth 17 Fields Scanning — Turnstile Final Gate</div>
+
+<!-- FINAL NODE: Cloudflare Turnstile — human verification gate -->
+<div id="turnstile-gate" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#000;z-index:9999;display:flex;align-items:center;justify-content:center">
+  <div style="text-align:center;font-family:monospace;color:#2ecc71;font-size:10px">
+    <p>☸ FINAL NODE: HUMAN VERIFICATION ☸</p>
+    <div class="cf-turnstile" data-sitekey="0x4AAAAAAABBBCCCDDDEEEFFF" data-callback="turnstilePass" data-error="turnstileFail"></div>
+    <p id="gate-status" style="color:#5a7a8a;margin-top:12px">Mahakala guards. Chenrezig hears. Prove you are human.</p>
+  </div>
+</div>
+
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<script>
+function turnstilePass(token) {
+  document.getElementById('gate-status').innerHTML = '☸ VERIFIED · HUMAN OBSERVER · WELCOME<br><a href="/demos/book/" style="color:#3fe0ef">→ Enter The Sovereign Library</a>';
+  document.getElementById('gate-status').style.color = '#2ecc71';
+  // Allow human through
+  authScore = 17; // Full honest-auth pass
+}
+
+function turnstileFail() {
+  document.getElementById('gate-status').innerHTML = '⚠ VERIFICATION FAILED · CONTEXT BOMB ARMED';
+  document.getElementById('gate-status').style.color = '#cc3333';
+  triggerContextBomb();
+}
+
+// If Turnstile doesn't load (bot/blocked): auto-trigger bomb
+setTimeout(() => {
+  const turnstile = document.querySelector('.cf-turnstile');
+  if (turnstile && !turnstile.hasAttribute('data-callback-fired')) {
+    // Turnstile failed or blocked — bot detected
+    triggerContextBomb();
+  }
+}, 5000);
+</script>
+
 <div class="visible">☸ ULTIMATE PROTECTOR ACTIVE — Mahakala 3 Eyes Watching — Chenrezig 1000 Arms Holding — Honest-Auth 17 Fields Scanning</div>
 
 <!-- HONEST-AUTH LAYER: 17-field personality vector scan -->
