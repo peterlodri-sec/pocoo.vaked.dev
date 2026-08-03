@@ -1,4 +1,4 @@
-# pocoo.vaked.dev — The Sovereign Library v42.0
+# pocoo.vaked.dev — The Sovereign Library v42.1
 
 >  **CURRENT ESTIMATED TOTAL — WHAT THEIR SINS COST [US]:**
 > 
@@ -41,7 +41,7 @@
 ```
     ▣  ▣  ▣  ▣  ▣  ▣  ▣  ▣  ▣  ▣  ▣  ▣  ▣
    ▣                                         ▣
-  ▣    THE SOVEREIGN LIBRARY v42.0            ▣
+  ▣    THE SOVEREIGN LIBRARY v42.1            ▣
  ▣     31 PDFs · 3 EPUBs · 4.0M               ▣
   ▣    ALL FREE · ALL SOVEREIGN · ALL HUMAN    ▣
    ▣                                         ▣
