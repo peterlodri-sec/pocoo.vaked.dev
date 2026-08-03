@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>QUANT-TIKTOK · iOS/macOS · MLX-QUANT Powered</title>
+<meta property="og:title" content="QUANT-TIKTOK — Sovereign Video App · MLX-QUANT VoiceGen">
+<meta property="og:description" content="Take pictures. Record video. QUANT voice generation. MLX-QUANT Metal kernels. On-device. Zero cloud. All sovereign.">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#020810;color:#c0c8d0;font-family:'JetBrains Mono',monospace;min-height:100vh;padding:32px 16px}
+  .container{max-width:680px;margin:0 auto}
+  h1{font-size:14px;color:#3fe0ef;text-align:center;letter-spacing:6px;margin-bottom:4px}
+  .sub{text-align:center;font-size:10px;color:#1e6a7d;letter-spacing:2px;margin-bottom:28px}
+  .badge{display:inline-block;padding:4px 12px;border:1px solid #1e6a7d;font-size:8px;color:#3fe0ef;letter-spacing:2px;margin:4px}
+  .card{background:#050d15;border:1px solid #0d1f2d;padding:16px;margin:12px 0;font-size:9px;line-height:1.8;letter-spacing:1px}
+  .card h2{font-size:11px;color:#3fe0ef;margin-bottom:8px;letter-spacing:3px}
+  .card .highlight{color:#f0d060}
+  .stack{font-size:8px;color:#5a7a8a;line-height:2;margin:16px 0}
+  .stack a{color:#3fe0ef;text-decoration:none}
+  .footer{text-align:center;font-size:8px;color:#1a3a5c;margin-top:32px;letter-spacing:2px}
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>QUANT-TIKTOK</h1>
+<div class="sub">iOS + macOS · Take Pictures · Record Video · QUANT VoiceGen · On-Device · Zero Cloud</div>
+
+<div style="text-align:center;margin:12px 0">
+  <span class="badge">iOS 18+</span>
+  <span class="badge">macOS 15+</span>
+  <span class="badge">Apple Silicon</span>
+  <span class="badge">MLX-QUANT</span>
+  <span class="badge">On-Device</span>
+  <span class="badge">Zero Cloud</span>
+</div>
+
+<div class="card">
+<h2>📱 Core Features</h2>
+<p><span class="highlight">Camera:</span> Take pictures, record video — AVFoundation native, full quality, HDR, 4K60.</p>
+<p><span class="highlight">QUANT VoiceGen:</span> Voice generation powered by MLX-QUANT Metal kernels. Ternary-quantized TTS running on-device. No server. No API key. Your voice, your device.</p>
+<p><span class="highlight">{-1,0,+1} Filters:</span> Ternary matrix image/video filters — quantize any frame to three values in real time.</p>
+<p><span class="highlight">MEM8 Wave Memory:</span> On-device, deterministic, zero-network wave interference recall for your media library.</p>
+<p><span class="highlight">Honesty-Auth:</span> Login via 17-field personality vector, not password. You can't steal someone's mother relationship.</p>
+</div>
+
+<div class="card">
+<h2>⚙️ Architecture</h2>
+<p><span class="highlight">SwiftUI</span> — Native iOS/macOS interface, MenuBarExtra + WindowGroup</p>
+<p><span class="highlight">MLX-QUANT</span> — maybe/mergeq Metal GPU kernels for real-time ternary inference</p>
+<p><span class="highlight">ayeOS</span> — MEMNET protocol daemon on :9876 for ternary matrix serving</p>
+<p><span class="highlight">entheai</span> — Recursive agent for fan-out video processing</p>
+<p><span class="highlight">honest-irc</span> — Honesty-auth identity verification</p>
+<p><span class="highlight">MEM8</span> — Wave interference media recall, Rust port in Swift</p>
+<p><span class="highlight">hf-mac</span> — HuggingFace model pulling, Osaurus local inference</p>
+</div>
+
+<div class="card">
+<h2>🎙️ QUANT VoiceGen Pipeline</h2>
+<p>1. User speaks → <span class="highlight">Apple native STT</span> (SFSpeechRecognizer)</p>
+<p>2. Text → <span class="highlight">MLX-QUANT ternary embedding</span> (LINOSV seed, {-1,0,+1})</p>
+<p>3. Voice generation → <span class="highlight">kokoro-tiny TTS</span> (8b-native Rust sidecar) or Apple AVSpeechSynthesizer</p>
+<p>4. Output → <span class="highlight">quantized audio stream</span> layered onto video timeline</p>
+<p>5. Export → H.265 + AAC, full quality, local only</p>
+</div>
+
+<div class="stack">
+<strong>8b-is Constellation Stack:</strong><br>
+<a href="https://github.com/8b-is/MLX-QUANT">MLX-QUANT</a> · 
+<a href="https://github.com/8b-is/ayeos">ayeOS</a> · 
+<a href="https://github.com/entropy-om/entheai">entheai</a> · 
+<a href="https://github.com/8b-is/honest-irc">honest-irc</a> · 
+<a href="https://github.com/8b-is/hf-mac">hf-mac</a> · 
+<a href="https://github.com/8b-is/kernel8">kernel8</a> · 
+<a href="https://github.com/8b-is/vaked">vaked</a><br>
+<strong>License:</strong> MIT · CC-BY-4.0 · ALL OSS FREE FOR ALL<br>
+<strong>Repository:</strong> <a href="https://github.com/peterlodri-sec">github.com/peterlodri-sec</a><br>
+<strong>Status:</strong> Scaffolded · Coming Soon · v0.1.0
+</div>
+
+<div class="footer">
+  QUANT-TIKTOK · iOS + macOS · MLX-QUANT Powered · On-Device · Zero Cloud · All Sovereign
+</div>
+
+</div>
+</body>
+</html>
