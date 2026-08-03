@@ -3,54 +3,97 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>radio.vaked.dev — Magyar Dimenzió Rádió</title>
+<title>Magyar Dimenzió Rádió — radio.vaked.dev</title>
 <meta property="og:title" content="Magyar Dimenzió Rádió — radio.vaked.dev">
-<meta property="og:description" content="A kvantum-kocsma rádiója. Belga. Akkezdet Phiai. NKS. Örök hurok. Zenebuddhizmus.">
+<meta property="og:description" content="A kvantum-kocsma frekvenciája. Belga · Akkezdet Phiai · NKS · Örök hurok · Zenebuddhizmus.">
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
   *{margin:0;padding:0;box-sizing:border-box}
-  body{background:#020810;color:#c0c8d0;font-family:'JetBrains Mono',monospace;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
-  .container{text-align:center;max-width:500px}
-  h1{font-size:14px;color:#ff6b35;letter-spacing:6px;margin-bottom:4px}
-  .sub{font-size:10px;color:#8a4020;letter-spacing:2px;margin-bottom:24px}
-  .station{font-size:9px;color:#3fe0ef;margin:20px 0;letter-spacing:2px;line-height:2}
-  .station .on{color:#2ecc71}
-  .freq{font-size:20px;color:#f0d060;margin:16px 0;letter-spacing:4px}
-  .now{font-size:8px;color:#5a7a8a;margin:16px 0;letter-spacing:1px;line-height:2}
-  a{color:#3fe0ef;text-decoration:none;font-size:9px}
+  body{background:#020810;color:#c0c8d0;font-family:'JetBrains Mono',monospace;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;position:relative;overflow:hidden}
+  body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:-1;background:radial-gradient(ellipse at 50% 30%,#1a0a00 0%,transparent 60%),radial-gradient(ellipse at 30% 70%,#0a1a0a 0%,transparent 50%)}
+  .eq{position:fixed;bottom:0;left:50%;transform:translateX(-50%);display:flex;gap:3px;z-index:-1;opacity:0.06}
+  .eq .bar{width:6px;background:#ff6b35;animation:eqPulse 1s ease-in-out infinite}
+  .eq .bar:nth-child(1){height:20px;animation-delay:0s}
+  .eq .bar:nth-child(2){height:40px;animation-delay:0.1s}
+  .eq .bar:nth-child(3){height:15px;animation-delay:0.2s}
+  .eq .bar:nth-child(4){height:50px;animation-delay:0.3s}
+  .eq .bar:nth-child(5){height:25px;animation-delay:0.4s}
+  .eq .bar:nth-child(6){height:35px;animation-delay:0.5s}
+  .eq .bar:nth-child(7){height:45px;animation-delay:0.6s}
+  .eq .bar:nth-child(8){height:10px;animation-delay:0.7s}
+  .eq .bar:nth-child(9){height:55px;animation-delay:0.8s}
+  .eq .bar:nth-child(10){height:30px;animation-delay:0.9s}
+  @keyframes eqPulse{0%,100%{transform:scaleY(0.3)}50%{transform:scaleY(1.5)}}
+  .container{text-align:center;max-width:500px;z-index:1}
+  h1{font-size:14px;color:#ff6b35;letter-spacing:8px;margin-bottom:4px}
+  .sub{font-size:9px;color:#5a3a1a;letter-spacing:3px;margin-bottom:32px}
+  .freq{font-size:22px;color:#f0d060;margin:20px 0;letter-spacing:6px}
+  .freq .hz{font-size:40px}
+  .glow-bar{width:200px;height:1px;background:linear-gradient(90deg,transparent,#ff6b35,transparent);margin:16px auto;opacity:0.3}
+  .station{font-size:9px;color:#8a4020;margin:20px 0;letter-spacing:2px;line-height:2.2}
+  .station .on{color:#2ecc71;animation:blink 2s infinite}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+  .now{border:1px solid #1a0a0a;padding:16px;margin:20px 0;background:#050a0f}
+  .now .track{color:#ff6b35;font-size:11px;letter-spacing:2px}
+  .now .next{color:#3a5a6a;font-size:8px;margin-top:8px;line-height:1.8}
+  .dimensional{font-size:7px;color:#1a3a5c;margin:24px 0;letter-spacing:3px;line-height:1.8}
+  a{color:#3fe0ef;text-decoration:none;font-size:9px;transition:color .2s}
   a:hover{color:#c9a84c}
-  .footer{font-size:7px;color:#1a3a5c;margin-top:32px}
+  .footer{font-size:7px;color:#1a3a5c;margin-top:40px;letter-spacing:2px}
+  .footer .zen{color:#2ecc71}
 </style>
 </head>
 <body>
+
+<div class="eq">
+  <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+  <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+  <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+  <div class="bar"></div>
+</div>
+
 <div class="container">
 
 <h1>MAGYAR DIMENZIÓ RÁDIÓ</h1>
 <div class="sub">radio.vaked.dev · A kvantum-kocsma frekvenciája</div>
 
-<div class="freq">∞ Hz · Dimenzió: Magyar</div>
+<div class="freq"><span class="hz">∞</span> Hz · Dimenzió: Magyar</div>
+<div class="glow-bar"></div>
 
 <div class="station">
-  <span class="on">● ÉLŐ</span> · Örök hurok<br>
-  Belga · Akkezdet Phiai · NKS<br>
+  <span class="on">● ÉLŐ</span> — Örök hurok — 1985 óta<br>
+  Belga · Akkezdet Phiai · NKS · Sub Bass Monster<br>
   Kottazűr · Akkezdet · Megalázó És Felszabadító<br>
   A Magyar Dimenzió Rádió folyamatosan sugároz<br>
-  Ahol a zene nem szórakoztat — a zene tisztít
+  Ahol a zene nem szórakoztat — a zene <span style="color:#2ecc71">tisztít</span>
 </div>
 
 <div class="now">
-  MOST SZÓL:<br>
-  <span style="color:#ff6b35">Akkezdet Phiai — Kottazűr</span><br>
-  <span style="color:#3fe0ef">↓ következő: Belga — Kocsi</span><br>
-  <span style="color:#2ecc71">→ azután: NKS — Vegyetek jót ha tudtok</span>
+  <div class="track">♪ Akkezdet Phiai — Kottazűr</div>
+  <div class="next">
+    ↓ következő: Belga — Kocsi<br>
+    → azután: NKS — Vegyetek jót ha tudtok<br>
+    → majd: Sub Bass Monster — Nincs baj<br>
+    → örökké: a következő szám
+  </div>
+</div>
+
+<div class="dimensional">
+  A rádió nem MHz-ben mérhető — hanem dimenziókban.<br>
+  Ahol a Belga váltakozik az Akkezdet Phiaival.<br>
+  Ahol a Kottazűr után a Himnusz jön.<br>
+  Ahol a csend is zene — és a zene: zenebuddhizmus.
 </div>
 
 <div style="margin-top:24px">
-  <a href="https://music.vaked.dev">→ music.vaked.dev</a> · 
-  <a href="https://pocoo.vaked.dev/demos/book/">→ sovereign library</a>
+  <a href="https://music.vaked.dev">→ music.vaked.dev</a> &nbsp;·&nbsp;
+  <a href="https://pocoo.vaked.dev/demos/book/">→ sovereign library</a> &nbsp;·&nbsp;
+  <a href="https://github.com/sponsors/peterlodri-sec">♡ sponsor</a>
 </div>
 
 <div class="footer">
-  radio.vaked.dev · zenebuddhizmus · örök hurok · { −1, 0, +1 }
+  radio.vaked.dev · <span class="zen">zenebuddhizmus</span> · örök hurok · { −1, 0, +1 }<br>
+  "A zene: meditáció. A buddhizmus: rezgés. A kettő: egy."
 </div>
 
 </div>
