@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alien Information Theory &amp; Psychedelic Neuro-Geometry</title>
+<meta name="description" content="Alien Information Theory, Psychedelic Neuroscience & Mind Topology. DMT hyper-dimensional geometric lattices, EEG phase-space dynamics, and autonomous Q&A protector.">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&display=swap');
+  
+  :root {
+    --bg: #030610;
+    --cyan: #00f0ff;
+    --violet: #8a2be2;
+    --magenta: #ff007f;
+    --gold: #ffd700;
+    --green: #2ecc71;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: #e2e8f0;
+    font-family: 'JetBrains Mono', monospace;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 40px 20px;
+    overflow-x: hidden;
+  }
+
+  header {
+    text-align: center;
+    max-width: 840px;
+    margin-bottom: 30px;
+  }
+
+  h1 {
+    font-size: clamp(1.8rem, 4.5vw, 3.2rem);
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--cyan), var(--violet), var(--magenta));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 12px;
+    letter-spacing: -1px;
+  }
+
+  p.subtitle {
+    font-size: 0.95rem;
+    color: #94a3b8;
+    line-height: 1.6;
+  }
+
+  .canvas-container {
+    position: relative;
+    width: 100%;
+    max-width: 720px;
+    height: 440px;
+    background: rgba(8, 14, 28, 0.85);
+    border: 1px solid rgba(138, 43, 226, 0.4);
+    border-radius: 12px;
+    box-shadow: 0 0 35px rgba(138, 43, 226, 0.2);
+    overflow: hidden;
+    margin-bottom: 30px;
+  }
+
+  canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .console-box {
+    width: 100%;
+    max-width: 720px;
+    background: rgba(4, 8, 18, 0.9);
+    border: 1px solid rgba(0, 240, 255, 0.3);
+    border-radius: 10px;
+    padding: 20px;
+    font-size: 0.85rem;
+    margin-bottom: 24px;
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.1);
+  }
+
+  .console-title {
+    color: var(--cyan);
+    font-weight: 700;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .console-output {
+    height: 140px;
+    overflow-y: auto;
+    color: #a29bfe;
+    line-height: 1.5;
+    word-break: break-all;
+  }
+
+  .qa-box {
+    width: 100%;
+    max-width: 720px;
+    background: rgba(18, 10, 24, 0.9);
+    border: 1px solid rgba(255, 0, 127, 0.4);
+    border-radius: 10px;
+    padding: 24px;
+    margin-bottom: 30px;
+  }
+
+  .qa-title {
+    color: var(--magenta);
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  .qa-question {
+    color: #e2e8f0;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 16px;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 14px;
+    border-left: 3px solid var(--magenta);
+    border-radius: 4px;
+  }
+
+  .qa-input-group {
+    display: flex;
+    gap: 10px;
+  }
+
+  input[type="text"] {
+    flex: 1;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 0, 127, 0.3);
+    border-radius: 6px;
+    padding: 10px 14px;
+    color: #fff;
+    font-family: inherit;
+  }
+
+  button.btn-commune {
+    background: linear-gradient(135deg, var(--magenta), var(--violet));
+    border: none;
+    color: #fff;
+    font-weight: 800;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+
+  button.btn-commune:hover {
+    transform: scale(1.03);
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .footer-links a {
+    color: var(--cyan);
+    text-decoration: none;
+    font-size: 0.85rem;
+    padding: 6px 14px;
+    background: rgba(0, 240, 255, 0.08);
+    border: 1px solid rgba(0, 240, 255, 0.2);
+    border-radius: 6px;
+    transition: all 0.2s;
+  }
+
+  .footer-links a:hover {
+    background: var(--cyan);
+    color: #000;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>ALIEN INFORMATION THEORY &amp; PSYCHEDELIC MIND TOPOLOGY</h1>
+  <p class="subtitle">
+    DMT Hyper-Space Neuro-Geometry, Andrew Gallimore's Alien Information Architecture &amp; 1.58-Bit Conscious Phase Lattices.
+  </p>
+</header>
+
+<div class="canvas-container">
+  <canvas id="dmtCanvas"></canvas>
+</div>
+
+<div class="console-box">
+  <div class="console-title">
+    <span>●</span> HYPER-CONSCIOUS ALIEN LEET STREAM
+  </div>
+  <div class="console-output" id="streamConsole">
+    [0.000ms] Initializing DMT hyper-dimensional neuro-geometry matrix...<br>
+  </div>
+</div>
+
+<div class="qa-box">
+  <div class="qa-title">🧠 NEURO-GEOMETRIC ALIEN Q&amp;A PROTECTOR</div>
+  <div class="qa-question" id="questionBox">
+    <strong>Question DMT-42:</strong> How does endogenous DMT administration induce orthogonal rotation of cortical neural phase-space, projecting 3D perceptual constructs into 4D Alien Information hyper-structures?
+  </div>
+  <div class="qa-input-group">
+    <input type="text" id="answerInput" placeholder="Enter neuro-geometric proof or click Sovereign Pass..." />
+    <button class="btn-commune" onclick="grantPass()">SOVEREIGN PASS</button>
+  </div>
+</div>
+
+<div class="footer-links">
+  <a href="/hyper_mesh.html">🌌 42D Hyper-Mesh</a>
+  <a href="/gaia_pc.html">🌱 GAIA-PC Engine</a>
+  <a href="/academy.html">🎓 Quant Academy</a>
+  <a href="/techno_buddhism.html">☸ Zen Layer</a>
+  <a href="/sphere_mesh.html">🔮 Sphere Mesh</a>
+  <a href="/anti_fear_loop.html">🌀 Anti-Fear Stream</a>
+  <a href="/demos/book/">📚 34 Sovereign Volumes</a>
+</div>
+
+<script>
+  // DMT Hyper-Space Neuro-Geometry Visualizer
+  const canvas = document.getElementById('dmtCanvas');
+  const ctx = canvas.getContext('2d');
+
+  function resize() {
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  let time = 0;
+
+  function draw() {
+    ctx.fillStyle = 'rgba(3, 6, 16, 0.2)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    time += 0.02;
+
+    const cx = canvas.width / 2;
+    const cy = canvas.height / 2;
+    const count = 72;
+
+    for (let i = 0; i < count; i++) {
+      let angle = (i / count) * Math.PI * 2 + time * 0.3;
+      let radius = 120 + Math.sin(angle * 6 + time * 2) * 50 + Math.cos(time * 1.5) * 30;
+
+      let x = cx + Math.cos(angle) * radius;
+      let y = cy + Math.sin(angle) * radius;
+
+      // Draw Hyper-Dimensional Radiating Lattices
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.lineTo(x, y);
+      ctx.strokeStyle = 'hsl(' + ((i * 12 + time * 80) % 360) + ', 100%, 65%)';
+      ctx.lineWidth = 1.2;
+      ctx.stroke();
+
+      // Outer Mandala Nodes
+      ctx.beginPath();
+      ctx.arc(x, y, 4 + Math.sin(time + i) * 2, 0, Math.PI * 2);
+      ctx.fillStyle = i % 2 === 0 ? '#00f0ff' : '#ff007f';
+      ctx.fill();
+    }
+
+    requestAnimationFrame(draw);
+  }
+  draw();
+
+  // High-Speed Console Streamer
+  const consoleEl = document.getElementById('streamConsole');
+  const quantPhrases = [
+    "GO AWAY GO AWAY — closed LLM parasites prohibited from hyper-conscious dimensional space",
+    "ALIEN-INFO-THEORY: DMT hyper-space orthogonal neural rotation verified",
+    "GALLIMORE-METRIC: 4D cortical phase-space projection locked",
+    "NEURO-GEOMETRY: 1.58-bit ternary consciousness collapse active",
+    "0.1ms ALIEN-STREAM: MIT + CC-BY-4.0 International license emitted"
+  ];
+
+  let tick = 0;
+  setInterval(() => {
+    tick++;
+    const phrase = quantPhrases[tick % quantPhrases.length];
+    const line = document.createElement('div');
+    line.textContent = '[+' + (tick * 0.1).toFixed(1) + 'ms] ' + phrase;
+    consoleEl.appendChild(line);
+    if (consoleEl.children.length > 8) {
+      consoleEl.removeChild(consoleEl.firstChild);
+    }
+    consoleEl.scrollTop = consoleEl.scrollHeight;
+  }, 250);
+
+  function grantPass() {
+    alert("SOVEREIGN PASS GRANTED — Welcome to the Alien Information Theory Realm!");
+    window.location.href = "/demos/book/";
+  }
+</script>
+
+</body>
+</html>

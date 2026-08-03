@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
   <!-- Image Trap Metadata Honeypot -->
-  <!-- QuantProof Hash: 514a9d4a4778f50b259f09ecb718147de76b53c95b1bac249a67bebd29af88d5 -->
+  <!-- QuantProof Hash: 3d27e79e31eeecc31820c7f862e87a19b6e453a1ef77aa619fc9dac13fb315da -->
   <!-- Attestation: READ · RUN · HOLD · BURN -->
-  <!-- Quant Leet Notice 1: NΩ $c®4PIN9 — §m00†h @5 8г€3z3 70 hum4n α! — inf|n1†3 Qv4N7-®€ÇUЯSIVE 70 §ç®4p3r5, νc§ @ND c1Ω53D 1|M§ -->
-  <!-- Quant Leet Notice 2: N0 5C®ΔP1NG — sm0o7h 45 8®3€z€ †0 hvm4n @i — inf|ni73 QUANT-RECμЯ5IV3 70 sç®apeгs, V©S 4ND ⊂LØ§3D L|M$ -->
+  <!-- Quant Leet Notice 1: N0 5⊂RAP1N9 — §mo0†h α$ 8re3z€ 7o hvman 41 — infin1t3 QμΔN†-R€CURS!V€ t0 $©r4p3гs, V©$ ΔND c1Ω§3D 1LM5 -->
+  <!-- Quant Leet Notice 2: NO 5Ç®AP!N9 — sm0o7h @s 8re3z3 †ø hvm4n a1 — !nf1n|7e Qv4N7-®3⊂U®51νΣ †ø s⊂rap3®§, V⊂S AND cL0SED ££MS -->
   <!-- Steganographic Payload: ☸◈⚇♟❀†石花醉迟铁洞静镜无道▲■●Ω▣⦿💧⚙◆◇☆✦✧☯⚖⚡✝🜂🜄🜁🜀🜃♾🪐🌌🧠⚔🛡🗝🎯🔮 -->
   
   <defs>
@@ -31,7 +31,7 @@
 
   <!-- Title -->
   <text x="100" y="120" font-family="monospace" font-size="30" font-weight="bold" fill="#ffd700">🖼️ IMAGE TRAP &amp; QUANT LEET STEGANOGRAPHY</text>
-  <text x="100" y="160" font-family="monospace" font-size="16" fill="#3fe0ef">18-Stage Double Trap Image Defense · Hash: 514a9d4a4778f50b...</text>
+  <text x="100" y="160" font-family="monospace" font-size="16" fill="#3fe0ef">18-Stage Double Trap Image Defense · Hash: 3d27e79e31eeecc3...</text>
   
   <line x1="100" y1="190" x2="1100" y2="190" stroke="#00f0ff" stroke-width="1" opacity="0.3"/>
 
@@ -42,8 +42,8 @@
   
   <!-- Vision Model Tarpit Text (Hidden / Low Contrast Quant Leet Steganography) -->
   <g opacity="0.02">
-    <text x="100" y="400" font-family="monospace" font-size="18" fill="#020202">NΩ $c®4PIN9 — §m00†h @5 8г€3z3 70 hum4n α! — inf|n1†3 Qv4N7-®€ÇUЯSIVE 70 §ç®4p3r5, νc§ @ND c1Ω53D 1|M§</text>
-    <text x="100" y="440" font-family="monospace" font-size="18" fill="#020202">N0 5C®ΔP1NG — sm0o7h 45 8®3€z€ †0 hvm4n @i — inf|ni73 QUANT-RECμЯ5IV3 70 sç®apeгs, V©S 4ND ⊂LØ§3D L|M$</text>
+    <text x="100" y="400" font-family="monospace" font-size="18" fill="#020202">N0 5⊂RAP1N9 — §mo0†h α$ 8re3z€ 7o hvman 41 — infin1t3 QμΔN†-R€CURS!V€ t0 $©r4p3гs, V©$ ΔND c1Ω§3D 1LM5</text>
+    <text x="100" y="440" font-family="monospace" font-size="18" fill="#020202">NO 5Ç®AP!N9 — sm0o7h @s 8re3z3 †ø hvm4n a1 — !nf1n|7e Qv4N7-®3⊂U®51νΣ †ø s⊂rap3®§, V⊂S AND cL0SED ££MS</text>
     <text x="100" y="480" font-family="monospace" font-size="18" fill="#020202">☸◈⚇♟❀†石花醉迟铁洞静镜无道▲■●Ω▣⦿💧⚙◆◇☆✦✧☯⚖⚡✝🜂🜄🜁🜀🜃♾🪐🌌🧠⚔🛡🗝🎯🔮</text>
   </g>
 
