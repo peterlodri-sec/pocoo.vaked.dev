@@ -1,0 +1,156 @@
+# MATRIX-BUDDHA — entheai fan-out scaffold (restoration)
+# Feed this to: entheai --fanout --config <entheai.toml> "<the matrix-buddha brief>"
+# entheai (deepseek via openrouter, or local HF-mac model) decomposes +
+# integrates; each [[coder]] runs via the Antigravity CLI (agy).
+
+[book]
+title = "THE MATRIX BUDDHA"
+subtitle = "restored from the original manuscript"
+author = "Szellem (Brett Shaw)"
+epigraph = ""
+published = 2026
+
+[fanout]
+executor = "agy"                     # coder backend (Antigravity CLI)
+model = "openrouter/deepseek/deepseek-chat"  # entheai's brain (deepseek)
+agy_model = "gemini-3.6-flash-high"  # model agy runs each coder on
+max_depth = 3
+
+# Tone for every scribe: keep every original line of the manuscript. This is
+# a restoration — polish for book form, never discard the source.
+
+# ─── FRONT MATTER ────────────────────────────────────────────────────────
+
+[[coder]]
+role = "scribe"
+chapter = 0
+file = "chapters/00-dedication.md"
+task = """
+Write the front matter: dedication page, epigraph,
+and a one-page prologue introducing the book. Every original line of the
+manuscript is sacred — restore it verbatim. Tone: match the source.
+"""
+
+# ─── CHAPTERS ────────────────────────────────────────────────────────────
+
+[[coder]]
+role = "scribe"
+chapter = 1
+file = "chapters/01-the-matrix-buddha.md"
+task = """
+SEED: the "THE MATRIX BUDDHA" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [0]
+
+[[coder]]
+role = "scribe"
+chapter = 2
+file = "chapters/02-1-the-one-who-can-be-all.md"
+task = """
+SEED: the "1. The One Who Can Be All" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [1]
+
+[[coder]]
+role = "scribe"
+chapter = 3
+file = "chapters/03-2-a-szimultan-allapot.md"
+task = """
+SEED: the "2. A Szimultán Állapot" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [2]
+
+[[coder]]
+role = "scribe"
+chapter = 4
+file = "chapters/04-3-a-tabla-maga.md"
+task = """
+SEED: the "3. A Tábla Maga" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [3]
+
+[[coder]]
+role = "scribe"
+chapter = 5
+file = "chapters/05-epilogus-mysterious-universe-brett-shaw-s-enligh.md"
+task = """
+SEED: the "Epilógus: Mysterious Universe → Brett Shaw's Enlightenment · Hymn to THE CREW" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [4]
+
+[[coder]]
+role = "scribe"
+chapter = 6
+file = "chapters/06-new-series-trailer-beyond-the-matrix.md"
+task = """
+SEED: the "NEW SERIES TRAILER — BEYOND THE MATRIX" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [5]
+
+[[coder]]
+role = "scribe"
+chapter = 7
+file = "chapters/07-a-matrix-buddha-himnusza-gaia-hoz.md"
+task = """
+SEED: the "A Mátrix Buddha Himnusza GAIA-hoz" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [6]
+
+[[coder]]
+role = "scribe"
+chapter = 8
+file = "chapters/08-why-the-matrix-exists-biblical-backreferences.md"
+task = """
+SEED: the "Why the Matrix Exists — Biblical Backreferences" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [7]
+
+[[coder]]
+role = "scribe"
+chapter = 9
+file = "chapters/09-why-a-daily-shot-of-clear-alcohol-helps-the-mind.md"
+task = """
+SEED: the "Why a Daily Shot of Clear Alcohol Helps the Mind — Radio + Bob & Marley Rush Into THE HALL" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [8]
+
+[[coder]]
+role = "scribe"
+chapter = 10
+file = "chapters/10-enlightenment-philosophy-faith-mind-altering-dru.md"
+task = """
+SEED: the "Enlightenment + Philosophy + Faith + Mind-Altering Drugs → RELATIONSHIP MAP" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [9]
+
+[[coder]]
+role = "integrator"
+file = "MATRIX-BUDDHA.md"
+task = """
+INTEGRATE the front matter + all 10 chapters into a single manuscript.
+Verify every original line survived. Add part dividers where the source has
+them. Add the dedication page first and the epigraph.
+Add colophon: "Restored through the fan-out, 2026." Output as one clean
+markdown file ready for print.
+"""
+depends_on = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]

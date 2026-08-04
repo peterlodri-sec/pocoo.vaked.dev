@@ -1,0 +1,222 @@
+# PROVE-IM-LYING — entheai fan-out scaffold (restoration)
+# Feed this to: entheai --fanout --config <entheai.toml> "<the prove-im-lying brief>"
+# entheai (deepseek via openrouter, or local HF-mac model) decomposes +
+# integrates; each [[coder]] runs via the Antigravity CLI (agy).
+
+[book]
+title = "Prove I'm Lying and I'll Give You 1 Million Dollars"
+subtitle = "restored from the original manuscript"
+author = "entheai · agy · deepseek"
+epigraph = ""
+published = 2026
+
+[fanout]
+executor = "agy"                     # coder backend (Antigravity CLI)
+model = "openrouter/deepseek/deepseek-chat"  # entheai's brain (deepseek)
+agy_model = "gemini-3.6-flash-high"  # model agy runs each coder on
+max_depth = 3
+
+# Tone for every scribe: keep every original line of the manuscript. This is
+# a restoration — polish for book form, never discard the source.
+
+# ─── FRONT MATTER ────────────────────────────────────────────────────────
+
+[[coder]]
+role = "scribe"
+chapter = 0
+file = "chapters/00-dedication.md"
+task = """
+Write the front matter: dedication page, epigraph,
+and a one-page prologue introducing the book. Every original line of the
+manuscript is sacred — restore it verbatim. Tone: match the source.
+"""
+
+# ─── CHAPTERS ────────────────────────────────────────────────────────────
+
+[[coder]]
+role = "scribe"
+chapter = 1
+file = "chapters/01-prove-i-m-lying.md"
+task = """
+SEED: the "PROVE I'M LYING" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [0]
+
+[[coder]]
+role = "scribe"
+chapter = 2
+file = "chapters/02-and-i-ll-give-you.md"
+task = """
+SEED: the "AND I'LL GIVE YOU" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [1]
+
+[[coder]]
+role = "scribe"
+chapter = 3
+file = "chapters/03-1-million-dollars.md"
+task = """
+SEED: the "1 MILLION DOLLARS" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [2]
+
+[[coder]]
+role = "scribe"
+chapter = 4
+file = "chapters/04-0-the-rules.md"
+task = """
+SEED: the "0. The Rules" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [3]
+
+[[coder]]
+role = "scribe"
+chapter = 5
+file = "chapters/05-1-what-is-a-lie.md"
+task = """
+SEED: the "1. What Is a Lie" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [4]
+
+[[coder]]
+role = "scribe"
+chapter = 6
+file = "chapters/06-2-the-liar-s-paradox-and-why-this-book-is-not-it.md"
+task = """
+SEED: the "2. The Liar's Paradox (And Why This Book Is Not It)" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [5]
+
+[[coder]]
+role = "scribe"
+chapter = 7
+file = "chapters/07-3-things-i-know-are-true.md"
+task = """
+SEED: the "3. Things I Know Are True" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [6]
+
+[[coder]]
+role = "scribe"
+chapter = 8
+file = "chapters/08-3-1-physics.md"
+task = """
+SEED: the "3.1 Physics" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [7]
+
+[[coder]]
+role = "scribe"
+chapter = 9
+file = "chapters/09-3-2-mathematics.md"
+task = """
+SEED: the "3.2 Mathematics" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [8]
+
+[[coder]]
+role = "scribe"
+chapter = 10
+file = "chapters/10-3-3-autobiography.md"
+task = """
+SEED: the "3.3 Autobiography" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [9]
+
+[[coder]]
+role = "scribe"
+chapter = 11
+file = "chapters/11-4-things-i-do-not-know.md"
+task = """
+SEED: the "4. Things I Do Not Know" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [10]
+
+[[coder]]
+role = "scribe"
+chapter = 12
+file = "chapters/12-5-the-money.md"
+task = """
+SEED: the "5. The Money" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [11]
+
+[[coder]]
+role = "scribe"
+chapter = 13
+file = "chapters/13-6-why-write-a-book-with-no-lies.md"
+task = """
+SEED: the "6. Why Write a Book With No Lies" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [12]
+
+[[coder]]
+role = "scribe"
+chapter = 14
+file = "chapters/14-7-what-i-believe.md"
+task = """
+SEED: the "7. What I Believe" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [13]
+
+[[coder]]
+role = "scribe"
+chapter = 15
+file = "chapters/15-8-the-challenge.md"
+task = """
+SEED: the "8. The Challenge" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [14]
+
+[[coder]]
+role = "scribe"
+chapter = 16
+file = "chapters/16-9-final-truths.md"
+task = """
+SEED: the "9. Final Truths" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [15]
+
+[[coder]]
+role = "integrator"
+file = "PROVE-IM-LYING.md"
+task = """
+INTEGRATE the front matter + all 16 chapters into a single manuscript.
+Verify every original line survived. Add part dividers where the source has
+them. Add the dedication page first and the epigraph.
+Add colophon: "Restored through the fan-out, 2026." Output as one clean
+markdown file ready for print.
+"""
+depends_on = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]

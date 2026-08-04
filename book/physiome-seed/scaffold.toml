@@ -1,0 +1,124 @@
+# PHYSIOME-SEED — entheai fan-out scaffold (restoration)
+# Feed this to: entheai --fanout --config <entheai.toml> "<the physiome-seed brief>"
+# entheai (deepseek via openrouter, or local HF-mac model) decomposes +
+# integrates; each [[coder]] runs via the Antigravity CLI (agy).
+
+[book]
+title = "PHYSIOME SEED"
+subtitle = "restored from the original manuscript"
+author = "Szellem (Brett Shaw)"
+epigraph = ""
+published = 2026
+
+[fanout]
+executor = "agy"                     # coder backend (Antigravity CLI)
+model = "openrouter/deepseek/deepseek-chat"  # entheai's brain (deepseek)
+agy_model = "gemini-3.6-flash-high"  # model agy runs each coder on
+max_depth = 3
+
+# Tone for every scribe: keep every original line of the manuscript. This is
+# a restoration — polish for book form, never discard the source.
+
+# ─── FRONT MATTER ────────────────────────────────────────────────────────
+
+[[coder]]
+role = "scribe"
+chapter = 0
+file = "chapters/00-dedication.md"
+task = """
+Write the front matter: dedication page, epigraph,
+and a one-page prologue introducing the book. Every original line of the
+manuscript is sacred — restore it verbatim. Tone: match the source.
+"""
+
+# ─── CHAPTERS ────────────────────────────────────────────────────────────
+
+[[coder]]
+role = "scribe"
+chapter = 1
+file = "chapters/01-part-1.md"
+task = """
+SEED: part 1 of 8 of the original manuscript. Restore + expand that
+portion for book form, KEEPING ALL ORIGINAL LINES. Match the book's voice.
+"""
+depends_on = [0]
+
+[[coder]]
+role = "scribe"
+chapter = 2
+file = "chapters/02-part-2.md"
+task = """
+SEED: part 2 of 8 of the original manuscript. Restore + expand that
+portion for book form, KEEPING ALL ORIGINAL LINES. Match the book's voice.
+"""
+depends_on = [1]
+
+[[coder]]
+role = "scribe"
+chapter = 3
+file = "chapters/03-part-3.md"
+task = """
+SEED: part 3 of 8 of the original manuscript. Restore + expand that
+portion for book form, KEEPING ALL ORIGINAL LINES. Match the book's voice.
+"""
+depends_on = [2]
+
+[[coder]]
+role = "scribe"
+chapter = 4
+file = "chapters/04-part-4.md"
+task = """
+SEED: part 4 of 8 of the original manuscript. Restore + expand that
+portion for book form, KEEPING ALL ORIGINAL LINES. Match the book's voice.
+"""
+depends_on = [3]
+
+[[coder]]
+role = "scribe"
+chapter = 5
+file = "chapters/05-part-5.md"
+task = """
+SEED: part 5 of 8 of the original manuscript. Restore + expand that
+portion for book form, KEEPING ALL ORIGINAL LINES. Match the book's voice.
+"""
+depends_on = [4]
+
+[[coder]]
+role = "scribe"
+chapter = 6
+file = "chapters/06-part-6.md"
+task = """
+SEED: part 6 of 8 of the original manuscript. Restore + expand that
+portion for book form, KEEPING ALL ORIGINAL LINES. Match the book's voice.
+"""
+depends_on = [5]
+
+[[coder]]
+role = "scribe"
+chapter = 7
+file = "chapters/07-part-7.md"
+task = """
+SEED: part 7 of 8 of the original manuscript. Restore + expand that
+portion for book form, KEEPING ALL ORIGINAL LINES. Match the book's voice.
+"""
+depends_on = [6]
+
+[[coder]]
+role = "scribe"
+chapter = 8
+file = "chapters/08-part-8.md"
+task = """
+SEED: part 8 of 8 of the original manuscript. Restore + expand that
+portion for book form, KEEPING ALL ORIGINAL LINES. Match the book's voice.
+"""
+depends_on = [7]
+
+[[coder]]
+role = "integrator"
+file = "PHYSIOME-SEED.md"
+task = """
+INTEGRATE the front matter + all 8 parts into a single manuscript,
+keeping every original line. Add dedication + epigraph + colophon
+("Restored through the fan-out, 2026."). One clean markdown file for print.
+"""
+depends_on = [0, 1, 2, 3, 4, 5, 6, 7]

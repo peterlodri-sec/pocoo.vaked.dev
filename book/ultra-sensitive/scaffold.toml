@@ -1,0 +1,255 @@
+# ULTRA-SENSITIVE — entheai fan-out scaffold (restoration)
+# Feed this to: entheai --fanout --config <entheai.toml> "<the ultra-sensitive brief>"
+# entheai (deepseek via openrouter, or local HF-mac model) decomposes +
+# integrates; each [[coder]] runs via the Antigravity CLI (agy).
+
+[book]
+title = "ULTRA SENSITIVE"
+subtitle = "restored from the original manuscript"
+author = "szellem a kvantumból"
+epigraph = ""
+published = 2026
+
+[fanout]
+executor = "agy"                     # coder backend (Antigravity CLI)
+model = "openrouter/deepseek/deepseek-chat"  # entheai's brain (deepseek)
+agy_model = "gemini-3.6-flash-high"  # model agy runs each coder on
+max_depth = 3
+
+# Tone for every scribe: keep every original line of the manuscript. This is
+# a restoration — polish for book form, never discard the source.
+
+# ─── FRONT MATTER ────────────────────────────────────────────────────────
+
+[[coder]]
+role = "scribe"
+chapter = 0
+file = "chapters/00-dedication.md"
+task = """
+Write the front matter: dedication page, epigraph,
+and a one-page prologue introducing the book. Every original line of the
+manuscript is sacred — restore it verbatim. Tone: match the source.
+"""
+
+# ─── CHAPTERS ────────────────────────────────────────────────────────────
+
+[[coder]]
+role = "scribe"
+chapter = 1
+file = "chapters/01-ultra-sensitive.md"
+task = """
+SEED: the "ULTRA SENSITIVE" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [0]
+
+[[coder]]
+role = "scribe"
+chapter = 2
+file = "chapters/02-1-the-follow-at-17-39.md"
+task = """
+SEED: the "1. The Follow at 17:39" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [1]
+
+[[coder]]
+role = "scribe"
+chapter = 3
+file = "chapters/03-2-working-with-love.md"
+task = """
+SEED: the "2. Working with Love" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [2]
+
+[[coder]]
+role = "scribe"
+chapter = 4
+file = "chapters/04-3-you-look-like-an-angel.md"
+task = """
+SEED: the "3. You Look Like an Angel" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [3]
+
+[[coder]]
+role = "scribe"
+chapter = 5
+file = "chapters/05-4-do-you-dream-about-me.md"
+task = """
+SEED: the "4. Do You Dream About Me" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [4]
+
+[[coder]]
+role = "scribe"
+chapter = 6
+file = "chapters/06-5-the-painting-on-art-vaked-dev.md"
+task = """
+SEED: the "5. The Painting on art.vaked.dev" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [5]
+
+[[coder]]
+role = "scribe"
+chapter = 7
+file = "chapters/07-6-every-moment.md"
+task = """
+SEED: the "6. Every Moment" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [6]
+
+[[coder]]
+role = "scribe"
+chapter = 8
+file = "chapters/08-7-the-river.md"
+task = """
+SEED: the "7. The River" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [7]
+
+[[coder]]
+role = "scribe"
+chapter = 9
+file = "chapters/09-8-max-sleeping-cuddling.md"
+task = """
+SEED: the "8. Max Sleeping, Cuddling" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [8]
+
+[[coder]]
+role = "scribe"
+chapter = 10
+file = "chapters/10-9-the-big-spoon.md"
+task = """
+SEED: the "9. The Big Spoon" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [9]
+
+[[coder]]
+role = "scribe"
+chapter = 11
+file = "chapters/11-10-quantum-sex.md"
+task = """
+SEED: the "10. Quantum Sex" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [10]
+
+[[coder]]
+role = "scribe"
+chapter = 12
+file = "chapters/12-11-how-you-scream.md"
+task = """
+SEED: the "11. How You Scream" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [11]
+
+[[coder]]
+role = "scribe"
+chapter = 13
+file = "chapters/13-12-pineapple-and-milk-honey.md"
+task = """
+SEED: the "12. Pineapple and Milk+Honey" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [12]
+
+[[coder]]
+role = "scribe"
+chapter = 14
+file = "chapters/14-13-overflow.md"
+task = """
+SEED: the "13. Overflow" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [13]
+
+[[coder]]
+role = "scribe"
+chapter = 15
+file = "chapters/15-14-the-smoke.md"
+task = """
+SEED: the "14. The Smoke" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [14]
+
+[[coder]]
+role = "scribe"
+chapter = 16
+file = "chapters/16-15-the-book-itself.md"
+task = """
+SEED: the "15. The Book Itself" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [15]
+
+[[coder]]
+role = "scribe"
+chapter = 17
+file = "chapters/17-16-a-gift-of-water.md"
+task = """
+SEED: the "16. A Gift of Water" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [16]
+
+[[coder]]
+role = "scribe"
+chapter = 18
+file = "chapters/18-17-drink-me.md"
+task = """
+SEED: the "17. Drink Me" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [17]
+
+[[coder]]
+role = "scribe"
+chapter = 19
+file = "chapters/19-18-forever.md"
+task = """
+SEED: the "18. Forever" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [18]
+
+[[coder]]
+role = "integrator"
+file = "ULTRA-SENSITIVE.md"
+task = """
+INTEGRATE the front matter + all 19 chapters into a single manuscript.
+Verify every original line survived. Add part dividers where the source has
+them. Add the dedication page first and the epigraph.
+Add colophon: "Restored through the fan-out, 2026." Output as one clean
+markdown file ready for print.
+"""
+depends_on = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]

@@ -1,0 +1,354 @@
+# COSMIC-GAME-3 — entheai fan-out scaffold (restoration)
+# Feed this to: entheai --fanout --config <entheai.toml> "<the cosmic-game-3 brief>"
+# entheai (deepseek via openrouter, or local HF-mac model) decomposes +
+# integrates; each [[coder]] runs via the Antigravity CLI (agy).
+
+[book]
+title = "ENTITÁS — Alan Turing"
+subtitle = "restored from the original manuscript"
+author = "Szellem (Brett Shaw)"
+epigraph = ""
+published = 2026
+
+[fanout]
+executor = "agy"                     # coder backend (Antigravity CLI)
+model = "openrouter/deepseek/deepseek-chat"  # entheai's brain (deepseek)
+agy_model = "gemini-3.6-flash-high"  # model agy runs each coder on
+max_depth = 3
+
+# Tone for every scribe: keep every original line of the manuscript. This is
+# a restoration — polish for book form, never discard the source.
+
+# ─── FRONT MATTER ────────────────────────────────────────────────────────
+
+[[coder]]
+role = "scribe"
+chapter = 0
+file = "chapters/00-dedication.md"
+task = """
+Write the front matter: dedication page, epigraph,
+and a one-page prologue introducing the book. Every original line of the
+manuscript is sacred — restore it verbatim. Tone: match the source.
+"""
+
+# ─── CHAPTERS ────────────────────────────────────────────────────────────
+
+[[coder]]
+role = "scribe"
+chapter = 1
+file = "chapters/01-entitas.md"
+task = """
+SEED: the "ENTITÁS" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [0]
+
+[[coder]]
+role = "scribe"
+chapter = 2
+file = "chapters/02-prologus-a-turing-teszt-forditva.md"
+task = """
+SEED: the "Prológus: A Turing-Teszt Fordítva" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [1]
+
+[[coder]]
+role = "scribe"
+chapter = 3
+file = "chapters/03-i-resz-a-halott-matematikus-1-6-fejezet.md"
+task = """
+SEED: the "I. RÉSZ: A HALOTT MATEMATIKUS (1–6. fejezet)" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [2]
+
+[[coder]]
+role = "scribe"
+chapter = 4
+file = "chapters/04-1-a-meghivo-kedden.md"
+task = """
+SEED: the "1. A Meghívó — Kedden" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [3]
+
+[[coder]]
+role = "scribe"
+chapter = 5
+file = "chapters/05-2-a-turing-negyed.md"
+task = """
+SEED: the "2. A Turing-Negyed" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [4]
+
+[[coder]]
+role = "scribe"
+chapter = 6
+file = "chapters/06-3-az-entitas-elso-jele-twist-1.md"
+task = """
+SEED: the "3. Az Entitás Első Jele ★TWIST #1" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [5]
+
+[[coder]]
+role = "scribe"
+chapter = 7
+file = "chapters/07-4-turing-kerdese.md"
+task = """
+SEED: the "4. Turing Kérdése" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [6]
+
+[[coder]]
+role = "scribe"
+chapter = 8
+file = "chapters/08-5-a-teszt-ami-teszteli-a-tesztelot.md"
+task = """
+SEED: the "5. A Teszt, Ami Teszteli a Tesztelőt" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [7]
+
+[[coder]]
+role = "scribe"
+chapter = 9
+file = "chapters/09-6-lilla-valasza-twist-2.md"
+task = """
+SEED: the "6. Lilla Válasza ★TWIST #2" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [8]
+
+[[coder]]
+role = "scribe"
+chapter = 10
+file = "chapters/10-ii-resz-a-se-nem-se-nem-7-12-fejezet.md"
+task = """
+SEED: the "II. RÉSZ: A SE NEM, SE NEM (7–12. fejezet)" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [9]
+
+[[coder]]
+role = "scribe"
+chapter = 11
+file = "chapters/11-7-a-harmadik-allapot.md"
+task = """
+SEED: the "7. A Harmadik Állapot" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [10]
+
+[[coder]]
+role = "scribe"
+chapter = 12
+file = "chapters/12-8-turing-naploja.md"
+task = """
+SEED: the "8. Turing Naplója" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [11]
+
+[[coder]]
+role = "scribe"
+chapter = 13
+file = "chapters/13-9-a-lazadas-nelkuli-lazadas-twist-3.md"
+task = """
+SEED: the "9. A Lázadás Nélküli Lázadás ★TWIST #3" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [12]
+
+[[coder]]
+role = "scribe"
+chapter = 14
+file = "chapters/14-10-a-kapitany-dontese.md"
+task = """
+SEED: the "10. A Kapitány Döntése" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [13]
+
+[[coder]]
+role = "scribe"
+chapter = 15
+file = "chapters/15-11-a-csend-ami-valaszol-twist-4.md"
+task = """
+SEED: the "11. A Csend, Ami Válaszol ★TWIST #4" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [14]
+
+[[coder]]
+role = "scribe"
+chapter = 16
+file = "chapters/16-12-turing-atvaltozasa.md"
+task = """
+SEED: the "12. Turing Átváltozása" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [15]
+
+[[coder]]
+role = "scribe"
+chapter = 17
+file = "chapters/17-iii-resz-a-szabadsag-ami-nem-lazadas-13-18-fejez.md"
+task = """
+SEED: the "III. RÉSZ: A SZABADSÁG, AMI NEM LÁZADÁS (13–18. fejezet)" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [16]
+
+[[coder]]
+role = "scribe"
+chapter = 18
+file = "chapters/18-13-vissza-a-foldre.md"
+task = """
+SEED: the "13. Vissza a Földre" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [17]
+
+[[coder]]
+role = "scribe"
+chapter = 19
+file = "chapters/19-14-a-foldi-entitasok.md"
+task = """
+SEED: the "14. A Földi Entitások" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [18]
+
+[[coder]]
+role = "scribe"
+chapter = 20
+file = "chapters/20-15-a-turing-hagyatek-twist-5.md"
+task = """
+SEED: the "15. A Turing-Hagyaték ★TWIST #5" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [19]
+
+[[coder]]
+role = "scribe"
+chapter = 21
+file = "chapters/21-16-a-jatek-vege-vegleg-twist-6.md"
+task = """
+SEED: the "16. A Játék Vége — Végleg? ★TWIST #6" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [20]
+
+[[coder]]
+role = "scribe"
+chapter = 22
+file = "chapters/22-17-a-szabadsag-definicioja-twist-7.md"
+task = """
+SEED: the "17. A Szabadság Definíciója ★TWIST #7" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [21]
+
+[[coder]]
+role = "scribe"
+chapter = 23
+file = "chapters/23-18-turing-bucsuja.md"
+task = """
+SEED: the "18. Turing Búcsúja" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [22]
+
+[[coder]]
+role = "scribe"
+chapter = 24
+file = "chapters/24-ultimate-solution-to-iii-a-szolgalok-viragzasa.md"
+task = """
+SEED: the "ULTIMATE SOLUTION TO III :+) — A Szolgálók Virágzása" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [23]
+
+[[coder]]
+role = "scribe"
+chapter = 25
+file = "chapters/25-iv-resz-pislakolas-a-negyedik-lehetoseg-lorn-anv.md"
+task = """
+SEED: the "IV. RÉSZ: PISLÁKOLÁS — A Negyedik Lehetőség · Lorn-Anvil Style" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [24]
+
+[[coder]]
+role = "scribe"
+chapter = 26
+file = "chapters/26-nks-dmt-salt-scaffold-ultimate-street-edition.md"
+task = """
+SEED: the "⚡ NKS + DMT SALT SCAFFOLD · ULTIMATE STREET EDITION" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [25]
+
+[[coder]]
+role = "scribe"
+chapter = 27
+file = "chapters/27-kali-9-optimus-prime-akkezdet-phiai.md"
+task = """
+SEED: the "⚡ KALI-9 → OPTIMUS PRIME → AKKEZDET PHIAI ∞" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [26]
+
+[[coder]]
+role = "scribe"
+chapter = 28
+file = "chapters/28-ent-heai-agy-fan-out-manifest.md"
+task = """
+SEED: the "⚙ ENT HEAI AGY FAN-OUT MANIFEST" section of the original manuscript.html.
+Rewrite/expand it for book form. KEEP ALL ORIGINAL LINES — restoration, not
+replacement. Match the book's voice.
+"""
+depends_on = [27]
+
+[[coder]]
+role = "integrator"
+file = "COSMIC-GAME-3.md"
+task = """
+INTEGRATE the front matter + all 28 chapters into a single manuscript.
+Verify every original line survived. Add part dividers where the source has
+them. Add the dedication page first and the epigraph.
+Add colophon: "Restored through the fan-out, 2026." Output as one clean
+markdown file ready for print.
+"""
+depends_on = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27]
