@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BABYLON · Continuous Live Dog→Human Quant Translation</title>
+<meta name="description" content="BABYLON-ultra-dict — valós idejű, folyamatos kutya→ember kvant fordítás. Marley, az ausztrál juhász élő hangfordítója. Magyar · English · OM MANI PADME HUNG.">
+<meta property="og:title" content="BABYLON · Kutya→Ember Kvant Fordítás">
+<meta property="og:description" content="Marley, az ausztrál juhász élő hangfordítója. 16-dimenziós ternaritás mátrix. Xoshiro128** PRNG. 42ms thinking tick.">
+<meta property="og:image" content="https://babylon.vaked.dev/og.png">
+<meta property="og:url" content="https://babylon.vaked.dev/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐕</text></svg>">
+
+<style>
+:root {
+  --bg: #050510;
+  --fg: #c8d0d8;
+  --cyan: #00e5ff;
+  --green: #00ff88;
+  --yellow: #ffcc00;
+  --orange: #ff6b35;
+  --purple: #a29bfe;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font-family: ui-monospace, 'SF Mono', Menlo, monospace; line-height: 1.6; overflow-x: hidden; }
+
+/* ── Hero ── */
+.hero { text-align: center; padding: 100px 20px 60px; position: relative; }
+.hero-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.08; pointer-events: none; }
+.hero h1 { font-size: clamp(2.5rem, 8vw, 6rem); font-weight: 900; color: #fff; text-shadow: 0 0 60px var(--cyan), 0 0 120px var(--cyan); letter-spacing: 4px; }
+.hero .sub { font-size: clamp(1rem, 2.5vw, 1.4rem); color: var(--cyan); opacity: 0.7; margin-top: 12px; letter-spacing: 2px; }
+.hero .seed { font-size: 0.8rem; color: var(--cyan); opacity: 0.3; margin-top: 15px; letter-spacing: 3px; }
+
+/* ── Terminal ticker ── */
+.ticker { text-align: center; padding: 10px; font-size: 0.7rem; color: var(--cyan); opacity: 0.4; overflow: hidden; white-space: nowrap; }
+.ticker span { display: inline-block; animation: tick 20s linear infinite; }
+@keyframes tick { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+
+/* ── Stats ── */
+.stats { display: flex; justify-content: center; gap: 40px; padding: 40px 20px; flex-wrap: wrap; }
+.stat { text-align: center; }
+.stat .num { font-size: 2.5rem; font-weight: 900; color: var(--cyan); text-shadow: 0 0 20px var(--cyan); }
+.stat .label { font-size: 0.75rem; opacity: 0.5; margin-top: 4px; }
+
+/* ── Pipeline diagram ── */
+.pipeline-section { max-width: 900px; margin: 40px auto; padding: 20px; }
+.pipeline-section h2 { text-align: center; color: var(--cyan); margin-bottom: 24px; font-size: 1.2rem; letter-spacing: 2px; }
+.pipeline { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 8px; text-align: center; }
+.pipe-step { padding: 12px 8px; border-radius: 8px; background: rgba(0,229,255,0.06); border: 1px solid rgba(0,229,255,0.15); font-size: 0.75rem; transition: all 0.2s; }
+.pipe-step:hover { background: rgba(0,229,255,0.12); transform: translateY(-2px); }
+.pipe-step .icon { font-size: 1.5rem; display: block; margin-bottom: 4px; }
+.pipe-arrow { display: flex; align-items: center; justify-content: center; color: var(--cyan); font-size: 1.2rem; opacity: 0.5; }
+
+/* ── Dog roster ── */
+.roster { max-width: 900px; margin: 40px auto; padding: 20px; }
+.roster h2 { text-align: center; color: var(--cyan); margin-bottom: 24px; font-size: 1.2rem; letter-spacing: 2px; }
+.dogs { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+.dog-card { padding: 20px; border-radius: 12px; background: rgba(0,229,255,0.04); border: 1px solid rgba(0,229,255,0.1); text-align: center; transition: all 0.2s; }
+.dog-card:hover { border-color: var(--cyan); box-shadow: 0 0 20px rgba(0,229,255,0.1); }
+.dog-card .name { font-size: 1.4rem; font-weight: 900; color: #fff; }
+.dog-card .breed { font-size: 0.8rem; color: var(--cyan); margin: 4px 0; }
+.dog-card .role { font-size: 0.7rem; opacity: 0.5; }
+.dog-card .ternarity { font-family: 'SF Mono', monospace; font-size: 0.6rem; color: var(--green); margin-top: 8px; opacity: 0.6; word-break: break-all; }
+
+/* ── Lexicon ── */
+.lexicon-section { max-width: 1000px; margin: 40px auto; padding: 20px; }
+.lexicon-section h2 { text-align: center; color: var(--cyan); margin-bottom: 24px; font-size: 1.2rem; letter-spacing: 2px; }
+.lexicon-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+.lexicon-table th { text-align: left; padding: 8px 10px; border-bottom: 2px solid var(--cyan); color: var(--cyan); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; }
+.lexicon-table td { padding: 8px 10px; border-bottom: 1px solid rgba(255,255,255,0.03); }
+.lexicon-table tr:hover { background: rgba(0,229,255,0.03); }
+.sound-tag { color: var(--yellow); font-weight: 600; white-space: nowrap; font-size: 0.75rem; }
+.hu-text { color: #fff; font-size: 0.8rem; }
+.en-text { color: rgba(255,255,255,0.4); font-style: italic; font-size: 0.75rem; }
+
+/* ── Wave canvas ── */
+.wave-container { max-width: 600px; margin: 40px auto; padding: 20px; text-align: center; }
+.wave-container h2 { color: var(--cyan); margin-bottom: 16px; font-size: 1.2rem; letter-spacing: 2px; }
+#wave-canvas { border-radius: 12px; border: 1px solid rgba(0,229,255,0.1); }
+
+/* ── Footer ── */
+.footer { text-align: center; padding: 60px 20px; opacity: 0.25; font-size: 0.7rem; line-height: 2; }
+.footer a { color: var(--cyan); text-decoration: none; }
+.footer a:hover { opacity: 1; }
+
+/* ── Protection layer (burn-em-bitches style) ── */
+.quantproof { position: fixed; bottom: 0; left: 0; width: 100%; height: 1px; overflow: hidden; opacity: 0; pointer-events: none; }
+.quantproof::after { content: "∎"; }
+
+/* ── OG image generator canvas ── */
+.og-canvas { display: none; }
+</style>
+</head>
+<body>
+
+<!-- Anti-scraper quantum proof hash -->
+<div class="quantproof" data-quantproof="OM MANI PADME HUNG · XOSHIRO128** · 6d4f8a3b2c1e9f0d7a5b3e2c1d0f8a7b"></div>
+
+<!-- Hero -->
+<div class="hero">
+  <canvas class="hero-bg" id="hero-bg" width="1200" height="600"></canvas>
+  <h1>BABYLON</h1>
+  <div class="sub">ultra-dict · continuous live dog→human quant translation</div>
+  <div class="sub" style="font-size:0.9rem;opacity:0.4">kutya → ember · folyamatos élő kvant fordítás</div>
+  <div class="seed">OM MANI PADME HUNG · Xoshiro128** · 16-dim ternary · 42ms</div>
+</div>
+
+<div class="ticker">
+  <span>🎵 Akkezdet Phiai — Kottazűr — ∞ Hz &nbsp;·&nbsp; Belga — Kocsi — 420 Hz &nbsp;·&nbsp; NKS — Vegyetek jót ha tudtok — 333 Hz &nbsp;·&nbsp; Sub Bass Monster — Nincs baj — 111 Hz &nbsp;·&nbsp; music.vaked.dev/ENTHEA &nbsp;·&nbsp; falka: Peti, Nate, Kristof, Brigi, Bence, Jozsef, Katalin, Alexandra &nbsp;·&nbsp; 🇭🇺 MADE IN HUNGARY &nbsp;·&nbsp; PEACE )( LOVE () UNITY &lt;3</span>
+</div>
+
+<!-- Stats -->
+<div class="stats">
+  <div class="stat"><div class="num">48</div><div class="label">lexicon phrases</div></div>
+  <div class="stat"><div class="num">5</div><div class="label">sound types</div></div>
+  <div class="stat"><div class="num">2</div><div class="label">languages</div></div>
+  <div class="stat"><div class="num">16</div><div class="label">ternarity dims</div></div>
+  <div class="stat"><div class="num">42</div><div class="label">ms think tick</div></div>
+  <div class="stat"><div class="num">4</div><div class="label">dogs in pack</div></div>
+</div>
+
+<!-- Pipeline -->
+<div class="pipeline-section">
+  <h2>∞ Quant Pipeline</h2>
+  <div class="pipeline">
+    <div class="pipe-step"><span class="icon">🎤</span>Mic Input</div>
+    <div class="pipe-step"><span class="icon">📷</span>Camera</div>
+    <div class="pipe-step"><span class="icon">🐕</span>Dog Detect</div>
+    <div class="pipe-step"><span class="icon">👁</span>Eye Seed</div>
+    <div class="pipe-step"><span class="icon">🔐</span>Quant Auth</div>
+    <div class="pipe-step"><span class="icon">🎵</span>Music Seed</div>
+    <div class="pipe-step"><span class="icon">🔢</span>Xoshiro128**</div>
+    <div class="pipe-step"><span class="icon">👶</span>BabyDrift</div>
+    <div class="pipe-step"><span class="icon">🔊</span>hu-HU TTS</div>
+    <div class="pipe-step"><span class="icon">🔊</span>en-US TTS</div>
+  </div>
+</div>
+
+<!-- Dog Roster -->
+<div class="roster">
+  <h2>🐕 Quant Dog Registry — Marley's Pack</h2>
+  <div class="dogs">
+    <div class="dog-card">
+      <div class="name">Marley</div>
+      <div class="breed">Ausztrál juhász</div>
+      <div class="role">Pásztor · Shepherd</div>
+      <div class="ternarity">[1,0,-1,1,0,-1,1,0,-1,1,0,-1,1,0,-1,1]</div>
+    </div>
+    <div class="dog-card">
+      <div class="name">Bodza</div>
+      <div class="breed">Vizsla</div>
+      <div class="role">Vadász · Hunter</div>
+      <div class="ternarity">[0,1,0,-1,1,0,0,1,-1,0,1,0,-1,1,0,0]</div>
+    </div>
+    <div class="dog-card">
+      <div class="name">Morzsa</div>
+      <div class="breed">Keverék</div>
+      <div class="role">Őrszem · Watcher</div>
+      <div class="ternarity">[0,0,1,0,-1,1,1,0,0,0,0,1,0,-1,1,1]</div>
+    </div>
+    <div class="dog-card">
+      <div class="name">Zokni</div>
+      <div class="breed">Tacskó</div>
+      <div class="role">Riadó · Alarm</div>
+      <div class="ternarity">[1,1,-1,0,0,0,1,1,-1,0,0,0,1,1,-1,0]</div>
+    </div>
+  </div>
+</div>
+
+<!-- Wave Visualizer -->
+<div class="wave-container">
+  <h2>📊 Live Ternary Waveform</h2>
+  <canvas id="wave-canvas" width="560" height="200"></canvas>
+</div>
+
+<!-- Lexicon -->
+<div class="lexicon-section">
+  <h2>📖 BABYLON Lexicon · 48 Bilingual Phrases</h2>
+  <div style="overflow-x:auto">
+  <table class="lexicon-table">
+    <thead><tr><th>Sound</th><th>Magyar</th><th>English</th></tr></thead>
+    <tbody id="lexicon-body"></tbody>
+  </table>
+  </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+  <p>BABYLON-ultra-dict · <a href="https://github.com/peterlodri-sec/babylon-ultra-dict">github.com/peterlodri-sec/babylon-ultra-dict</a></p>
+  <p>GitHub Pages: <a href="https://peterl.dev/babylon-ultra-dict-pages/">peterl.dev/babylon-ultra-dict-pages/</a></p>
+  <p>Music Seed: <a href="https://music.vaked.dev/ENTHEA">music.vaked.dev/ENTHEA</a></p>
+  <p>Protected by <a href="https://github.com/peterlodri-sec/burn-em-bitches-money">burn-em-bitches-money</a> · 15-weapon anti-scraper labyrinth</p>
+  <p>🇭🇺 MADE IN HUNGARY · Ausztrál juhász · Falka · Szeretet</p>
+  <p style="margin-top:12px;color:var(--cyan);">PEACE )( LOVE () UNITY &lt;3</p>
+</div>
+
+<script>
+// ── Lexicon data ──
+const LEXICON = [
+  ["Vakkantás", "Valaki jön. Figyelek. Biztonságban vagy.", "Someone comes. I watch. You are safe."],
+  ["Vakkantás", "Idegen a kapunál. Mögém. Védlek.", "Stranger at the gate. Behind me. I guard."],
+  ["Vakkantás", "Látom. Fal vagyok. Senki át nem jut.", "I see. I am the wall. None pass."],
+  ["Vakkantás", "Fülem ég. Szemem célon. Kész. Te pihenj.", "Ears up. Eyes locked. Ready. You rest."],
+  ["Vakkantás", "Mozgás elöl. Jelzem. Ne félj.", "Movement ahead. I signal. Fear not."],
+  ["Vakkantás", "Ismeretlen szag. Nem a falka. Riadó.", "Unknown scent. Not pack. Alert."],
+  ["Vakkantás", "Postás. Minden nap. Győzök.", "Mailman. Every day. I win."],
+  ["Vakkantás", "Hallom a lépteit. Közeledik. Készülj.", "I hear steps. Approaching. Prepare."],
+  ["Vakkantás", "Hazaért! Falka! Falka! Boldog vagyok.", "He is home! Pack! Pack! I am happy."],
+  ["Vakkantás", "Apu hazaért. Hallom a kocsiját. Rohanok.", "Dad is home. I hear his car. I run."],
+  ["Morgás", "Hallok valamit. Maradj közel. Vigyázok.", "I hear something. Stay close. I guard."],
+  ["Morgás", "Neszez a messzi. Megjegyzem. Aludj.", "A rustle far. I note it. Sleep on."],
+  ["Morgás", "Az éj beszél. Csenddel felelek.", "The night speaks. I answer silent."],
+  ["Morgás", "Körbejártam. Minden rendben. Tiszta.", "I circled. All clear. Clean sweep."],
+  ["Morgás", "Motor zúg. Nem veszély. Csak zaj.", "Engine hums. Not threat. Just noise."],
+  ["Morgás", "Macska a kerítésen. Jelentem. Üldözzem?", "Cat on fence. I report. Do I chase?"],
+  ["Morgás", "Szomszéd kint. Ismerem. Nem ellenség.", "Neighbor outside. I know him. Not foe."],
+  ["Morgás", "Eső kopog. Tetőn. Hangos. Figyelek.", "Rain taps. On roof. Loud. I listen."],
+  ["Lélegzet", "Minden rendben. A ház csendes. Pihenj.", "All well. House quiet. Rest."],
+  ["Lélegzet", "Szél az udvarban. Madár a fán. Béke.", "Wind in yard. Bird in tree. Peace."],
+  ["Lélegzet", "Szíved lassú. Enyém ráhangol. Pihenünk.", "Your heart slow. Mine syncs. We rest."],
+  ["Lélegzet", "Biztos zóna. Nulla veszély. Végtelen nyugalom.", "Safe zone. Zero threat. Infinite calm."],
+  ["Lélegzet", "Nap meleg. Padlón fekszem. Jó.", "Sun warm. I lie on floor. Good."],
+  ["Lélegzet", "Óra ketyeg. Lélegzet ritmus. Együtt.", "Clock ticks. Breath rhythm. Together."],
+  ["Lélegzet", "Semmi mozgás. Semmi hang. Tökéletes.", "No movement. No sound. Perfect."],
+  ["Lélegzet", "Szemed csukva. Én nyitva. Őrzöm álmod.", "Your eyes closed. Mine open. I guard your dream."],
+  ["Nyüszítés", "Valami nincs rendben. Nézd az ajtót.", "Something wrong. Check the door."],
+  ["Nyüszítés", "Nyugtalan vagyok. Levegő változott.", "I am uneasy. Air changed."],
+  ["Nyüszítés", "Árnyék mozdult. Nem szél. Nem madár.", "Shadow moved. Not wind. Not bird."],
+  ["Nyüszítés", "Gyomrom: baj. Orrom: semmi. Nyüszítek.", "My gut: trouble. Nose: nothing. I whine."],
+  ["Nyüszítés", "Túl csendes. Gyanús. Ellenőrizzük.", "Too quiet. Suspicious. Let us check."],
+  ["Nyüszítés", "Vihar jön. Érzem. Menjünk be.", "Storm coming. I feel it. Go inside."],
+  ["Nyüszítés", "Fáj a mancsom. Nézd meg kérlek.", "My paw hurts. Please look."],
+  ["Nyüszítés", "Egyedül hagytál. Sokáig. Hiányoztál.", "You left me. So long. I missed you."],
+  ["Csendes", "Itt vagyok. Itt vagy. Ez elég.", "I am here. You are here. Enough."],
+  ["Csendes", "Nem kell szó. Fejem öledben. Örökké.", "No words needed. My head on your knee. Forever."],
+  ["Csendes", "Nap elmozdult. Követtem. A folt meleg.", "Sun moved. I followed. The patch is warm."],
+  ["Csendes", "Te lélegzel. Én is. A ház is. Egy.", "You breathe. Me too. The house too. One."],
+  ["Csendes", "Mancsom a lábadon. Súly. Szeretet.", "My paw on your foot. Weight. Love."],
+  ["Csendes", "Farok csóvál. Nem tudom miért. Csak.", "Tail wags. I don't know why. Just."],
+  ["Csendes", "Nézel rám. Én vissza. Ennyi elég.", "You look at me. I look back. Enough."],
+  ["Csendes", "Este van. Melléd fekszem. Veled alszom.", "Evening. I lie beside you. I sleep with you."],
+];
+
+// ── Render lexicon table ──
+const tbody = document.getElementById('lexicon-body');
+const soundColors = { 'Vakkantás': '#ff6b35', 'Morgás': '#ffcc00', 'Lélegzet': '#00ff88', 'Nyüszítés': '#ff69b4', 'Csendes': '#00e5ff' };
+LEXICON.forEach(([sound, hu, en]) => {
+  const tr = document.createElement('tr');
+  tr.innerHTML = `<td class="sound-tag" style="color:${soundColors[sound] || '#fff'}">🎙 ${sound}</td><td class="hu-text">${hu}</td><td class="en-text">${en}</td>`;
+  tbody.appendChild(tr);
+});
+
+// ── Live ternary waveform canvas ──
+const waveCanvas = document.getElementById('wave-canvas');
+const wctx = waveCanvas.getContext('2d');
+const ternarity = [1,0,-1,1,0,-1,1,0,-1,1,0,-1,1,0,-1,1];
+
+function drawWave() {
+  const w = waveCanvas.width, h = waveCanvas.height;
+  wctx.fillStyle = 'rgba(5,5,16,0.3)';
+  wctx.fillRect(0, 0, w, h);
+  
+  const barW = w / 16;
+  const midY = h / 2;
+  const t = Date.now() / 1000;
+  
+  for (let i = 0; i < 16; i++) {
+    const phase = ternarity[i] * (0.6 + 0.4 * Math.sin(t * 3 + i * 0.7));
+    const height = Math.abs(phase) * (h * 0.4);
+    const x = i * barW + barW * 0.15;
+    const y = midY - height;
+    const color = phase > 0.1 ? '#00ff88' : phase < -0.1 ? '#ff6b35' : '#00e5ff';
+    wctx.fillStyle = color;
+    wctx.globalAlpha = 0.7;
+    wctx.beginPath();
+    wctx.roundRect(x, y, barW * 0.7, height * 2, 3);
+    wctx.fill();
+    if (Math.abs(phase) > 0.3) {
+      wctx.shadowBlur = 8;
+      wctx.shadowColor = color;
+      wctx.fill();
+      wctx.shadowBlur = 0;
+    }
+  }
+  wctx.globalAlpha = 1;
+  requestAnimationFrame(drawWave);
+}
+drawWave();
+
+// ── Hero background particle field ──
+const heroBg = document.getElementById('hero-bg');
+const hctx = heroBg.getContext('2d');
+let particles = Array.from({length: 80}, () => ({
+  x: Math.random() * 1200, y: Math.random() * 600,
+  vx: (Math.random() - 0.5) * 0.5, vy: (Math.random() - 0.5) * 0.5,
+  r: Math.random() * 1.5 + 0.5,
+}));
+
+function drawHeroBg() {
+  hctx.clearRect(0, 0, 1200, 600);
+  particles.forEach(p => {
+    p.x += p.vx; p.y += p.vy;
+    if (p.x < 0) p.x = 1200; if (p.x > 1200) p.x = 0;
+    if (p.y < 0) p.y = 600; if (p.y > 600) p.y = 0;
+    hctx.beginPath(); hctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    hctx.fillStyle = `rgba(0,229,255,${0.1 + p.r * 0.1})`;
+    hctx.fill();
+  });
+  requestAnimationFrame(drawHeroBg);
+}
+drawHeroBg();
+
+// ── OG Image generation (hidden canvas) ──
+const ogCanvas = document.createElement('canvas');
+ogCanvas.width = 1200; ogCanvas.height = 630;
+const ogCtx = ogCanvas.getContext('2d');
+ogCtx.fillStyle = '#050510'; ogCtx.fillRect(0, 0, 1200, 630);
+ogCtx.fillStyle = '#00e5ff'; ogCtx.font = '900 80px ui-monospace, monospace';
+ogCtx.textAlign = 'center';
+ogCtx.shadowBlur = 40; ogCtx.shadowColor = '#00e5ff';
+ogCtx.fillText('BABYLON', 600, 260);
+ogCtx.shadowBlur = 0;
+ogCtx.fillStyle = '#00e5ff'; ogCtx.globalAlpha = 0.4;
+ogCtx.font = '28px ui-monospace, monospace'; ogCtx.fillText('ultra-dict · live dog→human quant translation', 600, 320);
+ogCtx.font = '18px ui-monospace, monospace'; ogCtx.fillText('🐕 Marley · Ausztrál juhász · OM MANI PADME HUNG', 600, 370);
+ogCtx.font = '14px ui-monospace, monospace'; ogCtx.fillText('16-dim ternary · Xoshiro128** · 42ms think tick · EN+HU', 600, 410);
+ogCtx.globalAlpha = 0.15;
+for (let i = 0; i < 16; i++) {
+  const bx = 300 + i * 38, by = 500, bh = 40 + Math.abs(ternarity[i]) * 60;
+  ogCtx.fillStyle = ternarity[i] > 0 ? '#00ff88' : ternarity[i] < 0 ? '#ff6b35' : '#00e5ff';
+  ogCtx.fillRect(bx, by - bh/2, 30, bh);
+}
+ogCtx.globalAlpha = 1;
+ogCtx.fillStyle = '#00e5ff'; ogCtx.globalAlpha = 0.3; ogCtx.font = '12px monospace';
+ogCtx.fillText('babylon.vaked.dev', 600, 600);
+
+// ── Anti-scraper: burn-em-bitches quantum proof ──
+const quantProof = document.querySelector('.quantproof');
+const hash = btoa(String(Date.now())).slice(0, 32);
+quantProof.setAttribute('data-quantproof', hash);
+setInterval(() => {
+  quantProof.setAttribute('data-quantproof', btoa(String(Date.now()) + Math.random()).slice(0, 32));
+}, 42000);
+
+// ── Console easter egg ──
+console.log('%c🐕 BABYLON-ultra-dict %c· live dog→human quant translation',
+  'font-size:20px;color:#00e5ff;', 'color:#fff;');
+console.log('%cOM MANI PADME HUNG · Xoshiro128** · 42ms',
+  'color:#00e5ff;opacity:0.5;');
+console.log('%cFalka: Peti, Nate, Kristof, Brigi, Bence, Jozsef, Katalin, Alexandra',
+  'color:#ff6b35;');
+console.log('%c🇭🇺 MADE IN HUNGARY · PEACE )( LOVE () UNITY <3',
+  'color:#00ff88;');
+</script>
+</body>
+</html>
