@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>art.vaked.dev — paintings for secrets</title>
+<meta property="og:title" content="art.vaked.dev — paintings for secrets">
+<meta property="og:description" content="Tell me a secret. I make you a painting. The oldest economy. Art for truth.">
+<meta property="og:image" content="https://art.vaked.dev/og.svg">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+:root {
+  --bg: #0a0410;
+  --fg: #c8b8d8;
+  --pink: #ff69b4;
+  --rose: #e07090;
+  --purple: #a29bfe;
+  --dark: #1a0a1a;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* header */
+header {
+  text-align: center;
+  padding: 16px 12px 4px;
+  border-bottom: 1px solid rgba(255,105,180,0.08);
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  z-index: 10;
+}
+header h1 {
+  font-size: 16px;
+  color: var(--pink);
+  letter-spacing: 4px;
+  font-weight: 900;
+}
+header .sub {
+  font-size: 10px;
+  color: var(--pink);
+  opacity: 0.3;
+  letter-spacing: 2px;
+  margin-top: 2px;
+}
+
+/* canvas area */
+.canvas-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  position: relative;
+}
+canvas {
+  border: 1px solid rgba(255,105,180,0.1);
+  border-radius: 8px;
+  cursor: crosshair;
+  background: #0a0410;
+  touch-action: none;
+  max-width: 100%;
+  max-height: 70vh;
+}
+
+/* tools */
+.tools {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
+  flex-wrap: wrap;
+}
+.tools button, .tools input[type=color], .tools input[type=range] {
+  font-family: inherit;
+  font-size: 10px;
+  padding: 6px 12px;
+  border: 1px solid rgba(255,105,180,0.2);
+  background: rgba(255,105,180,0.04);
+  color: var(--pink);
+  border-radius: 4px;
+  cursor: pointer;
+  letter-spacing: 1px;
+  transition: all .15s;
+}
+.tools button:hover, .tools input[type=color]:hover {
+  background: rgba(255,105,180,0.12);
+  border-color: var(--pink);
+}
+.tools .active { background: rgba(255,105,180,0.2); border-color: var(--pink); }
+.tools input[type=color] { width: 32px; height: 32px; padding: 2px; }
+.tools input[type=range] { width: 80px; accent-color: var(--pink); }
+
+/* gallery */
+.gallery {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+}
+.gallery h2 {
+  text-align: center;
+  font-size: 12px;
+  color: var(--pink);
+  opacity: 0.3;
+  letter-spacing: 3px;
+  margin-bottom: 16px;
+}
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+}
+.gallery-item {
+  aspect-ratio: 1;
+  border: 1px solid rgba(255,105,180,0.08);
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all .2s;
+  position: relative;
+}
+.gallery-item:hover {
+  border-color: var(--pink);
+  transform: scale(1.03);
+}
+.gallery-item img {
+  width: 100%; height: 100%; object-fit: cover;
+}
+.gallery-item .secret {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 6px;
+  background: rgba(0,0,0,0.7);
+  font-size: 8px;
+  color: var(--pink);
+  opacity: 0;
+  transition: opacity .2s;
+  text-align: center;
+  letter-spacing: 1px;
+}
+.gallery-item:hover .secret { opacity: 1; }
+
+/* secret input */
+.secret-area {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 0 20px 20px;
+  text-align: center;
+}
+.secret-area textarea {
+  width: 100%;
+  background: rgba(255,105,180,0.04);
+  border: 1px solid rgba(255,105,180,0.15);
+  color: var(--fg);
+  font-family: inherit;
+  font-size: 11px;
+  padding: 10px;
+  border-radius: 6px;
+  resize: vertical;
+  min-height: 50px;
+  letter-spacing: 1px;
+}
+.secret-area textarea:focus {
+  outline: none;
+  border-color: var(--pink);
+}
+.secret-area textarea::placeholder {
+  color: rgba(255,105,180,0.2);
+}
+
+/* footer */
+footer {
+  text-align: center;
+  padding: 30px 20px;
+  font-size: 9px;
+  opacity: 0.2;
+  letter-spacing: 2px;
+}
+footer a { color: var(--pink); text-decoration: none; }
+
+/* modal */
+.modal {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  cursor: pointer;
+}
+.modal img {
+  max-width: 90vw;
+  max-height: 90vh;
+  border-radius: 8px;
+  border: 1px solid rgba(255,105,180,0.2);
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🎀 art.vaked.dev</h1>
+  <div class="sub">tell me a secret · i make you a painting</div>
+</header>
+
+<div class="canvas-wrap">
+  <canvas id="c" width="600" height="500"></canvas>
+</div>
+
+<div class="tools">
+  <button id="brush-btn" class="active" onclick="setTool('brush')">🖌 brush</button>
+  <button id="eraser-btn" onclick="setTool('eraser')">⌫ erase</button>
+  <button id="spray-btn" onclick="setTool('spray')">💨 spray</button>
+  <input type="color" id="color-picker" value="#ff69b4" onchange="setColor(this.value)">
+  <input type="range" id="size-slider" min="1" max="40" value="5" oninput="setSize(this.value)">
+  <button onclick="clearCanvas()">✕ clear</button>
+  <button onclick="savePainting()">💾 save</button>
+  <button onclick="undoStroke()">↩ undo</button>
+</div>
+
+<div class="secret-area">
+  <textarea id="secret-input" placeholder="whisper a secret here… your painting remembers…" rows="2"></textarea>
+</div>
+
+<div class="gallery" id="gallery-section">
+  <h2>⋆ the gallery · paintings for secrets ⋆</h2>
+  <div class="gallery-grid" id="gallery-grid"></div>
+</div>
+
+<footer>
+  <p>art.vaked.dev · the oldest economy · art for truth</p>
+  <p><a href="https://pocoo.vaked.dev">pocoo.vaked.dev</a> · <a href="https://music.vaked.dev">music.vaked.dev</a> · <a href="https://babylon.vaked.dev">babylon.vaked.dev</a></p>
+  <p style="margin-top:8px;color:var(--pink)">PEACE )( LOVE () UNITY &lt;3</p>
+</footer>
+
+<script>
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+let painting = false;
+let tool = 'brush';
+let color = '#ff69b4';
+let size = 5;
+let strokes = [];
+let currentStroke = [];
+let savedPaintings = JSON.parse(localStorage.getItem('art_vaked_gallery') || '[]');
+
+function setTool(t) {
+  tool = t;
+  document.querySelectorAll('.tools button').forEach(b => b.classList.remove('active'));
+  document.getElementById(t + '-btn').classList.add('active');
+}
+
+function setColor(c) { color = c; }
+function setSize(s) { size = parseInt(s); }
+
+function getPos(e) {
+  const rect = canvas.getBoundingClientRect();
+  const scaleX = canvas.width / rect.width;
+  const scaleY = canvas.height / rect.height;
+  const x = (e.clientX - rect.left) * scaleX;
+  const y = (e.clientY - rect.top) * scaleY;
+  return { x, y };
+}
+
+canvas.addEventListener('pointerdown', e => {
+  painting = true;
+  const { x, y } = getPos(e);
+  currentStroke = [{ x, y, tool, color, size }];
+  drawDot(x, y);
+});
+
+canvas.addEventListener('pointermove', e => {
+  if (!painting) return;
+  const { x, y } = getPos(e);
+  currentStroke.push({ x, y, tool, color, size });
+  drawSegment(currentStroke[currentStroke.length-2], { x, y });
+});
+
+canvas.addEventListener('pointerup', () => {
+  if (!painting) return;
+  painting = false;
+  if (currentStroke.length > 0) strokes.push([...currentStroke]);
+  currentStroke = [];
+});
+
+canvas.addEventListener('pointerleave', () => { painting = false; if (currentStroke.length > 0) strokes.push([...currentStroke]); currentStroke = []; });
+
+function drawDot(x, y) {
+  if (tool === 'spray') {
+    for (let i = 0; i < size * 3; i++) {
+      const sx = x + (Math.random() - 0.5) * size * 4;
+      const sy = y + (Math.random() - 0.5) * size * 4;
+      ctx.fillStyle = tool === 'eraser' ? '#0a0410' : color;
+      ctx.globalAlpha = 0.3 + Math.random() * 0.4;
+      ctx.beginPath(); ctx.arc(sx, sy, Math.random() * 2, 0, Math.PI*2); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+  } else {
+    ctx.fillStyle = tool === 'eraser' ? '#0a0410' : color;
+    ctx.beginPath(); ctx.arc(x, y, size/2, 0, Math.PI*2); ctx.fill();
+  }
+}
+
+function drawSegment(from, to) {
+  ctx.strokeStyle = tool === 'eraser' ? '#0a0410' : color;
+  ctx.lineWidth = size;
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+  ctx.beginPath();
+  ctx.moveTo(from.x, from.y);
+  ctx.lineTo(to.x, to.y);
+  ctx.stroke();
+}
+
+function clearCanvas() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  strokes = [];
+}
+
+function undoStroke() {
+  strokes.pop();
+  redraw();
+}
+
+function redraw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  strokes.forEach(stroke => {
+    if (stroke.length === 1) {
+      ctx.fillStyle = stroke[0].tool === 'eraser' ? '#0a0410' : stroke[0].color;
+      ctx.beginPath(); ctx.arc(stroke[0].x, stroke[0].y, stroke[0].size/2, 0, Math.PI*2); ctx.fill();
+    } else {
+      for (let i = 1; i < stroke.length; i++) {
+        ctx.strokeStyle = stroke[i].tool === 'eraser' ? '#0a0410' : stroke[i].color;
+        ctx.lineWidth = stroke[i].size;
+        ctx.lineCap = 'round';
+        ctx.beginPath();
+        ctx.moveTo(stroke[i-1].x, stroke[i-1].y);
+        ctx.lineTo(stroke[i].x, stroke[i].y);
+        ctx.stroke();
+      }
+    }
+  });
+}
+
+function savePainting() {
+  const dataUrl = canvas.toDataURL('image/png');
+  const secret = document.getElementById('secret-input').value || 'a secret untold';
+  const painting = {
+    id: Date.now(),
+    dataUrl,
+    secret,
+    date: new Date().toISOString(),
+    colors: [...new Set(strokes.flatMap(s => s.map(p => p.color)))].filter(c => c !== '#0a0410'),
+  };
+  savedPaintings.unshift(painting);
+  if (savedPaintings.length > 42) savedPaintings = savedPaintings.slice(0, 42);
+  localStorage.setItem('art_vaked_gallery', JSON.stringify(savedPaintings));
+  document.getElementById('secret-input').value = '';
+  renderGallery();
+}
+
+function renderGallery() {
+  const grid = document.getElementById('gallery-grid');
+  grid.innerHTML = savedPaintings.map(p => `
+    <div class="gallery-item" onclick="viewPainting('${p.dataUrl}')">
+      <img src="${p.dataUrl}" alt="painting">
+      <div class="secret">${p.secret.substring(0, 40)}${p.secret.length > 40 ? '…' : ''}</div>
+    </div>
+  `).join('');
+  if (savedPaintings.length === 0) {
+    grid.innerHTML = '<div style="text-align:center;opacity:0.15;padding:40px;font-size:10px;letter-spacing:2px;grid-column:1/-1">the gallery is empty<br>paint something. tell a secret.</div>';
+  }
+}
+
+function viewPainting(dataUrl) {
+  const modal = document.createElement('div');
+  modal.className = 'modal';
+  modal.innerHTML = `<img src="${dataUrl}" alt="painting">`;
+  modal.onclick = () => modal.remove();
+  document.body.appendChild(modal);
+}
+
+function downloadPainting() {
+  const link = document.createElement('a');
+  link.download = 'painting-' + Date.now() + '.png';
+  link.href = canvas.toDataURL();
+  link.click();
+}
+
+// Keyboard shortcuts
+document.addEventListener('keydown', e => {
+  if (e.key === 's' && (e.metaKey || e.ctrlKey)) { e.preventDefault(); savePainting(); }
+  if (e.key === 'z' && (e.metaKey || e.ctrlKey)) { e.preventDefault(); undoStroke(); }
+});
+
+renderGallery();
+</script>
+</body>
+</html>
