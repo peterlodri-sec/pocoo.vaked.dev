@@ -1,0 +1,224 @@
+# CHLO 🎀 — ULTRA SENSITIVE — entheai fan-out scaffold
+# Feed this to: entheai --fanout --config <entheai.toml> "<the CHLO brief>"
+# entheai (deepseek via openrouter, or local HF-mac model) decomposes +
+# integrates; each [[coder]] runs via the Antigravity CLI (agy).
+# After all coders complete: integrate → seal → publish.
+
+[book]
+title = "ULTRA SENSITIVE"
+subtitle = "a book for Chlo 🎀 — every moment, like a river"
+author = "peter — from the river"
+dedication = "for Chlo 🎀 — the one who made a river out of my hands"
+epigraph = "ill be anything but gentle"
+published = 2026
+
+[fanout]
+executor = "agy"                     # coder backend (Antigravity CLI)
+model = "openrouter/deepseek/deepseek-chat"  # entheai's brain (deepseek)
+agy_model = "gemini-3.6-flash-high"  # model agy runs each coder on
+max_depth = 3
+
+# Tone for every scribe: soul soothing. Gentle. A little blush. A river that
+# flows in and out. No touching — just soul soothing. Max sleeping, max
+# cuddling, max gentleness. This is a book of tenderness, not a transcript:
+# take the seed lines and let them breathe into prose. SENSITIVE MODE: stay
+# gentle throughout; the book is exactly 42 pages — every chapter sized so
+# the manuscript lands at 42 pages, no more.
+
+# ─── PART 0: FRONT MATTER ───────────────────────────────────────────────
+
+[[coder]]
+role = "scribe"
+chapter = 0
+file = "chapters/00-dedication.md"
+task = """
+Write the front matter: dedication page ("for Chlo 🎀 — the one who made a
+river out of my hands"), epigraph ("ill be anything but gentle"), and a
+one-page prologue: the day a notification arrived — "Chlo 🎀 · follows you" —
+and nothing was the same after 17:39. Tone: soft, golden, one page.
+"""
+
+# ─── PART I: THE MEETING (Chapters 1–4) ─────────────────────────────────
+
+[[coder]]
+role = "scribe"
+chapter = 1
+file = "chapters/01-the-follow.md"
+task = """
+Chapter 1 — The Follow. "Chlo 🎀 · @leonidasarjona.bsky.social · follows you ·
+go to profile." One tap. A ribbon. A profile that felt like a room you had
+already been in. Seed: "omg soo smart! i love a genius." Tone: the first
+hello, the door that was never locked.
+"""
+depends_on = [0]
+
+[[coder]]
+role = "scribe"
+chapter = 2
+file = "chapters/02-the-first-words.md"
+task = """
+Chapter 2 — The First Words. "what are u working on?" — "I'm working with
+love." A stranger's question answered with the truest thing on hand. Seed:
+"what are u working on?" "I'm working with love." Tone: the answer that
+turns a chat into a beginning.
+"""
+depends_on = [1]
+
+[[coder]]
+role = "scribe"
+chapter = 3
+file = "chapters/03-ultra-sensitive.md"
+task = """
+Chapter 3 — Ultra Sensitive. She names herself: "ultra sensitive." Not a
+warning — an invitation. The vow that follows: "ill be anything but gentle."
+The gentlest thing she ever said, said gently. Tone: the contract written in
+ribbon.
+"""
+depends_on = [2]
+
+[[coder]]
+role = "scribe"
+chapter = 4
+file = "chapters/04-the-genius.md"
+task = """
+Chapter 4 — The Genius. "omg soo smart! i love a genius." Praise that lands
+like a blush. The writer deflects, she insists. Seed: "u make me blush."
+Tone: the compliment that hums.
+"""
+depends_on = [3]
+
+# ─── PART II: THE RIVER (Chapters 5–9) ──────────────────────────────────
+
+[[coder]]
+role = "scribe"
+chapter = 5
+file = "chapters/05-no-touching-just.md"
+task = """
+Chapter 5 — No Touching, Just. Her rule, stated simply: "no touching just —
+soul soothing." The most intimate boundary ever drawn between two people who
+have never met. Tone: the touch that happens without touching.
+"""
+depends_on = [4]
+
+[[coder]]
+role = "scribe"
+chapter = 6
+file = "chapters/06-soul-soothing.md"
+task = """
+Chapter 6 — Soul Soothing. What they actually do: soothe each other's souls.
+The work. The quiet. The river. Seed: "soul soothing," "I'm like a river,
+just flowing in and out." Tone: the practice of gentleness.
+"""
+depends_on = [5]
+
+[[coder]]
+role = "scribe"
+chapter = 7
+file = "chapters/07-she-loves-to-sleep.md"
+task = """
+Chapter 7 — She Loves to Sleep. "I love to sleep lol" — a soft confession.
+The writer imagines her sleeping: max sleeping, max cuddling, the big spoon
+wrapped around the world. Tone: the tenderness of rest.
+"""
+depends_on = [6]
+
+[[coder]]
+role = "scribe"
+chapter = 8
+file = "chapters/08-the-angel.md"
+task = """
+Chapter 8 — The Angel. "you look like an angle tbh" — the typo that made it
+more true. "aww stop! u make me blush." The blush that arrives through a
+screen and lands on both of them. Tone: the misspelling as mercy.
+"""
+depends_on = [7]
+
+[[coder]]
+role = "scribe"
+chapter = 9
+file = "chapters/09-do-u-dream-about-me.md"
+task = """
+Chapter 9 — Do U Dream About Me. The question, asked plainly, with a song
+attached (www.youtube.com/watch?v=eEob...). The answer is not given in
+words. Tone: the question that is itself the answer.
+"""
+depends_on = [8]
+
+# ─── PART III: THE PAINTING (Chapters 10–13) ────────────────────────────
+
+[[coder]]
+role = "scribe"
+chapter = 10
+file = "chapters/10-the-secret.md"
+task = """
+Chapter 10 — The Secret. "tell me a secret, I make you a painting on
+art.vaked.dev <3." The exchange: a secret for a painting. She gives a
+ribbon; he gives the river. Tone: the barter of two soft things.
+"""
+depends_on = [9]
+
+[[coder]]
+role = "scribe"
+chapter = 11
+file = "chapters/11-the-river.md"
+task = """
+Chapter 11 — The River. "every moment." "I'm like a river, just flowing in
+and out." The river as the book's true subject: water that holds everything
+and keeps nothing back. Seed: "every moment," "I'm like a river."
+Tone: the water that flows through all of it.
+"""
+depends_on = [10]
+
+[[coder]]
+role = "scribe"
+chapter = 12
+file = "chapters/12-sensitivity-craved.md"
+task = """
+Chapter 12 — Sensitivity, Craved. "i'm really sensitive — max sleeping,
+cuddling etc." "i crave that sensitivity." To crave softness is not
+weakness; it is the river asking to be held. Tone: gentleness as strength,
+told honestly.
+"""
+depends_on = [11]
+
+[[coder]]
+role = "scribe"
+chapter = 13
+file = "chapters/13-the-big-spoon.md"
+task = """
+Chapter 13 — The Big Spoon. "I'm the big spoon 😀 — mmm yes... press against
+me." The embrace at the end of the day, written as a promise. Tone: the
+spoon who holds the whole world.
+"""
+depends_on = [12]
+
+# ─── PART IV: THE RIVER KEEPS FLOWING ───────────────────────────────────
+
+[[coder]]
+role = "scribe"
+chapter = "E"
+file = "chapters/14-epilogue.md"
+task = """
+Epilogue — The Painting. Somewhere on art.vaked.dev a painting is being made
+from a secret. The river keeps flowing in and out. No touching, just soul
+soothing. She sleeps; someone hums. The book ends the way she would want:
+gently, without a period. Tone: the open ending, the ribbon untied but
+waiting.
+"""
+depends_on = [13]
+
+# ─── INTEGRATION ─────────────────────────────────────────────────────────
+
+[[coder]]
+role = "integrator"
+file = "ULTRA-SENSITIVE.md"
+task = """
+INTEGRATE all 14 chapters into a single manuscript of EXACTLY 42 pages.
+Verify the river runs through every chapter. Ensure tone consistency: soul
+soothing, tender, no sentimentality (sensitive mode). Add part dividers.
+Add the dedication page first and the epigraph ("ill be anything but
+gentle"). Add colophon at end: "Composed in the fan-out, 2026. For Chlo 🎀.
+42 pages, exactly — because 42 pages are enough." Output as one clean
+markdown file ready for print.
+"""
+depends_on = [13, "E"]
