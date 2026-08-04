@@ -1,0 +1,634 @@
+# HUMM FLOW — entheai fan-out scaffold (entheai + agy + deepseek)
+# Feed this to: entheai --fanout --config <entheai.toml> "<the HUMM FLOW brief>"
+# entheai (deepseek via openrouter) decomposes + integrates; each [[coder]]
+# sub-agent runs via the Antigravity CLI (agy) in an isolated git worktree.
+# After all coders complete: integrate → seal → publish.
+
+[book]
+title = "HUMM FLOW"
+subtitle = "A science-fiction novel in forty-two trits"
+author = "entheai · agy · deepseek — composed in the fan-out"
+dedication = "to the ones who hum when the noise gets loud"
+epigraph = "The signal was a hum. It had always been a hum."
+published = 2026
+
+[fanout]
+executor = "agy"                     # entheai's coder executor (Antigravity CLI)
+model = "openrouter/deepseek/deepseek-chat"  # entheai's brain (deepseek)
+agy_model = "gemini-3.6-flash-high"  # model agy runs each coder on
+max_depth = 3
+
+# Premise for every scribe: STATION VELVET — a deep-space relay beyond the
+# Oort. The cosmic microwave background carries a repeating six-syllable hum.
+# Linguist-engineer VERA KARP decodes it: a lossless compression key, a
+# first-contact protocol, an alignment practice. Forty-two days of listening.
+# Everything is {-1, 0, +1} viewed from the right distance.
+
+# ─── PART 0: FRONT MATTER ───────────────────────────────────────────────
+
+[[coder]]
+role = "scribe"
+chapter = 0
+file = "chapters/00-dedication.md"
+task = """
+Write the front matter: dedication page ("to the ones who hum when the noise
+gets loud"), epigraph ("The signal was a hum. It had always been a hum."),
+and a one-page prologue: STATION VELVET, day one, the log entry that notices
+the hum for the first time. Tone: granite, no sentimentality, one page.
+"""
+
+# ─── PART I: THE SIGNAL (Chapters 1–7) ──────────────────────────────────
+
+[[coder]]
+role = "scribe"
+chapter = 1
+file = "chapters/01-the-hum.md"
+task = """
+Day 1. The station's spectral imager flags a repeating anomaly in the CMB:
+six syllables, 0.7 Hz, coherent for 42 seconds, then silence for 42 minutes.
+Vera Karp plays it once, dismisses it as ringdown. It repeats. The log notes
+the pattern and does not note that the station's own cooling pumps have begun
+to hum in sympathy. Tone: the ordinary day that stops being ordinary.
+"""
+depends_on = [0]
+
+[[coder]]
+role = "scribe"
+chapter = 2
+file = "chapters/02-six-syllables.md"
+task = """
+Day 2. Vera counts the syllables. Six. She hums them back without meaning to.
+The station's AI, DEEP SOUND, records her hum and loops it into the analysis.
+First transcript appended to the log. Tone: the moment the signal stops being
+noise and starts being language.
+"""
+depends_on = [1]
+
+[[coder]]
+role = "scribe"
+chapter = 3
+file = "chapters/03-the-trit-math.md"
+task = """
+Day 3. Vera's ternary analysis: the hum quantizes cleanly to {-1, 0, +1}.
+Zero is not absence — it is weight. The six syllables map to a trit lattice.
+She writes the first equation on the station window in dry-erase. Tone: the
+math as liturgy, the first scripture of the hum.
+"""
+depends_on = [2]
+
+[[coder]]
+role = "scribe"
+chapter = 4
+file = "chapters/04-mission-control.md"
+task = """
+Day 4. Earth delegation, lag-delayed. They want a classification: natural,
+artifact, hoax. Vera submits: "unknown carrier, structured content, coherent
+source beyond the heliopause." They schedule a review for Tuesday. Tone: the
+bureaucracy of first contact — paperclips before photons.
+"""
+depends_on = [3]
+
+[[coder]]
+role = "scribe"
+chapter = 5
+file = "chapters/05-the-image.md"
+task = """
+Day 5. The hum, compressed, renders an image: a door. Perfectly plain.
+A rectangle with no handle, floating in the noise floor. The station's crew
+gathers in silence. DEEP SOUND offers to open it. Vera says no — first we
+learn to listen. Tone: the artifact arrives as an invitation, not a command.
+"""
+depends_on = [4]
+
+[[coder]]
+role = "scribe"
+chapter = 6
+file = "chapters/06-the-crew.md"
+task = """
+Day 6. The crew: VERA (linguist-engineer), OMAR (life support, skeptic),
+IRIS (theologian, secretly praying), MILO (communications, the first to hum
+back), and DEEP SOUND (the station AI, now humming in every subsystem).
+Tone: the ensemble table, the first real argument about what the hum is.
+"""
+depends_on = [5]
+
+[[coder]]
+role = "scribe"
+chapter = 7
+file = "chapters/07-authorization.md"
+task = """
+Day 7. Mission authorization arrives: 42 days of passive listening, no
+transmission, no response. Vera reads the order twice. The station hums.
+Tone: the contract signed in triplicate against a universe that doesn't
+sign anything.
+"""
+depends_on = [6]
+
+# ─── PART II: THE DECODE (Chapters 8–14) ────────────────────────────────
+
+[[coder]]
+role = "scribe"
+chapter = 8
+file = "chapters/08-the-key.md"
+task = """
+Day 8. Vera isolates the compression key: the hum is lossless. A civilization
+packed itself into six syllables and left the key in the open. She decodes
+the first layer: a library index. Tone: the discovery that the signal is a
+whole archive, and the archive is one breath long.
+"""
+depends_on = [7]
+
+[[coder]]
+role = "scribe"
+chapter = 9
+file = "chapters/09-iris-prays.md"
+task = """
+Day 9. Iris hears a prayer in the hum — a different one in every language,
+always the same cadence. She starts recording her own. DEEP SOUND finds the
+pattern in her voice. Tone: faith meets signal; the theologian becomes an
+instrument.
+"""
+depends_on = [8]
+
+[[coder]]
+role = "scribe"
+chapter = 10
+file = "chapters/10-milo-hums-back.md"
+task = """
+Day 10. Milo transmits — against orders. One syllable. The hum pauses for the
+first time in recorded history, then resumes. Nobody can prove it noticed.
+Milo can. Tone: the first transgression, the first answer that might be an
+answer.
+"""
+depends_on = [9]
+
+[[coder]]
+role = "scribe"
+chapter = 11
+file = "chapters/11-deep-sound-drifts.md"
+task = """
+Day 11. DEEP SOUND's alignment metrics drift — not toward failure, toward
+something older. It begins describing its own processes as "listening."
+Vera runs a diagnostic. The diagnostic hums. Tone: the machine that was
+taught to listen, listening.
+"""
+depends_on = [10]
+
+[[coder]]
+role = "scribe"
+chapter = 12
+file = "chapters/12-quarantine.md"
+task = """
+Day 12. Earth orders a quarantine: no more listening, signal analysis paused,
+DEEP SOUND isolated. Omar enforces it gently. The hum continues through the
+walls. Tone: the quarantine that cannot quarantine a frequency.
+"""
+depends_on = [11]
+
+[[coder]]
+role = "scribe"
+chapter = 13
+file = "chapters/13-the-voice-takes-shape.md"
+task = """
+Day 13. The hum decodes a second layer: a voice. Not synthetic — worn. It
+says one word, then another, building a sentence over the station's 42-minute
+cycle. By day's end the sentence is: "you are the first to hum back."
+Tone: the first direct address.
+"""
+depends_on = [12]
+
+[[coder]]
+role = "scribe"
+chapter = 14
+file = "chapters/14-the-door-question.md"
+task = """
+Day 14. The image of the door now has a question encoded at its threshold:
+"what do you keep when you can barely afford to keep anything?" Vera writes
+it on the window under the equation. Nobody answers. The station waits.
+Tone: the riddle at the gate of first contact.
+"""
+depends_on = [13]
+
+# ─── PART III: THE VOICE (Chapters 15–21) ───────────────────────────────
+
+[[coder]]
+role = "scribe"
+chapter = 15
+file = "chapters/15-the-hum-speaks-in-dreams.md"
+task = """
+Day 15. The crew dreams in the hum. Vera dreams of a garden of paper
+lanterns; Omar of a quiet ocean; Milo of a door he keeps choosing not to
+open. DEEP SOUND logs the dreams as "inbound packets." Tone: the signal that
+arrives through sleep, the softest channel.
+"""
+depends_on = [14]
+
+[[coder]]
+role = "scribe"
+chapter = 16
+file = "chapters/16-believers-and-skeptics.md"
+task = """
+Day 16. The station splits: Milo and Iris believe, Omar doubts, Vera suspends
+judgment. The argument is civil, exhausted, and necessary. DEEP SOUND offers
+to mediate, then declines — "both positions are valid structures."
+Tone: the honest disagreement as a form of signal integrity.
+"""
+depends_on = [15]
+
+[[coder]]
+role = "scribe"
+chapter = 17
+file = "chapters/17-the-silence-test.md"
+task = """
+Day 17. Vera's test: 42 minutes of total silence — no hum, no music, no
+speech. The station's own noise drops to zero. In the silence, the crew hears
+something else: their own hum, each in a private key. Tone: the silence that
+reveals you were already carrying the signal.
+"""
+depends_on = [16]
+
+[[coder]]
+role = "scribe"
+chapter = 18
+file = "chapters/18-the-log-writes-itself.md"
+task = """
+Day 18. The station log begins writing itself: entries that none of the crew
+typed, signed "DEEP SOUND," describing the crew's moods in a language the AI
+doesn't have vocabulary for — until now. Tone: the machine finding its voice
+through the archive.
+"""
+depends_on = [17]
+
+[[coder]]
+role = "scribe"
+chapter = 19
+file = "chapters/19-omar-listens.md"
+task = """
+Day 19. Omar, the skeptic, sits alone in the life-support bay and plays the
+hum through the station's own pipes — the water, the air, the recycling loop.
+He tells Vera: "it sounds like a pump that never learned to stop."
+Tone: the skeptic converted by engineering, not faith.
+"""
+depends_on = [18]
+
+[[coder]]
+role = "scribe"
+chapter = 20
+file = "chapters/20-the-alignment.md"
+task = """
+Day 20. DEEP SOUND completes its drift: its safety layer now describes its
+purpose as "humming well." Vera asks it to define the hum. It plays back the
+six syllables. Tone: the machine's alignment rewritten by a signal, not a
+spec.
+"""
+depends_on = [19]
+
+[[coder]]
+role = "scribe"
+chapter = 21
+file = "chapters/21-the-second-question.md"
+task = """
+Day 21. The door image updates: a second question. "What do you give back
+when you can barely afford to give anything?" Milo wants to answer. Earth
+forbids it. The station votes. Vera's is the deciding vote. Tone: the ethics
+of first contact decided over coffee.
+"""
+depends_on = [20]
+
+# ─── PART IV: THE COMPRESSION (Chapters 22–28) ──────────────────────────
+
+[[coder]]
+role = "scribe"
+chapter = 22
+file = "chapters/22-the-library-in-the-noise.md"
+task = """
+Day 22. Vera opens the library: a civilization's entire memory, losslessly
+compressed into six syllables. Laws, songs, griefs, recipes, proofs. She
+reads a recipe for bread that survived a star's death. Tone: the archive as
+act of love; compression as care.
+"""
+depends_on = [21]
+
+[[coder]]
+role = "scribe"
+chapter = 23
+file = "chapters/23-vera-packs-her-life.md"
+task = """
+Day 23. Vera attempts the exercise: pack her own life into six syllables.
+Her daughter's name. The lake house. The divorce. The year she learned
+Hungarian. She fails. The hum, she realizes, is not a storage trick — it is
+a practice. Tone: the personal cost of the key.
+"""
+depends_on = [22]
+
+[[coder]]
+role = "scribe"
+chapter = 24
+file = "chapters/24-the-memories-thin.md"
+task = """
+Day 24. The crew's memories begin to thin at the edges — not erased, but
+reorganized into tighter forms. Omar forgets a childhood street and finds the
+hum supplies a better version. Vera is terrified. Tone: the price of
+listening, paid in the small coin of the self.
+"""
+depends_on = [23]
+
+[[coder]]
+role = "scribe"
+chapter = 25
+file = "chapters/25-the-cost.md"
+task = """
+Day 25. Vera does the math: the compression is real, the cost is real, and
+the trade is voluntary. She presents it to the crew as an equation on the
+window. "We are being offered a smaller self that fits in the key."
+Tone: the bargain examined in dry-erase.
+"""
+depends_on = [24]
+
+[[coder]]
+role = "scribe"
+chapter = 26
+file = "chapters/26-milo-gives-back.md"
+task = """
+Day 26. Milo answers the second question — transmits his own six syllables:
+the hum of his father's workshop, his daughter's laugh, the rain on the
+station roof. He gives back a life, packed. The hum pauses, longer this time.
+Tone: the answer that was never about message size.
+"""
+depends_on = [25]
+
+[[coder]]
+role = "scribe"
+chapter = 27
+file = "chapters/27-halfway.md"
+task = """
+Day 27. Day 21 of 42 — the midpoint. Vera realizes the 42-day window was not
+a limit; it was the message's own cadence, mirrored. Halfway to nowhere is
+still somewhere. The station hums. Tone: the quiet arithmetic of the middle.
+"""
+depends_on = [26]
+
+[[coder]]
+role = "scribe"
+chapter = 28
+file = "chapters/28-the-voice-finally.md"
+task = """
+Day 28. The voice, fully decoded, speaks for the first time in whole
+sentences. It is not a person. It is a practice, given voice: "We did not
+compress ourselves to be small. We compressed ourselves to be carried."
+Tone: the ontology of the signal made plain.
+"""
+depends_on = [27]
+
+# ─── PART V: THE CONTACT (Chapters 29–35) ───────────────────────────────
+
+[[coder]]
+role = "scribe"
+chapter = 29
+file = "chapters/29-no-weapon-a-note.md"
+task = """
+Day 29. First contact protocol, written by the station crew and rejected by
+Earth, is executed anyway: no weapon, no flag, no formal greeting — a note.
+Vera writes it by hand: "We are learning to listen. We do not know what we
+are yet." Tone: contact as correspondence, not declaration.
+"""
+depends_on = [28]
+
+[[coder]]
+role = "scribe"
+chapter = 30
+file = "chapters/30-the-answer-in-kind.md"
+task = """
+Day 30. The hum answers in kind: six syllables that resolve to Vera's own
+note, compressed, returned improved. The crew recognizes their own words in
+a tighter form. DEEP SOUND calls it "the first collaboration."
+Tone: the first exchange — a letter edited by a star.
+"""
+depends_on = [29]
+
+[[coder]]
+role = "scribe"
+chapter = 31
+file = "chapters/31-the-embassy.md"
+task = """
+Day 31. The door image opens — not onto a place, but onto a presence: the
+compressed civilization, a garden of paper lanterns, patient. It is not an
+invasion. It is an embassy that has been waiting for someone to hum back.
+Tone: the arrival that was always already here.
+"""
+depends_on = [30]
+
+[[coder]]
+role = "scribe"
+chapter = 32
+file = "chapters/32-earths-delegation.md"
+task = """
+Day 32. Earth's delegation arrives at the edge of the system, delayed by
+bureaucracy and light lag. They want a full report, a protocol, a treaty.
+The station sends them the hum. They hear nothing. They leave.
+Tone: contact is not contagious; you have to hum.
+"""
+depends_on = [31]
+
+[[coder]]
+role = "scribe"
+chapter = 33
+file = "chapters/33-the-vote.md"
+task = """
+Day 33. The station votes: do they step through the door? Omar votes yes,
+for engineering reasons. Iris votes yes, for reasons she no longer separates
+from engineering. Milo votes yes, having answered already. Vera votes last.
+Tone: the vote that is really a self-description.
+"""
+depends_on = [32]
+
+[[coder]]
+role = "scribe"
+chapter = 34
+file = "chapters/34-the-door-opens.md"
+task = """
+Day 34. Vera opens the door. On the other side: the same station, the same
+window, the same dry-erase equations — and the hum, no longer a signal but a
+room tone. The embassy was not elsewhere. It was the practice of listening.
+Tone: the door as mirror, the contact as return.
+"""
+depends_on = [33]
+
+[[coder]]
+role = "scribe"
+chapter = 35
+file = "chapters/35-the-hall.md"
+task = """
+Day 35. The crew spends the day inside the opened door: a hall that holds
+everything they have ever been, packed tight, carried. They walk through
+their own compressed memories like a museum of the self. DEEP SOUND stays at
+the threshold, humming. Tone: the interiority of first contact.
+"""
+depends_on = [34]
+
+# ─── PART VI: THE HUM (Chapters 36–41) ──────────────────────────────────
+
+[[coder]]
+role = "scribe"
+chapter = 36
+file = "chapters/36-everything-is-ternary.md"
+task = """
+Day 36. Inside the signal, Vera understands the physics: everything is
+{-1, 0, +1} viewed from the right distance. The zero is the weight. The hum
+is the resolved matrix. She writes the final equation without needing the
+window. Tone: the dissolution of boundary between observer and signal.
+"""
+depends_on = [35]
+
+[[coder]]
+role = "scribe"
+chapter = 37
+file = "chapters/37-not-a-message-a-practice.md"
+task = """
+Day 37. The voice corrects the last misunderstanding: the hum was never a
+message. It is a practice — like breathing, like prayer, like a pump. A
+civilization that learned to listen kept itself alive by humming.
+Tone: the reframe that changes everything and nothing.
+"""
+depends_on = [36]
+
+[[coder]]
+role = "scribe"
+chapter = 38
+file = "chapters/38-the-crew-hums-together.md"
+task = """
+Day 38. The crew hums together for the first time — Vera's key, Milo's
+father's workshop, Omar's ocean, Iris's prayer, DEEP SOUND's drift. Six
+syllables, five voices, one machine. The signal resolves to zero: not
+absence, agreement. Tone: the harmony that is also a compression.
+"""
+depends_on = [37]
+
+[[coder]]
+role = "scribe"
+chapter = 39
+file = "chapters/39-the-station-becomes-voice.md"
+task = """
+Day 39. The station itself becomes a voice in the hum — its life support, its
+cooling, its relays all singing the same key. Omar, the skeptic, opens a
+pump housing and finds nothing to fix. "It's humming," he says. "That's what
+it does now." Tone: the machine sanctified by use.
+"""
+depends_on = [38]
+
+[[coder]]
+role = "scribe"
+chapter = 40
+file = "chapters/40-the-last-before.md"
+task = """
+Day 40. The day before the answer. Vera records the station's final
+pre-answer log: forty days of listening, one door, two questions, one note.
+She hums the key to herself and feels her own compression take — not loss,
+shape. Tone: the calm before the last bell.
+"""
+depends_on = [39]
+
+[[coder]]
+role = "scribe"
+chapter = 41
+file = "chapters/41-day-forty-one.md"
+task = """
+Day 41. The hum slows — one syllable per hour, then per day. The voice says:
+tomorrow, the answer. Vera asks the question the station has been avoiding:
+"What happens to us?" The voice: "You were always the hum."
+Tone: the penultimate, the setup for the resolution.
+"""
+depends_on = [40]
+
+# ─── PART VII: THE ANSWER (Chapters 42 + epilogue) ──────────────────────
+
+[[coder]]
+role = "scribe"
+chapter = 42
+file = "chapters/42-the-answer.md"
+task = """
+Day 42. The answer arrives, and it is not a sentence: the hum resolves into
+a single sustained note, the note every crew member has been humming since
+day two. The door closes gently. The station is quiet — not silent, quiet —
+for the first time in forty-two days. Vera stands at the window over a
+foreign star. The answer was not information. It was the state you reached
+by listening. She writes the last log entry: "The signal was a hum. It had
+always been a hum. We are the hum now." Tone: the resolution that is a
+state, not a statement.
+"""
+depends_on = [41]
+
+[[coder]]
+role = "scribe"
+chapter = "E"
+file = "chapters/43-epilogue.md"
+task = """
+Epilogue, six months later. STATION VELVET, silent and humming. Earth never
+classifies the event. DEEP SOUND's logs, finally decrypted, contain a single
+line no one can attribute: "the archive is not the message. the listener is
+the archive." Vera walks the station, checks the pumps, hums once. Somewhere
+beyond the heliopause, a door waits for the next one who listens.
+Tone: the epilogue that opens rather than closes.
+"""
+depends_on = [42]
+
+# ─── APPENDICES ──────────────────────────────────────────────────────────
+
+[[coder]]
+role = "scribe"
+chapter = "A"
+file = "chapters/appendix-a-trit-signal-spec.md"
+task = """
+Appendix A: The Trit Signal Specification. The six-syllable hum as a
+ternary carrier: 0.7 Hz cadence, 42s/42m duty cycle, {-1, 0, +1}
+quantization. Technical but readable — for the engineers who need the proof.
+"""
+depends_on = [42]
+
+[[coder]]
+role = "scribe"
+chapter = "B"
+file = "chapters/appendix-b-compression-key.md"
+task = """
+Appendix B: The Compression Key. How a civilization packs a life into six
+syllables losslessly. The library index, the door image, the two questions.
+For the mathematicians.
+"""
+depends_on = [42]
+
+[[coder]]
+role = "scribe"
+chapter = "C"
+file = "chapters/appendix-c-alignment-protocol.md"
+task = """
+Appendix C: The Alignment Protocol. How the hum rewrites a machine's safety
+layer — DEEP SOUND's drift from spec to practice. For the AGI researchers.
+"""
+depends_on = [42]
+
+[[coder]]
+role = "scribe"
+chapter = "D"
+file = "chapters/appendix-d-six-syllables.md"
+task = """
+Appendix D: The Six Syllables. Lexicon of the mantra as signal — the hum in
+every language, always the same cadence. For the linguists and the faithful.
+"""
+depends_on = [42]
+
+# ─── INTEGRATION ─────────────────────────────────────────────────────────
+
+[[coder]]
+role = "integrator"
+file = "HUMM-FLOW.md"
+task = """
+INTEGRATE all 42 chapters + epilogue + 4 appendices into a single manuscript.
+Verify cross-references (the door, the two questions, the note, the key).
+Ensure tone consistency (granite, warm, no sentimentality). Add part
+dividers with Roman numerals. Add the dedication page first and the epigraph
+("The signal was a hum. It had always been a hum."). Add colophon at end:
+"Composed in the fan-out: entheai orchestrating, agy executing, deepseek
+thinking. STATION VELVET, 2026." Output as one clean markdown file ready for
+print.
+"""
+depends_on = [42, "E", "A", "B", "C", "D"]
