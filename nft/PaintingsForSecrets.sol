@@ -38,9 +38,15 @@ contract PaintingsForSecrets is ERC721, Ownable, IERC2981 {
 
     mapping(uint256 => Painting) public paintings;
 
+    /// 0 means the token is not for sale.
+    mapping(uint256 => uint256) public priceOf;
+
     event PaintingMinted(uint256 indexed tokenId, address indexed minter, string title, string secret);
     event Revealed(uint256 indexed tokenId);
     event GiftClaimed(uint256 indexed tokenId, address indexed recipient);
+    event Listed(uint256 indexed tokenId, address indexed seller, uint256 price);
+    event Unlisted(uint256 indexed tokenId);
+    event Sold(uint256 indexed tokenId, address indexed seller, address indexed buyer, uint256 price, uint256 royalty);
 
     constructor(address initialTreasury) ERC721("PaintingsForSecrets", "PFS") Ownable(msg.sender) {
         require(initialTreasury != address(0), "PaintingsForSecrets: zero treasury");
@@ -100,6 +106,58 @@ contract PaintingsForSecrets is ERC721, Ownable, IERC2981 {
         require(!paintings[tokenId].revealed, "PaintingsForSecrets: already revealed");
         paintings[tokenId].revealed = true;
         emit Revealed(tokenId);
+    }
+
+    // -- secondary market ----------------------------------------------------
+
+    /// List a token you own for sale. price > 0, in wei. The seller receives
+    /// (price − EIP-2981 royalty); the royalty flows to the treasury.
+    function listForSale(uint256 tokenId, uint256 price) external {
+        require(price > 0, "PaintingsForSecrets: zero price");
+        address from = _ownerOf(tokenId);
+        require(_isAuthorized(from, msg.sender, tokenId), "PaintingsForSecrets: unauthorized");
+        priceOf[tokenId] = price;
+        emit Listed(tokenId, msg.sender, price);
+    }
+
+    /// Take a listed token off the market.
+    function unlist(uint256 tokenId) external {
+        address from = _ownerOf(tokenId);
+        require(_isAuthorized(from, msg.sender, tokenId), "PaintingsForSecrets: unauthorized");
+        priceOf[tokenId] = 0;
+        emit Unlisted(tokenId);
+    }
+
+    /// Purchase a listed token. Buyer pays exactly `price` (any excess is
+    /// refunded); royalty is split to the treasury, the remainder to the
+    /// seller. The transfer reveals the secret to its new owner.
+    function buy(uint256 tokenId) external payable {
+        uint256 price = priceOf[tokenId];
+        require(price > 0, "PaintingsForSecrets: not for sale");
+        require(msg.value >= price, "PaintingsForSecrets: insufficient payment");
+        address seller = _ownerOf(tokenId);
+        require(seller != address(0), "PaintingsForSecrets: nonexistent token");
+
+        uint256 royalty = (price * royaltyBps) / 10000;
+        address treasury_ = treasury;
+
+        // State first (unlists + reveals via _update), then pay — CEI.
+        _transfer(seller, msg.sender, tokenId);
+
+        if (royalty > 0 && treasury_ != address(0)) {
+            (bool ok, ) = treasury_.call{ value: royalty }("");
+            require(ok, "PaintingsForSecrets: royalty transfer failed");
+        }
+        uint256 toSeller = price - royalty;
+        if (toSeller > 0) {
+            (bool ok2, ) = payable(seller).call{ value: toSeller }("");
+            require(ok2, "PaintingsForSecrets: payment failed");
+        }
+        if (msg.value > price) {
+            (bool ok3, ) = payable(msg.sender).call{ value: msg.value - price }("");
+            require(ok3, "PaintingsForSecrets: refund failed");
+        }
+        emit Sold(tokenId, seller, msg.sender, price, royalty);
     }
 
     // -- views ---------------------------------------------------------------
@@ -171,13 +229,14 @@ contract PaintingsForSecrets is ERC721, Ownable, IERC2981 {
         require(msg.value >= mintFee, "PaintingsForSecrets: mint fee required");
     }
 
-    /// A transfer of an existing token reveals its secret.
+    /// A transfer of an existing token reveals its secret and unlists it.
     function _update(address to, uint256 tokenId, address auth) internal virtual override returns (address) {
         address from = _ownerOf(tokenId);
         if (from != address(0) && !paintings[tokenId].revealed) {
             paintings[tokenId].revealed = true;
             emit Revealed(tokenId);
         }
+        if (priceOf[tokenId] != 0) priceOf[tokenId] = 0;
         return super._update(to, tokenId, auth);
     }
 

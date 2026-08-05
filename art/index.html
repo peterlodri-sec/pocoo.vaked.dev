@@ -176,6 +176,56 @@ canvas {
 .secret-area textarea::placeholder {
   color: rgba(255,105,180,0.2);
 }
+.secret-area .title-input {
+  margin-top: 8px;
+  width: 100%;
+  background: rgba(255,105,180,0.04);
+  border: 1px solid rgba(255,105,180,0.15);
+  color: var(--fg);
+  font-family: inherit;
+  font-size: 11px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  letter-spacing: 1px;
+  box-sizing: border-box;
+}
+.secret-area .title-input:focus {
+  outline: none;
+  border-color: var(--pink);
+}
+.item-actions {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  display: flex;
+  gap: 4px;
+  opacity: 0;
+  transition: opacity .2s;
+}
+.gallery-item:hover .item-actions { opacity: 1; }
+.item-actions button {
+  background: rgba(10,4,16,0.85);
+  border: 1px solid var(--pink);
+  color: var(--pink);
+  font-size: 9px;
+  letter-spacing: 1px;
+  padding: 3px 6px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.item-actions button:hover { background: var(--pink); color: #0a0410; }
+.buy-badge {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  background: rgba(255,105,180,0.15);
+  border: 1px solid var(--pink);
+  color: var(--pink);
+  font-size: 9px;
+  letter-spacing: 1px;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
 
 /* footer */
 footer {
@@ -271,6 +321,7 @@ footer a { color: var(--pink); text-decoration: none; }
 
 <div class="secret-area">
   <textarea id="secret-input" placeholder="whisper a secret here… your painting remembers…" rows="2"></textarea>
+  <input id="title-input" class="title-input" placeholder="name this painting (optional)" maxlength="48">
 </div>
 
 <div class="tools wallet-bar" id="wallet-bar" hidden>
@@ -431,13 +482,25 @@ function renderGallery() {
       <div class="secret">${p.secret}</div>
     </div>
   `).join('');
-  const local = savedPaintings.map(p => `
+  const local = savedPaintings.map(p => {
+    const me = currentWallet();
+    const mine = !!(p.minted && p.minted.owner && me && p.minted.owner === me);
+    const actions = p.minted ? `
+      <div class="item-actions" onclick="event.stopPropagation()">
+        ${mine ? '' : '<button onclick="buyAction(' + p.minted.tokenId + ')">buy</button>'}
+        ${mine ? '<button onclick="listForSaleAction(' + p.minted.tokenId + ')">list</button>' : ''}
+        ${mine ? '<button onclick="unlistAction(' + p.minted.tokenId + ')">unlist</button>' : ''}
+        ${mine ? '<button onclick="revealAction(' + p.minted.tokenId + ')">reveal</button>' : ''}
+      </div>` : '';
+    return `
     <div class="gallery-item" onclick="viewPainting('${p.dataUrl}')">
       <img src="${p.dataUrl}" alt="painting">
       ${p.minted ? `<div class="mint-badge">⛓ #${p.minted.tokenId}</div>` : ''}
+      ${actions}
       <div class="secret">${p.secret.substring(0, 40)}${p.secret.length > 40 ? '…' : ''}</div>
     </div>
-  `).join('');
+  `;
+  }).join('');
   grid.innerHTML = seeded + local;
   if (savedPaintings.length === 0 && seededWorks.length === 0) {
     grid.innerHTML = '<div style="text-align:center;opacity:0.15;padding:40px;font-size:10px;letter-spacing:2px;grid-column:1/-1">the gallery is empty<br>paint something. tell a secret.</div>';
@@ -481,6 +544,11 @@ const DEFAULT_FEE_WEI = 0x38d7ea4c68000; // 0.001 POL
 const SEL_MINT = '0x02341c71';                 // mint(string,string,string,string)
 const SEL_GIFT_MINT = '0x11ff946d';            // giftMint(string,string,string,string,address)
 const SEL_MINT_FEE = '0x13966db5';             // mintFee()
+const SEL_LIST = '0xe80d7fec';                 // listForSale(uint256,uint256)
+const SEL_UNLIST = '0xbf5a4dd3';               // unlist(uint256)
+const SEL_BUY = '0xd96a094a';                  // buy(uint256)
+const SEL_PRICE_OF = '0xb9186d7d';             // priceOf(uint256)
+const SEL_SECRET_OF = '0x6b49696f';            // secretOf(uint256)
 
 function abiToHex(s) {
   return Array.from(new TextEncoder().encode(s)).map(b => b.toString(16).padStart(2, '0')).join('');
@@ -492,6 +560,8 @@ function abiEncode(selector, args) {
   for (const a of args) {
     if (a.t === 'a') {
       headWords.push(a.v.toLowerCase().replace(/^0x/, '').padStart(64, '0'));
+    } else if (a.t === 'u') {
+      headWords.push(BigInt(a.v).toString(16).padStart(64, '0'));
     } else {
       const hex = abiToHex(a.v);
       const words = Math.ceil(hex.length / 64);
@@ -764,7 +834,7 @@ async function mintPainting() {
   if (strokes.length === 0) { setStatus('paint something first'); return; }
   if (!contractDeployed()) { setStatus('contract not deployed yet — set PFS_ADDRESS'); return; }
   const secret = sanitize(document.getElementById('secret-input').value) || 'a secret untold';
-  const title = sanitize(prompt('name this painting', secret.slice(0, 24))) || 'untitled';
+  const title = sanitize(document.getElementById('title-input').value) || secret.slice(0, 24);
   const p = mintPayload(strokes, title, secret);
   const data = abiEncode(SEL_MINT, [{ t: 's', v: p.svgBody }, { t: 's', v: p.strokes }, { t: 's', v: p.title }, { t: 's', v: p.secret }]);
   const value = await mintFeeWei();
@@ -772,7 +842,7 @@ async function mintPainting() {
   if (!tx) return;
   const receipt = await waitReceipt(tx, 120000);
   const tokenId = parseTokenId(receipt);
-  saveToGallery(canvas.toDataURL('image/png'), p.secret, tokenId);
+  saveToGallery(canvas.toDataURL('image/png'), p.secret, tokenId, currentWallet());
   setStatus(tokenId
     ? 'minted — #' + tokenId + ' · ' + tx.slice(0, 10) + '… · ' + TARGET_EXPLORER + '/tx/' + tx
     : 'minted — ' + tx.slice(0, 10) + '… · ' + TARGET_EXPLORER + '/tx/' + tx);
@@ -781,10 +851,10 @@ async function mintPainting() {
 async function giftPainting() {
   if (strokes.length === 0) { setStatus('paint something first'); return; }
   if (!contractDeployed()) { setStatus('contract not deployed yet — set PFS_ADDRESS'); return; }
-  const recipient = sanitize(prompt('recipient address — only they can claim it'));
+  const recipient = prompt('recipient address — only they can claim it');
   if (!recipient || !/^0x[0-9a-fA-F]{40}$/.test(recipient)) { setStatus('invalid recipient address'); return; }
   const secret = sanitize(document.getElementById('secret-input').value) || 'a secret untold';
-  const title = sanitize(prompt('name this painting', secret.slice(0, 24))) || 'untitled';
+  const title = sanitize(document.getElementById('title-input').value) || secret.slice(0, 24);
   const p = mintPayload(strokes, title, secret);
   const data = abiEncode(SEL_GIFT_MINT, [{ t: 's', v: p.svgBody }, { t: 's', v: p.strokes }, { t: 's', v: p.title }, { t: 's', v: p.secret }, { t: 'a', v: recipient }]);
   const value = await mintFeeWei();
@@ -792,13 +862,13 @@ async function giftPainting() {
   if (!tx) return;
   const receipt = await waitReceipt(tx, 120000);
   const tokenId = parseTokenId(receipt);
-  saveToGallery(canvas.toDataURL('image/png'), p.secret, tokenId);
+  saveToGallery(canvas.toDataURL('image/png'), p.secret, tokenId, currentWallet());
   setStatus(tokenId
     ? 'sealed — #' + tokenId + ' for ' + recipient.slice(0, 6) + '… · ' + TARGET_EXPLORER + '/tx/' + tx
     : 'sealed — ' + tx.slice(0, 10) + '… · ' + TARGET_EXPLORER + '/tx/' + tx);
 }
 
-function saveToGallery(dataUrl, secret, tokenId) {
+function saveToGallery(dataUrl, secret, tokenId, owner) {
   const painting = {
     id: Date.now(),
     dataUrl,
@@ -806,11 +876,107 @@ function saveToGallery(dataUrl, secret, tokenId) {
     date: new Date().toISOString(),
     colors: [...new Set(strokes.flatMap(s => s.map(pt => pt.color)))].filter(c => c !== '#0a0410'),
   };
-  if (tokenId) painting.minted = { tokenId };
+  if (tokenId) painting.minted = { tokenId, owner: owner || null };
   savedPaintings.unshift(painting);
   if (savedPaintings.length > 42) savedPaintings = savedPaintings.slice(0, 42);
   localStorage.setItem('art_vaked_gallery', JSON.stringify(savedPaintings));
   renderGallery();
+}
+
+/* ---- secondary market (list · buy · unlist · reveal) ---- */
+
+function currentWallet() {
+  if (window.ethereum && walletAccount) return walletAccount.toLowerCase();
+  if (window.chain && window.chain.isUnlocked()) {
+    const addr = window.chain.sessionAddress();
+    if (addr) return addr.toLowerCase();
+  }
+  return null;
+}
+
+function decodeStringResult(hex) {
+  const h = String(hex || '').replace(/^0x/, '');
+  if (h.length < 128) return '';
+  const offset = parseInt(h.slice(0, 64), 16);
+  const len = parseInt(h.slice(offset * 2, offset * 2 + 64), 16);
+  if (offset * 2 + 64 + len * 2 > h.length) return '';
+  const bytes = [];
+  for (let i = 0; i < len; i++) bytes.push(parseInt(h.slice(offset * 2 + 64 + i * 2, offset * 2 + 66 + i * 2), 16));
+  try { return new TextDecoder().decode(new Uint8Array(bytes)); } catch (e) { return ''; }
+}
+
+async function ethCall(data) {
+  if (window.ethereum) {
+    return await window.ethereum.request({ method: 'eth_call', params: [{ to: PFS_ADDRESS, data }, 'latest'] });
+  }
+  if (window.chain) return await window.chain.call(PFS_ADDRESS, data);
+  return null;
+}
+
+async function priceOfToken(tokenId) {
+  const res = await ethCall(abiEncode(SEL_PRICE_OF, [{ t: 'u', v: tokenId }]));
+  if (!res) return 0n;
+  return BigInt(res);
+}
+
+async function secretOfToken(tokenId) {
+  const res = await ethCall(abiEncode(SEL_SECRET_OF, [{ t: 'u', v: tokenId }]));
+  return res ? decodeStringResult(res) : '';
+}
+
+async function listForSaleAction(tokenId) {
+  if (!contractDeployed()) { setStatus('contract not deployed yet — set PFS_ADDRESS'); return; }
+  const pol = prompt('listing price in POL for painting #' + tokenId);
+  const num = Number(pol);
+  if (!pol || isNaN(num) || num <= 0) { setStatus('listing cancelled — invalid price'); return; }
+  const priceWei = BigInt(Math.round(num * 1e18));
+  const data = abiEncode(SEL_LIST, [{ t: 'u', v: tokenId }, { t: 'u', v: priceWei }]);
+  const tx = await sendMintTx({ data, value: '0x0', verb: 'listing #' + tokenId });
+  if (!tx) return;
+  const receipt = await waitReceipt(tx, 120000);
+  setStatus(receipt && receipt.status === '0x1'
+    ? 'listed #' + tokenId + ' for ' + num + ' POL · ' + TARGET_EXPLORER + '/tx/' + tx
+    : 'listing failed · ' + TARGET_EXPLORER + '/tx/' + tx);
+}
+
+async function unlistAction(tokenId) {
+  if (!contractDeployed()) { setStatus('contract not deployed yet — set PFS_ADDRESS'); return; }
+  const data = abiEncode(SEL_UNLIST, [{ t: 'u', v: tokenId }]);
+  const tx = await sendMintTx({ data, value: '0x0', verb: 'unlisting #' + tokenId });
+  if (!tx) return;
+  const receipt = await waitReceipt(tx, 120000);
+  setStatus(receipt && receipt.status === '0x1'
+    ? 'unlisted #' + tokenId + ' · ' + TARGET_EXPLORER + '/tx/' + tx
+    : 'unlist failed · ' + TARGET_EXPLORER + '/tx/' + tx);
+}
+
+async function revealAction(tokenId) {
+  if (!contractDeployed()) { setStatus('contract not deployed yet — set PFS_ADDRESS'); return; }
+  const data = abiEncode('0xc2ca0ac5', [{ t: 'u', v: tokenId }]); // reveal(uint256)
+  const tx = await sendMintTx({ data, value: '0x0', verb: 'revealing #' + tokenId });
+  if (!tx) return;
+  const receipt = await waitReceipt(tx, 120000);
+  setStatus(receipt && receipt.status === '0x1'
+    ? 'revealed #' + tokenId + ' · ' + TARGET_EXPLORER + '/tx/' + tx
+    : 'reveal failed · ' + TARGET_EXPLORER + '/tx/' + tx);
+}
+
+async function buyAction(tokenId) {
+  if (!contractDeployed()) { setStatus('contract not deployed yet — set PFS_ADDRESS'); return; }
+  const price = await priceOfToken(tokenId);
+  if (!price || price <= 0n) { setStatus('#' + tokenId + ' is not for sale yet'); return; }
+  const pol = Number(price) / 1e18;
+  const royalty = (price * 500n) / 10000n;
+  if (!confirm('buy painting #' + tokenId + ' for ' + pol.toFixed(4) + ' POL?\n5% royalty (' + (Number(royalty) / 1e18).toFixed(6) + ' POL) flows to the treasury.')) return;
+  const data = abiEncode(SEL_BUY, [{ t: 'u', v: tokenId }]);
+  const tx = await sendMintTx({ data, value: '0x' + price.toString(16), verb: 'buying #' + tokenId });
+  if (!tx) return;
+  const receipt = await waitReceipt(tx, 120000);
+  const secret = await secretOfToken(tokenId);
+  setStatus(receipt && receipt.status === '0x1'
+    ? (secret ? 'yours — #' + tokenId + ' · secret revealed: "' + secret + '" · ' + TARGET_EXPLORER + '/tx/' + tx
+              : 'yours — #' + tokenId + ' · ' + TARGET_EXPLORER + '/tx/' + tx)
+    : 'purchase failed · ' + TARGET_EXPLORER + '/tx/' + tx);
 }
 
 if (window.ethereum) {
