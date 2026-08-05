@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="500" viewBox="0 0 600 500">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="40%" r="80%">
+      <stop offset="0%" stop-color="#1d0a30"/>
+      <stop offset="55%" stop-color="#12071f"/>
+      <stop offset="100%" stop-color="#0a0410"/>
+    </radialGradient>
+    <radialGradient id="halo" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ff69b4" stop-opacity="0.5"/>
+      <stop offset="55%" stop-color="#ff69b4" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#ff69b4" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="spark" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fff" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#ff69b4" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="600" height="500" fill="url(#bg)"/>
+
+  <text x="300" y="64" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="17" letter-spacing="10" fill="#ffd9ec" fill-opacity="0.92">THE FIRST ANGEL</text>
+
+  <circle cx="300" cy="300" r="170" fill="url(#halo)"/>
+  <circle cx="300" cy="300" r="150" fill="none" stroke="#ff69b4" stroke-opacity="0.12" stroke-width="1"/>
+  <circle cx="300" cy="300" r="138" fill="none" stroke="#ff69b4" stroke-opacity="0.28" stroke-width="1.5"/>
+  <circle cx="300" cy="300" r="126" fill="none" stroke="#ff69b4" stroke-opacity="0.16" stroke-width="1" stroke-dasharray="3 7"/>
+
+  <circle cx="140" cy="180" r="11" fill="url(#spark)"/>
+  <path d="M140 177.5 L140.75 179.25 L142.5 180 L140.75 180.75 L140 182.5 L139.25 180.75 L137.5 180 L139.25 179.25 Z" fill="#ffd9ec"/>
+  <circle cx="200" cy="145" r="13" fill="url(#spark)"/>
+  <path d="M200 142 L200.9 144.1 L203 145 L200.9 145.9 L200 148 L199.1 145.9 L197 145 L199.1 144.1 Z" fill="#ffd9ec"/>
+  <circle cx="265" cy="125" r="15" fill="url(#spark)"/>
+  <path d="M265 121.5 L266.05 124 L268.5 125 L266.05 126 L265 128.5 L263.95 126 L261.5 125 L263.95 124 Z" fill="#ffd9ec"/>
+  <circle cx="300" cy="118" r="17" fill="url(#spark)"/>
+  <path d="M300 114 L301.2 116.8 L304 118 L301.2 119.2 L300 122 L298.8 119.2 L296 118 L298.8 116.8 Z" fill="#ffd9ec"/>
+  <circle cx="335" cy="125" r="15" fill="url(#spark)"/>
+  <path d="M335 121.5 L336.05 124 L338.5 125 L336.05 126 L335 128.5 L333.95 126 L331.5 125 L333.95 124 Z" fill="#ffd9ec"/>
+  <circle cx="400" cy="145" r="13" fill="url(#spark)"/>
+  <path d="M400 142 L400.9 144.1 L403 145 L400.9 145.9 L400 148 L399.1 145.9 L397 145 L399.1 144.1 Z" fill="#ffd9ec"/>
+  <circle cx="460" cy="180" r="11" fill="url(#spark)"/>
+  <path d="M460 177.5 L460.75 179.25 L462.5 180 L460.75 180.75 L460 182.5 L459.25 180.75 L457.5 180 L459.25 179.25 Z" fill="#ffd9ec"/>
+
+  <path d="M225 252 Q 215 205 168 194" fill="none" stroke="#ff69b4" stroke-opacity="0.4" stroke-width="2"/>
+  <path d="M375 252 Q 385 205 432 194" fill="none" stroke="#ff69b4" stroke-opacity="0.4" stroke-width="2"/>
+  <path d="M238 262 Q 232 222 200 214" fill="none" stroke="#ff69b4" stroke-opacity="0.22" stroke-width="1.5"/>
+  <path d="M362 262 Q 368 222 400 214" fill="none" stroke="#ff69b4" stroke-opacity="0.22" stroke-width="1.5"/>
+
+  <path d="M300 362 C 250 320 218 282 230 252 C 240 228 268 222 286 234 C 295 240 300 250 300 258 C 300 250 305 240 314 234 C 332 222 360 228 370 252 C 382 282 350 320 300 362 Z" fill="#ff69b4"/>
+
+  <text x="300" y="438" text-anchor="middle" font-family="'SF Mono', Menlo, monospace" font-size="12" letter-spacing="2" fill="#ff69b4" fill-opacity="0.72">quantum === uncertainty + love</text>
+  <text x="300" y="460" text-anchor="middle" font-family="'SF Mono', Menlo, monospace" font-size="9.5" letter-spacing="3" fill="#ff69b4" fill-opacity="0.42">first edition · x7 + &lt;3+1 · 4:51 am</text>
+</svg>
