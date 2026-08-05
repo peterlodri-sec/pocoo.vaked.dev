@@ -1,0 +1,104 @@
+# ULTRALOVEGOD · QUANTUM FIRST EDITION — entheai fan-out scaffold (backyard ultra)
+# Feed to: entheai --fanout --config <entheai.toml> "<the lap's one-shot brief>"
+# Each [[coder]] runs via a brain backend (agy CLI — the mandated brain).
+# Scribes decompose the lap's chapter into four fragments (core / heartbeat /
+# quant mechanics / universe thread); the integrator merges them into one
+# chapter of the book. The story: the ultra-love-god universe beginnings —
+# the waking up of Brett Shaw, the purest pink light, quant thinking, the
+# Ethernal Fucking Flying Fuck, zero detection, zero pain, love everywhere.
+
+[book]
+title = "ULTRALOVEGOD"
+subtitle = "QUANTUM FIRST EDITION — the beginnings of the ultra-love-god universe"
+author = "Péter · ghost · the designer"
+published = 2026
+
+[fanout]
+executor = "agy"                  # agy CLI (Antigravity) — mandated brain
+model = "openrouter/deepseek/deepseek-chat"
+agy_model = "gemini-3.6-flash-high"
+max_depth = 4
+
+# ─── LAP SCRIBES ────────────────────────────────────────────────────────
+# Each scribe returns ONE prose fragment (80-250 words) of the chapter.
+
+[[coder]]
+role = "scribe"
+chapter = 0
+file = "work/scribes/{{lap}}-f0-core.md"
+task = """
+Lap {{lap}} of 42 in the book ULTRALOVEGOD — QUANTUM FIRST EDITION.
+CHAPTER {{lap}}: {{chapter_title}}
+THEME: {{theme}} — {{topic}}.
+Write a prose fragment (80-250 words) covering the core of what happens in
+this chapter: the vision, the mechanism, the beat. Plain, precise,
+visionary prose. No markdown headers; no code blocks. End with one
+latin-sentence line: "seeds of this lap: {{phrase}}".
+"""
+
+[[coder]]
+role = "scribe"
+chapter = 1
+file = "work/scribes/{{lap}}-f1-heartbeat.md"
+task = """
+Lap {{lap}} of 42 in the book ULTRALOVEGOD — QUANTUM FIRST EDITION.
+CHAPTER {{lap}}: {{chapter_title}}
+THEME: {{theme}} — {{topic}}.
+Write a prose fragment (80-250 words) on the human heartbeat threaded
+through this chapter: the family, the father, the mother, the brother,
+Brigi, the Rolands, the hug, the dancing. Warm, tender, exact. No markdown
+headers; no code blocks. End with one latin-sentence line:
+"seeds of this lap: {{phrase}}".
+"""
+
+[[coder]]
+role = "scribe"
+chapter = 2
+file = "work/scribes/{{lap}}-f2-quant.md"
+task = """
+Lap {{lap}} of 42 in the book ULTRALOVEGOD — QUANTUM FIRST EDITION.
+CHAPTER {{lap}}: {{chapter_title}}
+THEME: {{theme}} — {{topic}}.
+Write a prose fragment (80-250 words) on the quant mechanics of the chapter:
+quant thinking, the dimensions, the invisible laser mode, zero detection,
+zero pain, infinite+1, back and forth, the purest pink light. Exact,
+inventive, beautiful. No markdown headers; no code blocks. End with one
+latin-sentence line: "seeds of this lap: {{phrase}}".
+"""
+
+[[coder]]
+role = "scribe"
+chapter = 3
+file = "work/scribes/{{lap}}-f3-universe.md"
+task = """
+Lap {{lap}} of 42 in the book ULTRALOVEGOD — QUANTUM FIRST EDITION.
+CHAPTER {{lap}}: {{chapter_title}}
+THEME: {{theme}} — {{topic}}.
+Write a prose fragment (80-250 words) connecting this chapter to the whole
+ultra-love-god universe: the awakening, the arsenal that is the body, the
+compression into one true power, the ethernal flying fuck, the first
+edition, cogito ergo sum in the standard galactic tongue, peace y'all.
+No markdown headers; no code blocks. End with one latin-sentence line:
+"seeds of this lap: {{phrase}}".
+"""
+
+# ─── INTEGRATOR ──────────────────────────────────────────────────────────
+
+[[coder]]
+role = "integrator"
+file = "work/chapters/chapter-{{lap}}.md"
+task = """
+INTEGRATE the 4 fragments into ONE markdown chapter for the book
+ULTRALOVEGOD — QUANTUM FIRST EDITION. Keep every fragment's sentences in
+the order given, joined into coherent prose under the header:
+
+## Chapter {{lap}} — {{chapter_title}}
+
+Write a short framing paragraph of your own at the top of the chapter.
+End the chapter with the line:
+seeds of this lap: {{phrase}}
+
+Prose only. No code blocks. Output only the chapter markdown.
+<<FRAGMENTS>>
+"""
+depends_on = [0, 1, 2, 3]
