@@ -1,0 +1,110 @@
+# A HISTORY OF MACHINE LEARNING — entheai fan-out scaffold (backyard ultra)
+# Feed to: entheai --fanout --config <entheai.toml> "<the lap's one-shot brief>"
+# Each [[coder]] runs via a brain backend (agy CLI — the mandated brain).
+# Scribes decompose the lap's chapter into four fragments (core / people /
+# bottleneck / prologue-thread); the integrator merges them into one chapter.
+#
+# Template slots substituted per lap: {{lap}}, {{chapter_title}}, {{topic}},
+# {{theme}}, {{phrase}}. The loop's fix phase deterministically re-encodes
+# the lap phrase into Standard Galactic via sga.py — self-refactoring
+# crosslinking, the house signature of the backyard ultra family.
+
+[book]
+title = "A HISTORY OF MACHINE LEARNING"
+subtitle = "the argument before the field — from exhaustive truth tables to the transformer"
+author = "Péter"
+published = 2026
+
+[fanout]
+executor = "agy"                  # agy CLI (Antigravity) — mandated brain
+model = "openrouter/deepseek/deepseek-chat"
+agy_model = "gemini-3.6-flash-high"
+max_depth = 3
+
+# ─── LAP SCRIBES ────────────────────────────────────────────────────────
+# Each scribe returns ONE prose fragment (80-250 words) of the chapter.
+
+[[coder]]
+role = "scribe"
+chapter = 0
+file = "work/scribes/{{lap}}-f0-core.md"
+task = """
+Lap {{lap}} of 42 in the nonfiction book A HISTORY OF MACHINE LEARNING.
+CHAPTER {{lap}}: {{chapter_title}}
+THEME: {{theme}} — the bottleneck of {{topic}}.
+Write a prose fragment (80-250 words) covering the technical core: what the
+method or idea actually is, its mechanism, and its key historical dates and
+people. Plain, precise, essayistic nonfiction. No markdown headers; no code
+blocks; no footnotes. End with one latin-sentence line:
+"seeds of this lap: {{phrase}}".
+"""
+
+[[coder]]
+role = "scribe"
+chapter = 1
+file = "work/scribes/{{lap}}-f1-people.md"
+task = """
+Lap {{lap}} of 42 in the nonfiction book A HISTORY OF MACHINE LEARNING.
+CHAPTER {{lap}}: {{chapter_title}}
+THEME: {{theme}} — {{topic}}.
+Write a prose fragment (80-250 words) on the human story: the researchers,
+the labs, the decade, the atmosphere in which this development happened.
+Plain, precise, essayistic nonfiction. No markdown headers; no code blocks.
+End with one latin-sentence line: "seeds of this lap: {{phrase}}".
+"""
+
+[[coder]]
+role = "scribe"
+chapter = 2
+file = "work/scribes/{{lap}}-f2-bottleneck.md"
+task = """
+Lap {{lap}} of 42 in the nonfiction book A HISTORY OF MACHINE LEARNING.
+CHAPTER {{lap}}: {{chapter_title}}
+THEME: {{theme}} — {{topic}}.
+Write a prose fragment (80-250 words) on the bottleneck: what the field
+could not represent, learn, remember, compute, or verify before this idea;
+what this idea unlocked; and what new bottleneck its solution exposed.
+This is the book's throughline — make the bottleneck explicit. Plain,
+precise, essayistic nonfiction. No markdown headers; no code blocks. End
+with one latin-sentence line: "seeds of this lap: {{phrase}}".
+"""
+
+[[coder]]
+role = "scribe"
+chapter = 3
+file = "work/scribes/{{lap}}-f3-thread.md"
+task = """
+Lap {{lap}} of 42 in the nonfiction book A HISTORY OF MACHINE LEARNING.
+CHAPTER {{lap}}: {{chapter_title}}
+THEME: {{theme}} — {{topic}}.
+Write a prose fragment (80-250 words) connecting this chapter to the book's
+prologue: the 1766 argument between Kant and Swedenborg about generative
+capacity versus grounding and verification. Show which side of that argument
+this development belongs to — sometimes symbolic rules against statistical
+learning, sometimes raw generative capacity against alignment. You may
+reference verification loops, grounding, and hallucination as unconstrained
+sampling. Plain, precise, essayistic nonfiction. No markdown headers; no
+code blocks. End with one latin-sentence line: "seeds of this lap: {{phrase}}".
+"""
+
+# ─── INTEGRATOR ──────────────────────────────────────────────────────────
+
+[[coder]]
+role = "integrator"
+file = "work/chapters/chapter-{{lap}}.md"
+task = """
+INTEGRATE the 4 fragments into ONE markdown chapter for the nonfiction book
+A HISTORY OF MACHINE LEARNING. Keep every fragment's sentences in the order
+given, joined into coherent prose under the header:
+
+## Chapter {{lap}} — {{chapter_title}}
+
+Write a short framing paragraph of your own at the top of the chapter.
+End the chapter with the line:
+seeds of this lap: {{phrase}}
+
+Prose only. No code blocks. No film or occult vocabulary. Output only the
+chapter markdown.
+<<FRAGMENTS>>
+"""
+depends_on = [0, 1, 2, 3]
