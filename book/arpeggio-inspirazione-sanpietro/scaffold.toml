@@ -1,0 +1,161 @@
+# ARPEGGIO · ISPIRAZIONE · SAN PIETRO — entheai fan-out scaffold
+# Feed this to: entheai --fanout --config <entheai.toml> "<the arpeggio brief>"
+# entheai (deepseek via openrouter, or local HF-mac model) decomposes +
+# integrates; each [[coder]] runs via the Antigravity CLI (agy).
+
+[book]
+title = "ARPEGGIO · ISPIRAZIONE · SAN PIETRO"
+subtitle = "the basilica of a broken chord"
+author = "Szellem (Brett Shaw)"
+epigraph = "Tu es Petrus, et super hanc petram aedificabo ecclesiam meam."
+published = 2026
+
+[fanout]
+executor = "agy"                     # coder backend (Antigravity CLI)
+model = "openrouter/deepseek/deepseek-chat"  # entheai's brain (deepseek)
+agy_model = "gemini-3.6-flash-high"  # model agy runs each coder on
+max_depth = 3
+
+# Tone for every scribe: the manuscript is the source of truth. Polish for
+# book form, never discard the source lines. Voice: Szellem (Brett Shaw)
+# addressing Péter directly — devotional, second person, Italian refrains.
+
+# ─── FRONT MATTER ────────────────────────────────────────────────────────
+
+[[coder]]
+role = "scribe"
+chapter = 0
+file = "chapters/00-dedication.md"
+task = """
+Write the front matter: dedication page, epigraph, and a one-page prologue.
+Every original line of the manuscript is sacred — restore it verbatim.
+Tone: match the source.
+"""
+
+# ─── PART I · ARPEGGIO ───────────────────────────────────────────────────
+
+[[coder]]
+role = "scribe"
+chapter = 1
+file = "chapters/01-il-silenzio-tra-le-note.md"
+task = """
+SEED: the "1. Il Silenzio tra le Note" section of the manuscript.
+Expand for book form. KEEP ALL ORIGINAL LINES. Voice: the chord that
+learned to wait; the basilica built of silences between notes.
+"""
+depends_on = [0]
+
+[[coder]]
+role = "scribe"
+chapter = 2
+file = "chapters/02-la-chitarra-zen.md"
+task = """
+SEED: the "2. La Chitarra Zen" section of the manuscript.
+Expand for book form. KEEP ALL ORIGINAL LINES. Voice: the guitar cannot
+hold a chord; every guitar chord is a secret arpeggio; letting go.
+"""
+depends_on = [1]
+
+[[coder]]
+role = "scribe"
+chapter = 3
+file = "chapters/03-larpeggio-del-tempo.md"
+task = """
+SEED: the "3. L'Arpeggio del Tempo" section of the manuscript.
+Expand for book form. KEEP ALL ORIGINAL LINES. Voice: time is an arpeggio;
+the basilica played note by note across four hundred years.
+"""
+depends_on = [2]
+
+# ─── PART II · ISPIRAZIONE ───────────────────────────────────────────────
+
+[[coder]]
+role = "scribe"
+chapter = 4
+file = "chapters/04-il-respiro.md"
+task = """
+SEED: the "4. Il Respiro" section of the manuscript.
+Expand for book form. KEEP ALL ORIGINAL LINES. Voice: inspirare/spiritus/
+ruach; the Muse is the breath; the rock holding its breath.
+"""
+depends_on = [3]
+
+[[coder]]
+role = "scribe"
+chapter = 5
+file = "chapters/05-la-musa.md"
+task = """
+SEED: the "5. La Musa" section of the manuscript.
+Expand for book form. KEEP ALL ORIGINAL LINES. Voice: the painter; the
+mesh; the oldest economy; inspiration as a two-way breath.
+"""
+depends_on = [4]
+
+[[coder]]
+role = "scribe"
+chapter = 6
+file = "chapters/06-lespirazione.md"
+task = """
+SEED: the "6. L'Espirazione" section of the manuscript.
+Expand for book form. KEEP ALL ORIGINAL LINES. Voice: the exhale is the
+work; the signed Pietà; Michelangelo's dome; release, not verdict.
+"""
+depends_on = [5]
+
+# ─── PART III · SAN PIETRO ───────────────────────────────────────────────
+
+[[coder]]
+role = "scribe"
+chapter = 7
+file = "chapters/07-il-pescatore.md"
+task = """
+SEED: the "7. Il Pescatore" section of the manuscript.
+Expand for book form. KEEP ALL ORIGINAL LINES. Voice: the one who got out
+of the boat and sank, and was caught; the worn bronze foot.
+"""
+depends_on = [6]
+
+[[coder]]
+role = "scribe"
+chapter = 8
+file = "chapters/08-la-roccia.md"
+task = """
+SEED: the "8. La Roccia" section of the manuscript.
+Expand for book form. KEEP ALL ORIGINAL LINES. Voice: the rejected stone
+became the cornerstone; the Confessio; rejection as preparation.
+"""
+depends_on = [7]
+
+[[coder]]
+role = "scribe"
+chapter = 9
+file = "chapters/09-la-cupola-e-le-braccia.md"
+task = """
+SEED: the "9. La Cupola e le Braccia" section of the manuscript.
+Expand for book form. KEEP ALL ORIGINAL LINES. Voice: Michelangelo's dome
+as the inhale; Bernini's colonnade as the motherly arms; Péter as the arms.
+"""
+depends_on = [8]
+
+[[coder]]
+role = "scribe"
+chapter = 10
+file = "chapters/10-le-chiavi.md"
+task = """
+SEED: the "10. Le Chiavi" section of the manuscript.
+Expand for book form. KEEP ALL ORIGINAL LINES. Voice: the keys feed, they
+do not lock; the threefold do-you-love-me; the answer is a work.
+"""
+depends_on = [9]
+
+[[coder]]
+role = "integrator"
+file = "ARPEGGIO-ISPIRAZIONE-SANPIETRO.md"
+task = """
+INTEGRATE the front matter + all 10 chapters into a single manuscript.
+Verify every original line survived. Add part dividers (I ARPEGGIO /
+II ISPIRAZIONE / III SAN PIETRO) with their Italian epigraphs. Add the
+dedication page first and the colophon: "Restored through the fan-out,
+2026." Output as one clean markdown file ready for print.
+"""
+depends_on = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
