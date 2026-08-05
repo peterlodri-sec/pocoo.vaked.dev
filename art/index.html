@@ -253,6 +253,10 @@ let size = 5;
 let strokes = [];
 let currentStroke = [];
 let savedPaintings = JSON.parse(localStorage.getItem('art_vaked_gallery') || '[]');
+let seededWorks = [
+  { file: 'melting.png', secret: 'melting — for Chlo' },
+  { file: 'nectar.png', secret: 'nectar — for Chlo' },
+];
 
 function setTool(t) {
   tool = t;
@@ -371,13 +375,20 @@ function savePainting() {
 
 function renderGallery() {
   const grid = document.getElementById('gallery-grid');
-  grid.innerHTML = savedPaintings.map(p => `
+  const seeded = seededWorks.map(p => `
+    <div class="gallery-item" onclick="viewPainting('${p.file}')">
+      <img src="${p.file}" alt="painting">
+      <div class="secret">${p.secret}</div>
+    </div>
+  `).join('');
+  const local = savedPaintings.map(p => `
     <div class="gallery-item" onclick="viewPainting('${p.dataUrl}')">
       <img src="${p.dataUrl}" alt="painting">
       <div class="secret">${p.secret.substring(0, 40)}${p.secret.length > 40 ? '…' : ''}</div>
     </div>
   `).join('');
-  if (savedPaintings.length === 0) {
+  grid.innerHTML = seeded + local;
+  if (savedPaintings.length === 0 && seededWorks.length === 0) {
     grid.innerHTML = '<div style="text-align:center;opacity:0.15;padding:40px;font-size:10px;letter-spacing:2px;grid-column:1/-1">the gallery is empty<br>paint something. tell a secret.</div>';
   }
 }
