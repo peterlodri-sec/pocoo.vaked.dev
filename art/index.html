@@ -204,6 +204,41 @@ footer a { color: var(--pink); text-decoration: none; }
   border-radius: 8px;
   border: 1px solid rgba(255,105,180,0.2);
 }
+
+/* on-chain layer */
+.status-line {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 12px 12px;
+  flex-wrap: wrap;
+}
+.chip {
+  font-size: 9px;
+  letter-spacing: 1px;
+  color: var(--pink);
+  border: 1px solid rgba(255,105,180,0.15);
+  border-radius: 999px;
+  padding: 3px 10px;
+  background: rgba(255,105,180,0.05);
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.chip-dim { opacity: 0.5; }
+.mint-badge {
+  position: absolute;
+  top: 4px; right: 4px;
+  background: rgba(10,4,16,0.85);
+  border: 1px solid rgba(255,105,180,0.4);
+  color: var(--pink);
+  font-size: 8px;
+  letter-spacing: 1px;
+  border-radius: 4px;
+  padding: 2px 5px;
+  pointer-events: none;
+}
 </style>
 </head>
 <body>
@@ -211,6 +246,10 @@ footer a { color: var(--pink); text-decoration: none; }
 <header>
   <h1>🎀 art.vaked.dev</h1>
   <div class="sub">tell me a secret · i make you a painting</div>
+  <div class="status-line">
+    <span id="wallet-status" class="chip chip-dim">wallet: —</span>
+    <span id="status" class="chip chip-dim">⛓ on-chain: PaintingsForSecrets</span>
+  </div>
 </header>
 
 <div class="canvas-wrap">
@@ -225,11 +264,20 @@ footer a { color: var(--pink); text-decoration: none; }
   <input type="range" id="size-slider" min="1" max="40" value="5" oninput="setSize(this.value)">
   <button onclick="clearCanvas()">✕ clear</button>
   <button onclick="savePainting()">💾 save</button>
+  <button onclick="mintPainting()">⛓ mint</button>
+  <button onclick="giftPainting()">✉️ gift</button>
   <button onclick="undoStroke()">↩ undo</button>
 </div>
 
 <div class="secret-area">
   <textarea id="secret-input" placeholder="whisper a secret here… your painting remembers…" rows="2"></textarea>
+</div>
+
+<div class="tools wallet-bar" id="wallet-bar" hidden>
+  <button id="wallet-create-btn" onclick="createVaultFlow()">⚿ create wallet</button>
+  <button id="wallet-unlock-btn" onclick="unlockVaultFlow()">⚿ unlock</button>
+  <button id="wallet-lock-btn" onclick="lockVaultFlow()">⚿ lock</button>
+  <button id="wallet-export-btn" onclick="exportKeyFlow()">⇱ export key</button>
 </div>
 
 <div class="gallery" id="gallery-section">
@@ -238,11 +286,12 @@ footer a { color: var(--pink); text-decoration: none; }
 </div>
 
 <footer>
-  <p>art.vaked.dev · the oldest economy · art for truth</p>
+  <p>art.vaked.dev · the oldest economy · art for truth — now on-chain</p>
   <p><a href="https://pocoo.vaked.dev">pocoo.vaked.dev</a> · <a href="https://music.vaked.dev">music.vaked.dev</a> · <a href="https://babylon.vaked.dev">babylon.vaked.dev</a></p>
   <p style="margin-top:8px;color:var(--pink)">PEACE )( LOVE () UNITY &lt;3</p>
 </footer>
 
+<script type="module" src="./chain.js"></script>
 <script>
 const canvas = document.getElementById('c');
 const ctx = canvas.getContext('2d');
@@ -384,6 +433,7 @@ function renderGallery() {
   const local = savedPaintings.map(p => `
     <div class="gallery-item" onclick="viewPainting('${p.dataUrl}')">
       <img src="${p.dataUrl}" alt="painting">
+      ${p.minted ? `<div class="mint-badge">⛓ #${p.minted.tokenId}</div>` : ''}
       <div class="secret">${p.secret.substring(0, 40)}${p.secret.length > 40 ? '…' : ''}</div>
     </div>
   `).join('');
@@ -413,6 +463,366 @@ document.addEventListener('keydown', e => {
   if (e.key === 's' && (e.metaKey || e.ctrlKey)) { e.preventDefault(); savePainting(); }
   if (e.key === 'z' && (e.metaKey || e.ctrlKey)) { e.preventDefault(); undoStroke(); }
 });
+
+/* ============ NFT LAYER · PaintingsForSecrets ============ */
+// Self-contained: no CDN, no external scripts. Wallet flows through
+// window.ethereum (MetaMask) when present, else the in-page key vault from
+// ./chain.js (PBKDF2 → AES-GCM, signed + sent via fallback Polygon RPCs).
+
+const PFS_ADDRESS = '0x0000000000000000000000000000000000000000'; // TODO: deployed contract
+const TARGET_CHAIN_ID = '0x89';      // Polygon mainnet (Amoy testnet: 0x13882)
+const TARGET_CHAIN_NAME = 'Polygon';
+const TARGET_RPC = 'https://polygon-rpc.com';
+const TARGET_EXPLORER = 'https://polygonscan.com';
+const DEFAULT_FEE_WEI = 0x38d7ea4c68000; // 0.001 POL
+
+// 4-byte selectors, precomputed with keccak256(signature)
+const SEL_MINT = '0x02341c71';                 // mint(string,string,string,string)
+const SEL_GIFT_MINT = '0x11ff946d';            // giftMint(string,string,string,string,address)
+const SEL_MINT_FEE = '0x13966db5';             // mintFee()
+
+function abiToHex(s) {
+  return Array.from(new TextEncoder().encode(s)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+function abiEncode(selector, args) {
+  const headWords = [];
+  const tails = [];
+  for (const a of args) {
+    if (a.t === 'a') {
+      headWords.push(a.v.toLowerCase().replace(/^0x/, '').padStart(64, '0'));
+    } else {
+      const hex = abiToHex(a.v);
+      const words = Math.ceil(hex.length / 64);
+      const padded = hex.padEnd(words * 64, '0');
+      tails.push({ len: hex.length / 2, padded });
+      headWords.push(null);
+    }
+  }
+  let head = '';
+  let tail = '';
+  let cursor = headWords.length * 32;
+  let ti = 0;
+  for (let i = 0; i < args.length; i++) {
+    if (args[i].t === 's') {
+      const t = tails[ti++];
+      head += cursor.toString(16).padStart(64, '0');
+      tail += t.len.toString(16).padStart(64, '0') + t.padded;
+      cursor += 32 + t.padded.length / 2;
+    } else {
+      head += headWords[i];
+    }
+  }
+  return selector + head + tail;
+}
+
+// deterministic port of redraw() — spray uses a seeded PRNG so every render matches
+function fmt(n) { return Number(n.toFixed(2)); }
+function hashSeed(a, b, c) { return ((a * 73856093) ^ (b * 19349663) ^ (c * 83492791)) >>> 0; }
+function mulberry32(seed) {
+  let a = seed >>> 0;
+  return function () {
+    a |= 0;
+    a = (a + 0x6d2b79f5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+function sprayDots(x, y, size, color, strokeIndex) {
+  const rnd = mulberry32(hashSeed(Math.round(x * 1000), Math.round(y * 1000), strokeIndex + 1));
+  const n = Math.max(1, Math.floor(size * 3));
+  let out = '';
+  for (let i = 0; i < n; i++) {
+    const sx = x + (rnd() - 0.5) * size * 4;
+    const sy = y + (rnd() - 0.5) * size * 4;
+    const rr = rnd() * 2;
+    const alpha = 0.3 + rnd() * 0.4;
+    out += '<circle cx="' + fmt(sx) + '" cy="' + fmt(sy) + '" r="' + fmt(rr) +
+      '" fill="' + color + '" fill-opacity="' + alpha.toFixed(2) + '"/>';
+  }
+  return out;
+}
+function strokeToSVGBody(strokes) {
+  const bg = '#0a0410';
+  let parts = [];
+  strokes.forEach(function (stroke, si) {
+    if (!stroke || stroke.length === 0) return;
+    const p0 = stroke[0];
+    const tool = p0.tool || 'brush';
+    const color = tool === 'eraser' ? bg : (p0.color || '#ff69b4');
+    if (tool === 'spray') {
+      for (let i = 0; i < stroke.length; i++) {
+        const pt = stroke[i];
+        parts.push(sprayDots(pt.x, pt.y, pt.size || p0.size, pt.tool === 'eraser' ? bg : (pt.color || color), si));
+      }
+      return;
+    }
+    if (stroke.length === 1) {
+      const r = Math.max(0.5, p0.size / 2);
+      parts.push('<circle cx="' + fmt(p0.x) + '" cy="' + fmt(p0.y) + '" r="' + fmt(r) + '" fill="' + color + '"/>');
+      return;
+    }
+    let d = 'M ' + fmt(p0.x) + ' ' + fmt(p0.y);
+    for (let i = 1; i < stroke.length; i++) d += ' L ' + fmt(stroke[i].x) + ' ' + fmt(stroke[i].y);
+    parts.push('<path d="' + d + '" fill="none" stroke="' + color + '" stroke-width="' + fmt(p0.size) +
+      '" stroke-linecap="round" stroke-linejoin="round"/>');
+  });
+  return parts.join('');
+}
+function mintPayload(strokes, title, secret) {
+  return {
+    svgBody: strokeToSVGBody(strokes),
+    strokes: JSON.stringify(strokes),
+    title: title || 'Untitled',
+    secret: secret || 'a secret untold'
+  };
+}
+
+let walletAccount = null;
+
+function shortAddr(a) { return a ? a.slice(0, 6) + '…' + a.slice(-4) : '—'; }
+function setStatus(msg) { const el = document.getElementById('status'); if (el) el.textContent = msg; }
+function setWalletChip(text, dim) { const el = document.getElementById('wallet-status'); if (el) { el.textContent = text; el.classList.toggle('chip-dim', !!dim); } }
+
+function vaultMode() { return !!window.chain && !window.ethereum; }
+
+function refreshVaultChip() {
+  if (!window.chain) return;
+  const addr = window.chain.isUnlocked() ? window.chain.sessionAddress() : null;
+  setWalletChip(addr ? shortAddr(addr) + ' · in-page' : (window.chain.hasVault() ? 'wallet: locked' : 'wallet: —'), !addr);
+}
+
+function initVaultUI() {
+  const bar = document.getElementById('wallet-bar');
+  const createBtn = document.getElementById('wallet-create-btn');
+  const unlockBtn = document.getElementById('wallet-unlock-btn');
+  const lockBtn = document.getElementById('wallet-lock-btn');
+  const exportBtn = document.getElementById('wallet-export-btn');
+  if (!window.chain || !bar) { if (window.ethereum) setWalletChip(walletAccount ? shortAddr(walletAccount) + ' · ' + TARGET_CHAIN_NAME : 'wallet: MetaMask', !walletAccount); return; }
+  const mode = vaultMode();
+  bar.hidden = !mode;
+  if (!mode) { if (window.ethereum) setWalletChip(walletAccount ? shortAddr(walletAccount) + ' · ' + TARGET_CHAIN_NAME : 'wallet: MetaMask', !walletAccount); return; }
+  const has = window.chain.hasVault();
+  const unlocked = window.chain.isUnlocked();
+  createBtn.hidden = has;
+  unlockBtn.hidden = !has || unlocked;
+  lockBtn.hidden = !has || !unlocked;
+  exportBtn.hidden = !unlocked;
+  refreshVaultChip();
+}
+
+async function createVaultFlow() {
+  const pw = prompt('create wallet passphrase — it encrypts your key in this browser (keep it secret, keep it safe)');
+  if (!pw) return;
+  const pw2 = prompt('repeat the passphrase');
+  if (pw !== pw2) { setStatus('passphrases do not match'); return; }
+  try {
+    const res = await window.chain.createVault(pw);
+    setStatus('wallet created — ' + res.address);
+  } catch (e) {
+    setStatus('wallet create failed: ' + (e && e.message ? e.message : e));
+  }
+  initVaultUI();
+}
+
+async function unlockVaultFlow() {
+  const pw = prompt('enter your passphrase to unlock the wallet');
+  if (!pw) return;
+  const res = await window.chain.unlock(pw);
+  setStatus(res && res.ok ? 'wallet unlocked — ' + res.address : 'unlock failed: ' + ((res && res.reason) || 'wrong passphrase'));
+  initVaultUI();
+}
+
+function lockVaultFlow() {
+  window.chain.lock();
+  setStatus('wallet locked');
+  initVaultUI();
+}
+
+async function exportKeyFlow() {
+  const pw = prompt('re-enter passphrase to reveal the private key (for manual import into MetaMask)');
+  if (!pw) return;
+  const res = await window.chain.unlock(pw);
+  if (!res || !res.ok) { setStatus('export cancelled — wrong passphrase'); return; }
+  const key = window.chain.sessionKeyHex();
+  try {
+    await navigator.clipboard.writeText(key);
+    setStatus('private key copied — MetaMask: add account → import → paste');
+  } catch (e) {
+    prompt('copy this private key (never share it)', key);
+  }
+}
+
+async function connectWallet() {
+  if (!window.ethereum) { setStatus('no wallet found — install MetaMask or Coinbase Wallet'); return null; }
+  try {
+    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    walletAccount = accounts[0] || null;
+    setWalletChip(walletAccount ? shortAddr(walletAccount) + ' · ' + TARGET_CHAIN_NAME : 'wallet: —');
+    return walletAccount;
+  } catch (e) {
+    setStatus('wallet connect: ' + (e && e.message ? e.message : e));
+    return null;
+  }
+}
+
+async function ensureChain() {
+  if (!window.ethereum) return false;
+  try {
+    const id = await window.ethereum.request({ method: 'eth_chainId' });
+    if (id === TARGET_CHAIN_ID) return true;
+  } catch (e) { /* fall through to switch */ }
+  try {
+    await window.ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: TARGET_CHAIN_ID }] });
+    return true;
+  } catch (e) {
+    if (e && e.code === 4902) {
+      await window.ethereum.request({
+        method: 'wallet_addEthereumChain',
+        params: [{
+          chainId: TARGET_CHAIN_ID,
+          chainName: TARGET_CHAIN_NAME,
+          nativeCurrency: { name: 'POL', symbol: 'POL', decimals: 18 },
+          rpcUrls: [TARGET_RPC],
+          blockExplorerUrls: [TARGET_EXPLORER]
+        }]
+      });
+      return true;
+    }
+    setStatus('switch to ' + TARGET_CHAIN_NAME + ': ' + (e && e.message ? e.message : e));
+    return false;
+  }
+}
+
+function contractDeployed() {
+  return /0x[0-9a-fA-F]{40}$/.test(PFS_ADDRESS) && PFS_ADDRESS.toLowerCase() !== '0x' + '0'.repeat(40);
+}
+
+async function mintFeeWei() {
+  try {
+    if (window.ethereum) {
+      const res = await window.ethereum.request({
+        method: 'eth_call',
+        params: [{ to: PFS_ADDRESS, data: SEL_MINT_FEE }, 'latest']
+      });
+      if (res && res.length >= 66) return res;
+    } else if (window.chain) {
+      const res = await window.chain.call(PFS_ADDRESS, SEL_MINT_FEE);
+      if (res && res.length >= 2) return res.startsWith('0x') ? res : '0x' + res;
+    }
+  } catch (e) { /* fall back to default */ }
+  return '0x' + DEFAULT_FEE_WEI.toString(16);
+}
+
+function sanitize(s) { return String(s == null ? '' : s).replace(/["\\\n\r]/g, ' ').trim(); }
+
+async function waitReceipt(hash, timeoutMs) {
+  const start = Date.now();
+  while (Date.now() - start < timeoutMs) {
+    const rec = window.ethereum
+      ? await window.ethereum.request({ method: 'eth_getTransactionReceipt', params: [hash] })
+      : await window.chain.getReceipt(hash);
+    if (rec && rec.status === '0x1') return rec;
+    if (rec && rec.status === '0x0') return null;
+    await new Promise(r => setTimeout(r, 4000));
+  }
+  return null;
+}
+
+function parseTokenId(receipt) {
+  if (!receipt || !receipt.logs) return null;
+  for (const log of receipt.logs) {
+    if (!log || !log.topics) continue;
+    if (log.topics[0] === '0xdb163f1bba8c98dc902f1e81407bf65c5a4b94308fa47719664a06b52af601aa') return BigInt(log.topics[1]).toString();
+  }
+  return null;
+}
+
+async function sendMintTx({ data, value, verb }) {
+  setStatus(verb + '…');
+  try {
+    if (window.ethereum) {
+      const account = walletAccount || await connectWallet();
+      if (!account) return null;
+      if (!(await ensureChain())) return null;
+      return await window.ethereum.request({
+        method: 'eth_sendTransaction',
+        params: [{ from: account, to: PFS_ADDRESS, value, data }]
+      });
+    }
+    if (!window.chain || !window.chain.isUnlocked()) { setStatus('wallet locked — ⚿ unlock first'); return null; }
+    return await window.chain.sendRawTx({ to: PFS_ADDRESS, value, data });
+  } catch (e) {
+    setStatus(verb + ' failed: ' + (e && (e.shortMessage || e.message) ? (e.shortMessage || e.message) : e));
+    return null;
+  }
+}
+
+async function mintPainting() {
+  if (strokes.length === 0) { setStatus('paint something first'); return; }
+  if (!contractDeployed()) { setStatus('contract not deployed yet — set PFS_ADDRESS'); return; }
+  const secret = sanitize(document.getElementById('secret-input').value) || 'a secret untold';
+  const title = sanitize(prompt('name this painting', secret.slice(0, 24))) || 'untitled';
+  const p = mintPayload(strokes, title, secret);
+  const data = abiEncode(SEL_MINT, [{ t: 's', v: p.svgBody }, { t: 's', v: p.strokes }, { t: 's', v: p.title }, { t: 's', v: p.secret }]);
+  const value = await mintFeeWei();
+  const tx = await sendMintTx({ data, value, verb: 'minting' });
+  if (!tx) return;
+  const receipt = await waitReceipt(tx, 120000);
+  const tokenId = parseTokenId(receipt);
+  saveToGallery(canvas.toDataURL('image/png'), p.secret, tokenId);
+  setStatus(tokenId
+    ? 'minted — #' + tokenId + ' · ' + tx.slice(0, 10) + '… · ' + TARGET_EXPLORER + '/tx/' + tx
+    : 'minted — ' + tx.slice(0, 10) + '… · ' + TARGET_EXPLORER + '/tx/' + tx);
+}
+
+async function giftPainting() {
+  if (strokes.length === 0) { setStatus('paint something first'); return; }
+  if (!contractDeployed()) { setStatus('contract not deployed yet — set PFS_ADDRESS'); return; }
+  const recipient = sanitize(prompt('recipient address — only they can claim it'));
+  if (!recipient || !/^0x[0-9a-fA-F]{40}$/.test(recipient)) { setStatus('invalid recipient address'); return; }
+  const secret = sanitize(document.getElementById('secret-input').value) || 'a secret untold';
+  const title = sanitize(prompt('name this painting', secret.slice(0, 24))) || 'untitled';
+  const p = mintPayload(strokes, title, secret);
+  const data = abiEncode(SEL_GIFT_MINT, [{ t: 's', v: p.svgBody }, { t: 's', v: p.strokes }, { t: 's', v: p.title }, { t: 's', v: p.secret }, { t: 'a', v: recipient }]);
+  const value = await mintFeeWei();
+  const tx = await sendMintTx({ data, value, verb: 'sealing gift' });
+  if (!tx) return;
+  const receipt = await waitReceipt(tx, 120000);
+  const tokenId = parseTokenId(receipt);
+  saveToGallery(canvas.toDataURL('image/png'), p.secret, tokenId);
+  setStatus(tokenId
+    ? 'sealed — #' + tokenId + ' for ' + recipient.slice(0, 6) + '… · ' + TARGET_EXPLORER + '/tx/' + tx
+    : 'sealed — ' + tx.slice(0, 10) + '… · ' + TARGET_EXPLORER + '/tx/' + tx);
+}
+
+function saveToGallery(dataUrl, secret, tokenId) {
+  const painting = {
+    id: Date.now(),
+    dataUrl,
+    secret,
+    date: new Date().toISOString(),
+    colors: [...new Set(strokes.flatMap(s => s.map(pt => pt.color)))].filter(c => c !== '#0a0410'),
+  };
+  if (tokenId) painting.minted = { tokenId };
+  savedPaintings.unshift(painting);
+  if (savedPaintings.length > 42) savedPaintings = savedPaintings.slice(0, 42);
+  localStorage.setItem('art_vaked_gallery', JSON.stringify(savedPaintings));
+  renderGallery();
+}
+
+if (window.ethereum) {
+  window.ethereum.on('accountsChanged', accounts => {
+    walletAccount = (accounts && accounts[0]) || null;
+    setWalletChip(walletAccount ? shortAddr(walletAccount) + ' · ' + TARGET_CHAIN_NAME : 'wallet: —', !walletAccount);
+  });
+  window.ethereum.on('chainChanged', () => {
+    setWalletChip(walletAccount ? shortAddr(walletAccount) + ' · ' + TARGET_CHAIN_NAME : 'wallet: —', !walletAccount);
+  });
+}
+
+document.addEventListener('DOMContentLoaded', initVaultUI);
 
 renderGallery();
 </script>

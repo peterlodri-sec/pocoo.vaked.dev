@@ -1,7 +1,22 @@
 # NFT Layer on art.vaked.dev — Plan
 
 Date: 2026-08-05
-Status: Draft (Phase 0 decisions open)
+Status: Phase 0  + Phase 1  done — see `docs/superpowers/specs/2026-08-05-art-nft-layer-design.md`
+
+## Decisions (confirmed)
+
+- Chain: **Polygon** (test: Amoy)
+- Mint price: **0.001 POL** fee, collected in contract, owner withdraws to treasury
+- Treasury: **placeholder** — set real address at deploy / via setTreasury
+- Contract name: **PaintingsForSecrets** (PFS)
+
+## Phase 1 deliverables (done)
+
+- `nft/PaintingsForSecrets.sol` — compiles clean (solc 0.8.33 + OZ 5.6.1), bytecode 12,596 B
+- `nft/strokeToSVG.js` — deterministic strokes→SVG encoder (ESM), spray seeded
+- `nft/test-stroke-to-svg.js` — ALL PASS
+
+## Phase 2 onward — see spec + original todo below
 
 ## Context
 
@@ -79,27 +94,28 @@ PaintingsForSecrets (ERC-721 + EIP-2981)
 - [ ] Write SVG encoder (strokes → SVG; port from redraw() logic)
 - [ ] Unit-test locally (Foundry or Hardhat): mint → tokenURI → render → reveal
 
-### Phase 2 — Deploy + verify
-- [ ] Deploy to Base Sepolia; mint 1 test token; verify render
-- [ ] Deploy to Base mainnet; verify on Basescan
-- [ ] Add contract address + ABI to `art/index.html`
+### Phase 2 — Deploy + verify (Polygon mainnet per confirmed decisions; Amoy testnet first)
+- [x] Contract compiled + ABI selectors verified (solc 0.8.33 + OZ 5.6.1, bytecode 12,596 B)
+- [ ] Deploy to Amoy; mint 1 test token; verify render
+- [ ] Deploy to Polygon mainnet; verify on Polygonscan
+- [ ] Set real treasury (`setTreasury`) + contract address into `art/index.html` (`PFS_ADDRESS`)
 
 ### Phase 3 — Frontend integration
-- [ ] `connect wallet` + chain-switch logic (window.ethereum)
-- [ ] `⛓ mint current` — encode strokes[], send tx, show explorer link
-- [ ] `✉️ gift to address` (sealed claim)
-- [ ] Mark minted works in gallery (✓ + token ID)
-- [ ] Keep dependency-free (no build step)
+- [x] `art/chain.js` vault (PBKDF2 210k → AES-256-GCM) + legacy EIP-155 signing + RPC fallbacks — ALL PASS (byte-identical to ethers v6, recovers signer, low-s)
+- [x] `art/vendor/chain-crypto.js` vendored noble v2 + js-sha3 (no CDN; CSP-compliant)
+- [x] Hybrid wallet UI in `index.html`: MetaMask path + in-page create/unlock/lock/export (jsdom page test ALL PASS)
+- [x] `⛓ mint current` / `✉️ gift to address` — both paths (ethereum + in-page vault), explorer link
+- [x] Gallery mint badges + `_headers` `connect-src` for Polygon RPC fallbacks
+- [ ] Deploy contract, then flip `PFS_ADDRESS` placeholder (only remaining frontend gate)
 
 ### Phase 4 — Test end-to-end
-- [ ] Mint a real painting on Base Sepolia; render from tokenURI alone (fresh browser)
+- [ ] Mint a real painting on Amoy; render from tokenURI alone (fresh browser)
 - [ ] Confirm reveal mechanic (secret readable only after transfer)
 - [ ] Fresh-browser test (no localStorage): seeded works + gallery still work
 
 ### Phase 5 — Ship
-- [ ] Deploy to Base mainnet; first real mint (candidate: MELTING for Chlo)
+- [ ] First real mint on Polygon mainnet (candidate: MELTING for Chlo, sealed secret "melting — for Chlo")
 - [ ] OpenSea collection auto-lists — verify
-- [ ] Update footer + index copy ("the oldest economy, now on-chain")
 - [ ] Push + publish (Pages auto-builds; .nojekyll in place)
 
 ### Phase 6 — Follow-on (optional)
@@ -107,9 +123,9 @@ PaintingsForSecrets (ERC-721 + EIP-2981)
 - [ ] Proof-of-presence visit stamp
 - [ ] Royalty flow check after first secondary sale
 
-## Open questions (Phase 0)
+## Decisions (Phase 0, confirmed — see design doc)
 
-1. Chain: Base vs Polygon vs other?
-2. Treasury wallet address?
-3. Mint fee: free + gas, or priced?
-4. Contract name?
+1. Chain: **Polygon mainnet** (test: Amoy `0x13882`). Reason: dirt-cheap gas, OpenSea auto-listing, 0.001 POL fee is human-scale for "oldest economy".
+2. Treasury wallet: **not published yet** — constructor arg / `setTreasury()` post-deploy; EIP-2981 5% royalty to it (mirrors Chlo's 5% tip-back).
+3. Mint fee: **0.001 POL** (`mintFee`).
+4. Contract name: **PaintingsForSecrets (PFS)**.
