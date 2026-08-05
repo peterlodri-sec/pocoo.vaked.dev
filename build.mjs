@@ -618,6 +618,10 @@ ${postLines}
   if (existsSync(path.join(ROOT, "demos"))) {
     await cp(path.join(ROOT, "demos"), path.join(DIST_DIR, "demos"), { recursive: true });
   }
+  // Copy book manuscripts (standalone HTML library, no markdown processing)
+  if (existsSync(path.join(ROOT, "book"))) {
+    await cp(path.join(ROOT, "book"), path.join(DIST_DIR, "book"), { recursive: true });
+  }
   // Copy root-level config files for CF Pages
   if (existsSync(path.join(ROOT, "robots.txt"))) {
     await cp(path.join(ROOT, "robots.txt"), path.join(DIST_DIR, "robots.txt"));
