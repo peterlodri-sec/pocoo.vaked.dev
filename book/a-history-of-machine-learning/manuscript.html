@@ -7,11 +7,16 @@
   @page { size: 5in 8in; margin: 0.65in 0.65in; @top-center { content: none }; @bottom-center { content: counter(page); font-family: "SF Mono", monospace; font-size: 7px; color: #1e6a7d; } }
   @page cover { margin: 0; @bottom-center { content: none } }
   body { background: #020810; color: #c0c8d0; font-family: "Georgia", serif; font-size: 10.5pt; line-height: 1.75; margin: 0; padding: 0; }
-  .cover { page: cover; break-after: page; text-align: center; background: radial-gradient(ellipse at 50% 40%, #0a1a2a 0%, #020810 60%, #000 100%); height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-  .cover .sigil { font-size: 64px; color: #3fe0ef; opacity: 0.22; text-shadow: 0 0 150px rgba(63,224,239,0.15); line-height: 0.5; }
-  .cover h1 { font-family: "SF Mono", monospace; font-size: 15pt; color: #3fe0ef; letter-spacing: 6px; margin: 0.25in 0 0.1in; }
-  .cover .sub { font-family: "Georgia", serif; font-size: 10pt; color: #1e6a7d; font-style: italic; }
-  .cover .by { font-size: 8pt; color: #5a7a8a; margin-top: 0.5in; letter-spacing: 2px; }
+  .cover { page: cover; break-after: page; text-align: center; background: #5c1a2e; height: 100vh; }
+  .cover table { width: 100%; height: 100%; border-collapse: collapse; table-layout: fixed; }
+  .cover .cell { border: 1.5pt solid #c9a227; padding: 0.45in 0.6in; }
+  .cover .publisher { font-family: "Georgia", serif; font-size: 8pt; letter-spacing: 3px; color: #e0c878; text-transform: uppercase; margin-bottom: 0.35in; }
+  .cover h1 { font-family: "Georgia", serif; font-size: 26pt; color: #f3e3b8; letter-spacing: 1px; line-height: 1.28; margin: 0 0 0.15in; font-weight: normal; }
+  .cover h1 .t2 { font-style: italic; }
+  .cover .rule { width: 1.1in; height: 1pt; background: #c9a227; margin: 0.2in auto; }
+  .cover .author { font-family: "Georgia", serif; font-size: 11pt; color: #e0c878; letter-spacing: 4px; text-transform: uppercase; margin: 0.25in 0 0.1in; }
+  .cover .edition { font-family: "Georgia", serif; font-size: 8.5pt; font-style: italic; color: #c9a227; margin-top: 0.3in; }
+  .cover .bottom { font-family: "Georgia", serif; font-size: 8pt; letter-spacing: 2px; color: #e0c878; text-transform: uppercase; margin-top: 0.55in; }
   .dedication { break-after: page; text-align: center; padding-top: 2.3in; }
   .dedication p { font-style: italic; font-size: 11pt; color: #5a7a8a; line-height: 2; }
   .dedication .big { color: #3fe0ef; font-size: 15pt; }
@@ -28,10 +33,16 @@
 <body>
 
 <div class="cover">
-  <div class="sigil">⚇</div>
-  <h1>A HISTORY OF<br>MACHINE LEARNING</h1>
-  <div class="sub">the argument before the field<br>from exhaustive truth tables to the transformer</div>
-  <div class="by">Péter · the backyard ultra · 42 laps + 1 · aligned with the Standard Galactic Alphabet</div>
+  <table>
+    <tr><td class="cell" valign="middle" align="center">
+      <div class="publisher">a history of</div>
+      <h1>MACHINE<br><span class="t2">Learning</span></h1>
+      <div class="rule"></div>
+      <div class="author">Flyxion</div>
+      <div class="edition">Independent Researcher</div>
+      <div class="bottom">the argument before the field · from exhaustive truth tables to the transformer</div>
+    </td></tr>
+  </table>
 </div>
 
 <div class="dedication">
