@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Water-Fall Disc · 20-inch · Nazar Drums</title>
+<meta name="description" content="Interactive digital recreation of the 20-inch Water-Fall Disc — granular bead swarm, Poisson micro-shots, Baltic-birch body. Three.js + Web Audio. Pure procedural, no samples.">
+<style>
+  :root { --ink:#0b0c0e; --paper:#d8c8b0; --wood:#6b4a2b; --water:#7fd4ff; --glow:#ff8fc0; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html,body { height:100%; background:var(--ink); color:var(--paper); font-family:"SF Mono","JetBrains Mono",ui-monospace,monospace; overflow:hidden; }
+  #stage { position:fixed; inset:0; }
+  .hud { position:fixed; z-index:5; pointer-events:none; }
+  #title { top:18px; left:22px; font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:#a9987d; }
+  #title b { color:var(--paper); }
+  #sig { bottom:16px; right:20px; font-size:11px; color:#5c5345; text-align:right; line-height:1.6; }
+  #sig .sga { color:var(--glow); }
+  #readout { bottom:16px; left:22px; font-size:11px; color:#6f6656; line-height:1.7; }
+  #readout span { color:var(--water); }
+  .hint { position:fixed; top:16px; right:22px; z-index:5; font-size:11px; color:#6f6656; pointer-events:none; text-align:right; line-height:1.6; }
+  .hint b { color:#a9987d; }
+  .btn { pointer-events:auto; cursor:pointer; user-select:none; border:1px solid #3a332a; color:#a9987d; padding:4px 10px; border-radius:4px; font-size:11px; background:#141210; }
+  .btn:hover { border-color:var(--wood); color:var(--paper); }
+  #controls { top:16px; right:22px; display:flex; gap:8px; }
+  @media (max-width:640px){ .hint{ display:none; } #readout{ display:none; } }
+</style>
+</head>
+<body>
+<div id="stage"></div>
+<div class="hud" id="title"><b>WATER-FALL DISC</b> · 20-inch · Nazar Drums</div>
+<div class="hud" id="controls">
+  <button class="btn" id="playBtn">▶ play</button>
+</div>
+<div class="hud hint">drag to <b>tilt</b> · drag across to <b>spin</b><br>tilt = flow · spin = brightness</div>
+<div class="hud" id="readout">beads <span id="rDensity">—</span> · cuts <span id="rCuts">—</span> · tilt <span id="rTilt">—</span>° · spin <span id="rSpin">—</span> rpm</div>
+<div class="hud" id="sig"><span class="sga">ᔑ⚍ℸ𝙹ᒲᔑℸ╎ᓵ</span><br>pure procedural · no samples<br>- peter, ghost, the designer</div>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<script>
+(() => {
+"use strict";
+
+// ── state ────────────────────────────────────────────────────────────────
+const S = {
+  running:false, tilt:0.28, spin:0.45, gain:0.5,
+  targetTilt:0.28, targetSpin:0.45, angle:0,
+};
+
+// ── Web Audio: the three layers ──────────────────────────────────────────
+let actx=null, master=null, band=null, beadGain=null, shotGain=null, bodyGain=null;
+let noiseBuf=null, nextT=0, grainRate=20, impactRate=6;
+let scheduler=null, stats={grains:0, impacts:0};
+
+function buildAudio() {
+  actx = new (window.AudioContext||window.webkitAudioContext)();
+  master = actx.createGain(); master.gain.value = S.gain * 0.7;
+  master.connect(actx.destination);
+
+  // bead bus
+  beadGain = actx.createGain(); beadGain.gain.value = 0.9; beadGain.connect(master);
+  band = actx.createBiquadFilter();
+  band.type="bandpass"; band.frequency.value = 3000 + S.spin*5000; band.Q.value = 1.4;
+  band.connect(beadGain);
+
+  // body bus (comb resonators) — feed both layers
+  shotGain = actx.createGain(); shotGain.gain.value = 0.8; shotGain.connect(master);
+  bodyGain = actx.createGain(); bodyGain.gain.value = 0.9; bodyGain.connect(master);
+  const bus = actx.createGain(); bus.gain.value = 1.0;
+  bus.connect(band);
+  bus.connect(bodyGain);
+  beadGain.connect(bodyGain);
+  shotGain.connect(bodyGain);
+
+  // three damped combs: 470 / 330 / 220 Hz body modes
+  const freqs=[470,330,220], fbs=[0.52,0.46,0.42];
+  for (let i=0;i<3;i++){
+    const delay = actx.createDelay(1.0);
+    delay.delayTime.value = 1/freqs[i];
+    const fb = actx.createGain(); fb.gain.value = fbs[i];
+    const damp = actx.createBiquadFilter(); damp.type="lowpass"; damp.frequency.value=1500;
+    delay.connect(damp); damp.connect(fb); fb.connect(delay);
+    bus.connect(delay);
+    delay.connect(bodyGain);
+  }
+
+  // looped noise → bandpass base layer (bead friction bed)
+  const len = actx.sampleRate*2;
+  noiseBuf = actx.createBuffer(1,len,actx.sampleRate);
+  const d = noiseBuf.getChannelData(0);
+  let b0=0,b1=0,b2=0,b3=0,b4=0,b5=0,b6=0;
+  for (let i=0;i<len;i++){
+    const w = Math.random()*2-1;
+    b0=0.99886*b0+w*0.0555179; b1=0.99332*b1+w*0.0750759; b2=0.96900*b2+w*0.1538520;
+    b3=0.86650*b3+w*0.3104856; b4=0.55000*b4+w*0.5329522; b5=-0.7616*b5-w*0.0168980;
+    d[i] = (b0+b1+b2+b3+b4+b5+b6+w*0.5362)*0.11; b6=w*0.115926;
+  }
+  const src = actx.createBufferSource(); src.buffer=noiseBuf; src.loop=true;
+  src.connect(bus); src.start();
+}
+
+// lookahead scheduler: grains + Poisson impacts
+function schedule() {
+  if (!actx) return;
+  while (nextT < actx.currentTime + 0.12) {
+    // granular bead grain: 5-20 ms noise burst
+    if (Math.random() < grainRate/ actx.sampleRate * (actx.sampleRate*0.12)) {
+      spawnGrain(nextT); stats.grains++;
+    }
+    // Poisson impact
+    if (Math.random() < impactRate/ actx.sampleRate * (actx.sampleRate*0.12)) {
+      spawnImpact(nextT); stats.impacts++;
+    }
+    nextT += 0.12;
+  }
+}
+
+function spawnGrain(t){
+  const src = actx.createBufferSource(); src.buffer = noiseBuf; src.playbackRate.value = 0.7+Math.random()*0.8;
+  const g = actx.createGain();
+  const dur = 0.005 + Math.random()*0.015;
+  g.gain.setValueAtTime(0.0001,t);
+  g.gain.exponentialRampToValueAtTime(0.5+Math.random()*0.5, t+dur*0.3);
+  g.gain.exponentialRampToValueAtTime(0.0001, t+dur);
+  const det = actx.createBiquadFilter(); det.type="bandpass"; det.frequency.value = 2500+Math.random()*3500; det.Q.value=2.5;
+  src.connect(det); det.connect(g); g.connect(band);
+  src.start(t, Math.random()*1.0, dur+0.01);
+  src.stop(t+dur+0.02);
+}
+
+function spawnImpact(t){
+  const freqs=[4200,6100,9500];
+  const f = freqs[(Math.random()*freqs.length)|0]*(1+(Math.random()-0.5)*0.04);
+  const osc = actx.createOscillator(); osc.type="sine"; osc.frequency.value=f;
+  const g = actx.createGain();
+  const dur = 0.008+Math.random()*0.03;
+  g.gain.setValueAtTime(0.5+Math.random()*0.7, t);
+  g.gain.exponentialRampToValueAtTime(0.0001, t+dur);
+  const bp = actx.createBiquadFilter(); bp.type="bandpass"; bp.frequency.value=f; bp.Q.value=6;
+  osc.connect(bp); bp.connect(g); g.connect(shotGain);
+  osc.start(t); osc.stop(t+dur+0.02);
+}
+
+function startAudio(){
+  if (!actx) buildAudio();
+  actx.resume();
+  nextT = actx.currentTime + 0.05;
+  scheduler = setInterval(schedule, 40);
+  S.running = true;
+}
+function stopAudio(){
+  clearInterval(scheduler); scheduler=null;
+  if (actx) actx.suspend();
+  S.running=false;
+}
+
+function updateParams(){
+  if (!actx) return;
+  grainRate = 6 + S.tilt*90;
+  impactRate = 0.8 + S.tilt*34;
+  const flow = 0.25 + S.tilt*1.35;
+  master.gain.setTargetAtTime(S.gain*0.7*flow, actx.currentTime, 0.1);
+  band.frequency.setTargetAtTime(3000+S.spin*5000, actx.currentTime, 0.15);
+  document.getElementById("rDensity").textContent = grainRate.toFixed(0)+"/s";
+  document.getElementById("rCuts").textContent = impactRate.toFixed(1)+"/s";
+  document.getElementById("rTilt").textContent = (S.tilt*90).toFixed(0);
+  document.getElementById("rSpin").textContent = (S.spin*120).toFixed(0);
+}
+
+// ── Three.js scene ───────────────────────────────────────────────────────
+let renderer, scene, camera, disc, beads=[], waterfall;
+const pointer={x:0,y:0};
+
+function woodTexture(){
+  const c=document.createElement("canvas"); c.width=c.height=512;
+  const g=c.getContext("2d");
+  g.fillStyle="#6b4a2b"; g.fillRect(0,0,512,512);
+  for(let i=0;i<60;i++){
+    const y=Math.random()*512, l=60+Math.random()*180, a=0.04+Math.random()*0.1;
+    g.strokeStyle=`rgba(${30+Math.random()*40},${20+Math.random()*25},${10},${a})`;
+    g.lineWidth=1+Math.random()*2.5;
+    g.beginPath();
+    let yy=y;
+    g.moveTo(-20,yy);
+    for(let x=0;x<=532;x+=16){ yy+= (Math.random()-0.5)*3; g.lineTo(x,yy); }
+    g.stroke();
+  }
+  const t=new THREE.CanvasTexture(c); t.wrapS=t.wrapT=THREE.RepeatWrapping; return t;
+}
+
+function buildScene(){
+  renderer = new THREE.WebGLRenderer({antialias:true});
+  renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  renderer.setSize(innerWidth,innerHeight);
+  document.getElementById("stage").appendChild(renderer.domElement);
+
+  scene = new THREE.Scene();
+  scene.fog = new THREE.Fog(0x0b0c0e, 12, 30);
+  camera = new THREE.PerspectiveCamera(45, innerWidth/innerHeight, 0.1, 60);
+  camera.position.set(0,4.5,9); camera.lookAt(0,0,0);
+
+  const hemi = new THREE.HemisphereLight(0x887766, 0x0b0c0e, 1.1);
+  scene.add(hemi);
+  const key = new THREE.DirectionalLight(0xfff2dd, 1.3);
+  key.position.set(4,8,5); scene.add(key);
+  const rim = new THREE.PointLight(0x7fd4ff, 0.6, 15); rim.position.set(-5,-2,-4); scene.add(rim);
+
+  // the disc: 20-inch Baltic-birch body
+  const geo = new THREE.CylinderGeometry(3,3,0.34,64);
+  const mat = new THREE.MeshStandardMaterial({map:woodTexture(), roughness:0.65, metalness:0.05});
+  disc = new THREE.Mesh(geo, mat);
+  disc.rotation.x = Math.PI/2;
+  scene.add(disc);
+
+  // rim ring
+  const rimGeo = new THREE.TorusGeometry(3.05,0.05,12,72);
+  const rimMat = new THREE.MeshStandardMaterial({color:0x9a7a4a, roughness:0.4, metalness:0.4});
+  const rimMesh = new THREE.Mesh(rimGeo, rimMat);
+  rimMesh.rotation.x = Math.PI/2; scene.add(rimMesh);
+
+  // beads: the glass micro-shots
+  const beadGeo = new THREE.SphereGeometry(0.045, 8, 8);
+  const beadMat = new THREE.MeshStandardMaterial({color:0xcfe8ff, roughness:0.12, metalness:0.1, transparent:true, opacity:0.95});
+  const beadGroup = new THREE.Group(); scene.add(beadGroup);
+  for(let i=0;i<360;i++){
+    const r = 0.6+Math.random()*2.45;
+    const a = Math.random()*Math.PI*2;
+    const b = new THREE.Mesh(beadGeo, beadMat);
+    b.position.set(Math.cos(a)*r, (Math.random()-0.5)*0.2, Math.sin(a)*r);
+    b.userData={r, a, y:b.position.y, sp:0.5+Math.random()*1.5};
+    beadGroup.add(b); beads.push(b);
+  }
+
+  // waterfall sheet
+  const wfGeo = new THREE.BufferGeometry();
+  const wfN = 900, pos=new Float32Array(wfN*3);
+  for(let i=0;i<wfN;i++){
+    const r=1.5+Math.random()*1.6, a=Math.random()*Math.PI*2;
+    pos[i*3]=Math.cos(a)*r; pos[i*3+1]=Math.random()*4-0.5; pos[i*3+2]=Math.sin(a)*r;
+  }
+  wfGeo.setAttribute("position", new THREE.BufferAttribute(pos,3));
+  const wfMat = new THREE.PointsMaterial({color:0x7fd4ff, size:0.05, transparent:true, opacity:0.75, blending:THREE.AdditiveBlending});
+  waterfall = new THREE.Points(wfGeo, wfMat);
+  scene.add(waterfall);
+  waterfall.userData.fall = new Float32Array(wfN);
+
+  // ground shadow disc
+  const ground = new THREE.Mesh(new THREE.CircleGeometry(4.6,48), new THREE.MeshStandardMaterial({color:0x141210, roughness:1}));
+  ground.rotation.x=-Math.PI/2; ground.position.y=-1.2; scene.add(ground);
+}
+
+function tick(){
+  requestAnimationFrame(tick);
+  // smooth the controls
+  S.tilt += (S.targetTilt - S.tilt)*0.06;
+  S.spin += (S.targetSpin - S.spin)*0.06;
+  S.angle += S.spin*0.012;
+
+  const tiltRad = S.tilt*0.85;
+  const cos = Math.cos(tiltRad), sin = Math.sin(tiltRad);
+
+  // disc tilts
+  disc.rotation.x = Math.PI/2 + sin*Math.cos(S.angle);
+  disc.rotation.z = sin*Math.sin(S.angle)*0.3;
+  disc.rotation.y += S.spin*0.006;
+
+  // beads fall along the tilted plane (simulate cascade)
+  for(const b of beads){
+    // component of gravity along the tilted disc plane
+    const gx = 9.8*sin*0.016, gz = 9.8*sin*0.016;
+    const c = Math.cos(S.angle), s = Math.sin(S.angle);
+    let dx = gx*c - gz*s, dz = gx*s + gz*c;
+    b.position.x += dx*b.userData.sp;
+    b.position.z += dz*b.userData.sp;
+    // keep them on the disc: pull back toward radius
+    const rr = Math.hypot(b.position.x, b.position.z);
+    const targetR = b.userData.r;
+    b.position.x *= 1 - (rr-targetR)*0.01;
+    b.position.z *= 1 - (rr-targetR)*0.01;
+    b.position.y = (Math.random()-0.5)*0.18*(1-Math.abs(sin));
+    if(Math.hypot(b.position.x,b.position.z)>3.4){ b.position.x=b.userData.r*Math.cos(b.userData.a); b.position.z=b.userData.r*Math.sin(b.userData.a); }
+  }
+
+  // waterfall particles
+  const posArr = waterfall.geometry.attributes.position.array;
+  const fall = waterfall.userData.fall;
+  for(let i=0;i<posArr.length/3;i++){
+    fall[i]+=0.02+S.tilt*0.05;
+    if(fall[i]>3.5) fall[i]=0;
+    posArr[i*3+1] = 1.6-fall[i]*(1+sin);
+    posArr[i*3] += (Math.random()-0.5)*0.01;
+    posArr[i*3+2] += (Math.random()-0.5)*0.01;
+  }
+  waterfall.geometry.attributes.position.needsUpdate = true;
+
+  if(actx) updateParams();
+  renderer.render(scene, camera);
+}
+
+// ── input ────────────────────────────────────────────────────────────────
+let drag=false, dragStart={x:0,y:0}, base={tilt:S.tilt, spin:S.spin};
+addEventListener("pointerdown", e=>{
+  drag=true; dragStart={x:e.clientX,y:e.clientY};
+  base={tilt:S.tilt, spin:S.spin};
+  if(!S.running) return;
+});
+addEventListener("pointermove", e=>{
+  if(!drag) return;
+  const dx=(e.clientX-dragStart.x)/innerWidth, dy=(e.clientY-dragStart.y)/innerHeight;
+  S.targetSpin = Math.min(1,Math.max(0, base.spin + dx*1.4));
+  S.targetTilt = Math.min(1,Math.max(0, base.tilt - dy*1.4));
+  pointer.x=e.clientX/innerWidth; pointer.y=e.clientY/innerHeight;
+});
+addEventListener("pointerup", ()=>{ drag=false; });
+addEventListener("resize", ()=>{ camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix(); renderer.setSize(innerWidth,innerHeight); });
+
+document.getElementById("playBtn").addEventListener("click", e=>{
+  if(S.running){ stopAudio(); e.target.textContent="▶ play"; }
+  else { startAudio(); e.target.textContent="■ stop"; }
+  document.querySelector("#controls").dataset;
+});
+
+buildScene();
+tick();
+})();
+</script>
+</body>
+</html>
