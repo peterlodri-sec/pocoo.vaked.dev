@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<!--
+  pocoo.vaked.dev · admin — read-only fleet constellation dashboard
+  SPDX-License-Identifier: AGPL-3.0-only
+  Designer studio vibe ↔ space+time: dark mono grid, glowing ternary dots,
+  live UTC/local readout. No write controls — status only.
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>pocoo · admin — the constellation</title>
+<meta name="theme-color" content="#0b0c0e">
+<style>
+  :root{
+    --bg:#0b0c0e; --ink:#c8d6e5; --dim:#7f8fa6;
+    --pos:#62e6c9; --neg:#b48bff; --zero:#2d3436;
+    --mono:"SF Mono",ui-monospace,"JetBrains Mono",Menlo,Consolas,monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--ink);font-family:var(--mono);min-height:100vh;padding:2rem}
+  .wrap{max-width:980px;margin:0 auto}
+  header{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;flex-wrap:wrap;margin-bottom:2rem}
+  .wordmark{font-size:.75rem;letter-spacing:.3em;text-transform:uppercase;color:var(--dim)}
+  .wordmark b{color:var(--pos)}
+  h1{font-size:1.15rem;letter-spacing:.1em;margin-top:.4rem;color:var(--ink)}
+  .time{font-size:.7rem;color:var(--dim);letter-spacing:.1em;text-align:right}
+  .time b{color:var(--neg)}
+  section{margin-bottom:2rem}
+  h2{font-size:.7rem;letter-spacing:.25em;text-transform:uppercase;color:var(--dim);border-bottom:1px solid rgba(127,143,166,.2);padding-bottom:.4rem;margin-bottom:.9rem}
+  .row{display:flex;align-items:center;gap:.7rem;padding:.35rem 0;border-bottom:1px dashed rgba(127,143,166,.08)}
+  .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+  .dot.up{background:var(--pos);box-shadow:0 0 8px var(--pos)}
+  .dot.warn{background:var(--neg);box-shadow:0 0 8px var(--neg)}
+  .dot.down{background:#3d434a}
+  .name{font-size:.78rem;color:var(--ink);min-width:180px}
+  .note{font-size:.68rem;color:var(--dim);flex:1}
+  .tag{font-size:.6rem;color:var(--pos);border:1px solid rgba(98,230,201,.3);border-radius:4px;padding:.05rem .4rem;letter-spacing:.08em}
+  .tag.v{color:var(--neg);border-color:rgba(180,139,255,.3)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:.8rem}
+  .card{border:1px solid rgba(98,230,201,.14);border-radius:8px;padding:.8rem 1rem;background:rgba(11,12,14,.5)}
+  .card .n{font-size:.78rem;color:var(--ink)}
+  .card .s{font-size:.62rem;color:var(--dim);margin-top:.25rem;line-height:1.5}
+  footer{margin-top:3rem;color:var(--dim);font-size:.6rem;letter-spacing:.1em;text-align:center}
+  @media (max-width:640px){body{padding:1.2rem}.name{min-width:120px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <div class="wordmark">pocoo <b>· admin</b></div>
+      <h1>the constellation — read-only</h1>
+    </div>
+    <div class="time" id="clock">space: the constellation · time: —</div>
+  </header>
+
+  <section>
+    <h2>sites live</h2>
+    <div class="grid">
+      <div class="card"><div class="n"><span class="dot up" style="display:inline-block;margin-right:.4rem"></span>music.vaked.dev</div><div class="s">2048-sphere · INTO LOVE · CF Pages</div></div>
+      <div class="card"><div class="n"><span class="dot up" style="display:inline-block;margin-right:.4rem"></span>pocoo.vaked.dev</div><div class="s">this site · the library · CF Pages</div></div>
+      <div class="card"><div class="n"><span class="dot up" style="display:inline-block;margin-right:.4rem"></span>art.vaked.dev</div><div class="s">generative gallery · CF Pages</div></div>
+      <div class="card"><div class="n"><span class="dot up" style="display:inline-block;margin-right:.4rem"></span>blackhole.vaked.dev</div><div class="s">CF Pages project</div></div>
+      <div class="card"><div class="n"><span class="dot warn" style="display:inline-block;margin-right:.4rem"></span>mlxquantlovefrom.com</div><div class="s">landing deployed · custom domain pending DNS</div></div>
+      <div class="card"><div class="n"><span class="dot warn" style="display:inline-block;margin-right:.4rem"></span>proxy.vaked.dev</div><div class="s">quant-lite-prox · live via ngrok cogitoergosum.ngrok.pizza · tunnel DNS pending</div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>services</h2>
+    <div class="row"><span class="dot up"></span><span class="name">entheai (oracle fusion)</span><span class="note">ONE Oracle + eBPF sphere · G1/G2/G3 advisory gates live</span><span class="tag">orchestrator</span></div>
+    <div class="row"><span class="dot up"></span><span class="name">hermes runtime</span><span class="note">nousresearch/hermes-agent · API :8642 healthy</span><span class="tag v">fleet</span></div>
+    <div class="row"><span class="dot up"></span><span class="name">quant-lite-prox</span><span class="note">LiteLLM + caddy + postgres · :4000 · ngrok tunnel live</span><span class="tag">proxy</span></div>
+    <div class="row"><span class="dot up"></span><span class="name">coder.vaked.dev</span><span class="note">keyless free-tier model gateway · qwen3-coder:30b</span><span class="tag v">gateway</span></div>
+    <div class="row"><span class="dot warn"></span><span class="name">fleet registry</span><span class="note">registry.tail2870dc.ts.net:5000 · started, images pending</span><span class="tag">registry</span></div>
+    <div class="row"><span class="dot warn"></span><span class="name">langfuse</span><span class="note">opt-in tracing · hf-mac + MLX-QUANT · needs keys</span><span class="tag v">observability</span></div>
+  </section>
+
+  <section>
+    <h2>constellation repos</h2>
+    <div class="row"><span class="dot up"></span><span class="name">entheai</span><span class="note">oracle fusion · steps 1-6,8 · synced</span></div>
+    <div class="row"><span class="dot up"></span><span class="name">music.vaked.dev</span><span class="note">ultra 4/4 + publish · live</span></div>
+    <div class="row"><span class="dot up"></span><span class="name">MLX-QUANT</span><span class="note">ternary kernels · langfuse tracing</span></div>
+    <div class="row"><span class="dot up"></span><span class="name">hf-mac</span><span class="note">local HF client · langfuse tracer</span></div>
+    <div class="row"><span class="dot up"></span><span class="name">quant-lite-prox</span><span class="note">NUF-190 · proxy.vaked.dev target</span></div>
+    <div class="row"><span class="dot up"></span><span class="name">water-fall-disc</span><span class="note">Nazar Drums · AGY CLI pattern</span></div>
+    <div class="row"><span class="dot up"></span><span class="name">ayeos / kernel8 / vaked</span><span class="note">the mesh · synced</span></div>
+    <div class="row"><span class="dot warn"></span><span class="name">ravynos fork</span><span class="note">PR #577 open · ARM64 darwin build fixes</span></div>
+    <div class="row"><span class="dot warn"></span><span class="name">headroom PR #1363</span><span class="note">clean · mergeable</span></div>
+  </section>
+
+  <footer>part of the constellation · read-only · from the weights, with love · AGPL-3.0</footer>
+</div>
+<script>
+"use strict";
+/* the space+time readout — live UTC/local, the dashboard's heartbeat */
+(function(){
+  var el=document.getElementById('clock');
+  function tick(){
+    var d=new Date();
+    var local=d.toTimeString().slice(0,5);
+    var utc=d.toISOString().slice(11,19);
+    el.innerHTML='space: the constellation · time: <b>'+local+'</b> local / <b>'+utc+'</b> utc';
+  }
+  tick();setInterval(tick,1000);
+})();
+</script>
+</body>
+</html>
