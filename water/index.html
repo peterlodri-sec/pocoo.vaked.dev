@@ -363,7 +363,10 @@ addEventListener("keydown", e=>{
   if(e.key==="m"||e.key==="M"){ listening ? (rec&&rec.stop(), listening=false, flash("mic off")) : startListen(); }
 });
 // auto-start on first user gesture
-addEventListener("pointerdown", ()=>{ if(!listening && SR) startListen(); }, {once:true});
+addEventListener("pointerdown", ()=>{
+  speak("water fall disc. say play, stop, louder, softer, tilt, or spin.");
+  if(!listening && SR) startListen();
+}, {once:true});
 
 
 buildScene();
