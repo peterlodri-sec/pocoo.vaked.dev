@@ -320,15 +320,23 @@ document.getElementById("playBtn").addEventListener("click", e=>{
   document.querySelector("#controls").dataset;
 });
 
-// ── voice: STT listen · TTS speak ─────────────────────────────────────────
+// ── voice: STT listen · TTS speak (magyar, max 80 BPM) ─────────────────────
 const voiceBadge = document.getElementById("voiceBadge");
 const SR = window.SpeechRecognition||window.webkitSpeechRecognition;
-let rec=null, listening=false;
+let rec=null, listening=false, huVoice=null;
+
+function pickVoice(){
+  const vs = speechSynthesis.getVoices();
+  huVoice = vs.find(v=>v.lang && v.lang.toLowerCase().startsWith("hu")) || null;
+}
+speechSynthesis.onvoiceschanged = pickVoice; pickVoice();
 
 function speak(txt){
   try{
     const u = new SpeechSynthesisUtterance(txt);
-    u.rate=0.98; u.pitch=0.7; u.volume=1.0;
+    if(huVoice) u.voice = huVoice;
+    u.lang = huVoice ? huVoice.lang : "hu-HU";
+    u.rate=0.8; u.pitch=0.75; u.volume=1.0;   // chill, max 80 BPM vibe
     speechSynthesis.cancel(); speechSynthesis.speak(u);
   }catch(_){}
   flash(txt);
@@ -340,31 +348,30 @@ function flash(txt){
 }
 function startListen(){
   if(!SR||rec||listening) return;
-  try{ rec=new SR(); rec.lang="en-US"; rec.interimResults=false; rec.continuous=true;
+  try{ rec=new SR(); rec.lang="hu-HU"; rec.interimResults=false; rec.continuous=true;
     rec.onresult=e=>{
       const t=(e.results[e.results.length-1][0].transcript||"").toLowerCase();
       flash(t);
-      // command matching
-      if(/\b(play|start|go)\b/.test(t)){ if(!S.running) startAudio(); document.getElementById("playBtn").textContent="■ stop"; }
-      else if(/\b(stop|halt|quiet|silence)\b/.test(t)){ if(S.running) stopAudio(); document.getElementById("playBtn").textContent="▶ play"; }
-      else if(/\blouder\b|\bvolume up\b/.test(t)){ S.gain=Math.min(1,S.gain+0.1); speak("louder"); }
-      else if(/\b(softer|quieter|volume down)\b/.test(t)){ S.gain=Math.max(0.1,S.gain-0.1); speak("softer"); }
-      else if(/\btilt\b/.test(t)){ S.targetTilt=Math.min(1,S.targetTilt+0.2); speak("tilting"); }
-      else if(/\bspin\b/.test(t)){ S.targetSpin=Math.min(1,S.targetSpin+0.2); speak("spinning"); }
-      else if(/\b(faster|more)\b/.test(t)){ S.targetTilt=Math.min(1,S.targetTilt+0.15); S.targetSpin=Math.min(1,S.targetSpin+0.15); speak("flowing"); }
-      else if(/\bhelp\b/.test(t)){ speak("say play, stop, louder, softer, tilt, or spin"); }
+      if(/\b(játszd|játsz|indul|megy|play|start|go)\b/.test(t)){ if(!S.running) startAudio(); document.getElementById("playBtn").textContent="■ stop"; speak("játszom"); }
+      else if(/\b(állj|áll|csend|stop|halt)\b/.test(t)){ if(S.running) stopAudio(); document.getElementById("playBtn").textContent="▶ play"; speak("állok"); }
+      else if(/\b(hangosabb|halkabb a hang|louder)\b/.test(t)||t.includes("hangosabb")){ S.gain=Math.min(1,S.gain+0.1); speak("hangosabb"); }
+      else if(/\b(halkabb|halk|softer|quieter)\b/.test(t)){ S.gain=Math.max(0.1,S.gain-0.1); speak("halkabb"); }
+      else if(/\b(dönt|döntsd|tilt)\b/.test(t)){ S.targetTilt=Math.min(1,S.targetTilt+0.2); speak("döntöm"); }
+      else if(/\b(pörög|pörgesd|forog|spin)\b/.test(t)){ S.targetSpin=Math.min(1,S.targetSpin+0.2); speak("pörgöm"); }
+      else if(/\b(gyorsabb|faster|több)\b/.test(t)){ S.targetTilt=Math.min(1,S.targetTilt+0.15); S.targetSpin=Math.min(1,S.targetSpin+0.15); speak("folyik"); }
+      else if(/\b(segíts|segítség|help)\b/.test(t)){ speak("mondd: játssz, állj, hangosabb, halkabb, dönts, vagy pörögj."); }
     };
     rec.onend=()=>{ if(listening) startListen(); };
-    rec.onerror=e=>{ if(e.error==="not-allowed"){ listening=false; flash("mic blocked"); } };
-    rec.start(); listening=true; speak("listening");
+    rec.onerror=e=>{ if(e.error==="not-allowed"){ listening=false; flash("mikrofon tiltva"); } };
+    rec.start(); listening=true; speak("hallgatom");
   }catch(_){ listening=false; }
 }
 addEventListener("keydown", e=>{
-  if(e.key==="m"||e.key==="M"){ listening ? (rec&&rec.stop(), listening=false, flash("mic off")) : startListen(); }
+  if(e.key==="m"||e.key==="M"){ listening ? (rec&&rec.stop(), listening=false, flash("mikrofon ki")) : startListen(); }
 });
 // auto-start on first user gesture
 addEventListener("pointerdown", ()=>{
-  speak("water fall disc. say play, stop, louder, softer, tilt, or spin.");
+  speak("vízesés korong. mondd: játssz, állj, hangosabb, halkabb, dönts, vagy pörögj.");
   if(!listening && SR) startListen();
 }, {once:true});
 
