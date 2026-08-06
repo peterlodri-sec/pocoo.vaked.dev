@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<!--
+  quantal-viz — live ternary matrix viewer for the trained BitNet b1.58 model
+  SPDX-License-Identifier: AGPL-3.0-only
+  Loads the 168 ayeOS matrices from pocoo.vaked.dev/demos/quantal/ and renders
+  the {-1, 0, +1} codes as a scrollable heat-map. Shipped means measured.
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>quantal · ternary matrix viewer</title>
+<meta name="theme-color" content="#0b0c0e">
+<style>
+  :root{--bg:#0b0c0e;--ink:#c8d6e5;--dim:#7f8fa6;--pos:#62e6c9;--neg:#b48bff;--zero:#23272e;--mono:"SF Mono",ui-monospace,"JetBrains Mono",Menlo,monospace}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--ink);font-family:var(--mono);min-height:100vh;padding:1.2rem}
+  header{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;flex-wrap:wrap;margin-bottom:1rem}
+  h1{font-size:1rem;letter-spacing:.1em} h1 span{color:var(--pos)}
+  .meta{font-size:.65rem;color:var(--dim);letter-spacing:.08em}
+  .bar{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;margin-bottom:1rem}
+  select,.btn{background:rgba(98,230,201,.06);border:1px solid rgba(98,230,201,.2);color:var(--ink);font-family:var(--mono);font-size:.72rem;padding:.35rem .7rem;border-radius:6px}
+  .btn{cursor:pointer} .btn:hover{background:rgba(98,230,201,.14)}
+  .legend{display:flex;gap:1rem;font-size:.62rem;color:var(--dim);margin-left:auto}
+  .legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:.25rem;vertical-align:middle}
+  canvas{width:100%;height:60vh;background:var(--bg);border:1px solid rgba(98,230,201,.1);border-radius:8px;display:block;image-rendering:pixelated}
+  .stat{font-size:.68rem;color:var(--dim);margin-top:.5rem}
+</style>
+</head>
+<body>
+<header>
+  <h1>quantal <span>·</span> ternary matrix viewer</h1>
+  <div class="meta" id="meta">loading…</div>
+</header>
+<div class="bar">
+  <select id="mat"></select>
+  <button class="btn" id="rand">random</button>
+  <div class="legend">
+    <span><i style="background:var(--pos)"></i>+1</span>
+    <span><i style="background:var(--zero)"></i>0</span>
+    <span><i style="background:var(--neg)"></i>−1</span>
+  </div>
+</div>
+<canvas id="cv"></canvas>
+<div class="stat" id="stat"></div>
+<script>
+"use strict";
+const BASE="https://pocoo.vaked.dev/demos/quantal/";
+const cv=document.getElementById('cv'), ctx=cv.getContext('2d');
+const sel=document.getElementById('mat'), meta=document.getElementById('meta'), stat=document.getElementById('stat');
+let mats=[], idx=null;
+
+async function loadIndex(){
+  const r=await fetch(BASE+"index.json"); idx=await r.json();
+  mats=idx.matrices||[];
+  sel.innerHTML=mats.map((m,i)=>`<option value="${i}">${i} · ${m.name} (${m.dim}×${m.in_features})</option>`).join("");
+  meta.textContent=`${mats.length} matrices · capsule ${idx.capsule_id||''}`;
+  draw(0);
+}
+function unpack(code,group){
+  // each 2-bit pair -> ternary {-1,0,+1}: 00=0,01=+1,10=-1,11=0
+  const out=new Uint8Array(group*4); let v=code, o=0;
+  for(let k=0;k<group;k++){ const b=(v>>>(k*2))&3; out[o++]=b===1?1:b===2?2:0; }
+  return out;
+}
+async function draw(i){
+  const m=mats[i]; if(!m) return;
+  const f=await (await fetch(BASE+m.file)).json();
+  const codes=f.codes||[], scales=f.scales||[];
+  const group=f.group_size||64;
+  // render one group row × (codes/4 columns) — the packed ternary pattern
+  const cols=Math.min(256, Math.floor(codes.length/4));
+  const rows=Math.min(256, Math.ceil(codes.length/(cols*4)));
+  const s=2; cv.width=cols*s; cv.height=rows*s;
+  const img=ctx.createImageData(cols,rows);
+  for(let r=0;r<rows;r++){
+    for(let c=0;c<cols;c++){
+      const ci=r*cols+c;
+      const t=unpack(codes[ci]||0,4); // 4 ternary symbols per 8-bit pack
+      const v=t[c%4]; // sample one symbol per cell
+      const p=(r*cols+c)*4;
+      if(v===1){img.data[p]=98;img.data[p+1]=230;img.data[p+2]=201;}
+      else if(v===2){img.data[p]=180;img.data[p+1]=139;img.data[p+2]=255;}
+      else{img.data[p]=35;img.data[p+1]=39;img.data[p+2]=46;}
+      img.data[p+3]=255;
+    }
+  }
+  ctx.putImageData(img,0,0);
+  stat.textContent=`${m.name} · ${m.dim}×${m.in_features} · group ${group} · ${codes.length} packed codes · ${scales.length} scales`;
+}
+sel.onchange=()=>draw(+sel.value);
+document.getElementById('rand').onclick=()=>{ if(mats.length) draw((Math.random()*mats.length)|0); };
+loadIndex().catch(e=>{ stat.textContent="load failed: "+e.message; });
+</script>
+</body>
+</html>
