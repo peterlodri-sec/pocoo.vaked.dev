@@ -442,7 +442,9 @@ ${ogType === "article" && author ? `<meta property="article:author" content="${a
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="alternate" type="application/atom+xml" title="pocoo" href="${prefix}feed.xml">
+<link rel="stylesheet" href="${prefix}assets/bg.css">
 <link rel="stylesheet" href="${prefix}assets/blog.css">
+<script defer src="${prefix}assets/bg.js"></script>
 </head>`;
 }
 

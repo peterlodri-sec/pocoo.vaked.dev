@@ -1,0 +1,18 @@
+/* pocoo.vaked.dev — constellation bg (fleet wave, right hemisphere) */
+#constellation-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.85;
+}
+/* ensure page content sits above the animation */
+body > main,
+body > header,
+body > footer,
+body > .index,
+body > article {
+  position: relative;
+  z-index: 1;
+}
