@@ -31,8 +31,9 @@
 <div class="hud" id="controls">
   <button class="btn" id="playBtn">▶ play</button>
 </div>
-<div class="hud hint">drag to <b>tilt</b> · drag across to <b>spin</b><br>tilt = flow · spin = brightness</div>
+<div class="hud hint">drag to <b>tilt</b> · drag across to <b>spin</b><br>tilt = flow · spin = brightness<br>speak: <b>play</b> · <b>stop</b> · <b>louder</b> · <b>softer</b> · <b>tilt</b> · <b>spin</b></div>
 <div class="hud" id="readout">beads <span id="rDensity">—</span> · cuts <span id="rCuts">—</span> · tilt <span id="rTilt">—</span>° · spin <span id="rSpin">—</span> rpm</div>
+<div class="hud" id="voiceBadge" style="display:none; top:auto; bottom:44px; left:22px; font-size:11px; color:var(--water);"></div>
 <div class="hud" id="sig"><span class="sga">ᔑ⚍ℸ𝙹ᒲᔑℸ╎ᓵ</span><br>pure procedural · no samples<br>- peter, ghost, the designer</div>
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
@@ -318,6 +319,52 @@ document.getElementById("playBtn").addEventListener("click", e=>{
   else { startAudio(); e.target.textContent="■ stop"; }
   document.querySelector("#controls").dataset;
 });
+
+// ── voice: STT listen · TTS speak ─────────────────────────────────────────
+const voiceBadge = document.getElementById("voiceBadge");
+const SR = window.SpeechRecognition||window.webkitSpeechRecognition;
+let rec=null, listening=false;
+
+function speak(txt){
+  try{
+    const u = new SpeechSynthesisUtterance(txt);
+    u.rate=0.98; u.pitch=0.7; u.volume=1.0;
+    speechSynthesis.cancel(); speechSynthesis.speak(u);
+  }catch(_){}
+  flash(txt);
+}
+function flash(txt){
+  voiceBadge.textContent="🎙 "+txt;
+  voiceBadge.style.display="block";
+  clearTimeout(flash._t); flash._t=setTimeout(()=>voiceBadge.style.display="none",2600);
+}
+function startListen(){
+  if(!SR||rec||listening) return;
+  try{ rec=new SR(); rec.lang="en-US"; rec.interimResults=false; rec.continuous=true;
+    rec.onresult=e=>{
+      const t=(e.results[e.results.length-1][0].transcript||"").toLowerCase();
+      flash(t);
+      // command matching
+      if(/\b(play|start|go)\b/.test(t)){ if(!S.running) startAudio(); document.getElementById("playBtn").textContent="■ stop"; }
+      else if(/\b(stop|halt|quiet|silence)\b/.test(t)){ if(S.running) stopAudio(); document.getElementById("playBtn").textContent="▶ play"; }
+      else if(/\blouder\b|\bvolume up\b/.test(t)){ S.gain=Math.min(1,S.gain+0.1); speak("louder"); }
+      else if(/\b(softer|quieter|volume down)\b/.test(t)){ S.gain=Math.max(0.1,S.gain-0.1); speak("softer"); }
+      else if(/\btilt\b/.test(t)){ S.targetTilt=Math.min(1,S.targetTilt+0.2); speak("tilting"); }
+      else if(/\bspin\b/.test(t)){ S.targetSpin=Math.min(1,S.targetSpin+0.2); speak("spinning"); }
+      else if(/\b(faster|more)\b/.test(t)){ S.targetTilt=Math.min(1,S.targetTilt+0.15); S.targetSpin=Math.min(1,S.targetSpin+0.15); speak("flowing"); }
+      else if(/\bhelp\b/.test(t)){ speak("say play, stop, louder, softer, tilt, or spin"); }
+    };
+    rec.onend=()=>{ if(listening) startListen(); };
+    rec.onerror=e=>{ if(e.error==="not-allowed"){ listening=false; flash("mic blocked"); } };
+    rec.start(); listening=true; speak("listening");
+  }catch(_){ listening=false; }
+}
+addEventListener("keydown", e=>{
+  if(e.key==="m"||e.key==="M"){ listening ? (rec&&rec.stop(), listening=false, flash("mic off")) : startListen(); }
+});
+// auto-start on first user gesture
+addEventListener("pointerdown", ()=>{ if(!listening && SR) startListen(); }, {once:true});
+
 
 buildScene();
 tick();
