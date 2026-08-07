@@ -18,6 +18,8 @@
   header{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;flex-wrap:wrap;margin-bottom:1rem}
   h1{font-size:1rem;letter-spacing:.1em} h1 span{color:var(--pos)}
   .meta{font-size:.65rem;color:var(--dim);letter-spacing:.08em}
+  .proofline{font-size:.6rem;color:#62e6c9;letter-spacing:.06em;margin-bottom:1rem}
+  .proofline b{color:#b48bff}
   .bar{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;margin-bottom:1rem}
   select,.btn{background:rgba(98,230,201,.06);border:1px solid rgba(98,230,201,.2);color:var(--ink);font-family:var(--mono);font-size:.72rem;padding:.35rem .7rem;border-radius:6px}
   .btn{cursor:pointer} .btn:hover{background:rgba(98,230,201,.14)}
@@ -32,6 +34,7 @@
   <h1>quantal <span>·</span> ternary matrix viewer</h1>
   <div class="meta" id="meta">loading…</div>
 </header>
+<div class="proofline">attestal.proof.v1 · continued-training on vast RTX 3090 · loss <b>7.92 → 2.79</b> (10 epochs) · checkpoint sha256 <b>834dc6…</b></div>
 <div class="bar">
   <select id="mat"></select>
   <button class="btn" id="rand">random</button>
