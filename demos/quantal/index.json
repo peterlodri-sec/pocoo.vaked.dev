@@ -1,1 +1,1374 @@
-{"capsule_id": "quantal-1786046795", "address": {"role": "matrix.ternary.quantal", "tags": ["quantal", "bitnet", "ternary", "ayeos"]}, "payload_type": "ternary_matrix", "metadata": {"base_model": "Qwen/Qwen2.5-0.5B-Instruct", "binary": false, "group_size": 64, "epochs": 2, "final_loss": 11.615159170968193}, "timestamp": 1786046795, "matrices": [{"file": "m000.json", "name": "model.layers.23.mlp.up_proj", "dim": 4864, "in_features": 896, "group_size": 64, "bytes": 4237328}, {"file": "m001.json", "name": "model.layers.23.mlp.down_proj", "dim": 896, "in_features": 4864, "group_size": 64, "bytes": 4237673}, {"file": "m002.json", "name": "model.layers.23.mlp.gate_proj", "dim": 4864, "in_features": 896, "group_size": 64, "bytes": 4238873}, {"file": "m003.json", "name": "model.layers.23.self_attn.o_proj", "dim": 896, "in_features": 896, "group_size": 64, "bytes": 793005}, {"file": "m004.json", "name": "model.layers.23.self_attn.v_proj", "dim": 128, "in_features": 896, "group_size": 64, "bytes": 111599}, {"file": "m005.json", "name": "model.layers.23.self_attn.k_proj", "dim": 128, "in_features": 896, "group_size": 64, "bytes": 113522}, {"file": "m006.json", "name": "model.layers.23.self_attn.q_proj", "dim": 896, "in_features": 896, "group_size": 64, "bytes": 755647}, {"file": "m007.json", "name": "model.layers.22.mlp.up_proj", "dim": 4864, "in_features": 896, "group_size": 64, "bytes": 4237938}, {"file": "m008.json", "name": "model.layers.22.mlp.down_proj", "dim": 896, "in_features": 4864, "group_size": 64, "bytes": 4169394}, {"file": "m009.json", "name": "model.layers.22.mlp.gate_proj", "dim": 4864, "in_features": 896, "group_size": 64, "bytes": 4238364}, {"file": "m010.json", "name": "model.layers.22.self_attn.o_proj", "dim": 896, "in_features": 896, "group_size": 64, "bytes": 768239}, {"file": "m011.json", "name": "model.layers.22.self_attn.v_proj", "dim": 128, "in_features": 896, "group_size": 64, "bytes": 108015}, {"file": "m012.json", "name": "model.layers.22.self_attn.k_proj", "dim": 128, "in_features": 896, "group_size": 64, "bytes": 111624}, {"file": "m013.json", "name": "model.layers.22.self_attn.q_proj", "dim": 896, "in_features": 896, "group_size": 64, "bytes": 793644}, {"file": "m014.json", "name": "model.layers.21.mlp.up_proj", "dim": 4864, "in_features": 896, "group_size": 64, "bytes": 4169766}, {"file": "m015.json", "name": "model.layers.21.mlp.down_proj", "dim": 896, "in_features": 4864, "group_size": 64, "bytes": 4237365}, {"file": "m016.json", "name": "model.layers.21.mlp.gate_proj", "dim": 4864, "in_features": 896, "group_size": 64, "bytes": 4236207}, {"file": "m017.json", "name": "model.layers.21.self_attn.o_proj", "dim": 896, "in_features": 896, "group_size": 64, "bytes": 743005}, {"file": "m018.json", "name": "model.layers.21.self_attn.v_proj", "dim": 128, "in_features": 896, "group_size": 64, "bytes": 111572}, {"file": "m019.json", "name": "model.layers.21.self_attn.k_proj", "dim": 128, "in_features": 896, "group_size": 64, "bytes": 109903}, {"file": "m020.json", "name": "model.layers.21.self_attn.q_proj", "dim": 896, "in_features": 896, "group_size": 64, "bytes": 793119}, {"file": "m021.json", "name": "model.layers.20.mlp.up_proj", "dim": 4864, "in_features": 896, "group_size": 64, "bytes": 4237535}, {"file": "m022.json", "name": "model.layers.20.mlp.down_proj", "dim": 896, "in_features": 4864, "group_size": 64, "bytes": 4102075}, {"file": "m023.json", "name": "model.layers.20.mlp.gate_proj", "dim": 4864, "in_features": 896, "group_size": 64, "bytes": 4101179}, {"file": "m024.json", "name": "model.layers.20.self_attn.o_proj", "dim": 896, "in_features": 896, "group_size": 64, "bytes": 768454}, {"file": "m025.json", "name": "model.layers.20.self_attn.v_proj", "dim": 128, "in_features": 896, "group_size": 64, "bytes": 108101}, {"file": "m026.json", "name": "model.layers.20.self_attn.k_proj", "dim": 128, "in_features": 896, "group_size": 64, "bytes": 113537}, {"file": "m027.json", "name": "model.layers.20.self_attn.q_proj", "dim": 896, "in_features": 896, "group_size": 64, "bytes": 780825}, {"file": "m028.json", "name": "model.layers.19.mlp.up_proj", "dim": 4864, "in_features": 896, "group_size": 64, "bytes": 3760007}, {"file": "m029.json", "name": "model.layers.19.mlp.down_proj", "dim": 896, "in_features": 4864, "group_size": 64, "bytes": 4169268}, {"file": "m030.json", "name": "model.layers.19.mlp.gate_proj", "dim": 4864, "in_features": 896, "group_size": 64, "bytes": 4168510}, {"file": "m031.json", "name": "model.layers.19.self_attn.o_proj", "dim": 896, "in_features": 896, "group_size": 64, "bytes": 793257}, {"file": "m032.json", "name": "model.layers.19.self_attn.v_proj", "dim": 128, "in_features": 896, "group_size": 64, "bytes": 111623}, {"file": "m033.json", "name": "model.layers.19.self_attn.k_proj", "dim": 128, "in_features": 896, "group_size": 64, "bytes": 109914}, {"file": "m034.json", "name": "model.layers.19.self_attn.q_proj", "dim": 896, "in_features": 896, "group_size": 64, "bytes": 755765}, {"file": "m035.json", "name": "model.layers.18.mlp.up_proj", "dim": 4864, "in_features": 896, "group_size": 64, "bytes": 4169604}, {"file": "m036.json", "name": "model.layers.18.mlp.down_proj", "dim": 896, "in_features": 4864, "group_size": 64, "bytes": 4032847}, {"file": "m037.json", "name": "model.layers.18.mlp.gate_proj", "dim": 4864, "in_features": 896, "group_size": 64, "bytes": 4236546}, {"file": "m038.json", "name": "model.layers.18.self_attn.o_proj", "dim": 896, "in_features": 896, "group_size": 64, "bytes": 793316}, {"file": "m039.json", "name": "model.layers.18.self_attn.v_proj", "dim": 128, "in_features": 896, "group_size": 64, "bytes": 111598}, {"file": "m040.json", "name": "model.layers.18.self_attn.k_proj", "dim": 128, "in_features": 896, "group_size": 64, "bytes": 111643}, {"file": "m041.json", "name": "model.layers.18.self_attn.q_proj", "dim": 896, "in_features": 896, "group_size": 64, "bytes": 793019}, {"file": "m042.json", "name": "model.layers.17.mlp.up_proj", "dim": 4864, "in_features": 896, "group_size": 64, "bytes": 4306820}, {"file": "m043.json", "name": "model.layers.17.mlp.down_proj", "dim": 896, "in_features": 4864, "group_size": 64, "bytes": 4305234}, {"file": "m044.json", "name": "model.layers.17.mlp.gate_proj", "dim": 4864, "in_features": 896, "group_size": 64, "bytes": 4099007}, {"file": "m045.json", "name": "model.layers.17.self_attn.o_proj", "dim": 896, "in_features": 896, "group_size": 64, "bytes": 793510}, {"file": "m046.json", "name": "model.layers.17.self_attn.v_proj", "dim": 128, "in_features": 896, "group_size": 64, "bytes": 111686}, {"file": "m047.json", "name": "model.layers.17.self_attn.k_proj", "dim": 128, "in_features": 896, "group_size": 64, "bytes": 109772}, {"file": "m048.json", "name": "model.layers.17.self_attn.q_proj", "dim": 896, "in_features": 896, "group_size": 64, "bytes": 755771}, {"file": "m049.json", "name": "model.layers.16.mlp.up_proj", "dim": 4864, "in_features": 896, "group_size": 64, "bytes": 4169176}, {"file": "m050.json", "name": "model.layers.16.mlp.down_proj", "dim": 896, "in_features": 4864, "group_size": 64, "bytes": 4305263}, {"file": "m051.json", "name": "model.layers.16.mlp.gate_proj", "dim": 4864, "in_features": 896, "group_size": 64, "bytes": 4238840}, {"file": "m052.json", "name": "model.layers.16.self_attn.o_proj", "dim": 896, "in_features": 896, "group_size": 64, "bytes": 767921}, {"file": "m053.json", "name": "model.layers.16.self_attn.v_proj", "dim": 128, "in_features": 896, "group_size": 64, "bytes": 113386}, {"file": "m054.json", "name": "model.layers.16.self_attn.k_proj", "dim": 128, "in_features": 896, "group_size": 64, "bytes": 108229}, {"file": "m055.json", "name": "model.layers.16.self_attn.q_proj", "dim": 896, "in_features": 896, "group_size": 64, "bytes": 755847}, {"file": "m056.json", "name": "model.layers.15.mlp.up_proj", "dim": 4864, "in_features": 896, "group_size": 64, "bytes": 4237533}, {"file": "m057.json", "name": "model.layers.15.mlp.down_proj", "dim": 896, "in_features": 4864, "group_size": 64, "bytes": 4169304}, {"file": "m058.json", "name": "model.layers.15.mlp.gate_proj", "dim": 4864, "in_features": 896, "group_size": 64, "bytes": 4237237}, {"file": "m059.json", "name": "model.layers.15.self_attn.o_proj", "dim": 896, "in_features": 896, "group_size": 64, "bytes": 793382}, {"file": "m060.json", "name": "model.layers.15.self_attn.v_proj", "dim": 128, "in_features": 896, "group_size": 64, "bytes": 113491}, {"file": "m061.json", "name": "model.layers.15.self_attn.k_proj", "dim": 128, "in_features": 896, "group_size": 64, "bytes": 108095}, {"file": "m062.json", "name": "model.layers.15.self_attn.q_proj", "dim": 896, "in_features": 896, "group_size": 64, "bytes": 781017}, {"file": "m063.json", "name": "model.layers.14.mlp.up_proj", "dim": 4864, "in_features": 896, "group_size": 64, "bytes": 4101422}, {"file": "m064.json", "name": "model.layers.14.mlp.down_proj", "dim": 896, "in_features": 4864, "group_size": 64, "bytes": 4100714}, {"file": "m065.json", "name": "model.layers.14.mlp.gate_proj", "dim": 4864, "in_features": 896, "group_size": 64, "bytes": 4239196}, {"file": "m066.json", "name": "model.layers.14.self_attn.o_proj", "dim": 896, "in_features": 896, "group_size": 64, "bytes": 729823}, {"file": "m067.json", "name": "model.layers.14.self_attn.v_proj", "dim": 128, "in_features": 896, "group_size": 64, "bytes": 109849}, {"file": "m068.json", "name": "model.layers.14.self_attn.k_proj", "dim": 128, "in_features": 896, "group_size": 64, "bytes": 106330}, {"file": "m069.json", "name": "model.layers.14.self_attn.q_proj", "dim": 896, "in_features": 896, "group_size": 64, "bytes": 780838}, {"file": "m070.json", "name": "model.layers.13.mlp.up_proj", "dim": 4864, "in_features": 896, "group_size": 64, "bytes": 4101126}, {"file": "m071.json", "name": "model.layers.13.mlp.down_proj", "dim": 896, "in_features": 4864, "group_size": 64, "bytes": 4304801}, {"file": "m072.json", "name": "model.layers.13.mlp.gate_proj", "dim": 4864, "in_features": 896, "group_size": 64, "bytes": 4306371}, {"file": "m073.json", "name": "model.layers.13.self_attn.o_proj", "dim": 896, "in_features": 896, "group_size": 64, "bytes": 780766}, {"file": "m074.json", "name": "model.layers.13.self_attn.v_proj", "dim": 128, "in_features": 896, "group_size": 64, "bytes": 108060}, {"file": "m075.json", "name": "model.layers.13.self_attn.k_proj", "dim": 128, "in_features": 896, "group_size": 64, "bytes": 108364}, {"file": "m076.json", "name": "model.layers.13.self_attn.q_proj", "dim": 896, "in_features": 896, "group_size": 64, "bytes": 793384}, {"file": "m077.json", "name": "model.layers.12.mlp.up_proj", "dim": 4864, "in_features": 896, "group_size": 64, "bytes": 4305762}, {"file": "m078.json", "name": "model.layers.12.mlp.down_proj", "dim": 896, "in_features": 4864, "group_size": 64, "bytes": 4237664}, {"file": "m079.json", "name": "model.layers.12.mlp.gate_proj", "dim": 4864, "in_features": 896, "group_size": 64, "bytes": 4238924}, {"file": "m080.json", "name": "model.layers.12.self_attn.o_proj", "dim": 896, "in_features": 896, "group_size": 64, "bytes": 793053}, {"file": "m081.json", "name": "model.layers.12.self_attn.v_proj", "dim": 128, "in_features": 896, "group_size": 64, "bytes": 111705}, {"file": "m082.json", "name": "model.layers.12.self_attn.k_proj", "dim": 128, "in_features": 896, "group_size": 64, "bytes": 111752}, {"file": "m083.json", "name": "model.layers.12.self_attn.q_proj", "dim": 896, "in_features": 896, "group_size": 64, "bytes": 755683}, {"file": "m084.json", "name": "model.layers.11.mlp.up_proj", "dim": 4864, "in_features": 896, "group_size": 64, "bytes": 4168314}, {"file": "m085.json", "name": "model.layers.11.mlp.down_proj", "dim": 896, "in_features": 4864, "group_size": 64, "bytes": 3965282}, {"file": "m086.json", "name": "model.layers.11.mlp.gate_proj", "dim": 4864, "in_features": 896, "group_size": 64, "bytes": 4304892}, {"file": "m087.json", "name": "model.layers.11.self_attn.o_proj", "dim": 896, "in_features": 896, "group_size": 64, "bytes": 755442}, {"file": "m088.json", "name": "model.layers.11.self_attn.v_proj", "dim": 128, "in_features": 896, "group_size": 64, "bytes": 111650}, {"file": "m089.json", "name": "model.layers.11.self_attn.k_proj", "dim": 128, "in_features": 896, "group_size": 64, "bytes": 111609}, {"file": "m090.json", "name": "model.layers.11.self_attn.q_proj", "dim": 896, "in_features": 896, "group_size": 64, "bytes": 780488}, {"file": "m091.json", "name": "model.layers.10.mlp.up_proj", "dim": 4864, "in_features": 896, "group_size": 64, "bytes": 4305603}, {"file": "m092.json", "name": "model.layers.10.mlp.down_proj", "dim": 896, "in_features": 4864, "group_size": 64, "bytes": 4305466}, {"file": "m093.json", "name": "model.layers.10.mlp.gate_proj", "dim": 4864, "in_features": 896, "group_size": 64, "bytes": 4234944}, {"file": "m094.json", "name": "model.layers.10.self_attn.o_proj", "dim": 896, "in_features": 896, "group_size": 64, "bytes": 793401}, {"file": "m095.json", "name": "model.layers.10.self_attn.v_proj", "dim": 128, "in_features": 896, "group_size": 64, "bytes": 110042}, {"file": "m096.json", "name": "model.layers.10.self_attn.k_proj", "dim": 128, "in_features": 896, "group_size": 64, "bytes": 111557}, {"file": "m097.json", "name": "model.layers.10.self_attn.q_proj", "dim": 896, "in_features": 896, "group_size": 64, "bytes": 780539}, {"file": "m098.json", "name": "model.layers.9.mlp.up_proj", "dim": 4864, "in_features": 896, "group_size": 64, "bytes": 4033287}, {"file": "m099.json", "name": "model.layers.9.mlp.down_proj", "dim": 896, "in_features": 4864, "group_size": 64, "bytes": 4236597}, {"file": "m100.json", "name": "model.layers.9.mlp.gate_proj", "dim": 4864, "in_features": 896, "group_size": 64, "bytes": 4167164}, {"file": "m101.json", "name": "model.layers.9.self_attn.o_proj", "dim": 896, "in_features": 896, "group_size": 64, "bytes": 780376}, {"file": "m102.json", "name": "model.layers.9.self_attn.v_proj", "dim": 128, "in_features": 896, "group_size": 64, "bytes": 113523}, {"file": "m103.json", "name": "model.layers.9.self_attn.k_proj", "dim": 128, "in_features": 896, "group_size": 64, "bytes": 104607}, {"file": "m104.json", "name": "model.layers.9.self_attn.q_proj", "dim": 896, "in_features": 896, "group_size": 64, "bytes": 755832}, {"file": "m105.json", "name": "model.layers.8.mlp.up_proj", "dim": 4864, "in_features": 896, "group_size": 64, "bytes": 4237488}, {"file": "m106.json", "name": "model.layers.8.mlp.down_proj", "dim": 896, "in_features": 4864, "group_size": 64, "bytes": 4306155}, {"file": "m107.json", "name": "model.layers.8.mlp.gate_proj", "dim": 4864, "in_features": 896, "group_size": 64, "bytes": 4032318}, {"file": "m108.json", "name": "model.layers.8.self_attn.o_proj", "dim": 896, "in_features": 896, "group_size": 64, "bytes": 780923}, {"file": "m109.json", "name": "model.layers.8.self_attn.v_proj", "dim": 128, "in_features": 896, "group_size": 64, "bytes": 109903}, {"file": "m110.json", "name": "model.layers.8.self_attn.k_proj", "dim": 128, "in_features": 896, "group_size": 64, "bytes": 111624}, {"file": "m111.json", "name": "model.layers.8.self_attn.q_proj", "dim": 896, "in_features": 896, "group_size": 64, "bytes": 780637}, {"file": "m112.json", "name": "model.layers.7.mlp.up_proj", "dim": 4864, "in_features": 896, "group_size": 64, "bytes": 4237933}, {"file": "m113.json", "name": "model.layers.7.mlp.down_proj", "dim": 896, "in_features": 4864, "group_size": 64, "bytes": 4237018}, {"file": "m114.json", "name": "model.layers.7.mlp.gate_proj", "dim": 4864, "in_features": 896, "group_size": 64, "bytes": 4236327}, {"file": "m115.json", "name": "model.layers.7.self_attn.o_proj", "dim": 896, "in_features": 896, "group_size": 64, "bytes": 780717}, {"file": "m116.json", "name": "model.layers.7.self_attn.v_proj", "dim": 128, "in_features": 896, "group_size": 64, "bytes": 109902}, {"file": "m117.json", "name": "model.layers.7.self_attn.k_proj", "dim": 128, "in_features": 896, "group_size": 64, "bytes": 109713}, {"file": "m118.json", "name": "model.layers.7.self_attn.q_proj", "dim": 896, "in_features": 896, "group_size": 64, "bytes": 755414}, {"file": "m119.json", "name": "model.layers.6.mlp.up_proj", "dim": 4864, "in_features": 896, "group_size": 64, "bytes": 4237467}, {"file": "m120.json", "name": "model.layers.6.mlp.down_proj", "dim": 896, "in_features": 4864, "group_size": 64, "bytes": 4237392}, {"file": "m121.json", "name": "model.layers.6.mlp.gate_proj", "dim": 4864, "in_features": 896, "group_size": 64, "bytes": 4236859}, {"file": "m122.json", "name": "model.layers.6.self_attn.o_proj", "dim": 896, "in_features": 896, "group_size": 64, "bytes": 793830}, {"file": "m123.json", "name": "model.layers.6.self_attn.v_proj", "dim": 128, "in_features": 896, "group_size": 64, "bytes": 111674}, {"file": "m124.json", "name": "model.layers.6.self_attn.k_proj", "dim": 128, "in_features": 896, "group_size": 64, "bytes": 108070}, {"file": "m125.json", "name": "model.layers.6.self_attn.q_proj", "dim": 896, "in_features": 896, "group_size": 64, "bytes": 767686}, {"file": "m126.json", "name": "model.layers.5.mlp.up_proj", "dim": 4864, "in_features": 896, "group_size": 64, "bytes": 4305067}, {"file": "m127.json", "name": "model.layers.5.mlp.down_proj", "dim": 896, "in_features": 4864, "group_size": 64, "bytes": 4237702}, {"file": "m128.json", "name": "model.layers.5.mlp.gate_proj", "dim": 4864, "in_features": 896, "group_size": 64, "bytes": 4235457}, {"file": "m129.json", "name": "model.layers.5.self_attn.o_proj", "dim": 896, "in_features": 896, "group_size": 64, "bytes": 730819}, {"file": "m130.json", "name": "model.layers.5.self_attn.v_proj", "dim": 128, "in_features": 896, "group_size": 64, "bytes": 113437}, {"file": "m131.json", "name": "model.layers.5.self_attn.k_proj", "dim": 128, "in_features": 896, "group_size": 64, "bytes": 111720}, {"file": "m132.json", "name": "model.layers.5.self_attn.q_proj", "dim": 896, "in_features": 896, "group_size": 64, "bytes": 768119}, {"file": "m133.json", "name": "model.layers.4.mlp.up_proj", "dim": 4864, "in_features": 896, "group_size": 64, "bytes": 4101210}, {"file": "m134.json", "name": "model.layers.4.mlp.down_proj", "dim": 896, "in_features": 4864, "group_size": 64, "bytes": 4304166}, {"file": "m135.json", "name": "model.layers.4.mlp.gate_proj", "dim": 4864, "in_features": 896, "group_size": 64, "bytes": 4236877}, {"file": "m136.json", "name": "model.layers.4.self_attn.o_proj", "dim": 896, "in_features": 896, "group_size": 64, "bytes": 780633}, {"file": "m137.json", "name": "model.layers.4.self_attn.v_proj", "dim": 128, "in_features": 896, "group_size": 64, "bytes": 113478}, {"file": "m138.json", "name": "model.layers.4.self_attn.k_proj", "dim": 128, "in_features": 896, "group_size": 64, "bytes": 111791}, {"file": "m139.json", "name": "model.layers.4.self_attn.q_proj", "dim": 896, "in_features": 896, "group_size": 64, "bytes": 768085}, {"file": "m140.json", "name": "model.layers.3.mlp.up_proj", "dim": 4864, "in_features": 896, "group_size": 64, "bytes": 4306013}, {"file": "m141.json", "name": "model.layers.3.mlp.down_proj", "dim": 896, "in_features": 4864, "group_size": 64, "bytes": 3965247}, {"file": "m142.json", "name": "model.layers.3.mlp.gate_proj", "dim": 4864, "in_features": 896, "group_size": 64, "bytes": 4170335}, {"file": "m143.json", "name": "model.layers.3.self_attn.o_proj", "dim": 896, "in_features": 896, "group_size": 64, "bytes": 780603}, {"file": "m144.json", "name": "model.layers.3.self_attn.v_proj", "dim": 128, "in_features": 896, "group_size": 64, "bytes": 109975}, {"file": "m145.json", "name": "model.layers.3.self_attn.k_proj", "dim": 128, "in_features": 896, "group_size": 64, "bytes": 108156}, {"file": "m146.json", "name": "model.layers.3.self_attn.q_proj", "dim": 896, "in_features": 896, "group_size": 64, "bytes": 768092}, {"file": "m147.json", "name": "model.layers.2.mlp.up_proj", "dim": 4864, "in_features": 896, "group_size": 64, "bytes": 3965411}, {"file": "m148.json", "name": "model.layers.2.mlp.down_proj", "dim": 896, "in_features": 4864, "group_size": 64, "bytes": 4169595}, {"file": "m149.json", "name": "model.layers.2.mlp.gate_proj", "dim": 4864, "in_features": 896, "group_size": 64, "bytes": 4171762}, {"file": "m150.json", "name": "model.layers.2.self_attn.o_proj", "dim": 896, "in_features": 896, "group_size": 64, "bytes": 792688}, {"file": "m151.json", "name": "model.layers.2.self_attn.v_proj", "dim": 128, "in_features": 896, "group_size": 64, "bytes": 109870}, {"file": "m152.json", "name": "model.layers.2.self_attn.k_proj", "dim": 128, "in_features": 896, "group_size": 64, "bytes": 109885}, {"file": "m153.json", "name": "model.layers.2.self_attn.q_proj", "dim": 896, "in_features": 896, "group_size": 64, "bytes": 780757}, {"file": "m154.json", "name": "model.layers.1.mlp.up_proj", "dim": 4864, "in_features": 896, "group_size": 64, "bytes": 4305531}, {"file": "m155.json", "name": "model.layers.1.mlp.down_proj", "dim": 896, "in_features": 4864, "group_size": 64, "bytes": 4305086}, {"file": "m156.json", "name": "model.layers.1.mlp.gate_proj", "dim": 4864, "in_features": 896, "group_size": 64, "bytes": 4171413}, {"file": "m157.json", "name": "model.layers.1.self_attn.o_proj", "dim": 896, "in_features": 896, "group_size": 64, "bytes": 768015}, {"file": "m158.json", "name": "model.layers.1.self_attn.v_proj", "dim": 128, "in_features": 896, "group_size": 64, "bytes": 113313}, {"file": "m159.json", "name": "model.layers.1.self_attn.k_proj", "dim": 128, "in_features": 896, "group_size": 64, "bytes": 111546}, {"file": "m160.json", "name": "model.layers.1.self_attn.q_proj", "dim": 896, "in_features": 896, "group_size": 64, "bytes": 730525}, {"file": "m161.json", "name": "model.layers.0.mlp.up_proj", "dim": 4864, "in_features": 896, "group_size": 64, "bytes": 4237446}, {"file": "m162.json", "name": "model.layers.0.mlp.down_proj", "dim": 896, "in_features": 4864, "group_size": 64, "bytes": 4304867}, {"file": "m163.json", "name": "model.layers.0.mlp.gate_proj", "dim": 4864, "in_features": 896, "group_size": 64, "bytes": 4233466}, {"file": "m164.json", "name": "model.layers.0.self_attn.o_proj", "dim": 896, "in_features": 896, "group_size": 64, "bytes": 792715}, {"file": "m165.json", "name": "model.layers.0.self_attn.v_proj", "dim": 128, "in_features": 896, "group_size": 64, "bytes": 113457}, {"file": "m166.json", "name": "model.layers.0.self_attn.k_proj", "dim": 128, "in_features": 896, "group_size": 64, "bytes": 108070}, {"file": "m167.json", "name": "model.layers.0.self_attn.q_proj", "dim": 896, "in_features": 896, "group_size": 64, "bytes": 742346}]}
+{
+  "capsule_id": "quantal-1786138938",
+  "address": {
+    "role": "matrix.ternary.quantal",
+    "tags": [
+      "quantal",
+      "bitnet",
+      "ternary",
+      "ayeos"
+    ]
+  },
+  "payload_type": "ternary_matrix",
+  "metadata": {
+    "base_model": "Qwen/Qwen2.5-0.5B",
+    "reconstruction_model": "Qwen/Qwen2.5-0.5B-Instruct",
+    "binary": false,
+    "group_size": 64,
+    "epochs": 10,
+    "final_loss": 2.7867,
+    "val_loss": 4.7464,
+    "checkpoint_sha256": "834dc60979d6c8b5a6941dcb724a9f1cb40663b0ca97dbcd6037a45e2dc30998",
+    "checkpoint_size_bytes": 989099518,
+    "checkpoint_source": "vast.ai ssh7 RTX 3090 \u2014 10-epoch continued-training run (log quantal-train.log)",
+    "export_tool": "MLX-QUANT fork mlx 0.32.1.dev20260727+349167d7 (ternary quantize)",
+    "export_complete": true
+  },
+  "timestamp": 1786138938,
+  "matrices": [
+    {
+      "file": "m000.json",
+      "name": "model.layers.23.mlp.up_proj",
+      "dim": 4864,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 3897197
+    },
+    {
+      "file": "m001.json",
+      "name": "model.layers.23.mlp.down_proj",
+      "dim": 896,
+      "in_features": 4864,
+      "group_size": 64,
+      "bytes": 3896728
+    },
+    {
+      "file": "m002.json",
+      "name": "model.layers.23.mlp.gate_proj",
+      "dim": 4864,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 3898951
+    },
+    {
+      "file": "m003.json",
+      "name": "model.layers.23.self_attn.o_proj",
+      "dim": 896,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 730522
+    },
+    {
+      "file": "m004.json",
+      "name": "model.layers.23.self_attn.v_proj",
+      "dim": 128,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 102642
+    },
+    {
+      "file": "m005.json",
+      "name": "model.layers.23.self_attn.k_proj",
+      "dim": 128,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 104565
+    },
+    {
+      "file": "m006.json",
+      "name": "model.layers.23.self_attn.q_proj",
+      "dim": 896,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 718142
+    },
+    {
+      "file": "m007.json",
+      "name": "model.layers.22.mlp.up_proj",
+      "dim": 4864,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 3829351
+    },
+    {
+      "file": "m008.json",
+      "name": "model.layers.22.mlp.down_proj",
+      "dim": 896,
+      "in_features": 4864,
+      "group_size": 64,
+      "bytes": 3897039
+    },
+    {
+      "file": "m009.json",
+      "name": "model.layers.22.mlp.gate_proj",
+      "dim": 4864,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 3761915
+    },
+    {
+      "file": "m010.json",
+      "name": "model.layers.22.self_attn.o_proj",
+      "dim": 896,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 705605
+    },
+    {
+      "file": "m011.json",
+      "name": "model.layers.22.self_attn.v_proj",
+      "dim": 128,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 97340
+    },
+    {
+      "file": "m012.json",
+      "name": "model.layers.22.self_attn.k_proj",
+      "dim": 128,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 99141
+    },
+    {
+      "file": "m013.json",
+      "name": "model.layers.22.self_attn.q_proj",
+      "dim": 896,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 718165
+    },
+    {
+      "file": "m014.json",
+      "name": "model.layers.21.mlp.up_proj",
+      "dim": 4864,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 3693236
+    },
+    {
+      "file": "m015.json",
+      "name": "model.layers.21.mlp.down_proj",
+      "dim": 896,
+      "in_features": 4864,
+      "group_size": 64,
+      "bytes": 3828837
+    },
+    {
+      "file": "m016.json",
+      "name": "model.layers.21.mlp.gate_proj",
+      "dim": 4864,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 3896290
+    },
+    {
+      "file": "m017.json",
+      "name": "model.layers.21.self_attn.o_proj",
+      "dim": 896,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 692889
+    },
+    {
+      "file": "m018.json",
+      "name": "model.layers.21.self_attn.v_proj",
+      "dim": 128,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 97246
+    },
+    {
+      "file": "m019.json",
+      "name": "model.layers.21.self_attn.k_proj",
+      "dim": 128,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 102785
+    },
+    {
+      "file": "m020.json",
+      "name": "model.layers.21.self_attn.q_proj",
+      "dim": 896,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 680142
+    },
+    {
+      "file": "m021.json",
+      "name": "model.layers.20.mlp.up_proj",
+      "dim": 4864,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 3829182
+    },
+    {
+      "file": "m022.json",
+      "name": "model.layers.20.mlp.down_proj",
+      "dim": 896,
+      "in_features": 4864,
+      "group_size": 64,
+      "bytes": 3897409
+    },
+    {
+      "file": "m023.json",
+      "name": "model.layers.20.mlp.gate_proj",
+      "dim": 4864,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 3828715
+    },
+    {
+      "file": "m024.json",
+      "name": "model.layers.20.self_attn.o_proj",
+      "dim": 896,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 705578
+    },
+    {
+      "file": "m025.json",
+      "name": "model.layers.20.self_attn.v_proj",
+      "dim": 128,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 102674
+    },
+    {
+      "file": "m026.json",
+      "name": "model.layers.20.self_attn.k_proj",
+      "dim": 128,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 102811
+    },
+    {
+      "file": "m027.json",
+      "name": "model.layers.20.self_attn.q_proj",
+      "dim": 896,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 718285
+    },
+    {
+      "file": "m028.json",
+      "name": "model.layers.19.mlp.up_proj",
+      "dim": 4864,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 3896329
+    },
+    {
+      "file": "m029.json",
+      "name": "model.layers.19.mlp.down_proj",
+      "dim": 896,
+      "in_features": 4864,
+      "group_size": 64,
+      "bytes": 3896412
+    },
+    {
+      "file": "m030.json",
+      "name": "model.layers.19.mlp.gate_proj",
+      "dim": 4864,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 3896094
+    },
+    {
+      "file": "m031.json",
+      "name": "model.layers.19.self_attn.o_proj",
+      "dim": 896,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 717965
+    },
+    {
+      "file": "m032.json",
+      "name": "model.layers.19.self_attn.v_proj",
+      "dim": 128,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 102679
+    },
+    {
+      "file": "m033.json",
+      "name": "model.layers.19.self_attn.k_proj",
+      "dim": 128,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 97376
+    },
+    {
+      "file": "m034.json",
+      "name": "model.layers.19.self_attn.q_proj",
+      "dim": 896,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 718103
+    },
+    {
+      "file": "m035.json",
+      "name": "model.layers.18.mlp.up_proj",
+      "dim": 4864,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 3896916
+    },
+    {
+      "file": "m036.json",
+      "name": "model.layers.18.mlp.down_proj",
+      "dim": 896,
+      "in_features": 4864,
+      "group_size": 64,
+      "bytes": 3896616
+    },
+    {
+      "file": "m037.json",
+      "name": "model.layers.18.mlp.gate_proj",
+      "dim": 4864,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 3827763
+    },
+    {
+      "file": "m038.json",
+      "name": "model.layers.18.self_attn.o_proj",
+      "dim": 896,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 705486
+    },
+    {
+      "file": "m039.json",
+      "name": "model.layers.18.self_attn.v_proj",
+      "dim": 128,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 93665
+    },
+    {
+      "file": "m040.json",
+      "name": "model.layers.18.self_attn.k_proj",
+      "dim": 128,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 100866
+    },
+    {
+      "file": "m041.json",
+      "name": "model.layers.18.self_attn.q_proj",
+      "dim": 896,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 693030
+    },
+    {
+      "file": "m042.json",
+      "name": "model.layers.17.mlp.up_proj",
+      "dim": 4864,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 3898101
+    },
+    {
+      "file": "m043.json",
+      "name": "model.layers.17.mlp.down_proj",
+      "dim": 896,
+      "in_features": 4864,
+      "group_size": 64,
+      "bytes": 3828116
+    },
+    {
+      "file": "m044.json",
+      "name": "model.layers.17.mlp.gate_proj",
+      "dim": 4864,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 3894975
+    },
+    {
+      "file": "m045.json",
+      "name": "model.layers.17.self_attn.o_proj",
+      "dim": 896,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 730667
+    },
+    {
+      "file": "m046.json",
+      "name": "model.layers.17.self_attn.v_proj",
+      "dim": 128,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 102784
+    },
+    {
+      "file": "m047.json",
+      "name": "model.layers.17.self_attn.k_proj",
+      "dim": 128,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 99084
+    },
+    {
+      "file": "m048.json",
+      "name": "model.layers.17.self_attn.q_proj",
+      "dim": 896,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 717967
+    },
+    {
+      "file": "m049.json",
+      "name": "model.layers.16.mlp.up_proj",
+      "dim": 4864,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 3897258
+    },
+    {
+      "file": "m050.json",
+      "name": "model.layers.16.mlp.down_proj",
+      "dim": 896,
+      "in_features": 4864,
+      "group_size": 64,
+      "bytes": 3828948
+    },
+    {
+      "file": "m051.json",
+      "name": "model.layers.16.mlp.gate_proj",
+      "dim": 4864,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 3898292
+    },
+    {
+      "file": "m052.json",
+      "name": "model.layers.16.self_attn.o_proj",
+      "dim": 896,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 730451
+    },
+    {
+      "file": "m053.json",
+      "name": "model.layers.16.self_attn.v_proj",
+      "dim": 128,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 102528
+    },
+    {
+      "file": "m054.json",
+      "name": "model.layers.16.self_attn.k_proj",
+      "dim": 128,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 102755
+    },
+    {
+      "file": "m055.json",
+      "name": "model.layers.16.self_attn.q_proj",
+      "dim": 896,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 693155
+    },
+    {
+      "file": "m056.json",
+      "name": "model.layers.15.mlp.up_proj",
+      "dim": 4864,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 3828702
+    },
+    {
+      "file": "m057.json",
+      "name": "model.layers.15.mlp.down_proj",
+      "dim": 896,
+      "in_features": 4864,
+      "group_size": 64,
+      "bytes": 3964479
+    },
+    {
+      "file": "m058.json",
+      "name": "model.layers.15.mlp.gate_proj",
+      "dim": 4864,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 3420630
+    },
+    {
+      "file": "m059.json",
+      "name": "model.layers.15.self_attn.o_proj",
+      "dim": 896,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 730838
+    },
+    {
+      "file": "m060.json",
+      "name": "model.layers.15.self_attn.v_proj",
+      "dim": 128,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 100866
+    },
+    {
+      "file": "m061.json",
+      "name": "model.layers.15.self_attn.k_proj",
+      "dim": 128,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 100947
+    },
+    {
+      "file": "m062.json",
+      "name": "model.layers.15.self_attn.q_proj",
+      "dim": 896,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 705750
+    },
+    {
+      "file": "m063.json",
+      "name": "model.layers.14.mlp.up_proj",
+      "dim": 4864,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 3897636
+    },
+    {
+      "file": "m064.json",
+      "name": "model.layers.14.mlp.down_proj",
+      "dim": 896,
+      "in_features": 4864,
+      "group_size": 64,
+      "bytes": 3896852
+    },
+    {
+      "file": "m065.json",
+      "name": "model.layers.14.mlp.gate_proj",
+      "dim": 4864,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 3422234
+    },
+    {
+      "file": "m066.json",
+      "name": "model.layers.14.self_attn.o_proj",
+      "dim": 896,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 730324
+    },
+    {
+      "file": "m067.json",
+      "name": "model.layers.14.self_attn.v_proj",
+      "dim": 128,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 100786
+    },
+    {
+      "file": "m068.json",
+      "name": "model.layers.14.self_attn.k_proj",
+      "dim": 128,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 102762
+    },
+    {
+      "file": "m069.json",
+      "name": "model.layers.14.self_attn.q_proj",
+      "dim": 896,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 705730
+    },
+    {
+      "file": "m070.json",
+      "name": "model.layers.13.mlp.up_proj",
+      "dim": 4864,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 3897085
+    },
+    {
+      "file": "m071.json",
+      "name": "model.layers.13.mlp.down_proj",
+      "dim": 896,
+      "in_features": 4864,
+      "group_size": 64,
+      "bytes": 3895936
+    },
+    {
+      "file": "m072.json",
+      "name": "model.layers.13.mlp.gate_proj",
+      "dim": 4864,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 3761827
+    },
+    {
+      "file": "m073.json",
+      "name": "model.layers.13.self_attn.o_proj",
+      "dim": 896,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 730950
+    },
+    {
+      "file": "m074.json",
+      "name": "model.layers.13.self_attn.v_proj",
+      "dim": 128,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 97331
+    },
+    {
+      "file": "m075.json",
+      "name": "model.layers.13.self_attn.k_proj",
+      "dim": 128,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 99330
+    },
+    {
+      "file": "m076.json",
+      "name": "model.layers.13.self_attn.q_proj",
+      "dim": 896,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 705693
+    },
+    {
+      "file": "m077.json",
+      "name": "model.layers.12.mlp.up_proj",
+      "dim": 4864,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 3829444
+    },
+    {
+      "file": "m078.json",
+      "name": "model.layers.12.mlp.down_proj",
+      "dim": 896,
+      "in_features": 4864,
+      "group_size": 64,
+      "bytes": 3829544
+    },
+    {
+      "file": "m079.json",
+      "name": "model.layers.12.mlp.gate_proj",
+      "dim": 4864,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 3421984
+    },
+    {
+      "file": "m080.json",
+      "name": "model.layers.12.self_attn.o_proj",
+      "dim": 896,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 717683
+    },
+    {
+      "file": "m081.json",
+      "name": "model.layers.12.self_attn.v_proj",
+      "dim": 128,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 102746
+    },
+    {
+      "file": "m082.json",
+      "name": "model.layers.12.self_attn.k_proj",
+      "dim": 128,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 102643
+    },
+    {
+      "file": "m083.json",
+      "name": "model.layers.12.self_attn.q_proj",
+      "dim": 896,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 706020
+    },
+    {
+      "file": "m084.json",
+      "name": "model.layers.11.mlp.up_proj",
+      "dim": 4864,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 3896940
+    },
+    {
+      "file": "m085.json",
+      "name": "model.layers.11.mlp.down_proj",
+      "dim": 896,
+      "in_features": 4864,
+      "group_size": 64,
+      "bytes": 3965265
+    },
+    {
+      "file": "m086.json",
+      "name": "model.layers.11.mlp.gate_proj",
+      "dim": 4864,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 3828794
+    },
+    {
+      "file": "m087.json",
+      "name": "model.layers.11.self_attn.o_proj",
+      "dim": 896,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 730107
+    },
+    {
+      "file": "m088.json",
+      "name": "model.layers.11.self_attn.v_proj",
+      "dim": 128,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 102681
+    },
+    {
+      "file": "m089.json",
+      "name": "model.layers.11.self_attn.k_proj",
+      "dim": 128,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 98963
+    },
+    {
+      "file": "m090.json",
+      "name": "model.layers.11.self_attn.q_proj",
+      "dim": 896,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 718288
+    },
+    {
+      "file": "m091.json",
+      "name": "model.layers.10.mlp.up_proj",
+      "dim": 4864,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 3829043
+    },
+    {
+      "file": "m092.json",
+      "name": "model.layers.10.mlp.down_proj",
+      "dim": 896,
+      "in_features": 4864,
+      "group_size": 64,
+      "bytes": 3828677
+    },
+    {
+      "file": "m093.json",
+      "name": "model.layers.10.mlp.gate_proj",
+      "dim": 4864,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 3691124
+    },
+    {
+      "file": "m094.json",
+      "name": "model.layers.10.self_attn.o_proj",
+      "dim": 896,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 718278
+    },
+    {
+      "file": "m095.json",
+      "name": "model.layers.10.self_attn.v_proj",
+      "dim": 128,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 102785
+    },
+    {
+      "file": "m096.json",
+      "name": "model.layers.10.self_attn.k_proj",
+      "dim": 128,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 99154
+    },
+    {
+      "file": "m097.json",
+      "name": "model.layers.10.self_attn.q_proj",
+      "dim": 896,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 718070
+    },
+    {
+      "file": "m098.json",
+      "name": "model.layers.9.mlp.up_proj",
+      "dim": 4864,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 3897115
+    },
+    {
+      "file": "m099.json",
+      "name": "model.layers.9.mlp.down_proj",
+      "dim": 896,
+      "in_features": 4864,
+      "group_size": 64,
+      "bytes": 3964823
+    },
+    {
+      "file": "m100.json",
+      "name": "model.layers.9.mlp.gate_proj",
+      "dim": 4864,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 3894950
+    },
+    {
+      "file": "m101.json",
+      "name": "model.layers.9.self_attn.o_proj",
+      "dim": 896,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 717690
+    },
+    {
+      "file": "m102.json",
+      "name": "model.layers.9.self_attn.v_proj",
+      "dim": 128,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 99218
+    },
+    {
+      "file": "m103.json",
+      "name": "model.layers.9.self_attn.k_proj",
+      "dim": 128,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 93757
+    },
+    {
+      "file": "m104.json",
+      "name": "model.layers.9.self_attn.q_proj",
+      "dim": 896,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 718479
+    },
+    {
+      "file": "m105.json",
+      "name": "model.layers.8.mlp.up_proj",
+      "dim": 4864,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 3760813
+    },
+    {
+      "file": "m106.json",
+      "name": "model.layers.8.mlp.down_proj",
+      "dim": 896,
+      "in_features": 4864,
+      "group_size": 64,
+      "bytes": 3829143
+    },
+    {
+      "file": "m107.json",
+      "name": "model.layers.8.mlp.gate_proj",
+      "dim": 4864,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 3760234
+    },
+    {
+      "file": "m108.json",
+      "name": "model.layers.8.self_attn.o_proj",
+      "dim": 896,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 730974
+    },
+    {
+      "file": "m109.json",
+      "name": "model.layers.8.self_attn.v_proj",
+      "dim": 128,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 100999
+    },
+    {
+      "file": "m110.json",
+      "name": "model.layers.8.self_attn.k_proj",
+      "dim": 128,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 100903
+    },
+    {
+      "file": "m111.json",
+      "name": "model.layers.8.self_attn.q_proj",
+      "dim": 896,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 718145
+    },
+    {
+      "file": "m112.json",
+      "name": "model.layers.7.mlp.up_proj",
+      "dim": 4864,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 3897486
+    },
+    {
+      "file": "m113.json",
+      "name": "model.layers.7.mlp.down_proj",
+      "dim": 896,
+      "in_features": 4864,
+      "group_size": 64,
+      "bytes": 3964717
+    },
+    {
+      "file": "m114.json",
+      "name": "model.layers.7.mlp.gate_proj",
+      "dim": 4864,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 3827795
+    },
+    {
+      "file": "m115.json",
+      "name": "model.layers.7.self_attn.o_proj",
+      "dim": 896,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 705443
+    },
+    {
+      "file": "m116.json",
+      "name": "model.layers.7.self_attn.v_proj",
+      "dim": 128,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 100920
+    },
+    {
+      "file": "m117.json",
+      "name": "model.layers.7.self_attn.k_proj",
+      "dim": 128,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 100788
+    },
+    {
+      "file": "m118.json",
+      "name": "model.layers.7.self_attn.q_proj",
+      "dim": 896,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 717914
+    },
+    {
+      "file": "m119.json",
+      "name": "model.layers.6.mlp.up_proj",
+      "dim": 4864,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 3965213
+    },
+    {
+      "file": "m120.json",
+      "name": "model.layers.6.mlp.down_proj",
+      "dim": 896,
+      "in_features": 4864,
+      "group_size": 64,
+      "bytes": 3964874
+    },
+    {
+      "file": "m121.json",
+      "name": "model.layers.6.mlp.gate_proj",
+      "dim": 4864,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 3624678
+    },
+    {
+      "file": "m122.json",
+      "name": "model.layers.6.self_attn.o_proj",
+      "dim": 896,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 705936
+    },
+    {
+      "file": "m123.json",
+      "name": "model.layers.6.self_attn.v_proj",
+      "dim": 128,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 99175
+    },
+    {
+      "file": "m124.json",
+      "name": "model.layers.6.self_attn.k_proj",
+      "dim": 128,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 97272
+    },
+    {
+      "file": "m125.json",
+      "name": "model.layers.6.self_attn.q_proj",
+      "dim": 896,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 680223
+    },
+    {
+      "file": "m126.json",
+      "name": "model.layers.5.mlp.up_proj",
+      "dim": 4864,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 3896713
+    },
+    {
+      "file": "m127.json",
+      "name": "model.layers.5.mlp.down_proj",
+      "dim": 896,
+      "in_features": 4864,
+      "group_size": 64,
+      "bytes": 3896644
+    },
+    {
+      "file": "m128.json",
+      "name": "model.layers.5.mlp.gate_proj",
+      "dim": 4864,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 3826961
+    },
+    {
+      "file": "m129.json",
+      "name": "model.layers.5.self_attn.o_proj",
+      "dim": 896,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 693043
+    },
+    {
+      "file": "m130.json",
+      "name": "model.layers.5.self_attn.v_proj",
+      "dim": 128,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 104532
+    },
+    {
+      "file": "m131.json",
+      "name": "model.layers.5.self_attn.k_proj",
+      "dim": 128,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 102685
+    },
+    {
+      "file": "m132.json",
+      "name": "model.layers.5.self_attn.q_proj",
+      "dim": 896,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 718106
+    },
+    {
+      "file": "m133.json",
+      "name": "model.layers.4.mlp.up_proj",
+      "dim": 4864,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 3965931
+    },
+    {
+      "file": "m134.json",
+      "name": "model.layers.4.mlp.down_proj",
+      "dim": 896,
+      "in_features": 4864,
+      "group_size": 64,
+      "bytes": 3964004
+    },
+    {
+      "file": "m135.json",
+      "name": "model.layers.4.mlp.gate_proj",
+      "dim": 4864,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 3896012
+    },
+    {
+      "file": "m136.json",
+      "name": "model.layers.4.self_attn.o_proj",
+      "dim": 896,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 717922
+    },
+    {
+      "file": "m137.json",
+      "name": "model.layers.4.self_attn.v_proj",
+      "dim": 128,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 97298
+    },
+    {
+      "file": "m138.json",
+      "name": "model.layers.4.self_attn.k_proj",
+      "dim": 128,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 95624
+    },
+    {
+      "file": "m139.json",
+      "name": "model.layers.4.self_attn.q_proj",
+      "dim": 896,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 718267
+    },
+    {
+      "file": "m140.json",
+      "name": "model.layers.3.mlp.up_proj",
+      "dim": 4864,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 3897315
+    },
+    {
+      "file": "m141.json",
+      "name": "model.layers.3.mlp.down_proj",
+      "dim": 896,
+      "in_features": 4864,
+      "group_size": 64,
+      "bytes": 3760818
+    },
+    {
+      "file": "m142.json",
+      "name": "model.layers.3.mlp.gate_proj",
+      "dim": 4864,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 3898060
+    },
+    {
+      "file": "m143.json",
+      "name": "model.layers.3.self_attn.o_proj",
+      "dim": 896,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 717844
+    },
+    {
+      "file": "m144.json",
+      "name": "model.layers.3.self_attn.v_proj",
+      "dim": 128,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 104457
+    },
+    {
+      "file": "m145.json",
+      "name": "model.layers.3.self_attn.k_proj",
+      "dim": 128,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 99164
+    },
+    {
+      "file": "m146.json",
+      "name": "model.layers.3.self_attn.q_proj",
+      "dim": 896,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 718213
+    },
+    {
+      "file": "m147.json",
+      "name": "model.layers.2.mlp.up_proj",
+      "dim": 4864,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 3965032
+    },
+    {
+      "file": "m148.json",
+      "name": "model.layers.2.mlp.down_proj",
+      "dim": 896,
+      "in_features": 4864,
+      "group_size": 64,
+      "bytes": 3829001
+    },
+    {
+      "file": "m149.json",
+      "name": "model.layers.2.mlp.gate_proj",
+      "dim": 4864,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 3899385
+    },
+    {
+      "file": "m150.json",
+      "name": "model.layers.2.self_attn.o_proj",
+      "dim": 896,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 717340
+    },
+    {
+      "file": "m151.json",
+      "name": "model.layers.2.self_attn.v_proj",
+      "dim": 128,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 104588
+    },
+    {
+      "file": "m152.json",
+      "name": "model.layers.2.self_attn.k_proj",
+      "dim": 128,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 97316
+    },
+    {
+      "file": "m153.json",
+      "name": "model.layers.2.self_attn.q_proj",
+      "dim": 896,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 705494
+    },
+    {
+      "file": "m154.json",
+      "name": "model.layers.1.mlp.up_proj",
+      "dim": 4864,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 3964692
+    },
+    {
+      "file": "m155.json",
+      "name": "model.layers.1.mlp.down_proj",
+      "dim": 896,
+      "in_features": 4864,
+      "group_size": 64,
+      "bytes": 3964425
+    },
+    {
+      "file": "m156.json",
+      "name": "model.layers.1.mlp.gate_proj",
+      "dim": 4864,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 3899731
+    },
+    {
+      "file": "m157.json",
+      "name": "model.layers.1.self_attn.o_proj",
+      "dim": 896,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 730782
+    },
+    {
+      "file": "m158.json",
+      "name": "model.layers.1.self_attn.v_proj",
+      "dim": 128,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 104347
+    },
+    {
+      "file": "m159.json",
+      "name": "model.layers.1.self_attn.k_proj",
+      "dim": 128,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 100766
+    },
+    {
+      "file": "m160.json",
+      "name": "model.layers.1.self_attn.q_proj",
+      "dim": 896,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 718054
+    },
+    {
+      "file": "m161.json",
+      "name": "model.layers.0.mlp.up_proj",
+      "dim": 4864,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 3896980
+    },
+    {
+      "file": "m162.json",
+      "name": "model.layers.0.mlp.down_proj",
+      "dim": 896,
+      "in_features": 4864,
+      "group_size": 64,
+      "bytes": 3896454
+    },
+    {
+      "file": "m163.json",
+      "name": "model.layers.0.mlp.gate_proj",
+      "dim": 4864,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 3893740
+    },
+    {
+      "file": "m164.json",
+      "name": "model.layers.0.self_attn.o_proj",
+      "dim": 896,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 705143
+    },
+    {
+      "file": "m165.json",
+      "name": "model.layers.0.self_attn.v_proj",
+      "dim": 128,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 102693
+    },
+    {
+      "file": "m166.json",
+      "name": "model.layers.0.self_attn.k_proj",
+      "dim": 128,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 100809
+    },
+    {
+      "file": "m167.json",
+      "name": "model.layers.0.self_attn.q_proj",
+      "dim": 896,
+      "in_features": 896,
+      "group_size": 64,
+      "bytes": 704574
+    }
+  ]
+}
