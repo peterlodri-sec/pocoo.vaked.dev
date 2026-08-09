@@ -4,3 +4,9 @@ node_modules/
 # Quantal checkpoint (943 MB) — keep on disk, never commit to GitHub.
 # The committed artifact is the 168-matrix ternary export (m*.json + index.json).
 demos/quantal/quantal_model.safetensors
+
+# Quantal runtime assets — raw binary weights (embeddings.f16 is 272 MB, over
+# GitHub's 100 MB per-file limit). Kept on disk next to the m*.json matrices;
+# only their sha256 metadata is committed (index.json -> assets).
+demos/quantal/embeddings.f16
+demos/quantal/norms.f32

@@ -1370,5 +1370,27 @@
       "group_size": 64,
       "bytes": 704574
     }
-  ]
+  ],
+  "assets": {
+    "embeddings.f16": {
+      "dtype": "f16",
+      "shape": [
+        151936,
+        896
+      ],
+      "bytes": 272269312,
+      "sha256": "89fcfa65a94debfe81fe392cd6afd178709e3fd8edb945ed3cb4cae0f6bf224b",
+      "source": "quantal_model.safetensors model.embed_tokens.weight (BF16->FP16)"
+    },
+    "norms.f32": {
+      "dtype": "f32",
+      "shape": [
+        49,
+        896
+      ],
+      "bytes": 175616,
+      "sha256": "dbb1fd168789ed3659523ea232f4e5b044fbd8e00fc1555f3ced96aa0aa76a3a",
+      "source": "quantal_model.safetensors RMSNorm weights (BF16->FP32)"
+    }
+  }
 }
