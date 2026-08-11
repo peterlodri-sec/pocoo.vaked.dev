@@ -10,3 +10,4 @@ demos/quantal/quantal_model.safetensors
 # only their sha256 metadata is committed (index.json -> assets).
 demos/quantal/embeddings.f16
 demos/quantal/norms.f32
+demos/entheai/releases/
