@@ -39,23 +39,24 @@ Rust.
 | Matrices | 168 ayeOS per-layer files (`m000.json` … `m167.json`) |
 | Runtime assets | `embeddings.f16` `[151936, 896]`, `norms.f32` `[49, 896]` |
 | Training | continued-train, masked CE, deployed-forward QAT |
-| Validation (masked, n=90) | **3.2862** |
-| Checkpoint sha256 | `f2c8e9546da8a96c7da6f82265b56cddde32396da4a6b9b3e980c49484d9894c` |
+| Validation (masked, n=90) | **1.6998** |
+| Checkpoint sha256 | `2d54a10f9dbda3502a2914375d97a7bd13e1f7d30728b17508bc011879825c4c` |
 
 ## Training
 
-- **Data**: 2,785 text samples (same-period as the base), stratified 90-sample
-  held-out val.
+- **Data**: 7,000 text samples (konstellation corpus: kompress + domain + c3,
+  same-period as the base), stratified 90-sample held-out val.
 - **Loss**: masked cross-entropy — pad tokens (id 0) weighted out, honest mean
   over valid tokens. Dynamic per-batch padding bucketed to multiples of 64.
 - **Optimizer**: AdamW, weight decay 0.1, grad clip off, lr 3e-4 → cosine →
-  3e-5 (2% warmup), early stop patience 5 / min-delta 0.05, 30-epoch cap.
+  3e-5 (2% warmup), early stop patience 5 / min-delta 0.05, 40-epoch cap.
+- **Hardware**: vast.ai L40 (44 GB) — "ULTRA LOVEGOD MODE" run, B8/256.
 - **Forward**: deployed-forward QAT — the exact forward the Rust runner uses
   (weight-quant-only BitLinear, per-projection RMSNorm + activation quant
   skipped), so training ≡ inference.
-- **Val trajectory**: 3.93 → 3.42 → **3.32** (best on the 3090 lane,
-  final best **3.2862**) — the oracle gate (old artifact 11.34 measured
-  identically) passed by a wide margin.
+- **Val trajectory** (ULTRA run): 2.71 → 2.22 → 1.98 → 1.83 → **1.70** → 1.69
+  → 1.70 (plateau) — best **1.6998** at epoch 5. Prior night's run (2,785
+  samples, masked val 3.2862) was superseded; the old artifact measured 11.34.
 
 ## Layout
 
