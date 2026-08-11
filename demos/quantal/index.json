@@ -1,5 +1,5 @@
 {
-  "capsule_id": "quantal-1786423495",
+  "capsule_id": "quantal-1786442985",
   "address": {
     "role": "matrix.ternary.quantal",
     "tags": [
@@ -15,16 +15,16 @@
     "reconstruction_model": "Qwen/Qwen2.5-0.5B",
     "binary": false,
     "group_size": 64,
-    "epochs": 30,
+    "epochs": 5,
     "final_loss": null,
-    "val_loss": 3.2862,
-    "checkpoint_sha256": "f2c8e9546da8a96c7da6f82265b56cddde32396da4a6b9b3e980c49484d9894c",
+    "val_loss": 1.6998,
+    "checkpoint_sha256": "2d54a10f9dbda3502a2914375d97a7bd13e1f7d30728b17508bc011879825c4c",
     "checkpoint_size_bytes": 989099518,
-    "checkpoint_source": "vast.ai RTX 3090 lane 1 (fixer), masked val 3.2862",
+    "checkpoint_source": "vast.ai L40 ULTRA LOVEGOD MODE, masked val 1.6998 (7000 samples, B8/256)",
     "export_tool": "MLX-QUANT fork mlx 0.32.1.dev20260811+952406a7 (ternary quantize)",
     "export_complete": true
   },
-  "timestamp": 1786423495,
+  "timestamp": 1786442985,
   "matrices": [
     {
       "file": "m000.json",
@@ -32,7 +32,7 @@
       "dim": 4864,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 3897409
+      "bytes": 3828799
     },
     {
       "file": "m001.json",
@@ -40,7 +40,7 @@
       "dim": 896,
       "in_features": 4864,
       "group_size": 64,
-      "bytes": 3965220
+      "bytes": 3896424
     },
     {
       "file": "m002.json",
@@ -48,7 +48,7 @@
       "dim": 4864,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 3626186
+      "bytes": 3898608
     },
     {
       "file": "m003.json",
@@ -56,7 +56,7 @@
       "dim": 896,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 730451
+      "bytes": 705559
     },
     {
       "file": "m004.json",
@@ -64,7 +64,7 @@
       "dim": 128,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 102647
+      "bytes": 102710
     },
     {
       "file": "m005.json",
@@ -72,7 +72,7 @@
       "dim": 128,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 100900
+      "bytes": 95517
     },
     {
       "file": "m006.json",
@@ -80,7 +80,7 @@
       "dim": 896,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 717764
+      "bytes": 718365
     },
     {
       "file": "m007.json",
@@ -88,7 +88,7 @@
       "dim": 4864,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 3761103
+      "bytes": 3761194
     },
     {
       "file": "m008.json",
@@ -96,7 +96,7 @@
       "dim": 896,
       "in_features": 4864,
       "group_size": 64,
-      "bytes": 3897159
+      "bytes": 3829275
     },
     {
       "file": "m009.json",
@@ -104,7 +104,7 @@
       "dim": 4864,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 3898173
+      "bytes": 3898644
     },
     {
       "file": "m010.json",
@@ -112,7 +112,7 @@
       "dim": 896,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 693055
+      "bytes": 667977
     },
     {
       "file": "m011.json",
@@ -120,7 +120,7 @@
       "dim": 128,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 97267
+      "bytes": 99132
     },
     {
       "file": "m012.json",
@@ -128,7 +128,7 @@
       "dim": 128,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 102610
+      "bytes": 100917
     },
     {
       "file": "m013.json",
@@ -136,7 +136,7 @@
       "dim": 896,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 705687
+      "bytes": 717979
     },
     {
       "file": "m014.json",
@@ -144,7 +144,7 @@
       "dim": 4864,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 3829255
+      "bytes": 3693132
     },
     {
       "file": "m015.json",
@@ -152,7 +152,7 @@
       "dim": 896,
       "in_features": 4864,
       "group_size": 64,
-      "bytes": 3760496
+      "bytes": 3829033
     },
     {
       "file": "m016.json",
@@ -160,7 +160,7 @@
       "dim": 4864,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 3623843
+      "bytes": 3691691
     },
     {
       "file": "m017.json",
@@ -168,7 +168,7 @@
       "dim": 896,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 705488
+      "bytes": 667975
     },
     {
       "file": "m018.json",
@@ -176,7 +176,7 @@
       "dim": 128,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 100846
+      "bytes": 100822
     },
     {
       "file": "m019.json",
@@ -184,7 +184,7 @@
       "dim": 128,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 99199
+      "bytes": 100968
     },
     {
       "file": "m020.json",
@@ -192,7 +192,7 @@
       "dim": 896,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 705277
+      "bytes": 692256
     },
     {
       "file": "m021.json",
@@ -200,7 +200,7 @@
       "dim": 4864,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 3897290
+      "bytes": 3828682
     },
     {
       "file": "m022.json",
@@ -208,7 +208,7 @@
       "dim": 896,
       "in_features": 4864,
       "group_size": 64,
-      "bytes": 3421335
+      "bytes": 3829963
     },
     {
       "file": "m023.json",
@@ -216,7 +216,7 @@
       "dim": 4864,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 3828866
+      "bytes": 3896467
     },
     {
       "file": "m024.json",
@@ -224,7 +224,7 @@
       "dim": 896,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 693102
+      "bytes": 718065
     },
     {
       "file": "m025.json",
@@ -232,7 +232,7 @@
       "dim": 128,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 95541
+      "bytes": 100903
     },
     {
       "file": "m026.json",
@@ -240,7 +240,7 @@
       "dim": 128,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 102788
+      "bytes": 102856
     },
     {
       "file": "m027.json",
@@ -248,7 +248,7 @@
       "dim": 896,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 718031
+      "bytes": 705568
     },
     {
       "file": "m028.json",
@@ -256,7 +256,7 @@
       "dim": 4864,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 3896420
+      "bytes": 3827793
     },
     {
       "file": "m029.json",
@@ -264,7 +264,7 @@
       "dim": 896,
       "in_features": 4864,
       "group_size": 64,
-      "bytes": 3897095
+      "bytes": 3896860
     },
     {
       "file": "m030.json",
@@ -272,7 +272,7 @@
       "dim": 4864,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 3896346
+      "bytes": 3895792
     },
     {
       "file": "m031.json",
@@ -280,7 +280,7 @@
       "dim": 896,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 705410
+      "bytes": 705446
     },
     {
       "file": "m032.json",
@@ -288,7 +288,7 @@
       "dim": 128,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 97238
+      "bytes": 102529
     },
     {
       "file": "m033.json",
@@ -296,7 +296,7 @@
       "dim": 128,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 91808
+      "bytes": 102617
     },
     {
       "file": "m034.json",
@@ -304,7 +304,7 @@
       "dim": 896,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 692853
+      "bytes": 717634
     },
     {
       "file": "m035.json",
@@ -312,7 +312,7 @@
       "dim": 4864,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 3760729
+      "bytes": 3419922
     },
     {
       "file": "m036.json",
@@ -320,7 +320,7 @@
       "dim": 896,
       "in_features": 4864,
       "group_size": 64,
-      "bytes": 3828763
+      "bytes": 3964673
     },
     {
       "file": "m037.json",
@@ -328,7 +328,7 @@
       "dim": 4864,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 3896755
+      "bytes": 3895676
     },
     {
       "file": "m038.json",
@@ -336,7 +336,7 @@
       "dim": 896,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 705224
+      "bytes": 718419
     },
     {
       "file": "m039.json",
@@ -344,7 +344,7 @@
       "dim": 128,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 93667
+      "bytes": 102576
     },
     {
       "file": "m040.json",
@@ -352,7 +352,7 @@
       "dim": 128,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 101009
+      "bytes": 102636
     },
     {
       "file": "m041.json",
@@ -360,7 +360,7 @@
       "dim": 896,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 705360
+      "bytes": 692673
     },
     {
       "file": "m042.json",
@@ -368,7 +368,7 @@
       "dim": 4864,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 3830009
+      "bytes": 3966233
     },
     {
       "file": "m043.json",
@@ -376,7 +376,7 @@
       "dim": 896,
       "in_features": 4864,
       "group_size": 64,
-      "bytes": 3896635
+      "bytes": 3896953
     },
     {
       "file": "m044.json",
@@ -384,7 +384,7 @@
       "dim": 4864,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 3895233
+      "bytes": 3894676
     },
     {
       "file": "m045.json",
@@ -392,7 +392,7 @@
       "dim": 896,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 730781
+      "bytes": 717959
     },
     {
       "file": "m046.json",
@@ -400,7 +400,7 @@
       "dim": 128,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 102702
+      "bytes": 102662
     },
     {
       "file": "m047.json",
@@ -408,7 +408,7 @@
       "dim": 128,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 102695
+      "bytes": 100877
     },
     {
       "file": "m048.json",
@@ -416,7 +416,7 @@
       "dim": 896,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 642872
+      "bytes": 718022
     },
     {
       "file": "m049.json",
@@ -424,7 +424,7 @@
       "dim": 4864,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 3897209
+      "bytes": 3761132
     },
     {
       "file": "m050.json",
@@ -432,7 +432,7 @@
       "dim": 896,
       "in_features": 4864,
       "group_size": 64,
-      "bytes": 3896384
+      "bytes": 3896888
     },
     {
       "file": "m051.json",
@@ -440,7 +440,7 @@
       "dim": 4864,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 3830419
+      "bytes": 3898144
     },
     {
       "file": "m052.json",
@@ -448,7 +448,7 @@
       "dim": 896,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 730471
+      "bytes": 730214
     },
     {
       "file": "m053.json",
@@ -456,7 +456,7 @@
       "dim": 128,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 93581
+      "bytes": 99023
     },
     {
       "file": "m054.json",
@@ -464,7 +464,7 @@
       "dim": 128,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 102730
+      "bytes": 102827
     },
     {
       "file": "m055.json",
@@ -472,7 +472,7 @@
       "dim": 896,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 705618
+      "bytes": 718182
     },
     {
       "file": "m056.json",
@@ -480,7 +480,7 @@
       "dim": 4864,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 3760403
+      "bytes": 3896806
     },
     {
       "file": "m057.json",
@@ -488,7 +488,7 @@
       "dim": 896,
       "in_features": 4864,
       "group_size": 64,
-      "bytes": 3760609
+      "bytes": 3964860
     },
     {
       "file": "m058.json",
@@ -496,7 +496,7 @@
       "dim": 4864,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 3896632
+      "bytes": 3420169
     },
     {
       "file": "m059.json",
@@ -504,7 +504,7 @@
       "dim": 896,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 730317
+      "bytes": 730551
     },
     {
       "file": "m060.json",
@@ -512,7 +512,7 @@
       "dim": 128,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 102668
+      "bytes": 100938
     },
     {
       "file": "m061.json",
@@ -520,7 +520,7 @@
       "dim": 128,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 102723
+      "bytes": 100839
     },
     {
       "file": "m062.json",
@@ -528,7 +528,7 @@
       "dim": 896,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 718149
+      "bytes": 705368
     },
     {
       "file": "m063.json",
@@ -536,7 +536,7 @@
       "dim": 4864,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 3829053
+      "bytes": 3897598
     },
     {
       "file": "m064.json",
@@ -544,7 +544,7 @@
       "dim": 896,
       "in_features": 4864,
       "group_size": 64,
-      "bytes": 3964466
+      "bytes": 3828642
     },
     {
       "file": "m065.json",
@@ -552,7 +552,7 @@
       "dim": 4864,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 3829970
+      "bytes": 3422178
     },
     {
       "file": "m066.json",
@@ -560,7 +560,7 @@
       "dim": 896,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 717746
+      "bytes": 705482
     },
     {
       "file": "m067.json",
@@ -568,7 +568,7 @@
       "dim": 128,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 102628
+      "bytes": 100861
     },
     {
       "file": "m068.json",
@@ -576,7 +576,7 @@
       "dim": 128,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 100946
+      "bytes": 102712
     },
     {
       "file": "m069.json",
@@ -584,7 +584,7 @@
       "dim": 896,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 717986
+      "bytes": 705228
     },
     {
       "file": "m070.json",
@@ -592,7 +592,7 @@
       "dim": 4864,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 3828095
+      "bytes": 3896606
     },
     {
       "file": "m071.json",
@@ -600,7 +600,7 @@
       "dim": 896,
       "in_features": 4864,
       "group_size": 64,
-      "bytes": 3964336
+      "bytes": 3964633
     },
     {
       "file": "m072.json",
@@ -608,7 +608,7 @@
       "dim": 4864,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 3829840
+      "bytes": 3761666
     },
     {
       "file": "m073.json",
@@ -616,7 +616,7 @@
       "dim": 896,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 730642
+      "bytes": 717883
     },
     {
       "file": "m074.json",
@@ -624,7 +624,7 @@
       "dim": 128,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 97349
+      "bytes": 102786
     },
     {
       "file": "m075.json",
@@ -632,7 +632,7 @@
       "dim": 128,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 101093
+      "bytes": 102757
     },
     {
       "file": "m076.json",
@@ -640,7 +640,7 @@
       "dim": 896,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 718110
+      "bytes": 668278
     },
     {
       "file": "m077.json",
@@ -648,7 +648,7 @@
       "dim": 4864,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 3420262
+      "bytes": 3829147
     },
     {
       "file": "m078.json",
@@ -656,7 +656,7 @@
       "dim": 896,
       "in_features": 4864,
       "group_size": 64,
-      "bytes": 3897741
+      "bytes": 3965655
     },
     {
       "file": "m079.json",
@@ -664,7 +664,7 @@
       "dim": 4864,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 3830487
+      "bytes": 3830443
     },
     {
       "file": "m080.json",
@@ -672,7 +672,7 @@
       "dim": 896,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 667918
+      "bytes": 692577
     },
     {
       "file": "m081.json",
@@ -680,7 +680,7 @@
       "dim": 128,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 102636
+      "bytes": 100835
     },
     {
       "file": "m082.json",
@@ -688,7 +688,7 @@
       "dim": 128,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 97332
+      "bytes": 99163
     },
     {
       "file": "m083.json",
@@ -696,7 +696,7 @@
       "dim": 896,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 718037
+      "bytes": 692707
     },
     {
       "file": "m084.json",
@@ -704,7 +704,7 @@
       "dim": 4864,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 3760247
+      "bytes": 3828022
     },
     {
       "file": "m085.json",
@@ -712,7 +712,7 @@
       "dim": 896,
       "in_features": 4864,
       "group_size": 64,
-      "bytes": 3965184
+      "bytes": 3897393
     },
     {
       "file": "m086.json",
@@ -720,7 +720,7 @@
       "dim": 4864,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 3760648
+      "bytes": 3420538
     },
     {
       "file": "m087.json",
@@ -728,7 +728,7 @@
       "dim": 896,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 704946
+      "bytes": 729904
     },
     {
       "file": "m088.json",
@@ -736,7 +736,7 @@
       "dim": 128,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 104481
+      "bytes": 102693
     },
     {
       "file": "m089.json",
@@ -744,7 +744,7 @@
       "dim": 128,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 102662
+      "bytes": 91877
     },
     {
       "file": "m090.json",
@@ -752,7 +752,7 @@
       "dim": 896,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 705445
+      "bytes": 717823
     },
     {
       "file": "m091.json",
@@ -760,7 +760,7 @@
       "dim": 4864,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 3760769
+      "bytes": 3897103
     },
     {
       "file": "m092.json",
@@ -768,7 +768,7 @@
       "dim": 896,
       "in_features": 4864,
       "group_size": 64,
-      "bytes": 3965571
+      "bytes": 3965629
     },
     {
       "file": "m093.json",
@@ -776,7 +776,7 @@
       "dim": 4864,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 3895216
+      "bytes": 3895531
     },
     {
       "file": "m094.json",
@@ -784,7 +784,7 @@
       "dim": 896,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 667994
+      "bytes": 730687
     },
     {
       "file": "m095.json",
@@ -792,7 +792,7 @@
       "dim": 128,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 102834
+      "bytes": 102823
     },
     {
       "file": "m096.json",
@@ -800,7 +800,7 @@
       "dim": 128,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 102648
+      "bytes": 91880
     },
     {
       "file": "m097.json",
@@ -808,7 +808,7 @@
       "dim": 896,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 718057
+      "bytes": 718012
     },
     {
       "file": "m098.json",
@@ -816,7 +816,7 @@
       "dim": 4864,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 3896848
+      "bytes": 3897074
     },
     {
       "file": "m099.json",
@@ -824,7 +824,7 @@
       "dim": 896,
       "in_features": 4864,
       "group_size": 64,
-      "bytes": 3896422
+      "bytes": 3896916
     },
     {
       "file": "m100.json",
@@ -832,7 +832,7 @@
       "dim": 4864,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 3895388
+      "bytes": 3691280
     },
     {
       "file": "m101.json",
@@ -840,7 +840,7 @@
       "dim": 896,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 730327
+      "bytes": 730397
     },
     {
       "file": "m102.json",
@@ -848,7 +848,7 @@
       "dim": 128,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 104544
+      "bytes": 102814
     },
     {
       "file": "m103.json",
@@ -856,7 +856,7 @@
       "dim": 128,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 102677
+      "bytes": 102703
     },
     {
       "file": "m104.json",
@@ -864,7 +864,7 @@
       "dim": 896,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 668035
+      "bytes": 667942
     },
     {
       "file": "m105.json",
@@ -872,7 +872,7 @@
       "dim": 4864,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 3897140
+      "bytes": 3897019
     },
     {
       "file": "m106.json",
@@ -880,7 +880,7 @@
       "dim": 896,
       "in_features": 4864,
       "group_size": 64,
-      "bytes": 3965375
+      "bytes": 3965207
     },
     {
       "file": "m107.json",
@@ -888,7 +888,7 @@
       "dim": 4864,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 3896168
+      "bytes": 3624124
     },
     {
       "file": "m108.json",
@@ -896,7 +896,7 @@
       "dim": 896,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 730491
+      "bytes": 705152
     },
     {
       "file": "m109.json",
@@ -904,7 +904,7 @@
       "dim": 128,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 101018
+      "bytes": 104436
     },
     {
       "file": "m110.json",
@@ -912,7 +912,7 @@
       "dim": 128,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 102685
+      "bytes": 99063
     },
     {
       "file": "m111.json",
@@ -920,7 +920,7 @@
       "dim": 896,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 705650
+      "bytes": 692974
     },
     {
       "file": "m112.json",
@@ -928,7 +928,7 @@
       "dim": 4864,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 3828916
+      "bytes": 3829414
     },
     {
       "file": "m113.json",
@@ -936,7 +936,7 @@
       "dim": 896,
       "in_features": 4864,
       "group_size": 64,
-      "bytes": 3896286
+      "bytes": 3964503
     },
     {
       "file": "m114.json",
@@ -944,7 +944,7 @@
       "dim": 4864,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 3623376
+      "bytes": 3896399
     },
     {
       "file": "m115.json",
@@ -952,7 +952,7 @@
       "dim": 896,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 730674
+      "bytes": 718329
     },
     {
       "file": "m116.json",
@@ -960,7 +960,7 @@
       "dim": 128,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 100931
+      "bytes": 102682
     },
     {
       "file": "m117.json",
@@ -968,7 +968,7 @@
       "dim": 128,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 102605
+      "bytes": 91825
     },
     {
       "file": "m118.json",
@@ -976,7 +976,7 @@
       "dim": 896,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 717939
+      "bytes": 717929
     },
     {
       "file": "m119.json",
@@ -984,7 +984,7 @@
       "dim": 4864,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 3897223
+      "bytes": 3760138
     },
     {
       "file": "m120.json",
@@ -992,7 +992,7 @@
       "dim": 896,
       "in_features": 4864,
       "group_size": 64,
-      "bytes": 3692226
+      "bytes": 3965153
     },
     {
       "file": "m121.json",
@@ -1000,7 +1000,7 @@
       "dim": 4864,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 3895899
+      "bytes": 3896898
     },
     {
       "file": "m122.json",
@@ -1008,7 +1008,7 @@
       "dim": 896,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 718422
+      "bytes": 730641
     },
     {
       "file": "m123.json",
@@ -1016,7 +1016,7 @@
       "dim": 128,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 99098
+      "bytes": 99178
     },
     {
       "file": "m124.json",
@@ -1024,7 +1024,7 @@
       "dim": 128,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 102573
+      "bytes": 102470
     },
     {
       "file": "m125.json",
@@ -1032,7 +1032,7 @@
       "dim": 896,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 717848
+      "bytes": 718124
     },
     {
       "file": "m126.json",
@@ -1040,7 +1040,7 @@
       "dim": 4864,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 3896408
+      "bytes": 3896294
     },
     {
       "file": "m127.json",
@@ -1048,7 +1048,7 @@
       "dim": 896,
       "in_features": 4864,
       "group_size": 64,
-      "bytes": 3965314
+      "bytes": 3897356
     },
     {
       "file": "m128.json",
@@ -1056,7 +1056,7 @@
       "dim": 4864,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 3894850
+      "bytes": 3895444
     },
     {
       "file": "m129.json",
@@ -1064,7 +1064,7 @@
       "dim": 896,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 730817
+      "bytes": 730766
     },
     {
       "file": "m130.json",
@@ -1072,7 +1072,7 @@
       "dim": 128,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 104507
+      "bytes": 90290
     },
     {
       "file": "m131.json",
@@ -1080,7 +1080,7 @@
       "dim": 128,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 102735
+      "bytes": 102604
     },
     {
       "file": "m132.json",
@@ -1088,7 +1088,7 @@
       "dim": 896,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 717665
+      "bytes": 679968
     },
     {
       "file": "m133.json",
@@ -1096,7 +1096,7 @@
       "dim": 4864,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 3965380
+      "bytes": 3965510
     },
     {
       "file": "m134.json",
@@ -1104,7 +1104,7 @@
       "dim": 896,
       "in_features": 4864,
       "group_size": 64,
-      "bytes": 3895948
+      "bytes": 3896244
     },
     {
       "file": "m135.json",
@@ -1112,7 +1112,7 @@
       "dim": 4864,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 3896327
+      "bytes": 3896623
     },
     {
       "file": "m136.json",
@@ -1120,7 +1120,7 @@
       "dim": 896,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 667762
+      "bytes": 730253
     },
     {
       "file": "m137.json",
@@ -1128,7 +1128,7 @@
       "dim": 128,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 102727
+      "bytes": 102750
     },
     {
       "file": "m138.json",
@@ -1136,7 +1136,7 @@
       "dim": 128,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 102671
+      "bytes": 92005
     },
     {
       "file": "m139.json",
@@ -1144,7 +1144,7 @@
       "dim": 896,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 717908
+      "bytes": 693130
     },
     {
       "file": "m140.json",
@@ -1152,7 +1152,7 @@
       "dim": 4864,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 3896522
+      "bytes": 3896917
     },
     {
       "file": "m141.json",
@@ -1160,7 +1160,7 @@
       "dim": 896,
       "in_features": 4864,
       "group_size": 64,
-      "bytes": 3897675
+      "bytes": 3964852
     },
     {
       "file": "m142.json",
@@ -1168,7 +1168,7 @@
       "dim": 4864,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 3830048
+      "bytes": 3693671
     },
     {
       "file": "m143.json",
@@ -1176,7 +1176,7 @@
       "dim": 896,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 717793
+      "bytes": 717760
     },
     {
       "file": "m144.json",
@@ -1184,7 +1184,7 @@
       "dim": 128,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 99212
+      "bytes": 104463
     },
     {
       "file": "m145.json",
@@ -1192,7 +1192,7 @@
       "dim": 128,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 102685
+      "bytes": 100722
     },
     {
       "file": "m146.json",
@@ -1200,7 +1200,7 @@
       "dim": 896,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 667598
+      "bytes": 717581
     },
     {
       "file": "m147.json",
@@ -1208,7 +1208,7 @@
       "dim": 4864,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 3692683
+      "bytes": 3965187
     },
     {
       "file": "m148.json",
@@ -1216,7 +1216,7 @@
       "dim": 896,
       "in_features": 4864,
       "group_size": 64,
-      "bytes": 3964876
+      "bytes": 3896772
     },
     {
       "file": "m149.json",
@@ -1224,7 +1224,7 @@
       "dim": 4864,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 3899595
+      "bytes": 3899690
     },
     {
       "file": "m150.json",
@@ -1232,7 +1232,7 @@
       "dim": 896,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 718046
+      "bytes": 717430
     },
     {
       "file": "m151.json",
@@ -1240,7 +1240,7 @@
       "dim": 128,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 104507
+      "bytes": 104531
     },
     {
       "file": "m152.json",
@@ -1248,7 +1248,7 @@
       "dim": 128,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 99094
+      "bytes": 95485
     },
     {
       "file": "m153.json",
@@ -1256,7 +1256,7 @@
       "dim": 896,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 692782
+      "bytes": 717749
     },
     {
       "file": "m154.json",
@@ -1264,7 +1264,7 @@
       "dim": 4864,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 3964454
+      "bytes": 3896911
     },
     {
       "file": "m155.json",
@@ -1272,7 +1272,7 @@
       "dim": 896,
       "in_features": 4864,
       "group_size": 64,
-      "bytes": 3964833
+      "bytes": 3896608
     },
     {
       "file": "m156.json",
@@ -1280,7 +1280,7 @@
       "dim": 4864,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 3898660
+      "bytes": 3899858
     },
     {
       "file": "m157.json",
@@ -1288,7 +1288,7 @@
       "dim": 896,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 718102
+      "bytes": 729880
     },
     {
       "file": "m158.json",
@@ -1296,7 +1296,7 @@
       "dim": 128,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 100789
+      "bytes": 104434
     },
     {
       "file": "m159.json",
@@ -1304,7 +1304,7 @@
       "dim": 128,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 97238
+      "bytes": 100775
     },
     {
       "file": "m160.json",
@@ -1312,7 +1312,7 @@
       "dim": 896,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 717901
+      "bytes": 717999
     },
     {
       "file": "m161.json",
@@ -1320,7 +1320,7 @@
       "dim": 4864,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 3897012
+      "bytes": 3896694
     },
     {
       "file": "m162.json",
@@ -1328,7 +1328,7 @@
       "dim": 896,
       "in_features": 4864,
       "group_size": 64,
-      "bytes": 3692189
+      "bytes": 3896825
     },
     {
       "file": "m163.json",
@@ -1336,7 +1336,7 @@
       "dim": 4864,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 3894229
+      "bytes": 3689380
     },
     {
       "file": "m164.json",
@@ -1344,7 +1344,7 @@
       "dim": 896,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 705122
+      "bytes": 730092
     },
     {
       "file": "m165.json",
@@ -1352,7 +1352,7 @@
       "dim": 128,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 104448
+      "bytes": 104468
     },
     {
       "file": "m166.json",
@@ -1360,7 +1360,7 @@
       "dim": 128,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 99019
+      "bytes": 100859
     },
     {
       "file": "m167.json",
@@ -1368,7 +1368,7 @@
       "dim": 896,
       "in_features": 896,
       "group_size": 64,
-      "bytes": 667044
+      "bytes": 654564
     }
   ],
   "assets": {
@@ -1379,7 +1379,7 @@
         896
       ],
       "bytes": 272269312,
-      "sha256": "14a5409766f0a974b3d4ac5d17356dae49bab1e9aef7af885cdda37a61f91c19",
+      "sha256": "8af0459c1dd378ffa351d7acfc9b0b67c5199540993a11ae1f91171d8825a81f",
       "source": "quantal_model.safetensors model.embed_tokens.weight (BF16->FP16)"
     },
     "norms.f32": {
@@ -1389,7 +1389,7 @@
         896
       ],
       "bytes": 175616,
-      "sha256": "e75aae1cbb55743ffae505c16887544c2a9f906f29a5439ad932c13e59d939b4",
+      "sha256": "511787eaed5d1585caf5e07c0e89bf9f5285871af51878a282987f690c86acde",
       "source": "quantal_model.safetensors RMSNorm weights (BF16->FP32)"
     }
   }
