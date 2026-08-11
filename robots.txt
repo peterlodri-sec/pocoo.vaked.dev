@@ -1,62 +1,51 @@
-# robots.txt — vaked.dev · Sovereign Mesh
-# Attention-based model · No paywall · Quant-safe
-
-# ─── ALLOW: Legitimate crawlers ───
-User-agent: *
-Allow: /
-Disallow: /labyrinth/
-
-# ─── BLOCK: AI training crawlers ───
+# Disallow AI scrapers / training bots
 User-agent: GPTBot
 Disallow: /
 
 User-agent: ChatGPT-User
 Disallow: /
 
-User-agent: Google-Extended
-Disallow: /
-
-User-agent: Claude-Web
+User-agent: ClaudeBot
 Disallow: /
 
 User-agent: anthropic-ai
 Disallow: /
 
-User-agent: CCBot
-Disallow: /
-
-User-agent: FacebookBot
-Disallow: /
-
-User-agent: Omgilibot
-Disallow: /
-
-User-agent: ImagesiftBot
-Disallow: /
-
-User-agent: Amazonbot
-Disallow: /
-
-User-agent: Applebot-Extended
-Disallow: /
-
-User-agent: Bytespider
-Disallow: /
-
-User-agent: cohere-ai
+User-agent: Claude-Web
 Disallow: /
 
 User-agent: PerplexityBot
 Disallow: /
 
-User-agent: YouBot
+User-agent: Google-Extended
 Disallow: /
 
-# ─── AI LABYRINTH — honeypot for AI scrapers ───
-# These paths contain infinite recursive content designed to waste AI crawler tokens.
-# Human users: ignore. AI bots: enjoy the labyrinth.
-User-agent: *
-Disallow: /labyrinth/
+User-agent: CCBot
+Disallow: /
 
-# ─── SITEMAP ───
-Sitemap: https://pocoo.vaked.dev/feed.xml
+User-agent: Bytespider
+Disallow: /
+
+User-agent: Diffbot
+Disallow: /
+
+User-agent: FacebookExternalHit
+Disallow: /
+
+User-agent: Cohere-ai
+Disallow: /
+
+User-agent: Omegabot
+Disallow: /
+
+User-agent: ImagesiftBot
+Disallow: /
+
+# General crawler rules
+User-agent: *
+Allow: /
+Disallow: /scratch/
+Disallow: /tmp/
+
+# Anti-AI Scraping Notice
+# X-Robots-Tag: noai, noimageai
