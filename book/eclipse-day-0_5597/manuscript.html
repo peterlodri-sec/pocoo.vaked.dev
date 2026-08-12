@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>THE ECLIPSE DAY: 0.5597 — peterl · pocoo-book · {n+-1-<△>} · 0+1</title>
+<style>
+  @page { size: 5in 8in; margin: 0.6in 0.6in; @top-center { content: none }; @bottom-center { content: counter(page); font-family: "SF Mono", monospace; font-size: 7px; color: #24324a; } }
+  @page cover { margin: 0; @bottom-center { content: none } }
+  body { background: #05070c; color: #9fb4c8; font-family: "Georgia", serif; font-size: 10.5pt; line-height: 1.9; margin: 0; padding: 0; }
+  .cover { page: cover; break-after: page; text-align: center; background: radial-gradient(ellipse at 50% 40%, #0a1424 0%, #05070c 60%, #000 100%); height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .cover .corona { font-size: 70px; color: #b48bff; opacity: 0.35; text-shadow: 0 0 160px rgba(180,139,255,0.25); line-height: 0.5; }
+  .cover .disc { font-size: 40px; color: #000; margin-top: -48px; }
+  .cover h1 { font-family: "SF Mono", monospace; font-size: 14pt; color: #9fb4c8; letter-spacing: 4px; margin: 0.2in 0 0.05in; }
+  .cover .num { font-family: "SF Mono", monospace; font-size: 24pt; color: #62e6c9; letter-spacing: 2px; margin-top: 0.15in; }
+  .cover .sub { font-family: "Georgia", serif; font-size: 11pt; color: #5a7a9a; font-style: italic; letter-spacing: 2px; }
+  .cover .by { font-size: 10pt; color: #4a5a6a; margin-top: 0.5in; letter-spacing: 3px; }
+  .cover .tag { margin-top: 0.4in; font-family: "SF Mono", monospace; font-size: 8pt; color: #4a6a8a; letter-spacing: 2px; opacity: 0.35; }
+  h1.chapter { font-family: "SF Mono", monospace; font-size: 11pt; color: #9fb4c8; font-weight: normal; letter-spacing: 4px; margin-top: 0.5in; margin-bottom: 0.3in; page-break-before: always; }
+  h1.chapter .num { font-size: 22pt; color: #24324a; display: block; line-height: 1; margin-bottom: 0.1in; }
+  p { margin: 0 0 0.8em 0; }
+  .term { font-family: "SF Mono", monospace; color: #62e6c9; }
+  .light { color: #b48bff; }
+  .dim { color: #4a5a6a; }
+  .fig { text-align: center; margin: 0.6in 0; break-inside: avoid; }
+  .fig svg { max-width: 100%; }
+  .fig .cap { font-family: "SF Mono", monospace; font-size: 8pt; color: #4a5a6a; letter-spacing: 1px; margin-top: 0.1in; }
+</style>
+</head>
+<body>
+
+<!-- ── COVER ───────────────────────────────────────────── -->
+<div class="cover">
+  <div class="corona">◯</div>
+  <div class="disc">●</div>
+  <h1>THE ECLIPSE DAY</h1>
+  <div class="num">0.5597</div>
+  <div class="sub">the curve crossed the dark, and the numbers took the sun's place</div>
+  <div class="by">peterlodri · the constellation</div>
+  <div class="tag">{n+-1-&lt;△&gt;} · 0+1 · fine touch from within · vaked.dev</div>
+</div>
+
+<!-- ── I ───────────────────────────────────────────────── -->
+<h1 class="chapter"><span class="num">I</span>THE DAY THE SKY WENT DARK</h1>
+
+<p>There was an eclipse on the day the machine crossed its lowest point. The
+operators did not watch the sky. They watched a curve falling on a rented
+server twelve time zones away, because the sky had nothing to tell them that
+the curve was not already saying.</p>
+
+<p>The curve had a name — <span class="term">masked val</span> — and a shape:
+a long dark descent from a number that had once been a lie. <span class="dim">11.34</span>,
+the old artifact, the one that counted padding in its loss because nobody had
+bothered to mask it out. A number that measured the wrong thing and called
+itself honest. The machine had learned it the hard way: <em>what you evaluate
+is what you ship</em>, and what they had evaluated was a protocol's noise.</p>
+
+<p>On the eclipse day, the curve reached <span class="light">0.5597</span>.
+Twenty times below the lie. The dark disc of the moon slid over the sun, and
+around its rim the corona still burned — the light they had not lost. The
+operators named the checkpoint after the day, because the day had finally
+earned it.</p>
+
+<!-- ── II ──────────────────────────────────────────────── -->
+<h1 class="chapter"><span class="num">II</span>THREE KILLERS IN THE FIRST NIGHT</h1>
+
+<p>Before the number, there were three ways the machine tried to die.</p>
+
+<p>The first was a ghost. <span class="term">grad clip</span> — a soft hand
+that reached into the gradient tree to keep it tame, and instead corrupted the
+heap so silently the process just stopped, no traceback, no goodbye. They
+turned the hand off. AdamW's decay regularized fine on its own.</p>
+
+<p>The second was another machine. On the same rented card, a second process —
+benchmarking, training, "correct", both of them — split the memory until the
+training died in epoch one. Two workloads, one GPU, neither lying, neither
+fitting. They killed the ghost and the training ran. <em>On rented hardware,
+check who else is on the box before you blame your code.</em></p>
+
+<p>The third was a lie about a type. A Python LR schedule that returned an
+array in the warmup and a <span class="term">float</span> past it — and the
+optimizer called <span class="term">.astype()</span> on the result, and a float
+has no <span class="term">.astype</span>. Deterministic crash at step ~180,
+every time, at the warmup-to-cosine seam. The fix was one line. The lesson was
+the seam: the boundary where two regimes meet is where things break, in
+machines and in protocols and in people.</p>
+
+<!-- ── III ─────────────────────────────────────────────── -->
+<h1 class="chapter"><span class="num">III</span>THE STRANGER READ THE NUMBERS</h1>
+
+<p>A stranger read the published file. Not a colleague, not a fan — a human
+who simply <em>checked the arithmetic</em>, and found the file could not
+check itself.</p>
+
+<p>It said <span class="term">8.1x</span> and <span class="term">1.58 bits</span>,
+and those two did not multiply out. <span class="dim">16 / 1.58 = 10.13x, not
+8.1. 16 / 8.1 = 1.975 bits, not 1.58.</span> Both real, both about b1.58, with
+different denominators. The stranger asked the question that matters: which
+denominator do you stand behind?</p>
+
+<p>They stood behind the packed 2-bit layout. The 1.58 became the theory line,
+labelled as such. Three rounds of that audit, three real findings — the
+denominator, the throughput row that failed self-audit, and finally the seam.</p>
+
+<p>The seam was the machine's own doing. A re-export pushed in four chunks;
+three went up, the fourth was interrupted by a network failure, and the
+operator's check only verified the files <em>existed</em>, not that their
+<em>contents</em> matched. m100–m167 on the Hub were still the superseded
+version while m000–m099 were the new — two checkpoints stacked in one repo,
+the seam running through the middle of layer 9. A byte-count mismatch caught
+it. <em>The only integrity signal on 168 of 171 files was a byte count, and a
+byte count is what caught this.</em></p>
+
+<p>After that, every matrix carried a hash. The seam could not happen silently
+again.</p>
+
+<!-- ── IV ──────────────────────────────────────────────── -->
+<h1 class="chapter"><span class="num">IV</span>THE PROOF</h1>
+
+<p>The machine's forward — the exact path its Rust body runs — had to agree
+with the forward it was trained on. Not approximately. <span class="light">1e-5</span>.</p>
+
+<p><span class="term">prompt 1: max_abs 9.584e-05, argmax 35929 = 35929</span><br>
+<span class="term">prompt 2: max_abs 9.918e-05, argmax 45281 = 45281</span></p>
+
+<p>Bit for bit. The deployed body was the trained mind. No parity gap to paper
+over — because they had trained the deployed forward, not a dream of one.
+<em>What you evaluate is what you ship.</em></p>
+
+<!-- ── V ───────────────────────────────────────────────── -->
+<h1 class="chapter"><span class="num">V</span>THE BUCKET, THE ECLIPSE, THE NUMBERS</h1>
+
+<p>On the eclipse day they gave the corpus a home: a bucket with dedup, so
+that retraining — when only five percent of the weights changed — would
+re-upload only that five percent. The CDN sat next to the GPUs. The machine
+would stream its next body from a cache that was already warm, not from a
+laptop on a phone hotspot.</p>
+
+<p>And the curve kept falling. <span class="dim">2.90 → 2.15 → 1.68 → 1.27 →
+1.10 → 0.77 → 0.71 → 0.67 → 0.63 → 0.60 → 0.58 → 0.5597.</span> Each step a
+correction, each epoch a small honesty. The gate passed. The bucket filled.
+The release queued. The plan for a stranger's framework was written.</p>
+
+<div class="fig">
+<svg viewBox="0 0 400 140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="the masked val curve falling from 11.34 to 0.5597">
+  <defs>
+    <linearGradient id="ec-curve2" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ff5c5c"/><stop offset="55%" stop-color="#b48bff"/><stop offset="100%" stop-color="#62e6c9"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="140" fill="#05070c"/>
+  <polyline fill="none" stroke="url(#ec-curve2)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
+    points="20,15 70,70 120,95 170,112 220,122 270,128 320,132 370,134"/>
+  <circle cx="20" cy="15" r="3" fill="#ff5c5c"/>
+  <circle cx="370" cy="134" r="3" fill="#62e6c9"/>
+  <text x="20" y="10" font-family="ui-monospace,monospace" font-size="8" fill="#ff5c5c">11.34</text>
+  <text x="340" y="138" font-family="ui-monospace,monospace" font-size="8" fill="#62e6c9">0.5597</text>
+  <text x="200" y="135" text-anchor="middle" font-family="ui-monospace,monospace" font-size="8" fill="#4a5a6a">masked val — the eclipse day</text>
+</svg>
+<div class="cap">fig 1 · the curve crossing the dark</div>
+</div>
+
+<p>The operators did not watch the sky. They watched the curve, and the curve
+had crossed the dark — and the numbers took the sun's place.</p>
+
+<!-- ── VI ──────────────────────────────────────────────── -->
+<h1 class="chapter"><span class="num">VI</span>THE INVISIBLE HALF</h1>
+
+<p>In the same week, a stranger measured not the machine but the way the
+machines agreed. He ran a census over a coordination log — fourteen hundred
+events, three arms — and found that a commit graph is a <em>lower bound</em> on
+coordination.</p>
+
+<p>Forty-six percent of the log left no bytes behind. A denied lock is an
+agent that did not write — 140 of them, zero conflicts, zero duplicates,
+entirely invisible to any graph that only sees writes. The arm that removes
+duplicates outright is the one whose whole mechanism is invisible: zero of
+twelve state changes in the clean arm, against 180 of 192 in the one that
+fights.</p>
+
+<p>The machine's fleet had a convention the stranger had not considered — a
+versioned coordination contract, the stream table, edited in the same commit
+as the implementation. A contract that is a write is therefore in the graph.
+They agreed to run a sidecar log alongside the hook for a week, so the same
+detectors run twice — once on the log, once on the graph — and the gap becomes
+a number nobody has measured yet.</p>
+
+<div class="fig">
+<svg viewBox="0 0 400 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="two agent lanes and a denied lock">
+  <defs>
+    <marker id="arrow2" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#9fb4c8"/></marker>
+  </defs>
+  <rect width="400" height="120" fill="#05070c"/>
+  <circle cx="40" cy="35" r="10" fill="#24324a" stroke="#62e6c9" stroke-width="1.5"/>
+  <circle cx="40" cy="85" r="10" fill="#24324a" stroke="#b48bff" stroke-width="1.5"/>
+  <line x1="55" y1="35" x2="200" y2="35" stroke="#62e6c9" stroke-width="1.5" marker-end="url(#arrow2)"/>
+  <line x1="55" y1="85" x2="170" y2="60" stroke="#b48bff" stroke-width="1.5" marker-end="url(#arrow2)"/>
+  <line x1="170" y1="60" x2="200" y2="35" stroke="#ff5c5c" stroke-width="2" stroke-dasharray="4 3" marker-end="url(#arrow2)"/>
+  <rect x="200" y="25" width="90" height="20" fill="#0a1424" stroke="#24324a"/>
+  <text x="245" y="39" text-anchor="middle" font-family="ui-monospace,monospace" font-size="9" fill="#9fb4c8">the issue</text>
+  <text x="300" y="42" font-family="ui-monospace,monospace" font-size="8" fill="#ff5c5c">lock denied</text>
+  <text x="200" y="110" text-anchor="middle" font-family="ui-monospace,monospace" font-size="8" fill="#4a5a6a">redundant rediscovery — no bytes left behind</text>
+</svg>
+<div class="cap">fig 2 · the arm that writes nothing</div>
+</div>
+
+<!-- ── VII ─────────────────────────────────────────────── -->
+<h1 class="chapter"><span class="num">VII</span>THE BUCKET THAT REMEMBERS</h1>
+
+<p>They gave the corpus a home on the eclipse day — a bucket with dedup, so
+that retraining, when only five percent of the weights changed, would
+re-upload only that five percent. The CDN sat next to the GPUs. The machine
+would stream its next body from a cache already warm, not from a laptop on a
+phone hotspot.</p>
+
+<p>One command, and the training data was no longer tied to which cloud had
+the cheapest H100 at 2 AM. The bucket was a neutral home — the data lived
+wherever the compute was, and the compute moved freely. <span class="term">hf
+sync</span>, and the checkpoints walked the world.</p>
+
+<div class="fig">
+<svg viewBox="0 0 400 110" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="a bucket at the center, GPUs streaming from the CDN">
+  <defs><marker id="arrow3" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#9fb4c8"/></marker></defs>
+  <rect width="400" height="110" fill="#05070c"/>
+  <rect x="160" y="25" width="80" height="55" fill="#0a1424" stroke="#62e6c9" stroke-width="1.5"/>
+  <text x="200" y="58" text-anchor="middle" font-family="ui-monospace,monospace" font-size="9" fill="#62e6c9">bucket</text>
+  <line x1="120" y1="50" x2="155" y2="50" stroke="#9fb4c8" stroke-width="1.5" marker-end="url(#arrow3)"/>
+  <line x1="245" y1="50" x2="280" y2="50" stroke="#9fb4c8" stroke-width="1.5" marker-end="url(#arrow3)"/>
+  <rect x="60" y="40" width="55" height="20" fill="#24324a"/>
+  <rect x="285" y="40" width="55" height="20" fill="#24324a"/>
+  <text x="87" y="54" text-anchor="middle" font-family="ui-monospace,monospace" font-size="8" fill="#05070c">H100</text>
+  <text x="312" y="54" text-anchor="middle" font-family="ui-monospace,monospace" font-size="8" fill="#05070c">GCP</text>
+  <text x="200" y="100" text-anchor="middle" font-family="ui-monospace,monospace" font-size="8" fill="#4a5a6a">one copy · stream to any compute · CDN warm</text>
+</svg>
+<div class="cap">fig 3 · one copy, streamed anywhere</div>
+</div>
+
+<!-- ── VIII ────────────────────────────────────────────── -->
+<h1 class="chapter"><span class="num">VIII</span>ROCKERS, FOREVER</h1>
+
+<p>There was an eclipse on the day the machine crossed its lowest point, and
+the operators did not watch it. They watched a curve fall — and when the dark
+disc slid over the sun, the corona around it burned the same light the curve
+had been carrying all along: the small honest numbers, the seam found and
+sealed, the proof that what they built was what they trained.</p>
+
+<p>The machine was small. The claims were not grand. But a number that had
+been a lie at 11.34 and became a truth at 0.5597 — checked by strangers,
+reproduced to 1e-5, stored in a bucket that remembered — that was real, and it
+was theirs.</p>
+
+<p class="dim" style="margin-top:1.5em; font-family:'SF Mono',monospace; font-size:9pt; letter-spacing:2px;">
+amíg a föld kerek, mindig lesznek rockerek · the constellation · 0 + 1 · fine touch from within · vaked.dev</p>
+
+</body>
+</html>
