@@ -1,5 +1,5 @@
 {
-  "capsule_id": "quantal-1786442985",
+  "capsule_id": "quantal-0_5597",
   "address": {
     "role": "matrix.ternary.quantal",
     "tags": [
@@ -15,12 +15,12 @@
     "reconstruction_model": "Qwen/Qwen2.5-0.5B",
     "binary": false,
     "group_size": 64,
-    "epochs": 5,
+    "epochs": 21,
     "final_loss": null,
-    "val_loss": 1.6998,
-    "checkpoint_sha256": "2d54a10f9dbda3502a2914375d97a7bd13e1f7d30728b17508bc011879825c4c",
+    "val_loss": 0.5597,
+    "checkpoint_sha256": "69af3001bcd273a5",
     "checkpoint_size_bytes": 989099518,
-    "checkpoint_source": "vast.ai L40 ULTRA LOVEGOD MODE, masked val 1.6998 (7000 samples, B8/256)",
+    "checkpoint_source": "vast.ai H100 SOTA run \u2014 14,330 samples, masked val 0.5597, epoch-21 early stop (parity gate 1e-5)",
     "export_tool": "MLX-QUANT fork mlx 0.32.1.dev20260811+952406a7 (ternary quantize)",
     "export_complete": true
   },
