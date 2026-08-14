@@ -136,6 +136,16 @@ return result</code></pre>
   </ul>
   <p>We audited the remaining app-side drawing before reaching for Metal: the MemoryWave panel is plain SwiftUI text, the favicon loader is decode-and-cache, tab snapshots are WebKit's. The first Metal port would have been speculative — the codebase's own drawing is thin because WebKit owns the pixels, and that is correct.</p>
 
+  <h2><span class="num">05</span>WebGPU: the engine is a compute surface</h2>
+  <p>While probing WebKit's optional WebGPU features for the <a href="https://github.com/8b-is/qwave/tree/main/research/01-webkit-browser-engine/webgpu-surface">surface probe</a>, the first number changed the question: <strong><code>navigator.gpu</code> is <code>true</code> by default</strong> in a plain WKWebView — no flag, no opt-in. The research brief written the previous day (flag-gated <code>WebGPUEnabled</code>) was already stale; on macOS 26.4.1 / WebKit 21624 the flag era is over. Surfaces move monthly — this section is version-stamped for the same reason: an undated matrix is misinformation in six weeks.</p>
+  <img class="inline" src="assets/webgpu-surface.png" alt="Hexagonal lattice of glowing teal nodes on near-black — a GPU compute surface">
+  <ul>
+    <li><strong>18–19 adapter features, every one granted</strong> via <code>requestDevice({ requiredFeatures: [f] })</code>: <code>shader-f16</code>, <code>timestamp-query</code>, BC/ASTC/ETC2 texture compression (+ sliced 3D), the float16/float32 renderable/filterable/blendable families, <code>depth-clip-control</code>, <code>core-features-and-limits</code>. <strong>No subgroups</strong> — that is the open Chrome delta, pending a manual capture.</li>
+    <li><strong>WGSL compute dispatches and completes:</strong> 10.5M invocations in <strong>13 ms</strong> inside the web view. The engine Qwave embeds is a genuine compute surface, not a rendering-only shell.</li>
+    <li>The flag experiment itself was moot: the <code>_features</code> SPI returns an empty list on this WebKit — there are no WebGPU-adjacent flags to toggle. The app's <code>FeatureFlagService</code> degrades gracefully via its <code>responds(to:)</code> guard; the isolation assert (UserDefaults byte-identical before/after) passed.</li>
+  </ul>
+  <p class="dim">Machine: Apple M1 Pro · macOS 26.4.1 (25E253) · WebKit 21624 · probe run 2026-08-14T14:40Z · committed results in <code>research/01-webkit-browser-engine/webgpu-surface/results/wkwebview.json</code>. Chrome headless hangs at <code>requestAdapter</code> and Safari automation needs the Apple-Events toggle — both captured as manual steps in the probe README; this matrix measures feature exposure, not engine speed.</p>
+
   <h2><span class="num">06</span>Concurrency: the new primitives, measured</h2>
   <p>The headline is the negative result: <strong>the new <code>synchronization.Mutex</code> is not faster than the classics — and that is fine.</strong> Its value is ergonomics and safety, not speed. Under 8-thread contention (2M increments each), the lock-free <code>Atomic&lt;Int&gt;</code> wins; every lock-based primitive ties:</p>
   <table>
@@ -162,6 +172,7 @@ return result</code></pre>
     <tr><td>SessionRestorer, 40-tab round-trip</td><td colspan="2" class="num">65 — verified real</td><td>committed</td></tr>
     <tr><td>Wave background GPU work</td><td class="num">120 fps/tab</td><td class="num">30 fps, 0 when hidden</td><td>merged</td></tr>
     <tr><td>Wave shader, one frame @1512×982</td><td class="num">757.72 ms CPU</td><td class="num">1.85 ms GPU</td><td>measured</td></tr>
+    <tr><td>WGSL compute in WKWebView (10.5M invocations)</td><td class="num">—</td><td class="num">13 ms</td><td>probe #39</td></tr>
     <tr><td>Energy policy reaction to Low Power Mode</td><td class="num">≤40 s</td><td class="num">~ms</td><td>merged</td></tr>
   </table>
 
