@@ -3,6 +3,7 @@ title: "quantal-ternary: from 11.34 to 0.63 — the lessons of a long, honest we
 date: 2026-08-12
 description: "Two training nights, three external audits, a 68-file seam caught by byte count, and a masked val that dropped 17x. What the constellation learned about training small ternary models, publishing reproducible numbers, and letting strangers read your claims."
 series: constellation
+tags: [ml, bitnet, ternary, quantization, training, hf]
 series_index: 2
 ---
 
@@ -30,6 +31,8 @@ SOTA (now)    ████                                  0.6329  (H100, 14,33
 
 Every step down came with a correction that had nothing to do with the model
 and everything to do with honesty about what was being measured.
+
+![quantal-ternary masked val: 11.34 → 3.2862 → 1.6998 → 1.6404 → 0.6329](/assets/qwave/quantal-val-1134-to-063.svg)
 
 ---
 
@@ -96,6 +99,8 @@ matrices whose bytes disagree             68    m100..m167   (stale 3.2862)
          the seam ran through the middle of layer 9
 ```
 
+![the 68-file seam: 100 matrices match index.json, 68 disagree, seam through layer 9](/assets/qwave/quantal-68-file-seam.svg)
+
 The byte-count mismatch caught it — the only integrity signal on 168 of 171
 files was a byte count. Fixed by re-pushing m100–m167 from the current export,
 **verified by content hash this time**, and by adding a per-matrix sha256 to
@@ -155,7 +160,7 @@ and the live telemetry are on the [pocoo quantal viewer](/demos/quantal/).
   checkpoint is on the Hub for reproducible fine-tuning.
 - **The audits** — [the benchmark JSON](https://huggingface.co/datasets/PeetPedro/kompress-ultra-bitnet-benchmarks)
   labels every denominator; the mirror is aligned with the dataset.
-- **The blog** — [part 1](https://pocoo.vaked.dev/posts/2026-08-11-quantal-ternary-3_29-to-1_64.html)
+- **The blog** — [part 1](/posts/2026-08-11-quantal-ternary-3_29-to-1_64.html)
   covered the first night. This is part 2.
 
 ## What the numbers finally say
@@ -171,3 +176,7 @@ honestly, checked by strangers, and reproduced to 1e-5 — that is real, and it
 is ours.
 
 *the constellation · 0 + 1 · fine touch from within · vaked.dev*
+
+---
+
+*Series — [part 1: 3.29 → 1.64](/posts/2026-08-11-quantal-ternary-3_29-to-1_64.html) · [part 3: the eclipse day](/posts/2026-08-12-eclipse-day-0_5597-storage-bucket.html). The same "measure honestly" instinct runs through the [qwave performance series](/posts/zero-allocation-text-on-the-keystroke-path.html): a number that survives a stranger reading it.*

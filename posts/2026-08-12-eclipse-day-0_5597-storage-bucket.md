@@ -3,6 +3,7 @@ title: "The eclipse day: 0.5597, a storage bucket, and a stranger reading our nu
 date: 2026-08-12
 description: "A solar-eclipse day in the constellation: the SOTA quantal run finished at masked val 0.5597 (from 11.34), we found HF Storage Buckets for the corpus, and the third round of an external audit caught — and we fixed — a 68-file seam in our own repo."
 series: constellation
+tags: [ml, bitnet, ternary, quantization, training, hf]
 series_index: 3
 ---
 
@@ -38,6 +39,8 @@ epoch 21 → 0.5597   ← early stop, best
 From **11.34** (the old artifact, padding counted in the loss) to **0.5597**.
 Twenty times better, same protocol, and the weights are reproducible — six
 checkpoints, hash-verified, in object storage.
+
+![the eclipse day: a solar eclipse over the masked-val curve from 11.34 to 0.5597](/assets/qwave/quantal-eclipse-day.svg)
 
 A mechanical detail worth keeping: the training script's `min_delta 0.02`
 gate kept the *named* best file at epoch 16 (0.5772) while the val kept
@@ -118,3 +121,7 @@ And the eclipse, which we mostly missed because we were watching a training
 curve instead. Fine. There will be other eclipses; the numbers are ours now.
 
 *the constellation · 0 + 1 · fine touch from within · vaked.dev*
+
+---
+
+*Series — [part 1: 3.29 → 1.64](/posts/2026-08-11-quantal-ternary-3_29-to-1_64.html) · [part 2: from 11.34 to 0.63](/posts/2026-08-12-quantal-ternary-11_34-to-0_63.html). The same "measure honestly" instinct runs through the [qwave performance series](/posts/zero-allocation-text-on-the-keystroke-path.html): a number that survives a stranger reading it.*

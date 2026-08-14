@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 260" font-family="ui-monospace, Menlo, monospace" role="img" aria-label="the 68-file seam: two checkpoints stacked in one repository">
+  <rect width="760" height="260" fill="#0d1117"/>
+
+  <text x="380" y="28" text-anchor="middle" fill="#e5e7eb" font-size="14" font-weight="600">the 68-file seam: two checkpoints stacked in one repo</text>
+
+  <!-- green group: m000..m099 -->
+  <g>
+    <rect x="60"  y="70" width="13" height="13" fill="#10b981"/>
+    <rect x="76"  y="70" width="13" height="13" fill="#10b981"/>
+    <rect x="92"  y="70" width="13" height="13" fill="#10b981"/>
+    <rect x="108" y="70" width="13" height="13" fill="#10b981"/>
+    <rect x="124" y="70" width="13" height="13" fill="#10b981"/>
+    <rect x="140" y="70" width="13" height="13" fill="#10b981"/>
+    <rect x="156" y="70" width="13" height="13" fill="#10b981"/>
+    <rect x="172" y="70" width="13" height="13" fill="#10b981"/>
+    <rect x="188" y="70" width="13" height="13" fill="#10b981"/>
+    <rect x="204" y="70" width="13" height="13" fill="#10b981"/>
+    <text x="222" y="81" fill="#9ca3af" font-size="11">…</text>
+    <text x="90" y="104" fill="#10b981" font-size="12">m000–m099</text>
+    <text x="90" y="119" fill="#9ca3af" font-size="11">ULTRA · 1.6998</text>
+    <text x="90" y="134" fill="#9ca3af" font-size="11">100 matrices</text>
+  </g>
+
+  <!-- seam line -->
+  <line x1="300" y1="62" x2="300" y2="140" stroke="#22d3ee" stroke-width="2" stroke-dasharray="5 4"/>
+  <text x="316" y="84" fill="#22d3ee" font-size="11">the seam ran through</text>
+  <text x="316" y="99" fill="#22d3ee" font-size="11">the middle of layer 9</text>
+
+  <!-- red group: m100..m167 -->
+  <g>
+    <rect x="380" y="70" width="13" height="13" fill="#ef4444"/>
+    <rect x="396" y="70" width="13" height="13" fill="#ef4444"/>
+    <rect x="412" y="70" width="13" height="13" fill="#ef4444"/>
+    <rect x="428" y="70" width="13" height="13" fill="#ef4444"/>
+    <rect x="444" y="70" width="13" height="13" fill="#ef4444"/>
+    <rect x="460" y="70" width="13" height="13" fill="#ef4444"/>
+    <rect x="476" y="70" width="13" height="13" fill="#ef4444"/>
+    <rect x="492" y="70" width="13" height="13" fill="#ef4444"/>
+    <rect x="508" y="70" width="13" height="13" fill="#ef4444"/>
+    <rect x="524" y="70" width="13" height="13" fill="#ef4444"/>
+    <text x="542" y="81" fill="#9ca3af" font-size="11">…</text>
+    <text x="410" y="104" fill="#ef4444" font-size="12">m100–m167</text>
+    <text x="410" y="119" fill="#9ca3af" font-size="11">stale · 3.2862</text>
+    <text x="410" y="134" fill="#9ca3af" font-size="11">68 matrices</text>
+  </g>
+
+  <!-- footer: the integrity signal -->
+  <text x="380" y="190" text-anchor="middle" fill="#9ca3af" font-size="12">bytes match index.json → 100 · bytes disagree → 68</text>
+  <text x="380" y="210" text-anchor="middle" fill="#22d3ee" font-size="12">the only integrity signal on 168 of 171 files was a byte count</text>
+  <text x="380" y="232" text-anchor="middle" fill="#9ca3af" font-size="11">fixed by re-push, verified by content hash, sha256 added at export time</text>
+</svg>

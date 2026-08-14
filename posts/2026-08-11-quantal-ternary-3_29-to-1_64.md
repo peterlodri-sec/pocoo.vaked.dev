@@ -2,6 +2,7 @@
 title: "quantal-ternary: 3.29 → 1.64 — the baszataska nights, an honest audit, and what the numbers finally say"
 date: 2026-08-11
 description: "The long story of training a 0.5B BitNet b1.58 ternary model from a masked val of 11.34 down to 1.6404 — the three killers found on rented GPUs, the external audit that forced us to say what we actually measured, and the numbers that can finally check themselves."
+tags: [ml, bitnet, ternary, quantization, training, hf]
 series: constellation
 series_index: 1
 ---
@@ -28,6 +29,8 @@ The headline, for those who want it fast:
 - **Memory reduction: 8.1x** vs fp16 — and we now say out loud what that
   denominator is (packed 2-bit layout), because an external reviewer caught us
   not saying it.
+
+![quantal-ternary masked val: 11.34 → 3.2862 → 1.6998 → 1.6404](/assets/qwave/quantal-val-329-to-164.svg)
 
 ---
 
@@ -181,8 +184,10 @@ After the fixes, the claims in the repository can check themselves:
 
 The model itself — 168 ternary matrices, group size 64, embeddings + RMSNorm
 vectors — is live on [Hugging Face](https://huggingface.co/PeetPedro/quantal-ternary)
-and on [the pocoo quantal viewer](/demos/quantal/). The code is in the
-constellation. The numbers now agree with themselves.
+and on [the pocoo quantal viewer](/demos/quantal/). The training and export
+tooling live in the constellation (private); what is public — and what the
+audit actually checked — are the 168 hash-verified matrices on the Hub. The
+numbers now agree with themselves.
 
 ---
 
@@ -208,3 +213,7 @@ The model is not big. The claim is not grand. But 3.29 → 1.64, measured
 honestly, is real, and it is ours.
 
 *the constellation · 0 + 1 · fine touch from within · vaked.dev*
+
+---
+
+*Series — [part 2: from 11.34 to 0.63](/posts/2026-08-12-quantal-ternary-11_34-to-0_63.html) · [part 3: the eclipse day](/posts/2026-08-12-eclipse-day-0_5597-storage-bucket.html). The same "measure honestly" instinct runs through the [qwave performance series](/posts/zero-allocation-text-on-the-keystroke-path.html): a number that survives a stranger reading it.*
