@@ -266,7 +266,9 @@ documented in
    timestamps a warm wake.
 
 *Sister posts in this series:
-[zero-allocation text on the keystroke path](/posts/zero-allocation-text-on-the-keystroke-path.html) ·
-[what 59,657 blocking rules cost](/posts/what-59657-blocking-rules-cost.html) ·
-[why we count allocations not wall clock](/posts/why-we-benchmark-allocations-not-wall-clock.html) ·
-[the measured cost of a Swift module boundary](/posts/measured-cost-of-a-swift-module-boundary.html).*
+[zero-allocation text on the keystroke path](/posts/2026-08-13-zero-allocation-text-on-the-keystroke-path) ·
+[what 59,657 blocking rules cost](/posts/2026-08-13-what-59657-blocking-rules-cost) ·
+[why we count allocations not wall clock](/posts/2026-08-13-why-we-benchmark-allocations-not-wall-clock) ·
+[the measured cost of a Swift module boundary](/posts/2026-08-13-measured-cost-of-a-swift-module-boundary).*
+
+*Sister series — the constellation quantal-ternary posts ([3.29 → 1.64](/posts/2026-08-11-quantal-ternary-3_29-to-1_64), [11.34 → 0.63](/posts/2026-08-12-quantal-ternary-11_34-to-0_63), [the eclipse day](/posts/2026-08-12-eclipse-day-0_5597-storage-bucket)) measure a ternary model the same way: a number that survives a stranger reading it.*

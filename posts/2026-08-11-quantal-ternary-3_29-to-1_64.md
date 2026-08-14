@@ -216,4 +216,4 @@ honestly, is real, and it is ours.
 
 ---
 
-*Series — [part 2: from 11.34 to 0.63](/posts/2026-08-12-quantal-ternary-11_34-to-0_63.html) · [part 3: the eclipse day](/posts/2026-08-12-eclipse-day-0_5597-storage-bucket.html). The same "measure honestly" instinct runs through the [qwave performance series](/posts/zero-allocation-text-on-the-keystroke-path.html): a number that survives a stranger reading it.*
+*Series — [part 2: from 11.34 to 0.63](/posts/2026-08-12-quantal-ternary-11_34-to-0_63) · [part 3: the eclipse day](/posts/2026-08-12-eclipse-day-0_5597-storage-bucket). The same "measure honestly" instinct runs through the [qwave performance series](/posts/2026-08-13-zero-allocation-text-on-the-keystroke-path): a number that survives a stranger reading it.*

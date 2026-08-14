@@ -102,16 +102,16 @@ most common Swift regressions:
 * **A leaked string or temporary** — shows up as an allocation that used to
   be zero.
 * **Unbounded collection growth** — sorting when you meant top-k, as in the
-  [zero-allocation post](/posts/zero-allocation-text-on-the-keystroke-path.html).
+  [zero-allocation post](/posts/2026-08-13-zero-allocation-text-on-the-keystroke-path).
 
 What it *cannot* see is a list with named owners, and each miss is covered by
 a dedicated tool rather than left unmeasured:
 
 | Miss | Why `mallocCountTotal` can't see it | The tool that does |
 |---|---|---|
-| Out-of-process memory | WebContent lives in other processes | `proc_pid_rusage` ([memory post](/posts/measuring-memory-a-browser-doesnt-own.html)) |
+| Out-of-process memory | WebContent lives in other processes | `proc_pid_rusage` ([memory post](/posts/2026-08-13-measuring-memory-a-browser-doesnt-own)) |
 | Instruction count / CPU work | `@inlinable` changes dispatch, not allocs | Instruments Time Profiler |
-| Main-thread stalls | A stall allocates nothing | 50 ms heartbeat timer ([blocklist post](/posts/what-59657-blocking-rules-cost.html)) |
+| Main-thread stalls | A stall allocates nothing | 50 ms heartbeat timer ([blocklist post](/posts/2026-08-13-what-59657-blocking-rules-cost)) |
 
 This is the part people miss: the value of a narrow metric is not that it is
 complete, it is that it is *honest about what it measures*. Wall-clock
@@ -131,6 +131,19 @@ The two instruments complement each other precisely because they measure
 different things with different reliability. The mistake is using the noisy
 one for the gate and being surprised when it flakes.
 
+## Reproduce it
+
+```bash
+git clone https://github.com/8b-is/qwave.git && cd qwave/Benchmarks
+swift package benchmark run                              # wall-clock AND alloc/ARC counts
+swift package benchmark thresholds check --no-progress   # the CI gate
+```
+
+Run `swift package benchmark run` twice on a contended runner: the wall-clock
+columns move ±30%, the `mallocCountTotal` / `retainCount` / `releaseCount` /
+`retainReleaseDelta` columns stay put. The gate (`thresholds check`) asserts
+the deterministic ones and ignores the noisy one.
+
 ## Key takeaways
 
 1. **A ±30% instrument cannot catch a 2× regression.** Wall-clock on shared
@@ -147,7 +160,9 @@ one for the gate and being surprised when it flakes.
    around.
 
 *Sister posts in this series:
-[zero-allocation text on the keystroke path](/posts/zero-allocation-text-on-the-keystroke-path.html) ·
-[what 59,657 blocking rules cost](/posts/what-59657-blocking-rules-cost.html) ·
-[the measured cost of a Swift module boundary](/posts/measured-cost-of-a-swift-module-boundary.html) ·
-[measuring memory a browser doesn't own](/posts/measuring-memory-a-browser-doesnt-own.html).*
+[zero-allocation text on the keystroke path](/posts/2026-08-13-zero-allocation-text-on-the-keystroke-path) ·
+[what 59,657 blocking rules cost](/posts/2026-08-13-what-59657-blocking-rules-cost) ·
+[the measured cost of a Swift module boundary](/posts/2026-08-13-measured-cost-of-a-swift-module-boundary) ·
+[measuring memory a browser doesn't own](/posts/2026-08-13-measuring-memory-a-browser-doesnt-own).*
+
+*Sister series — the constellation quantal-ternary posts ([3.29 → 1.64](/posts/2026-08-11-quantal-ternary-3_29-to-1_64), [11.34 → 0.63](/posts/2026-08-12-quantal-ternary-11_34-to-0_63), [the eclipse day](/posts/2026-08-12-eclipse-day-0_5597-storage-bucket)) measure a ternary model the same way: a number that survives a stranger reading it.*

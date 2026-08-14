@@ -127,6 +127,21 @@ The null result bought back the `private` keyword. That is a null result
   the browser. Collapsing it to chase a 0% metric would be the wrong trade,
   so it wasn't done.
 
+## Reproduce it
+
+```bash
+git clone https://github.com/8b-is/qwave.git && cd qwave/Benchmarks
+git checkout 16ca1b714a489d01e72f0c388ca1326cf522eaaf   # WITH @inlinable
+swift package benchmark run
+git checkout 23f88e6519cda31063f802829b00a3f46f172524   # WITHOUT (annotations removed)
+swift package benchmark run
+```
+
+Every one of the four metrics — `mallocCountTotal`, `retainCount`,
+`releaseCount`, `retainReleaseDelta` — is identical across the two checkouts,
+across all five benchmarks. That identity *is* the null result: a real
+module-boundary cost would have shown as a difference in the ARC columns.
+
 ## Key takeaways
 
 1. **A null result is only credible if the instrument could have caught the
@@ -143,7 +158,9 @@ The null result bought back the `private` keyword. That is a null result
    every future consumer.
 
 *Sister posts in this series:
-[zero-allocation text on the keystroke path](/posts/zero-allocation-text-on-the-keystroke-path.html) ·
-[what 59,657 blocking rules cost](/posts/what-59657-blocking-rules-cost.html) ·
-[why we count allocations not wall clock](/posts/why-we-benchmark-allocations-not-wall-clock.html) ·
-[measuring memory a browser doesn't own](/posts/measuring-memory-a-browser-doesnt-own.html).*
+[zero-allocation text on the keystroke path](/posts/2026-08-13-zero-allocation-text-on-the-keystroke-path) ·
+[what 59,657 blocking rules cost](/posts/2026-08-13-what-59657-blocking-rules-cost) ·
+[why we count allocations not wall clock](/posts/2026-08-13-why-we-benchmark-allocations-not-wall-clock) ·
+[measuring memory a browser doesn't own](/posts/2026-08-13-measuring-memory-a-browser-doesnt-own).*
+
+*Sister series — the constellation quantal-ternary posts ([3.29 → 1.64](/posts/2026-08-11-quantal-ternary-3_29-to-1_64), [11.34 → 0.63](/posts/2026-08-12-quantal-ternary-11_34-to-0_63), [the eclipse day](/posts/2026-08-12-eclipse-day-0_5597-storage-bucket)) measure a ternary model the same way: a number that survives a stranger reading it.*

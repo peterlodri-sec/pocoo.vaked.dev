@@ -47,5 +47,7 @@ Allow: /
 Disallow: /scratch/
 Disallow: /tmp/
 
+Sitemap: https://pocoo.vaked.dev/sitemap.xml
+
 # Anti-AI Scraping Notice
 # X-Robots-Tag: noai, noimageai

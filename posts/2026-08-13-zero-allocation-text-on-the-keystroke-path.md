@@ -60,7 +60,7 @@ whole post. The number under optimization is `mallocCountTotal` from
 the raw count of `malloc` calls per benchmark iteration — not wall-clock time.
 
 The rationale deserves its own post and has one:
-[why we benchmark allocations, not wall clock](/posts/why-we-benchmark-allocations-not-wall-clock.html).
+[why we benchmark allocations, not wall clock](/posts/2026-08-13-why-we-benchmark-allocations-not-wall-clock).
 The short version: allocation counts are *deterministic for a given code
 path*. Two runs of the same code allocate the same things regardless of what
 else the machine is doing, which means benchmarks survive noisy CI runners,
@@ -365,7 +365,7 @@ same ideas:
   Measured effect on `mallocCountTotal`: **zero, exactly** — the metric
   counts allocations, not instructions, and allocations don't vanish when
   call sites inline. The null result got its own post:
-  [the measured cost of a Swift module boundary](/posts/measured-cost-of-a-swift-module-boundary.html).
+  [the measured cost of a Swift module boundary](/posts/2026-08-13-measured-cost-of-a-swift-module-boundary).
   The annotations stayed because they cost nothing, but they're removal of a
   thing (module-boundary dispatch) rather than an in-place optimization.
 
@@ -418,7 +418,9 @@ checkout 5fe2b0a` and re-run the same benchmarks).
 *Benchmarks, CSVs and CI thresholds:
 [Benchmarks/](https://github.com/8b-is/qwave/tree/15c1389aa0e2ccff5bf80cb85b62d7dcc6a2b6a9/Benchmarks).
 Sister posts in this series:
-[why we count allocations not wall clock](/posts/why-we-benchmark-allocations-not-wall-clock.html) ·
-[the measured cost of a module boundary](/posts/measured-cost-of-a-swift-module-boundary.html) ·
-[measuring memory a browser doesn't own](/posts/measuring-memory-a-browser-doesnt-own.html) ·
-[what 59,657 blocking rules cost](/posts/what-59657-blocking-rules-cost.html).*
+[why we count allocations not wall clock](/posts/2026-08-13-why-we-benchmark-allocations-not-wall-clock) ·
+[the measured cost of a module boundary](/posts/2026-08-13-measured-cost-of-a-swift-module-boundary) ·
+[measuring memory a browser doesn't own](/posts/2026-08-13-measuring-memory-a-browser-doesnt-own) ·
+[what 59,657 blocking rules cost](/posts/2026-08-13-what-59657-blocking-rules-cost).*
+
+*Sister series — the constellation quantal-ternary posts ([3.29 → 1.64](/posts/2026-08-11-quantal-ternary-3_29-to-1_64), [11.34 → 0.63](/posts/2026-08-12-quantal-ternary-11_34-to-0_63), [the eclipse day](/posts/2026-08-12-eclipse-day-0_5597-storage-bucket)) measure a ternary model the same way: a number that survives a stranger reading it.*

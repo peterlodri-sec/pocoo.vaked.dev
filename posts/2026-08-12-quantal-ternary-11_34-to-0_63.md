@@ -160,7 +160,7 @@ and the live telemetry are on the [pocoo quantal viewer](/demos/quantal/).
   checkpoint is on the Hub for reproducible fine-tuning.
 - **The audits** — [the benchmark JSON](https://huggingface.co/datasets/PeetPedro/kompress-ultra-bitnet-benchmarks)
   labels every denominator; the mirror is aligned with the dataset.
-- **The blog** — [part 1](/posts/2026-08-11-quantal-ternary-3_29-to-1_64.html)
+- **The blog** — [part 1](/posts/2026-08-11-quantal-ternary-3_29-to-1_64)
   covered the first night. This is part 2.
 
 ## What the numbers finally say
@@ -179,4 +179,4 @@ is ours.
 
 ---
 
-*Series — [part 1: 3.29 → 1.64](/posts/2026-08-11-quantal-ternary-3_29-to-1_64.html) · [part 3: the eclipse day](/posts/2026-08-12-eclipse-day-0_5597-storage-bucket.html). The same "measure honestly" instinct runs through the [qwave performance series](/posts/zero-allocation-text-on-the-keystroke-path.html): a number that survives a stranger reading it.*
+*Series — [part 1: 3.29 → 1.64](/posts/2026-08-11-quantal-ternary-3_29-to-1_64) · [part 3: the eclipse day](/posts/2026-08-12-eclipse-day-0_5597-storage-bucket). The same "measure honestly" instinct runs through the [qwave performance series](/posts/2026-08-13-zero-allocation-text-on-the-keystroke-path): a number that survives a stranger reading it.*

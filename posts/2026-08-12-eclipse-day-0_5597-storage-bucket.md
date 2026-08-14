@@ -124,4 +124,4 @@ curve instead. Fine. There will be other eclipses; the numbers are ours now.
 
 ---
 
-*Series — [part 1: 3.29 → 1.64](/posts/2026-08-11-quantal-ternary-3_29-to-1_64.html) · [part 2: from 11.34 to 0.63](/posts/2026-08-12-quantal-ternary-11_34-to-0_63.html). The same "measure honestly" instinct runs through the [qwave performance series](/posts/zero-allocation-text-on-the-keystroke-path.html): a number that survives a stranger reading it.*
+*Series — [part 1: 3.29 → 1.64](/posts/2026-08-11-quantal-ternary-3_29-to-1_64) · [part 2: from 11.34 to 0.63](/posts/2026-08-12-quantal-ternary-11_34-to-0_63). The same "measure honestly" instinct runs through the [qwave performance series](/posts/2026-08-13-zero-allocation-text-on-the-keystroke-path): a number that survives a stranger reading it.*

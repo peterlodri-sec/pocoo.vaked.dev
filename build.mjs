@@ -229,113 +229,82 @@ main,footer{position:relative;z-index:1;}
 </script>`;
 }
 
-// ── Quantum background (WebGPU, with a 2D fallback) ──────────────────────────
-// A full-screen fragment shader sums a few plane waves — a genuine superposition —
-// so the fringes you see are real interference: phase → hue, |ψ|² → brightness.
-// Seeded per-post by content hash (each post keeps its own rhythm). Browsers without
-// navigator.gpu fall back to a low-res 2D field of the same math. reduced-motion → static.
+// ── Mycelium + mathematical-wizardry background (2D canvas) ─────────────────
+// A growing hyphal network (branching, glowing fruiting bodies) over faint
+// drifting mathematical glyphs — the underground knowledge of the loop.
+// Seeded per-post by content hash (each post keeps its own growth). reduced-motion → static.
 function quantumBgScript(hash, isPost) {
-  const seed = hash ? ((parseInt(hash.slice(0, 4), 16) / 65535) * 6.2831853).toFixed(4) : "1.7000";
-  const opacity = isPost ? "0.82" : "1.0";
-  const wgsl = `struct U { res: vec2<f32>, time: f32, seed: f32 };
-@group(0) @binding(0) var<uniform> u: U;
-@vertex
-fn vs(@builtin(vertex_index) vi: u32) -> @builtin(position) vec4<f32> {
-  var p = array<vec2<f32>, 3>(vec2<f32>(-1.0,-1.0), vec2<f32>(3.0,-1.0), vec2<f32>(-1.0,3.0));
-  return vec4<f32>(p[vi], 0.0, 1.0);
-}
-fn h2rgb(h: f32) -> vec3<f32> {
-  let r = clamp(abs(h*6.0-3.0)-1.0, 0.0, 1.0);
-  let g = clamp(2.0-abs(h*6.0-2.0), 0.0, 1.0);
-  let b = clamp(2.0-abs(h*6.0-4.0), 0.0, 1.0);
-  return vec3<f32>(r,g,b);
-}
-@fragment
-fn fs(@builtin(position) fc: vec4<f32>) -> @location(0) vec4<f32> {
-  var uv = fc.xy / u.res - vec2<f32>(0.5, 0.5);
-  uv.x = uv.x * (u.res.x / u.res.y);
-  uv = uv * 4.0;
-  var re = 0.0; var im = 0.0;
-  for (var i = 0; i < 5; i = i + 1) {
-    let fi = f32(i);
-    let ang = u.seed + fi * 1.2566;
-    let k = vec2<f32>(cos(ang), sin(ang)) * (1.4 + fi * 0.55);
-    let w = 0.45 + fi * 0.16 + u.seed * 0.1;
-    let ph = dot(k, uv) - w * u.time;
-    re = re + cos(ph); im = im + sin(ph);
-  }
-  re = re / 5.0; im = im / 5.0;
-  let mag = sqrt(re*re + im*im);
-  let phase = atan2(im, re);
-  let h = 0.52 + (phase / 6.2831853 + 0.5) * 0.26;
-  let col = h2rgb(fract(h));
-  let bright = mag * mag * 0.30 + 0.012;
-  return vec4<f32>(col * bright, 1.0);
-}`;
+  const seed = hash ? parseInt(hash.slice(0, 8), 16) : 123456789;
+  const opacity = isPost ? "0.6" : "0.8";
   return `<style>
 #bg-canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:${opacity};}
 main,footer{position:relative;z-index:1;}
 </style>
 <canvas id="bg-canvas"></canvas>
-<script id="qbg-wgsl" type="text/wgsl">
-${wgsl}
-<\/script>
 <script>
-(async function(){
+(function(){
   var c=document.getElementById('bg-canvas'); if(!c) return;
-  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var SEED = ${seed};
-  var dpr = Math.min(2, window.devicePixelRatio||1);
-  function hue(h){ var r=Math.min(1,Math.max(0,Math.abs(h*6-3)-1)), g=Math.min(1,Math.max(0,2-Math.abs(h*6-2))), b=Math.min(1,Math.max(0,2-Math.abs(h*6-4))); return [r,g,b]; }
-  function fallback(){
-    var ctx=c.getContext('2d'); if(!ctx) return;
-    var LW=112, LH=64;
-    var off=document.createElement('canvas'); off.width=LW; off.height=LH; var octx=off.getContext('2d'); var img=octx.createImageData(LW,LH);
-    function rs(){ c.width=innerWidth; c.height=innerHeight; } rs(); window.addEventListener('resize',rs);
-    var t=0;
-    function fr(){ t+=0.016; var d=img.data, p=0;
-      for(var y=0;y<LH;y++){ for(var x=0;x<LW;x++){
-        var ux=(x/LW-0.5)*(LW/LH)*4, uy=(y/LH-0.5)*4, re=0, im=0;
-        for(var i=0;i<5;i++){ var a=SEED+i*1.2566, kx=Math.cos(a)*(1.4+i*0.55), ky=Math.sin(a)*(1.4+i*0.55), w=0.45+i*0.16+SEED*0.1, ph=kx*ux+ky*uy-w*t; re+=Math.cos(ph); im+=Math.sin(ph); }
-        re/=5; im/=5; var mag=Math.sqrt(re*re+im*im), phase=Math.atan2(im,re);
-        var h=(0.52+(phase/6.2831853+0.5)*0.26)%1; var rgb=hue(h); var br=mag*mag*0.30+0.012;
-        d[p++]=rgb[0]*br*255; d[p++]=rgb[1]*br*255; d[p++]=rgb[2]*br*255; d[p++]=255;
-      }}
-      octx.putImageData(img,0,0); ctx.clearRect(0,0,c.width,c.height); ctx.imageSmoothingEnabled=true; ctx.drawImage(off,0,0,c.width,c.height);
-      if(!reduce) requestAnimationFrame(fr);
+  var ctx=c.getContext('2d'); if(!ctx) return;
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var s=${seed};
+  function rnd(){ s=(s*16807)%2147483647; return (s-1)/2147483646; }
+  var W,H,DPR;
+  function rs(){ DPR=Math.min(2,window.devicePixelRatio||1); W=innerWidth; H=innerHeight; c.width=W*DPR; c.height=H*DPR; c.style.width=W+'px'; c.style.height=H+'px'; ctx.setTransform(DPR,0,0,DPR,0,0); }
+  rs(); window.addEventListener('resize',rs);
+
+  var GLYPHS=['∫','π','Σ','∂','√','φ','∞','λ','∇','⊕','≈','±','Δ','Ψ','∮','Φ'];
+  var glyphs=[];
+  for(var i=0;i<24;i++){ glyphs.push({x:rnd()*W,y:rnd()*H,sz:12+rnd()*30,a:0.02+rnd()*0.05,vx:(rnd()-0.5)*0.12,vy:(rnd()-0.5)*0.09,ch:GLYPHS[(rnd()*GLYPHS.length)|0]}); }
+
+  var tips=[];
+  function spawn(n){ for(var i=0;i<n;i++){ tips.push({x:W*(0.5+(rnd()-0.5)*0.9),y:H*(0.72+rnd()*0.4),a:-Math.PI/2+(rnd()-0.5)*1.6,life:0,max:130+rnd()*170}); } }
+  spawn(26);
+
+  var nodes=[];
+
+  function frame(){
+    ctx.fillStyle='rgba(6,10,8,0.10)'; ctx.fillRect(0,0,W,H);
+
+    ctx.textAlign='center'; ctx.textBaseline='middle';
+    for(var i=0;i<glyphs.length;i++){ var g=glyphs[i];
+      g.x+=g.vx; g.y+=g.vy;
+      if(g.x<-50)g.x=W+50; if(g.x>W+50)g.x=-50; if(g.y<-50)g.y=H+50; if(g.y>H+50)g.y=-50;
+      ctx.fillStyle='rgba(212,175,55,'+g.a.toFixed(3)+')';
+      ctx.font='500 '+g.sz+'px Georgia,"Times New Roman",serif';
+      ctx.fillText(g.ch,g.x,g.y);
     }
-    fr();
+
+    ctx.lineCap='round';
+    for(var i=tips.length-1;i>=0;i--){ var t=tips[i];
+      var nx=t.x+Math.cos(t.a)*2.2, ny=t.y+Math.sin(t.a)*2.2;
+      t.a+=(rnd()-0.5)*0.7;
+      ctx.strokeStyle='rgba(110,231,183,0.14)'; ctx.lineWidth=1;
+      ctx.beginPath(); ctx.moveTo(t.x,t.y); ctx.lineTo(nx,ny); ctx.stroke();
+      t.x=nx; t.y=ny; t.life++;
+      if(rnd()<0.03 && tips.length<260){ tips.push({x:t.x,y:t.y,a:t.a+(rnd()<0.5?-0.9:0.9),life:t.life,max:t.max}); }
+      if(rnd()<0.004 && nodes.length<90){ nodes.push({x:t.x,y:t.y,r:0.8,a:0.85}); }
+      if(t.life>t.max || t.x<-60||t.x>W+60||t.y<-60||t.y>H+60){ tips.splice(i,1); }
+    }
+    if(tips.length<18) spawn(6);
+
+    for(var j=nodes.length-1;j>=0;j--){ var nd=nodes[j];
+      nd.r+=0.03; nd.a-=0.006;
+      if(nd.a<=0){ nodes.splice(j,1); continue; }
+      var g2=ctx.createRadialGradient(nd.x,nd.y,0,nd.x,nd.y,nd.r*7);
+      g2.addColorStop(0,'rgba(230,193,90,'+nd.a.toFixed(3)+')');
+      g2.addColorStop(1,'rgba(230,193,90,0)');
+      ctx.fillStyle=g2; ctx.beginPath(); ctx.arc(nd.x,nd.y,nd.r*7,0,6.2832); ctx.fill();
+      ctx.fillStyle='rgba(230,193,90,'+nd.a.toFixed(3)+')';
+      ctx.beginPath(); ctx.arc(nd.x,nd.y,nd.r,0,6.2832); ctx.fill();
+    }
+
+    if(!reduce) requestAnimationFrame(frame);
   }
-  if(!navigator.gpu){ fallback(); return; }
-  try {
-    var adapter = await navigator.gpu.requestAdapter(); if(!adapter){ fallback(); return; }
-    var device = await adapter.requestDevice();
-    var ctx = c.getContext('webgpu'); if(!ctx){ fallback(); return; }
-    var fmt = navigator.gpu.getPreferredCanvasFormat();
-    ctx.configure({ device: device, format: fmt, alphaMode: 'opaque' });
-    var mod = device.createShaderModule({ code: document.getElementById('qbg-wgsl').textContent });
-    var pipe = device.createRenderPipeline({ layout:'auto',
-      vertex:{ module:mod, entryPoint:'vs' },
-      fragment:{ module:mod, entryPoint:'fs', targets:[{ format: fmt }] },
-      primitive:{ topology:'triangle-list' } });
-    var ubuf = device.createBuffer({ size:16, usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST });
-    var bind = device.createBindGroup({ layout: pipe.getBindGroupLayout(0), entries:[{ binding:0, resource:{ buffer: ubuf } }] });
-    function rs(){ c.width=Math.max(1,Math.floor(innerWidth*dpr)); c.height=Math.max(1,Math.floor(innerHeight*dpr)); } rs(); window.addEventListener('resize',rs);
-    var t0=performance.now();
-    function fr(){
-      var t=(performance.now()-t0)/1000;
-      device.queue.writeBuffer(ubuf,0,new Float32Array([c.width,c.height,t,SEED]));
-      var enc=device.createCommandEncoder();
-      var pass=enc.beginRenderPass({ colorAttachments:[{ view: ctx.getCurrentTexture().createView(), clearValue:{r:0,g:0,b:0,a:1}, loadOp:'clear', storeOp:'store' }] });
-      pass.setPipeline(pipe); pass.setBindGroup(0,bind); pass.draw(3); pass.end();
-      device.queue.submit([enc.finish()]);
-      if(!reduce) requestAnimationFrame(fr);
-    }
-    fr();
-  } catch(e){ fallback(); }
+  frame();
 })();
 <\/script>`;
 }
+
 
 function sealFragment(hash, isPost) {
   if (!isPost) return "";
@@ -406,7 +375,7 @@ const SITE_NAME = "pocoo";
 const DEFAULT_OG_IMAGE = `${SITE_URL}/assets/og-default.png`;
 
 // ── <head> ────────────────────────────────────────────────────────────────────
-function head({ title, description, prefix, ogType, canonicalUrl, ogImage, pubDate, author }) {
+function head({ title, description, prefix, ogType, canonicalUrl, ogImage, pubDate, author, jsonLd }) {
   const desc = esc(description || "");
   const img = ogImage || DEFAULT_OG_IMAGE;
   const canonical = canonicalUrl || SITE_URL;
@@ -434,7 +403,7 @@ ${ogType === "article" && author ? `<meta property="article:author" content="${a
 <meta name="twitter:title" content="${esc(title)}">
 <meta name="twitter:description" content="${desc}">
 <meta name="twitter:image" content="${img}">
-<meta name="theme-color" content="#070b16">
+<meta name="theme-color" content="#060a08">
 <link rel="icon" type="image/svg+xml" href="${prefix}assets/logo.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="${prefix}assets/favicon-32.png">
 <link rel="apple-touch-icon" sizes="180x180" href="${prefix}assets/apple-touch-icon.png">
@@ -445,6 +414,7 @@ ${ogType === "article" && author ? `<meta property="article:author" content="${a
 <link rel="stylesheet" href="${prefix}assets/bg.css">
 <link rel="stylesheet" href="${prefix}assets/blog.css">
 <script defer src="${prefix}assets/bg.js"></script>
+${jsonLd ? `<script type="application/ld+json">${jsonLd}</script>` : ""}
 </head>`;
 }
 
@@ -453,15 +423,28 @@ function renderPost(post) {
   const bodyHtml = md.render(post.body);
   const hash = contentHash(post.meta.title + post.meta.date + post.body);
   const slug = post.slug;
+  const jsonLd = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.meta.title,
+    description: post.meta.description || "",
+    datePublished: post.meta.date,
+    dateModified: post.meta.date,
+    author: { "@type": "Person", name: post.meta.author || "Lodri Péter", url: "https://peterl.dev" },
+    publisher: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
+    mainEntityOfPage: `${SITE_URL}/posts/${slug}`,
+    image: post.meta.image ? `${SITE_URL}/${post.meta.image}` : DEFAULT_OG_IMAGE,
+  });
   return `${head({
     title: `${post.meta.title} · pocoo`,
     description: post.meta.description,
     prefix: "../",
     ogType: "article",
-    canonicalUrl: `${SITE_URL}/posts/${slug}.html`,
+    canonicalUrl: `${SITE_URL}/posts/${slug}`,
     ogImage: post.meta.image ? `${SITE_URL}/${post.meta.image}` : DEFAULT_OG_IMAGE,
     pubDate: post.meta.date ? new Date(post.meta.date).toISOString() : undefined,
     author: post.meta.author || "Lodri Péter",
+    jsonLd,
   })}
 <meta name="content-hash" content="${hash}">
 ${quantumBgScript(hash, true)}
@@ -487,12 +470,20 @@ ${bodyHtml}
 // ── Index page ────────────────────────────────────────────────────────────────
 function renderIndex(posts) {
   const entries = posts.map((p) => `      <li class="entry">
-        <h2 class="entry-title"><a href="posts/${esc(p.slug)}.html">${esc(p.meta.title)}</a></h2>
+        <h2 class="entry-title"><a href="posts/${esc(p.slug)}">${esc(p.meta.title)}</a></h2>
         <p class="meta"><time datetime="${esc(p.meta.date)}">${displayDate(p.meta.date)}</time></p>
         <p class="entry-desc">${esc(p.meta.description || "")}</p>
         ${tagsHtml(p.meta.tags)}
       </li>`).join("\n");
 
+  const jsonLd = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: SITE_NAME,
+    url: SITE_URL,
+    description: "Technical writing on agentic systems, protocols, and building in public.",
+    author: { "@type": "Person", name: "Lodri Péter", url: "https://peterl.dev" },
+  });
   return `${head({
     title: "pocoo",
     description: "Technical writing on agentic systems, protocols, and building in public.",
@@ -500,6 +491,7 @@ function renderIndex(posts) {
     ogType: "website",
     canonicalUrl: SITE_URL,
     ogImage: DEFAULT_OG_IMAGE,
+    jsonLd,
   })}
 ${quantumBgScript(null, false)}
 <body>
@@ -526,8 +518,8 @@ function renderFeed(posts) {
     : new Date().toISOString();
   const entries = posts.map((p) => `  <entry>
     <title>${esc(p.meta.title)}</title>
-    <link href="https://pocoo.vaked.dev/posts/${esc(p.slug)}.html"/>
-    <id>https://pocoo.vaked.dev/posts/${esc(p.slug)}.html</id>
+    <link href="https://pocoo.vaked.dev/posts/${esc(p.slug)}"/>
+    <id>https://pocoo.vaked.dev/posts/${esc(p.slug)}</id>
     <updated>${esc(p.meta.date)}T00:00:00Z</updated>
     <summary type="text">${esc(p.meta.description || "")}</summary>
   </entry>`).join("\n");
@@ -541,6 +533,18 @@ function renderFeed(posts) {
   <id>https://pocoo.vaked.dev/</id>
 ${entries}
 </feed>`;
+}
+
+// ── Sitemap ───────────────────────────────────────────────────────────────────
+function renderSitemap(posts) {
+  const urls = posts.map((p) =>
+    `  <url><loc>${SITE_URL}/posts/${esc(p.slug)}</loc><lastmod>${esc(p.meta.date)}</lastmod></url>`
+  ).join("\n");
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>${SITE_URL}/</loc></url>
+${urls}
+</urlset>`;
 }
 
 // ── Main ──────────────────────────────────────────────────────────────────────
@@ -575,9 +579,12 @@ async function main() {
   await writeFile(path.join(DIST_DIR, "feed.xml"), renderFeed(posts), "utf8");
   console.log("render: feed.xml");
 
+  await writeFile(path.join(DIST_DIR, "sitemap.xml"), renderSitemap(posts), "utf8");
+  console.log("render: sitemap.xml");
+
   // llms.txt — auto-updated with post list
   const postLines = posts.map((p) =>
-    `- [${p.meta.title}](https://pocoo.vaked.dev/posts/${p.slug}.html): ${p.meta.description || ""}`
+    `- [${p.meta.title}](https://pocoo.vaked.dev/posts/${p.slug}): ${p.meta.description || ""}`
   ).join("\n");
   const llms = `# pocoo.vaked.dev
 
