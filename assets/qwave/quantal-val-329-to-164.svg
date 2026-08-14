@@ -1,0 +1,77 @@
+<svg viewBox="0 0 680 300" xmlns="http://www.w3.org/2000/svg">
+  <rect width="100%" height="100%" fill="#0d1117"/>
+  
+  <!-- Title -->
+  <text x="340" y="30" text-anchor="middle" fill="#e5e7eb" font-family="monospace" font-size="11" font-weight="bold">
+    quantal-ternary: masked val 11.34 → 1.6404
+  </text>
+  
+  <!-- Chart area -->
+  <g transform="translate(80, 60)">
+    
+    <!-- Grid lines -->
+    <g stroke="#374151" stroke-width="0.5" stroke-dasharray="2,2">
+      <line x1="0" y1="0" x2="500" y2="0"/>
+      <line x1="0" y1="50" x2="500" y2="50"/>
+      <line x1="0" y1="100" x2="500" y2="100"/>
+      <line x1="0" y1="150" x2="500" y2="150"/>
+      <line x1="0" y1="200" x2="500" y2="200"/>
+    </g>
+    
+    <!-- Y-axis labels (log-like scale hints) -->
+    <g fill="#e5e7eb" font-family="monospace" font-size="9" text-anchor="end">
+      <text x="-10" y="5">10</text>
+      <text x="-10" y="55">5</text>
+      <text x="-10" y="105">2</text>
+      <text x="-10" y="155">1.5</text>
+      <text x="-10" y="205">1.0</text>
+    </g>
+    
+    <!-- Bars -->
+    
+    <!-- Bar 1: old artifact -->
+    <g>
+      <rect x="0" y="0" width="120" height="20" fill="#ef4444" rx="2"/>
+      <text x="125" y="15" fill="#e5e7eb" font-family="monospace" font-size="11" text-anchor="start">11.34</text>
+      <text x="0" y="40" fill="#e5e7eb" font-family="monospace" font-size="9" text-anchor="start">old artifact</text>
+      <text x="0" y="55" fill="#9ca3af" font-family="monospace" font-size="8" text-anchor="start">padding counted in loss</text>
+    </g>
+    
+    <!-- Bar 2: night 1 -->
+    <g transform="translate(0, 80)">
+      <rect x="0" y="0" width="80" height="20" fill="#f59e0b" rx="2"/>
+      <text x="85" y="15" fill="#e5e7eb" font-family="monospace" font-size="11" text-anchor="start">3.2862</text>
+      <text x="0" y="40" fill="#e5e7eb" font-family="monospace" font-size="9" text-anchor="start">night 1, RTX 3090</text>
+    </g>
+    
+    <!-- Bar 3: ULTRA -->
+    <g transform="translate(0, 160)">
+      <rect x="0" y="0" width="45" height="20" fill="#22d3ee" rx="2"/>
+      <text x="50" y="15" fill="#e5e7eb" font-family="monospace" font-size="11" text-anchor="start">1.6998</text>
+      <text x="0" y="40" fill="#e5e7eb" font-family="monospace" font-size="9" text-anchor="start">ULTRA, L40</text>
+    </g>
+    
+    <!-- Bar 4: fine-tune -->
+    <g transform="translate(0, 200)">
+      <rect x="0" y="0" width="43" height="20" fill="#10b981" rx="2"/>
+      <text x="48" y="15" fill="#e5e7eb" font-family="monospace" font-size="11" text-anchor="start">1.6404</text>
+      <text x="0" y="40" fill="#e5e7eb" font-family="monospace" font-size="9" text-anchor="start">fine-tune, L40</text>
+    </g>
+    
+    <!-- X-axis line -->
+    <line x1="0" y1="220" x2="500" y2="220" stroke="#e5e7eb" stroke-width="1"/>
+    
+    <!-- Descending arrow -->
+    <g stroke="#e5e7eb" stroke-width="1.5" fill="none">
+      <path d="M 10 25 L 10 185" marker-end="url(#arrowhead)"/>
+    </g>
+    
+    <!-- Arrowhead definition -->
+    <defs>
+      <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+        <polygon points="0 0, 10 3.5, 0 7" fill="#e5e7eb"/>
+      </marker>
+    </defs>
+    
+  </g>
+</svg>

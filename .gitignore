@@ -11,3 +11,5 @@ demos/quantal/quantal_model.safetensors
 demos/quantal/embeddings.f16
 demos/quantal/norms.f32
 demos/entheai/releases/
+
+.slim/deepwork/
