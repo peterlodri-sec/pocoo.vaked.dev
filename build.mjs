@@ -673,6 +673,10 @@ ${postLines}
   if (existsSync(path.join(ROOT, "book"))) {
     await cp(path.join(ROOT, "book"), path.join(DIST_DIR, "book"), { recursive: true });
   }
+  // Copy standalone pages (no markdown processing; e.g. silicon-world/)
+  if (existsSync(path.join(ROOT, "silicon-world"))) {
+    await cp(path.join(ROOT, "silicon-world"), path.join(DIST_DIR, "silicon-world"), { recursive: true });
+  }
   // Copy root-level config files for CF Pages
   if (existsSync(path.join(ROOT, "robots.txt"))) {
     await cp(path.join(ROOT, "robots.txt"), path.join(DIST_DIR, "robots.txt"));
@@ -680,7 +684,7 @@ ${postLines}
   if (existsSync(path.join(ROOT, ".well-known"))) {
     await cp(path.join(ROOT, ".well-known"), path.join(DIST_DIR, ".well-known"), { recursive: true });
   }
-  console.log("copy: assets, _headers, demos, robots.txt, .well-known -> dist/");
+  console.log("copy: assets, _headers, demos, silicon-world, robots.txt, .well-known -> dist/");
   console.log(`\ndone: ${posts.length} post(s), ${skipped} draft(s) skipped.`);
 }
 

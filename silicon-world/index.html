@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Silicon World · performance notes from a WebKit browser</title>
+<meta name="description" content="Perf tips and Metal learnings from tuning Qwave, a WebKit-native browser on Apple Silicon: the measurement discipline, allocation reduction, GPU demand control, and the places where the OS does the work for you.">
+<style>
+  :root { --ink:#0b0c0e; --paper:#cfd3da; --dim:#8a90a0; --accent:#7fd4ff; --line:#23262e; --code:#111318; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { background:var(--ink); color:var(--paper); font-family:"SF Mono","JetBrains Mono",ui-monospace,Menlo,monospace; font-size:14.5px; line-height:1.75; }
+  .wrap { max-width:760px; margin:0 auto; padding:64px 24px 120px; }
+  .kicker { font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent); margin-bottom:14px; }
+  h1 { font-size:34px; line-height:1.15; letter-spacing:-1px; font-weight:700; margin-bottom:10px; color:#eef1f6; }
+  .dek { color:var(--dim); font-size:15px; margin-bottom:42px; max-width:620px; }
+  .meta { font-size:11px; color:var(--dim); letter-spacing:.14em; text-transform:uppercase; margin-bottom:64px; }
+  h2 { font-size:20px; color:#eef1f6; margin:72px 0 18px; letter-spacing:-.3px; }
+  h2 .num { color:var(--accent); margin-right:10px; }
+  h3 { font-size:15px; color:#eef1f6; margin:34px 0 10px; }
+  p { margin-bottom:16px; }
+  ul, ol { margin:0 0 18px 22px; }
+  li { margin-bottom:8px; }
+  a { color:var(--accent); text-decoration:none; }
+  a:hover { text-decoration:underline; }
+  code { background:var(--code); border:1px solid var(--line); padding:1px 6px; border-radius:4px; font-size:13px; color:#9fdcff; }
+  pre { background:var(--code); border:1px solid var(--line); border-radius:8px; padding:18px 20px; overflow-x:auto; margin:0 0 18px; font-size:12.5px; line-height:1.65; color:#b8c4d4; }
+  pre code { background:none; border:none; padding:0; color:inherit; }
+  table { width:100%; border-collapse:collapse; margin:0 0 22px; font-size:13px; }
+  th, td { text-align:left; padding:8px 10px; border-bottom:1px solid var(--line); }
+  th { color:var(--dim); font-size:11px; text-transform:uppercase; letter-spacing:.12em; }
+  td.num { color:var(--accent); font-variant-numeric:tabular-nums; }
+  .callout { border-left:3px solid var(--accent); background:var(--code); padding:14px 18px; border-radius:0 8px 8px 0; margin:0 0 18px; }
+  .callout p:last-child { margin-bottom:0; }
+  .dim { color:var(--dim); }
+  footer { margin-top:96px; padding-top:22px; border-top:1px solid var(--line); font-size:11px; color:var(--dim); letter-spacing:.12em; text-transform:uppercase; }
+  footer a { color:var(--dim); }
+  footer a:hover { color:var(--accent); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="kicker">silicon-world · notes from tuning a WebKit browser</div>
+  <h1>Perf tips and Metal learnings from Qwave</h1>
+  <p class="dek">A browser on Apple Silicon has two kinds of performance: the kind you write, and the kind the OS already does for you. This page collects the measurement discipline, the allocation tricks, and the GPU facts that survived contact with a real codebase — Qwave, a WebKit-native macOS browser with CI-asserted malloc gates.</p>
+  <div class="meta">Qwave perf sessions · 2026-08-13 → 14 · all numbers measured, most of them CI-pinned</div>
+
+  <h2><span class="num">01</span>The discipline: measure before you believe</h2>
+  <p>Every optimization below was either rejected or accepted by a number, not by intuition. The rules that made that possible:</p>
+  <ul>
+    <li><strong>Allocation count is the contract.</strong> `mallocCountTotal` is near-deterministic for a given code path, survives noisy machines, and is CI-checked with a 25% p90 tolerance. Wall-clock is never gated — it is collected for trends only. ARC traffic (retain/release counts) gets a 5% gate.</li>
+    <li><strong>A benchmark run on an unquiesced machine is rejected, not recorded.</strong> Thermal state must be nominal, no background builds, load average below 2.0. One sample is not a measurement; report median, p90, and spread.</li>
+    <li><strong>Thresholds are reviewed like code.</strong> A jump in allocations is a diff someone must own.</li>
+  </ul>
+  <div class="callout">
+    <p><strong>The FTS5 lesson.</strong> "The full-table scan on the keystroke path — surely SQLite's FTS5 index fixes it." Implemented end-to-end (migration, external-content index, sync triggers, upgrade backfill, LIKE fallback for short queries). It was faster on wall-clock — and <strong>4.4× worse on the gated metric</strong>: 2,143 mallocs/query vs 486 for LIKE at 50k rows, failing the 1,298 threshold by 2.1×. The "obvious" optimization lost on the contract the team actually commits to. The deferral was right; now it has numbers.</li>
+  </div>
+
+  <h2><span class="num">02</span>Allocation tips that shipped</h2>
+
+  <h3>Single-pass escaping beats chained replacingOccurrences</h3>
+  <p>Four chained `replacingOccurrences` calls allocate a full string per pass. A single scan into one reserved buffer with the same four-case mapping is behavior-identical:</p>
+  <pre><code>var result = ""
+result.reserveCapacity(string.count + string.count / 8)
+var i = string.startIndex
+while i &lt; string.endIndex {
+    switch string[i] {
+    case "&amp;": result.append("&amp;amp;")
+    case "&lt;": result.append("&amp;lt;")
+    case "&gt;": result.append("&amp;gt;")
+    case "\"": result.append("&amp;quot;")
+    default: result.append(string[i])
+    }
+    i = string.index(after: i)
+}
+return result</code></pre>
+  <p>The same file had a per-character `escape(String(string[i]))` — a heap String per character, each escaping through four replacingOccurrences. That was ~6 allocations per plain-text byte. One pass fixed it. MarkdownCompiler: <strong>8,983 → 1,069 mallocs</strong> per internal doc page.</p>
+
+  <h3>Cache the regexes</h3>
+  <p>Eight `NSRegularExpression` patterns were being compiled <em>on every pass</em> of the inline formatter — dozens of compilations per paragraph. Compiled once per process in a `@unchecked Sendable` box, because `NSRegularExpression` predates Sendable but is documented thread-safe.</p>
+
+  <h3>Keep Substrings, not Strings</h3>
+  <p>`source.split(...).map(String.init)` materializes every line as a heap String. Keep the slices; only allocate the blocks you actually return.</p>
+
+  <h3>Bounded top-N instead of full sort</h3>
+  <p>The omnibox ranked 500 history suggestions per keystroke by full-sorting then prefixing. Keep a bounded top-6 heap and discard the rest: the same result, none of the tail. Combined with Substring host/URL drops and a `Set` dedup with reserved capacity: <strong>4,370 → 1,011 mallocs</strong> per keystroke.</p>
+
+  <h3>Cache the prepared statements</h3>
+  <p>`sqlite3_prepare_v2` on every call is a parse + compile of the SQL. Cache by SQL text; the hot queries stop re-preparing. (And add the indexes the query plan actually needs — composite over the WHERE/ORDER columns, not just the obvious ones.)</p>
+
+  <h3>Byte-identical contracts need diff harnesses</h3>
+  <p>Rewriting a compiler? The output is the contract. Old and new implementations compiled side-by-side, run over edge cases (nested parks, escaped quotes, CRLF input), outputs diffed byte-for-byte. This caught a real regression — a "cleaner" single-pass marker resolution that broke nested parks (a math block wrapping a code fence). The proven loop went back in; the escape and regex wins stayed.</p>
+
+  <h2><span class="num">03</span>Energy: polling is a battery bug</h2>
+  <p>The energy governor sampled thermal state, Low Power Mode, and window occlusion <strong>once per 30-second tick</strong> (10s leeway). Flip Low Power Mode and the policy — 3× shorter hibernation timeout, background media suspended, warm processes dropped — applied up to <strong>40 seconds later</strong>.</p>
+  <p>The OS broadcasts all three events. Three `NotificationCenter` observers run the existing tick immediately, throttled to one per 5s so occlusion storms coalesce; the 30s timer stays the steady cadence and is never throttled. Reaction: milliseconds instead of 40 seconds. Zero policy logic changed — only when it runs.</p>
+  <p>Two details worth stealing: guard the async bootstrap (observers installed in `didFinishLaunching` can fire before the app's own launch Task finishes), and expect SDK renames — the power notification is `NSNotification.Name.NSProcessInfoPowerStateDidChange`, not the obvious `ProcessInfo.powerStateDidChangeNotification`. The typecheck caught it before CI would have.</p>
+
+  <h2><span class="num">04</span>Metal learnings: know who owns the pixels</h2>
+  <p>The most asked question about a Mac app is "why aren't you using Metal?" For a WebKit browser the honest answer is: <strong>you already are.</strong></p>
+  <ul>
+    <li>The wave background on Qwave's start page is a WebGL fragment shader. It compiles and runs in WebKit's <strong>GPU process</strong>, which on Apple Silicon is Metal underneath. An app-side `MTKView` port would not move it from CPU to GPU — it would double-composite it across a process boundary. Strictly worse.</li>
+    <li>So the lever isn't the API, it's <strong>demand control</strong>: the shader ran unthrottled at up to 120 full-window frames per second on ProMotion, per tab, per WebContent process. Cap at 30fps — imperceptible for slow FBM drift, halves GPU work at 60Hz, quarters it at 120Hz — and cancel the render loop on `visibilitychange` so occluded windows burn nothing.</li>
+    <li><strong>Energy is the metric, not framerate.</strong> A background wave at 120fps nobody is looking at isn't "smooth", it's heat. `prefers-reduced-motion` is both an accessibility feature and a power budget.</li>
+    <li>The warm-process trick was a myth on this platform: `WKProcessPool` has been a no-op since macOS 12 ("creating and using multiple instances no longer has any effect"), yet the energy policy still carried the knob, with a comment claiming a 45MB/100–200ms tradeoff the API cannot deliver. Removed; the deprecation warnings left with it.</li>
+  </ul>
+  <p>We audited the remaining app-side drawing before reaching for Metal: the MemoryWave panel is plain SwiftUI text, the favicon loader is decode-and-cache, tab snapshots are WebKit's. The first Metal port would have been speculative — the codebase's own drawing is thin because WebKit owns the pixels, and that is correct.</p>
+
+  <h2><span class="num">05</span>The scoreboard</h2>
+  <table>
+    <tr><th>Path</th><th>Before</th><th>After</th><th>Gate</th></tr>
+    <tr><td>Omnibox suggestions, per keystroke</td><td class="num">4,370</td><td class="num">1,011</td><td>committed</td></tr>
+    <tr><td>MarkdownCompiler, internal doc page</td><td class="num">8,983</td><td class="num">1,069</td><td>committed</td></tr>
+    <tr><td>History search @50k rows (FTS5 attempt)</td><td class="num">486</td><td class="num">2,143 — rejected</td><td>failed 2.1×</td></tr>
+    <tr><td>SessionRestorer, 40-tab round-trip</td><td colspan="2" class="num">65 — verified real</td><td>committed</td></tr>
+    <tr><td>Wave background GPU work</td><td class="num">120 fps/tab</td><td class="num">30 fps, 0 when hidden</td><td>merged</td></tr>
+    <tr><td>Energy policy reaction to Low Power Mode</td><td class="num">≤40 s</td><td class="num">~ms</td><td>merged</td></tr>
+  </table>
+
+  <p class="dim">The pattern in every row: find who owns the work, measure the contract, shrink the demand. The OS (and WebKit) do more than you think; the remaining hot paths are smaller than you fear; and the number you gate on decides which "optimization" is real.</p>
+
+  <footer>qwave · <a href="https://github.com/8b-is/qwave">github.com/8b-is/qwave</a> · silicon-world</footer>
+</div>
+</body>
+</html>
