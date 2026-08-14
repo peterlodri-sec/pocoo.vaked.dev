@@ -176,7 +176,7 @@ After the fixes, the claims in the repository can check themselves:
   layout** vs fp16. It is the honest headline.
 - **1.58** is `log2(3)`, the entropy line, kept as theory — labelled as such.
 - **142.8 tok/s** is a 0.5B ternary decode at **4.6% of peak bandwidth**,
-  overhead-bound. The 21.8x gap to the bandwidth-implyied rate is headroom,
+  overhead-bound. The 21.8x gap to the bandwidth-implied rate is headroom,
   not a claim.
 - **Masked val 1.6998** (and 1.6404 from the fine-tune) is measured on a real
   stratified hold-out with padding masked out of the loss. The old 11.34 was a

@@ -418,11 +418,52 @@ ${jsonLd ? `<script type="application/ld+json">${jsonLd}</script>` : ""}
 </head>`;
 }
 
+// ── Post tools (copy buttons + scroll-to-top) ────────────────────────────────
+function postToolsHtml(mdJson, promptJson) {
+  return `<script type="application/json" id="post-md">${mdJson}</script>
+<script type="application/json" id="post-prompt">${promptJson}</script>
+<div class="post-tools">
+  <button class="tool-btn" id="copy-md" type="button">Copy Markdown</button>
+  <button class="tool-btn" id="copy-prompt" type="button">Copy as Prompt</button>
+</div>
+<button class="to-top" id="to-top" type="button" aria-label="Back to top">&uarr;</button>
+<script>
+(function(){
+  function read(id){ var n=document.getElementById(id); return n ? JSON.parse(n.textContent) : ''; }
+  var md = read('post-md'), prompt = read('post-prompt');
+  function copy(text, btn){
+    if(!btn) return;
+    btn.addEventListener('click', function(){
+      var done = function(){ var o=btn.textContent; btn.textContent='Copied ✓'; setTimeout(function(){ btn.textContent=o; },1500); };
+      var p = navigator.clipboard ? navigator.clipboard.writeText(text) : Promise.reject(new Error('no clipboard'));
+      p.then(done).catch(function(){
+        var ta=document.createElement('textarea'); ta.value=text; ta.style.position='fixed'; ta.style.opacity='0';
+        document.body.appendChild(ta); ta.select();
+        try{ document.execCommand('copy'); }catch(e){}
+        document.body.removeChild(ta); done();
+      });
+    });
+  }
+  copy(md, document.getElementById('copy-md'));
+  copy(prompt, document.getElementById('copy-prompt'));
+  var tt=document.getElementById('to-top'), h1=document.querySelector('.post-head h1');
+  if(tt && h1){
+    function onScroll(){ tt.classList.toggle('visible', h1.getBoundingClientRect().bottom < 0); }
+    window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+    tt.addEventListener('click', function(){ window.scrollTo({top:0, behavior:'smooth'}); });
+  }
+})();
+<\/script>`;
+}
+
 // ── Post page ─────────────────────────────────────────────────────────────────
 function renderPost(post) {
   const bodyHtml = md.render(post.body);
   const hash = contentHash(post.meta.title + post.meta.date + post.body);
   const slug = post.slug;
+  const mdJson = JSON.stringify(post.body).replace(/</g, "\\u003c");
+  const promptForEducation = "You are an expert teacher. Teach me the content of the following blog post. Walk through it step by step, explain every technical concept in simple terms, and end with a short quiz to test my understanding.\n\n# " + post.meta.title + "\n\n" + post.body;
+  const promptJson = JSON.stringify(promptForEducation).replace(/</g, "\\u003c");
   const jsonLd = JSON.stringify({
     "@context": "https://schema.org",
     "@type": "BlogPosting",
@@ -457,6 +498,7 @@ ${quantumBgScript(hash, true)}
       <p class="meta"><time datetime="${esc(post.meta.date)}">${displayDate(post.meta.date)}</time></p>
       ${tagsHtml(post.meta.tags)}
     </header>
+    ${postToolsHtml(mdJson, promptJson)}
     <article class="prose">
 ${bodyHtml}
     </article>
