@@ -117,7 +117,24 @@ return result</code></pre>
   </ul>
   <p>We audited the remaining app-side drawing before reaching for Metal: the MemoryWave panel is plain SwiftUI text, the favicon loader is decode-and-cache, tab snapshots are WebKit's. The first Metal port would have been speculative — the codebase's own drawing is thin because WebKit owns the pixels, and that is correct.</p>
 
-  <h2><span class="num">05</span>The scoreboard</h2>
+  <h2><span class="num">06</span>Concurrency: the new primitives, measured</h2>
+  <p>The headline is the negative result: <strong>the new <code>synchronization.Mutex</code> is not faster than the classics — and that is fine.</strong> Its value is ergonomics and safety, not speed. Under 8-thread contention (2M increments each), the lock-free <code>Atomic&lt;Int&gt;</code> wins; every lock-based primitive ties:</p>
+  <table>
+    <tr><th>Primitive</th><th>Sample A</th><th>Sample B</th></tr>
+    <tr><td><code>synchronization.Atomic&lt;Int&gt;</code> (relaxed)</td><td class="num">414.5 ms</td><td class="num">172.9 ms</td></tr>
+    <tr><td><code>synchronization.Mutex&lt;Int&gt;</code></td><td class="num">786.9 ms</td><td class="num">701.8 ms</td></tr>
+    <tr><td><code>os_unfair_lock</code> (OSAllocatedUnfairLock)</td><td class="num">725.3 ms</td><td class="num">688.8 ms</td></tr>
+    <tr><td><code>os_unfair_lock</code> (raw)</td><td class="num">788.0 ms</td><td class="num">531.0 ms</td></tr>
+    <tr><td><code>NSLock</code></td><td class="num">672.3 ms</td><td class="num">620.2 ms</td></tr>
+  </table>
+  <img class="inline" src="assets/lock-race.png" alt="Atomic lane far ahead; the three lock lanes bunched mid-track">
+  <p class="dim">Machine: Apple M1 Pro · macOS 26.4.1 · Xcode 26.4.1 · release build · two samples bound nothing — rerun <a href="https://github.com/8b-is/qwave/tree/main/research/04-concurrency-runtime/arc-lock-benchmark">the benchmark</a> yourself. Across runs the ordering is consistent: Atomic 2–4× faster than every lock; the locks all tie within noise. Scoped to this hardware and this workload.</p>
+
+  <h2><span class="num">07</span>The +0 ABI trap (and the ~Copyable non-result)</h2>
+  <p>My first ARC benchmark measured <strong>nothing</strong>. A 50M-iteration loop calling an <code>@inline(never)</code> function that only <em>reads</em> its parameter took 17 ms — because Swift's ABI passes read-only parameters at +0 (borrowed). <strong>No retain, no release, ever.</strong> The copyable vs <code>~Copyable</code> comparison only exists once the callee stores the value; that is the sentence to keep: measure ARC by making the value escape, not by calling a function that looks at it.</p>
+  <p>With the escape forced (callee stores to a global), the fair comparison — fresh construction on both sides, 50M calls — lands at <strong>parity: copyable 377.6 ms vs <code>~Copyable</code> consume 377.7 ms</strong>. Refcount churn on a 40-byte struct with one class reference is ~free (7.5 ns/call including construction). <code>~Copyable</code> buys exclusivity semantics and large buffers, not ARC wins on small values. Same machine, same build, two samples; the reuse-vs-construct trap that briefly "proved" copyable faster is in the repo's hacking log.</p>
+
+  <h2><span class="num">08</span>The scoreboard</h2>
   <table>
     <tr><th>Path</th><th>Before</th><th>After</th><th>Gate</th></tr>
     <tr><td>Omnibox suggestions, per keystroke</td><td class="num">4,370</td><td class="num">1,011</td><td>committed</td></tr>
