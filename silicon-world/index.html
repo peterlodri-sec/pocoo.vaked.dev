@@ -5,6 +5,25 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Silicon World · performance notes from a WebKit browser</title>
 <meta name="description" content="Perf tips and Metal learnings from tuning Qwave, a WebKit-native browser on Apple Silicon: the measurement discipline, allocation reduction, GPU demand control, and the places where the OS does the work for you.">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+<meta name="theme-color" content="#0b0c0e">
+<link rel="canonical" href="https://pocoo.vaked.dev/silicon-world/">
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="vaked.dev">
+<meta property="og:title" content="Silicon World · perf tips and Metal learnings from a WebKit browser">
+<meta property="og:description" content="Measured performance notes from tuning Qwave: malloc gates as the contract, allocation reduction, GPU demand control, energy reaction, and where Metal does and does not pay on Apple Silicon.">
+<meta property="og:url" content="https://pocoo.vaked.dev/silicon-world/">
+<meta property="og:image" content="https://pocoo.vaked.dev/silicon-world/assets/og.jpg">
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@peterlodri">
+<meta name="twitter:creator" content="@peterlodri">
+<!-- Structured data -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Article","headline":"Silicon World — perf tips and Metal learnings from a WebKit browser","description":"Measured performance notes from tuning Qwave on Apple Silicon: the measurement discipline, allocation reduction, GPU demand control, energy reaction, and where Metal pays.","datePublished":"2026-08-14","dateModified":"2026-08-14","author":{"@type":"Person","name":"Peter Lodri","url":"https://github.com/peterlodri-sec"},"publisher":{"@type":"Organization","name":"vaked.dev","url":"https://pocoo.vaked.dev/"},"mainEntityOfPage":"https://pocoo.vaked.dev/silicon-world/"}
+</script>
 <style>
   :root { --ink:#0b0c0e; --paper:#cfd3da; --dim:#8a90a0; --accent:#7fd4ff; --line:#23262e; --code:#111318; }
   * { margin:0; padding:0; box-sizing:border-box; }
@@ -148,7 +167,10 @@ return result</code></pre>
 
   <p class="dim">The pattern in every row: find who owns the work, measure the contract, shrink the demand. The OS (and WebKit) do more than you think; the remaining hot paths are smaller than you fear; and the number you gate on decides which "optimization" is real.</p>
 
-  <footer>qwave · <a href="https://github.com/8b-is/qwave">github.com/8b-is/qwave</a> · silicon-world</footer>
+  <footer>
+    <div style="margin-bottom:0.5rem;text-transform:uppercase;letter-spacing:0.3em;color:#b48bff;font-weight:600;">the constellation · silicon-world</div>
+    <div>qwave · <a href="https://github.com/8b-is/qwave">github.com/8b-is/qwave</a> · silicon-world · fine touch from within · vaked.dev</div>
+  </footer>
 </div>
 </body>
 </html>
