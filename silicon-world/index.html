@@ -14,7 +14,9 @@
   .kicker { font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent); margin-bottom:14px; }
   h1 { font-size:34px; line-height:1.15; letter-spacing:-1px; font-weight:700; margin-bottom:10px; color:#eef1f6; }
   .dek { color:var(--dim); font-size:15px; margin-bottom:42px; max-width:620px; }
-  .meta { font-size:11px; color:var(--dim); letter-spacing:.14em; text-transform:uppercase; margin-bottom:64px; }
+  .meta { font-size:11px; color:var(--dim); letter-spacing:.14em; text-transform:uppercase; margin-bottom:40px; }
+  img.hero { width:100%; border:1px solid var(--line); border-radius:10px; margin:0 0 48px; display:block; }
+  img.inline { width:100%; border:1px solid var(--line); border-radius:10px; margin:18px 0 24px; display:block; }
   h2 { font-size:20px; color:#eef1f6; margin:72px 0 18px; letter-spacing:-.3px; }
   h2 .num { color:var(--accent); margin-right:10px; }
   h3 { font-size:15px; color:#eef1f6; margin:34px 0 10px; }
@@ -44,6 +46,7 @@
   <h1>Perf tips and Metal learnings from Qwave</h1>
   <p class="dek">A browser on Apple Silicon has two kinds of performance: the kind you write, and the kind the OS already does for you. This page collects the measurement discipline, the allocation tricks, and the GPU facts that survived contact with a real codebase — Qwave, a WebKit-native macOS browser with CI-asserted malloc gates.</p>
   <div class="meta">Qwave perf sessions · 2026-08-13 → 14 · all numbers measured, most of them CI-pinned</div>
+  <img class="hero" src="assets/hero.jpg" alt="Domain-warped FBM wave field on near-black, teal accents — the silicon-world motif">
 
   <h2><span class="num">01</span>The discipline: measure before you believe</h2>
   <p>Every optimization below was either rejected or accepted by a number, not by intuition. The rules that made that possible:</p>
@@ -102,6 +105,14 @@ return result</code></pre>
     <li>The wave background on Qwave's start page is a WebGL fragment shader. It compiles and runs in WebKit's <strong>GPU process</strong>, which on Apple Silicon is Metal underneath. An app-side `MTKView` port would not move it from CPU to GPU — it would double-composite it across a process boundary. Strictly worse.</li>
     <li>So the lever isn't the API, it's <strong>demand control</strong>: the shader ran unthrottled at up to 120 full-window frames per second on ProMotion, per tab, per WebContent process. Cap at 30fps — imperceptible for slow FBM drift, halves GPU work at 60Hz, quarters it at 120Hz — and cancel the render loop on `visibilitychange` so occluded windows burn nothing.</li>
     <li><strong>Energy is the metric, not framerate.</strong> A background wave at 120fps nobody is looking at isn't "smooth", it's heat. `prefers-reduced-motion` is both an accessibility feature and a power budget.</li>
+  <p>We then measured the wave to prove the demand-control claim. The exact shipped shader — 5-octave fbm, domain warp, 100 sin per pixel — ported to a Metal compute kernel and a scalar Swift reference, timed at the real 1512×982 canvas:</p>
+  <img class="inline" src="assets/gpu-vs-cpu.png" alt="GPU vs CPU bar chart: 1.85 ms vs 757.72 ms, 409x speedup">
+  <ul>
+    <li><strong>GPU (Metal compute, M1 Pro): 1.85 ms/frame</strong> (kernel ~1.6 ms; 1.8–2.5 across runs) — ~550 fps potential</li>
+    <li><strong>CPU (scalar Swift, 1 core): 757.72 ms/frame</strong> — 1.32 fps; 742M sin calls verified executing</li>
+    <li><strong>~409× speedup.</strong> The wave is not optional CPU work; WebKit already runs it on the GPU in its own process. An app-side port would double-composite, not accelerate.</li>
+    <li>The 30fps cap uses <strong>5.6% of the frame budget</strong> at this resolution — the cap is nearly free in GPU time; its real saving is energy per frame across N tabs.</li>
+  </ul>
     <li>The warm-process trick was a myth on this platform: `WKProcessPool` has been a no-op since macOS 12 ("creating and using multiple instances no longer has any effect"), yet the energy policy still carried the knob, with a comment claiming a 45MB/100–200ms tradeoff the API cannot deliver. Removed; the deprecation warnings left with it.</li>
   </ul>
   <p>We audited the remaining app-side drawing before reaching for Metal: the MemoryWave panel is plain SwiftUI text, the favicon loader is decode-and-cache, tab snapshots are WebKit's. The first Metal port would have been speculative — the codebase's own drawing is thin because WebKit owns the pixels, and that is correct.</p>
@@ -114,6 +125,7 @@ return result</code></pre>
     <tr><td>History search @50k rows (FTS5 attempt)</td><td class="num">486</td><td class="num">2,143 — rejected</td><td>failed 2.1×</td></tr>
     <tr><td>SessionRestorer, 40-tab round-trip</td><td colspan="2" class="num">65 — verified real</td><td>committed</td></tr>
     <tr><td>Wave background GPU work</td><td class="num">120 fps/tab</td><td class="num">30 fps, 0 when hidden</td><td>merged</td></tr>
+    <tr><td>Wave shader, one frame @1512×982</td><td class="num">757.72 ms CPU</td><td class="num">1.85 ms GPU</td><td>measured</td></tr>
     <tr><td>Energy policy reaction to Low Power Mode</td><td class="num">≤40 s</td><td class="num">~ms</td><td>merged</td></tr>
   </table>
 
