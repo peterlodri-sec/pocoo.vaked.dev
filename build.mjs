@@ -661,6 +661,64 @@ ${postLines}
   await writeFile(path.join(DIST_DIR, "llms.txt"), llms, "utf8");
   console.log("render: llms.txt");
 
+  // Render citations.bib (BibTeX for all articles)
+  const bibEntries = posts.map(p => {
+    const key = (p.slug || "post").replace(/[^a-zA-Z0-9]/g, "_");
+    const dStr = String(p.date || "2026-08-15");
+    const parts = dStr.split("-");
+    const year = parts[0] || "2026";
+    const month = parts[1] || "08";
+    const months = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
+    const mStr = months[parseInt(month, 10) - 1] || "aug";
+    return `@article{lodri_${key},
+  author = {Peter Lodri},
+  title = {${p.title}},
+  year = {${year}},
+  month = {${mStr}},
+  url = {https://pocoo.vaked.dev/posts/${p.slug}.html},
+  note = {ORCID: 0009-0002-2761-2552}
+}`;
+  }).join("\n\n");
+  await writeFile(path.join(DIST_DIR, "citations.bib"), bibEntries, "utf8");
+  console.log("render: citations.bib");
+
+  // Render .well-known/citations.json
+  const citationsJson = {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    "mainEntity": {
+      "@type": "Person",
+      "name": "Peter Lodri",
+      "identifier": "0009-0002-2761-2552",
+      "sameAs": [
+        "https://orcid.org/0009-0002-2761-2552",
+        "https://github.com/peterlodri-sec",
+        "https://x.com/0xp3t3rl",
+        "https://vaked.dev"
+      ]
+    },
+    "works": posts.map(p => ({
+      "@type": "ScholarlyArticle",
+      "headline": p.title,
+      "datePublished": p.date,
+      "description": p.description || "",
+      "url": `https://pocoo.vaked.dev/posts/${p.slug}.html`,
+      "author": {
+        "@type": "Person",
+        "name": "Peter Lodri",
+        "identifier": "https://orcid.org/0009-0002-2761-2552"
+      }
+    }))
+  };
+  await mkdir(path.join(DIST_DIR, ".well-known"), { recursive: true });
+  await writeFile(path.join(DIST_DIR, ".well-known", "citations.json"), JSON.stringify(citationsJson, null, 2), "utf8");
+  console.log("render: .well-known/citations.json");
+
+  // Copy citation.cff to dist
+  if (existsSync(path.join(ROOT, "citation.cff"))) {
+    await cp(path.join(ROOT, "citation.cff"), path.join(DIST_DIR, "citation.cff"));
+  }
+
   await cp(path.join(ROOT, "assets"), path.join(DIST_DIR, "assets"), { recursive: true });
   if (existsSync(path.join(ROOT, "_headers"))) {
     await cp(path.join(ROOT, "_headers"), path.join(DIST_DIR, "_headers"));
