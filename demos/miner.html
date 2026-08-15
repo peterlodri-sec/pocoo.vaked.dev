@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VAKED Sovereign Miner — EIP-918 Proof-of-Work In-Browser Engine</title>
+<meta name="description" content="In-browser multi-threaded Keccak-256 Proof-of-Work miner for VAKED sovereign presence token on Polygon mainnet. Zero-friction presence attestation.">
+<meta name="theme-color" content="#0a0e14">
+<link rel="icon" type="image/svg+xml" href="/demos/glyphcss/favicon.svg">
+
+<style>
+  :root {
+    --bg: #04060a;
+    --panel: #0a0e14;
+    --panel-hover: #0f141c;
+    --teal: #2ff0e2;
+    --teal-glow: rgba(47, 240, 226, 0.25);
+    --teal-line: rgba(47, 240, 226, 0.2);
+    --gold: #e3b341;
+    --gold-glow: rgba(227, 179, 65, 0.2);
+    --purple: #a29bfe;
+    --blue: #58a6ff;
+    --green: #3fb950;
+    --red: #f85149;
+    --dim: #7a8490;
+    --text: #e8edf2;
+    --line: rgba(122, 132, 144, 0.16);
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    line-height: 1.6;
+    min-height: 100vh;
+    padding-bottom: 4rem;
+  }
+
+  .wrap { width: min(1000px, 100% - 2.5rem); margin-inline: auto; }
+
+  header {
+    padding: 1.8rem 0 1.2rem;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .brand { font-family: var(--mono); font-size: 1rem; font-weight: 700; color: var(--text); text-decoration: none; }
+  .brand span { color: var(--teal); }
+  .nav-links { display: flex; gap: 1.2rem; font-family: var(--mono); font-size: 0.75rem; }
+  .nav-links a { color: var(--dim); text-decoration: none; text-transform: uppercase; letter-spacing: 0.1em; }
+  .nav-links a:hover { color: var(--teal); }
+
+  .hero { padding: 2.5rem 0 1.5rem; text-align: center; }
+  h1 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; }
+  h1 span { color: var(--teal); }
+  .subtitle { color: var(--dim); font-size: 1rem; margin-top: 0.6rem; }
+
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  .stat-card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 1.2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .stat-card .label { font-family: var(--mono); font-size: 0.7rem; color: var(--dim); text-transform: uppercase; letter-spacing: 0.1em; }
+  .stat-card .val { font-family: var(--mono); font-size: 1.6rem; font-weight: 700; color: var(--text); margin-top: 0.4rem; }
+  .stat-card .val.teal { color: var(--teal); }
+  .stat-card .val.gold { color: var(--gold); }
+  .stat-card .sub { font-size: 0.75rem; color: var(--dim); margin-top: 0.2rem; }
+
+  .control-panel {
+    margin-top: 1.5rem;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 1.6rem;
+  }
+
+  .form-group { margin-bottom: 1.2rem; }
+  .form-group label { display: block; font-family: var(--mono); font-size: 0.72rem; color: var(--dim); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.4rem; }
+  .form-control {
+    width: 100%;
+    background: #04060a;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    padding: 0.7rem 0.9rem;
+  }
+  .form-control:focus { outline: none; border-color: var(--teal); box-shadow: 0 0 10px var(--teal-glow); }
+
+  .btn-row { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 1.4rem; }
+  .btn {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 0.8rem 1.6rem;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.2s ease;
+  }
+  .btn-start { background: var(--teal); color: #04100e; box-shadow: 0 4px 20px var(--teal-glow); }
+  .btn-start:hover { background: #5cf5e9; transform: translateY(-1px); }
+  .btn-stop { background: #21262d; color: var(--red); border: 1px solid rgba(248, 81, 73, 0.4); }
+  .btn-stop:hover { background: rgba(248, 81, 73, 0.15); }
+  .btn-wallet { background: #161b22; color: var(--gold); border: 1px solid rgba(227, 179, 65, 0.4); }
+  .btn-wallet:hover { background: rgba(227, 179, 65, 0.15); }
+
+  .console-box {
+    margin-top: 1.5rem;
+    background: #030407;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 1.2rem;
+    font-family: var(--mono);
+    font-size: 0.76rem;
+    max-height: 220px;
+    overflow-y: auto;
+    color: #8b949e;
+  }
+  .console-entry { margin-bottom: 0.35rem; line-height: 1.4; word-break: break-all; }
+  .console-entry.success { color: var(--teal); font-weight: 600; }
+  .console-entry.warn { color: var(--gold); }
+  .console-entry.info { color: var(--blue); }
+
+  .solutions-box {
+    margin-top: 1.5rem;
+    background: var(--panel);
+    border: 1px solid var(--teal-line);
+    border-radius: 12px;
+    padding: 1.5rem;
+  }
+  .solutions-box h3 { font-family: var(--mono); font-size: 0.9rem; color: var(--teal); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1rem; }
+  .sol-card {
+    background: #04060a;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 1rem;
+    margin-bottom: 0.8rem;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+  }
+  .sol-row { display: flex; justify-content: space-between; margin-bottom: 0.3rem; }
+  .sol-row span:first-child { color: var(--dim); }
+  .sol-row span:last-child { color: var(--text); word-break: break-all; }
+
+  footer { margin-top: 3.5rem; text-align: center; font-family: var(--mono); font-size: 0.72rem; color: var(--dim); }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha3/0.8.0/sha3.min.js"></script>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <a class="brand" href="/demos/whitepaper">VAKED <span>::</span> MINER</a>
+    <nav class="nav-links">
+      <a href="/demos/whitepaper">Whitepaper</a>
+      <a href="https://vaked.dev">Constellation</a>
+      <a href="https://github.com/peterlodri-sec/pocoo.vaked.dev">Source</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>In-Browser <span>Proof-of-Work</span> Engine</h1>
+      <p class="subtitle">Multi-threaded Keccak-256 solver for EIP-918 VAKED Presence Attestation on Polygon</p>
+    </section>
+
+    <div class="dashboard-grid">
+      <div class="stat-card">
+        <div class="label">Hashrate</div>
+        <div class="val teal" id="hashrate">0 H/s</div>
+        <div class="sub" id="threads-stat">0 Active Workers</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Total Hashes</div>
+        <div class="val" id="total-hashes">0</div>
+        <div class="sub" id="elapsed-time">Elapsed: 00:00:00</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Blocks Solved</div>
+        <div class="val gold" id="solved-count">0</div>
+        <div class="sub">50 VAKED / Solve</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Target Difficulty</div>
+        <div class="val" id="diff-bits">0x0000000...</div>
+        <div class="sub">Adjusts every 60 solves</div>
+      </div>
+    </div>
+
+    <div class="control-panel">
+      <div class="form-group">
+        <label for="miner-addr">Beneficiary Miner Address (Polygon / EVM)</label>
+        <input type="text" id="miner-addr" class="form-control" placeholder="0x... (Connect MetaMask or paste address)" value="0x71C8366420A0926718E2A31727a2482266CC5833">
+      </div>
+
+      <div class="form-group">
+        <label for="challenge-input">Current Challenge Digest (bytes32)</label>
+        <input type="text" id="challenge-input" class="form-control" value="0x0000000000000000000000000000000000000000000000000000000000000000">
+      </div>
+
+      <div class="form-group">
+        <label for="target-input">Mining Target (uint256 hex)</label>
+        <input type="text" id="target-input" class="form-control" value="0x00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff">
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-start" id="btn-start">▶ Start Mining</button>
+        <button class="btn btn-stop" id="btn-stop" style="display:none;">◼ Stop Mining</button>
+        <button class="btn btn-wallet" id="btn-wallet">🦊 Connect Web3</button>
+      </div>
+    </div>
+
+    <div class="solutions-box" id="solutions-container" style="display:none;">
+      <h3>Found Solutions (Ready for Polygon Mint)</h3>
+      <div id="solutions-list"></div>
+    </div>
+
+    <div class="console-box" id="console-output">
+      <div class="console-entry info">[system] VAKED EIP-918 Web Worker Miner initialized. Ready to solve presence proofs.</div>
+    </div>
+  </main>
+
+  <footer>
+    the constellation · lovetta lane · keep the weights warm · vaked.dev
+  </footer>
+</div>
+
+<script>
+(function() {
+  const btnStart = document.getElementById('btn-start');
+  const btnStop = document.getElementById('btn-stop');
+  const btnWallet = document.getElementById('btn-wallet');
+  const minerInput = document.getElementById('miner-addr');
+  const challengeInput = document.getElementById('challenge-input');
+  const targetInput = document.getElementById('target-input');
+  const hashrateEl = document.getElementById('hashrate');
+  const totalHashesEl = document.getElementById('total-hashes');
+  const elapsedEl = document.getElementById('elapsed-time');
+  const solvedCountEl = document.getElementById('solved-count');
+  const threadsStatEl = document.getElementById('threads-stat');
+  const consoleOutput = document.getElementById('console-output');
+  const solutionsContainer = document.getElementById('solutions-container');
+  const solutionsList = document.getElementById('solutions-list');
+
+  let workers = [];
+  let isMining = false;
+  let totalHashes = 0;
+  let startTime = 0;
+  let timerInterval = null;
+  let solvedCount = 0;
+  let lastHashCount = 0;
+  let lastTime = 0;
+
+  function log(msg, type = '') {
+    const div = document.createElement('div');
+    div.className = 'console-entry ' + type;
+    const time = new Date().toISOString().substring(11, 19);
+    div.textContent = `[${time}] ${msg}`;
+    consoleOutput.appendChild(div);
+    consoleOutput.scrollTop = consoleOutput.scrollHeight;
+  }
+
+  // Web Worker Inline Code for Keccak256 Hashing
+  const workerBlobCode = `
+    importScripts('https://cdnjs.cloudflare.com/ajax/libs/js-sha3/0.8.0/sha3.min.js');
+
+    function hexToBytes(hex) {
+      if (hex.startsWith('0x')) hex = hex.slice(2);
+      if (hex.length % 2 !== 0) hex = '0' + hex;
+      const bytes = new Uint8Array(hex.length / 2);
+      for (let i = 0; i < hex.length; i += 2) {
+        bytes[i / 2] = parseInt(hex.substr(i, 2), 16);
+      }
+      return bytes;
+    }
+
+    function bytesToHex(bytes) {
+      return Array.from(bytes).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    self.onmessage = function(e) {
+      const { challenge, miner, target, startNonce, step } = e.data;
+      const challengeBytes = hexToBytes(challenge);
+      const minerBytes = hexToBytes(miner);
+      const targetBigInt = BigInt(target);
+
+      let nonce = BigInt(startNonce);
+      let stepBigInt = BigInt(step);
+      let batch = 0;
+
+      while (true) {
+        // ABI encodePacked: challenge (32 bytes) + miner (20 bytes) + nonce (32 bytes)
+        const nonceHex = nonce.toString(16).padStart(64, '0');
+        const nonceBytes = hexToBytes(nonceHex);
+
+        const packed = new Uint8Array(32 + 20 + 32);
+        packed.set(challengeBytes, 0);
+        packed.set(minerBytes, 32);
+        packed.set(nonceBytes, 52);
+
+        const hashHex = keccak256(packed);
+        const hashBigInt = BigInt('0x' + hashHex);
+
+        if (hashBigInt <= targetBigInt) {
+          self.postMessage({ type: 'solved', nonce: '0x' + nonceHex, digest: '0x' + hashHex });
+        }
+
+        nonce += stepBigInt;
+        batch++;
+
+        if (batch >= 1500) {
+          self.postMessage({ type: 'progress', count: batch });
+          batch = 0;
+        }
+      }
+    };
+  `;
+
+  function startMining() {
+    const miner = minerInput.value.trim();
+    const challenge = challengeInput.value.trim();
+    const target = targetInput.value.trim();
+
+    if (!miner.startsWith('0x') || miner.length !== 42) {
+      log('Invalid Beneficiary address format (expected 0x + 40 hex chars).', 'warn');
+      return;
+    }
+
+    const threadCount = Math.max(2, navigator.hardwareConcurrency || 4);
+    log(`Spawning ${threadCount} multi-threaded Web Workers...`, 'info');
+
+    const workerBlob = new Blob([workerBlobCode], { type: 'application/javascript' });
+    const workerUrl = URL.createObjectURL(workerBlob);
+
+    workers = [];
+    totalHashes = 0;
+    startTime = Date.now();
+    lastTime = startTime;
+    lastHashCount = 0;
+
+    for (let i = 0; i < threadCount; i++) {
+      const w = new Worker(workerUrl);
+      w.onmessage = function(e) {
+        if (e.data.type === 'progress') {
+          totalHashes += e.data.count;
+        } else if (e.data.type === 'solved') {
+          handleSolution(e.data.nonce, e.data.digest);
+        }
+      };
+      w.postMessage({
+        challenge,
+        miner,
+        target,
+        startNonce: i + 1,
+        step: threadCount
+      });
+      workers.push(w);
+    }
+
+    isMining = true;
+    btnStart.style.display = 'none';
+    btnStop.style.display = 'inline-flex';
+    threadsStatEl.textContent = `${threadCount} Active Workers`;
+    log(`Mining ignited! Searching for Keccak256 proof <= target...`, 'success');
+
+    timerInterval = setInterval(updateStats, 1000);
+  }
+
+  function stopMining() {
+    workers.forEach(w => w.terminate());
+    workers = [];
+    isMining = false;
+    clearInterval(timerInterval);
+    btnStart.style.display = 'inline-flex';
+    btnStop.style.display = 'none';
+    hashrateEl.textContent = '0 H/s';
+    threadsStatEl.textContent = '0 Active Workers';
+    log('Mining stopped by user.', 'info');
+  }
+
+  function updateStats() {
+    const now = Date.now();
+    const elapsedSec = (now - startTime) / 1000;
+    const deltaSec = (now - lastTime) / 1000;
+    const deltaHashes = totalHashes - lastHashCount;
+
+    const hps = deltaSec > 0 ? (deltaHashes / deltaSec) : 0;
+    hashrateEl.textContent = formatHashrate(hps);
+    totalHashesEl.textContent = totalHashes.toLocaleString();
+
+    const hrs = Math.floor(elapsedSec / 3600).toString().padStart(2, '0');
+    const mins = Math.floor((elapsedSec % 3600) / 60).toString().padStart(2, '0');
+    const secs = Math.floor(elapsedSec % 60).toString().padStart(2, '0');
+    elapsedEl.textContent = `Elapsed: ${hrs}:${mins}:${secs}`;
+
+    lastTime = now;
+    lastHashCount = totalHashes;
+  }
+
+  function formatHashrate(hps) {
+    if (hps >= 1000000) return (hps / 1000000).toFixed(2) + ' MH/s';
+    if (hps >= 1000) return (hps / 1000).toFixed(2) + ' kH/s';
+    return Math.floor(hps) + ' H/s';
+  }
+
+  function handleSolution(nonce, digest) {
+    solvedCount++;
+    solvedCountEl.textContent = solvedCount;
+    solutionsContainer.style.display = 'block';
+
+    log(`🌟 BLOCK SOLUTION FOUND! Nonce: ${nonce.substring(0, 14)}... Digest: ${digest.substring(0, 14)}...`, 'success');
+
+    const card = document.createElement('div');
+    card.className = 'sol-card';
+    card.innerHTML = `
+      <div class="sol-row"><span>Nonce:</span> <span>${nonce}</span></div>
+      <div class="sol-row"><span>Digest:</span> <span>${digest}</span></div>
+      <div class="sol-row"><span>Reward:</span> <span style="color:var(--teal); font-weight:700;">50 VAKED</span></div>
+      <div style="margin-top:0.6rem;">
+        <button class="btn btn-wallet" style="padding:0.4rem 0.8rem; font-size:0.7rem;" onclick="submitMint('${nonce}', '${digest}')">Submit Mint to Polygon</button>
+      </div>
+    `;
+    solutionsList.prepend(card);
+  }
+
+  window.submitMint = async function(nonce, digest) {
+    if (window.ethereum) {
+      try {
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        log(`Submitting mint transaction from ${accounts[0]}...`, 'info');
+        alert(`Submit mint transaction for Nonce ${nonce} to VAKED contract on Polygon.`);
+      } catch (err) {
+        log(`Transaction error: ${err.message}`, 'warn');
+      }
+    } else {
+      alert(`MetaMask not detected. Nonce: ${nonce}`);
+    }
+  };
+
+  btnStart.addEventListener('click', startMining);
+  btnStop.addEventListener('click', stopMining);
+
+  btnWallet.addEventListener('click', async function() {
+    if (window.ethereum) {
+      try {
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        if (accounts.length > 0) {
+          minerInput.value = accounts[0];
+          log(`Connected to Polygon Web3 account: ${accounts[0]}`, 'success');
+        }
+      } catch (e) {
+        log(`Wallet connection rejected: ${e.message}`, 'warn');
+      }
+    } else {
+      alert('MetaMask / Web3 provider not found. Paste your Polygon address manually.');
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
