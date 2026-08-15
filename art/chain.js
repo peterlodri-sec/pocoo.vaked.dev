@@ -1,10 +1,17 @@
 import { secp256k1, keccak_256 } from './vendor/chain-crypto.js';
 
-const CHAIN_ID = 137; // Polygon
+const CHAIN_ID = 137; // Polygon mainnet
+
+// Single named constant for the Polygon RPC endpoint — change it in ONE place.
+// The legacy public endpoint was deprecated 31 Jul 2026. The chosen primary is
+// dRPC's keyless public Polygon endpoint (verified live: eth_chainId → 0x89);
+// the old `.../ogrpc?network=polygon` URL now demands an API token, so it is
+// NOT used here. One live public fallback is kept for resilience; the
+// deprecated / key-locked entries are gone.
+const POLYGON_RPC = 'https://polygon.drpc.org';
 const RPCS = [
-  'https://polygon-rpc.com',
+  POLYGON_RPC,
   'https://polygon-bor-rpc.publicnode.com',
-  'https://rpc.ankr.com/polygon',
 ];
 const KEY_STORE = 'art_vaked_key';
 const KDF_ITERATIONS = 210000; // PBKDF2-HMAC-SHA256
@@ -90,6 +97,17 @@ function toChecksumAddress(address) {
 function privateToAddress(priv) {
   const pub = secp256k1.getPublicKey(hexToBytes(priv), false);
   const hash = keccak_256(pub.slice(1));
+  return toChecksumAddress('0x' + hash.slice(-40));
+}
+
+// EIP-161 CREATE address: keccak256(rlp([sender, nonce]))[12..]. Used to
+// predict a contract's address before broadcasting its creation transaction.
+function createAddress(from, nonce) {
+  const fromBytes = hexToBytes(from);
+  const n = BigInt(nonce);
+  const nonceBytes = n === 0n ? new Uint8Array(0) : bigintToBytes(n);
+  const encoded = rlpList([fromBytes, nonceBytes]);
+  const hash = keccak_256(encoded);
   return toChecksumAddress('0x' + hash.slice(-40));
 }
 
@@ -224,8 +242,10 @@ async function sendRawTx({ to, value, data }) {
 
 const chain = {
   CHAIN_ID,
+  POLYGON_RPC,
   RPCS,
   privateToAddress,
+  createAddress,
   generateKey,
   signLegacyTx,
   hasVault,
