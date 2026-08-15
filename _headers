@@ -1,23 +1,6 @@
 /*
-  Cache-Control: no-cache, no-store, must-revalidate, max-age=0
-  Pragma: no-cache
-  Expires: 0
-  X-Robots-Tag: noimageai
+  Cache-Control: public, max-age=0, must-revalidate
+  X-Robots-Tag: noai, noimageai
   X-Content-Type-Options: nosniff
   X-Frame-Options: SAMEORIGIN
-  X-XSS-Protection: 1; mode=block
   Referrer-Policy: strict-origin-when-cross-origin
-  Permissions-Policy: accelerometer=(), camera=(), microphone=(), geolocation=(), payment=()
-  Content-Security-Policy: default-src 'self' 'unsafe-inline' https: data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: blob: https:; media-src 'self' blob: https:; font-src 'self' data: https:; connect-src 'self' https: wss:; frame-src 'self' https:;
-
-/llms.txt
-  Content-Type: text/plain; charset=utf-8
-
-/llms-full.txt
-  Content-Type: text/plain; charset=utf-8
-
-/*.pdf
-  Content-Type: application/pdf
-
-/*.epub
-  Content-Type: application/epub+zip
