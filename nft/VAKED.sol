@@ -100,9 +100,11 @@ contract VAKED is ERC20, Ownable {
             "VAKED: digest does not meet target"
         );
 
-        // Reward is capped by the fixed max supply; when the remaining supply
-        // is smaller than the scheduled reward, the final mint tops up the cap
-        // exactly. When the reward decays to zero, issuance ends.
+        // Reward is capped by the fixed max supply. The guard below clamps the
+        // final mint to the cap exactly only if a reward would overshoot it;
+        // in practice floor-division loss across halvings leaves issuance
+        // ~5.46e-12 VAKED short of the cap, so the guard never fires. Issuance
+        // ends when the reward decays to zero.
         uint256 reward = getMiningReward();
         uint256 remaining = MAX_SUPPLY - totalSupply();
         if (reward > remaining) reward = remaining;

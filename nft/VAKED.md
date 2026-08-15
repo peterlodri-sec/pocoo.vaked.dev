@@ -27,8 +27,10 @@ staking-marketing, not an NFT, and not an investment (see disclosure below).
   Bitcoin-style: 50 → 25 → 12.5 → 6.25 → …
 - Reward decays to zero after ~66 halvings (~13.9M mints); issuance then ends
   naturally. Because each halving is a floor division, cumulative supply
-  approaches but never exceeds 21,000,000; `MAX_SUPPLY` is the hard cap and
-  the final mint tops it up exactly if it would otherwise overshoot.
+  approaches but never exceeds 21,000,000; `MAX_SUPPLY` is the hard cap.
+  Floor-division loss leaves issuance ~5.46e-12 VAKED short of the cap, so the
+  top-up guard (which would clamp an overshooting final mint to the cap
+  exactly) never actually fires in practice.
 - Total issuance is capped at the 21M constant — there is no infinite mint.
 
 ## Difficulty algorithm
