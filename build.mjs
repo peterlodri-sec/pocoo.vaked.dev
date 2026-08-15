@@ -353,6 +353,7 @@ function footerHtml() {
   ${ext("https://ocean.vaked.dev", "ocean.vaked.dev")} ·
   ${ext("https://worklog.vaked.dev", "worklog.vaked.dev")} ·
   ${ext("https://github.com/8b-is/smart-tree", "smart-tree ↗")} ·
+  ${ext("https://github.com/8bit-wraith/magiscanner", "magiscanner ↗")} ·
   ${ext("https://github.com/8b-is/transformers", "transformers-ultra ↗")} ·
   ${ext("https://peterl.dev", "peterl.dev")}
   </span>
