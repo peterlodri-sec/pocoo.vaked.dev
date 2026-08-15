@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VAKED Whitepaper — fair-launch token</title>
+<meta name="description" content="VAKED: a fair-launch, proof-of-work-minted utility token of the vaked.dev constellation. No premine, no team allocation, fixed 21M supply.">
+<style>
+  :root { --bg:#0a0e14; --surface:#12171f; --border:#252d3a; --text:#c9d1d9; --text2:#7a8490; --accent:#58a6ff; --amber:#d29922; --green:#3fb950; --radius:12px; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif; background:var(--bg); color:var(--text); line-height:1.65; max-width:780px; margin:0 auto; padding:60px 24px 80px; }
+  h1 { font-size:1.9rem; font-weight:700; margin-bottom:8px; }
+  h2 { font-size:1.25rem; font-weight:600; margin:34px 0 10px; padding-bottom:6px; border-bottom:1px solid var(--border); }
+  h3 { font-size:1.05rem; font-weight:600; margin:20px 0 6px; }
+  p { color:var(--text2); margin-bottom:12px; font-size:0.95rem; }
+  ul { color:var(--text2); margin:0 0 14px 22px; font-size:0.95rem; }
+  li { margin-bottom:5px; }
+  code { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:0.85rem; background:var(--surface); padding:1px 6px; border-radius:5px; color:var(--accent); }
+  .banner { background:var(--surface); border:1px solid var(--amber); border-radius:var(--radius); padding:16px 20px; margin:20px 0; }
+  .banner strong { color:var(--amber); }
+  .fact { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:14px 18px; margin:12px 0; }
+  .fact strong { color:var(--green); }
+  .kv { display:grid; grid-template-columns:170px 1fr; gap:6px 14px; margin:12px 0; }
+  .kv dt { color:var(--text2); font-size:0.85rem; }
+  .kv dd { color:var(--text); font-size:0.9rem; }
+  a { color:var(--accent); text-decoration:none; }
+  a:hover { text-decoration:underline; }
+  footer { margin-top:48px; padding-top:16px; border-top:1px solid var(--border); font-size:0.78rem; color:var(--text2); text-align:center; }
+</style>
+</head>
+<body>
+<h1>VAKED Whitepaper</h1>
+<p>A fair-launch, proof-of-work-minted utility token of the vaked.dev constellation.</p>
+
+<div class="banner">
+  <strong>Not an investment.</strong> VAKED is a utility token for proof of
+  presence and participation. It confers no financial rights, no profit
+  participation, no redemption, and no promise of value. Its price may go to
+  zero. Acquire it only to participate in the vaked.dev constellation.
+</div>
+
+<h2>1. Identity</h2>
+<dl class="kv">
+  <dt>Issuer / offeror</dt><dd>Peter Lodri, sole trader (Hungary) — the operator of the vaked.dev constellation.</dd>
+  <dt>Project</dt><dd>VAKED, a fair-launch, proof-of-work-minted utility token.</dd>
+  <dt>Contact</dt><dd><a href="mailto:peter.lodri@gmail.com">peter.lodri@gmail.com</a> · <a href="https://pocoo.vaked.dev">pocoo.vaked.dev</a></dd>
+</dl>
+
+<h2>2. What VAKED is (and is not)</h2>
+<p>VAKED is a <strong>fungible utility token</strong> on Polygon PoS. Its only
+function is <strong>proof of presence and participation</strong> in the
+vaked.dev constellation — a digital "I was here / I contributed" attestation
+that gates access to constellation resources (the Sovereign Commons).</p>
+
+<h3>The first utility: the Sovereign Library</h3>
+<p>VAKED's first concrete use is the <strong>Sovereign Library</strong>
+(<a href="https://pocoo.vaked.dev">pocoo.vaked.dev</a>) — the free 37-volume
+book catalog. The books remain <strong>free to read</strong> (no paywall, no
+DRM). VAKED adds the <strong>attestation layer</strong> on top: a gasless
+proof-of-presence stamp that records "I read / I held / I participated" in the
+library, verifiable on-chain, without charging anyone for knowledge.</p>
+<ul>
+  <li><strong>Read</strong> — the books stay open to everyone.</li>
+  <li><strong>Attest</strong> — a presence stamp proves you were there.</li>
+  <li><strong>Hold</strong> — VAKED is earned by mining, not bought from the issuer.</li>
+</ul>
+<p><strong>VAKED is not:</strong></p>
+<ul>
+  <li>an investment, equity, or debt instrument;</li>
+  <li>a claim on any revenue, profit, dividend, or treasury;</li>
+  <li>a promise of any future value or appreciation;</li>
+  <li>a MiFID financial instrument.</li>
+</ul>
+<p>There are <strong>no financial rights</strong> attached to holding VAKED. No
+one — including the issuer — is obligated to buy it back, list it, or support a
+market price.</p>
+
+<h2>3. Underlying technology</h2>
+<ul>
+  <li><strong>Standard</strong>: ERC-20 (fungible), deployed on Polygon PoS (EVM).</li>
+  <li><strong>Minting</strong>: proof-of-work, EIP-918-style — miners find a
+    <code>nonce</code> such that
+    <code>keccak256(challengeNumber ‖ msg.sender ‖ nonce) &lt; miningTarget</code>.
+    Solutions are bound to the miner's address and to a rotating challenge
+    derived from a recent block, so work cannot be pre-mined or replayed.</li>
+  <li><strong>Difficulty</strong>: auto-adjusts every <strong>1,024 mints</strong>
+    toward a target average <strong>60-block</strong> mint interval. Initial
+    target <code>1&lt;&lt;224</code>, clamped rails <code>[1&lt;&lt;200, 1&lt;&lt;232]</code>,
+    midpoint smoothing (±4× per epoch, never all-or-nothing).</li>
+  <li><strong>Rewards</strong>: start <strong>50 VAKED/mint</strong>, halved every
+    <strong>210,000 mints</strong>. The geometric series converges on the
+    <strong>21,000,000 VAKED</strong> hard cap.</li>
+</ul>
+
+<h2>4. Distribution — fair launch (verifiable, not promised)</h2>
+<p>VAKED is <strong>only ever minted by proof of work</strong>. There is:</p>
+<ul>
+  <li>no premine,</li>
+  <li>no team allocation,</li>
+  <li>no presale,</li>
+  <li>no airdrop pool,</li>
+  <li>no issuer-held reserve.</li>
+</ul>
+<p>Ownership of the contract is renounced to the zero address after deployment,
+so the issuer cannot mint, pause, freeze, tax, or change the token afterward.
+Source is published and verified to match the deployed bytecode.</p>
+<div class="fact">
+  <strong>Verifiable on-chain.</strong> These are engineering facts, not
+  promises: <code>owner() == address(0)</code>, no mint function beyond the PoW
+  <code>mint(uint256 nonce)</code>, and a fixed 21,000,000 cap — all checkable
+  against the published source.
+</div>
+
+<h2>5. Offer terms</h2>
+<ul>
+  <li><strong>Offer type</strong>: no sale by the issuer — tokens are earned by
+    performing proof of work.</li>
+  <li><strong>Consideration</strong>: none to the issuer (miners pay only network gas).</li>
+  <li><strong>Maximum supply</strong>: 21,000,000 VAKED.</li>
+  <li><strong>Jurisdiction</strong>: the issuer offers to EU/EEA persons under
+    MiCA Title II as applicable; persons in restricted jurisdictions should not
+    participate.</li>
+</ul>
+
+<h2>6. Rights and obligations of holders</h2>
+<p>Holders have the right to hold and transfer VAKED and to use it as proof of
+presence / participation in the constellation. Holders have <strong>no</strong>
+governance, economic, redemption, or claim rights against the issuer.</p>
+
+<h2>7. Risks</h2>
+<ul>
+  <li><strong>Loss of value</strong>: VAKED may become worthless; there is no floor.</li>
+  <li><strong>No liquidity</strong>: there is no issuer-provided market; it may
+    be impossible to sell.</li>
+  <li><strong>Regulatory risk</strong>: treatment of utility/mineable tokens
+    varies by jurisdiction and may change.</li>
+  <li><strong>Smart-contract risk</strong>: bugs, exploits, and irreversible
+    loss are possible; ownership is renounced, so no fix is possible post-launch.</li>
+  <li><strong>Network risk</strong>: Polygon PoS and its RPC infrastructure may
+    change; gas and availability are outside the issuer's control.</li>
+  <li><strong>MEV / sniping</strong>: mining and transfer activity is public and
+    can be front-run.</li>
+</ul>
+
+<h2>8. Disclaimers</h2>
+<p>This document does not constitute an offer to sell or a solicitation to buy
+any security, in any jurisdiction. VAKED is provided "as is", with no warranty.
+Do not acquire VAKED with the expectation of profit; acquire it only to
+participate in the vaked.dev constellation.</p>
+
+<footer>
+  <p><a href="/">← pocoo.vaked.dev</a> · VAKED whitepaper · v1.0 · 2026-08-15</p>
+</footer>
+</body>
+</html>
