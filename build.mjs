@@ -350,23 +350,22 @@ function footerHtml() {
   return `<footer class="site-footer">
   <span class="foot-eco">
   ${ext("https://vaked.dev", "vaked.dev")} ·
-  ${ext("https://attestal.ai", "attestal.ai")} ·
-  ${ext("https://coder.vaked.dev", "coder.vaked.dev")} ·
-  ${ext("https://peterl.dev", "peterl.dev")} ·
-  ${ext("https://huggingface.co/PeetPedro", "PeetPedro ↗")}
+  ${ext("https://ocean.vaked.dev", "ocean.vaked.dev")} ·
+  ${ext("https://worklog.vaked.dev", "worklog.vaked.dev")} ·
+  ${ext("https://github.com/8b-is/smart-tree", "smart-tree ↗")} ·
+  ${ext("https://github.com/8b-is/transformers", "transformers-ultra ↗")} ·
+  ${ext("https://peterl.dev", "peterl.dev")}
   </span>
   <br>
   <a href="/">home</a> ·
   ${ext("https://github.com/peterlodri-sec", "github")} ·
   ${ext("https://x.com/0xp3t3rl", "x")} ·
-  ${ext("https://chat.vaked.dev", "chat")} ·
   ${ext("https://music.vaked.dev", "music")} ·
-  ${ext("https://beat.vaked.dev", "beat")} ·
-  ${ext("https://irc.vaked.dev", "irc")} ·
-  ${ext("https://protocol.vaked.dev", "protocol")} ·
-  ${ext("https://huggingface.co/datasets/PeetPedro/ultrawhale-dogfood", "dataset")} ·
-  <a href="/feed.xml">feed</a> ·
-  ${ext("https://blogtrottr.com/?subscribe=" + encodeURIComponent(SITE_URL + "/feed.xml"), "newsletter")}
+  ${ext("https://store.vaked.dev", "store")} ·
+  ${ext("https://art.vaked.dev", "art")} ·
+  ${ext("https://axiomquant.org", "axiomquant")} ·
+  ${ext("https://mlxquantlovefrom.com", "mlxquant")} ·
+  <a href="/feed.xml">feed</a>
 </footer>`;
 }
 

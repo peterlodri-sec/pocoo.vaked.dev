@@ -45,10 +45,11 @@ contract VAKED is ERC20, Ownable {
     uint256 internal constant MAX_ACTUAL_BLOCKS = EXPECTED_BLOCKS_PER_EPOCH * 4; // 245_760
 
     /// Initial PoW bound: the digest must be strictly below miningTarget. At
-    /// launch the target is 2^224, roughly one winning hash in 2^32 (~4.3e9) —
-    /// a modest CPU finds a block in minutes. The adjustment mechanism then
-    /// converges it toward the 60-block cadence.
-    uint256 internal constant INITIAL_MINING_TARGET = 1 << 224;
+    /// launch the target is MAX_MINING_TARGET (2^232), roughly one winning
+    /// hash in 2^24 (~16.8M) — a modest CPU finds a block in minutes, and the
+    /// first epoch completes in ~2 days at ~100 kH/s. The adjustment mechanism
+    /// then converges it toward the 60-block cadence.
+    uint256 internal constant INITIAL_MINING_TARGET = 1 << 232;
 
     /// Absolute safety rails for miningTarget. Keeping the target inside
     /// [2^200, 2^232] also guarantees every adjustment step is overflow-safe.
@@ -64,8 +65,8 @@ contract VAKED is ERC20, Ownable {
     uint256 public epochCount;
 
     /// Base round seed, rotated after every successful mint. The live round
-    /// returned by getChallengeNumber() mixes this with the previous block
-    /// hash, so the challenge is unique per block and cannot be pre-mined.
+    /// returned by getChallengeNumber() is this seed; it persists across
+    /// blocks, so a solution stays valid from fetch until the next mint.
     bytes32 public challengeNumber;
 
     /// Current PoW bound: mint() requires the digest to be strictly below this.
@@ -90,7 +91,7 @@ contract VAKED is ERC20, Ownable {
     /// The digest keccak256(challenge, msg.sender, nonce) must be below the
     /// current mining target. Binding the digest to msg.sender prevents
     /// man-in-the-middle relay of solutions; binding it to the round challenge
-    /// (see getChallengeNumber) prevents pre-mining.
+    /// (see getChallengeNumber) scopes the solution to the current round.
     /// @param nonce the nonce the miner searched off-chain
     function mint(uint256 nonce) external returns (uint256 rewardAmount) {
         bytes32 challenge = getChallengeNumber();
@@ -132,9 +133,10 @@ contract VAKED is ERC20, Ownable {
         if (actualBlocks > MAX_ACTUAL_BLOCKS) actualBlocks = MAX_ACTUAL_BLOCKS;
         if (actualBlocks < MIN_ACTUAL_BLOCKS) actualBlocks = MIN_ACTUAL_BLOCKS;
 
-        // Fixed-point ratio of observed vs. expected cadence (1e18 == 1x).
-        uint256 ratio = (actualBlocks * 1e18) / EXPECTED_BLOCKS_PER_EPOCH;
-        uint256 idealTarget = (miningTarget * ratio) / 1e18;
+        // Ideal target for the observed cadence, via integer division. Direct
+        // multiply is overflow-safe: at most MAX_MINING_TARGET * MAX_ACTUAL_BLOCKS
+        // = 2^232 * 245_760 < 2^256.
+        uint256 idealTarget = (miningTarget * actualBlocks) / EXPECTED_BLOCKS_PER_EPOCH;
 
         // Move halfway toward the ideal, then clamp to the safety rails.
         uint256 newTarget = (miningTarget + idealTarget) / 2;
@@ -147,13 +149,13 @@ contract VAKED is ERC20, Ownable {
 
     // -- informational views ----------------------------------------------------------
 
-    /// The live round challenge: the rotated base seed mixed with the previous
-    /// block hash and the block number. It changes every block, which binds a
-    /// solution to a round and makes pre-mining impossible. Miners should call
-    /// this view, then search nonces for
+    /// The live round challenge: the rotated base seed. It changes only on a
+    /// successful mint (see mint), so a solution stays valid from fetch until
+    /// the next mint — no per-block race. Miners should call this view, then
+    /// search nonces for
     /// keccak256(challenge, minerAddress, nonce) < getMiningTarget().
     function getChallengeNumber() public view returns (bytes32) {
-        return keccak256(abi.encodePacked(challengeNumber, blockhash(block.number - 1), block.number));
+        return challengeNumber;
     }
 
     /// Current scheduled per-mint reward: INITIAL_REWARD, halved once per

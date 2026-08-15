@@ -36,12 +36,11 @@ staking-marketing, not an NFT, and not an investment (see disclosure below).
 - PoW check: `uint256(keccak256(challenge, msg.sender, nonce)) < miningTarget`.
   Binding to `msg.sender` blocks man-in-the-middle relay of solutions; binding
   to the round challenge blocks pre-mining.
-- **Challenge**: `getChallengeNumber() = keccak256(challengeNumber, blockhash(block.number - 1), block.number)`.
-  The stored `challengeNumber` base seed rotates after every successful mint,
-  and the previous block's hash can only be known once that block exists — so
-  the challenge is unique per block and per round.
-- **Target**: `miningTarget`, initialized to `2^224` (~1 winning hash in 2^32,
-  ≈ 4.3e9 hashes — a modest CPU mints in minutes at launch).
+- **Challenge**: `getChallengeNumber() = challengeNumber` — the stored base seed,
+  rotated after every successful mint. The challenge persists across blocks, so
+  a solution stays valid from fetch until the next mint (no per-block race).
+- **Target**: `miningTarget`, initialized to `2^232` (~1 winning hash in 2^24,
+  ≈ 16.8M hashes — a modest CPU mints in minutes at launch).
 - **Adjustment epoch**: every **1,024 mints** (`ADJUSTMENT_EPOCH`), toward a
   fixed **60-block average interval** between mints (`TARGET_BLOCK_INTERVAL`;
   expected span per epoch = 1,024 × 60 = 61,440 blocks).
@@ -90,7 +89,7 @@ other setup exists; the contract is usable immediately, permissionlessly.
 2. Search nonces: increment `nonce` until
    `uint256(keccak256(challenge, <your address>, nonce)) < miningTarget`.
 3. Submit `mint(nonce)` (gas only). The round rotates after every successful
-   mint, so re-fetch the challenge for the next block.
+   mint, so re-fetch the challenge before mining again.
 
 ##  Not an investment
 
