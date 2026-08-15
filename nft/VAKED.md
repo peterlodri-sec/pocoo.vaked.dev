@@ -79,8 +79,10 @@ Verifiable on-chain, in the source, and on PolygonScan:
       only constructor inputs are the public name/symbol.
 
 Deployment steps (one-off, public): deploy `VAKED` → verify source on
-PolygonScan → call `renounceOwnership()` in the same or next transaction. No
-other setup exists; the contract is usable immediately, permissionlessly.
+PolygonScan → run several live mints and confirm the first difficulty
+adjustment (mint #1024) succeeds → then call `renounceOwnership()`. Do not
+renounce in the same transaction as deployment — there is no rescue path once
+ownership is gone. No other setup exists; the contract is usable immediately.
 
 ## Mining
 

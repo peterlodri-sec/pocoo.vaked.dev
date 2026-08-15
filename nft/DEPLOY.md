@@ -12,7 +12,7 @@ directory; the browser site (`art/` & `demos/`) never loads any of it.
 | :--- | :--- | :--- | :--- |
 | **Lane A (NFT)** | `nft/PaintingsForSecrets.sol` | ERC-721 + IERC-2981 | `initialTreasury` (`0x4f584F6fd3a0a8C807aF2F00571c172603600578`) · 0.5 POL mint |
 | **Lane B (Token)** | `nft/VAKED.sol` | Mineable ERC-20 (EIP-918) | 21,000,000 hard cap · 50 VAKED initial reward · 210,000 halving interval · 60-block target · 100% fair launch |
-| **Network** | **Polygon Mainnet** | Chain ID **137** (`0x89`) | **Do not deploy to testnets** (Amoy `0x13882`) |
+| **Network** | **Polygon Mainnet** | Chain ID **137** (`0x89`) | Rehearse on Amoy (`0x13882`) or a local fork first |
 | **RPC** | `https://polygon.drpc.org` | Keyless dRPC | Matches `POLYGON_RPC` in `art/chain.js` |
 | **Explorer** | [Polygonscan](https://polygonscan.com) · [Sourcify](https://sourcify.dev) | EVM Cancun | Optimizer: Runs 200 |
 
@@ -151,7 +151,9 @@ import('./art/chain.js').then(async ({ chain }) => {
 
 ## Step 5 — Fair-Launch Governance: Renounce `VAKED` Ownership
 
-To complete the 100% permissionless fair launch of the `VAKED` token, the deployer renounces ownership, permanently eliminating any administrative privileges:
+To complete the 100% permissionless fair launch of the `VAKED` token, the deployer renounces ownership, permanently eliminating any administrative privileges.
+
+**Renounce only after the token is proven to mine.** There is no rescue path once ownership is renounced (no setter, no pause, no admin). Sequence: deploy → verify source on-chain → run several live mints → confirm the first difficulty adjustment (mint #1024) does not revert → then renounce. Do **not** renounce in the same transaction as deployment.
 
 ```bash
 node -e "
