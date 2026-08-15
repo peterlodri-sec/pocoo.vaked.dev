@@ -277,6 +277,24 @@ footer a { color: var(--pink); text-decoration: none; }
   white-space: nowrap;
 }
 .chip-dim { opacity: 0.5; }
+.chip-warn {
+  color: #ffc860;
+  border-color: rgba(255,200,96,0.45);
+  background: rgba(255,200,96,0.07);
+}
+.chip-ok {
+  color: #62e6c9;
+  border-color: rgba(98,230,201,0.35);
+  background: rgba(98,230,201,0.06);
+}
+.tools button:disabled,
+.tools button:disabled:hover {
+  opacity: 0.35;
+  cursor: not-allowed;
+  background: rgba(255,105,180,0.04);
+  border-color: rgba(255,105,180,0.2);
+  color: var(--pink);
+}
 .mint-badge {
   position: absolute;
   top: 4px; right: 4px;
@@ -298,6 +316,7 @@ footer a { color: var(--pink); text-decoration: none; }
   <div class="sub">tell me a secret · i make you a painting</div>
   <div class="status-line">
     <span id="wallet-status" class="chip chip-dim">wallet: —</span>
+    <span id="deploy-status" class="chip chip-deploy">⛓ PaintingsForSecrets: —</span>
     <span id="status" class="chip chip-dim">⛓ on-chain: PaintingsForSecrets</span>
   </div>
 </header>
@@ -314,8 +333,8 @@ footer a { color: var(--pink); text-decoration: none; }
   <input type="range" id="size-slider" min="1" max="40" value="5" oninput="setSize(this.value)">
   <button onclick="clearCanvas()">✕ clear</button>
   <button onclick="savePainting()">💾 save</button>
-  <button onclick="mintPainting()">⛓ mint</button>
-  <button onclick="giftPainting()">✉️ gift</button>
+  <button id="mint-btn" onclick="mintPainting()">⛓ mint</button>
+  <button id="gift-btn" onclick="giftPainting()">✉️ gift</button>
   <button onclick="undoStroke()">↩ undo</button>
 </div>
 
@@ -532,12 +551,19 @@ document.addEventListener('keydown', e => {
 /* ============ NFT LAYER · PaintingsForSecrets ============ */
 // Self-contained: no CDN, no external scripts. Wallet flows through
 // window.ethereum (MetaMask) when present, else the in-page key vault from
-// ./chain.js (PBKDF2 → AES-GCM, signed + sent via fallback Polygon RPCs).
+// ./chain.js (PBKDF2 → AES-GCM, signed + sent via the Polygon RPC defined by
+// POLYGON_RPC in chain.js).
 
-const PFS_ADDRESS = '0x0000000000000000000000000000000000000000'; // TODO: deployed contract
-const TARGET_CHAIN_ID = '0x89';      // Polygon mainnet (Amoy testnet: 0x13882)
+// PFS_ADDRESS — placeholder until PaintingsForSecrets is deployed to Polygon
+// mainnet. See nft/DEPLOY.md for the zero-dependency deploy runbook, then
+// paste the deployed address here.
+// While this is the zero address, contractDeployed() returns false: the mint /
+// gift buttons stay disabled and the header shows a "not deployed" chip, so
+// the dead-mint failure is visible instead of silent.
+const PFS_ADDRESS = '0x0000000000000000000000000000000000000000'; // TODO: set after deployment
+const TARGET_CHAIN_ID = '0x89';      // Polygon mainnet (Amoy testnet: 0x13882) — do NOT target testnets
 const TARGET_CHAIN_NAME = 'Polygon';
-const TARGET_RPC = 'https://polygon-rpc.com';
+const TARGET_RPC = 'https://polygon.drpc.org'; // must match POLYGON_RPC in art/chain.js
 const TARGET_EXPLORER = 'https://polygonscan.com';
 const DEFAULT_FEE_WEI = 0x38d7ea4c68000; // 0.001 POL
 
@@ -771,6 +797,31 @@ function contractDeployed() {
   return /0x[0-9a-fA-F]{40}$/.test(PFS_ADDRESS) && PFS_ADDRESS.toLowerCase() !== '0x' + '0'.repeat(40);
 }
 
+// Visible deploy-readiness: a "not deployed" chip in the header + disabled
+// mint/gift buttons while PFS_ADDRESS is still the zero placeholder, so a
+// dead mint button is never a silent failure.
+function refreshDeployStatus() {
+  const el = document.getElementById('deploy-status');
+  const mintBtn = document.getElementById('mint-btn');
+  const giftBtn = document.getElementById('gift-btn');
+  if (!el) return;
+  if (!contractDeployed()) {
+    el.textContent = '⛓ PaintingsForSecrets: not deployed';
+    el.classList.add('chip-warn');
+    el.classList.remove('chip-ok');
+    el.title = 'Contract not deployed yet — see nft/DEPLOY.md, then set PFS_ADDRESS in this file. Minting is disabled until then.';
+    if (mintBtn) mintBtn.disabled = true;
+    if (giftBtn) giftBtn.disabled = true;
+  } else {
+    el.textContent = '⛓ PaintingsForSecrets: live';
+    el.classList.remove('chip-warn');
+    el.classList.add('chip-ok');
+    el.title = 'Contract live at ' + PFS_ADDRESS;
+    if (mintBtn) mintBtn.disabled = false;
+    if (giftBtn) giftBtn.disabled = false;
+  }
+}
+
 async function mintFeeWei() {
   try {
     if (window.ethereum) {
@@ -833,7 +884,7 @@ async function sendMintTx({ data, value, verb }) {
 
 async function mintPainting() {
   if (strokes.length === 0) { setStatus('paint something first'); return; }
-  if (!contractDeployed()) { setStatus('contract not deployed yet — set PFS_ADDRESS'); return; }
+  if (!contractDeployed()) { setStatus('⛓ not deployed yet — minting disabled until PFS_ADDRESS is set (see nft/DEPLOY.md)'); return; }
   const secret = sanitize(document.getElementById('secret-input').value) || 'a secret untold';
   const title = sanitize(document.getElementById('title-input').value) || secret.slice(0, 24);
   const p = mintPayload(strokes, title, secret);
@@ -851,7 +902,7 @@ async function mintPainting() {
 
 async function giftPainting() {
   if (strokes.length === 0) { setStatus('paint something first'); return; }
-  if (!contractDeployed()) { setStatus('contract not deployed yet — set PFS_ADDRESS'); return; }
+  if (!contractDeployed()) { setStatus('⛓ not deployed yet — gifting disabled until PFS_ADDRESS is set (see nft/DEPLOY.md)'); return; }
   const recipient = prompt('recipient address — only they can claim it');
   if (!recipient || !/^0x[0-9a-fA-F]{40}$/.test(recipient)) { setStatus('invalid recipient address'); return; }
   const secret = sanitize(document.getElementById('secret-input').value) || 'a secret untold';
@@ -926,7 +977,7 @@ async function secretOfToken(tokenId) {
 }
 
 async function listForSaleAction(tokenId) {
-  if (!contractDeployed()) { setStatus('contract not deployed yet — set PFS_ADDRESS'); return; }
+  if (!contractDeployed()) { setStatus('⛓ not deployed yet — market disabled until PFS_ADDRESS is set (see nft/DEPLOY.md)'); return; }
   const pol = prompt('listing price in POL for painting #' + tokenId);
   const num = Number(pol);
   if (!pol || isNaN(num) || num <= 0) { setStatus('listing cancelled — invalid price'); return; }
@@ -941,7 +992,7 @@ async function listForSaleAction(tokenId) {
 }
 
 async function unlistAction(tokenId) {
-  if (!contractDeployed()) { setStatus('contract not deployed yet — set PFS_ADDRESS'); return; }
+  if (!contractDeployed()) { setStatus('⛓ not deployed yet — market disabled until PFS_ADDRESS is set (see nft/DEPLOY.md)'); return; }
   const data = abiEncode(SEL_UNLIST, [{ t: 'u', v: tokenId }]);
   const tx = await sendMintTx({ data, value: '0x0', verb: 'unlisting #' + tokenId });
   if (!tx) return;
@@ -952,7 +1003,7 @@ async function unlistAction(tokenId) {
 }
 
 async function revealAction(tokenId) {
-  if (!contractDeployed()) { setStatus('contract not deployed yet — set PFS_ADDRESS'); return; }
+  if (!contractDeployed()) { setStatus('⛓ not deployed yet — market disabled until PFS_ADDRESS is set (see nft/DEPLOY.md)'); return; }
   const data = abiEncode('0xc2ca0ac5', [{ t: 'u', v: tokenId }]); // reveal(uint256)
   const tx = await sendMintTx({ data, value: '0x0', verb: 'revealing #' + tokenId });
   if (!tx) return;
@@ -963,7 +1014,7 @@ async function revealAction(tokenId) {
 }
 
 async function buyAction(tokenId) {
-  if (!contractDeployed()) { setStatus('contract not deployed yet — set PFS_ADDRESS'); return; }
+  if (!contractDeployed()) { setStatus('⛓ not deployed yet — market disabled until PFS_ADDRESS is set (see nft/DEPLOY.md)'); return; }
   const price = await priceOfToken(tokenId);
   if (!price || price <= 0n) { setStatus('#' + tokenId + ' is not for sale yet'); return; }
   const pol = Number(price) / 1e18;
@@ -990,9 +1041,10 @@ if (window.ethereum) {
   });
 }
 
-document.addEventListener('DOMContentLoaded', initVaultUI);
+document.addEventListener('DOMContentLoaded', () => { initVaultUI(); refreshDeployStatus(); });
 
 renderGallery();
+refreshDeployStatus();
 </script>
 <!-- Lovetta Lane Unified Constellation Footer -->
 <footer role="contentinfo" style="position:relative;z-index:10;padding:3rem 1.5rem;text-align:center;font-family:ui-monospace,monospace;font-size:0.75rem;color:#a59fc4;background:rgba(5,6,10,0.92);border-top:1px solid rgba(170,150,255,0.18);backdrop-filter:blur(16px);">
