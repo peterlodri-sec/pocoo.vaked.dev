@@ -1,201 +1,205 @@
-# Deploying PaintingsForSecrets to Polygon mainnet
+# Deploying Sovereign Contracts to Polygon Mainnet
 
-Zero-dependency runbook — no Hardhat, no Foundry, no ethers in the shipped
-site. Everything below is dev-time tooling (node + solc) run in a scratch
-directory; the browser site (`art/`) never loads any of it.
-
-| | |
-|---|---|
-| Contract | `nft/PaintingsForSecrets.sol` (ERC-721 + IERC2981, OZ 5.x) |
-| Network | **Polygon mainnet, chain id 137** (`0x89`) — do **not** target Amoy/testnet |
-| Constructor | `PaintingsForSecrets(address initialTreasury)` |
-| Default treasury | `0x4f584F6fd3a0a8C807aF2F00571c172603600578` (constellation payment wallet — changeable via the `TREASURY` env below, or later via `setTreasury`) |
-| Explorer | https://polygonscan.com |
-| RPC | `https://polygon.drpc.org` (dRPC keyless public, verified live on mainnet; the legacy public endpoint was deprecated 31 Jul 2026) — single named constant `POLYGON_RPC` in `art/chain.js`, mirrored by `TARGET_RPC` in `art/index.html` |
-
-Prereqs: Node ≥ 18 (global `fetch`), npm. That's it.
+Zero-dependency runbook — no Hardhat, no Foundry, no heavy frameworks in the shipped
+site. Everything below is dev-time tooling (`node` + `solc`) run in a scratch
+directory; the browser site (`art/` & `demos/`) never loads any of it.
 
 ---
 
-## Step 1 — Compile (solc 0.8.x + OpenZeppelin 5.x)
+## Contract Inventory & Network
 
-The contract imports `@openzeppelin/contracts/...`; the repo has no
-`node_modules` for that, so compile in a **scratch dir** (the repo itself stays
-untouched):
+| Target | Contract | Standard | Key Parameters |
+| :--- | :--- | :--- | :--- |
+| **Lane A (NFT)** | `nft/PaintingsForSecrets.sol` | ERC-721 + IERC-2981 | `initialTreasury` (`0x4f584F6fd3a0a8C807aF2F00571c172603600578`) · 0.5 POL mint |
+| **Lane B (Token)** | `nft/VAKED.sol` | Mineable ERC-20 (EIP-918) | 21,000,000 hard cap · 50 VAKED initial reward · 210,000 halving interval · 60-block target · 100% fair launch |
+| **Network** | **Polygon Mainnet** | Chain ID **137** (`0x89`) | **Do not deploy to testnets** (Amoy `0x13882`) |
+| **RPC** | `https://polygon.drpc.org` | Keyless dRPC | Matches `POLYGON_RPC` in `art/chain.js` |
+| **Explorer** | [Polygonscan](https://polygonscan.com) · [Sourcify](https://sourcify.dev) | EVM Cancun | Optimizer: Runs 200 |
+
+**Prerequisites**: Node.js ≥ 18, npm.
+
+---
+
+## Step 1 — Compile (`solc 0.8.28` + `OpenZeppelin 5.0.2`)
+
+Both contracts import `@openzeppelin/contracts/...`. To keep the repository clean, compilation runs in a scratch directory:
 
 ```bash
-mkdir -p /tmp/pfs-deploy && cd /tmp/pfs-deploy
+mkdir -p /tmp/sovereign-deploy && cd /tmp/sovereign-deploy
 npm init -y >/dev/null 2>&1
 npm i --save-dev solc@0.8.28 @openzeppelin/contracts@5.0.2
+
+# Copy contracts from repository
 cp /path/to/repo/pocoo.vaked.dev/nft/PaintingsForSecrets.sol .
+cp /path/to/repo/pocoo.vaked.dev/nft/VAKED.sol .
+
+# Compile via solcjs
 npx solc --base-path . --include-path node_modules \
-  --evm-version cancun --optimize --optimize-runs=200 --bin --abi -o build PaintingsForSecrets.sol
-ls -l build/
+  --optimize --optimize-runs 200 --bin --abi -o build \
+  PaintingsForSecrets.sol VAKED.sol
+
+ls -lh build/
 ```
 
-Output: `build/PaintingsForSecrets.bin` (creation bytecode) + `.abi`.
+### Compiler Output & Staging
+`solcjs` outputs artifacts named `<File>_sol_<Contract>.bin`:
+- `build/PaintingsForSecrets_sol_PaintingsForSecrets.bin` (28.5 KB hex)
+- `build/VAKED_sol_VAKED.bin` (8.5 KB hex)
 
-**Version gotchas (this is the part that bites):**
+Stage the compiled bytecode into the `nft/` directory:
+```bash
+cp /tmp/sovereign-deploy/build/PaintingsForSecrets_sol_PaintingsForSecrets.bin /path/to/repo/pocoo.vaked.dev/nft/PaintingsForSecrets.bin
+cp /tmp/sovereign-deploy/build/VAKED_sol_VAKED.bin /path/to/repo/pocoo.vaked.dev/nft/VAKED.bin
+```
 
-- **OpenZeppelin must be `^5.0.0`.** The contract uses the OZ 5.x API:
-  `Ownable(msg.sender)` (initial-owner constructor), `_update`,
-  `_ownerOf`, `_isAuthorized`, `_safeMint(msg.sender, ...)`. OZ 4.x will **not**
-  compile (`Ownable` has no constructor arg there; `_update`/`_isAuthorized`
-  don't exist). Install `@openzeppelin/contracts@5.0.2` (or any 5.x).
-- **solc ≥ 0.8.24** (pragma `^0.8.24`). 0.8.28/0.8.29 are fine.
-- **No flattener is needed to compile**: `--include-path node_modules` makes
-  solc resolve the `@openzeppelin/...` imports straight from npm. This flag
-  needs solc ≥ 0.8.19 (any 0.8.24+ has it). A flattener is only needed for
-  **Polygonscan** source verification — see Step 4.
-- Keep the optimizer setting (`--optimize --optimize-runs=200`) — you must
-  re-verify with **identical** settings later, or verification will fail with a
-  bytecode mismatch.
-- **`--evm-version cancun` is REQUIRED.** OpenZeppelin 5.x `Bytes.sol` uses the
-  `mcopy` opcode (via `Strings`/`Base64`), which only exists on Cancun+. Without
-  it solc errors with `DeclarationError: Function "mcopy" not found`. This is
-  the single most likely first-compile failure.
-
-No docker? `npx solc@0.8.28` above is solc-js, a plain node package — no
-docker, no native toolchain. (If you prefer the native binary:
-`docker run --rm -v "$PWD":/src -w /src ethereum/solc:0.8.28 --base-path . --include-path node_modules --evm-version cancun --optimize --optimize-runs=200 --bin --abi -o build PaintingsForSecrets.sol`.)
+### Compiler Notes & Invariants
+- **OpenZeppelin 5.x API**: Uses `Ownable(msg.sender)`, `_update`, `_ownerOf`, `_isAuthorized`. (OZ 4.x is incompatible).
+- **Optimizer Settings**: Must remain `--optimize --optimize-runs 200` to guarantee exact bytecode match during Polygonscan verification.
+- **EVM Target**: Solc 0.8.28 defaults to Cancun, supporting the `mcopy` opcode used in OpenZeppelin 5.x strings and base64 encoders.
 
 ---
 
-## Step 2 — Deploy with `nft/deploy.js` (repo's own signing)
+## Step 2 — Deploy via `nft/deploy.js` (Zero-Dependency EIP-155 Signing)
 
-`nft/deploy.js` builds the creation transaction (bytecode + ABI-encoded
-treasury arg), signs it with the repo's hand-rolled EIP-155 code
-(`art/chain.js` → `art/vendor/chain-crypto.js`, noble-curves secp256k1 +
-js-sha3 keccak) and broadcasts it. No ethers, no framework.
+`nft/deploy.js` constructs the deployment payload, derives the deterministic contract address (`keccak256(rlp([sender, nonce]))`), signs an EIP-155 legacy transaction via the repo's native cryptography (`art/chain.js` / noble-curves secp256k1 + js-sha3 keccak), and broadcasts it.
+
+### 2A. Deploy Lane A — `PaintingsForSecrets` (Generative Art NFT)
 
 ```bash
-# 2a. put the bytecode where deploy.js expects it
-cp /tmp/pfs-deploy/build/PaintingsForSecrets.bin nft/PaintingsForSecrets.bin
-
-# 2b. dry run — signs, prints everything, does NOT broadcast (default)
+# 1. Dry run (verifies parameters, gas, predicted contract address — no funds sent)
 PRIVATE_KEY=0x... node nft/deploy.js
 
-# 2c. broadcast (REAL FUNDS — verify the printed values first)
+# 2. Broadcast to Polygon mainnet
 PRIVATE_KEY=0x... node nft/deploy.js --broadcast
 ```
 
-The dry run prints: deploying address, treasury, nonce, gas price, gas limit,
-data size, the **predicted contract address**
-(`keccak256(rlp([sender, nonce]))` — so you know the contract address even
-before the tx lands), and the fully-signed raw transaction.
+### 2B. Deploy Lane B — `VAKED` (Fair-Launch Mineable ERC-20)
 
-Useful knobs (all optional):
+```bash
+# 1. Dry run
+PRIVATE_KEY=0x... node nft/deploy.js --vaked
 
-| Env / flag | Default | Purpose |
-|---|---|---|
-| `PRIVATE_KEY` | — (required) | Deployer key. Never committed, never printed. |
-| `TREASURY` | `0x4f584F6fd3a0a8C807aF2F00571c172603600578` | Constructor treasury (changeable). |
-| `RPC_URL` | `POLYGON_RPC` from `art/chain.js` | RPC override. |
-| `NONCE` | from chain (`pending`) | Force a nonce (hex). |
-| `GAS_PRICE_WEI` | `eth_gasPrice` | Force gas price (hex wei). |
-| `GAS_LIMIT_MULT` | `2` | Multiplier over `eth_estimateGas`. |
-| `--bytecode <hex\|file>` | `nft/PaintingsForSecrets.bin` | Bytecode source override. |
-| `--broadcast` | dry-run | Actually send the tx. |
-| `--help` | — | Usage. |
+# 2. Broadcast to Polygon mainnet
+PRIVATE_KEY=0x... node nft/deploy.js --vaked --broadcast
+```
 
-> Safety: the script is **dry-run by default**. `--broadcast` sends real POL
-> on mainnet — confirm the printed from/treasury/gasPrice/nonce before running
-> it. Fund the deploying address with enough POL for ~5–8M gas × current price
-> (typically a few cents' worth).
+### Configuration Environment Variables
+
+| Variable | Default | Purpose |
+| :--- | :--- | :--- |
+| `PRIVATE_KEY` | *(Required)* | 32-byte hex private key. Never logged, never stored. |
+| `TREASURY` | `0x4f584F6fd3a0a8C807aF2F00571c172603600578` | Constructor treasury for `PaintingsForSecrets`. |
+| `RPC_URL` | `https://polygon.drpc.org` | Polygon JSON-RPC endpoint override. |
+| `GAS_LIMIT_MULT` | `2` | Safety multiplier over `eth_estimateGas`. |
+| `NONCE` | Dynamic `pending` | Manual nonce override (hex string). |
+| `GAS_PRICE_WEI` | Dynamic `eth_gasPrice` | Manual gas price override (hex string). |
 
 ---
 
-## Step 3 — Verify the deployment
+## Step 3 — Verify On-Chain State
 
+### 3A. Verify `PaintingsForSecrets`
 ```bash
-# wait for the receipt (status 0x1 = success)
-node -e "import('./art/chain.js').then(m => m.chain.getReceipt('0x<txhash>').then(r => console.log(JSON.stringify(r, null, 2))))"
+node -e "
+import('./art/chain.js').then(async ({ chain }) => {
+  const addr = '0x<PFS_CONTRACT_ADDRESS>';
+  console.log('Name:    ', await chain.call(addr, '0x06fdde03')); // name()
+  console.log('Treasury:', await chain.call(addr, '0x3b19e17a')); // treasury()
+  console.log('MintFee: ', await chain.call(addr, '0x13966db5')); // mintFee()
+});"
 ```
 
-Or check https://polygonscan.com/tx/`<txhash>` → "Success" (status green).
+### 3B. Verify `VAKED` Token
+```bash
+node -e "
+import('./art/chain.js').then(async ({ chain }) => {
+  const addr = '0x<VAKED_CONTRACT_ADDRESS>';
+  console.log('Name:       ', await chain.call(addr, '0x06fdde03')); // name()
+  console.log('Symbol:     ', await chain.call(addr, '0x95d89b41')); // symbol()
+  console.log('MaxSupply:  ', await chain.call(addr, '0xd5abeb01')); // maxSupply()
+  console.log('Challenge:  ', await chain.call(addr, '0x3b66bc94')); // getChallengeNumber()
+  console.log('Difficulty: ', await chain.call(addr, '0x2f9435b6')); // getMiningDifficulty()
+});"
+```
 
-**Contract address:** use the *predicted* address from Step 2b's output, or
-read it off polygonscan's "Contract" tab. Sanity-check with a read:
+---
+
+## Step 4 — Contract Source Verification
+
+### Option A — Sourcify (Automated, No Flattening Required)
+1. Navigate to [sourcify.dev](https://sourcify.dev).
+2. Choose **Polygon Mainnet** (Chain ID 137).
+3. Paste the deployed contract address.
+4. Sourcify resolves the OpenZeppelin 5.0.2 metadata directly from IPFS/npm.
+
+### Option B — Polygonscan (Single-File Flattening)
+1. Install `sol-merger` in the compile directory:
+   ```bash
+   cd /tmp/sovereign-deploy && npm i -D sol-merger
+   npx sol-merger ./PaintingsForSecrets.sol ./Flattened_PFS.sol
+   npx sol-merger ./VAKED.sol ./Flattened_VAKED.sol
+   ```
+2. Navigate to `https://polygonscan.com/address/<CONTRACT>#code` → **Verify and Publish**:
+   - Compiler Type: **Solidity (Single file)**
+   - Compiler Version: **v0.8.28**
+   - Open Source License Type: **MIT**
+   - Optimization: **Yes** (Runs: **200**)
+   - EVM Version: **cancun** (or default)
+   - Paste flattened source and submit.
+
+---
+
+## Step 5 — Fair-Launch Governance: Renounce `VAKED` Ownership
+
+To complete the 100% permissionless fair launch of the `VAKED` token, the deployer renounces ownership, permanently eliminating any administrative privileges:
 
 ```bash
 node -e "
 import('./art/chain.js').then(async ({ chain }) => {
-  const a = '0x<CONTRACT>';
-  console.log('name:',     await chain.call(a, '0x06fdde03')); // name()
-  console.log('treasury:', await chain.call(a, '0x3b19e17a')); // treasury()
-  console.log('mintFee:',  await chain.call(a, '0x13966db5')); // mintFee()
+  const priv = process.env.PRIVATE_KEY;
+  const vakedAddr = '0x<VAKED_CONTRACT_ADDRESS>';
+  const from = chain.privateToAddress(priv);
+  const nonce = await chain.getTransactionCount(from, 'pending');
+  const gasPrice = await chain.getGasPrice();
+  
+  // renounceOwnership() selector: 0x715018a6
+  const tx = chain.signLegacyTx({
+    nonce,
+    gasPrice,
+    gasLimit: '0x186a0', // 100k gas
+    to: vakedAddr,
+    value: '0x0',
+    data: '0x715018a6',
+    priv
+  });
+  
+  const txHash = await chain.sendRawTransaction(tx);
+  console.log('Ownership renounced! Tx:', txHash);
 });"
 ```
 
-(`0x06fdde03` = `name()`, `0x3b19e17a` = `treasury()`, `0x13966db5` =
-`mintFee()`; first two words of each `eth_call` result contain the length +
-string/address — enough to eyeball `"PaintingsForSecrets"` and your treasury.)
+Once mined, `owner()` returns `0x0000000000000000000000000000000000000000`.
 
 ---
 
-## Step 4 — Source verification on Polygonscan
+## Step 6 — Frontend Wiring
 
-The contract's bytecode **must** match the verified source exactly: same
-compiler version (0.8.28), same optimizer settings (`enabled: true, runs: 200`).
+### 1. Generative Art NFT (`art/index.html`)
+Update the contract address constant:
+```javascript
+const PFS_ADDRESS = '0x<DEPLOYED_PFS_CONTRACT_ADDRESS>';
+```
+The status chip flips from yellow (`"not deployed"`) to green (`"live"`), enabling Web3 minting and secret gifting.
 
-**Option A — Sourcify (easiest, no flattener):**
-1. Go to https://sourcify.dev → **Verify**.
-2. Chain: Polygon (chain id 137). Address: the deployed contract.
-3. Sourcify reads the on-chain metadata and auto-fetches OpenZeppelin from the
-   npm registry — nothing to flatten or upload manually.
-
-**Option B — Polygonscan ("Verify & Publish"):**
-1. Use a **flattener** — Polygonscan cannot resolve `node_modules` imports.
-   The repo's own `solc` scratch dir can do it. Install
-   `npm i -D sol-merger` in `/tmp/pfs-deploy`, then:
-   ```bash
-   cd /tmp/pfs-deploy && npx sol-merger ./PaintingsForSecrets.sol ./Flattened.sol
-   ```
-   (or any flattener you trust — the output is a single self-contained file).
-2. Polygonscan → contract page → **Verify & Publish** → Solidity (Single File):
-   - Compiler: `0.8.28` (exactly what you compiled with)
-   - EVM version: default (`istanbul`)
-   - Optimization: **yes, 200 runs**
-   - Paste `Flattened.sol`.
-3. Submit. If it says "Bytecode mismatch", the compiler/optimizer/EVM settings
-   don't match Step 1 — fix those, not the source.
-
-> Gotcha: `@openzeppelin/contracts@5.0.2` pulls `@openzeppelin/contracts`
-> versions internally; a flattener resolves them at flatten time, so the
-> flattened file is self-consistent. If a flattener ever fails on OZ, fall
-> back to Option A (Sourcify) — it always handles OZ.
-
----
-
-## Step 5 — Wire the frontend
-
-In `art/index.html` (NFT layer constants):
-
-```js
-const PFS_ADDRESS = '0x<DEPLOYED_CONTRACT_ADDRESS>'; // TODO: set after deployment
+### 2. Sovereign Library & Whitepaper Attestation (`demos/whitepaper.html`)
+Reference the live Polygonscan token contract:
+```html
+<dd><a href="https://polygonscan.com/token/0x<VAKED_CONTRACT_ADDRESS>" target="_blank">0x<VAKED_CONTRACT_ADDRESS></a></dd>
 ```
 
-- `TARGET_CHAIN_ID` stays `'0x89'` (Polygon mainnet) — **do not** change to
-  Amoy (`0x13882`).
-- `TARGET_RPC` stays `https://polygon.drpc.org` — must match
-  `POLYGON_RPC` in `art/chain.js`.
-- While `PFS_ADDRESS` is the zero placeholder the UI shows a yellow
-  "PaintingsForSecrets: not deployed" chip and keeps the mint/gift buttons
-  disabled — that's the intended deploy-readiness state; the chip flips to
-  green "live" the moment the address is set.
-
-Then deploy `art/` through the site's normal pipeline (the site is CSP-`self`;
-`art/chain.js` and the vendored crypto are already self-hosted — no new
-dependencies, no CDN).
-
 ---
 
-## Rollback / ops notes
-
-- Wrong treasury? Call `setTreasury(newAddress)` (owner-only) — no redeploy.
-- `withdraw()` (owner-only) sweeps contract balance to the treasury; royalties
-  (EIP-2981, 5%) flow directly to the treasury on each `buy`.
-- The deployer key should be a fresh, dedicated account, funded only for this
-  deployment — not the vault key, not a hot main wallet.
-- `nft/deploy.js` and this runbook are dev-time tooling; they are **not**
-  loaded by any browser page and add zero runtime dependencies.
+## Security & Operational Safeguards
+1. **Isolated Deployer Key**: Use a dedicated deployment wallet funded with ~1–2 POL for gas. Never use vault or custody keys.
+2. **Deterministic Nonces**: Always verify the predicted address output in dry-run mode before broadcasting.
+3. **No Upgrade Proxies**: Both contracts are immutable, non-custodial, and non-upgradeable by design.

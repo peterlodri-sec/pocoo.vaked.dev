@@ -34,9 +34,9 @@ import { fileURLToPath } from 'node:url';
 import { chain } from '../art/chain.js';
 
 const DEFAULT_TREASURY = '0x4f584F6fd3a0a8C807aF2F00571c172603600578';
-const DEFAULT_BYTECODE_FILE = fileURLToPath(new URL('./PaintingsForSecrets.bin', import.meta.url));
 const BROADCAST = process.argv.includes('--broadcast');
 const DRY_RUN = !BROADCAST;
+const IS_VAKED = process.argv.includes('--vaked') || (process.argv.includes('--contract') && process.argv[process.argv.indexOf('--contract') + 1]?.toUpperCase() === 'VAKED');
 
 const RPC_URL = process.env.RPC_URL || chain.POLYGON_RPC;
 
@@ -71,20 +71,42 @@ function loadBytecode() {
     if (existsSync(explicit)) return '0x' + hexBytes(readFileSync(explicit, 'utf8'));
     throw new Error('--bytecode value is neither hex nor an existing file: ' + explicit);
   }
-  if (!existsSync(DEFAULT_BYTECODE_FILE)) {
-    throw new Error(
-      'no bytecode found at ' + DEFAULT_BYTECODE_FILE +
-      '\n  Compile first — see nft/DEPLOY.md step 1, e.g.:\n' +
-      '    cd /tmp/pfs-deploy && npx solc --base-path . --include-path node_modules \\\n' +
-      '      --optimize --optimize-runs=200 --bin --abi -o build PaintingsForSecrets.sol\n' +
-      '  then copy the .bin here:  cp /tmp/pfs-deploy/build/PaintingsForSecrets.bin ' +
-      DEFAULT_BYTECODE_FILE
-    );
+
+  const candidateFiles = IS_VAKED
+    ? [
+        fileURLToPath(new URL('./VAKED.bin', import.meta.url)),
+        fileURLToPath(new URL('./VAKED_sol_VAKED.bin', import.meta.url)),
+      ]
+    : [
+        fileURLToPath(new URL('./PaintingsForSecrets.bin', import.meta.url)),
+        fileURLToPath(new URL('./PaintingsForSecrets_sol_PaintingsForSecrets.bin', import.meta.url)),
+      ];
+
+  for (const f of candidateFiles) {
+    if (existsSync(f)) {
+      return '0x' + hexBytes(readFileSync(f, 'utf8'));
+    }
   }
-  return '0x' + hexBytes(readFileSync(DEFAULT_BYTECODE_FILE, 'utf8'));
+
+  const targetName = IS_VAKED ? 'VAKED' : 'PaintingsForSecrets';
+  throw new Error(
+    'no bytecode found for ' + targetName +
+    '\n  Compile first — see nft/DEPLOY.md step 1, e.g.:\n' +
+    '    cd /tmp/pfs-deploy && npx solc --base-path . --include-path node_modules \\\n' +
+    '      --optimize --optimize-runs=200 --bin --abi -o build ' + targetName + '.sol\n' +
+    '  then copy the .bin here:  cp /tmp/pfs-deploy/build/' + targetName + '_sol_' + targetName + '.bin nft/' + targetName + '.bin'
+  );
 }
 
 function buildCreationData(bytecode, treasury) {
+  if (IS_VAKED) {
+    // VAKED constructor has 0 arguments
+    const data = hexBytes(bytecode);
+    if (!/^6080/i.test(data)) {
+      console.warn('warning: bytecode does not start with 0x6080 — this does not look like standard init code.');
+    }
+    return '0x' + data;
+  }
   // Constructor: PaintingsForSecrets(address initialTreasury)
   // ABI-encode the single address arg: left-padded into a 32-byte word.
   const data = hexBytes(bytecode) + argAddress(treasury);
@@ -102,7 +124,7 @@ function parseWeiHex(v, label) {
 
 function usage() {
   console.log(
-    'usage: PRIVATE_KEY=0x... node nft/deploy.js [--broadcast] [--bytecode <hex|file>] [--help]\n' +
+    'usage: PRIVATE_KEY=0x... node nft/deploy.js [--contract PFS|VAKED] [--vaked] [--broadcast] [--bytecode <hex|file>] [--help]\n' +
     'env: TREASURY, RPC_URL, BYTECODE, NONCE, GAS_PRICE_WEI, GAS_LIMIT_MULT'
   );
 }
@@ -146,13 +168,16 @@ export async function main() {
     priv,
   });
 
-  console.log('=== PaintingsForSecrets deployment (Polygon mainnet, chain id ' + chain.CHAIN_ID + ') ===');
+  const targetName = IS_VAKED ? 'VAKED (Mineable ERC-20)' : 'PaintingsForSecrets (ERC-721)';
+  console.log('=== ' + targetName + ' deployment (Polygon mainnet, chain id ' + chain.CHAIN_ID + ') ===');
   console.log('from:            ' + from);
-  console.log('treasury:        ' + treasury + (treasury === DEFAULT_TREASURY ? ' (default — override with TREASURY=... if needed)' : ''));
+  if (!IS_VAKED) {
+    console.log('treasury:        ' + treasury + (treasury === DEFAULT_TREASURY ? ' (default — override with TREASURY=... if needed)' : ''));
+  }
   console.log('nonce:           ' + nonce.toString());
   console.log('gasPrice:        ' + gasPrice.toString() + ' wei');
   console.log('gasLimit:        ' + BigInt('0x' + gasLimit).toString());
-  console.log('data length:     ' + (data.length - 2) / 2 + ' bytes (init code + constructor arg)');
+  console.log('data length:     ' + (data.length - 2) / 2 + ' bytes (init code' + (IS_VAKED ? '' : ' + constructor arg') + ')');
   console.log('predicted addr:  ' + predicted);
   console.log('rpc:             ' + RPC_URL);
   console.log('signed tx:       ' + signed);
