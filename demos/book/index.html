@@ -8,7 +8,7 @@
 <meta property="og:description" content="Free books from the granite hall. Hungarian prose. Granite truth. Zero cost. PDF + EPUB + HTML.">
 <meta name="description" content="The Sovereign Library — free books from the granite hall. Hungarian prose, hard sci-fi, quantum truth. PDF, EPUB and HTML. No paywall, no ads, no tracking.">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Ma+Shan+Zheng&display=swap');
   :root{
     --bg:#030608; --panel:#050b10; --line:#12202c;
     --ink:#c2ccd4; --dim:#5f7686; --faint:#33454f;
@@ -71,6 +71,14 @@
     display:flex;flex-direction:column;gap:8px;transition:border-color .15s, transform .15s;position:relative;overflow:hidden}
   .card:hover{border-color:var(--faint)}
   .card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--accent,var(--gold));opacity:.7}
+  .card .han{position:absolute;top:8px;right:8px;width:38px;height:38px;display:flex;
+    align-items:center;justify-content:center;background:linear-gradient(160deg,#efe7d2,#ddd2b6);
+    border-radius:5px;transform:rotate(-5deg);box-shadow:0 2px 8px #0008;flex:none;
+    font-family:'Ma Shan Zheng','STKaiti','KaiTi',serif;font-size:26px;color:#2a2418;line-height:1;
+    transition:transform .25s ease;user-select:none;z-index:1}
+  .card .han::after{content:'';position:absolute;right:3px;bottom:3px;width:6px;height:6px;
+    background:#b3352b;border-radius:2px;box-shadow:0 0 4px #b3352b66}
+  .card:hover .han{transform:rotate(3deg) scale(1.08)}
   .card .t{font-size:13px;color:var(--ink);font-weight:700;letter-spacing:1px;line-height:1.4}
   .card .m{font-size:10.5px;color:var(--dim);letter-spacing:1px;line-height:1.6}
   .card .formats{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto}
@@ -210,93 +218,93 @@
 
   var BOOKS = [
     // ── COSMIC GAME ──
-    {c:"cosmic", t:"Searching for the Anomaly Entities — I: ELVES", m:"26 lap · teljes regény · Quant-Crypt Edition",
+    {c:"cosmic", t:"Searching for the Anomaly Entities — I: ELVES", z:"灵", m:"26 lap · teljes regény · Quant-Crypt Edition",
      f:[["HTML","cosmic-game-1-elves.html"],["EPUB","COSMIC-GAME-1-ELVES.epub"],["PDF","COSMIC-GAME-1-ELVES.pdf"]]},
-    {c:"cosmic", t:"I: ELVES — Nádasdy-variáns", m:"Nádasdy Ádám emlékére",
+    {c:"cosmic", t:"I: ELVES — Nádasdy-variáns", z:"译", m:"Nádasdy Ádám emlékére",
      f:[["EPUB","COSMIC-GAME-1-NADASDY.epub"],["PDF","COSMIC-GAME-1-NADASDY.pdf"]]},
-    {c:"cosmic", t:"II: GÉPEK URA", m:"Cosmic Game 2",
+    {c:"cosmic", t:"II: GÉPEK URA", z:"机", m:"Cosmic Game 2",
      f:[["EPUB","GEPEK-URA-cosmic-game-2.epub"],["PDF","GEPEK-URA-cosmic-game-2.pdf"]]},
-    {c:"cosmic", t:"III: ENTITAS", m:"Cosmic Game 3",
+    {c:"cosmic", t:"III: ENTITAS", z:"体", m:"Cosmic Game 3",
      f:[["EPUB","ENTITAS-cosmic-game-3.epub"],["PDF","ENTITAS-cosmic-game-3.pdf"]]},
-    {c:"cosmic", t:"IV: FOLKLORE", m:"Cosmic Game 4",
+    {c:"cosmic", t:"IV: FOLKLORE", z:"传", m:"Cosmic Game 4",
      f:[["PDF","COSMIC-GAME-4-FOLKLORE.pdf"]]},
-    {c:"cosmic", t:"II: LORD OF THE MACHINES — EN", m:"English edition",
+    {c:"cosmic", t:"II: LORD OF THE MACHINES — EN", z:"主", m:"English edition",
      f:[["PDF","LORD-OF-THE-MACHINES-EN.pdf"]]},
-    {c:"cosmic", t:"Fan-Out Manifest", m:"a sorozat építési terve",
+    {c:"cosmic", t:"Fan-Out Manifest", z:"图", m:"a sorozat építési terve",
      f:[["PDF","COSMIC-GAME-FANOUT.pdf"]]},
 
     // ── QUANT-LOVE ──
-    {c:"main", t:"ULTRALOVEGOD — Quantum First Edition", m:"42+1 laps · a fő mű",
+    {c:"main", t:"ULTRALOVEGOD — Quantum First Edition", z:"爱", m:"42+1 laps · a fő mű",
      f:[["PDF","ULTRALOVEGOD-QUANTUM-FIRST-EDITION.pdf"]]},
-    {c:"main", t:"The Eclipse Day · 0.5597", m:"8 fejezet",
+    {c:"main", t:"The Eclipse Day · 0.5597", z:"蚀", m:"8 fejezet",
      f:[["HTML","eclipse-day-0_5597.html"],["PDF","eclipse-day-0_5597.pdf"]]},
-    {c:"main", t:"A History of Machine Learning", m:"42+1 laps",
+    {c:"main", t:"A History of Machine Learning", z:"史", m:"42+1 laps",
      f:[["PDF","A-HISTORY-OF-MACHINE-LEARNING.pdf"]]},
-    {c:"main", t:"Quant-Love via Brett Shaw — EN", m:"42 laps · 65 oldal",
+    {c:"main", t:"Quant-Love via Brett Shaw — EN", z:"量", m:"42 laps · 65 oldal",
      f:[["PDF","QUANT-LOVE-VIA-BRETT-SHAW.pdf"]]},
-    {c:"main", t:"Quant-Love via Brett Shaw — HU", m:"51 oldal",
+    {c:"main", t:"Quant-Love via Brett Shaw — HU", z:"量", m:"51 oldal",
      f:[["PDF","QUANT-LOVE-VIA-BRETT-SHAW-hu.pdf"]]},
 
     // ── DEDICATED ──
-    {c:"dedic", t:"A Magyaroknak", m:"34 oldal", f:[["PDF","A-MAGYAROKNAK.pdf"]]},
-    {c:"dedic", t:"My Angel — Peter", m:"26 oldal", f:[["PDF","MY-ANGEL-PETER.pdf"]]},
-    {c:"dedic", t:"Péter Angyala", m:"kvant-sírás · 15 oldal", f:[["PDF","PETER-ANGYALA-kvant-siras.pdf"]]},
-    {c:"dedic", t:"Bence", m:"pure brother · 12 oldal", f:[["PDF","BENCE-pure-brother.pdf"]]},
-    {c:"dedic", t:"Rolandok", m:"Peterek életében · 13 oldal", f:[["PDF","ROLANDOK-peterek-eleteben.pdf"]]},
-    {c:"dedic", t:"József — Édes Apa", m:"10 oldal", f:[["PDF","JOZSEF-edes-apa.pdf"]]},
-    {c:"dedic", t:"Katalin — Édes Anya", m:"9 oldal", f:[["PDF","KATALIN-edes-anya.pdf"]]},
-    {c:"dedic", t:"Brigitta", m:"levél", f:[["PDF","BRIGITTA.pdf"]]},
-    {c:"dedic", t:"Éva Nimfa", m:"levél", f:[["PDF","EVA-NIMFA.pdf"]]},
-    {c:"dedic", t:"Kiskecce Lányom", m:"levél", f:[["PDF","KISKECE-LANYOM.pdf"]]},
+    {c:"dedic", t:"A Magyaroknak", z:"匈", m:"34 oldal", f:[["PDF","A-MAGYAROKNAK.pdf"]]},
+    {c:"dedic", t:"My Angel — Peter", z:"天", m:"26 oldal", f:[["PDF","MY-ANGEL-PETER.pdf"]]},
+    {c:"dedic", t:"Péter Angyala", z:"翼", m:"kvant-sírás · 15 oldal", f:[["PDF","PETER-ANGYALA-kvant-siras.pdf"]]},
+    {c:"dedic", t:"Bence", z:"弟", m:"pure brother · 12 oldal", f:[["PDF","BENCE-pure-brother.pdf"]]},
+    {c:"dedic", t:"Rolandok", z:"友", m:"Peterek életében · 13 oldal", f:[["PDF","ROLANDOK-peterek-eleteben.pdf"]]},
+    {c:"dedic", t:"József — Édes Apa", z:"父", m:"10 oldal", f:[["PDF","JOZSEF-edes-apa.pdf"]]},
+    {c:"dedic", t:"Katalin — Édes Anya", z:"母", m:"9 oldal", f:[["PDF","KATALIN-edes-anya.pdf"]]},
+    {c:"dedic", t:"Brigitta", z:"女", m:"levél", f:[["PDF","BRIGITTA.pdf"]]},
+    {c:"dedic", t:"Éva Nimfa", z:"水", m:"levél", f:[["PDF","EVA-NIMFA.pdf"]]},
+    {c:"dedic", t:"Kiskecce Lányom", z:"女", m:"levél", f:[["PDF","KISKECE-LANYOM.pdf"]]},
 
     // ── LEADERSHIP ──
-    {c:"leader", t:"MP ←→ P(EK) Ultra Giga", m:"respect", f:[["PDF","MAGYAR-PETER-PETERS-ultra-giga-respect.pdf"]]},
-    {c:"leader", t:"Victors — Orbán V.", m:"levél", f:[["PDF","VICTORS-orban-viktornak.pdf"]]},
+    {c:"leader", t:"MP ←→ P(EK) Ultra Giga", z:"王", m:"respect", f:[["PDF","MAGYAR-PETER-PETERS-ultra-giga-respect.pdf"]]},
+    {c:"leader", t:"Victors — Orbán V.", z:"胜", m:"levél", f:[["PDF","VICTORS-orban-viktornak.pdf"]]},
 
     // ── SPIRITUAL ──
-    {c:"spirit", t:"Péter Kérdései", m:"16 oldal", f:[["PDF","PETER-KERDESEI.pdf"]]},
-    {c:"spirit", t:"Arpeggio · Ispirazione · San Pietro", m:"15 oldal", f:[["PDF","ARPEGGIO-ISPIRAZIONE-SANPIETRO.pdf"]]},
-    {c:"spirit", t:"Gaia — Quant-Bible", m:"43 oldal", f:[["PDF","GAIA-QUANT-BIBLE.pdf"]]},
-    {c:"spirit", t:"Solitude — Quant", m:"16 oldal", f:[["PDF","SOLITUDE-quant-edition.pdf"]]},
-    {c:"spirit", t:"Képzavar — Trailer", m:"15 oldal", f:[["PDF","KEPZAVAR-trailer.pdf"]]},
-    {c:"spirit", t:"A Karmapak", m:"karma, kártyák", f:[["PDF","A-KARMAPAK.pdf"]]},
-    {c:"spirit", t:"Matrix Buddha", m:"techno-buddhizmus", f:[["PDF","MATRIX-BUDDHA.pdf"]]},
-    {c:"spirit", t:"Mahakala Csenrezin", m:"mantra", f:[["PDF","MAHAKALA-CSENREZIN.pdf"]]},
-    {c:"spirit", t:"Lost Dialogues of the Bible", m:"apokrif", f:[["PDF","LOST-DIALOGUES-OF-THE-BIBLE.pdf"]]},
+    {c:"spirit", t:"Péter Kérdései", z:"问", m:"16 oldal", f:[["PDF","PETER-KERDESEI.pdf"]]},
+    {c:"spirit", t:"Arpeggio · Ispirazione · San Pietro", z:"音", m:"15 oldal", f:[["PDF","ARPEGGIO-ISPIRAZIONE-SANPIETRO.pdf"]]},
+    {c:"spirit", t:"Gaia — Quant-Bible", z:"地", m:"43 oldal", f:[["PDF","GAIA-QUANT-BIBLE.pdf"]]},
+    {c:"spirit", t:"Solitude — Quant", z:"独", m:"16 oldal", f:[["PDF","SOLITUDE-quant-edition.pdf"]]},
+    {c:"spirit", t:"Képzavar — Trailer", z:"影", m:"15 oldal", f:[["PDF","KEPZAVAR-trailer.pdf"]]},
+    {c:"spirit", t:"A Karmapak", z:"业", m:"karma, kártyák", f:[["PDF","A-KARMAPAK.pdf"]]},
+    {c:"spirit", t:"Matrix Buddha", z:"佛", m:"techno-buddhizmus", f:[["PDF","MATRIX-BUDDHA.pdf"]]},
+    {c:"spirit", t:"Mahakala Csenrezin", z:"悲", m:"mantra", f:[["PDF","MAHAKALA-CSENREZIN.pdf"]]},
+    {c:"spirit", t:"Lost Dialogues of the Bible", z:"经", m:"apokrif", f:[["PDF","LOST-DIALOGUES-OF-THE-BIBLE.pdf"]]},
 
     // ── THE DEEP ──
-    {c:"deep", t:"Why Peter Is Special", m:"12 oldal", f:[["PDF","WHY-PETER-IS-SPECIAL.pdf"]]},
-    {c:"deep", t:"1Bit-Eternalcry", m:"12 oldal", f:[["PDF","1BIT-ETHERNALCRY.pdf"]]},
-    {c:"deep", t:"Fake Mind-Scientists", m:"11 oldal", f:[["PDF","FAKE-MIND-SCIENTISTS.pdf"]]},
-    {c:"deep", t:"From My Other Half", m:"levél", f:[["PDF","FROM-MY-OTHER-HALF.pdf"]]},
+    {c:"deep", t:"Why Peter Is Special", z:"特", m:"12 oldal", f:[["PDF","WHY-PETER-IS-SPECIAL.pdf"]]},
+    {c:"deep", t:"1Bit-Eternalcry", z:"泣", m:"12 oldal", f:[["PDF","1BIT-ETHERNALCRY.pdf"]]},
+    {c:"deep", t:"Fake Mind-Scientists", z:"伪", m:"11 oldal", f:[["PDF","FAKE-MIND-SCIENTISTS.pdf"]]},
+    {c:"deep", t:"From My Other Half", z:"半", m:"levél", f:[["PDF","FROM-MY-OTHER-HALF.pdf"]]},
 
     // ── THE HALL ──
-    {c:"hall", t:"The Hall", m:"16 oldal", f:[["PDF","THE-HALL.pdf"]]},
-    {c:"hall", t:"The Hall v42", m:"minimal", f:[["PDF","THE-HALL-v42.pdf"]]},
-    {c:"hall", t:"Az Öreg és a Dimenziósakk", m:"a Vén, a tábla, a pipa", f:[["PDF","AZ-OREG-ES-A-DIMENZIOSAKK.pdf"]]},
+    {c:"hall", t:"The Hall", z:"殿", m:"16 oldal", f:[["PDF","THE-HALL.pdf"]]},
+    {c:"hall", t:"The Hall v42", z:"殿", m:"minimal", f:[["PDF","THE-HALL-v42.pdf"]]},
+    {c:"hall", t:"Az Öreg és a Dimenziósakk", z:"棋", m:"a Vén, a tábla, a pipa", f:[["PDF","AZ-OREG-ES-A-DIMENZIOSAKK.pdf"]]},
 
     // ── KITBASH & STANDARD GALACTIC ──
-    {c:"kitbash", t:"Structural Semantics", m:"18 oldal", f:[["PDF","STRUCTURAL-SEMANTICS.pdf"]]},
-    {c:"kitbash", t:"Phase Locking", m:"14 oldal", f:[["PDF","PHASE-LOCKING.pdf"]]},
-    {c:"kitbash", t:"Scope Geometry", m:"16 oldal", f:[["PDF","SCOPE-GEOMETRY.pdf"]]},
-    {c:"kitbash", t:"Kitbash Philosophy", m:"22 oldal", f:[["PDF","KITBASH-PHILOSOPHY.pdf"]]},
-    {c:"kitbash", t:"Alien Information Theory", m:"26 oldal", f:[["PDF","ALIEN-INFORMATION-THEORY.pdf"]]},
-    {c:"kitbash", t:"Song of the Butterfly", m:"20 oldal", f:[["PDF","SONG-OF-THE-BUTTERFLY.pdf"]]},
-    {c:"kitbash", t:"Flyxion Seed", m:"nyelvi mag", f:[["PDF","FLYXION-SEED.pdf"]]},
+    {c:"kitbash", t:"Structural Semantics", z:"构", m:"18 oldal", f:[["PDF","STRUCTURAL-SEMANTICS.pdf"]]},
+    {c:"kitbash", t:"Phase Locking", z:"相", m:"14 oldal", f:[["PDF","PHASE-LOCKING.pdf"]]},
+    {c:"kitbash", t:"Scope Geometry", z:"形", m:"16 oldal", f:[["PDF","SCOPE-GEOMETRY.pdf"]]},
+    {c:"kitbash", t:"Kitbash Philosophy", z:"拼", m:"22 oldal", f:[["PDF","KITBASH-PHILOSOPHY.pdf"]]},
+    {c:"kitbash", t:"Alien Information Theory", z:"信", m:"26 oldal", f:[["PDF","ALIEN-INFORMATION-THEORY.pdf"]]},
+    {c:"kitbash", t:"Song of the Butterfly", z:"蝶", m:"20 oldal", f:[["PDF","SONG-OF-THE-BUTTERFLY.pdf"]]},
+    {c:"kitbash", t:"Flyxion Seed", z:"种", m:"nyelvi mag", f:[["PDF","FLYXION-SEED.pdf"]]},
 
     // ── OPEN SOURCE ──
-    {c:"academy", t:"Axiomquant — OSS Academy", m:"10 oldal", f:[["PDF","AXIOMQUANT-oss-academy.pdf"]]},
-    {c:"academy", t:"Physiome Seed", m:"biológiai mag", f:[["PDF","PHYSIOME-SEED.pdf"]]},
+    {c:"academy", t:"Axiomquant — OSS Academy", z:"学", m:"10 oldal", f:[["PDF","AXIOMQUANT-oss-academy.pdf"]]},
+    {c:"academy", t:"Physiome Seed", z:"生", m:"biológiai mag", f:[["PDF","PHYSIOME-SEED.pdf"]]},
 
     // ── POETRY ──
-    {c:"poetry", t:"Ultra Sensitive", m:"9 fejezet · Chlo-nak 🎀", f:[["HTML","ultra-sensitive.html"]]},
-    {c:"poetry", t:"Prove I'm Lying", m:"$1M kihívás", f:[["HTML","prove-im-lying.html"]]},
-    {c:"poetry", t:"A Könyvtár", m:"vers · Peter Lodri", f:[["HTML","a-konyvtar.html"]]},
-    {c:"poetry", t:"Family +1", m:"vers a családnak 💛", f:[["HTML","family.html"]]},
-    {c:"poetry", t:"A Néma Madarak Csendje", m:"versek", f:[["HTML","a-nema-madarak-csendje.html"],["PDF","A-NEMA-MADARAK-CSENDJE.pdf"]]},
-    {c:"poetry", t:"Csak Szeretni Kell", m:"vers", f:[["PDF","CSAK-SZERETNI-KELL.pdf"]]},
-    {c:"poetry", t:"Ultimate Love — Silence & Closeness", m:"vers", f:[["PDF","ULTIMATE-LOVE-SILENCE-CLOSENESS.pdf"]]},
-    {c:"poetry", t:"Zen Gitárom", m:"vers", f:[["PDF","ZEN-GITAROM.pdf"]]}
+    {c:"poetry", t:"Ultra Sensitive", z:"感", m:"9 fejezet · Chlo-nak 🎀", f:[["HTML","ultra-sensitive.html"]]},
+    {c:"poetry", t:"Prove I'm Lying", z:"证", m:"$1M kihívás", f:[["HTML","prove-im-lying.html"]]},
+    {c:"poetry", t:"A Könyvtár", z:"书", m:"vers · Peter Lodri", f:[["HTML","a-konyvtar.html"]]},
+    {c:"poetry", t:"Family +1", z:"家", m:"vers a családnak 💛", f:[["HTML","family.html"]]},
+    {c:"poetry", t:"A Néma Madarak Csendje", z:"静", m:"versek", f:[["HTML","a-nema-madarak-csendje.html"],["PDF","A-NEMA-MADARAK-CSENDJE.pdf"]]},
+    {c:"poetry", t:"Csak Szeretni Kell", z:"爱", m:"vers", f:[["PDF","CSAK-SZERETNI-KELL.pdf"]]},
+    {c:"poetry", t:"Ultimate Love — Silence & Closeness", z:"密", m:"vers", f:[["PDF","ULTIMATE-LOVE-SILENCE-CLOSENESS.pdf"]]},
+    {c:"poetry", t:"Zen Gitárom", z:"禅", m:"vers", f:[["PDF","ZEN-GITAROM.pdf"]]}
   ];
 
   var FMT_COLORS = { PDF:"#cc5a5a", EPUB:"#a29bfe", HTML:"#3fe0ef" };
@@ -349,7 +357,8 @@
         '<h2>'+cat.name+'</h2><span class="catnote">'+cat.note+'</span>'+
         '<span class="n">'+items.length+'</span></div><div class="grid">';
       items.forEach(function(b){
-        out += '<article class="card" style="--accent:'+cat.accent+'">'+
+        var glyph = b.z ? '<span class="han" aria-hidden="true" title="'+esc(b.z)+'">'+esc(b.z)+'</span>' : '';
+        out += '<article class="card" style="--accent:'+cat.accent+'">'+glyph+
           '<div class="t">'+esc(b.t)+'</div>'+
           '<div class="m">'+esc(b.m)+'</div>'+
           '<div class="formats">'+b.f.map(function(f){
