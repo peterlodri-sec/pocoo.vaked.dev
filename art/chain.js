@@ -254,7 +254,7 @@ function signLegacyTx({ nonce, gasPrice, gasLimit, to, value, data, priv }) {
   let s = BigInt('0x' + bytesToHex(sig.slice(33, 65)));
   const rec = sig[0] & 1;
   const v = BigInt(CHAIN_ID) * 2n + 35n + BigInt(rec);
-  const signed = rlpList([...fields, hexToBytes(v.toString(16)), toFixed32(r), toFixed32(s)]);
+  const signed = rlpList([...fields, hexToBytes(v.toString(16)), bigintToBytes(r), bigintToBytes(s)]);
   return '0x' + bytesToHex(signed);
 }
 
