@@ -15,7 +15,7 @@ const RPCS = [
   'https://polygon-bor-rpc.publicnode.com',
 ];
 const KEY_STORE = 'art_vaked_key';
-const KDF_ITERATIONS = 210000; // PBKDF2-HMAC-SHA256
+const KDF_ITERATIONS = 600000; // PBKDF2-HMAC-SHA256 (OWASP ≥600k)
 
 const memoryStore = new Map();
 const store = {
@@ -151,7 +151,7 @@ async function encryptPrivateKey(privHex, password) {
     { name: 'AES-GCM', iv }, key, hexToBytes(privHex)
   );
   const blob = {
-    v: 1,
+    v: 2,
     kdf: 'PBKDF2-SHA256',
     iters: KDF_ITERATIONS,
     alg: 'AES-256-GCM',
@@ -165,7 +165,7 @@ async function encryptPrivateKey(privHex, password) {
 function hasVault() {
   const raw = store.getItem(KEY_STORE);
   if (!raw) return false;
-  try { return JSON.parse(raw).v === 1; } catch (e) { return false; }
+  try { const v = JSON.parse(raw).v; return v === 1 || v === 2; } catch (e) { return false; }
 }
 
 function getVaultRaw() {
@@ -177,13 +177,21 @@ async function unlock(password) {
   if (!raw) return { ok: false, reason: 'no-vault' };
   let blob;
   try { blob = JSON.parse(raw); } catch (e) { return { ok: false, reason: 'bad-vault' }; }
-  if (!blob || blob.v !== 1) return { ok: false, reason: 'bad-vault' };
+  if (!blob || (blob.v !== 1 && blob.v !== 2)) return { ok: false, reason: 'bad-vault' };
   try {
     const key = await kdfKey(password, hexToBytes(blob.salt), blob.iters);
     const pt = await crypto.subtle.decrypt(
       { name: 'AES-GCM', iv: hexToBytes(blob.iv) }, key, hexToBytes(blob.ct)
     );
     sessionKey = '0x' + bytesToHex(new Uint8Array(pt));
+    if (blob.v === 1) {
+      // migrate v1 (210k iters) → v2 (600k iters): re-encrypt with the new KDF.
+      // Best-effort: a failed write must not turn a successful unlock into an
+      // error — the v:1 blob stays readable and migrates on the next unlock.
+      try {
+        await encryptPrivateKey('0x' + bytesToHex(new Uint8Array(pt)), password);
+      } catch (e) { /* keep the v:1 blob; still decryptable next time */ }
+    }
     return { ok: true, address: privateToAddress(sessionKey) };
   } catch (e) {
     sessionKey = null;
@@ -214,6 +222,7 @@ async function rpc(method, params) {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ jsonrpc: '2.0', id: 1, method, params }),
+        signal: AbortSignal.timeout(10_000),
       });
       const j = await res.json();
       if (j.error) throw new Error(j.error.message);
@@ -263,13 +272,8 @@ async function sendRawTx({ to, value, data }) {
   const from = privateToAddress(sessionKey);
   const nonce = await rpc('eth_getTransactionCount', [from, 'pending']);
   const gasPrice = await rpc('eth_gasPrice', []);
-  let gasLimit;
-  try {
-    const est = await rpc('eth_estimateGas', [{ from, to, value, data }]);
-    gasLimit = (BigInt(est) * 2n).toString(16);
-  } catch (e) {
-    gasLimit = '16e360';
-  }
+  const est = await rpc('eth_estimateGas', [{ from, to, value, data }]);
+  const gasLimit = (BigInt(est) * 2n).toString(16);
   const signed = signLegacyTx({ nonce, gasPrice, gasLimit, to, value, data, priv: sessionKey });
   return rpc('eth_sendRawTransaction', [signed]);
 }
