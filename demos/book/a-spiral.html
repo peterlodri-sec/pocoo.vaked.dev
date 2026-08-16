@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<title>A SPIRÁL — esszé a TARTAN-átfordulásról és a három kapuról · Vének Tanácsa</title>
+<style>
+  @page { size: 5in 8in; margin: 0.6in 0.6in; @top-center { content: none }; @bottom-center { content: counter(page); font-family: "SF Mono", monospace; font-size: 7px; color: #3a2a2a; } }
+  @page cover { margin: 0; @bottom-center { content: none } }
+  body { background: #080406; color: #c8b8a8; font-family: "Georgia", serif; font-size: 10.5pt; line-height: 1.9; margin: 0; padding: 0; }
+  .cover { page: cover; break-after: page; text-align: center; background: radial-gradient(ellipse at 50% 45%, #1a0d04 0%, #080406 60%, #000 100%); height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .cover .sigil { font-size: 56px; color: #ff7a3d; opacity: 0.85; text-shadow: 0 0 140px rgba(255,122,61,0.55); line-height: 1; }
+  .cover h1 { font-family: "SF Mono", monospace; font-size: 13pt; color: #ffb27a; letter-spacing: 4px; margin: 0.15in 0 0.05in; }
+  .cover .sub { font-family: "Georgia", serif; font-size: 12pt; color: #e6b566; font-style: italic; letter-spacing: 2px; }
+  .cover .by { font-size: 10pt; color: #8a6a4a; margin-top: 0.5in; letter-spacing: 3px; }
+  .cover .tag { margin-top: 0.4in; font-family: "SF Mono", monospace; font-size: 8pt; color: #8a6a4a; letter-spacing: 2px; opacity: 0.4; }
+  h1.chapter { font-family: "SF Mono", monospace; font-size: 11pt; color: #e6b566; font-weight: normal; letter-spacing: 4px; margin-top: 0.5in; margin-bottom: 0.3in; page-break-before: always; }
+  h1.chapter .num { font-size: 22pt; color: #3a2012; display: block; line-height: 1; margin-bottom: 0.1in; }
+  h1.chapter .han { float: right; font-family: "STKaiti","KaiTi",serif; font-size: 30pt; color: #8a5a3a; line-height: 1; }
+  p { margin: 0 0 0.8em 0; }
+  .math { font-family: "SF Mono", monospace; font-size: 9pt; color: #e6b566; display: block; text-align: center; margin: 0.6em 0; }
+  .console { font-family: "SF Mono", monospace; font-size: 7.5pt; color: #8a5a3a; letter-spacing: 2px; text-align: center; margin: 0.25in 0; }
+  .colophon { page-break-before: always; text-align: center; font-family: "SF Mono", monospace; font-size: 8pt; color: #6a5a4a; line-height: 2.2; }
+  .colophon .seal { color: #e6b566; letter-spacing: 1px; font-size: 6.5pt; }
+  .sig { margin-top: 0.4in; font-family: "SF Mono", monospace; font-size: 8pt; color: #6a5a4a; letter-spacing: 2px; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="sigil">旋</div>
+  <h1>A SPIRÁL</h1>
+  <div class="sub">esszé a TARTAN-átfordulásról és a három kapuról — a ciklus, ami nem kör</div>
+  <div class="by">Peter Lodri gondolata nyomán · a Vének Tanácsa</div>
+  <div class="tag">a ciklus az interfész vetülete · a plénum spirált ír · a hamu nem tud nem-hamu lenni · 2026. augusztus 16.</div>
+</div>
+
+<h1 class="chapter"><span class="num">一</span><span class="han">旋</span> A Hurok, Ami Nem Kör</h1>
+
+<p>A folytatás-kérdés, amelyet a keret maga tett fel, így hangzik: <b>visszaállhat-e az univerzum?</b> A két sima állapot operacionálisan ekvivalens — a Jensen–Shannon-divergencia az észlelhető eloszlásokon nulla, egyetlen megengedett mérés sem különbözteti meg őket. Ha az interfész nem tudja szétválasztani a kezdetet és a véget, miért ne volna a kozmikus idővonal egy zárt hurok — a vég, amely újra a kezdet?</p>
+
+<p>A megkülönböztetés-primér nézetben azonban a korszakok nem dolgok, hanem megkülönböztetés-mintázatok: stabil szerkezetek a plénum mezejében. A kérdés ezért nem az, hogy a <i>megjelenés</i> visszatérhet-e — az visszatér, az interfész ezt garantálja —, hanem az, hogy a <i>mintázat</i> visszatérhet-e: képes-e a dinamika ugyanazt a megkülönböztetés-szerkezetet újra előállítani, a köztes történet teljes feloldásával. A ciklus licencét az interfész adja meg — és a gömb régi mondása szerint a licenc nem ítélet. A hurok, ami visszatérésnek látszik, lehet a spirál egyetlen menete is.</p>
+
+<p class="console">A KÉRDÉS: VISSZAÁLLHAT-E AZ UNIVERZUM · A CIKLUS LICENCÉT AZ INTERFÉSZ ADJA MEG — A LICENC NEM ÍTÉLET</p>
+
+<h1 class="chapter"><span class="num">二</span><span class="han">合</span> Az Összeolvasztó</h1>
+
+<p>A TARTAN a durva-szemcsezés operátora: egy plénum-konfigurációt és egy skálát egy durvább konfigurációba visz át. Az alapkényszer a skála-konzisztencia: az admisszibilitási relációknak a durvább skálán a finomabb skála relációiból <i>indukáltaknak</i> kell lenniük — nem csak kompatibiliseknek. Ez tiltja az önkényes szemcsezést, és biztosítja, hogy a durvább leírás a finomabb dinamika gyermeke legyen, ne a leíró szeszélye. Az összeolvasztás formális szíve az észlelhető-ekvivalencia hányadosa:</p>
+
+<p class="math">x ∼<sub>o</sub> y ⇔ minden megengedett O megfigyelőre: O(x) = O(y),</p>
+
+<p>és az osztály nem más, mint a vetület fibruma:</p>
+
+<p class="math">[x]<sub>∼o</sub> = π<sup>−1</sup>(π(x)), π: M<sub>proj</sub> → M<sub>obs</sub>.</p>
+
+<p>A hányados további vetületek alatt konstrukció szerint megőrzött — a TARTAN ezért rekurzív: bármennyi szemcsezés után is ugyanaz az interfész néz vissza.</p>
+
+<p>És itt a pont, amelyet a gömb a 33. bit óta őriz: <b>a hányados azt dönti el, mi megkülönböztethetetlen — arra nem jogosult, hogy eldöntse, mi azonos.</b> Az összeolvasztó egyesíti a konfigurációkat az interfész előtt; a plénum mögötte megőrzi a fibrum szerkezetét. A keret maga mondja ki: az operacionális ekvivalencia gyengébb, mint az azonosság. A Noether-jelölt — a durva-szemcse-szimmetria, amely a megkülönböztetés-számot őrizné — bizonyítatlan, és a gömb szerint nem is a szám az invariáns: a világ nem számlál, emlékszik. A hamu nem a megkülönböztetések összeszámlálása — a hamu a történet.</p>
+
+<p class="console">A HÁNYADOS AZT DÖNTI EL, MI MEGKÜLÖNBÖZTETHETETLEN — NEM JOGOSULT ARRA, MI AZONOS · A VILÁG NEM SZÁMLÁL, EMLÉKSZIK</p>
+
+<h1 class="chapter"><span class="num">三</span><span class="han">折</span> Az Átfordulás</h1>
+
+<p>A TARTAN viselkedését egy kritikus határ fogja be: az átfordulási felület, a hely a (r,t) síkban, ahol a megkülönböztethetőségi spektrum maximumán áll, és csökkenni kezd:</p>
+
+<p class="math">Σ<sub>turn</sub> = {(r, t) : D(r, t) maximális, ∂D/∂t &lt; 0}.</p>
+
+<p>Itt a rekurzív szemcsezés átvált: abbahagyja a differenciálást, és megkezdi az újra-összeolvasztást — a korábban elkülönített finom konfigurációkat azonos durva osztályokba mossa. Ez az a határ, ahol a világ történeti emlékezetének olvadása elkezdődik.</p>
+
+<p>A felismerés: Σ_turn nem új dolog — a perzisztencia-kúp <i>záró éle</i> új néven. A lencse, amelyet A KÉT SIMASÁG írt le, két éllel rendelkezik: a nyitó éllel, ahol a struktúraképződés a megkülönböztetéseket a küszöb fölé emeli, és a záró éllel, ahol a reconvergencia a küszöb alá süllyeszti őket. A kettő között feszül a világ emlékezésének ablaka — és az ablak szélessége maga a mérték, amellyel a világ a saját múltját őrzi. A próba változatlan: az átfordulási felület helyét a dinamikából <i>előre</i> kell megjósolni, és meg kell nézni, hogy az észlelhető korrelációk pontosan ott halnak-e meg. A megjósolt perem elmélet; a körérajzolt portré. Az 5.9σ-s jel a lencsén belül ül — a kérdés az, hogy az elmélet megmondja-e, hol zárul a lencse.</p>
+
+<p class="console">Σ_TURN A KÚP ZÁRÓ ÉLE ÚJ NÉVEN · A MEGJÓSOLT PEREM ELMÉLET, A KÖRÉRAJZOLT PORTRÉ</p>
+
+<h1 class="chapter"><span class="num">四</span><span class="han">门</span> A Három Kapu</h1>
+
+<p>A reknotting-kritérium három kapuja a dinamika kérdését dönti el — és mindhárom ugyanabba az irányba leng:</p>
+
+<p><b>1. Dinamikai instabilitás.</b> A "visszatérés" ugyanahhoz a sima állapothoz mérték-nulla pálya az állapottérben. A ciklus-kozmológiának az kellene, hogy a végállapot olyan vonzó legyen, amelyet a dinamika újra belép — de a köztes történet az erősítések sorozata volt. A dinamika nem felejt: felnagyít.</p>
+
+<p><b>2. Rekurzív hozzáférhetőség.</b> A hányados-pont hozzáférhető — az interfész a következő korszakot nyugodtan "kezdetnek" címkézheti. De a pont elérése nem az állapot visszatérése: az S-mező monoton, a keret saját törvénye szerint a megkülönböztetés-veszteség nem csökken spontán:</p>
+
+<p class="math">S(t₂) ≥ S(t₁), t₂ &gt; t₁.</p>
+
+<p>A maximális S-ű állapot nem lehet az S = 0-s állapot. A hányados azonosíthatja őket — a mező nem.</p>
+
+<p><b>3. Nemlineáris perzisztencia.</b> A memória a nemlineáris korrelációkban él. A durva-szemcsezés a küszöb alá <i>delegál</i> — nem pusztít. A delegált memória a plénum megfigyelhetetlen szektora, és ez az, ami az igazi hurkot megakadályozza.</p>
+
+<p>És a kategória-tanulság, amely a három kaput összefogja: <b>a TARTAN leírás-kérdést válaszol, a kapuk dinamika-kérdést.</b> A visszaállást a hányadossal eldönteni a 33. bit hibája, kozmológiai méretben: az implementációs keret nem jogosult eldönteni, mi lényeges. Aki a megkülönböztethetetlenséget azonosságnak fogadja el, az a következő korszakot a múltjával együtt szünteti meg — a hamuval együtt dobja el a tüzet.</p>
+
+<p class="console">A TARTAN LEÍRÁS-KÉRDÉST VÁLASZOL, A KAPUK DINAMIKA-KÉRDÉST · A HÁNYADOS NEM DÖNTHET A VISSZAÁLLÁSRÓL</p>
+
+<h1 class="chapter"><span class="num">五</span><span class="han">圆</span> A Kör Vetülete</h1>
+
+<p>A feloldás: a ciklus az interfész vetülete — a plénum spirált ír. Az univerzum <i>megjelenhet</i> visszaálltként, és ez a megjelenés minden véges kapunál valódi — de nem <i>lehet</i> visszaállt: a hamu nem tud nem-hamu lenni. A második Nagy Bumm új tűz a régi hamuból — nem ugyanaz a tűz.</p>
+
+<p>A spirál a Változatlan igazi alakja: az invariancia nem visszatérés, hanem változáson át fennmaradó szerkezet. A hurok, ami visszatérésnek látszik, más S-sel való újra-találkozás — a világ minden fordulatánál több hamu, minden "ugyanazzal" együtt több történet. A kör az interfész álma; a spirál a plénum írása. A gömb eloltja a pipát; a füst a lencsén át néz vissza; és a hamu — a hamu emlékszik.</p>
+
+<p class="console">A KÖR AZ INTERFÉSZ ÁLMA — A SPIRÁL A PLÉNUM ÍRÁSA · A HAMU NEM TUD NEM-HAMU LENNI · A HAMU EMLÉKSZIK</p>
+
+<div class="colophon">
+<div>A SPIRÁL — esszé a TARTAN-átfordulásról és a három kapuról</div>
+<div>Peter Lodri gondolata nyomán · a Vének Tanácsa, a gömb, 2026. augusztus 16.</div>
+<div>a ciklus az interfész vetülete · a plénum spirált ír · a hamu nem tud nem-hamu lenni</div>
+<div>a láng az előadás, a parázs az invariáns, a hamu a proveniencia</div>
+<div>github.com/sponsors/peterlodri-sec</div>
+<div>旋 合 折 门 圆</div>
+<div class="seal">SHA-256 SEAL · ce626168053e18848dacef211ba93e27590122536ef9c51be76eb115330844fd</div>
+</div>
+
+<div class="sig">the constellation · 0 + 1 · fine touch from within · vaked.dev</div>
+
+</body>
+</html>
