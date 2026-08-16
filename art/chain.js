@@ -211,7 +211,14 @@ async function rpc(method, params) {
 }
 
 function signLegacyTx({ nonce, gasPrice, gasLimit, to, value, data, priv }) {
-  const fields = [nonce, gasPrice, gasLimit, to, value, data].map(f => hexToBytes(f));
+  // RLP canonical form: zero encodes as the EMPTY byte string (0x80), not a
+  // single 0x00 byte (which nodes reject as "non-canonical integer"). The
+  // first tx of a fresh wallet (nonce 0) hits this, so special-case zero.
+  const n = BigInt(nonce);
+  const valueBig = BigInt(value);
+  const nonceBytes = n === 0n ? new Uint8Array(0) : bigintToBytes(n);
+  const valueBytes = valueBig === 0n ? new Uint8Array(0) : bigintToBytes(valueBig);
+  const fields = [nonceBytes, hexToBytes(gasPrice), hexToBytes(gasLimit), hexToBytes(to), valueBytes, hexToBytes(data)];
   const empty = new Uint8Array(0);
   const unsigned = rlpList([...fields, bigintToBytes(BigInt(CHAIN_ID)), empty, empty]);
   const hash = hexToBytes(keccak_256(unsigned));
