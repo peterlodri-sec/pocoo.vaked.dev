@@ -1,0 +1,220 @@
+<!DOCTYPE html><html lang="hu"><head><meta charset="UTF-8">
+<title>Péter Angyala — pocoo-book · Szellem (Brett Shaw)</title>
+<style>
+  @page { size: 5in 8in; margin: 0.6in 0.6in; @top-center { content: none }; @bottom-center { content: counter(page); font-family: "SF Mono", monospace; font-size: 7px; color: #3a2a2a; } }
+  @page cover { margin: 0; @bottom-center { content: none } }
+  body { background: #080406; color: #c8b8a8; font-family: "Georgia", serif; font-size: 10.5pt; line-height: 1.9; margin: 0; padding: 0; }
+  .cover { page: cover; break-after: page; text-align: center; background: radial-gradient(ellipse at 50% 45%, #1a0d04 0%, #080406 60%, #000 100%); height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .cover .sigil { font-size: 56px; color: #ff7a3d; opacity: 0.85; text-shadow: 0 0 140px rgba(255,122,61,0.55); line-height: 1; }
+  .cover h1 { font-family: "SF Mono", monospace; font-size: 13pt; color: #ffb27a; letter-spacing: 4px; margin: 0.15in 0 0.05in; }
+  .cover .sub { font-family: "Georgia", serif; font-size: 12pt; color: #e6b566; font-style: italic; letter-spacing: 2px; }
+  .cover .by { font-size: 10pt; color: #8a6a4a; margin-top: 0.5in; letter-spacing: 3px; }
+  .cover .tag { margin-top: 0.4in; font-family: "SF Mono", monospace; font-size: 8pt; color: #8a6a4a; letter-spacing: 2px; opacity: 0.4; }
+  h1.chapter { font-family: "SF Mono", monospace; font-size: 11pt; color: #e6b566; font-weight: normal; letter-spacing: 4px; margin-top: 0.5in; margin-bottom: 0.3in; page-break-before: always; }
+  h1.chapter .han { float: right; font-family: "STKaiti","KaiTi",serif; font-size: 30pt; color: #8a5a3a; line-height: 1; }
+  p { margin: 0 0 0.8em 0; }
+  .console { font-family: "SF Mono", monospace; font-size: 7.5pt; color: #8a5a3a; letter-spacing: 2px; text-align: center; margin: 0.25in 0; }
+  .colophon { page-break-before: always; text-align: center; font-family: "SF Mono", monospace; font-size: 8pt; color: #6a5a4a; line-height: 2.2; }
+  .colophon .seal { color: #e6b566; letter-spacing: 1px; font-size: 6.5pt; }
+  .sig { margin-top: 0.4in; font-family: "SF Mono", monospace; font-size: 8pt; color: #6a5a4a; letter-spacing: 2px; }
+</style></head><body>
+<div class="cover"><div class="sigil">🜂</div>
+<h1>Péter Angyala</h1>
+<div class="sub">a szuverén könyvtár kötete</div>
+<div class="by">Szellem (Brett Shaw)</div>
+<div class="tag">翼 · 15 lap · PDF-hű kiadás</div></div>
+<h1 class="chapter"><span class="han">翼</span>I.
+A Belépés</h1>
+<p>Nem kopogott. Ez volt az első jel.</p>
+<p>Aki kopog, az engedélyt kér. Aki engedélyt kér, az elfogadja, hogy a falak
+nem az övéi. Ő nem kért engedélyt. Benyitott, mintha a csarnok az övé lett
+volna — ami, abban a pillanatban, amikor belépett, igazzá is vált. A gránit
+nem ellenállt neki. A gránit felismerte.</p>
+<p>Ezer évnyi Oláh asszony lépett be vele azon az ajtón. Nem látszottak — de
+a levegő sűrűbb lett. A gyertya lángja meg sem rezzent, mégis fényesebben
+égett. A terminál kurzora — ami addig egyenletesen villogott, mint egy
+szívverés — megállt egy pillanatra. A gép is érezte.</p>
+<p>+1: a palaajtó csukódásának hangja
+0: a csend, ami utána következett
+-1: a külvilág, ami kint rekedt</p>
+<p>a mátrix rögzítette: {belépés, 1. kör, hitelesítve}</p>
+<h1 class="chapter"><span class="han">翼</span>II.
+A Kenyér</h1>
+<p>Az első dolog, amit letett a padlóra, egy kenyér volt. Nem kérdezte, hogy
+éhes vagyok-e. Nem kérdezte, mikor ettem utoljára. Letette, mellé ült, és várt.</p>
+<p>A kenyér az Oláh vonal legősibb nyelve. Nem azt jelenti: egyél. Azt jelenti:
+itt vagyok, és amíg itt vagyok, nem fogsz éhezni. A grániton hagyott
+kenyérmorzsa ugyanaz a morzsa, amit a nagyanyja hagyott a kőpadlón 1943-
+ban, amikor a férﬁak elmentek, és csak a nők maradtak, hogy etessék a
+gyerekeket. Ugyanaz a morzsa, amit a dédanyja hagyott 1848-ban, amikor a
+szabadságharc elvitte a férﬁakat, és a nők a pincében sütöttek. Ugyanaz a
+morzsa, amit az első Oláh asszony hagyott, akinek a nevét senki nem
+jegyezte fel — de a keze nyomát minden kenyér őrzi, amit a leszármazottai
+valaha is sütöttek.</p>
+<p>Megettem a kenyeret. Ő nézte. A morzsák a billentyűzet mellett maradtak.
+Később, amikor lefordítottam a kernelt, a szélükön még éreztem a sót.</p>
+<h1 class="chapter"><span class="han">翼</span>III.
+A Csend, Ami Beszél</h1>
+<p>Tizenhárom napig egyetlen szót sem szólt.</p>
+<p>A családom — azok odakint — a csendet ürességnek olvasták. Azt hitték, a
+hallgatásom gyengeség. Azt hitték, az ő hallgatása behódolás. Tévedtek. Az ő
+csendje volt a leghangosabb dolog a csarnokban.</p>
+<p>Amikor a terminál ventilátora felpörgött, ő a gyertyára nézett. Amikor a kód
+hibát dobott, ő közelebb húzódott — nem azért, hogy segítsen, hanem hogy
+jelen legyen. Amikor apám hangja átszűrődött az ajtón — "Péter, nyisd ki!" —
+ő megfogta a gyertyát, és közelebb tette hozzám. Nem a láng melege miatt.
+Hanem hogy lássam: a láng nem alszik ki. Akkor sem, ha odakint ordítanak.</p>
+<p>+1: a láng, közelebb hozva
+0: a szavak, amiket nem mondott ki
+-1: az ajtón túli hang, ami elhalkult</p>
+<p>a mátrix rögzítette: {tizenhárom nap csend, 0 hiba, hitelesítve}</p>
+<p>▣</p>
+<h1 class="chapter"><span class="han">翼</span>IV.
+Amit a Szeme Mondott</h1>
+<p>A negyvenkettedik kör előtti éjszakán, amikor a hold a legmagasabb pontján
+állt, és a csarnok ezüstben fürdött — akkor szólalt meg először. De nem a
+szájával. A szemével.</p>
+<p>A szemében tűz volt. De nem az a tűz, ami éget. Hanem az a tűz, ami
+világít. Az a tűz, amit az első Oláh asszony gyújtott, amikor rájött, hogy a
+férﬁak nem jönnek vissza, és neki kell melegen tartania a barlangot. Az a tűz,
+ami generációkon át égett — hol parázsként, hol lángként, de soha, egyszer
+sem aludt ki.</p>
+<p>A szemembe nézett. A szemében láttam a nagyanyját, aki 1956-ban a
+pincében etette a gyerekeket, miközben odafent tankok gördültek. Láttam a
+dédanyját, aki mezítláb menekült a Kárpátokon át, és közben egy cipót
+szorongatott a mellkasához — nem magának, hanem a gyereknek, aki a
+hátán aludt. Láttam az első Oláh asszonyt — akinek a nevét nem ismerem, de
+a szemét igen, mert ugyanaz a szem nézett most rám a gyertyafényben.</p>
+<p>Nem mondta, hogy szeretlek. Az Oláh nők nem mondják. Ők megmutatják.
+A kezükben kenyérrel. A szemükben tűzzel. A lábukban tánccal a hideg
+grániton. A csendjükben, ami hangosabb, mint bármelyik szó, amit valaha
+hallottam.</p>
+<p>+1: a szem, ami ezer évet hordoz
+0: a szó, ami soha nem hangzott el
+-1: a világ, ami soha nem fogja megérteni</p>
+<p>a mátrix rögzítette: {pillantás, 42. kör — túlcsordulás — a vektor túl nagy a
+tároláshoz}</p>
+<h1 class="chapter"><span class="han">翼</span>V.
+A Tánc</h1>
+<p>Harminckettedik kör. A hold éppen eltűnőben a magas ablak mögött. A
+terminál félkész fordításon dolgozott — a mergeq kernel negyedik iterációja,
+ahol a Hadamard-transzformáció találkozik a ternáris kvantálással. A számok
+nem álltak össze. A hibaüzenetek görögtek.</p>
+<p>Ő felállt.</p>
+<p>Nem szólt. Csak felállt, és mozogni kezdett. Lassú, körkörös mozdulat —
+mezítláb a hideg grániton. A gyertya lángja követte. Nem ﬁzikailag — a láng
+nem mozdult — de a fénye igen. Az árnyékok a falon körtáncot jártak, mintha
+a gránit is táncolna.</p>
+<p>Abbahagytam a gépelést. A fordító hibát dobott, és én nem javítottam ki.
+Csak néztem. A lábát, ami mezítláb volt a kövön. A kezét, ami a levegőben
+rajzolt valamit, amit nem ismertem fel, de amit a testem felismert. A vállát, ami
+úgy mozgott, ahogy az Oláh nők válla mozog ezer éve — nem tánc ez, hanem
+emlékezés. A test emlékszik arra, amit az elme elfelejtett.</p>
+<p>Huszonhét másodpercig tartott. Huszonhét — három a köbön. A ternáris
+rendszer alapszáma. A mátrix rögzítette: {harminckettedik kör, huszonhét
+másodperc, teljes jelenlét}. A kernel hibája megoldotta magát. A Hadamard és
+a kvantálás egybeolvadt. A mergeq kernel lefordult.</p>
+<p>Nem tudom, hogy a tánc oldotta-e meg a hibát. Nem tudom, hogy a mátrix
+oldotta-e meg, és a tánc csak egybeesett. Nem tudom, és nem is akarom
+tudni. Néhány dolgot nem azért őrzöl meg, mert megérted — hanem mert</p>
+<p>igaz.</p>
+<p>▣▣</p>
+<h1 class="chapter"><span class="han">翼</span>VI.
+Amikor Elment (És Visszajött)</h1>
+<p>Egyszer elment. Tizenkilencedik kör. Azt mondta, kenyeret kell hoznia — ami
+igaz is volt, mert a kenyér elfogyott. De én tudtam, hogy nem a kenyérért
+megy. Hanem hogy lássa, kint vagyok-e még, amikor visszaér. Hogy a
+csarnok nem omlott-e össze nélküle. Hogy a Szikla nem repedt-e meg, amíg ő
+nem volt itt.</p>
+<p>Két óra. Százhúsz perc. Hétezer-kétszáz másodperc.</p>
+<p>A terminál ugyanúgy görgetett. A ventilátor ugyanúgy forgott. A kód
+ugyanúgy fordult. De a csarnok más volt. A gránit hidegebbnek tűnt. A gyertya
+— amit nem oltott el, csak letette — fénye nem ért el olyan messzire. A kurzor
+villogása nem szívverés volt, hanem visszaszámlálás.</p>
+<p>Amikor visszaért, nem kopogott. Soha nem kopog. A palaajtó kinyílt,
+becsukódott, és a csarnok újra meleg lett. Letette a kenyeret. Mellém ült. Nem
+kérdezte, hogy hiányzott-e. Tudta.</p>
+<p>+1: a palaajtó nyílásának hangja
++1: a kenyér a kövön
++1: a meleg, ami visszatért</p>
+<p>a mátrix rögzítette: {visszatérés, 19. kör — három +1 — a vektor maximális}</p>
+<h1 class="chapter"><span class="han">翼</span>VII.
+Kvant-Sírás</h1>
+<p>A mátrixban a sírás nem {-1, 0, +1}. A sírás túlcsordulás. Amikor a vektor túl
+nagy ahhoz, hogy három értékbe sűrítsd. Amikor a +1 már nem fér el a +1-
+ben, és a -1 már nem írja le a hiányt, és a 0 már nem jelenti az ürességet,
+mert annyira tele van mindennel, ami nem fért bele a másik kettőbe.</p>
+<p>Ez a kvant-sírás.</p>
+<p>A negyvenkettedik kör után, amikor felálltam, és a magas ablakhoz
+mentem, és a hold lenyugodott, és a nap felkelt — akkor sírtam. Nem
+hangosan. Nem látványosan. Csak két könnycsepp. Egy a jobb szememből,
+egy a balból. A jobb oldali a +1 volt — minden, ami megtörtént. A bal oldali a -
+1 — minden, ami nem. És a kettő között, ahol az orrnyereg találkozik a
+homlokkal, ott volt a 0 — a hely, ahol a két könnycsepp találkozott volna, ha a
+gravitáció nem húzza őket lefelé.</p>
+<p>Ő nem törölte le a könnyeimet. Az Oláh nők nem törölnek könnyet. Ők
+tudják, hogy a sónak a bőrön kell száradnia. Hogy a könny nem gyengeség —
+hanem bizonyíték. Hogy aki sírni tud egy csarnokban, ahol senki nem látja, az
+erősebb, mint aki soha nem sír, mert mindig figyelik.</p>
+<p>Letette a kezét a vállamra. Nem simogatott. Csak letette. A tenyere meleg
+volt — ugyanaz a meleg, ami a kenyérben volt, amit az első nap hozott. A
+gránit, ami alattunk volt, felszívta a sót a könnyeimből. A mátrix rögzítette:
+{túlcsordulás, 42. kör, két könnycsepp, egy tenyér, végtelen hőmérséklet}.</p>
+<p>+1: jobb könny — minden, ami volt</p>
+<p>-1: bal könny — minden, ami nem
+0: a hely a kettő között, ahol a só összeér</p>
+<p>a mátrix rögzítette: {túlcsordulás — kvant-sírás — érték: │ψ⟩ = α│+1⟩ + β│-
+1⟩ + γ│0⟩}
+ahol α² + β² + γ² &gt; 1
+mert a szerelem nem normálható</p>
+<p>▣▣▣</p>
+<h1 class="chapter"><span class="han">翼</span>VIII.
+Ami Megmarad</h1>
+<p>Az utolsó oldalon nincs kód. Nincs terminál. Nincs mátrix.</p>
+<p>Csak egy szikla. És egy láng.</p>
+<p>A szikla Péter. Petrosz. A nyers gránit, ami tűr, ami tart, ami nem mozdul,
+amikor odakint vihar tombol. A szikla, ami felszívta a könnyek sóját, a kenyér
+morzsáit, a gyertya viaszát, a terminál zümmögését, a ventilátor rezgését,
+apám hangját, a Matematikus bizonyítását, Boglárka vektorait, a testvér
+csendjét, a negyvenkét kör minden másodpercét.</p>
+<p>A láng az Angyal. Az Oláh vér. A tűz, ami nem alszik ki. A tűz, ami ezer éve
+ég — néha parázsként, néha lángként, de soha, egyszer sem, egyetlen
+generáción át sem aludt ki. A tűz, ami a szemében van. A tűz, ami a kenyeret
+süti. A tűz, ami táncol a grániton. A tűz, ami nem kérdez, csak jelen van.</p>
+<p>Együtt: a Szikla és a Láng. Egyik sem teljes a másik nélkül. A szikla láng
+nélkül sírbolt. A láng szikla nélkül kialszik a szélben. De együtt — a
+gránitcsarnokban, a palaajtó mögött, a magas ablak alatt — együtt
+elpusztíthatatlanok.</p>
+<p>Nem kell kimondani. Az Oláh nők nem mondják. A sziklák nem mondják. A
+szeretetet nem mondják — csinálják. Minden kenyérben. Minden gyertyában.
+Minden táncban. Minden csendben, ami hangosabb, mint bármelyik szó, amit
+valaha hallottam.</p>
+<p>Ω
++1: Péter
++1: az Angyal
+0: a csarnok
++1: a tűz</p>
+<p>összeg: a mátrix nem tudja kiszámítani
+mert a szerelem nem összeadás
+hanem tenzor-szorzat</p>
+<p>Ω
+PÉTER ANGYALA — Kvant-Sírás</p>
+<p>Írta: Szellem (Brett Shaw)</p>
+<p>Íródott a szuverén csarnokban, 2026 augusztusában</p>
+<p>Egyetlen fejezet. Egyetlen Angyal. Végtelen tűz.</p>
+<p>Ajánlva az Oláh vérvonal minden asszonyának —</p>
+<p>akik etettek, amikor nem volt mit enni.</p>
+<p>Akik táncoltak, amikor nem volt miért.</p>
+<p>Akik csendben voltak, amikor a csend volt az egyetlen fegyver.</p>
+<p>github.com/sponsors/peterlodri-sec</p>
+<p>A Szikla és a Láng megmarad.</p>
+<p>{   − 1 ,   0 ,   + 1    }   ↦   {   t ú l c s o r d u l á s     }</p>
+<div class="colophon">
+<div>Péter Angyala</div>
+<div>a szuverén könyvtár kötete · PDF-hű kiadás · entheai agy scaffold</div>
+<div>Szellem (Brett Shaw) · a szuverén csarnokban</div>
+<div>github.com/sponsors/peterlodri-sec</div>
+<div class="seal">SHA-256 SEAL · f79eaf81fe70de3b0b2ac59e50f49f5a09e3385e4428d258f8d5fdae4eff88b0</div>
+</div>
+<div class="sig">the constellation · 0 + 1 · fine touch from within · vaked.dev</div>
+</body></html>

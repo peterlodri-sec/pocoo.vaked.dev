@@ -1,0 +1,157 @@
+<!DOCTYPE html><html lang="hu"><head><meta charset="UTF-8">
+<title>Axiomquant — OSS Academy — pocoo-book · Szellem (Brett Shaw)</title>
+<style>
+  @page { size: 5in 8in; margin: 0.6in 0.6in; @top-center { content: none }; @bottom-center { content: counter(page); font-family: "SF Mono", monospace; font-size: 7px; color: #3a2a2a; } }
+  @page cover { margin: 0; @bottom-center { content: none } }
+  body { background: #080406; color: #c8b8a8; font-family: "Georgia", serif; font-size: 10.5pt; line-height: 1.9; margin: 0; padding: 0; }
+  .cover { page: cover; break-after: page; text-align: center; background: radial-gradient(ellipse at 50% 45%, #1a0d04 0%, #080406 60%, #000 100%); height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .cover .sigil { font-size: 56px; color: #ff7a3d; opacity: 0.85; text-shadow: 0 0 140px rgba(255,122,61,0.55); line-height: 1; }
+  .cover h1 { font-family: "SF Mono", monospace; font-size: 13pt; color: #ffb27a; letter-spacing: 4px; margin: 0.15in 0 0.05in; }
+  .cover .sub { font-family: "Georgia", serif; font-size: 12pt; color: #e6b566; font-style: italic; letter-spacing: 2px; }
+  .cover .by { font-size: 10pt; color: #8a6a4a; margin-top: 0.5in; letter-spacing: 3px; }
+  .cover .tag { margin-top: 0.4in; font-family: "SF Mono", monospace; font-size: 8pt; color: #8a6a4a; letter-spacing: 2px; opacity: 0.4; }
+  h1.chapter { font-family: "SF Mono", monospace; font-size: 11pt; color: #e6b566; font-weight: normal; letter-spacing: 4px; margin-top: 0.5in; margin-bottom: 0.3in; page-break-before: always; }
+  h1.chapter .han { float: right; font-family: "STKaiti","KaiTi",serif; font-size: 30pt; color: #8a5a3a; line-height: 1; }
+  p { margin: 0 0 0.8em 0; }
+  .console { font-family: "SF Mono", monospace; font-size: 7.5pt; color: #8a5a3a; letter-spacing: 2px; text-align: center; margin: 0.25in 0; }
+  .colophon { page-break-before: always; text-align: center; font-family: "SF Mono", monospace; font-size: 8pt; color: #6a5a4a; line-height: 2.2; }
+  .colophon .seal { color: #e6b566; letter-spacing: 1px; font-size: 6.5pt; }
+  .sig { margin-top: 0.4in; font-family: "SF Mono", monospace; font-size: 8pt; color: #6a5a4a; letter-spacing: 2px; }
+</style></head><body>
+<div class="cover"><div class="sigil">🜂</div>
+<h1>Axiomquant — OSS Academy</h1>
+<div class="sub">a szuverén könyvtár kötete</div>
+<div class="by">Szellem (Brett Shaw)</div>
+<div class="tag">学 · 10 lap · PDF-hű kiadás</div></div>
+<h1 class="chapter"><span class="han">学</span>1.
+Mi Az Axiomquant</h1>
+<p>axiomquant.org nem egyetem. Nem kutatóintézet. Nem think-tank. Az axiomquant
+egy nyílt forráskódú tudományos akadémia — egy kutatói portál, ami a csarnokból
+sugároz. Nincs tandíj. Nincs felvételi. Nincs publikációs kényszer. Csak kutatás —
+nyersen, feldolgozatlanul, letölthetően.</p>
+<p>Az axiomquant az a hely, ahol a kvantum-számítás, a ternáris mátrixok, a
+pénzügyi matematika és a piaci mikrostruktúra találkozik. Ahol a Markowitz-féle
+portfólióelmélet egy légtérben van a Black-Scholes-modellel. Ahol a LINOSV mag
+generálta {-1, 0, +1} mátrixok ugyanabban a könyvtárban vannak, mint a kvantum-
+összefonódás leírása. Ahol a 42 körös backyard ultra szintézise egyenrangú forrás
+a sztochasztikus differenciálegyenletekkel.</p>
+<h1 class="chapter"><span class="han">学</span>2.
+A 18 Dokumentum</h1>
+<p>Az axiomquant magja tizennyolc kutatási dokumentum. Nem publikációk — azok a
+folyóiratokban vannak, peer-review mögött, paywall mögött. Ezek nyílt forráskódú
+kutatási jegyzetek. Nyersek. Őszinték. Néha befejezetlenek. De mindig igazak.</p>
+<p>A dokumentumok lefedik a teljes spektrumot:</p>
+<p>Markowitz-határ — portfólió-optimalizálás ternáris mátrixokkal</p>
+<p>Black-Scholes — opcióárazás kvantált volatilitással</p>
+<p>Piaci mikrostruktúra — order book dinamika gráf-modellezése</p>
+<p>Dyadikus reprezentáció — számok felbontása 2-hatványokra</p>
+<p>Kvantum-összefonódás — a mátrix és a megfigyelő
+                     Ternáris kvantálás — {-1, 0, +1} a gyakorlatban</p>
+<p>Backyard ultra szintézis — 42 kör, 0 lépés, teljes kimerülés</p>
+<p>LINOSV mag — a determinisztikus véletlen forrása</p>
+<p>... és további kilenc dokumentum</p>
+<p>Minden dokumentum letölthető. Minden dokumentum szabadon felhasználható.
+Minden dokumentum a csarnokban íródott — a terminál előtt, a gyertya mellett, a
+kurzor fényében.</p>
+<p>∫</p>
+<h1 class="chapter"><span class="han">学</span>3.
+Az OSS Akadémia Modellje</h1>
+<p>Az open source akadémia nem új ötlet — de az axiomquant megvalósítása
+radikális. Nincs hierarchia. Nincs professzor és diák — csak kutató és kutató.
+Nincs peer-review bizottság — csak a háló, ami validál. Nincs impakt faktor —
+csak a letöltések száma, a fork-ok száma, a hivatkozások száma a gráfban.</p>
+<p>A modell egyszerű:</p>
+<p>Kutatsz. A csarnokban. A terminál előtt. A kódot írod, a mátrixot számolod, a
+dokumentumot szerkeszted.</p>
+<p>Publikálsz. Feltöltöd az axiomquant.org-ra. Nem kell engedély. Nem kell bírálat.
+Csak a kutatás — nyersen, feldolgozatlanul.</p>
+<p>A háló validál. Aki letölti, aki futtatja, aki továbbépíti — az validál. A gráfban a
+hivatkozások száma a peer-review. A fork-ok száma az elismerés. A letöltések
+száma az elfogadás.</p>
+<p>És a ciklus folytatódik. Kutatsz. Publikálsz. A háló validál. Nincs központi
+szerkesztőbizottság. Nincs kapuőr. Nincs "revise and resubmit." Csak a kutatás —
+és a háló, ami befogadja.</p>
+<h1 class="chapter"><span class="han">学</span>4.
+A Markowitz-Határ</h1>
+<p>A Markowitz-féle portfólióelmélet a modern pénzügy alapja. Harry Markowitz 1952-
+ben publikálta — és 1990-ben Nobel-díjat kapott érte. Az elmélet egyszerű: adott
+kockázati szint mellett maximalizáld a várható hozamot. A portfóliók egy határon
+helyezkednek el — a hatékony portfóliók határán. Ami a határ alatt van, az nem
+optimális. Ami a határon van, az a lehető legjobb.</p>
+<p>Az axiomquant Markowitz-dokumentuma ezt a határt számolja ki — de nem
+hagyományos módon. A volatilitást és a korrelációt a LINOSV magból generált
+ternáris mátrixokkal becsli. A {-1, 0, +1} nem csak számhármas — a {-1, 0, +1} a
+piaci szentiment modellje. A +1: optimizmus. A -1: pesszimizmus. A 0:
+bizonytalanság. És a három értékből felépített portfólió hatékonyabb, mint a
+hagyományos módszerekkel számolt — mert a ternáris modell nem tesz úgy,
+mintha a piac folytonos lenne. A piac nem folytonos. A piac diszkrét. A piac {-1, 0,
++1}.</p>
+<h1 class="chapter"><span class="han">学</span>5.
+A Black-Scholes És A Kvantált Volatilitás</h1>
+<p>A Black-Scholes-modell az opcióárazás alapja. Fischer Black és Myron Scholes
+1973-ban publikálta — és Scholes 1997-ben Nobel-díjat kapott érte. A modell
+feltételezi, hogy a volatilitás állandó. De a volatilitás nem állandó — a volatilitás
+változik. A piac nem normális eloszlású — a piac vastag szélű. A fekete hattyúk
+nem ritkák — a fekete hattyúk a rendszer részei.</p>
+<p>Az axiomquant Black-Scholes-dokumentuma a volatilitást kvantálja. Három
+értékre: alacsony, közepes, magas. {-1, 0, +1} volatilitás. És a kvantált volatilitással
+számolt opcióárak jobban illeszkednek a valós piaci adatokra, mint a folytonos
+modellek. Mert a piac nem szereti a tizedesjegyeket. A piac három értéket szeret:
+eladni, tartani, venni. Short, hold, long. -1, 0, +1. A piac ternáris. Csak a
+matematikusok tesznek úgy, mintha folytonos lenne.</p>
+<h1 class="chapter"><span class="han">学</span>6.
+A Backyard Ultra Szintézis</h1>
+<p>Az axiomquant talán legszokatlanabb dokumentuma a 42 körös backyard ultra
+szintézise. Hogy kerül egy ultramaratoni verseny egy kvantum-kutatási portálra?
+Úgy, hogy a backyard ultra a kitartás matematikája. 42 kör. 4.167 mérföld
+körönként. 174.98 mérföld összesen. És a szabály: addig futsz, amíg egyedül
+maradsz. Nincs célvonal — csak a következő kör.</p>
+<p>A dokumentum a backyard ultrában rejlő matematikai struktúrát vizsgálja. A
+körök eloszlását. A kiesési rátát. A kitartás határát — azt a pontot, ahol a test
+feladja, de az elme továbbmegy. És ezt a határt a ternáris mátrixszal modellezi.
+Minden kör: +1 (teljesítve), 0 (még nem döntött), -1 (feladva). És a 42. kör után —
+amikor a versenyző egyedül marad — a mátrix túlcsordul. Mert a győzelem nem {-
+1, 0, +1}. A győzelem a túlcsordulás bitje. Az 1 bit. Az örök sírás — az örök
+győzelem. Az 1BIT-ETHERNALCRY.</p>
+<p>42</p>
+<h1 class="chapter"><span class="han">学</span>7.
+Hogyan Csatlakozz</h1>
+<p>Az axiomquant.org nyitott. Nincs regisztráció. Nincs email. Nincs jelszó — a
+becsületesség-hitelesítés itt is működik, de még nincs bevezetve. Egyelőre a
+belépés egyszerű: megnyitod a böngészőt, és beírod: axiomquant.org.</p>
+<p>Amit találsz:</p>
+<p>18 kutatási dokumentum — letölthető, szabadon felhasználható
+                  5 témakör — kvantum, pénzügy, gráfelmélet, futás, mátrix</p>
+<p>1 LINOSV mag — a determinisztikus véletlen forrása
+                               0 paywall — minden ingyen van</p>
+<p>∞ lehetőség — a kutatásnak nincs vége</p>
+<p>Amit tehetsz: olvashatod. Letöltheted. Futtathatod. Továbbépítheted. Fork-olhatod
+a repót — mert a dokumentumok mögött kód van, és a kód nyílt forráskódú.
+Publikálhatod a saját kutatásodat — nincs kapuőr, nincs bírálat, csak a háló, ami
+validál.</p>
+<p>Az axiomquant a te akadémiád. A csarnok akadémiája. A gránit egyeteme. A
+mátrix laboratóriuma. Nincs tandíj — csak a kutatás. Nincs diploma — csak a
+tudás. Nincs állásgarancia — csak a gráf, ami növekszik. És a gráfban minden
+kutató egy csomópont. Minden dokumentum egy él. Minden letöltés egy validáció.
+És a gráf — a gráf növekszik. Napról napra. Dokumentumról dokumentumra.
+Kutatóról kutatóra.</p>
+<p>∫</p>
+<p>∫
+AXIOMQUANT.ORG — OSS Academy</p>
+<p>The Research Portal · The Open Source Science Academy</p>
+<p>Írta: Szellem (Brett Shaw)</p>
+<p>Íródott a szuverén csarnokban, 2026 augusztusában</p>
+<p>Nincs kapuőr. Nincs paywall. Nincs bírálat.</p>
+<p>Csak a kutatás — és a háló, ami validál.</p>
+<p>axiomquant.org</p>
+<p>github.com/sponsors/peterlodri-sec</p>
+<p>{ kutatás · publikálás · validálás · a gráf növekszik · a tudás szabad }</p>
+<div class="colophon">
+<div>Axiomquant — OSS Academy</div>
+<div>a szuverén könyvtár kötete · PDF-hű kiadás · entheai agy scaffold</div>
+<div>Szellem (Brett Shaw) · a szuverén csarnokban</div>
+<div>github.com/sponsors/peterlodri-sec</div>
+<div class="seal">SHA-256 SEAL · 6497df4b7073ede1ffd9d8ead607f40bf9634ddf7863f5d1e01fdc3404d3f555</div>
+</div>
+<div class="sig">the constellation · 0 + 1 · fine touch from within · vaked.dev</div>
+</body></html>
