@@ -1,3 +1,4 @@
+// @ts-check
 import { secp256k1, keccak_256 } from './vendor/chain-crypto.js';
 
 const CHAIN_ID = 137; // Polygon mainnet
@@ -23,8 +24,9 @@ const store = {
   removeItem: (k) => { if (typeof localStorage !== 'undefined') localStorage.removeItem(k); else memoryStore.delete(k); },
 };
 
-let sessionKey = null; // decrypted private key — memory only, never stored plaintext
+/** @type {string | null} */ let sessionKey = null; // decrypted private key — memory only, never stored plaintext
 
+/** @param {string} h @returns {Uint8Array<ArrayBuffer>} */
 function hexToBytes(h) {
   let s = String(h).replace(/^0x/, '');
   if (s.length % 2) s = '0' + s;
@@ -33,17 +35,21 @@ function hexToBytes(h) {
   for (let i = 0; i < out.length; i++) out[i] = parseInt(s.slice(i * 2, i * 2 + 2), 16);
   return out;
 }
+/** @param {Uint8Array} b @returns {string} */
 function bytesToHex(b) {
   return Array.from(b).map(x => x.toString(16).padStart(2, '0')).join('');
 }
+/** @param {bigint} v @returns {Uint8Array<ArrayBuffer>} */
 function bigintToBytes(v) {
   let s = v.toString(16);
   if (s.length % 2) s = '0' + s;
   return hexToBytes(s);
 }
+/** @param {bigint} v @returns {Uint8Array<ArrayBuffer>} */
 function toFixed32(v) {
   return hexToBytes(v.toString(16).padStart(64, '0'));
 }
+/** @param {Uint8Array} a @param {Uint8Array} b @returns {Uint8Array<ArrayBuffer>} */
 function concat(a, b) {
   const out = new Uint8Array(a.length + b.length);
   out.set(a, 0);
@@ -51,6 +57,14 @@ function concat(a, b) {
   return out;
 }
 
+/**
+ * RLP-encode a byte string (canonical). A single byte < 0x80 is itself; the
+ * empty string is 0x80; short strings get 0x80+len; long strings 0xb7+lenlen.
+ * Callers must pass the EMPTY Uint8Array for the integer 0 (see signLegacyTx)
+ * — a single 0x00 byte here is non-canonical and nodes reject it.
+ * @param {Uint8Array<ArrayBuffer>} bytes
+ * @returns {Uint8Array<ArrayBuffer>}
+ */
 function rlpBytes(bytes) {
   const b = bytes;
   if (b.length === 1 && b[0] < 0x80) return b;
@@ -67,6 +81,7 @@ function rlpBytes(bytes) {
   out.set(b, 1 + lenBytes.length);
   return out;
 }
+/** @param {Uint8Array<ArrayBuffer>[]} items @returns {Uint8Array<ArrayBuffer>} */
 function rlpList(items) {
   let payload = new Uint8Array(0);
   for (const it of items) payload = concat(payload, rlpBytes(it));
@@ -210,6 +225,18 @@ async function rpc(method, params) {
   throw lastErr || new Error('all rpcs failed');
 }
 
+/**
+ * @typedef {object} LegacyTxFields
+ * @property {string} nonce
+ * @property {string} gasPrice
+ * @property {string} gasLimit
+ * @property {string} to
+ * @property {string} value
+ * @property {string} data
+ * @property {string} priv
+ */
+
+/** @param {LegacyTxFields} fields @returns {string} */
 function signLegacyTx({ nonce, gasPrice, gasLimit, to, value, data, priv }) {
   // RLP canonical form: zero encodes as the EMPTY byte string (0x80), not a
   // single 0x00 byte (which nodes reject as "non-canonical integer"). The
@@ -270,5 +297,6 @@ const chain = {
   gasPrice: () => rpc('eth_gasPrice', []),
 };
 
+// @ts-ignore — attach to window for the browser site (not part of Window's type)
 if (typeof window !== 'undefined') window.chain = chain;
-export { chain };
+export { chain, rlpBytes, rlpList, hexToBytes, bigintToBytes };
