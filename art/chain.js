@@ -192,7 +192,7 @@ async function unlock(password) {
         await encryptPrivateKey('0x' + bytesToHex(new Uint8Array(pt)), password);
       } catch (e) { /* keep the v:1 blob; still decryptable next time */ }
     }
-    return { ok: true, address: privateToAddress(sessionKey) };
+    return { ok: true, address: privateToAddress(sessionKey), key: sessionKey };
   } catch (e) {
     sessionKey = null;
     return { ok: false, reason: 'wrong-passphrase' };
@@ -293,7 +293,6 @@ const chain = {
   lock,
   isUnlocked,
   sessionAddress,
-  sessionKeyHex,
   rpc,
   sendRawTx,
   getReceipt: (hash) => rpc('eth_getTransactionReceipt', [hash]),

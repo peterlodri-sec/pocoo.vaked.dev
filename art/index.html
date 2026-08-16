@@ -742,8 +742,8 @@ async function exportKeyFlow() {
   const pw = prompt('re-enter passphrase to reveal the private key (for manual import into MetaMask)');
   if (!pw) return;
   const res = await window.chain.unlock(pw);
-  if (!res || !res.ok) { setStatus('export cancelled — wrong passphrase'); return; }
-  const key = window.chain.sessionKeyHex();
+  if (!res || !res.ok || !res.key) { setStatus('export cancelled — wrong passphrase'); return; }
+  const key = res.key;
   try {
     await navigator.clipboard.writeText(key);
     setStatus('private key copied — MetaMask: add account → import → paste');
