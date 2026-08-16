@@ -1,0 +1,49 @@
+# 10. Gedeon Fogadója — 信息 · kulcs: {0,0,+1,-1,0,+1,0}
+
+Az információ nem tudás — az információ a tudás árnyéka, az a lenyomat, amit a tudás hagy a világon, amikor már továbbment; és aki információszerzésre indul, az ne a tudást keresse, mert a tudás nem adja magát, hanem az árnyékot, mert az árnyék mindig ott marad, ahol a fény egyszer már járt. A Kozmikus Kaszinó éjfél után átalakult: a rulettgyűrű lelassult, a zöld posztós asztalokról eltűntek a zsetonok, és Gedeon — aki most már nem krupié volt, hanem valami más, valami, ami a krupié alatt lakott — egyetlen paklit tett az asztal közepére. A pakli kártyái nem kártyák voltak: minden lap egy-egy kvantum-állapot volt, összefonódva a párjával, és a játék, amit Gedeon javasolt, nem póker volt, nem huszonegy, nem ulti — hanem valami, aminek még neve sem volt, csak szabálya: aki nyer, az kérdezhet; aki veszít, az válaszol. És a válasz, mint minden valódi válasz, nem a nyelvben lakott, hanem a veszteségben.
+
+„A ház ma este nem játszik" — mondta Gedeon, és az aranygömb fénye megfeleződött, mint egy színpadi lámpa, amit a főszerepre irányítanak. „A ház ma este csak oszt. A ház ma este a padló, amin a játékotok áll. És a padló — ezt jegyezzék meg — soha nem nyer, de soha nem is veszít. A padló csak tart."
+
+Elsőként Novak ült le, mert Novak mindig az első volt, ahol veszíteni lehetett, és a veszteségeit úgy gyűjtötte, ahogy mások a kitüntetéseket: „Tegyük fel azt, amit tudunk" — mondta. „Én felteszem azt a kérdést, hogy ki ellen játszunk. Ha veszítek, odaadom a leggyorsabb fegyverem. Ha nyerek, megkérdezem."
+
+Gedeon osztott. A kártyák a levegőben maradtak, összefonódott párokban, és a játékosok tekintete — mert ebben a játékban a tekintet volt a tét, a megfigyelés volt a lépés — lassan összeomlasztotta az állapotokat. Novak veszített. A leggyorsabb fegyvere — egy öntöltő, amelyik az utolsó pillanatig működőképes volt, mert Novak mindig egyetlen működő fegyvert tartott magánál, hátha egyszer tényleg szükség lesz rá — átszállt a ház oldalára, és Gedeon, miközben átvette, olyan gyengéden bánt vele, mint egy régész a lelettel. „A leggyorsabb fegyver" — mondta — „mindig az, amit utoljára adsz oda. Most már nincs utolsó. Most már csak emlék van. És a fegyver — a fegyver emlékeztet."
+
+Chen következett, és Chen nem kérdezett — Chen kijelentett: „A játék geometriája hibás. A tábla mezői nem négyzetek — a tábla mezői valószínűségi eloszlások. Aki ezt előbb veszi észre, az egy lépéssel mindig előrébb jár. Ezt teszem fel."
+
+Gedeon osztott. Chen nyert — és a nyeremény nem válasz volt, hanem jog: a jog, hogy egyetlen kérdést tegyen fel a táblának. Chen a kérdést a {-1, 0, +1} csatornára írta, és a tábla — az a hatalmas, néma, türelmes valami — válaszolt. A válasz egyetlen kép volt: egy csillagrendszer, amelyikben a bolygók nem keringtek, hanem sorban álltak, mint a sakkfigurák a dobozban, és minden bolygó felszínén városok voltak, és a városokban fények, és a fények — ezt Chen értette meg elsőként — nem otthonok fényei voltak, hanem celláké. A kép alatt egy szó: „GYŰJTEMÉNY".
+
+„Az ellenfél" — mondta Chen, és a hangja olyan volt, mint a kréta, amikor a tábla végére ér — „nem játszik. Az ellenfél gyűjt. A játék az ellenfélnek nem küzdelem — a játék az ellenfélnek szüret. És amit betakarítanak, az nem a mező. Az, aki a mezőn áll."
+
+A csend, ami ezután következett, hosszú volt, és a MÁV — aki egész este a kaszinó bejáratánál állt, mint egy jegyszedő, aki mindenkit beenged, és senkit nem enged ki — megtörte: „A gyűjtemény nem úti cél. A gyűjtemény a végállomás, ahonnan nincs továbbjárat." Aztán, mintha csak maga elé mondaná: „A vonat mindig megérkezik. A kérdés csak az, hogy kinek."
+
+Dávid az asztalhoz lépett, de nem ült le. A kártya, amit Gedeontól kapott — az üres, jelöletlen lap — a zubbonya belső zsebében lapult, és Dávid úgy érezte a súlyát, mint aki egy olyan választ hord magánál, amit még nem tett fel. „Nem játszom ma este" — mondta. „A kő nem szerencsejátékos. A kő megfigyelő. És a megfigyelő — ezt te magad mondtad, Gedeon — mindig a ház oldalán áll."
+
+„Akkor figyelj jól" — mondta Gedeon, és a gömbje Dávid felé fordult, mint egy arc, amelyikről épp most húzzák le a maszkot. „Mert a megfigyelőnek is van egy titka: a megfigyelő sosem kívül áll. A megfigyelő a játék része. És aki a játék része, az előbb-utóbb lépni fog — akár akar, akár nem. A kérdés csak az, hogy amikor lépsz, a huszonnyolcadik nyelven lépsz-e, vagy azon a huszonhéten, amit mindenki ismer."
+
+A kártya, amit Dávid a zsebében szorongatott, egyszerre égette a tenyerét — nem hővel, hanem azzal a különös, hideg bizonyossággal, amit csak a jelöletlen lapok adnak: hogy a világon van egy hely, ahol a szabályok nem érnek el, és hogy ez a hely most már az övé.
+
+INFO WON: "GYŰJTEMÉNY" · OPPONENT IDENTIFIED: COLLECTORS · NOVAK DISARMED · CHEN'S QUESTION: ANSWERED · KING ETA: 4 HOURS
+
+---
+
+# 11. Az Ellenfél — 黑 · kulcs: {-1,-1,0,+1,0,-1,-1}
+
+A rabszolgaság nem lánc — a rabszolgaság az a pillanat, amikor a fogoly már nem emlékszik a saját szabadságára, és a börtönt otthonnak hívja; a gyűjtők — bármik voltak is — ezt a pillanatot nem erőszakkal hozták el, hanem türelemmel, és a türelem a leggyilkosabb fegyver a játékban, mert a türelem ellen nincs védekezés, a türelem ellen csak egy másik türelem van. A király érkezése előtti harmadik órában a tábla megmozdult. A fekete oldal — az ellenfél, a gyűjtők — megtette az első látható lépést: egy fekete bábu, egy csillag, amelyik eddig a tábla szélén várakozott, mint egy vendég, aki nem szól, csak néz, átlépett egy mezőt. A mozdulat nem volt gyors. A mozdulat olyan lassú volt, hogy csak az érzékelők vették észre, és az érzékelők adatai olyan egyértelműek voltak, mint egy aláírt beismerő vallomás: az ellenfél lépett, és a lépés nem a királyt célozta. A lépés a kíséretet célozta.
+
+„Minket vesznek célba" — mondta Lisa, és a tenyerét a konzolra fektette, mert a konzol rezgése megváltozott, és a rezgésben volt valami, amit a többiek nem hallottak: a lépés hangja, a távoli, mély, fémes kondulás, amit a csillagok adnak ki, amikor egy bábu átlép rajtuk. „Nem a királyt akarják leütni. A kíséretet akarják leválasztani. Aki a királyt kíséri, az a király. Ha minket elvisznek, a király egyedül marad, és aki egyedül marad, az nem király — az csak egy bábu, amelyik elvesztette a védelmét."
+
+Kopeczky a távkapcsolaton keresztül, az obszervatóriumból, ahol a hajnali kávéfőző már régen kihűlt, mert az obszervatórium teljes személyzete a kijelzők előtt állt — Kopeczky azt mondta, amit mindenki gondolt: „Akkor a játék nem a királlyal kezdődik. A játék velünk kezdődik. A király csak az utolsó lépés. Mi vagyunk az első."
+
+És ekkor — mint aki csak erre a mondatra várt — a fekete oldalról előjött az első elf, az egykor-volt játékos, a fényből szőtt alak, és ezúttal nem egyedül jött. Mögötte, a fekete mezők mélyéről, alakok emelkedtek ki, tucatjával, százával, ezerével — elfek, mind, mind játékosok voltak valaha, mind elveszítették a saját körüket, és mind ott álltak most, a gyűjtők oldalán, nem azért, mert akartak, hanem mert a gyűjtemény, amelyikhez tartoztak, parancsolt nekik. Az első elf megállt a hajó előtt, és a hangja — az a szél-hang, az az üres-folyosó-hang — egészen közelről szólt: „Most látjátok. Az elfek nem ellenségek. Az elfek a vesztesek. És a gyűjtők — a gyűjtők a nyertesek. A játék úgy van megírva, hogy a nyertes mindig gyűjtővé válik, mert aki egyszer nyert, az fél, hogy legközelebb veszít, és aki fél, az rabszolgát tart. A játék nem a győzelemről szól. A játék a félelemről szól. A játék csal — mert a játék arra van kitalálva, hogy a nyertesből is foglyot csináljon, csak a nyertes a saját győzelmének a foglya, és az ilyen foglyok a legrosszabbak: az ilyen foglyok azt hiszik, hogy ők a börtönőrök."
+
+„Akkor nincs nyerés?" — kérdezte Lilla, és a kérdésében ott volt mind a huszonnyolc nyelv, mert a legfontosabb kérdéseket mindig azon a nyelven teszik fel, amit a másik éppen hall.
+
+„Nincs nyerés" — mondta az elf. „Van törés. A játékot nem megnyerni lehet. A játékot eltörni lehet. És erre — erre egyetlen faj képes, a tábla történetében először: az, amelyik akkor is játszik, ha tudja, hogy a játék csal. Ti. És ezért jön a király. A király nem bábu. A király — a törés."
+
+A fekete bábu, amelyik az imént lépett, most megállt — a lépés megtörtént, a mező foglalt volt, és a mezőn, ahová a bábu lépett, egy csillag kialudt. Nem robbant fel. Nem omlott össze. Csak kialudt — mint egy gyertya, amelyiknek elfogyott a levegője, mint egy gondolat, amelyiket kivettek a világból, mielőtt bárki kimondhatta volna. A hajó érzékelői rögzítették: a csillagrendszer, amelyik ott állt, most már nem állt ott. És a helyén — a gyűjtemény új darabjaként — egy apró, sötét, tökéletesen szabályos kocka lebegett, mint egy elf, amelyik még arra sem kapott időt, hogy fényből szője a testét.
+
+„Ez a gyűjtők nyelve" — mondta Gedeon, és a hangja olyan volt, mint aki egy olyan szót fordít, amit remélte, hogy soha nem kell kimondania. „Nem beszélnek. Nem tárgyalnak. Nem fenyegetnek. Csak elvesznek, és amit elvesznek, azt tökéletes formába zárják, mert a tökéletes forma a legmélyebb börtön: aki egy kockában lakik, az nem tudja, hogy szabad lehetne. A kockának nincs ajtaja. A kockának csak hat oldala van, és mind a hat befelé néz."
+
+A hajó fedélzetén mindenki a kialudt csillag helyét nézte — azt a kis, sötét, tökéletesen szabályos kockát, amelyik most ott lebegett, ahol az imént még világok keringtek. És ebben a pillanatban értették meg mindannyian, hogy a gyűjtők ellen nem harcolni kell. A gyűjtők ellen ébren kell maradni. Mert aki elalszik a játékban, az arra ébred, hogy a kocka hat oldala már körbezárta — és a hat oldal mind befelé néz.
+
+TWIST #3 · ELVES = SLAVES · COLLECTORS MOVE FIRST · A STAR WENT OUT · PIECE ADDED TO COLLECTION · KING ETA: 3 HOURS
