@@ -26,6 +26,7 @@
 
 
 
+
 /* ---- VAKED CONSTELLATION HUD V7.0.0 [AWEN & CAIIRO - YOUR VOICE EDITION] ---- */
 #vaked-hud {
   position: fixed;
@@ -455,6 +456,10 @@ a:focus-visible,button:focus-visible{outline:2.5px solid #62e6c9!important;outli
 
 
 <!-- VAKED CONSTELLATION HUD V7.0.0 [AWEN & CAIIRO - YOUR VOICE EDITION] -->
+
+
+
+<!-- VAKED CONSTELLATION HUD V7.0.0 [AWEN & CAIIRO - YOUR VOICE EDITION] -->
 <nav id="vaked-hud" aria-label="Constellation Quick Navigation">
   <a href="https://vaked.dev" class="hud-brand" title="Constellation Commons">
     <span class="hud-pulse"></span>
@@ -521,6 +526,15 @@ a:focus-visible,button:focus-visible{outline:2.5px solid #62e6c9!important;outli
 
 <script>
 (function() {
+  // Neutralize third-party wallet extension EventEmitter maxListener warnings
+  try {
+    if (typeof window !== 'undefined') {
+      if (window.EventEmitter && window.EventEmitter.defaultMaxListeners) {
+        window.EventEmitter.defaultMaxListeners = 50;
+      }
+    }
+  } catch (e) {}
+
   const SPOTLIGHT_INDEX = [{"title": "vaked.dev \u2014 Constellation Apex [Key: 1]", "category": "Constellation", "url": "https://vaked.dev", "desc": "The sovereign apex and commons for art, music, math & agents"}, {"title": "pocoo.vaked.dev \u2014 Sovereign Library (85 Monographs) [Key: 2]", "category": "Library", "url": "https://pocoo.vaked.dev", "desc": "Erd\u0151s phase transitions, SLE, Tracy-Widom, DYAD attention & BitNet"}, {"title": "music.vaked.dev \u2014 432Hz Intergalactic TV [Key: 3]", "category": "Audio", "url": "https://music.vaked.dev", "desc": "Procedural Web Audio engine, Casa Bertallot & Awen Your Voice acoustic modes"}, {"title": "art.vaked.dev \u2014 Archival Gallery & Provenance [Key: 4]", "category": "Art", "url": "https://art.vaked.dev", "desc": "Curated #01\u2013#49 visual neural artifacts with SHA-256 provenance"}, {"title": "store.vaked.dev \u2014 Sovereign Storefront [Key: 5]", "category": "Store", "url": "https://store.vaked.dev", "desc": "Gicl\u00e9e 8K prints, organic apparel, and audiophile vinyl masters"}, {"title": "ocean.vaked.dev \u2014 Compute Ocean & Swarm Factory [Key: 6]", "category": "Compute", "url": "https://ocean.vaked.dev", "desc": "High-compute inference, MEM8 associative memory & agent factory"}, {"title": "classroom-sota-training \u2014 Council of Elders (8+1) [Key: 7]", "category": "Distillation", "url": "https://8b-is.github.io/classroom-sota-training/", "desc": "Waldorf-style SOTA classroom training with geometric-mean consensus"}, {"title": "axiomquant.org \u2014 Quantitative Research Portal [Key: 8]", "category": "Math", "url": "https://axiomquant.org", "desc": "Spectral rigidity, Markowitz QP, and Universal Threshold Kernel"}, {"title": "mlxquantlovefrom.com \u2014 Metal BitNet 1.58b [Key: 9]", "category": "Math", "url": "https://mlxquantlovefrom.com", "desc": "Apple Silicon Metal kernel optimization for ternary quantization"}, {"title": "cess.vaked.dev \u2014 CogitoErgoSumma Q&A [Key: 0]", "category": "Corpus", "url": "https://cess.vaked.dev", "desc": "Corpus Explorer & Semantic Q&A powered by coder.vaked.dev inference"}, {"title": "cogitoergosumma-corpus \u2014 Hugging Face Space", "category": "Corpus", "url": "https://huggingface.co/spaces/PeetPedro/cogitoergosumma-corpus", "desc": "Interactive semantic Q&A and topic exploration across 85 monographs"}, {"title": "lovetta.vaked.dev \u2014 Sovereign Studio & Patreon", "category": "Studio", "url": "https://lovetta.vaked.dev", "desc": "Patron tiers, creator lanes, and physical sample request channels"}, {"title": "worklog.vaked.dev \u2014 Sovereign Fleet Board", "category": "Logs", "url": "https://worklog.vaked.dev", "desc": "Live fleet updates, commit timelines, and milestone tracking"}, {"title": "proposal.vaked.dev \u2014 Architectural Proposals", "category": "Discourse", "url": "https://proposal.vaked.dev", "desc": "Public discourse, monograph drafts, and RFC review pipeline"}, {"title": "Monograph 01: Universal Threshold Kernel", "category": "Monograph", "url": "https://pocoo.vaked.dev/monographs/01", "desc": "Mathematical foundations of Erd\u0151s threshold phase shifts"}, {"title": "Monograph 14: DYAD Asymmetric Loss Modulation", "category": "Monograph", "url": "https://pocoo.vaked.dev/monographs/14", "desc": "Context-preserving dual-head token pruning with span CNN"}, {"title": "Monograph 26: Ring-of-Teachers Mixed Distillation", "category": "Distillation", "url": "https://pocoo.vaked.dev/monographs/26", "desc": "Classroom SOTA 1.7B student distillation from 8B faculty teachers"}, {"title": "Monograph 42: BitNet b1.58 Metal Acceleration", "category": "Monograph", "url": "https://pocoo.vaked.dev/monographs/42", "desc": "Matrix multiplication elimination via ternary {-1, 0, +1} arithmetic"}, {"title": "Monograph 73: Harmonic Acoustic Synthesis at A=432Hz", "category": "Audio", "url": "https://pocoo.vaked.dev/monographs/73", "desc": "Pythagorean tuning standards in real-time procedural Web Audio"}, {"title": "Monograph 85: Cogito Ergo Sum Machine Invariant", "category": "Monograph", "url": "https://pocoo.vaked.dev/monographs/85", "desc": "Autonomous self-reflecting agent epistemology & verified gradients"}, {"title": "Fleet Node: dev-cx53 (Hetzner CX53)", "category": "Fleet", "url": "https://ocean.vaked.dev", "desc": "Build/deploy host, honcho memory & AgentField control plane"}, {"title": "Fleet Node: public-services-host (Hetzner CX33)", "category": "Fleet", "url": "https://vaked.dev", "desc": "Public gateway, reverse proxy, Forgejo, Vaultwarden"}, {"title": "Fleet Node: mbp (Apple Silicon M3)", "category": "Fleet", "url": "https://vaked.dev", "desc": "Local workstation, MLX BitNet inference & sovereign dev runtime"}];
   const KEY_ROUTES = {
     '1': 'https://vaked.dev',
