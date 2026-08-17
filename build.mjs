@@ -346,27 +346,39 @@ function telemetryScript(isPost, slug, title) {
 
 // ── Footer ───────────────────────────────────────────────────────────────────
 function footerHtml() {
-  const ext = (url, label) => `<a href="${url}" target="_blank" rel="noopener noreferrer">${label}</a>`;
-  return `<footer class="site-footer">
-  <span class="foot-eco">
-  ${ext("https://vaked.dev", "vaked.dev")} ·
-  ${ext("https://ocean.vaked.dev", "ocean.vaked.dev")} ·
-  ${ext("https://worklog.vaked.dev", "worklog.vaked.dev")} ·
-  ${ext("https://github.com/8b-is/smart-tree", "smart-tree ↗")} ·
-  ${ext("https://github.com/8bit-wraith/magiscanner", "magiscanner ↗")} ·
-  ${ext("https://github.com/8b-is/transformers", "transformers-ultra ↗")} ·
-  ${ext("https://peterl.dev", "peterl.dev")}
-  </span>
-  <br>
-  <a href="/">home</a> ·
-  ${ext("https://github.com/peterlodri-sec", "github")} ·
-  ${ext("https://x.com/0xp3t3rl", "x")} ·
-  ${ext("https://music.vaked.dev", "music")} ·
-  ${ext("https://store.vaked.dev", "store")} ·
-  ${ext("https://art.vaked.dev", "art")} ·
-  ${ext("https://axiomquant.org", "axiomquant")} ·
-  ${ext("https://mlxquantlovefrom.com", "mlxquant")} ·
-  <a href="/feed.xml">feed</a>
+  return `<footer role="contentinfo" style="position:relative;z-index:10;padding:3rem 1.5rem;text-align:center;font-family:ui-monospace,monospace;font-size:0.75rem;color:#a59fc4;background:rgba(5,6,10,0.92);border-top:1px solid rgba(170,150,255,0.18);backdrop-filter:blur(16px);">
+  <div style="margin-bottom:0.5rem;text-transform:uppercase;letter-spacing:0.3em;color:#b48bff;font-weight:600;">the constellation · lovetta lane</div>
+  <div style="margin-bottom:1rem;font-size:0.65rem;letter-spacing:0.22em;color:#a59fc4;text-transform:uppercase;">keep the weights warm</div>
+  <div style="display:flex;gap:0.8rem;justify-content:center;flex-wrap:wrap;margin-bottom:1.5rem;">
+    <a href="https://github.com/sponsors/peterlodri-sec" target="_blank" rel="noopener noreferrer" style="color:#62e6c9;text-decoration:none;border:1px solid rgba(98,230,201,0.35);border-radius:8px;padding:0.45rem 0.9rem;background:rgba(98,230,201,0.06);">github sponsor</a>
+    <a href="https://revolut.me/peterjs8be" target="_blank" rel="noopener noreferrer" style="color:#62e6c9;text-decoration:none;border:1px solid rgba(98,230,201,0.35);border-radius:8px;padding:0.45rem 0.9rem;background:rgba(98,230,201,0.06);">revolut</a>
+    <a href="https://wise.com/pay/business/lodripeterjozsef" target="_blank" rel="noopener noreferrer" style="color:#62e6c9;text-decoration:none;border:1px solid rgba(98,230,201,0.35);border-radius:8px;padding:0.45rem 0.9rem;background:rgba(98,230,201,0.06);">wise</a>
+  </div>
+  <nav aria-label="Constellation sister sites" style="display:flex;gap:0.9rem;justify-content:center;flex-wrap:wrap;font-size:0.72rem;margin-bottom:1rem;">
+    <a href="https://pocoo.vaked.dev" target="_blank" rel="noopener noreferrer" style="color:#a59fc4;text-decoration:none;">pocoo.vaked.dev</a> ·
+    <a href="https://worklog.vaked.dev" target="_blank" rel="noopener noreferrer" style="color:#a59fc4;text-decoration:none;">worklog.vaked.dev</a> ·
+    <a href="https://ocean.vaked.dev" target="_blank" rel="noopener noreferrer" style="color:#a59fc4;text-decoration:none;">ocean.vaked.dev</a> ·
+    <a href="https://music.vaked.dev" target="_blank" rel="noopener noreferrer" style="color:#a59fc4;text-decoration:none;">music.vaked.dev</a> ·
+    <a href="https://art.vaked.dev" target="_blank" rel="noopener noreferrer" style="color:#a59fc4;text-decoration:none;">art.vaked.dev</a> ·
+    <a href="https://store.vaked.dev" target="_blank" rel="noopener noreferrer" style="color:#a59fc4;text-decoration:none;">store.vaked.dev</a> ·
+    <a href="https://axiomquant.org" target="_blank" rel="noopener noreferrer" style="color:#a59fc4;text-decoration:none;">axiomquant.org</a> ·
+    <a href="https://mlxquantlovefrom.com" target="_blank" rel="noopener noreferrer" style="color:#a59fc4;text-decoration:none;">mlxquantlovefrom.com</a> ·
+    <a href="https://portail.vaked.dev" target="_blank" rel="noopener noreferrer" style="color:#a59fc4;text-decoration:none;">portail.vaked.dev</a> ·
+    <a href="https://github.com/8b-is/transformers" target="_blank" rel="noopener noreferrer" style="color:#a59fc4;text-decoration:none;">8b-is/transformers</a> ·
+    <a href="https://github.com/8b-is/smart-tree" target="_blank" rel="noopener noreferrer" style="color:#a59fc4;text-decoration:none;">8b-is/smart-tree</a> ·
+    <a href="https://github.com/8bit-wraith/magiscanner" target="_blank" rel="noopener noreferrer" style="color:#a59fc4;text-decoration:none;">8bit-wraith/magiscanner</a> ·
+    <a href="https://proposal.vaked.dev" target="_blank" rel="noopener noreferrer" style="color:#a59fc4;text-decoration:none;">proposal.vaked.dev</a>
+  </nav>
+  <nav aria-label="Site pages" style="display:flex;gap:0.9rem;justify-content:center;flex-wrap:wrap;font-size:0.68rem;margin-bottom:1.2rem;">
+    <a href="https://vaked.dev/whitepaper" style="color:#62e6c9;text-decoration:none;">whitepaper</a> ·
+    <a href="https://vaked.dev/verify" style="color:#62e6c9;text-decoration:none;">verify</a> ·
+    <a href="https://vaked.dev/story" style="color:#62e6c9;text-decoration:none;">story</a> ·
+    <a href="https://vaked.dev/about" style="color:#62e6c9;text-decoration:none;">about</a> ·
+    <a href="https://vaked.dev/privacy" style="color:#62e6c9;text-decoration:none;">privacy</a> ·
+    <a href="https://vaked.dev/security" style="color:#62e6c9;text-decoration:none;">security</a> ·
+    <a href="https://vaked.dev/legal" style="color:#62e6c9;text-decoration:none;">legal</a>
+  </nav>
+  <div style="font-size:0.6rem;letter-spacing:0.18em;color:#7f7c99;">the constellation · 0 + 1 · fine touch from within · vaked.dev</div>
 </footer>`;
 }
 
@@ -490,7 +502,6 @@ function renderPost(post) {
 <meta name="content-hash" content="${hash}">
 ${quantumBgScript(hash, true)}
 <body>
-  ${footerHtml()}
   <main class="post">
     <p class="back"><a href="../index.html">&larr; all posts</a></p>
     <header class="post-head">
@@ -504,6 +515,7 @@ ${bodyHtml}
     </article>
     ${sealFragment(hash, true)}
   </main>
+  ${footerHtml()}
   ${telemetryScript(true, post.slug, post.meta.title)}
 </body>
 </html>`;
@@ -537,7 +549,6 @@ function renderIndex(posts) {
   })}
 ${quantumBgScript(null, false)}
 <body>
-  ${footerHtml()}
   <main class="index">
     <header class="index-head">
       <div class="logo-wrap"><img src="assets/logo.svg" alt="vaked" width="48" height="48"></div>
@@ -548,6 +559,7 @@ ${quantumBgScript(null, false)}
 ${entries}
     </ul>
   </main>
+  ${footerHtml()}
   ${telemetryScript(false, null, null)}
 </body>
 </html>`;
@@ -738,6 +750,12 @@ ${postLines}
   // Copy root-level config files for CF Pages
   if (existsSync(path.join(ROOT, "robots.txt"))) {
     await cp(path.join(ROOT, "robots.txt"), path.join(DIST_DIR, "robots.txt"));
+  }
+  if (existsSync(path.join(ROOT, "404.html"))) {
+    await cp(path.join(ROOT, "404.html"), path.join(DIST_DIR, "404.html"));
+  }
+  if (existsSync(path.join(ROOT, "favicon.svg"))) {
+    await cp(path.join(ROOT, "favicon.svg"), path.join(DIST_DIR, "favicon.svg"));
   }
   if (existsSync(path.join(ROOT, ".well-known"))) {
     await cp(path.join(ROOT, ".well-known"), path.join(DIST_DIR, ".well-known"), { recursive: true });
