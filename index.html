@@ -22,7 +22,8 @@
 
 
 
-/* ---- VAKED CONSTELLATION HUD V4.20.0 & SPOTLIGHT PALETTE ---- */
+
+/* ---- VAKED CONSTELLATION HUD V5.0.0 [CASA BERTALLOT EDITION] ---- */
 #vaked-hud {
   position: fixed;
   bottom: 22px;
@@ -169,7 +170,7 @@
   color: #62e6c9;
   flex-shrink: 0;
 }
-.spotlight-input {
+#spotlight-input {
   width: 100%;
   background: transparent;
   border: none;
@@ -178,36 +179,45 @@
   font-size: 15px;
   color: #ffffff;
 }
-.spotlight-input::placeholder {
+#spotlight-input::placeholder {
   color: #64748b;
 }
-
-/* Filter pills */
-.spotlight-pills {
+.spotlight-kbd {
+  font-family: ui-monospace, "SF Mono", monospace;
+  font-size: 10px;
+  color: #94a3b8;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  flex-shrink: 0;
+}
+.spotlight-categories {
   display: flex;
-  gap: 6px;
-  padding: 8px 16px;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: rgba(255, 255, 255, 0.02);
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  background: rgba(4, 7, 13, 0.5);
   overflow-x: auto;
 }
-.spotlight-pill {
-  padding: 3px 9px;
-  border-radius: 9999px;
+.spotlight-cat-pill {
+  font-family: ui-monospace, "SF Mono", monospace;
   font-size: 10.5px;
-  font-family: ui-monospace, monospace;
-  background: rgba(255, 255, 255, 0.06);
   color: #94a3b8;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 9999px;
+  padding: 3px 10px;
   cursor: pointer;
-  border: 1px solid transparent;
+  white-space: nowrap;
   transition: all 0.15s ease;
 }
-.spotlight-pill:hover, .spotlight-pill.active {
-  background: rgba(98, 230, 201, 0.15);
-  border-color: rgba(98, 230, 201, 0.35);
+.spotlight-cat-pill:hover, .spotlight-cat-pill.active {
   color: #62e6c9;
+  border-color: #62e6c9;
+  background: rgba(98, 230, 201, 0.1);
 }
-
 .spotlight-results {
   max-height: 380px;
   overflow-y: auto;
@@ -215,50 +225,67 @@
 }
 .spotlight-item {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
   padding: 10px 14px;
   border-radius: 8px;
-  color: #cbd5e1;
   text-decoration: none;
-  font-family: system-ui, -apple-system, sans-serif;
+  color: inherit;
   transition: background 0.15s ease;
+  cursor: pointer;
 }
 .spotlight-item:hover, .spotlight-item.selected {
-  background: rgba(98, 230, 201, 0.12);
+  background: rgba(98, 230, 201, 0.08);
+}
+.spotlight-item-main {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.spotlight-item-title {
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 13.5px;
+  font-weight: 600;
   color: #ffffff;
 }
-.spotlight-item-header {
+.spotlight-item-desc {
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 11.5px;
+  color: #94a3b8;
+}
+.spotlight-item-tag {
+  font-family: ui-monospace, "SF Mono", monospace;
+  font-size: 10px;
+  color: #62e6c9;
+  background: rgba(98, 230, 201, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid rgba(98, 230, 201, 0.25);
+  flex-shrink: 0;
+}
+.spotlight-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-.spotlight-item-title {
-  font-weight: 600;
-  font-size: 13.5px;
-}
-.spotlight-item-cat {
-  font-size: 10px;
-  font-family: ui-monospace, monospace;
-  text-transform: uppercase;
-  padding: 2px 6px;
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 4px;
-  color: #62e6c9;
-}
-.spotlight-item-desc {
-  font-size: 12px;
-  color: #94a3b8;
-  margin-top: 3px;
-}
-.spotlight-footer {
-  padding: 10px 18px;
-  background: rgba(4, 7, 13, 0.75);
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  display: flex;
-  justify-content: space-between;
-  font-family: ui-monospace, monospace;
-  font-size: 11px;
+  padding: 10px 20px;
+  background: rgba(0, 0, 0, 0.35);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  font-family: ui-monospace, "SF Mono", monospace;
+  font-size: 10.5px;
   color: #64748b;
+}
+
+@media (max-width: 768px) {
+  #vaked-hud {
+    bottom: 12px;
+    padding: 6px 14px;
+    gap: 8px;
+    font-size: 10px;
+  }
+  #vaked-hud .hud-nav { display: none; }
+  .spotlight-card {
+    width: 95vw;
+  }
 }
 
 </style>
@@ -407,145 +434,161 @@ a:focus-visible,button:focus-visible{outline:2.5px solid #62e6c9!important;outli
 
 
 <!-- VAKED CONSTELLATION HUD V4.20.0 -->
-<nav id="vaked-hud" aria-label="Constellation Universal Navigation">
-  <a href="https://vaked.dev" class="hud-brand" title="Constellation Apex">
-    <span class="hud-pulse"></span>VAKED
-    <div class="hud-eq" title="Procedural Audio Spectrum">
-      <div class="hud-eq-bar"></div>
-      <div class="hud-eq-bar"></div>
-      <div class="hud-eq-bar"></div>
-    </div>
+
+
+
+<!-- VAKED CONSTELLATION HUD V5.0.0 [CASA BERTALLOT EDITION] -->
+<nav id="vaked-hud" aria-label="Constellation Quick Navigation">
+  <a href="https://vaked.dev" class="hud-brand" title="Constellation Commons">
+    <span class="hud-pulse"></span>
+    <span>VAKED</span>
+    <span class="hud-eq" title="432Hz Live Engine / Casa Bertallot Harmonic Mode">
+      <span class="hud-eq-bar"></span>
+      <span class="hud-eq-bar"></span>
+      <span class="hud-eq-bar"></span>
+    </span>
   </a>
-  <div class="hud-sep"></div>
+  <span class="hud-sep"></span>
   <div class="hud-nav">
-    <a href="https://pocoo.vaked.dev" class="hud-link" title="Library">pocoo</a>
-    <a href="https://music.vaked.dev" class="hud-link" title="432Hz Sound">music</a>
-    <a href="https://art.vaked.dev" class="hud-link" title="Archival Gallery">art</a>
-    <a href="https://store.vaked.dev" class="hud-link" title="Store">store</a>
-    <a href="https://ocean.vaked.dev" class="hud-link" title="Compute Ocean">ocean</a>
-    <a href="https://axiomquant.org" class="hud-link" title="Axiom Quant">axiom</a>
-    <a href="https://worklog.vaked.dev" class="hud-link" title="Worklog">worklog</a>
+    <a href="https://pocoo.vaked.dev" class="hud-link">pocoo</a>
+    <a href="https://music.vaked.dev" class="hud-link">music</a>
+    <a href="https://art.vaked.dev" class="hud-link">art</a>
+    <a href="https://store.vaked.dev" class="hud-link">store</a>
+    <a href="https://ocean.vaked.dev" class="hud-link">ocean</a>
+    <a href="https://8b-is.github.io/classroom-sota-training/" class="hud-link">classroom</a>
+    <a href="https://axiomquant.org" class="hud-link">axiom</a>
+    <a href="https://mlxquantlovefrom.com" class="hud-link">mlx</a>
   </div>
-  <div class="hud-sep"></div>
-  <button class="hud-search-btn" id="hud-spotlight-trigger" title="Search Constellation (Cmd+K)">
+  <span class="hud-sep"></span>
+  <button type="button" class="hud-search-btn" id="open-spotlight-btn" aria-label="Open Constellation Search">
     <span>⌘K</span>
+    <span>Search</span>
   </button>
 </nav>
 
-<!-- VAKED SPOTLIGHT COMMAND PALETTE V4.20.0 -->
-<div id="vaked-spotlight" role="dialog" aria-modal="true" aria-label="Constellation Search Palette">
+<!-- VAKED CONSTELLATION SPOTLIGHT MODAL -->
+<div id="vaked-spotlight" role="dialog" aria-modal="true" aria-label="Constellation Spotlight Search">
   <div class="spotlight-card">
     <div class="spotlight-input-wrap">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-      <input type="text" class="spotlight-input" id="spotlight-query" placeholder="Search monographs, art, audio, store, math, fleet..." autocomplete="off">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <input type="text" id="spotlight-input" placeholder="Search monographs, audio modes, store, math, or fleet..." autocomplete="off" />
+      <span class="spotlight-kbd">ESC to exit</span>
     </div>
-    <div class="spotlight-pills" id="spotlight-pills">
-      <span class="spotlight-pill active" data-filter="all">All</span>
-      <span class="spotlight-pill" data-filter="Monograph">Monographs</span>
-      <span class="spotlight-pill" data-filter="Art">Art</span>
-      <span class="spotlight-pill" data-filter="Audio">Audio</span>
-      <span class="spotlight-pill" data-filter="Store">Store</span>
-      <span class="spotlight-pill" data-filter="Math">Math</span>
-      <span class="spotlight-pill" data-filter="Fleet">Fleet</span>
+    <div class="spotlight-categories">
+      <button class="spotlight-cat-pill active" data-cat="All">All</button>
+      <button class="spotlight-cat-pill" data-cat="Distillation">Distillation</button>
+      <button class="spotlight-cat-pill" data-cat="Library">Library</button>
+      <button class="spotlight-cat-pill" data-cat="Audio">Audio</button>
+      <button class="spotlight-cat-pill" data-cat="Art">Art</button>
+      <button class="spotlight-cat-pill" data-cat="Store">Store</button>
+      <button class="spotlight-cat-pill" data-cat="Compute">Compute</button>
+      <button class="spotlight-cat-pill" data-cat="Math">Math</button>
+      <button class="spotlight-cat-pill" data-cat="Fleet">Fleet</button>
     </div>
-    <div class="spotlight-results" id="spotlight-results-list"></div>
+    <div class="spotlight-results" id="spotlight-results-box">
+      <!-- Injected via JavaScript -->
+    </div>
     <div class="spotlight-footer">
-      <span>Navigation: <b>↑</b> <b>↓</b> to select · <b>↵</b> to open</span>
-      <span><b>ESC</b> to close</span>
+      <span>Navigation: ↑ ↓ arrows · Enter to open</span>
+      <span>VAKED Sovereign Constellation V5.0.0</span>
     </div>
   </div>
 </div>
 
 <script>
 (function() {
-  const searchIndex = [{"title": "vaked.dev \u2014 Constellation Apex", "category": "Constellation", "url": "https://vaked.dev", "desc": "The sovereign apex and commons for art, music, math & agents"}, {"title": "pocoo.vaked.dev \u2014 Sovereign Library (85 Monographs)", "category": "Library", "url": "https://pocoo.vaked.dev", "desc": "Erd\u0151s phase transitions, SLE, Tracy-Widom, DYAD attention & BitNet"}, {"title": "music.vaked.dev \u2014 432Hz Intergalactic TV", "category": "Audio", "url": "https://music.vaked.dev", "desc": "Procedural Web Audio engine & Three.js particle constellation"}, {"title": "art.vaked.dev \u2014 Archival Gallery & Provenance", "category": "Art", "url": "https://art.vaked.dev", "desc": "Curated #01\u2013#49 visual neural artifacts with SHA-256 provenance"}, {"title": "store.vaked.dev \u2014 Sovereign Storefront", "category": "Store", "url": "https://store.vaked.dev", "desc": "Gicl\u00e9e 8K prints, organic apparel, and audiophile vinyl masters"}, {"title": "ocean.vaked.dev \u2014 Compute Ocean & Swarm Factory", "category": "Compute", "url": "https://ocean.vaked.dev", "desc": "High-compute inference, MEM8 associative memory & agent factory"}, {"title": "axiomquant.org \u2014 Quantitative Research Portal", "category": "Math", "url": "https://axiomquant.org", "desc": "Spectral rigidity, Markowitz QP, and Universal Threshold Kernel"}, {"title": "mlxquantlovefrom.com \u2014 Metal BitNet 1.58b", "category": "Math", "url": "https://mlxquantlovefrom.com", "desc": "Apple Silicon Metal kernel optimization for ternary quantization"}, {"title": "lovetta.vaked.dev \u2014 Sovereign Studio & Patreon", "category": "Studio", "url": "https://lovetta.vaked.dev", "desc": "Patron tiers, creator lanes, and physical sample request channels"}, {"title": "worklog.vaked.dev \u2014 Sovereign Fleet Board", "category": "Logs", "url": "https://worklog.vaked.dev", "desc": "Live fleet updates, commit timelines, and milestone tracking"}, {"title": "proposal.vaked.dev \u2014 Architectural Proposals", "category": "Discourse", "url": "https://proposal.vaked.dev", "desc": "Public discourse, monograph drafts, and RFC review pipeline"}, {"title": "Monograph 01: Universal Threshold Kernel", "category": "Monograph", "url": "https://pocoo.vaked.dev/monographs/01", "desc": "Mathematical foundations of Erd\u0151s threshold phase shifts"}, {"title": "Monograph 14: DYAD Asymmetric Loss Modulation", "category": "Monograph", "url": "https://pocoo.vaked.dev/monographs/14", "desc": "Context-preserving dual-head token pruning with span CNN"}, {"title": "Monograph 42: BitNet b1.58 Metal Acceleration", "category": "Monograph", "url": "https://pocoo.vaked.dev/monographs/42", "desc": "Matrix multiplication elimination via ternary {-1, 0, +1} arithmetic"}, {"title": "Q\u00ec (\u6c23) Cybernetic Creator 2.0 T-Shirt", "category": "Store", "url": "https://store.vaked.dev", "desc": "100% Organic combed cotton DTF high-contrast cyan seal print"}, {"title": "SZAM\u00c1R MAD\u00c1R Heavy Cruiser Hoodie", "category": "Store", "url": "https://store.vaked.dev", "desc": "350 gsm organic pullover with 145 BPM Hungarian polyrhythm emblem"}, {"title": "432Hz Ambient Diatonic Engine", "category": "Audio", "url": "https://music.vaked.dev", "desc": "Real-time sound synthesis in A=432Hz tuning standard"}, {"title": "Fleet Node: dev-cx53 (Hetzner CX53)", "category": "Fleet", "url": "https://ocean.vaked.dev", "desc": "Build/deploy host, honcho memory & AgentField control plane"}, {"title": "Fleet Node: public-services-host (Hetzner CX33)", "category": "Fleet", "url": "https://vaked.dev", "desc": "Public gateway, reverse proxy, Forgejo, Vaultwarden"}, {"title": "Fleet Node: mbp (Apple Silicon M3)", "category": "Fleet", "url": "https://vaked.dev", "desc": "Local workstation, MLX BitNet inference & sovereign dev runtime"}];
+  const SPOTLIGHT_INDEX = [{"title": "vaked.dev \u2014 Constellation Apex", "category": "Constellation", "url": "https://vaked.dev", "desc": "The sovereign apex and commons for art, music, math & agents"}, {"title": "pocoo.vaked.dev \u2014 Sovereign Library (85 Monographs)", "category": "Library", "url": "https://pocoo.vaked.dev", "desc": "Erd\u0151s phase transitions, SLE, Tracy-Widom, DYAD attention & BitNet"}, {"title": "music.vaked.dev \u2014 432Hz Intergalactic TV", "category": "Audio", "url": "https://music.vaked.dev", "desc": "Procedural Web Audio engine & Casa Bertallot harmonic acoustic synthesis"}, {"title": "art.vaked.dev \u2014 Archival Gallery & Provenance", "category": "Art", "url": "https://art.vaked.dev", "desc": "Curated #01\u2013#49 visual neural artifacts with SHA-256 provenance"}, {"title": "store.vaked.dev \u2014 Sovereign Storefront", "category": "Store", "url": "https://store.vaked.dev", "desc": "Gicl\u00e9e 8K prints, organic apparel, and audiophile vinyl masters"}, {"title": "ocean.vaked.dev \u2014 Compute Ocean & Swarm Factory", "category": "Compute", "url": "https://ocean.vaked.dev", "desc": "High-compute inference, MEM8 associative memory & agent factory"}, {"title": "axiomquant.org \u2014 Quantitative Research Portal", "category": "Math", "url": "https://axiomquant.org", "desc": "Spectral rigidity, Markowitz QP, and Universal Threshold Kernel"}, {"title": "mlxquantlovefrom.com \u2014 Metal BitNet 1.58b", "category": "Math", "url": "https://mlxquantlovefrom.com", "desc": "Apple Silicon Metal kernel optimization for ternary quantization"}, {"title": "classroom-sota-training \u2014 Council of Elders (8+1)", "category": "Distillation", "url": "https://8b-is.github.io/classroom-sota-training/", "desc": "Waldorf-style SOTA classroom training with geometric-mean consensus"}, {"title": "cogitoergosumma-corpus \u2014 Hugging Face Space", "category": "Corpus", "url": "https://huggingface.co/spaces/PeetPedro/cogitoergosumma-corpus", "desc": "Interactive semantic Q&A and topic exploration across 85 monographs"}, {"title": "lovetta.vaked.dev \u2014 Sovereign Studio & Patreon", "category": "Studio", "url": "https://lovetta.vaked.dev", "desc": "Patron tiers, creator lanes, and physical sample request channels"}, {"title": "worklog.vaked.dev \u2014 Sovereign Fleet Board", "category": "Logs", "url": "https://worklog.vaked.dev", "desc": "Live fleet updates, commit timelines, and milestone tracking"}, {"title": "proposal.vaked.dev \u2014 Architectural Proposals", "category": "Discourse", "url": "https://proposal.vaked.dev", "desc": "Public discourse, monograph drafts, and RFC review pipeline"}, {"title": "Monograph 01: Universal Threshold Kernel", "category": "Monograph", "url": "https://pocoo.vaked.dev/monographs/01", "desc": "Mathematical foundations of Erd\u0151s threshold phase shifts"}, {"title": "Monograph 14: DYAD Asymmetric Loss Modulation", "category": "Monograph", "url": "https://pocoo.vaked.dev/monographs/14", "desc": "Context-preserving dual-head token pruning with span CNN"}, {"title": "Monograph 26: Ring-of-Teachers Mixed Distillation", "category": "Distillation", "url": "https://pocoo.vaked.dev/monographs/26", "desc": "Classroom SOTA 1.7B student distillation from 8B faculty teachers"}, {"title": "Monograph 42: BitNet b1.58 Metal Acceleration", "category": "Monograph", "url": "https://pocoo.vaked.dev/monographs/42", "desc": "Matrix multiplication elimination via ternary {-1, 0, +1} arithmetic"}, {"title": "Monograph 73: Harmonic Acoustic Synthesis at A=432Hz", "category": "Audio", "url": "https://pocoo.vaked.dev/monographs/73", "desc": "Pythagorean tuning standards in real-time procedural Web Audio"}, {"title": "Monograph 85: Cogito Ergo Sum Machine Invariant", "category": "Monograph", "url": "https://pocoo.vaked.dev/monographs/85", "desc": "Autonomous self-reflecting agent epistemology & verified gradients"}, {"title": "Q\u00ec (\u6c23) Cybernetic Creator 2.0 T-Shirt", "category": "Store", "url": "https://store.vaked.dev", "desc": "100% Organic combed cotton DTF high-contrast cyan seal print"}, {"title": "SZAM\u00c1R MAD\u00c1R Heavy Cruiser Hoodie", "category": "Store", "url": "https://store.vaked.dev", "desc": "350 gsm organic pullover with 145 BPM Hungarian polyrhythm emblem"}, {"title": "Fleet Node: dev-cx53 (Hetzner CX53)", "category": "Fleet", "url": "https://ocean.vaked.dev", "desc": "Build/deploy host, honcho memory & AgentField control plane"}, {"title": "Fleet Node: public-services-host (Hetzner CX33)", "category": "Fleet", "url": "https://vaked.dev", "desc": "Public gateway, reverse proxy, Forgejo, Vaultwarden"}, {"title": "Fleet Node: mbp (Apple Silicon M3)", "category": "Fleet", "url": "https://vaked.dev", "desc": "Local workstation, MLX BitNet inference & sovereign dev runtime"}];
   const spotlight = document.getElementById('vaked-spotlight');
-  const trigger = document.getElementById('hud-spotlight-trigger');
-  const queryInput = document.getElementById('spotlight-query');
-  const resultsList = document.getElementById('spotlight-results-list');
-  const pills = document.querySelectorAll('.spotlight-pill');
-  let currentFilter = 'all';
+  const input = document.getElementById('spotlight-input');
+  const resultsBox = document.getElementById('spotlight-results-box');
+  const openBtn = document.getElementById('open-spotlight-btn');
+  const catPills = document.querySelectorAll('.spotlight-cat-pill');
+  let currentCategory = 'All';
   let selectedIdx = 0;
 
-  function renderResults(query) {
-    const q = (query || '').toLowerCase().trim();
-    let filtered = searchIndex.filter(item => {
-      const matchFilter = currentFilter === 'all' || item.category === currentFilter;
-      const matchQuery = q === '' || 
-        item.title.toLowerCase().includes(q) || 
-        item.desc.toLowerCase().includes(q) ||
-        item.category.toLowerCase().includes(q);
-      return matchFilter && matchQuery;
+  function renderResults() {
+    const query = (input.value || '').toLowerCase().trim();
+    const filtered = SPOTLIGHT_INDEX.filter(item => {
+      const matchesCat = currentCategory === 'All' || item.category === currentCategory;
+      const matchesQuery = !query || item.title.toLowerCase().includes(query) || item.desc.toLowerCase().includes(query) || item.category.toLowerCase().includes(query);
+      return matchesCat && matchesQuery;
     });
 
-    if (filtered.length === 0) {
-      resultsList.innerHTML = '<div style="padding:24px;text-align:center;color:#64748b;font-size:13px;">No sovereign nodes or monographs match your search</div>';
+    if (!filtered.length) {
+      resultsBox.innerHTML = '<div style="padding: 24px; text-align: center; color: #64748b; font-size: 13px; font-family: ui-sans-serif, system-ui, sans-serif;">No matching constellation nodes found.</div>';
       return;
     }
 
-    resultsList.innerHTML = filtered.slice(0, 8).map((item, idx) => `
+    selectedIdx = Math.max(0, Math.min(selectedIdx, filtered.length - 1));
+
+    resultsBox.innerHTML = filtered.map((item, idx) => `
       <a href="${item.url}" class="spotlight-item ${idx === selectedIdx ? 'selected' : ''}" data-idx="${idx}">
-        <div class="spotlight-item-header">
-          <span class="spotlight-item-title">${item.title}</span>
-          <span class="spotlight-item-cat">${item.category}</span>
+        <div class="spotlight-item-main">
+          <div class="spotlight-item-title">${item.title}</div>
+          <div class="spotlight-item-desc">${item.desc}</div>
         </div>
-        <div class="spotlight-item-desc">${item.desc}</div>
+        <span class="spotlight-item-tag">${item.category}</span>
       </a>
     `).join('');
   }
 
   function openSpotlight() {
+    if (!spotlight) return;
     spotlight.classList.add('open');
-    queryInput.value = '';
-    selectedIdx = 0;
-    currentFilter = 'all';
-    pills.forEach(p => p.classList.toggle('active', p.dataset.filter === 'all'));
-    renderResults('');
-    queryInput.focus();
+    input.value = '';
+    currentCategory = 'All';
+    catPills.forEach(p => p.classList.toggle('active', p.getAttribute('data-cat') === 'All'));
+    renderResults();
+    setTimeout(() => input.focus(), 50);
   }
 
   function closeSpotlight() {
+    if (!spotlight) return;
     spotlight.classList.remove('open');
   }
 
-  pills.forEach(p => {
-    p.addEventListener('click', () => {
-      pills.forEach(x => x.classList.remove('active'));
-      p.classList.add('active');
-      currentFilter = p.dataset.filter;
-      selectedIdx = 0;
-      renderResults(queryInput.value);
-    });
-  });
+  if (openBtn) openBtn.addEventListener('click', openSpotlight);
 
-  if (trigger) trigger.addEventListener('click', openSpotlight);
   if (spotlight) {
     spotlight.addEventListener('click', (e) => {
       if (e.target === spotlight) closeSpotlight();
     });
   }
 
-  if (queryInput) {
-    queryInput.addEventListener('input', (e) => {
+  catPills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      catPills.forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      currentCategory = pill.getAttribute('data-cat');
+      renderResults();
+    });
+  });
+
+  if (input) {
+    input.addEventListener('input', () => {
       selectedIdx = 0;
-      renderResults(e.target.value);
+      renderResults();
     });
 
-    queryInput.addEventListener('keydown', (e) => {
-      const items = resultsList.querySelectorAll('.spotlight-item');
+    input.addEventListener('keydown', (e) => {
+      const items = resultsBox.querySelectorAll('.spotlight-item');
       if (e.key === 'ArrowDown') {
         e.preventDefault();
         selectedIdx = (selectedIdx + 1) % items.length;
-        renderResults(queryInput.value);
+        renderResults();
       } else if (e.key === 'ArrowUp') {
         e.preventDefault();
         selectedIdx = (selectedIdx - 1 + items.length) % items.length;
-        renderResults(queryInput.value);
+        renderResults();
       } else if (e.key === 'Enter') {
         e.preventDefault();
-        const sel = resultsList.querySelector('.spotlight-item.selected');
+        const sel = items[selectedIdx];
         if (sel) window.location.href = sel.getAttribute('href');
       } else if (e.key === 'Escape') {
+        e.preventDefault();
         closeSpotlight();
       }
     });
@@ -554,9 +597,9 @@ a:focus-visible,button:focus-visible{outline:2.5px solid #62e6c9!important;outli
   window.addEventListener('keydown', (e) => {
     if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
       e.preventDefault();
-      if (spotlight.classList.contains('open')) closeSpotlight();
+      if (spotlight && spotlight.classList.contains('open')) closeSpotlight();
       else openSpotlight();
-    } else if (e.key === '/' && document.activeElement !== queryInput && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+    } else if (e.key === '/' && document.activeElement !== input && !['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
       e.preventDefault();
       openSpotlight();
     }
