@@ -21,32 +21,33 @@
   footer a{color:#6c5ce7;text-decoration:none}
 
 
-/* ---- VAKED CONSTELLATION HUD V3.1 & SPOTLIGHT PALETTE ---- */
+
+/* ---- VAKED CONSTELLATION HUD V4.20.0 & SPOTLIGHT PALETTE ---- */
 #vaked-hud {
   position: fixed;
-  bottom: 20px;
+  bottom: 22px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 99999;
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 7px 18px;
-  background: rgba(8, 12, 20, 0.82);
-  backdrop-filter: blur(20px) saturate(190%);
-  -webkit-backdrop-filter: blur(20px) saturate(190%);
-  border: 1px solid rgba(98, 230, 201, 0.28);
+  padding: 8px 20px;
+  background: rgba(8, 12, 20, 0.85);
+  backdrop-filter: blur(24px) saturate(200%);
+  -webkit-backdrop-filter: blur(24px) saturate(200%);
+  border: 1px solid rgba(98, 230, 201, 0.32);
   border-radius: 9999px;
-  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.55), 0 0 22px rgba(98, 230, 201, 0.12);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.65), 0 0 25px rgba(98, 230, 201, 0.15);
   font-family: ui-monospace, "SF Mono", Menlo, Monaco, Consolas, monospace;
   font-size: 11px;
   color: #e2e8f0;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
   user-select: none;
 }
 #vaked-hud:hover {
-  border-color: rgba(98, 230, 201, 0.55);
-  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.65), 0 0 30px rgba(98, 230, 201, 0.22);
+  border-color: rgba(98, 230, 201, 0.65);
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.75), 0 0 35px rgba(98, 230, 201, 0.28);
 }
 #vaked-hud .hud-brand {
   font-weight: 700;
@@ -55,7 +56,7 @@
   text-decoration: none;
   display: flex;
   align-items: center;
-  gap: 7px;
+  gap: 8px;
 }
 #vaked-hud .hud-pulse {
   width: 7px;
@@ -89,7 +90,7 @@
 #vaked-hud .hud-sep {
   width: 1px;
   height: 14px;
-  background: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.2);
 }
 #vaked-hud .hud-nav {
   display: flex;
@@ -114,7 +115,7 @@
   gap: 5px;
   padding: 3px 8px;
   background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 6px;
   color: #cbd5e1;
   cursor: pointer;
@@ -123,8 +124,8 @@
   transition: all 0.15s ease;
 }
 #vaked-hud .hud-search-btn:hover {
-  background: rgba(98, 230, 201, 0.15);
-  border-color: rgba(98, 230, 201, 0.4);
+  background: rgba(98, 230, 201, 0.18);
+  border-color: rgba(98, 230, 201, 0.45);
   color: #ffffff;
 }
 
@@ -133,13 +134,13 @@
   position: fixed;
   inset: 0;
   z-index: 100000;
-  background: rgba(3, 6, 12, 0.78);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  background: rgba(3, 6, 12, 0.82);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
   display: none;
   align-items: flex-start;
   justify-content: center;
-  padding-top: 15vh;
+  padding-top: 14vh;
   opacity: 0;
   transition: opacity 0.2s ease;
 }
@@ -148,11 +149,11 @@
   opacity: 1;
 }
 .spotlight-card {
-  width: min(620px, 92vw);
+  width: min(640px, 92vw);
   background: #090e18;
-  border: 1px solid rgba(98, 230, 201, 0.35);
+  border: 1px solid rgba(98, 230, 201, 0.38);
   border-radius: 16px;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 35px rgba(98, 230, 201, 0.15);
+  box-shadow: 0 25px 65px rgba(0, 0, 0, 0.85), 0 0 40px rgba(98, 230, 201, 0.18);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -180,6 +181,33 @@
 .spotlight-input::placeholder {
   color: #64748b;
 }
+
+/* Filter pills */
+.spotlight-pills {
+  display: flex;
+  gap: 6px;
+  padding: 8px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(4, 7, 13, 0.5);
+  overflow-x: auto;
+}
+.spotlight-pill {
+  padding: 3px 9px;
+  border-radius: 9999px;
+  font-size: 10.5px;
+  font-family: ui-monospace, monospace;
+  background: rgba(255, 255, 255, 0.06);
+  color: #94a3b8;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+}
+.spotlight-pill:hover, .spotlight-pill.active {
+  background: rgba(98, 230, 201, 0.15);
+  border-color: rgba(98, 230, 201, 0.35);
+  color: #62e6c9;
+}
+
 .spotlight-results {
   max-height: 380px;
   overflow-y: auto;
@@ -224,7 +252,7 @@
 }
 .spotlight-footer {
   padding: 10px 18px;
-  background: rgba(4, 7, 13, 0.7);
+  background: rgba(4, 7, 13, 0.75);
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
   justify-content: space-between;
@@ -364,6 +392,9 @@ a:focus-visible,button:focus-visible{outline:2.5px solid #62e6c9!important;outli
 
 
 <!-- VAKED CONSTELLATION HUD V3.1 -->
+
+
+<!-- VAKED CONSTELLATION HUD V4.20.0 -->
 <nav id="vaked-hud" aria-label="Constellation Universal Navigation">
   <a href="https://vaked.dev" class="hud-brand" title="Constellation Apex">
     <span class="hud-pulse"></span>VAKED
@@ -389,12 +420,21 @@ a:focus-visible,button:focus-visible{outline:2.5px solid #62e6c9!important;outli
   </button>
 </nav>
 
-<!-- VAKED SPOTLIGHT COMMAND PALETTE -->
+<!-- VAKED SPOTLIGHT COMMAND PALETTE V4.20.0 -->
 <div id="vaked-spotlight" role="dialog" aria-modal="true" aria-label="Constellation Search Palette">
   <div class="spotlight-card">
     <div class="spotlight-input-wrap">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-      <input type="text" class="spotlight-input" id="spotlight-query" placeholder="Search 85 monographs, 49 art pieces, audio, store, math..." autocomplete="off">
+      <input type="text" class="spotlight-input" id="spotlight-query" placeholder="Search monographs, art, audio, store, math, fleet..." autocomplete="off">
+    </div>
+    <div class="spotlight-pills" id="spotlight-pills">
+      <span class="spotlight-pill active" data-filter="all">All</span>
+      <span class="spotlight-pill" data-filter="Monograph">Monographs</span>
+      <span class="spotlight-pill" data-filter="Art">Art</span>
+      <span class="spotlight-pill" data-filter="Audio">Audio</span>
+      <span class="spotlight-pill" data-filter="Store">Store</span>
+      <span class="spotlight-pill" data-filter="Math">Math</span>
+      <span class="spotlight-pill" data-filter="Fleet">Fleet</span>
     </div>
     <div class="spotlight-results" id="spotlight-results-list"></div>
     <div class="spotlight-footer">
@@ -406,27 +446,32 @@ a:focus-visible,button:focus-visible{outline:2.5px solid #62e6c9!important;outli
 
 <script>
 (function() {
-  const searchIndex = [{"title": "vaked.dev \u2014 Constellation Apex", "category": "Constellation", "url": "https://vaked.dev", "desc": "The sovereign apex and commons for art, music, math & agents"}, {"title": "pocoo.vaked.dev \u2014 Sovereign Library (85 Monographs)", "category": "Library", "url": "https://pocoo.vaked.dev", "desc": "Erd\u0151s phase transitions, SLE, Tracy-Widom, DYAD attention & BitNet"}, {"title": "music.vaked.dev \u2014 432Hz Intergalactic TV", "category": "Audio", "url": "https://music.vaked.dev", "desc": "Procedural Web Audio engine & Three.js particle constellation"}, {"title": "art.vaked.dev \u2014 Archival Gallery & Provenance", "category": "Art", "url": "https://art.vaked.dev", "desc": "Curated #01\u2013#49 visual neural artifacts with SHA-256 provenance"}, {"title": "store.vaked.dev \u2014 Sovereign Storefront", "category": "Store", "url": "https://store.vaked.dev", "desc": "Gicl\u00e9e 8K prints, organic apparel, and audiophile vinyl masters"}, {"title": "ocean.vaked.dev \u2014 Compute Ocean & Swarm Factory", "category": "Compute", "url": "https://ocean.vaked.dev", "desc": "High-compute inference, MEM8 associative memory & agent factory"}, {"title": "axiomquant.org \u2014 Quantitative Research Portal", "category": "Math", "url": "https://axiomquant.org", "desc": "Spectral rigidity, Markowitz QP, and Universal Threshold Kernel"}, {"title": "mlxquantlovefrom.com \u2014 Metal BitNet 1.58b", "category": "Math", "url": "https://mlxquantlovefrom.com", "desc": "Apple Silicon Metal kernel optimization for ternary quantization"}, {"title": "lovetta.vaked.dev \u2014 Sovereign Studio & Patreon", "category": "Studio", "url": "https://lovetta.vaked.dev", "desc": "Patron tiers, creator lanes, and physical sample request channels"}, {"title": "worklog.vaked.dev \u2014 Sovereign Fleet Board", "category": "Logs", "url": "https://worklog.vaked.dev", "desc": "Live fleet updates, commit timelines, and milestone tracking"}, {"title": "proposal.vaked.dev \u2014 Architectural Proposals", "category": "Discourse", "url": "https://proposal.vaked.dev", "desc": "Public discourse, monograph drafts, and RFC review pipeline"}, {"title": "Monograph 01: Universal Threshold Kernel", "category": "Monograph", "url": "https://pocoo.vaked.dev/monographs/01", "desc": "Mathematical foundations of Erd\u0151s threshold phase shifts"}, {"title": "Monograph 14: DYAD Asymmetric Loss Modulation", "category": "Monograph", "url": "https://pocoo.vaked.dev/monographs/14", "desc": "Context-preserving dual-head token pruning with span CNN"}, {"title": "Monograph 42: BitNet b1.58 Metal Acceleration", "category": "Monograph", "url": "https://pocoo.vaked.dev/monographs/42", "desc": "Matrix multiplication elimination via ternary {-1, 0, +1} arithmetic"}, {"title": "Q\u00ec (\u6c23) Cybernetic Creator 2.0 T-Shirt", "category": "Store", "url": "https://store.vaked.dev", "desc": "100% Organic combed cotton DTF high-contrast cyan seal print"}, {"title": "SZAM\u00c1R MAD\u00c1R Heavy Cruiser Hoodie", "category": "Store", "url": "https://store.vaked.dev", "desc": "350 gsm organic pullover with 145 BPM Hungarian polyrhythm emblem"}, {"title": "432Hz Ambient Diatonic Engine", "category": "Audio", "url": "https://music.vaked.dev", "desc": "Real-time sound synthesis in A=432Hz tuning standard"}];
+  const searchIndex = [{"title": "vaked.dev \u2014 Constellation Apex", "category": "Constellation", "url": "https://vaked.dev", "desc": "The sovereign apex and commons for art, music, math & agents"}, {"title": "pocoo.vaked.dev \u2014 Sovereign Library (85 Monographs)", "category": "Library", "url": "https://pocoo.vaked.dev", "desc": "Erd\u0151s phase transitions, SLE, Tracy-Widom, DYAD attention & BitNet"}, {"title": "music.vaked.dev \u2014 432Hz Intergalactic TV", "category": "Audio", "url": "https://music.vaked.dev", "desc": "Procedural Web Audio engine & Three.js particle constellation"}, {"title": "art.vaked.dev \u2014 Archival Gallery & Provenance", "category": "Art", "url": "https://art.vaked.dev", "desc": "Curated #01\u2013#49 visual neural artifacts with SHA-256 provenance"}, {"title": "store.vaked.dev \u2014 Sovereign Storefront", "category": "Store", "url": "https://store.vaked.dev", "desc": "Gicl\u00e9e 8K prints, organic apparel, and audiophile vinyl masters"}, {"title": "ocean.vaked.dev \u2014 Compute Ocean & Swarm Factory", "category": "Compute", "url": "https://ocean.vaked.dev", "desc": "High-compute inference, MEM8 associative memory & agent factory"}, {"title": "axiomquant.org \u2014 Quantitative Research Portal", "category": "Math", "url": "https://axiomquant.org", "desc": "Spectral rigidity, Markowitz QP, and Universal Threshold Kernel"}, {"title": "mlxquantlovefrom.com \u2014 Metal BitNet 1.58b", "category": "Math", "url": "https://mlxquantlovefrom.com", "desc": "Apple Silicon Metal kernel optimization for ternary quantization"}, {"title": "lovetta.vaked.dev \u2014 Sovereign Studio & Patreon", "category": "Studio", "url": "https://lovetta.vaked.dev", "desc": "Patron tiers, creator lanes, and physical sample request channels"}, {"title": "worklog.vaked.dev \u2014 Sovereign Fleet Board", "category": "Logs", "url": "https://worklog.vaked.dev", "desc": "Live fleet updates, commit timelines, and milestone tracking"}, {"title": "proposal.vaked.dev \u2014 Architectural Proposals", "category": "Discourse", "url": "https://proposal.vaked.dev", "desc": "Public discourse, monograph drafts, and RFC review pipeline"}, {"title": "Monograph 01: Universal Threshold Kernel", "category": "Monograph", "url": "https://pocoo.vaked.dev/monographs/01", "desc": "Mathematical foundations of Erd\u0151s threshold phase shifts"}, {"title": "Monograph 14: DYAD Asymmetric Loss Modulation", "category": "Monograph", "url": "https://pocoo.vaked.dev/monographs/14", "desc": "Context-preserving dual-head token pruning with span CNN"}, {"title": "Monograph 42: BitNet b1.58 Metal Acceleration", "category": "Monograph", "url": "https://pocoo.vaked.dev/monographs/42", "desc": "Matrix multiplication elimination via ternary {-1, 0, +1} arithmetic"}, {"title": "Q\u00ec (\u6c23) Cybernetic Creator 2.0 T-Shirt", "category": "Store", "url": "https://store.vaked.dev", "desc": "100% Organic combed cotton DTF high-contrast cyan seal print"}, {"title": "SZAM\u00c1R MAD\u00c1R Heavy Cruiser Hoodie", "category": "Store", "url": "https://store.vaked.dev", "desc": "350 gsm organic pullover with 145 BPM Hungarian polyrhythm emblem"}, {"title": "432Hz Ambient Diatonic Engine", "category": "Audio", "url": "https://music.vaked.dev", "desc": "Real-time sound synthesis in A=432Hz tuning standard"}, {"title": "Fleet Node: dev-cx53 (Hetzner CX53)", "category": "Fleet", "url": "https://ocean.vaked.dev", "desc": "Build/deploy host, honcho memory & AgentField control plane"}, {"title": "Fleet Node: public-services-host (Hetzner CX33)", "category": "Fleet", "url": "https://vaked.dev", "desc": "Public gateway, reverse proxy, Forgejo, Vaultwarden"}, {"title": "Fleet Node: mbp (Apple Silicon M3)", "category": "Fleet", "url": "https://vaked.dev", "desc": "Local workstation, MLX BitNet inference & sovereign dev runtime"}];
   const spotlight = document.getElementById('vaked-spotlight');
   const trigger = document.getElementById('hud-spotlight-trigger');
   const queryInput = document.getElementById('spotlight-query');
   const resultsList = document.getElementById('spotlight-results-list');
+  const pills = document.querySelectorAll('.spotlight-pill');
+  let currentFilter = 'all';
   let selectedIdx = 0;
 
   function renderResults(query) {
     const q = (query || '').toLowerCase().trim();
-    const filtered = q === '' ? searchIndex.slice(0, 7) : searchIndex.filter(item => 
-      item.title.toLowerCase().includes(q) || 
-      item.desc.toLowerCase().includes(q) ||
-      item.category.toLowerCase().includes(q)
-    );
+    let filtered = searchIndex.filter(item => {
+      const matchFilter = currentFilter === 'all' || item.category === currentFilter;
+      const matchQuery = q === '' || 
+        item.title.toLowerCase().includes(q) || 
+        item.desc.toLowerCase().includes(q) ||
+        item.category.toLowerCase().includes(q);
+      return matchFilter && matchQuery;
+    });
 
     if (filtered.length === 0) {
-      resultsList.innerHTML = '<div style="padding:20px;text-align:center;color:#64748b;font-size:13px;">No sovereign nodes or monographs found</div>';
+      resultsList.innerHTML = '<div style="padding:24px;text-align:center;color:#64748b;font-size:13px;">No sovereign nodes or monographs match your search</div>';
       return;
     }
 
-    resultsList.innerHTML = filtered.map((item, idx) => `
+    resultsList.innerHTML = filtered.slice(0, 8).map((item, idx) => `
       <a href="${item.url}" class="spotlight-item ${idx === selectedIdx ? 'selected' : ''}" data-idx="${idx}">
         <div class="spotlight-item-header">
           <span class="spotlight-item-title">${item.title}</span>
@@ -441,6 +486,8 @@ a:focus-visible,button:focus-visible{outline:2.5px solid #62e6c9!important;outli
     spotlight.classList.add('open');
     queryInput.value = '';
     selectedIdx = 0;
+    currentFilter = 'all';
+    pills.forEach(p => p.classList.toggle('active', p.dataset.filter === 'all'));
     renderResults('');
     queryInput.focus();
   }
@@ -448,6 +495,16 @@ a:focus-visible,button:focus-visible{outline:2.5px solid #62e6c9!important;outli
   function closeSpotlight() {
     spotlight.classList.remove('open');
   }
+
+  pills.forEach(p => {
+    p.addEventListener('click', () => {
+      pills.forEach(x => x.classList.remove('active'));
+      p.classList.add('active');
+      currentFilter = p.dataset.filter;
+      selectedIdx = 0;
+      renderResults(queryInput.value);
+    });
+  });
 
   if (trigger) trigger.addEventListener('click', openSpotlight);
   if (spotlight) {
