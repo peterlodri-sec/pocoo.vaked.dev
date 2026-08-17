@@ -73,6 +73,7 @@
   <ul>
     <li><strong>Allocation count is the contract.</strong> <code>mallocCountTotal</code> is near-deterministic for a given code path, survives noisy machines, and is CI-checked with a 25% p90 tolerance. Wall-clock is never gated — it is collected for trends only. ARC traffic (retain/release counts) gets a 5% gate.</li>
     <li><strong>Check that the gate runs.</strong> Added 2026-08-16, the hard way — see below. A threshold file committed next to a CI job is not a gate. It is a gate <em>if you have watched it fail</em>.</li>
+    <li><strong>Benchmarking dead code manufactures a number.</strong> <code>zig-core</code>'s packet filter looked like an obvious candidate for an arena allocator. It allocates nothing per packet — and more to the point, <em>Swift never calls it</em>; the data plane is WireGuardKit's. So the stats it reports are structurally always zero, which reads as "nothing was filtered" rather than "nothing is filtering". Adding a benchmark would have produced a clean, meaningless graph.</li>
     <li><strong>A benchmark run on an unquiesced machine is rejected, not recorded.</strong> Thermal state must be nominal, no background builds, load average below 2.0. One sample is not a measurement; report median, p90, and spread.</li>
     <li><strong>Thresholds are reviewed like code.</strong> A jump in allocations is a diff someone must own.</li>
   </ul>
@@ -137,8 +138,63 @@ for entry in history {
     <p><strong>The index that would have been a lie.</strong> The plan was a prepared index: lowercase every candidate once, reuse it across keystrokes. Measurement killed it. In production the candidate list is a <em>query-dependent</em> SQL result — <code>history.entries(matching: query, limit: 50)</code>, rebuilt per keystroke — so there is nothing stable to index. Worse, the benchmarked entry point has no caller in the app at all. An index could only have <em>looked</em> like a win by hoisting construction out of the measured loop, which the real code path does not do. It would have produced a beautiful number and changed nothing for the user. The smaller, honest fix reached 11 anyway — and since no cache exists, the staleness bug it would have introduced cannot exist either.</p>
   </div>
 
+  <h3>Serialization, not data structures</h3>
+  <p>The rule-list compiler was the last big site: <strong>49,552 allocations to compile 1,000 filter rules</strong>, ~49.5 per rule. The obvious culprit was <code>[[String: Any]]</code> — a Dictionary per rule, every value a boxed existential, every key a heap String. Phase attribution said otherwise:</p>
+  <pre><code>substring split                11      —
+components(separatedBy:)    1,012    2.0%
++ per-line trim             2,012    2.0%
++ parse                     7,262   10.6%
++ regex construction       ~21,000  27.7%
++ [String: Any] dicts      ~27,000  12.1%
++ JSONSerialization        49,552   45.5%   &lt;- the actual answer</code></pre>
+  <p>The dictionaries were <em>third</em>. Nearly half the cost was <code>JSONSerialization</code> turning those structures back into text. Writing UTF-8 bytes into one reserved buffer, with regex escaping and JSON escaping fused into a single pass, lands within <strong>6 allocations</strong> of the parse-only probe — everything outside the parser is now free. <strong>49,552 → 7,268</strong> (<a href="https://github.com/8b-is/qwave/commit/763bc1f">commit <code>763bc1f</code></a>).</p>
+  <p>Found in passing, and worth its own sentence: <code>escapeHost</code> was calling <code>.replacingOccurrences(of: "\\.", with: "\\.")</code> — <em>identical needle and replacement</em> — paying a full NSString bridge per rule to produce the string it already had.</p>
+
+  <div class="callout">
+    <p><strong>Three hypotheses, three misses.</strong> Every one of these three optimizations was preceded by a confident, specific, wrong guess about where the allocations were.</p>
+    <p><strong>Markdown:</strong> predicted per-line splitting, missing <code>reserveCapacity</code>, uncached regexes. All three had already been fixed in an earlier pass. The real cost was regex passes that <em>matched nothing</em>.<br>
+    <strong>Omnibox:</strong> predicted <code>absoluteString</code> and <code>url.host</code>. Both are free — Foundation returns stored storage, short hosts fit the small-string form. It was <code>lowercased()</code>, entirely.<br>
+    <strong>Rule compiler:</strong> predicted the boxed dictionaries. They came third, at 12%. It was serialization, at 46%.</p>
+    <p>The pattern is not that the guesses were careless — each named a real, plausible, textbook allocation source. It is that the <em>textbook</em> sources had mostly been fixed already, so what remained was, by definition, the thing nobody thinks of. Past a first cleanup pass, intuition is measuring your own reading habits rather than the program. Attribute by phase before touching anything; the profile is cheap and the guess is worth nothing.</p>
+  </div>
+
   <h3>Declarative Net Request (MV3 DNR): Native WebKit JSON Compilation</h3>
   <p>Rather than running JavaScript extension background scripts to inspect and block network requests, Qwave compiles MV3 <code>declarativeNetRequest</code> rulesets directly into native WebKit <code>WKContentRuleList</code> JSON format (<a href="https://github.com/8b-is/qwave/blob/main/Packages/QwaveKit/Sources/WebExtensions/DeclarativeNetRequest.swift">DeclarativeNetRequest.swift</a>, <a href="https://github.com/8b-is/qwave/pull/48">PR #48</a> / <a href="https://github.com/8b-is/qwave/commit/325fb0c">commit <code>325fb0c</code></a>). The rules execute inside WebKit's native C++ engine with <strong>0 ms JavaScript bridge overhead</strong>.</p>
+
+  <h2><span class="num">02b</span>New Swift, and the two walls it runs into</h2>
+  <p>The allocation work above ends where the language begins. <code>Span</code>, <code>MutableSpan</code> and <code>InlineArray</code> are exactly the tools it wanted: non-escapable views over contiguous memory, no heap allocation, no reference counting, a pointer and a count the optimizer can reason about. The hand-rolled UTF-8 byte matching in the omnibox and the byte buffer in the rule compiler are both open-coded versions of what <code>Span</code> exists to express safely.</p>
+  <p>Neither is adoptable yet, and the reasons are worth more than the features.</p>
+
+  <h3>The ceiling: your CI compiler, not your laptop</h3>
+  <p>Qwave's CI pins Xcode 26.3 and then asserts, separately, that it provides <em>Swift 6.2</em> — two gates, because an image update should not be able to change build behaviour without a commit. The development machine runs Swift 6.3.1. So the language you may write is bounded by the CI toolchain, and code verified locally on 6.3 can compile clean and still fail the build.</p>
+  <p>Not hypothetical. A test using <code>for case let url as URL in enumerator</code> inside an <code>async</code> body compiled fine under 6.2 and failed under 6.3.1, because the newer SDK marks <code>NSEnumerator.makeIterator()</code> unavailable from asynchronous contexts. The fix — <code>allObjects.compactMap</code> — works on both. But the failure was invisible to CI and visible to every developer, which is the reverse of the usual arrangement, and it is the kind of drift a pinned toolchain is supposed to prevent rather than cause.</p>
+
+  <h3>The floor: check the <code>.swiftinterface</code>, not the release notes</h3>
+  <p>The obvious reading is that <code>Span</code> is a Swift 6.2 feature, <code>InlineArray</code> is declared <code>@available(SwiftStdlib 6.2, *)</code>, that gate is a <em>runtime</em> gate against the stdlib shipped inside the OS, and therefore none of it is reachable from a macOS 14 floor. That reading is wrong, and it took reading the actual interface files and compiling at <code>-target arm64-apple-macos14.0</code> to find out:</p>
+  <pre><code>Span / MutableSpan / RawSpan  (the types)   macOS 10.14.4   available
+ContiguousArray.span / .mutableSpan          macOS 10.14.4   available
+ArraySlice.span                              macOS 10.14.4   available
+
+Array.span                                   macOS 26.0      blocked
+InlineArray                                  macOS 26.0      blocked
+String.utf8Span                              macOS 26.0      blocked</code></pre>
+  <p><strong><code>Span</code> is not blocked by the floor. <code>Array</code> is.</strong> The types are back-deployed via <code>@_alwaysEmitIntoClient</code>; what is gated is <code>Array</code>'s accessor for them. Move a hot byte buffer from <code>Array&lt;UInt8&gt;</code> to <code>ContiguousArray&lt;UInt8&gt;</code> and <code>MutableSpan</code> becomes reachable with no <code>if #available</code> anywhere — on a four-year-old deployment target.</p>
+  <p>The support policy matters less than it looked, too. <em>Latest three releases</em> back from macOS 26 is 26, 15 and 14 — so a "raise the floor" decision would have to jump straight to 26, supporting exactly one macOS version, to unlock <code>InlineArray</code>. Whereas the thing actually worth having was available the whole time behind a different collection type.</p>
+  <div class="callout">
+    <p><strong>Availability is per-declaration, and the release notes round it off.</strong> "Swift 6.2 feature" describes when something was <em>introduced</em>, not when it becomes <em>callable</em> — and different declarations of the same feature carry different gates. The type, the accessor on one collection, and the accessor on another collection had three different answers here. Checking cost one <code>rg</code> through the <code>.swiftinterface</code> and one compile at the deployment target; guessing would have cost either a needless OS bump or a permanently abandoned optimisation.</p>
+  </div>
+
+  <h3>What is free right now</h3>
+  <p>Plenty, and none of it needs an availability gate:</p>
+  <ul>
+    <li><strong><code>ContiguousArray</code></strong> — where elements are structs and nothing bridges to <code>NSArray</code>. Same API, no bridging path.</li>
+    <li><strong>Typed throws</strong> (<code>throws(MyError)</code>) — where a function's error domain is genuinely closed. Drops existential boxing at the throw site and makes <code>catch</code> exhaustive.</li>
+    <li><strong><code>borrowing</code> / <code>consuming</code></strong> — explicit ownership on hot value-type paths, without retain/release traffic.</li>
+    <li><strong>Deleting redundant settings.</strong> A target on <code>.swiftLanguageMode(.v6)</code> already has complete concurrency checking — the migration guide says so in as many words. Carrying <code>.unsafeFlags(["-strict-concurrency=complete"])</code> beside it buys nothing and costs something real: <code>unsafeFlags</code> bars a package from being consumed as a versioned dependency.</li>
+  </ul>
+  <div class="callout">
+    <p><strong>The measurement discipline applies to language features too.</strong> Every item above is a candidate, not a change. The right output of a "modernise our Swift" pass is a reviewed inventory — how many real call sites, what each buys, what it costs — not a sweeping diff that touches a thousand lines and moves no number. Same rule as section 01, with a different guess to distrust: here the guess is <em>"newer is better."</em></p>
+  </div>
 
   <h2><span class="num">03</span>Apple Silicon SQLite: Unified Memory & Zero-Copy I/O</h2>
   <p>SQLite on macOS Apple Silicon benefits immensely from tuning for high-bandwidth Unified Memory Architecture (UMA) and fast NVMe storage (<a href="https://github.com/8b-is/qwave/blob/main/Packages/QwaveKit/Sources/Persistence/SQLiteDatabase.swift">SQLiteDatabase.swift</a>, <a href="https://github.com/8b-is/qwave/pull/49">PR #49</a> / <a href="https://github.com/8b-is/qwave/commit/75ad8a5">commit <code>75ad8a5</code></a>):</p>
