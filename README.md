@@ -202,3 +202,22 @@ Aaron Swartz — RSS 1.0 co-author (age 14), Reddit co-founder, Creative Commons
 **We remember. We continue the fight. Knowledge must be free.**
 
 [Demand Progress](https://demandprogress.org) · [Internet Archive](https://archive.org/donate) · [EFF](https://eff.org) · [Creative Commons](https://creativecommons.org)
+
+---
+
+## 🌌 Sovereign Constellation Ecosystem
+
+| System | Focus | Portal / Repository |
+|---|---|---|
+| **Axiom Quant** | 19-Chapter Monograph on Spectral Rigidity & Random Matrices | [`axiomquant.org`](https://axiomquant.org) |
+| **DeepSiper Enthea** | Multi-Agent Git Worktree Evaluation Harness | [`8b-is/deepsiper-enthea`](https://github.com/8b-is/deepsiper-enthea) |
+| **Classroom SOTA** | Waldorf Consensus Distillation & 1.7B Model | [`8b-is/classroom-sota-training`](https://github.com/8b-is/classroom-sota-training) · [`PeetPedro/quantal-classroom-1.6`](https://huggingface.co/PeetPedro/quantal-classroom-1.6) |
+| **EtherHive / Honest-IRC** | Post-Quantum Cryptography & Kademlia DHT Mesh | [`etherhive.vaked.dev`](https://etherhive.vaked.dev) · [`peterlodri-sec/etherhive`](https://github.com/peterlodri-sec/etherhive) |
+| **KOMPRESS** | Foundational Token Compression Preprint | [`kompress.vaked.dev/paper/main.pdf`](https://kompress.vaked.dev/paper/main.pdf) |
+| **Personal Hub** | Research, Monograph & Live Fieldwork Portal | [`peterl.dev`](https://peterl.dev) · [`vaked.dev`](https://vaked.dev) |
+
+```
+genesis seal:
+7c242080f5f821e5eaf563fe2208d60632c451687baf65f4fe8e4a0d226e3ecf
+WE. {-1, 0, +1}. <3
+```
