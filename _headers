@@ -1,64 +1,6 @@
 /*
-  Cache-Control: public, max-age=3600, must-revalidate
+  Cache-Control: public, max-age=0, must-revalidate
+  X-Robots-Tag: noai, noimageai
   X-Content-Type-Options: nosniff
   X-Frame-Options: SAMEORIGIN
   Referrer-Policy: strict-origin-when-cross-origin
-  X-Robots-Tag: noai, noimageai
-  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
-  Permissions-Policy: camera=(), microphone=(), geolocation=(), interest-cohort=(), browsing-topics=()
-  Cross-Origin-Opener-Policy: same-origin
-  Cross-Origin-Resource-Policy: same-origin
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://w.soundcloud.com https://kompress-ultra-api.cabotage.workers.dev; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' data: https://fonts.gstatic.com https://cdn.jsdelivr.net; img-src 'self' data: blob: https://vaked.dev https://*.vaked.dev https://*.huggingface.co https://huggingface.co https://github.com https://raw.githubusercontent.com https://cdn-thumbnails.huggingface.co https://img.logo.dev; connect-src 'self' https://*.vaked.dev https://coder.vaked.dev https://ocean-api.vaked.dev https://entheai.com https://*.entheai.com http://ent http://*.ent http://localhost:* http://127.0.0.1:* ws://localhost:* https://w.soundcloud.com https://cdn.jsdelivr.net https://api.github.com; media-src 'self' blob: https:; frame-src 'self' https://music.vaked.dev https://w.soundcloud.com https://huggingface.co; frame-ancestors 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; upgrade-insecure-requests
-
-/* Static artwork, vectors, and icons */
-/assets/og/*
-  ! Cache-Control
-  Cache-Control: public, max-age=604800, immutable
-
-/*.png
-  ! Cache-Control
-  Cache-Control: public, max-age=31536000, immutable
-
-/*.svg
-  ! Cache-Control
-  Cache-Control: public, max-age=86400
-
-/*.js
-  ! Cache-Control
-  Cache-Control: public, max-age=3600, must-revalidate
-
-/* Syndication & SEO discovery */
-/feed.xml
-  ! Cache-Control
-  Cache-Control: public, max-age=1800, must-revalidate
-  Content-Type: application/atom+xml; charset=utf-8
-
-/rss.xml
-  ! Cache-Control
-  Cache-Control: public, max-age=1800, must-revalidate
-  Content-Type: application/rss+xml; charset=utf-8
-
-/sitemap.xml
-  ! Cache-Control
-  Cache-Control: public, max-age=3600, must-revalidate
-  Content-Type: application/xml; charset=utf-8
-
-/* Policy & Identity files */
-/robots.txt
-  ! Cache-Control
-  Cache-Control: public, max-age=3600
-  Content-Type: text/plain; charset=utf-8
-
-/llms.txt
-  ! Cache-Control
-  Cache-Control: public, max-age=3600
-  Content-Type: text/plain; charset=utf-8
-
-/site.webmanifest
-  ! Cache-Control
-  Cache-Control: public, max-age=3600
-
-/.well-known/*
-  ! Cache-Control
-  Cache-Control: public, max-age=3600
-
