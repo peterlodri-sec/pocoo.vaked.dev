@@ -466,7 +466,7 @@ ${tagsList.map(t => `<meta property="article:tag" content="${esc(t)}">`).join("\
 <!-- Styles & Background Scripts -->
 <link rel="stylesheet" href="${prefix}assets/bg.css">
 <link rel="stylesheet" href="${prefix}assets/blog.css">
-<script defer src="${prefix}assets/bg.js"></script>
+<script defer src="${prefix}assets/bg.js?v=20260819"></script>
 ${jsonLd ? `<script type="application/ld+json">\n${jsonLd}\n</script>` : ""}
 </head>`;
 }
