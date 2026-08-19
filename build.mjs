@@ -250,8 +250,8 @@ main,footer{position:relative;z-index:1;}
   var s=${seed};
   function rnd(){ s=(s*16807)%2147483647; return (s-1)/2147483646; }
   var W,H,DPR;
-  function rs(){ DPR=Math.min(2,window.devicePixelRatio||1); W=innerWidth; H=innerHeight; c.width=W*DPR; c.height=H*DPR; c.style.width=W+'px'; c.style.height=H+'px'; ctx.setTransform(DPR,0,0,DPR,0,0); }
-  rs(); window.addEventListener('resize',rs);
+  function rs(){ if(!c||!ctx) return; DPR=Math.min(2,window.devicePixelRatio||1); W=innerWidth||800; H=innerHeight||600; c.width=W*DPR; c.height=H*DPR; c.style.width=W+'px'; c.style.height=H+'px'; ctx.setTransform(DPR,0,0,DPR,0,0); }
+  rs(); window.addEventListener('resize',rs,{passive:true});
 
   var GLYPHS=['∫','π','Σ','∂','√','φ','∞','λ','∇','⊕','≈','±','Δ','Ψ','∮','Φ'];
   var glyphs=[];
@@ -333,13 +333,29 @@ function telemetryScript(isPost, slug, title) {
   var E='https://chat.vaked.dev/api/telemetry';
   var sid=crypto.randomUUID?crypto.randomUUID():(Date.now().toString(36)+'-'+Math.random().toString(36).slice(2));
   var t0=Date.now(),buf=[];
-  function flush(){if(!buf.length)return;var ev=buf.splice(0);fetch(E,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({events:ev})}).catch(function(){});}
-  function record(type,data){buf.push(Object.assign({type:type,timestamp:Date.now(),session_id:sid,page:'pocoo.vaked.dev'},data||{}));flush();}
+  function flush(){
+    if(!buf.length)return;
+    var ev=buf.splice(0);
+    try {
+      if(navigator.sendBeacon) {
+        navigator.sendBeacon(E,JSON.stringify({events:ev}));
+      } else {
+        fetch(E,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({events:ev}),keepalive:true}).catch(function(){});
+      }
+    } catch(e){}
+  }
+  function record(type,data){
+    try {
+      buf.push(Object.assign({type:type,timestamp:Date.now(),session_id:sid,page:'pocoo.vaked.dev'},data||{}));
+      flush();
+    } catch(e){}
+  }
   record('page_view',{${slugField}});
   ${readTimer}
   window.addEventListener('beforeunload',function(){
-    record('session_end',{duration_sec:Math.round((Date.now()-t0)/1000)${isPost ? `,slug:'${slugLit}'` : ""}});
-    if(buf.length)navigator.sendBeacon(E,JSON.stringify({events:buf}));
+    try {
+      record('session_end',{duration_sec:Math.round((Date.now()-t0)/1000)${isPost ? `,slug:'${slugLit}'` : ""}});
+    } catch(e){}
   });
 })();
 <\/script>`;
@@ -385,37 +401,56 @@ function footerHtml() {
 
 const SITE_URL = "https://pocoo.vaked.dev";
 const SITE_NAME = "pocoo";
-const DEFAULT_OG_IMAGE = `${SITE_URL}/assets/og-default.png`;
+const DEFAULT_OG_IMAGE = `${SITE_URL}/assets/og/2026-08-19-the-huggingface-quantal-audit-infinite-thread.svg`;
 
 // ── <head> ────────────────────────────────────────────────────────────────────
-function head({ title, description, prefix, ogType, canonicalUrl, ogImage, pubDate, author, jsonLd }) {
-  const desc = esc(description || "");
+function head({ title, description, prefix, ogType, canonicalUrl, ogImage, pubDate, author, tags, jsonLd }) {
+  const desc = esc(description || "Technical writing on agentic systems, low-bit ternary computation, and autonomous verification.");
   const img = ogImage || DEFAULT_OG_IMAGE;
   const canonical = canonicalUrl || SITE_URL;
+  const isSvg = img.endsWith(".svg");
+  const tagsList = Array.isArray(tags) ? tags : [];
+
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>${esc(title)}</title>
 <meta name="description" content="${desc}">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+<meta name="author" content="${esc(author || 'Péter Lodri')}">
+<meta name="publisher" content="${SITE_URL}">
+${tagsList.length ? `<meta name="keywords" content="${esc(tagsList.join(', '))}">` : ''}
 <link rel="canonical" href="${canonical}">
+
+<!-- Open Graph / Facebook -->
 <meta property="og:type" content="${ogType}">
 <meta property="og:site_name" content="${SITE_NAME}">
 <meta property="og:url" content="${canonical}">
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${desc}">
 <meta property="og:image" content="${img}">
+<meta property="og:image:type" content="${isSvg ? 'image/svg+xml' : 'image/png'}">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="${esc(title)}">
 <meta property="og:locale" content="en_US">
 ${ogType === "article" && pubDate ? `<meta property="article:published_time" content="${pubDate}">` : ""}
-${ogType === "article" && author ? `<meta property="article:author" content="${author}">` : ""}
+${ogType === "article" ? `<meta property="article:author" content="https://peterl.dev">` : ""}
+${ogType === "article" ? `<meta property="article:section" content="AI Research &amp; Systems Architecture">` : ""}
+${tagsList.map(t => `<meta property="article:tag" content="${esc(t)}">`).join("\n")}
+
+<!-- Twitter Cards -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@peetpedro">
+<meta name="twitter:creator" content="@peetpedro">
 <meta name="twitter:title" content="${esc(title)}">
 <meta name="twitter:description" content="${desc}">
 <meta name="twitter:image" content="${img}">
+<meta name="twitter:image:alt" content="${esc(title)}">
+
+<!-- Favicons & App Icons -->
 <meta name="theme-color" content="#060a08">
 <link rel="icon" type="image/svg+xml" href="${prefix}assets/logo.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="${prefix}assets/favicon-32.png">
@@ -423,11 +458,16 @@ ${ogType === "article" && author ? `<meta property="article:author" content="${a
 <link rel="icon" type="image/png" sizes="192x192" href="${prefix}assets/icon-192.png">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<link rel="alternate" type="application/atom+xml" title="pocoo" href="${prefix}feed.xml">
+
+<!-- Syndication Feeds -->
+<link rel="alternate" type="application/atom+xml" title="pocoo (Atom 1.0 Feed)" href="${prefix}feed.xml">
+<link rel="alternate" type="application/rss+xml" title="pocoo (RSS 2.0 Feed)" href="${prefix}rss.xml">
+
+<!-- Styles & Background Scripts -->
 <link rel="stylesheet" href="${prefix}assets/bg.css">
 <link rel="stylesheet" href="${prefix}assets/blog.css">
 <script defer src="${prefix}assets/bg.js"></script>
-${jsonLd ? `<script type="application/ld+json">${jsonLd}</script>` : ""}
+${jsonLd ? `<script type="application/ld+json">\n${jsonLd}\n</script>` : ""}
 </head>`;
 }
 
@@ -448,13 +488,20 @@ function postToolsHtml(mdJson, promptJson) {
     if(!btn) return;
     btn.addEventListener('click', function(){
       var done = function(){ var o=btn.textContent; btn.textContent='Copied ✓'; setTimeout(function(){ btn.textContent=o; },1500); };
-      var p = navigator.clipboard ? navigator.clipboard.writeText(text) : Promise.reject(new Error('no clipboard'));
-      p.then(done).catch(function(){
-        var ta=document.createElement('textarea'); ta.value=text; ta.style.position='fixed'; ta.style.opacity='0';
-        document.body.appendChild(ta); ta.select();
-        try{ document.execCommand('copy'); }catch(e){}
-        document.body.removeChild(ta); done();
-      });
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(done).catch(fallback);
+        } else {
+          fallback();
+        }
+      } catch(e) { fallback(); }
+      function fallback(){
+        try {
+          var ta=document.createElement('textarea'); ta.value=text; ta.style.position='fixed'; ta.style.opacity='0';
+          document.body.appendChild(ta); ta.select(); document.execCommand('copy');
+          document.body.removeChild(ta); done();
+        } catch(err){}
+      }
     });
   }
   copy(md, document.getElementById('copy-md'));
@@ -481,18 +528,53 @@ function renderPost(post) {
   const ogImgUrl = post.meta.image ? `${SITE_URL}/${post.meta.image}` : `${SITE_URL}/assets/og/${slug}.svg`;
   const heroImgSrc = post.meta.image ? `../${post.meta.image}` : `../assets/og/${slug}.svg`;
 
+  const words = post.body.trim().split(/\s+/).length;
+  const readTimeMin = Math.max(1, Math.ceil(words / 200));
+
   const jsonLd = JSON.stringify({
     "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    headline: post.meta.title,
-    description: post.meta.description || "",
-    datePublished: post.meta.date,
-    dateModified: post.meta.date,
-    author: { "@type": "Person", name: post.meta.author || "Lodri Péter", url: "https://peterl.dev" },
-    publisher: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
-    mainEntityOfPage: `${SITE_URL}/posts/${slug}`,
-    image: ogImgUrl,
-  });
+    "@type": "TechArticle",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": `${SITE_URL}/posts/${slug}`
+    },
+    "headline": post.meta.title,
+    "description": post.meta.description || `Technical article on ${post.meta.title} by Péter Lodri.`,
+    "image": {
+      "@type": "ImageObject",
+      "url": ogImgUrl,
+      "width": 1200,
+      "height": 630
+    },
+    "datePublished": `${post.meta.date}T08:00:00Z`,
+    "dateModified": `${post.meta.date}T08:00:00Z`,
+    "author": {
+      "@type": "Person",
+      "name": post.meta.author || "Péter Lodri",
+      "url": "https://peterl.dev",
+      "identifier": "0009-0002-2761-2552",
+      "sameAs": [
+        "https://orcid.org/0009-0002-2761-2552",
+        "https://github.com/peterlodri-sec",
+        "https://x.com/0xp3t3rl",
+        "https://bsky.app/profile/0xp3t3rl.bsky.social"
+      ]
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": SITE_NAME,
+      "url": SITE_URL,
+      "logo": {
+        "@type": "ImageObject",
+        "url": `${SITE_URL}/assets/logo.svg`
+      }
+    },
+    "keywords": (post.meta.tags || []).join(", "),
+    "articleSection": "AI Research & Systems Architecture",
+    "inLanguage": "en-US",
+    "wordCount": words
+  }, null, 2);
+
   return `${head({
     title: `${post.meta.title} · pocoo`,
     description: post.meta.description,
@@ -500,8 +582,9 @@ function renderPost(post) {
     ogType: "article",
     canonicalUrl: `${SITE_URL}/posts/${slug}`,
     ogImage: ogImgUrl,
-    pubDate: post.meta.date ? new Date(post.meta.date).toISOString() : undefined,
-    author: post.meta.author || "Lodri Péter",
+    pubDate: post.meta.date ? `${post.meta.date}T08:00:00Z` : undefined,
+    author: post.meta.author || "Péter Lodri",
+    tags: post.meta.tags,
     jsonLd,
   })}
 <meta name="content-hash" content="${hash}">
@@ -511,7 +594,7 @@ ${quantumBgScript(hash, true)}
     <p class="back"><a href="../index.html">&larr; all posts</a></p>
     <header class="post-head">
       <h1>${esc(post.meta.title)}</h1>
-      <p class="meta"><time datetime="${esc(post.meta.date)}">${displayDate(post.meta.date)}</time></p>
+      <p class="meta"><time datetime="${esc(post.meta.date)}">${displayDate(post.meta.date)}</time> · ${readTimeMin} min read · ${words.toLocaleString()} words</p>
       ${tagsHtml(post.meta.tags)}
     </header>
     <div class="post-hero">
@@ -550,15 +633,39 @@ function renderIndex(posts) {
 
   const jsonLd = JSON.stringify({
     "@context": "https://schema.org",
-    "@type": "WebSite",
-    name: SITE_NAME,
-    url: SITE_URL,
-    description: "Technical writing on agentic systems, protocols, and building in public.",
-    author: { "@type": "Person", name: "Lodri Péter", url: "https://peterl.dev" },
-  });
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": `${SITE_URL}/#website`,
+        "url": SITE_URL,
+        "name": "pocoo",
+        "description": "Technical writing on agentic systems, low-bit ternary computation, and autonomous verification.",
+        "inLanguage": "en-US",
+        "publisher": {
+          "@type": "Person",
+          "name": "Péter Lodri",
+          "url": "https://peterl.dev",
+          "identifier": "0009-0002-2761-2552"
+        }
+      },
+      {
+        "@type": "CollectionPage",
+        "@id": `${SITE_URL}/#collection`,
+        "url": SITE_URL,
+        "name": "pocoo Research Archive",
+        "description": `${posts.length} Monographs and Systems Engineering Reports on Sovereign AI.`,
+        "isPartOf": { "@id": `${SITE_URL}/#website` },
+        "about": {
+          "@type": "Thing",
+          "name": "Artificial Intelligence, Low-bit Ternary Computing, High Performance Computing"
+        }
+      }
+    ]
+  }, null, 2);
+
   return `${head({
-    title: "pocoo",
-    description: "Technical writing on agentic systems, protocols, and building in public.",
+    title: "pocoo · Sovereign Systems & AI Research",
+    description: "Technical writing on agentic systems, low-bit ternary computation, and autonomous verification.",
     prefix: "",
     ogType: "website",
     canonicalUrl: SITE_URL,
@@ -583,38 +690,109 @@ ${entries}
 </html>`;
 }
 
-// ── Atom feed ─────────────────────────────────────────────────────────────────
+// ── Atom feed (feed.xml) ───────────────────────────────────────────────────────
 function renderFeed(posts) {
   const updated = posts.length > 0
-    ? `${posts[0].meta.date}T00:00:00Z`
+    ? `${posts[0].meta.date}T08:00:00Z`
     : new Date().toISOString();
-  const entries = posts.map((p) => `  <entry>
+
+  const entries = posts.map((p) => {
+    const cats = (p.meta.tags || []).map(t => `    <category term="${esc(t)}"/>`).join("\n");
+    return `  <entry>
     <title>${esc(p.meta.title)}</title>
-    <link href="https://pocoo.vaked.dev/posts/${esc(p.slug)}"/>
-    <id>https://pocoo.vaked.dev/posts/${esc(p.slug)}</id>
-    <updated>${esc(p.meta.date)}T00:00:00Z</updated>
-    <summary type="text">${esc(p.meta.description || "")}</summary>
-  </entry>`).join("\n");
+    <link href="${SITE_URL}/posts/${esc(p.slug)}" rel="alternate" type="text/html"/>
+    <id>${SITE_URL}/posts/${esc(p.slug)}</id>
+    <published>${esc(p.meta.date)}T08:00:00Z</published>
+    <updated>${esc(p.meta.date)}T08:00:00Z</updated>
+    <author>
+      <name>Péter Lodri</name>
+      <uri>https://peterl.dev</uri>
+      <email>cabotage@pm.me</email>
+    </author>
+${cats}
+    <summary type="text">${esc(p.meta.description || p.meta.title)}</summary>
+  </entry>`;
+  }).join("\n");
 
   return `<?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>pocoo</title>
-  <link href="https://pocoo.vaked.dev/feed.xml" rel="self" type="application/atom+xml"/>
-  <link href="https://pocoo.vaked.dev/"/>
+  <subtitle>Technical writing on agentic systems, protocols, and building in public.</subtitle>
+  <link href="${SITE_URL}/feed.xml" rel="self" type="application/atom+xml"/>
+  <link href="${SITE_URL}/" rel="alternate" type="text/html"/>
+  <id>${SITE_URL}/</id>
   <updated>${updated}</updated>
-  <id>https://pocoo.vaked.dev/</id>
+  <icon>${SITE_URL}/assets/favicon-32.png</icon>
+  <logo>${SITE_URL}/assets/logo.svg</logo>
+  <author>
+    <name>Péter Lodri</name>
+    <uri>https://peterl.dev</uri>
+    <email>cabotage@pm.me</email>
+  </author>
 ${entries}
 </feed>`;
 }
 
-// ── Sitemap ───────────────────────────────────────────────────────────────────
+// ── RSS 2.0 feed (rss.xml) ─────────────────────────────────────────────────────
+function renderRss(posts) {
+  const pubDate = posts.length > 0
+    ? new Date(posts[0].meta.date).toUTCString()
+    : new Date().toUTCString();
+
+  const items = posts.map((p) => {
+    const itemDate = new Date(p.meta.date).toUTCString();
+    const cats = (p.meta.tags || []).map(t => `      <category>${esc(t)}</category>`).join("\n");
+    return `    <item>
+      <title>${esc(p.meta.title)}</title>
+      <link>${SITE_URL}/posts/${esc(p.slug)}</link>
+      <guid isPermaLink="true">${SITE_URL}/posts/${esc(p.slug)}</guid>
+      <pubDate>${itemDate}</pubDate>
+      <description>${esc(p.meta.description || p.meta.title)}</description>
+      <author>cabotage@pm.me (Péter Lodri)</author>
+${cats}
+    </item>`;
+  }).join("\n");
+
+  return `<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>pocoo</title>
+    <link>${SITE_URL}/</link>
+    <description>Technical writing on agentic systems, protocols, and building in public.</description>
+    <language>en-us</language>
+    <lastBuildDate>${pubDate}</lastBuildDate>
+    <atom:link href="${SITE_URL}/rss.xml" rel="self" type="application/rss+xml"/>
+${items}
+  </channel>
+</rss>`;
+}
+
+// ── Sitemap (sitemap.xml with image extensions) ────────────────────────────────
 function renderSitemap(posts) {
-  const urls = posts.map((p) =>
-    `  <url><loc>${SITE_URL}/posts/${esc(p.slug)}</loc><lastmod>${esc(p.meta.date)}</lastmod></url>`
-  ).join("\n");
+  const urls = posts.map((p, idx) => {
+    const priority = idx === 0 ? "0.9" : (idx < 10 ? "0.8" : "0.7");
+    const changefreq = idx < 5 ? "weekly" : "monthly";
+    const imgUrl = `${SITE_URL}/assets/og/${esc(p.slug)}.svg`;
+    return `  <url>
+    <loc>${SITE_URL}/posts/${esc(p.slug)}</loc>
+    <lastmod>${esc(p.meta.date)}</lastmod>
+    <changefreq>${changefreq}</changefreq>
+    <priority>${priority}</priority>
+    <image:image>
+      <image:loc>${imgUrl}</image:loc>
+      <image:title>${esc(p.meta.title)}</image:title>
+    </image:image>
+  </url>`;
+  }).join("\n");
+
   return `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>${SITE_URL}/</loc></url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>${SITE_URL}/</loc>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
 ${urls}
 </urlset>`;
 }
@@ -650,6 +828,9 @@ async function main() {
 
   await writeFile(path.join(DIST_DIR, "feed.xml"), renderFeed(posts), "utf8");
   console.log("render: feed.xml");
+
+  await writeFile(path.join(DIST_DIR, "rss.xml"), renderRss(posts), "utf8");
+  console.log("render: rss.xml");
 
   await writeFile(path.join(DIST_DIR, "sitemap.xml"), renderSitemap(posts), "utf8");
   console.log("render: sitemap.xml");

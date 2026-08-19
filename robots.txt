@@ -10,3 +10,7 @@ User-agent: Bytespider
 Disallow: /
 User-agent: *
 Allow: /
+
+Sitemap: https://pocoo.vaked.dev/sitemap.xml
+Sitemap: https://pocoo.vaked.dev/feed.xml
+Sitemap: https://pocoo.vaked.dev/rss.xml

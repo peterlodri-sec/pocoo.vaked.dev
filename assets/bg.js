@@ -9,21 +9,25 @@
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (reduced) return;
 
-  var cv = document.createElement("canvas");
-  cv.id = "constellation-bg";
-  document.body.insertBefore(cv, document.body.firstChild);
-  var ctx = cv.getContext("2d");
-  var W = 0, H = 0, dpr = Math.min(2, window.devicePixelRatio || 1);
+  function init() {
+    if (!document.body || document.getElementById("constellation-bg")) return;
+    var cv = document.createElement("canvas");
+    cv.id = "constellation-bg";
+    document.body.insertBefore(cv, document.body.firstChild);
+    var ctx = cv.getContext("2d");
+    if (!ctx) return;
+    var W = 0, H = 0, dpr = Math.min(2, window.devicePixelRatio || 1);
 
-  function size() {
-    W = cv.width = Math.floor(innerWidth * dpr);
-    H = cv.height = Math.floor(innerHeight * dpr);
-    cv.style.width = innerWidth + "px";
-    cv.style.height = innerHeight + "px";
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  }
-  size();
-  window.addEventListener("resize", size);
+    function size() {
+      if (!cv) return;
+      W = cv.width = Math.floor(innerWidth * dpr);
+      H = cv.height = Math.floor(innerHeight * dpr);
+      cv.style.width = innerWidth + "px";
+      cv.style.height = innerHeight + "px";
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    size();
+    window.addEventListener("resize", size, { passive: true });
 
   /* ── starfield (both halves) ── */
   var STARS = [];
@@ -137,5 +141,10 @@
 
     requestAnimationFrame(frame);
   }
-  requestAnimationFrame(frame);
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init, { once: true });
+  } else {
+    init();
+  }
 })();
