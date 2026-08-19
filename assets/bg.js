@@ -141,6 +141,7 @@
 
     requestAnimationFrame(frame);
   }
+}
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init, { once: true });
