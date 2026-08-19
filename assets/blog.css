@@ -80,6 +80,51 @@ a:hover { text-decoration: underline; }
   border-bottom: 1px solid var(--border);
 }
 
+.entry-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1.5rem;
+}
+
+.entry-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.entry-thumb-link {
+  flex-shrink: 0;
+  display: block;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.entry-thumb-link:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+}
+
+.entry-thumb {
+  display: block;
+  width: 170px;
+  height: auto;
+  aspect-ratio: 1200 / 630;
+  object-fit: cover;
+}
+
+@media (max-width: 640px) {
+  .entry-flex {
+    flex-direction: column-reverse;
+  }
+  .entry-thumb {
+    width: 100%;
+    max-height: 180px;
+  }
+}
+
 .entry:last-child { border-bottom: none; }
 
 .entry-title {
@@ -102,6 +147,29 @@ a:hover { text-decoration: underline; }
   margin: 0.25rem 0 0;
   color: var(--dim);
   font-size: 0.85rem;
+}
+
+/* ── Post Hero Banner ───────────────────────────────────────── */
+.post-hero {
+  margin: 1.5rem 0 2.5rem;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), 0 0 32px rgba(212, 175, 55, 0.12);
+  background: #080f0b;
+}
+
+.post-hero img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1200 / 630;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.post-hero:hover img {
+  transform: scale(1.008);
 }
 
 /* ── Post ───────────────────────────────────────────────────── */

@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" style="background:#060a08;">
+    <defs>
+        <radialGradient id="bgGlow1" cx="20%" cy="30%" r="60%">
+            <stop offset="0%" stop-color="hsla(178, 100%, 50%, 0.18)" />
+            <stop offset="100%" stop-color="#060a08" stop-opacity="0" />
+        </radialGradient>
+        <radialGradient id="bgGlow2" cx="80%" cy="70%" r="60%">
+            <stop offset="0%" stop-color="hsla(223, 100%, 50%, 0.12)" />
+            <stop offset="100%" stop-color="#060a08" stop-opacity="0" />
+        </radialGradient>
+        <linearGradient id="laneGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="hsl(178, 85%, 60%)" stop-opacity="0.8" />
+            <stop offset="100%" stop-color="hsl(223, 90%, 65%)" stop-opacity="0.9" />
+        </linearGradient>
+        <linearGradient id="goldBorder" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="hsl(178, 85%, 60%)" stop-opacity="0.4" />
+            <stop offset="50%" stop-color="hsl(223, 90%, 65%)" stop-opacity="0.2" />
+            <stop offset="100%" stop-color="hsl(178, 85%, 60%)" stop-opacity="0.5" />
+        </linearGradient>
+        <pattern id="gridPattern" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#122018" stroke-width="0.75" stroke-opacity="0.6"/>
+        </pattern>
+    </defs>
+
+    <!-- Background Layers -->
+    <rect width="1200" height="630" fill="#060a08" />
+    <rect width="1200" height="630" fill="url(#gridPattern)" />
+    <rect width="1200" height="630" fill="url(#bgGlow1)" />
+    <rect width="1200" height="630" fill="url(#bgGlow2)" />
+
+    <!-- Outer Frame -->
+    <rect x="20" y="20" width="1160" height="590" rx="16" fill="none" stroke="url(#goldBorder)" stroke-width="1.5" />
+
+    <!-- Header / Brand -->
+    <g transform="translate(80, 75)">
+        <circle cx="12" cy="12" r="8" fill="hsl(178, 85%, 60%)" />
+        <circle cx="12" cy="12" r="14" fill="none" stroke="hsl(178, 85%, 60%)" stroke-opacity="0.5" stroke-width="1" />
+        <text x="36" y="17" fill="#ffffff" font-family="ui-monospace, monospace" font-size="16" font-weight="700" letter-spacing="2">POCOO.VAKED.DEV</text>
+        <text x="210" y="17" fill="#7a8b7f" font-family="ui-monospace, monospace" font-size="14" letter-spacing="1">// SOVEREIGN RESEARCH ARCHIVE</text>
+    </g>
+
+    <!-- Tags -->
+    
+        <g transform="translate(80, 115)">
+            <rect width="60" height="26" rx="13" fill="hsla(223, 100%, 50%, 0.12)" stroke="hsl(223, 90%, 65%)" stroke-opacity="0.6" stroke-width="1" />
+            <text x="30.0" y="17" fill="hsl(223, 90%, 65%)" font-family="ui-monospace, monospace" font-size="12" font-weight="600" text-anchor="middle">#swift</text>
+        </g>
+        
+        <g transform="translate(150, 115)">
+            <rect width="108" height="26" rx="13" fill="hsla(223, 100%, 50%, 0.12)" stroke="hsl(223, 90%, 65%)" stroke-opacity="0.6" stroke-width="1" />
+            <text x="54.0" y="17" fill="hsl(223, 90%, 65%)" font-family="ui-monospace, monospace" font-size="12" font-weight="600" text-anchor="middle">#performance</text>
+        </g>
+        
+        <g transform="translate(268, 115)">
+            <rect width="68" height="26" rx="13" fill="hsla(223, 100%, 50%, 0.12)" stroke="hsl(223, 90%, 65%)" stroke-opacity="0.6" stroke-width="1" />
+            <text x="34.0" y="17" fill="hsl(223, 90%, 65%)" font-family="ui-monospace, monospace" font-size="12" font-weight="600" text-anchor="middle">#webkit</text>
+        </g>
+        
+        <g transform="translate(346, 115)">
+            <rect width="68" height="26" rx="13" fill="hsla(223, 100%, 50%, 0.12)" stroke="hsl(223, 90%, 65%)" stroke-opacity="0.6" stroke-width="1" />
+            <text x="34.0" y="17" fill="hsl(223, 90%, 65%)" font-family="ui-monospace, monospace" font-size="12" font-weight="600" text-anchor="middle">#memory</text>
+        </g>
+        
+
+    <!-- Title & Desc Block -->
+    <g>
+        <text x="80" y="200" fill="#ffffff" font-family="Georgia, serif" font-size="44" font-weight="700" letter-spacing="0.5" filter="drop-shadow(0 2px 10px rgba(0,0,0,0.8))">Measuring Memory a Browser</text>
+<text x="80" y="256" fill="#ffffff" font-family="Georgia, serif" font-size="44" font-weight="700" letter-spacing="0.5" filter="drop-shadow(0 2px 10px rgba(0,0,0,0.8))">Doesn&#x27;t Own</text>
+        <text x="80" y="327" fill="#a3b8ab" font-family="ui-monospace, monospace" font-size="15" opacity="0.85">How we measured tab-hibernation memory reclaim</text>
+<text x="80" y="351" fill="#a3b8ab" font-family="ui-monospace, monospace" font-size="15" opacity="0.85">in a WebKit browser when the memory lives in...</text>
+    </g>
+
+    <!-- Graphic Motif (Right Side) -->
+    <g><circle cx="950" cy="315" r="70" fill="none" stroke="hsl(178, 85%, 60%)" stroke-width="1.5" stroke-opacity="0.7" stroke-dasharray="6,4" /><ellipse cx="950" cy="315" rx="84.0" ry="35.0" fill="none" stroke="hsl(223, 90%, 65%)" stroke-width="1" stroke-opacity="0.6" transform="rotate(0 950 315)" /><circle cx="950" cy="315" r="108" fill="none" stroke="hsl(178, 85%, 60%)" stroke-width="1.5" stroke-opacity="0.6" stroke-dasharray="10,6" /><ellipse cx="950" cy="315" rx="129.6" ry="54.0" fill="none" stroke="hsl(223, 90%, 65%)" stroke-width="1" stroke-opacity="0.51" transform="rotate(30 950 315)" /><circle cx="950" cy="315" r="146" fill="none" stroke="hsl(178, 85%, 60%)" stroke-width="1.5" stroke-opacity="0.49999999999999994" stroke-dasharray="14,8" /><ellipse cx="950" cy="315" rx="175.2" ry="73.0" fill="none" stroke="hsl(223, 90%, 65%)" stroke-width="1" stroke-opacity="0.42" transform="rotate(60 950 315)" /><circle cx="950" cy="315" r="184" fill="none" stroke="hsl(178, 85%, 60%)" stroke-width="1.5" stroke-opacity="0.3999999999999999" stroke-dasharray="18,10" /><ellipse cx="950" cy="315" rx="220.79999999999998" ry="92.0" fill="none" stroke="hsl(223, 90%, 65%)" stroke-width="1" stroke-opacity="0.32999999999999996" transform="rotate(90 950 315)" /><circle cx="950" cy="315" r="222" fill="none" stroke="hsl(178, 85%, 60%)" stroke-width="1.5" stroke-opacity="0.29999999999999993" stroke-dasharray="22,12" /><ellipse cx="950" cy="315" rx="266.4" ry="111.0" fill="none" stroke="hsl(223, 90%, 65%)" stroke-width="1" stroke-opacity="0.24" transform="rotate(120 950 315)" /><circle cx="950" cy="315" r="260" fill="none" stroke="hsl(178, 85%, 60%)" stroke-width="1.5" stroke-opacity="0.19999999999999996" stroke-dasharray="26,14" /><ellipse cx="950" cy="315" rx="312.0" ry="130.0" fill="none" stroke="hsl(223, 90%, 65%)" stroke-width="1" stroke-opacity="0.15000000000000002" transform="rotate(150 950 315)" /><circle cx="950" cy="315" r="8" fill="hsl(223, 90%, 65%)" filter="drop-shadow(0 0 12px hsl(223, 90%, 65%))"/><text x="950" y="520" fill="hsl(223, 90%, 65%)" font-family="monospace" font-size="13" letter-spacing="3" text-anchor="middle">|ψ⟩ = α|0⟩ + β|1⟩ // QUANTUM FIELD</text></g>
+
+    <!-- Bottom Footer Bar -->
+    <g transform="translate(80, 565)">
+        <line x1="0" y1="-20" x2="1040" y2="-20" stroke="#1f3328" stroke-width="1" />
+        <text x="0" y="5" fill="#7a8b7f" font-family="ui-monospace, monospace" font-size="13">DATE: 2026-08-13</text>
+        <text x="220" y="5" fill="#7a8b7f" font-family="ui-monospace, monospace" font-size="13">AUTHOR: PÉTER LODRI</text>
+        <text x="520" y="5" fill="hsl(178, 85%, 60%)" font-family="ui-monospace, monospace" font-size="13" font-weight="600">HASH: #afda6eea70a8</text>
+        <text x="1040" y="5" fill="hsl(223, 90%, 65%)" font-family="ui-monospace, monospace" font-size="13" font-weight="700" text-anchor="end">WE. {-1, 0, +1}. &lt;3</text>
+    </g>
+</svg>

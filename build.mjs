@@ -3,7 +3,8 @@
 // Run: node build.mjs
 
 import { readdir, readFile, mkdir, writeFile, cp, rm } from "node:fs/promises";
-import { existsSync } from "node:fs";
+import { existsSync, statSync } from "node:fs";
+import { execSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -476,6 +477,10 @@ function renderPost(post) {
   const mdJson = JSON.stringify(post.body).replace(/</g, "\\u003c");
   const promptForEducation = "You are an expert teacher. Teach me the content of the following blog post. Walk through it step by step, explain every technical concept in simple terms, and end with a short quiz to test my understanding.\n\n# " + post.meta.title + "\n\n" + post.body;
   const promptJson = JSON.stringify(promptForEducation).replace(/</g, "\\u003c");
+
+  const ogImgUrl = post.meta.image ? `${SITE_URL}/${post.meta.image}` : `${SITE_URL}/assets/og/${slug}.svg`;
+  const heroImgSrc = post.meta.image ? `../${post.meta.image}` : `../assets/og/${slug}.svg`;
+
   const jsonLd = JSON.stringify({
     "@context": "https://schema.org",
     "@type": "BlogPosting",
@@ -486,7 +491,7 @@ function renderPost(post) {
     author: { "@type": "Person", name: post.meta.author || "Lodri Péter", url: "https://peterl.dev" },
     publisher: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
     mainEntityOfPage: `${SITE_URL}/posts/${slug}`,
-    image: post.meta.image ? `${SITE_URL}/${post.meta.image}` : DEFAULT_OG_IMAGE,
+    image: ogImgUrl,
   });
   return `${head({
     title: `${post.meta.title} · pocoo`,
@@ -494,7 +499,7 @@ function renderPost(post) {
     prefix: "../",
     ogType: "article",
     canonicalUrl: `${SITE_URL}/posts/${slug}`,
-    ogImage: post.meta.image ? `${SITE_URL}/${post.meta.image}` : DEFAULT_OG_IMAGE,
+    ogImage: ogImgUrl,
     pubDate: post.meta.date ? new Date(post.meta.date).toISOString() : undefined,
     author: post.meta.author || "Lodri Péter",
     jsonLd,
@@ -509,6 +514,9 @@ ${quantumBgScript(hash, true)}
       <p class="meta"><time datetime="${esc(post.meta.date)}">${displayDate(post.meta.date)}</time></p>
       ${tagsHtml(post.meta.tags)}
     </header>
+    <div class="post-hero">
+      <img src="${heroImgSrc}" alt="${esc(post.meta.title)}" class="hero-image" width="1200" height="630" loading="eager">
+    </div>
     ${postToolsHtml(mdJson, promptJson)}
     <article class="prose">
 ${bodyHtml}
@@ -523,12 +531,22 @@ ${bodyHtml}
 
 // ── Index page ────────────────────────────────────────────────────────────────
 function renderIndex(posts) {
-  const entries = posts.map((p) => `      <li class="entry">
-        <h2 class="entry-title"><a href="posts/${esc(p.slug)}">${esc(p.meta.title)}</a></h2>
-        <p class="meta"><time datetime="${esc(p.meta.date)}">${displayDate(p.meta.date)}</time></p>
-        <p class="entry-desc">${esc(p.meta.description || "")}</p>
-        ${tagsHtml(p.meta.tags)}
-      </li>`).join("\n");
+  const entries = posts.map((p) => {
+    const thumbSrc = p.meta.image ? p.meta.image : `assets/og/${esc(p.slug)}.svg`;
+    return `      <li class="entry">
+        <div class="entry-flex">
+          <div class="entry-body">
+            <h2 class="entry-title"><a href="posts/${esc(p.slug)}">${esc(p.meta.title)}</a></h2>
+            <p class="meta"><time datetime="${esc(p.meta.date)}">${displayDate(p.meta.date)}</time></p>
+            <p class="entry-desc">${esc(p.meta.description || "")}</p>
+            ${tagsHtml(p.meta.tags)}
+          </div>
+          <a href="posts/${esc(p.slug)}" class="entry-thumb-link" tabindex="-1" aria-hidden="true">
+            <img src="${thumbSrc}" alt="${esc(p.meta.title)}" class="entry-thumb" loading="lazy" width="170" height="89">
+          </a>
+        </div>
+      </li>`;
+  }).join("\n");
 
   const jsonLd = JSON.stringify({
     "@context": "https://schema.org",
@@ -735,9 +753,18 @@ ${postLines}
   if (existsSync(path.join(ROOT, "_headers"))) {
     await cp(path.join(ROOT, "_headers"), path.join(DIST_DIR, "_headers"));
   }
-  // Copy demos (standalone HTML, no markdown processing)
+  // Copy demos (filter out heavy weights >20MB so Cloudflare Pages 25MB limit is respected)
   if (existsSync(path.join(ROOT, "demos"))) {
-    await cp(path.join(ROOT, "demos"), path.join(DIST_DIR, "demos"), { recursive: true });
+    await cp(path.join(ROOT, "demos"), path.join(DIST_DIR, "demos"), {
+      recursive: true,
+      filter: (src) => {
+        try {
+          const st = statSync(src);
+          if (st.isFile() && st.size > 20 * 1024 * 1024) return false;
+        } catch (e) {}
+        return true;
+      }
+    });
   }
   // Copy book manuscripts (standalone HTML library, no markdown processing)
   if (existsSync(path.join(ROOT, "book"))) {

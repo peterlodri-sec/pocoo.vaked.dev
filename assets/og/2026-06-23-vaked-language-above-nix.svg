@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" style="background:#060a08;">
+    <defs>
+        <radialGradient id="bgGlow1" cx="20%" cy="30%" r="60%">
+            <stop offset="0%" stop-color="hsla(177, 100%, 50%, 0.18)" />
+            <stop offset="100%" stop-color="#060a08" stop-opacity="0" />
+        </radialGradient>
+        <radialGradient id="bgGlow2" cx="80%" cy="70%" r="60%">
+            <stop offset="0%" stop-color="hsla(222, 100%, 50%, 0.12)" />
+            <stop offset="100%" stop-color="#060a08" stop-opacity="0" />
+        </radialGradient>
+        <linearGradient id="laneGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="hsl(177, 85%, 60%)" stop-opacity="0.8" />
+            <stop offset="100%" stop-color="hsl(222, 90%, 65%)" stop-opacity="0.9" />
+        </linearGradient>
+        <linearGradient id="goldBorder" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="hsl(177, 85%, 60%)" stop-opacity="0.4" />
+            <stop offset="50%" stop-color="hsl(222, 90%, 65%)" stop-opacity="0.2" />
+            <stop offset="100%" stop-color="hsl(177, 85%, 60%)" stop-opacity="0.5" />
+        </linearGradient>
+        <pattern id="gridPattern" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#122018" stroke-width="0.75" stroke-opacity="0.6"/>
+        </pattern>
+    </defs>
+
+    <!-- Background Layers -->
+    <rect width="1200" height="630" fill="#060a08" />
+    <rect width="1200" height="630" fill="url(#gridPattern)" />
+    <rect width="1200" height="630" fill="url(#bgGlow1)" />
+    <rect width="1200" height="630" fill="url(#bgGlow2)" />
+
+    <!-- Outer Frame -->
+    <rect x="20" y="20" width="1160" height="590" rx="16" fill="none" stroke="url(#goldBorder)" stroke-width="1.5" />
+
+    <!-- Header / Brand -->
+    <g transform="translate(80, 75)">
+        <circle cx="12" cy="12" r="8" fill="hsl(177, 85%, 60%)" />
+        <circle cx="12" cy="12" r="14" fill="none" stroke="hsl(177, 85%, 60%)" stroke-opacity="0.5" stroke-width="1" />
+        <text x="36" y="17" fill="#ffffff" font-family="ui-monospace, monospace" font-size="16" font-weight="700" letter-spacing="2">POCOO.VAKED.DEV</text>
+        <text x="210" y="17" fill="#7a8b7f" font-family="ui-monospace, monospace" font-size="14" letter-spacing="1">// SOVEREIGN RESEARCH ARCHIVE</text>
+    </g>
+
+    <!-- Tags -->
+    
+        <g transform="translate(80, 115)">
+            <rect width="60" height="26" rx="13" fill="hsla(222, 100%, 50%, 0.12)" stroke="hsl(222, 90%, 65%)" stroke-opacity="0.6" stroke-width="1" />
+            <text x="30.0" y="17" fill="hsl(222, 90%, 65%)" font-family="ui-monospace, monospace" font-size="12" font-weight="600" text-anchor="middle">#vaked</text>
+        </g>
+        
+        <g transform="translate(150, 115)">
+            <rect width="60" height="26" rx="13" fill="hsla(222, 100%, 50%, 0.12)" stroke="hsl(222, 90%, 65%)" stroke-opacity="0.6" stroke-width="1" />
+            <text x="30.0" y="17" fill="hsl(222, 90%, 65%)" font-family="ui-monospace, monospace" font-size="12" font-weight="600" text-anchor="middle">#nix</text>
+        </g>
+        
+        <g transform="translate(220, 115)">
+            <rect width="140" height="26" rx="13" fill="hsla(222, 100%, 50%, 0.12)" stroke="hsl(222, 90%, 65%)" stroke-opacity="0.6" stroke-width="1" />
+            <text x="70.0" y="17" fill="hsl(222, 90%, 65%)" font-family="ui-monospace, monospace" font-size="12" font-weight="600" text-anchor="middle">#language-design</text>
+        </g>
+        
+        <g transform="translate(370, 115)">
+            <rect width="116" height="26" rx="13" fill="hsla(222, 100%, 50%, 0.12)" stroke="hsl(222, 90%, 65%)" stroke-opacity="0.6" stroke-width="1" />
+            <text x="58.0" y="17" fill="hsl(222, 90%, 65%)" font-family="ui-monospace, monospace" font-size="12" font-weight="600" text-anchor="middle">#capabilities</text>
+        </g>
+        
+
+    <!-- Title & Desc Block -->
+    <g>
+        <text x="80" y="200" fill="#ffffff" font-family="Georgia, serif" font-size="44" font-weight="700" letter-spacing="0.5" filter="drop-shadow(0 2px 10px rgba(0,0,0,0.8))">Vaked: a capability language</text>
+<text x="80" y="256" fill="#ffffff" font-family="Georgia, serif" font-size="44" font-weight="700" letter-spacing="0.5" filter="drop-shadow(0 2px 10px rgba(0,0,0,0.8))">above Nix, not a replacement</text>
+        <text x="80" y="327" fill="#a3b8ab" font-family="ui-monospace, monospace" font-size="15" opacity="0.85">Vaked declares typed capability graphs and</text>
+<text x="80" y="351" fill="#a3b8ab" font-family="ui-monospace, monospace" font-size="15" opacity="0.85">compiles them to boring artifacts. It is not a...</text>
+    </g>
+
+    <!-- Graphic Motif (Right Side) -->
+    <g><line x1="820" y1="200" x2="950" y2="160" stroke="hsl(177, 85%, 60%)" stroke-opacity="0.5" stroke-width="2" /><line x1="950" y1="160" x2="1080" y2="210" stroke="hsl(177, 85%, 60%)" stroke-opacity="0.5" stroke-width="2" /><line x1="820" y1="200" x2="860" y2="320" stroke="hsl(177, 85%, 60%)" stroke-opacity="0.5" stroke-width="2" /><line x1="950" y1="160" x2="1020" y2="310" stroke="hsl(177, 85%, 60%)" stroke-opacity="0.5" stroke-width="2" /><line x1="1080" y1="210" x2="1020" y2="310" stroke="hsl(177, 85%, 60%)" stroke-opacity="0.5" stroke-width="2" /><line x1="860" y1="320" x2="940" y2="420" stroke="hsl(177, 85%, 60%)" stroke-opacity="0.5" stroke-width="2" /><line x1="1020" y1="310" x2="940" y2="420" stroke="hsl(177, 85%, 60%)" stroke-opacity="0.5" stroke-width="2" /><line x1="860" y1="320" x2="950" y2="160" stroke="hsl(177, 85%, 60%)" stroke-opacity="0.5" stroke-width="2" /><g transform="translate(820,200)"><circle r="22" fill="#0b1712" stroke="hsl(222, 90%, 65%)" stroke-width="2" /><text y="4" fill="hsl(177, 85%, 60%)" font-family="monospace" font-size="10" font-weight="700" text-anchor="middle">Kernel</text></g><g transform="translate(950,160)"><circle r="22" fill="#0b1712" stroke="hsl(222, 90%, 65%)" stroke-width="2" /><text y="4" fill="hsl(177, 85%, 60%)" font-family="monospace" font-size="10" font-weight="700" text-anchor="middle">AST</text></g><g transform="translate(1080,210)"><circle r="22" fill="#0b1712" stroke="hsl(222, 90%, 65%)" stroke-width="2" /><text y="4" fill="hsl(177, 85%, 60%)" font-family="monospace" font-size="10" font-weight="700" text-anchor="middle">LPG</text></g><g transform="translate(860,320)"><circle r="22" fill="#0b1712" stroke="hsl(222, 90%, 65%)" stroke-width="2" /><text y="4" fill="hsl(177, 85%, 60%)" font-family="monospace" font-size="10" font-weight="700" text-anchor="middle">POLA</text></g><g transform="translate(1020,310)"><circle r="22" fill="#0b1712" stroke="hsl(222, 90%, 65%)" stroke-width="2" /><text y="4" fill="hsl(177, 85%, 60%)" font-family="monospace" font-size="10" font-weight="700" text-anchor="middle">Eval</text></g><g transform="translate(940,420)"><circle r="22" fill="#0b1712" stroke="hsl(222, 90%, 65%)" stroke-width="2" /><text y="4" fill="hsl(177, 85%, 60%)" font-family="monospace" font-size="10" font-weight="700" text-anchor="middle">FixedPt</text></g><text x="950" y="490" fill="hsl(177, 85%, 60%)" font-family="monospace" font-size="13" letter-spacing="3" text-anchor="middle">DAG TOPOLOGY // ACYCLIC GRAPH</text></g>
+
+    <!-- Bottom Footer Bar -->
+    <g transform="translate(80, 565)">
+        <line x1="0" y1="-20" x2="1040" y2="-20" stroke="#1f3328" stroke-width="1" />
+        <text x="0" y="5" fill="#7a8b7f" font-family="ui-monospace, monospace" font-size="13">DATE: 2026-06-23</text>
+        <text x="220" y="5" fill="#7a8b7f" font-family="ui-monospace, monospace" font-size="13">AUTHOR: PÉTER LODRI</text>
+        <text x="520" y="5" fill="hsl(177, 85%, 60%)" font-family="ui-monospace, monospace" font-size="13" font-weight="600">HASH: #5e8528c3b414</text>
+        <text x="1040" y="5" fill="hsl(222, 90%, 65%)" font-family="ui-monospace, monospace" font-size="13" font-weight="700" text-anchor="end">WE. {-1, 0, +1}. &lt;3</text>
+    </g>
+</svg>
