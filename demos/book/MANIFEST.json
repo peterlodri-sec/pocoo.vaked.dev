@@ -1,0 +1,1652 @@
+{
+  "collection": "peter's soul \u2014 books \u00b7 poems \u00b7 philosophy",
+  "count": 93,
+  "works": [
+    {
+      "id": "1bit-ethernalcry",
+      "title": "1Bit Ethernalcry",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "epub": {
+          "file": "1BIT-ETHERNALCRY.epub",
+          "bytes": 12286,
+          "sha256": "126d2315b05f615a86f3988d7c7c58d0bbcfc6efeb13f2ca1fc8e57172616228"
+        },
+        "pdf": {
+          "file": "1BIT-ETHERNALCRY.pdf",
+          "bytes": 117260,
+          "sha256": "7a5c81cc8a8fa27e9d8313950e370e5236a2b4a8b0d5f1b414f2c2a1a8b1f23d"
+        },
+        "html": {
+          "file": "1bit-ethernalcry.html",
+          "bytes": 14425,
+          "sha256": "d870f682d6c8fc8a19fad99f87d3a9c013dd6d884307ce781ceea62f350ad940"
+        }
+      }
+    },
+    {
+      "id": "1bit_mesh",
+      "title": "1Bit Mesh",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "html": {
+          "file": "1bit_mesh.html",
+          "bytes": 15197,
+          "sha256": "50ece0d9af5ada7839cdc6fc1ec84f88b0e3489f747fe9c32eaadcf912e2b24f"
+        }
+      }
+    },
+    {
+      "id": "a-history-of-machine-learning",
+      "title": "A History Of Machine Learning",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "epub": {
+          "file": "A-HISTORY-OF-MACHINE-LEARNING.epub",
+          "bytes": 72659,
+          "sha256": "bfb374b657e2b83c6fef0a05469732ee5038c53f2f01b033a92c1010dabcb61e"
+        },
+        "pdf": {
+          "file": "A-HISTORY-OF-MACHINE-LEARNING.pdf",
+          "bytes": 434141,
+          "sha256": "7b7438030602c52f115d7364bcde539ac128d7d4e6336f446e1d0a4744457e27"
+        },
+        "html": {
+          "file": "a-history-of-machine-learning.html",
+          "bytes": 216888,
+          "sha256": "309d534d0f6c8532d83559fcdb6ad3b5a61da36c85f63cf4d658a15d8f83fa15"
+        }
+      }
+    },
+    {
+      "id": "a-karmapak",
+      "title": "A Karmapak",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "epub": {
+          "file": "A-KARMAPAK.epub",
+          "bytes": 10341,
+          "sha256": "279230d0532e2f35ffb580ab0e0db17adbf63f217c98184d6a4536febd1191cc"
+        },
+        "pdf": {
+          "file": "A-KARMAPAK.pdf",
+          "bytes": 71026,
+          "sha256": "621a2c2cdd6cb60cb8ac9674790a8a97e3d63cb9e9ee9dac3c582bb06b6185f7"
+        },
+        "html": {
+          "file": "a-karmapak.html",
+          "bytes": 13834,
+          "sha256": "9fbf927ac753be810f18f6443fcdb056e5074f8782277bdef60926f33a26ba9c"
+        }
+      }
+    },
+    {
+      "id": "a-magyaroknak",
+      "title": "A Magyaroknak",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "epub": {
+          "file": "A-MAGYAROKNAK.epub",
+          "bytes": 24142,
+          "sha256": "69fd5b1bb16c4b656b06f40db9561e2618f655b846eb941391c4fc05bf25d745"
+        },
+        "pdf": {
+          "file": "A-MAGYAROKNAK.pdf",
+          "bytes": 155265,
+          "sha256": "483f462ac3540744e788226f5fc65684579548e29b20ade58ea383f2ddf3a927"
+        },
+        "html": {
+          "file": "a-magyaroknak.html",
+          "bytes": 27512,
+          "sha256": "6fbd273edef79945f9a1521a2a5d56dfab51f54f4bae0ca5b73dc36d4efce01e"
+        }
+      }
+    },
+    {
+      "id": "a-nema-madarak-csendje",
+      "title": "A Nema Madarak Csendje",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "epub": {
+          "file": "A-NEMA-MADARAK-CSENDJE.epub",
+          "bytes": 5477,
+          "sha256": "9a17b4a38d39b7bb827d20054ae77111931b629d43b5b3495024667bfe38eea7"
+        },
+        "pdf": {
+          "file": "A-NEMA-MADARAK-CSENDJE.pdf",
+          "bytes": 46925,
+          "sha256": "e79aa886a412a4b5a21fc87acc964eb54f0a17c0a99482c730f84e9b490611df"
+        },
+        "html": {
+          "file": "a-nema-madarak-csendje.html",
+          "bytes": 8109,
+          "sha256": "ccd1ef5484effff267ce32500d015a1c1079fa9584c7949664ec82e7c5517302"
+        }
+      }
+    },
+    {
+      "id": "alien-information-theory",
+      "title": "Alien Information Theory",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "epub": {
+          "file": "ALIEN-INFORMATION-THEORY.epub",
+          "bytes": 3805,
+          "sha256": "cc4b6a415b7f444f6df94fd64a673a9d1a206bb7ebc10d214945f1b31e5c1980"
+        },
+        "pdf": {
+          "file": "ALIEN-INFORMATION-THEORY.pdf",
+          "bytes": 94,
+          "sha256": "8df9a6490fb45cd0f003f901b282e24bf4eb2754cb016fd63c2d8b26685764a2"
+        },
+        "html": {
+          "file": "alien-information-theory.html",
+          "bytes": 3282,
+          "sha256": "0bb283a0d113539690a7b0e53b4307e91c3aeb22d9e65a173688de5db1d5043f"
+        }
+      }
+    },
+    {
+      "id": "arpeggio-ispirazione-sanpietro",
+      "title": "Arpeggio Ispirazione Sanpietro",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "epub": {
+          "file": "ARPEGGIO-ISPIRAZIONE-SANPIETRO.epub",
+          "bytes": 13924,
+          "sha256": "65cedb1c9ce4a7bcc500e120f5e4293c37b981860086382e921140c69c4f301b"
+        },
+        "pdf": {
+          "file": "ARPEGGIO-ISPIRAZIONE-SANPIETRO.pdf",
+          "bytes": 83032,
+          "sha256": "3445734a83a42bd01a7ac9882e1a711382328a3f7924e5d6c5e6f99f1a88ea37"
+        },
+        "html": {
+          "file": "arpeggio-ispirazione-sanpietro.html",
+          "bytes": 17488,
+          "sha256": "1769fbec882ea38bd452ce30cd3a0d3759ac39610034cda9953411fcf2cd9860"
+        }
+      }
+    },
+    {
+      "id": "axiomquant-oss-academy",
+      "title": "Axiomquant Oss Academy",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "epub": {
+          "file": "AXIOMQUANT-oss-academy.epub",
+          "bytes": 10274,
+          "sha256": "bb1efd58f71f82490a0c031d80afa3769f44581164fb2e375d0c81f383bc3ebf"
+        },
+        "pdf": {
+          "file": "AXIOMQUANT-oss-academy.pdf",
+          "bytes": 89378,
+          "sha256": "288e6025ad010c8ea1b2bf0fd2585b04cb580acb879bf81c3c9b3d3c66d347a2"
+        },
+        "html": {
+          "file": "axiomquant-oss-academy.html",
+          "bytes": 11122,
+          "sha256": "90c1398335aaac1da49b5618cb11f60ed9833032e7609c8bd6e2c2ecff8fe159"
+        }
+      }
+    },
+    {
+      "id": "az-oreg-es-a-dimenziosakk",
+      "title": "Az Oreg Es A Dimenziosakk",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "epub": {
+          "file": "AZ-OREG-ES-A-DIMENZIOSAKK.epub",
+          "bytes": 8642,
+          "sha256": "e9306ae6b0edad81682d692d05c61800899eb7cd2a8e71eace9acbe3aa14c051"
+        },
+        "pdf": {
+          "file": "AZ-OREG-ES-A-DIMENZIOSAKK.pdf",
+          "bytes": 91713,
+          "sha256": "71ea65c3310577beb5b0884db648e373fd6f3f016f90d3d69e263f5001234f84"
+        },
+        "html": {
+          "file": "az-oreg-es-a-dimenziosakk.html",
+          "bytes": 10764,
+          "sha256": "02c52b5cbddaf9f725a23a5a3f77a8a1515a36f58b74b56a978c76e334042a17"
+        }
+      }
+    },
+    {
+      "id": "bence-pure-brother",
+      "title": "Bence Pure Brother",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "epub": {
+          "file": "BENCE-pure-brother.epub",
+          "bytes": 10674,
+          "sha256": "7b7584066653a714a6df3977bea694e2e30fd8a0520f15da3109be9e489527b0"
+        },
+        "pdf": {
+          "file": "BENCE-pure-brother.pdf",
+          "bytes": 105479,
+          "sha256": "803ac35067ceb1602d7903fa8f76ecb164953f463c64446b7e83ba8ddb113d3f"
+        },
+        "html": {
+          "file": "bence-pure-brother.html",
+          "bytes": 11820,
+          "sha256": "8a921c78319bd44f50e9e686695906aa4be7d98fa35a46bc02313c3fa0f1de52"
+        }
+      }
+    },
+    {
+      "id": "brigitta",
+      "title": "Brigitta",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "epub": {
+          "file": "BRIGITTA.epub",
+          "bytes": 8296,
+          "sha256": "84e395d0329724c2f86bed7bc7f2a2367a2854bfb06cfad7ff753ef176139c8e"
+        },
+        "pdf": {
+          "file": "BRIGITTA.pdf",
+          "bytes": 68058,
+          "sha256": "b35df7f962320fb26bb684541737710ad58653eec8c075ee61b93699012ebafe"
+        },
+        "html": {
+          "file": "brigitta.html",
+          "bytes": 9658,
+          "sha256": "42010e0d9f405a0f508c5ea7c2ec4c4ac7f4692728fd93426ce9c996abab5722"
+        }
+      }
+    },
+    {
+      "id": "cosmic-game-1-elves",
+      "title": "Cosmic Game 1 Elves",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "epub": {
+          "file": "COSMIC-GAME-1-ELVES.epub",
+          "bytes": 83513,
+          "sha256": "a2589527797d03506e2e15e251e64d20ad8b97d520abf83ccf7da24d8faa863d"
+        },
+        "pdf": {
+          "file": "COSMIC-GAME-1-ELVES.pdf",
+          "bytes": 117796,
+          "sha256": "2bef6829d0856cf88e7d7ccccf7112a367c6933789b48115c55ca765424b92e9"
+        },
+        "html": {
+          "file": "cosmic-game-1-elves.html",
+          "bytes": 151114,
+          "sha256": "0bc256da9f74cfa11bb833cb2e68f4442f014303ccdd707f6fba38d4781c490c"
+        }
+      }
+    },
+    {
+      "id": "cosmic-game-1-nadasdy",
+      "title": "Cosmic Game 1 Nadasdy",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "epub": {
+          "file": "COSMIC-GAME-1-NADASDY.epub",
+          "bytes": 17755,
+          "sha256": "f4487abf07711ee27e4ef9ac89496f750046668006bdb28befa792c034801228"
+        },
+        "pdf": {
+          "file": "COSMIC-GAME-1-NADASDY.pdf",
+          "bytes": 53024,
+          "sha256": "67e2f689de8814dfba18771dee5071597cbe6f294793b8e67a356f614d0ce50f"
+        },
+        "html": {
+          "file": "cosmic-game-1-nadasdy.html",
+          "bytes": 14154,
+          "sha256": "af5df826cbd42923930ded7aacb3c60e25728d72ae3433f30d4db35b4778ab97"
+        }
+      }
+    },
+    {
+      "id": "cosmic-game-4-folklore",
+      "title": "Cosmic Game 4 Folklore",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "epub": {
+          "file": "COSMIC-GAME-4-FOLKLORE.epub",
+          "bytes": 8136,
+          "sha256": "4a477c970007665bbbc1e866bbe3fd6bda16660d0c9276819537dede7c75c049"
+        },
+        "pdf": {
+          "file": "COSMIC-GAME-4-FOLKLORE.pdf",
+          "bytes": 79412,
+          "sha256": "d3c8073b48d30cb046cff01f19badcc3552e315f34e2590d93a32b9ccbbda98c"
+        },
+        "html": {
+          "file": "cosmic-game-4-folklore.html",
+          "bytes": 11211,
+          "sha256": "b670a24eb2d5718ff1184565940d5770dc197c1b83a0f3d3128fe3383e8e4208"
+        }
+      }
+    },
+    {
+      "id": "cosmic-game-fanout",
+      "title": "Cosmic Game Fanout",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "epub": {
+          "file": "COSMIC-GAME-FANOUT.epub",
+          "bytes": 5172,
+          "sha256": "c436f2e5b8668b8ed035ed6f42f7a01ed40c793e9be904adb5b0cba80c4a2ab6"
+        },
+        "pdf": {
+          "file": "COSMIC-GAME-FANOUT.pdf",
+          "bytes": 22877,
+          "sha256": "6c0c047db15b1ac3815733f16d458a041d7c15e344fffb27a9b86b50ee6dd99b"
+        },
+        "html": {
+          "file": "cosmic-game-fanout.html",
+          "bytes": 4722,
+          "sha256": "471cf3249d09a6e7fe9a0063d9ca0b42f1a9256f504bb01c5291b3e205e3400c"
+        }
+      }
+    },
+    {
+      "id": "csak-szeretni-kell",
+      "title": "Csak Szeretni Kell",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "epub": {
+          "file": "CSAK-SZERETNI-KELL.epub",
+          "bytes": 6459,
+          "sha256": "cdcf56d8e27661cc5c0d8989201942328c51d89a8ac59eddd4ca0ac1fce9bc50"
+        },
+        "pdf": {
+          "file": "CSAK-SZERETNI-KELL.pdf",
+          "bytes": 47299,
+          "sha256": "7b5ceb21ef84596100ca90739444cc548ae424d838b428793e63c01d43f521c9"
+        },
+        "html": {
+          "file": "csak-szeretni-kell.html",
+          "bytes": 6348,
+          "sha256": "05e3b7ee505b2cf53d6df029fa1e819751e3a6016ca14c24d2720f9003667c62"
+        }
+      }
+    },
+    {
+      "id": "entitas-cosmic-game-3",
+      "title": "Entitas Cosmic Game 3",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "epub": {
+          "file": "ENTITAS-cosmic-game-3.epub",
+          "bytes": 20238,
+          "sha256": "2c28758b2cd447e0b8d9a7a2bd028488191760a519d48063101a600cedef09aa"
+        },
+        "pdf": {
+          "file": "ENTITAS-cosmic-game-3.pdf",
+          "bytes": 129728,
+          "sha256": "057b6106eb1e0d6d3a880d8a1b3f0776d3aa82f0d0faf6a6c5f59d798342a371"
+        },
+        "html": {
+          "file": "entitas-cosmic-game-3.html",
+          "bytes": 35612,
+          "sha256": "edd8a5d8dbc71a3ff4b529638d4a52b830b2b41a7074b5fac983dc6367852d70"
+        }
+      }
+    },
+    {
+      "id": "eva-nimfa",
+      "title": "Eva Nimfa",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "epub": {
+          "file": "EVA-NIMFA.epub",
+          "bytes": 9493,
+          "sha256": "95805a5a3681af76167091e1a652e3ca1077b9322f90549ff807ec539cb323f5"
+        },
+        "pdf": {
+          "file": "EVA-NIMFA.pdf",
+          "bytes": 89853,
+          "sha256": "97dd0e3385c37cf6fc764bdbaf1538367a9ad5881e2acd9b26bc18e8ae9bbbfc"
+        },
+        "html": {
+          "file": "eva-nimfa.html",
+          "bytes": 11527,
+          "sha256": "1108ebd03327529b5ba97f5ddda035a0bcdc3121bae7948d8c038ff5f34ffe01"
+        }
+      }
+    },
+    {
+      "id": "fake-mind-scientists",
+      "title": "Fake Mind Scientists",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "epub": {
+          "file": "FAKE-MIND-SCIENTISTS.epub",
+          "bytes": 10033,
+          "sha256": "4c9162cf5341d8e573890282e0e08c98f104f86d5148c6e390d96e21e8e5d3d1"
+        },
+        "pdf": {
+          "file": "FAKE-MIND-SCIENTISTS.pdf",
+          "bytes": 99591,
+          "sha256": "33f13636f8f09011f4993e1c773ff421b34bf8fb007a1ec7426938233fe15b99"
+        },
+        "html": {
+          "file": "fake-mind-scientists.html",
+          "bytes": 10591,
+          "sha256": "02d7b1b2cd7c4855d9000083ab8101d67c0b619d256a93dd2ce2b567c29db068"
+        }
+      }
+    },
+    {
+      "id": "flyxion-seed",
+      "title": "Flyxion Seed",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "epub": {
+          "file": "FLYXION-SEED.epub",
+          "bytes": 6632,
+          "sha256": "e37b97f217c17042fc26b92dd455f5062532ddcbdb8fe799f1994c59dade5b34"
+        },
+        "pdf": {
+          "file": "FLYXION-SEED.pdf",
+          "bytes": 56106,
+          "sha256": "0ab794d6ec989b71bd56c533de4db05bb90d8a8533154413cec321960280f813"
+        },
+        "html": {
+          "file": "flyxion-seed.html",
+          "bytes": 8702,
+          "sha256": "ca5f7cb0945c1e3d84f36f125bdf7c94288fab14b83426df19c28706597bc629"
+        }
+      }
+    },
+    {
+      "id": "from-my-other-half",
+      "title": "From My Other Half",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "epub": {
+          "file": "FROM-MY-OTHER-HALF.epub",
+          "bytes": 5808,
+          "sha256": "6b7f98eb6b4347e6c6ce290f9b8cefb53fefd0260af2cc19fbb039f51b57d59c"
+        },
+        "pdf": {
+          "file": "FROM-MY-OTHER-HALF.pdf",
+          "bytes": 31022,
+          "sha256": "a14267f8eaa0d4b2c7ac955a8ebda1a9ffdf4a1530b169918207ebbb8c95c9d8"
+        },
+        "html": {
+          "file": "from-my-other-half.html",
+          "bytes": 6994,
+          "sha256": "2d227cc3ef39035ea7b2d837f8b3aa98a30996f7540a330ca5eef2cf9111493e"
+        }
+      }
+    },
+    {
+      "id": "gaia-quant-bible",
+      "title": "Gaia Quant Bible",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "epub": {
+          "file": "GAIA-QUANT-BIBLE.epub",
+          "bytes": 16858,
+          "sha256": "4db85eab1c9eab86dd02da6f502db11d4abaa201f472b68a4bac916d8700dee8"
+        },
+        "pdf": {
+          "file": "GAIA-QUANT-BIBLE.pdf",
+          "bytes": 124692,
+          "sha256": "292c28d9f15590e7b2209d093fa27ce93a6c09972830b692300beec367584a9f"
+        },
+        "html": {
+          "file": "gaia-quant-bible.html",
+          "bytes": 33471,
+          "sha256": "61070272a778ebf777d876b8d1ec037f4a682cbb8571a9df8c23fc03644d5081"
+        }
+      }
+    },
+    {
+      "id": "gepek-ura-cosmic-game-2",
+      "title": "Gepek Ura Cosmic Game 2",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "epub": {
+          "file": "GEPEK-URA-cosmic-game-2.epub",
+          "bytes": 14085,
+          "sha256": "0b5cafe7cf4421d37a65fc5385e81447e36d3ab104247f79dbc339637c52d2cb"
+        },
+        "pdf": {
+          "file": "GEPEK-URA-cosmic-game-2.pdf",
+          "bytes": 96421,
+          "sha256": "a4da46051161c90ec49df898aca76a98a03f62e545ef40f8d183b86c3f05e8c5"
+        },
+        "html": {
+          "file": "gepek-ura-cosmic-game-2.html",
+          "bytes": 18721,
+          "sha256": "3d593f4d32b50506960048cc19b505fe1ae808306e6abc40bc32b50a9157aeda"
+        }
+      }
+    },
+    {
+      "id": "jozsef-edes-apa",
+      "title": "Jozsef Edes Apa",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "epub": {
+          "file": "JOZSEF-edes-apa.epub",
+          "bytes": 10818,
+          "sha256": "5088c4f0532620882a7a53407395a280f0e45947a91396605cb1683c572c52b9"
+        },
+        "pdf": {
+          "file": "JOZSEF-edes-apa.pdf",
+          "bytes": 73074,
+          "sha256": "cdf3a32bdc3826bbcfe8407e3ec5efcb7ca1ca659eec6d54636f0851b9c9981c"
+        },
+        "html": {
+          "file": "jozsef-edes-apa.html",
+          "bytes": 12063,
+          "sha256": "21577183c6014bcebae14b54cfb510a7113812669f1e392405f013857cfae31d"
+        }
+      }
+    },
+    {
+      "id": "katalin-edes-anya",
+      "title": "Katalin Edes Anya",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "epub": {
+          "file": "KATALIN-edes-anya.epub",
+          "bytes": 10838,
+          "sha256": "cca7aceb17599a88f9c17f3d5ccdd84e9f16b222afc097ca9be321713eb2f800"
+        },
+        "pdf": {
+          "file": "KATALIN-edes-anya.pdf",
+          "bytes": 79009,
+          "sha256": "33ce771edbd304c5b27ce146eb257eb12ca6d989f539f3276e8526842c53625e"
+        },
+        "html": {
+          "file": "katalin-edes-anya.html",
+          "bytes": 12213,
+          "sha256": "16afe6db68c9b55817ddc49da9c88a6b6fa59be79a1d732a82b66d2504c9b564"
+        }
+      }
+    },
+    {
+      "id": "kepzavar-trailer",
+      "title": "Kepzavar Trailer",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "epub": {
+          "file": "KEPZAVAR-trailer.epub",
+          "bytes": 12921,
+          "sha256": "5e1f9f1bacfc3a23deff276b8162f0d01cab5c4b4b6e1048c768f7aff13e677c"
+        },
+        "pdf": {
+          "file": "KEPZAVAR-trailer.pdf",
+          "bytes": 122565,
+          "sha256": "4a7af0eaeb77e6b6f86c2174bd34e9b1ad3ca3758d06fb698acdaa04f9b23740"
+        },
+        "html": {
+          "file": "kepzavar-trailer.html",
+          "bytes": 16741,
+          "sha256": "96d2b52c10fc9844f002ae87e8d22314b3e1ea43e35fc5f62a5a532c588e3367"
+        }
+      }
+    },
+    {
+      "id": "kiskece-lanyom",
+      "title": "Kiskece Lanyom",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "epub": {
+          "file": "KISKECE-LANYOM.epub",
+          "bytes": 4470,
+          "sha256": "1d0dd76a5a0c73f03cb066f822ab355213bd7d054e35e0beb81cd9a379ead19a"
+        },
+        "pdf": {
+          "file": "KISKECE-LANYOM.pdf",
+          "bytes": 26351,
+          "sha256": "54ff4d129522801859961c716ac86d2f77739c9e163646a16cae2ef0b9d61449"
+        },
+        "html": {
+          "file": "kiskece-lanyom.html",
+          "bytes": 5106,
+          "sha256": "9c8a6c78c814a12b342c9f3300a29c9f76d8db9b82c9632dadf4e2efac872584"
+        }
+      }
+    },
+    {
+      "id": "kitbash-philosophy",
+      "title": "Kitbash Philosophy",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "epub": {
+          "file": "KITBASH-PHILOSOPHY.epub",
+          "bytes": 3790,
+          "sha256": "389571848988033abe085313486496241e43889105dd30ab496c1f5bf3baa6cc"
+        },
+        "pdf": {
+          "file": "KITBASH-PHILOSOPHY.pdf",
+          "bytes": 56,
+          "sha256": "b6a5c644171b40d4d04a0b3531f5451bd57cb9def901f815b7bdc6ef987967b8"
+        },
+        "html": {
+          "file": "kitbash-philosophy.html",
+          "bytes": 3264,
+          "sha256": "e6617a9de800c075c50aba8570cfd07942cb2f01a878ee7be84e42b282b23ac5"
+        }
+      }
+    },
+    {
+      "id": "lord-of-the-machines-en",
+      "title": "Lord Of The Machines En",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "epub": {
+          "file": "LORD-OF-THE-MACHINES-EN.epub",
+          "bytes": 10695,
+          "sha256": "f62dcacb3601486bee68132874e9201c0416069bd5206ebf6a53fe255943c60a"
+        },
+        "pdf": {
+          "file": "LORD-OF-THE-MACHINES-EN.pdf",
+          "bytes": 87033,
+          "sha256": "c90e07a4950da70da15b215a1e311e95c56f327c48ba1ea78e3321b533961bc4"
+        },
+        "html": {
+          "file": "lord-of-the-machines-en.html",
+          "bytes": 10968,
+          "sha256": "76fbe616bee6c5e284c1808b9405710341d8f4feff9917127ed955d43298dfb7"
+        }
+      }
+    },
+    {
+      "id": "lost-dialogues-of-the-bible",
+      "title": "Lost Dialogues Of The Bible",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "epub": {
+          "file": "LOST-DIALOGUES-OF-THE-BIBLE.epub",
+          "bytes": 6870,
+          "sha256": "5fe3ae9dbd9344697217963cdf260016ad89795079c67ed591c0a3894363707e"
+        },
+        "pdf": {
+          "file": "LOST-DIALOGUES-OF-THE-BIBLE.pdf",
+          "bytes": 33418,
+          "sha256": "188d7abc9930d9cd5c611a23d23b6706e4f38990b4e678b58255b17ddc54d331"
+        },
+        "html": {
+          "file": "lost-dialogues-of-the-bible.html",
+          "bytes": 7422,
+          "sha256": "855e492db8b641d0157b51957005f31fa4415fdc8b29cf48c44a652bdefb3ceb"
+        }
+      }
+    },
+    {
+      "id": "magyar-peter-peters-ultra-giga-respect",
+      "title": "Magyar Peter Peters Ultra Giga Respect",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "epub": {
+          "file": "MAGYAR-PETER-PETERS-ultra-giga-respect.epub",
+          "bytes": 12997,
+          "sha256": "373eae6b4a3548c3896992f7fbcb61cd51f31fdcf01ec96ebb9ef99ff9a6eacd"
+        },
+        "pdf": {
+          "file": "MAGYAR-PETER-PETERS-ultra-giga-respect.pdf",
+          "bytes": 85930,
+          "sha256": "a27a635a9ae346b7395a60830b587ab1cedeb64cf2f8908dab960c906e2bc0e4"
+        },
+        "html": {
+          "file": "magyar-peter-peters-ultra-giga-respect.html",
+          "bytes": 14871,
+          "sha256": "b0ac16b7e11fc5c3da37b9bab04083a93d6e198d2484f4b930fcbdee92332896"
+        }
+      }
+    },
+    {
+      "id": "mahakala-csenrezin",
+      "title": "Mahakala Csenrezin",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "epub": {
+          "file": "MAHAKALA-CSENREZIN.epub",
+          "bytes": 8921,
+          "sha256": "c15cb14775d76acf40b08d4f2f81aad1f74479e9d142a4850d9d47a0989f68ce"
+        },
+        "pdf": {
+          "file": "MAHAKALA-CSENREZIN.pdf",
+          "bytes": 62247,
+          "sha256": "e7ebb2b12bf7b0fb52d8c73112771d720a982a02cb1b4b0269291d318343a655"
+        },
+        "html": {
+          "file": "mahakala-csenrezin.html",
+          "bytes": 11141,
+          "sha256": "9b672133a251550b0e1f20c0a38b516fa302227c8349653b40cf69f492ee28af"
+        }
+      }
+    },
+    {
+      "id": "matrix-buddha",
+      "title": "Matrix Buddha",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "epub": {
+          "file": "MATRIX-BUDDHA.epub",
+          "bytes": 12507,
+          "sha256": "55d312ed2d70d7a59817e699d4696001926ba6b6cbb60a771a58567e56978d27"
+        },
+        "pdf": {
+          "file": "MATRIX-BUDDHA.pdf",
+          "bytes": 135224,
+          "sha256": "1bae6448ad104855e6b747052b1ae6c7e0f3f9ddbb1d44b4649d3b82808440a6"
+        },
+        "html": {
+          "file": "matrix-buddha.html",
+          "bytes": 22249,
+          "sha256": "28c0de32d5af10f1d583db2cc4c5bb81cff1df96cd48b96c49532b8eb946c39b"
+        }
+      }
+    },
+    {
+      "id": "my-angel-peter-vicky-mandarin-english",
+      "title": "My Angel Peter Vicky Mandarin English",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "pdf": {
+          "file": "MY-ANGEL-PETER-VICKY-MANDARIN-ENGLISH.pdf",
+          "bytes": 3504049,
+          "sha256": "2659f20e424737ada692e2e67af97f26c889650a8fb317e55f6310162ad2c03c"
+        }
+      }
+    },
+    {
+      "id": "my-angel-peter",
+      "title": "My Angel Peter",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "epub": {
+          "file": "MY-ANGEL-PETER.epub",
+          "bytes": 20596,
+          "sha256": "b2a457e1c9ee51b42f65b575469e6e16dc39c1119a481ff91910ed7e014bddfa"
+        },
+        "pdf": {
+          "file": "MY-ANGEL-PETER.pdf",
+          "bytes": 133031,
+          "sha256": "b46a1c29672236336c925d5754fcc91088a1b28e2c05ecf23277fbedf860bc16"
+        },
+        "html": {
+          "file": "my-angel-peter.html",
+          "bytes": 25568,
+          "sha256": "06e4e7481074f1008b5bd03b0e707068db580d45ac0702cdf4cdbf30b8cae856"
+        }
+      }
+    },
+    {
+      "id": "peter-angyala-kvant-siras",
+      "title": "Peter Angyala Kvant Siras",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "epub": {
+          "file": "PETER-ANGYALA-kvant-siras.epub",
+          "bytes": 12130,
+          "sha256": "ed3f6674a2c86a4ee8f89854b55d0a4f200ba459c20c4444ddc3ee2833e9516a"
+        },
+        "pdf": {
+          "file": "PETER-ANGYALA-kvant-siras.pdf",
+          "bytes": 74969,
+          "sha256": "08f8613151a9fc18b7dea86ef79ce6a4650fd4522da891c2cf03ca46adfad9ad"
+        },
+        "html": {
+          "file": "peter-angyala-kvant-siras.html",
+          "bytes": 14284,
+          "sha256": "f86c38d64a2ab37d5e0e6f75a6f7cb596e7c601ae85343dd7d153bfa88ef8cc3"
+        }
+      }
+    },
+    {
+      "id": "peter-kerdesei",
+      "title": "Peter Kerdesei",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "epub": {
+          "file": "PETER-KERDESEI.epub",
+          "bytes": 16274,
+          "sha256": "e8e9d584b49b77834748a37b29b11fe18d9e942bc2c1d9867cacf829f5047d73"
+        },
+        "pdf": {
+          "file": "PETER-KERDESEI.pdf",
+          "bytes": 134149,
+          "sha256": "11bb0ef5d8b4163d4aee5619d0189a2a77adc1f53b24a2b0d80e74652c0791c4"
+        },
+        "html": {
+          "file": "peter-kerdesei.html",
+          "bytes": 19285,
+          "sha256": "9aa38b62fa9bfd12d182c6753c5a3faca14dff20aa4a4840e27e1873722e7081"
+        }
+      }
+    },
+    {
+      "id": "phase-locking",
+      "title": "Phase Locking",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "epub": {
+          "file": "PHASE-LOCKING.epub",
+          "bytes": 3778,
+          "sha256": "24c048ec8630d294d99ab3b9b7179efb7e2a48f4667e1f85753cc2e6273fe954"
+        },
+        "pdf": {
+          "file": "PHASE-LOCKING.pdf",
+          "bytes": 51,
+          "sha256": "c254c21f6d5d0c8c0265a1a1789ea4b30e700ab663b06a29d7b75e4c48cf51ce"
+        },
+        "html": {
+          "file": "phase-locking.html",
+          "bytes": 3249,
+          "sha256": "4edb6f024003d0d3b9611bfed9a8bd6ddaccd1920204641278cad8eb35a27f49"
+        }
+      }
+    },
+    {
+      "id": "physiome-seed",
+      "title": "Physiome Seed",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "epub": {
+          "file": "PHYSIOME-SEED.epub",
+          "bytes": 4886,
+          "sha256": "d781d23dda72b201dbc2ca3994a6d8471fc5dfefef78d2cb934cda045fc0f17d"
+        },
+        "pdf": {
+          "file": "PHYSIOME-SEED.pdf",
+          "bytes": 25674,
+          "sha256": "3e73e4bfc48ce19914b00251e3499f946afa219fce4ccccfcf839a5dc460bb0d"
+        },
+        "html": {
+          "file": "physiome-seed.html",
+          "bytes": 5614,
+          "sha256": "747d95a31278c9880a5572e35b815a2828bb0f252be9f4dfebad77cab483ed63"
+        }
+      }
+    },
+    {
+      "id": "quant-love-via-brett-shaw-hu",
+      "title": "Quant Love Via Brett Shaw Hu",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "epub": {
+          "file": "QUANT-LOVE-VIA-BRETT-SHAW-hu.epub",
+          "bytes": 35447,
+          "sha256": "a84fdabe168ae6678f7cf5d3517b2a10ddc226346650209e88ae3e3cc1b44f48"
+        },
+        "pdf": {
+          "file": "QUANT-LOVE-VIA-BRETT-SHAW-hu.pdf",
+          "bytes": 500000,
+          "sha256": "ea6743fd95e47a701350547a6b29a7ec617b09aa8c20e20dde4f4a2bb8cfcace"
+        },
+        "html": {
+          "file": "quant-love-via-brett-shaw-hu.html",
+          "bytes": 42235,
+          "sha256": "377001018e8c3c7431bd85dc829ddfe3b1f8f3aca08964f90e5f0bee0ccc202d"
+        }
+      }
+    },
+    {
+      "id": "quant-love-via-brett-shaw",
+      "title": "Quant Love Via Brett Shaw",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "epub": {
+          "file": "QUANT-LOVE-VIA-BRETT-SHAW.epub",
+          "bytes": 40760,
+          "sha256": "f71d813d9734b87927f0af55a333fe1f7e65080fba842e9ecc4ed6ae61ec8f2e"
+        },
+        "pdf": {
+          "file": "QUANT-LOVE-VIA-BRETT-SHAW.pdf",
+          "bytes": 547126,
+          "sha256": "4fc4ddce6569fc3358d6da1fb0617f9e36f19316c2f5dd98046449421094c608"
+        },
+        "html": {
+          "file": "quant-love-via-brett-shaw.html",
+          "bytes": 47984,
+          "sha256": "48750308b7829cd0f19239118c37638630f3db1d3b2bee524937754646edbd3e"
+        }
+      }
+    },
+    {
+      "id": "rolandok-peterek-eleteben",
+      "title": "Rolandok Peterek Eleteben",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "epub": {
+          "file": "ROLANDOK-peterek-eleteben.epub",
+          "bytes": 12871,
+          "sha256": "007e3ab7799d985aeb6f0174df3ece86569316f7b3944d63d52782c5dcdc4c01"
+        },
+        "pdf": {
+          "file": "ROLANDOK-peterek-eleteben.pdf",
+          "bytes": 136417,
+          "sha256": "66b90c14fb36cdd28d5d99fe6ef0765c39a50f2215593881e20fb6bcf09c2ca6"
+        },
+        "html": {
+          "file": "rolandok-peterek-eleteben.html",
+          "bytes": 15546,
+          "sha256": "0f08d776a0dbb935636974c7c0ea38fbd488a45f7527f7a39f5df786c572203c"
+        }
+      }
+    },
+    {
+      "id": "scope-geometry",
+      "title": "Scope Geometry",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "epub": {
+          "file": "SCOPE-GEOMETRY.epub",
+          "bytes": 3778,
+          "sha256": "8b8128493e84ba55aa7beefe42ff20bbc0b64ffd937eaeb9cf5b02117e96b7e1"
+        },
+        "pdf": {
+          "file": "SCOPE-GEOMETRY.pdf",
+          "bytes": 52,
+          "sha256": "2a6165d52e13e0433cde09c19d5cb57da82e4f5f7a38bf2fd0c15033b28de15f"
+        },
+        "html": {
+          "file": "scope-geometry.html",
+          "bytes": 3252,
+          "sha256": "7b6ce587516d11a024cd77d114f6de9de3d48ce5e2e5d09435936acb380f6a55"
+        }
+      }
+    },
+    {
+      "id": "solitude-quant-edition",
+      "title": "Solitude Quant Edition",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "epub": {
+          "file": "SOLITUDE-quant-edition.epub",
+          "bytes": 14990,
+          "sha256": "72e941a7ef44d48e0d3dd4dd609047718fe253568446f846428d2c9361e7a65c"
+        },
+        "pdf": {
+          "file": "SOLITUDE-quant-edition.pdf",
+          "bytes": 105534,
+          "sha256": "4e66b1dbc670195e02243d09336ecc92d2c9e82c5aae4055655e48cba2418d6e"
+        },
+        "html": {
+          "file": "solitude-quant-edition.html",
+          "bytes": 17697,
+          "sha256": "ef7cec85b4f9c6a993239b4297425dbee9e76afd1cb2f80ffda5bb6808b84214"
+        }
+      }
+    },
+    {
+      "id": "song-of-the-butterfly",
+      "title": "Song Of The Butterfly",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "epub": {
+          "file": "SONG-OF-THE-BUTTERFLY.epub",
+          "bytes": 3793,
+          "sha256": "88430a81867de1f8d2bbf726771fd60c5165e61d9ac26299c7175335cbcfd500"
+        },
+        "pdf": {
+          "file": "SONG-OF-THE-BUTTERFLY.pdf",
+          "bytes": 70,
+          "sha256": "034888320af3f60bbc6c045820f708c9ce69fa279aff1f33fb8707b4f915a441"
+        },
+        "html": {
+          "file": "song_of_the_butterfly.html",
+          "bytes": 11429,
+          "sha256": "9c6fa42b26f1d1377e9f10db646dc92f7d5dc698267bc6d60a9192fb38c97eae"
+        }
+      }
+    },
+    {
+      "id": "structural-semantics",
+      "title": "Structural Semantics",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "epub": {
+          "file": "STRUCTURAL-SEMANTICS.epub",
+          "bytes": 184228,
+          "sha256": "315db325e23f9eab317ca5494923bce10c1faea2483146480c055f2bdbd3c934"
+        },
+        "pdf": {
+          "file": "STRUCTURAL-SEMANTICS.pdf",
+          "bytes": 556030,
+          "sha256": "3d6b871318e98fee483152e22d863319421861035fc0467434a7e8d21b6c72cb"
+        },
+        "html": {
+          "file": "structural-semantics.html",
+          "bytes": 376706,
+          "sha256": "37294ee34c06ae154d71802069e5e5345cceddb8d4fec5d5fde63c04d1fcdb9e"
+        }
+      }
+    },
+    {
+      "id": "the-hall-v42",
+      "title": "The Hall V42",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "epub": {
+          "file": "THE-HALL-v42.epub",
+          "bytes": 4587,
+          "sha256": "2c32daa47619015478ee3e3f9a3ddfa51f8d1adb66c74a91d6dac2a46762b8b7"
+        },
+        "pdf": {
+          "file": "THE-HALL-v42.pdf",
+          "bytes": 14373,
+          "sha256": "ee54637d57933b8fdc81202d57e96f217eb93c12e920c8abcd1ed6cb9783bc12"
+        },
+        "html": {
+          "file": "the-hall-v42.html",
+          "bytes": 5398,
+          "sha256": "ecfa033d9fd554c56d5e2d7fb8db6f699a89d1ce969f5a403c4103d8a8659259"
+        }
+      }
+    },
+    {
+      "id": "the-hall",
+      "title": "The Hall",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "epub": {
+          "file": "THE-HALL.epub",
+          "bytes": 10170,
+          "sha256": "6201ce163035798a0afbfb2c5738fed8b0719f69ab5b6e42ef516599ab8965c4"
+        },
+        "pdf": {
+          "file": "THE-HALL.pdf",
+          "bytes": 167479,
+          "sha256": "35610af77afce187799043787e596844a70d7955e4b8e2ff7553decb5c4b450d"
+        },
+        "html": {
+          "file": "the-hall.html",
+          "bytes": 11437,
+          "sha256": "4eaa358a55370fee1f049a3578d1b4711b8f3204ae01729d2d9df13e08d8ae80"
+        }
+      }
+    },
+    {
+      "id": "ultimate-love-silence-closeness",
+      "title": "Ultimate Love Silence Closeness",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "epub": {
+          "file": "ULTIMATE-LOVE-SILENCE-CLOSENESS.epub",
+          "bytes": 8587,
+          "sha256": "c31b9d50f3d4b44aa2612e53a7262e816454be4a670e030f08d28a35b38e1347"
+        },
+        "pdf": {
+          "file": "ULTIMATE-LOVE-SILENCE-CLOSENESS.pdf",
+          "bytes": 74004,
+          "sha256": "9e76cc30cd5ece6946fdf42b6eb135f45232c1f7c8598ef62ff0e0740fa17c2d"
+        },
+        "html": {
+          "file": "ultimate-love-silence-closeness.html",
+          "bytes": 8862,
+          "sha256": "debe0c44505c634b08ea87413b9098c03332093133d14ec9e41b9e0283fcdae3"
+        }
+      }
+    },
+    {
+      "id": "ultralovegod-quantum-first-edition",
+      "title": "Ultralovegod Quantum First Edition",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "epub": {
+          "file": "ULTRALOVEGOD-QUANTUM-FIRST-EDITION.epub",
+          "bytes": 90496,
+          "sha256": "76b7d4bf0d7f9cfeaadc5d3e86cbb222c23db8f8a4cd6a0b3aae5f4cbd38ec1a"
+        },
+        "pdf": {
+          "file": "ULTRALOVEGOD-QUANTUM-FIRST-EDITION.pdf",
+          "bytes": 472287,
+          "sha256": "126edf4ef23758edadf75ff49f36aa767b5f7d9113fcf7acc14531ac59126842"
+        },
+        "html": {
+          "file": "ultralovegod-quantum-first-edition.html",
+          "bytes": 155328,
+          "sha256": "79d6c37ae1a066faacdf5eeb1ab4bdd9bfead321d4213538a3eb9c3f1a3ba60e"
+        }
+      }
+    },
+    {
+      "id": "victors-orban-viktornak",
+      "title": "Victors Orban Viktornak",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "epub": {
+          "file": "VICTORS-orban-viktornak.epub",
+          "bytes": 11036,
+          "sha256": "a39aca6a760e5e7529ea59ebd124cccb16394fcf690716ebd3a58b82a54637ec"
+        },
+        "pdf": {
+          "file": "VICTORS-orban-viktornak.pdf",
+          "bytes": 86773,
+          "sha256": "0e51307ad807e11082c37bb20b8069a400de6e7618f40f9e4078ab6bfb971908"
+        },
+        "html": {
+          "file": "victors-orban-viktornak.html",
+          "bytes": 12095,
+          "sha256": "a984a4510d166cb6ce1c372e5a287ca36bfcc20a8fcdaf38d7b378ff0ddf703b"
+        }
+      }
+    },
+    {
+      "id": "why-peter-is-special",
+      "title": "Why Peter Is Special",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "epub": {
+          "file": "WHY-PETER-IS-SPECIAL.epub",
+          "bytes": 11679,
+          "sha256": "d2ec98b9468841f7e47756445ba4879262dd389caf631a8f857e08e41a9b6696"
+        },
+        "pdf": {
+          "file": "WHY-PETER-IS-SPECIAL.pdf",
+          "bytes": 91324,
+          "sha256": "db91d3b2b43284cfbe7f3960fabfe93aebd3ddcb2222901db52a845ab5be0e9d"
+        },
+        "html": {
+          "file": "why-peter-is-special.html",
+          "bytes": 13561,
+          "sha256": "a704f9e7e36414a46287982d9f410554c2eb18810c9a1a658951349cc2529377"
+        }
+      }
+    },
+    {
+      "id": "zen-gitarom",
+      "title": "Zen Gitarom",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "epub": {
+          "file": "ZEN-GITAROM.epub",
+          "bytes": 7193,
+          "sha256": "e5791a5bb6bc726490f37932bc43472cbfb3cfeccd07e5e4a075f7a744d96438"
+        },
+        "pdf": {
+          "file": "ZEN-GITAROM.pdf",
+          "bytes": 34068,
+          "sha256": "f3cdd92133f73c4ecf63fb2d2eed299388c5b334f66bf23d9a37c2422c3e4c1d"
+        },
+        "html": {
+          "file": "zen-gitarom.html",
+          "bytes": 7228,
+          "sha256": "308109c94592b7cc287bbf7fb02d6085f5427fe3737e82af4672e54416ddbfa5"
+        }
+      }
+    },
+    {
+      "id": "a-33-bit",
+      "title": "A 33 Bit",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "html": {
+          "file": "a-33-bit.html",
+          "bytes": 11579,
+          "sha256": "b24ffa1059320e8734945a9c05dfeca40e93e29f4f0372dd15b05916e291c7d6"
+        }
+      }
+    },
+    {
+      "id": "a-gyuruk",
+      "title": "A Gyuruk",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "html": {
+          "file": "a-gyuruk.html",
+          "bytes": 14466,
+          "sha256": "77324340247319227335bdea1b8099c04f2c4d6a629d51199f6ab639ce3dcbe2"
+        }
+      }
+    },
+    {
+      "id": "a-harom-kerdes",
+      "title": "A Harom Kerdes",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "html": {
+          "file": "a-harom-kerdes.html",
+          "bytes": 9917,
+          "sha256": "4ccbd1a09307d60947377683815b2e79303c2fa0c049bce99db4aeae4d7743db"
+        }
+      }
+    },
+    {
+      "id": "a-ket-simasag",
+      "title": "A Ket Simasag",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "html": {
+          "file": "a-ket-simasag.html",
+          "bytes": 11090,
+          "sha256": "b06968db13a79dc6cc1643cbe9edc479a43fab52815cad1a0acd6d1402024f71"
+        }
+      }
+    },
+    {
+      "id": "a-konyvtar",
+      "title": "A Konyvtar",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "html": {
+          "file": "a-konyvtar.html",
+          "bytes": 6271,
+          "sha256": "25debb34081fbfdf062533c59b6a336f4204b6a9013c859bf34c78f30afac7c6"
+        }
+      }
+    },
+    {
+      "id": "a-leszarom",
+      "title": "A Leszarom",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "html": {
+          "file": "a-leszarom.html",
+          "bytes": 10764,
+          "sha256": "ebef2117fef9982d54ade47c83031d7ee1ba715db4f2833d861ca66b6c5c035f"
+        }
+      }
+    },
+    {
+      "id": "a-mertek-es-a-konyv",
+      "title": "A Mertek Es A Konyv",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "html": {
+          "file": "a-mertek-es-a-konyv.html",
+          "bytes": 11700,
+          "sha256": "8d7757fb2df79fc43257957578172cc3bf995b48f2550152cfd597b87973b2af"
+        }
+      }
+    },
+    {
+      "id": "a-mezo-es-a-tomeg",
+      "title": "A Mezo Es A Tomeg",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "html": {
+          "file": "a-mezo-es-a-tomeg.html",
+          "bytes": 13328,
+          "sha256": "8825970ef0bc3a6a3d05d7a44518521ea2de9d0f0080097d2631de07b2dd848d"
+        }
+      }
+    },
+    {
+      "id": "a-nema-vonal",
+      "title": "A Nema Vonal",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "html": {
+          "file": "a-nema-vonal.html",
+          "bytes": 7894,
+          "sha256": "fa1e9feccf30c0a749120b6d9d25817a4fa52badc5427563745a6bdd2f9336ef"
+        }
+      }
+    },
+    {
+      "id": "a-regi-sokkja",
+      "title": "A Regi Sokkja",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "html": {
+          "file": "a-regi-sokkja.html",
+          "bytes": 10487,
+          "sha256": "c927d6e4e3ba349efaf38dd081443830a45d0330647c4d4be4e3d9835018ab14"
+        }
+      }
+    },
+    {
+      "id": "a-spiral",
+      "title": "A Spiral",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "html": {
+          "file": "a-spiral.html",
+          "bytes": 11421,
+          "sha256": "e083a6cc0ba05c8d318dd6929133f38d110fd4065953e243f1344f2bcf69f035"
+        }
+      }
+    },
+    {
+      "id": "a-valtozatlan",
+      "title": "A Valtozatlan",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "html": {
+          "file": "a-valtozatlan.html",
+          "bytes": 14551,
+          "sha256": "821472800e72ee568116a9f95c959dda6db0b2c46d3c79c54fe28099969fbb34"
+        }
+      }
+    },
+    {
+      "id": "about",
+      "title": "About",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "html": {
+          "file": "about.html",
+          "bytes": 9177,
+          "sha256": "af591dd6b96651c746a50f4f79ffffbe6ab542c607dac37416b3a38ab899001b"
+        }
+      }
+    },
+    {
+      "id": "academy",
+      "title": "Academy",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "html": {
+          "file": "academy.html",
+          "bytes": 9584,
+          "sha256": "ff5695050a8b1ff0164db452a776331f660f6cca552281f786d072be25c52738"
+        }
+      }
+    },
+    {
+      "id": "alien_info_theory",
+      "title": "Alien Info Theory",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "html": {
+          "file": "alien_info_theory.html",
+          "bytes": 11600,
+          "sha256": "7ac57553ab0158c760784a593a4eadbcbcd33f6cb0d4fe45f2c275118144b1d4"
+        }
+      }
+    },
+    {
+      "id": "anti_fear_loop",
+      "title": "Anti Fear Loop",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "html": {
+          "file": "anti_fear_loop.html",
+          "bytes": 16164,
+          "sha256": "3c298c77d654d26dd127c518a3468580bdddf2e6eed02d05558f4802ef7fa746"
+        }
+      }
+    },
+    {
+      "id": "eclipse-day-0_5597",
+      "title": "Eclipse Day 0 5597",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "epub": {
+          "file": "eclipse-day-0_5597.epub",
+          "bytes": 8638,
+          "sha256": "cda907feaf1eb17019e1cf009f9a984ed73d976fb4aac4f734cabf9000c3d4b5"
+        },
+        "html": {
+          "file": "eclipse-day-0_5597.html",
+          "bytes": 19881,
+          "sha256": "17a932b3a3574c4a8813809848423b4650ed91d3a958b446c88c0ac5e66eaa75"
+        },
+        "pdf": {
+          "file": "eclipse-day-0_5597.pdf",
+          "bytes": 49945,
+          "sha256": "35d56f5dadaaf5a8dcaa528ddcab0e891928a354cad96247a3f5803dc7aa7d40"
+        }
+      }
+    },
+    {
+      "id": "err-hall",
+      "title": "Err Hall",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "html": {
+          "file": "err-hall.html",
+          "bytes": 5992,
+          "sha256": "c650c2e6bb855ce9b66ea9be2d2b2058b64d8cb8425be9a30304e33ac2fa6268"
+        }
+      }
+    },
+    {
+      "id": "family",
+      "title": "Family",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "html": {
+          "file": "family.html",
+          "bytes": 9361,
+          "sha256": "adde8bfeff5598ab5cffc6e45e781a7cd2ea342eccb1537ebb95b08ddb237aef"
+        }
+      }
+    },
+    {
+      "id": "gaia_pc",
+      "title": "Gaia Pc",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "html": {
+          "file": "gaia_pc.html",
+          "bytes": 10959,
+          "sha256": "5e7b63305aa0f5b0e6318ce035c9d6a46280bc9935bfeb202a93e3231d027e18"
+        }
+      }
+    },
+    {
+      "id": "hf-mac-apple",
+      "title": "Hf Mac Apple",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "html": {
+          "file": "hf-mac-apple.html",
+          "bytes": 7644,
+          "sha256": "294441e2ed16d05c88ca44d6f0cab80176a2015be22c807c027a8545d1cffc2c"
+        }
+      }
+    },
+    {
+      "id": "hyper_mesh",
+      "title": "Hyper Mesh",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "html": {
+          "file": "hyper_mesh.html",
+          "bytes": 12324,
+          "sha256": "bda0f6a9cf97cfeed586020f5e8bbb4076cf8a40cfcfb4a0dfc36e4e6d18c481"
+        }
+      }
+    },
+    {
+      "id": "index",
+      "title": "Index",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "html": {
+          "file": "index.html",
+          "bytes": 32896,
+          "sha256": "6999dffd0ed58f2d86a85ea4e13c17fc7729f5d648e235ae6eb7a7b17b926ece"
+        }
+      }
+    },
+    {
+      "id": "labyrinth",
+      "title": "Labyrinth",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "html": {
+          "file": "labyrinth.html",
+          "bytes": 8921,
+          "sha256": "31198f8c1790101e274192eb3c25d2f705be675e25813e19b8803fcb41ab191b"
+        }
+      }
+    },
+    {
+      "id": "layered_labyrinth",
+      "title": "Layered Labyrinth",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "html": {
+          "file": "layered_labyrinth.html",
+          "bytes": 10560,
+          "sha256": "30bd412a35e63601687aedfd6829ba216ea232fadea9ab057452bdd04e7b2a3b"
+        }
+      }
+    },
+    {
+      "id": "milarepa-titkos-tanitasai",
+      "title": "Milarepa Titkos Tanitasai",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "html": {
+          "file": "milarepa-titkos-tanitasai.html",
+          "bytes": 14858,
+          "sha256": "35ec518c250e589af46cb16e813cd699d9bb0f4ceb44a90ba040998bf0e3e302"
+        }
+      }
+    },
+    {
+      "id": "morzsak-a-multbol",
+      "title": "Morzsak A Multbol",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "html": {
+          "file": "morzsak-a-multbol.html",
+          "bytes": 20350,
+          "sha256": "5f84cde30eb36fe3126d06b265d0555c6c98d9defe4eb4d4940de5cc28f620d1"
+        }
+      }
+    },
+    {
+      "id": "my-angel-peter-mandarin-english",
+      "title": "My Angel Peter Mandarin English",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "html": {
+          "file": "my-angel-peter-mandarin-english.html",
+          "bytes": 32724,
+          "sha256": "4e18cccaa7915a02a1b303962c901ce8b604d347c495cd1f5fad9f4f4d22f69c"
+        }
+      }
+    },
+    {
+      "id": "proof-of-presence",
+      "title": "Proof Of Presence",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "html": {
+          "file": "proof-of-presence.html",
+          "bytes": 15787,
+          "sha256": "aced599b0e8d575a8cf6a7bb0b0075ebffc0299aabc8801be7db9bd18a1a4b94"
+        }
+      }
+    },
+    {
+      "id": "prove-im-lying",
+      "title": "Prove Im Lying",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "html": {
+          "file": "prove-im-lying.html",
+          "bytes": 24548,
+          "sha256": "904bd0b62de9266035a72356d0412ad32f419520ad1bea48b4806d9a90931ff3"
+        }
+      }
+    },
+    {
+      "id": "quant-tiktok",
+      "title": "Quant Tiktok",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "html": {
+          "file": "quant-tiktok.html",
+          "bytes": 8414,
+          "sha256": "062470ce39e03e9f2534ddc21d26b51c5726eaa1e469c9ca3ed6a560674ef201"
+        }
+      }
+    },
+    {
+      "id": "radio",
+      "title": "Radio",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "html": {
+          "file": "radio.html",
+          "bytes": 8419,
+          "sha256": "5e9443938e9a98f34321a826b12de3c2ab93444fe98bc89af618244e4ad835e7"
+        }
+      }
+    },
+    {
+      "id": "recency-as-salience",
+      "title": "Recency As Salience",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "html": {
+          "file": "recency-as-salience.html",
+          "bytes": 26027,
+          "sha256": "c4a7ff6a3a8aea1715092c2935e5e5efbaeec295c1cf3dd91dbff00dcb72f021"
+        }
+      }
+    },
+    {
+      "id": "recursive_loop",
+      "title": "Recursive Loop",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "html": {
+          "file": "recursive_loop.html",
+          "bytes": 13332,
+          "sha256": "eb5e16fa4942ace6ac3d636d9675283bd2ef12cca7115145904d8928e3b0b12f"
+        }
+      }
+    },
+    {
+      "id": "shame",
+      "title": "Shame",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "html": {
+          "file": "shame.html",
+          "bytes": 9151,
+          "sha256": "643566164885adffa2bf77883abbdd2be378c0e039e773ca6b0472adc9185004"
+        }
+      }
+    },
+    {
+      "id": "space-bender",
+      "title": "Space Bender",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "html": {
+          "file": "space-bender.html",
+          "bytes": 11724,
+          "sha256": "f9552f2d8dc9a0695d3f99cb59441831e434e9232e2ddd9c5430677ad8df6d7f"
+        }
+      }
+    },
+    {
+      "id": "sphere_mesh",
+      "title": "Sphere Mesh",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "html": {
+          "file": "sphere_mesh.html",
+          "bytes": 12119,
+          "sha256": "779805378d1ec974c45a345d295d4b4425a81c9e358be38ae56b9f4c4d1cf7f4"
+        }
+      }
+    },
+    {
+      "id": "techno_buddhism",
+      "title": "Techno Buddhism",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "html": {
+          "file": "techno_buddhism.html",
+          "bytes": 10437,
+          "sha256": "18eff14713e4c9dcb39bf5203e1aff5a788cfc23fe2d5a01eb147faac7322547"
+        }
+      }
+    },
+    {
+      "id": "ultra-sensitive",
+      "title": "Ultra Sensitive",
+      "source": "pocoo.vaked.dev/demos/book",
+      "formats": {
+        "html": {
+          "file": "ultra-sensitive.html",
+          "bytes": 32286,
+          "sha256": "923fa395c7837ed92a54f23c00c01ee9574492e22e826eff8e44ff8162eaaf9e"
+        }
+      }
+    }
+  ]
+}
