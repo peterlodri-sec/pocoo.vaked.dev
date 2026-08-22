@@ -934,6 +934,9 @@ ${postLines}
   if (existsSync(path.join(ROOT, "_headers"))) {
     await cp(path.join(ROOT, "_headers"), path.join(DIST_DIR, "_headers"));
   }
+  if (existsSync(path.join(ROOT, "_redirects"))) {
+    await cp(path.join(ROOT, "_redirects"), path.join(DIST_DIR, "_redirects"));
+  }
   // Copy demos (filter out heavy weights >20MB so Cloudflare Pages 25MB limit is respected)
   if (existsSync(path.join(ROOT, "demos"))) {
     await cp(path.join(ROOT, "demos"), path.join(DIST_DIR, "demos"), {
