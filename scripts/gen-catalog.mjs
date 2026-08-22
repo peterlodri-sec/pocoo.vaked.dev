@@ -51,7 +51,7 @@ const works = files.map((f) => {
   const hash = sha256(buf).slice(0, 12);
   const size = (buf.length / 1024).toFixed(0);
   const sealTxt = seal ? ` · ${seal}` : "";
-  return `      <div class="work" data-title="${title}" data-seal="${seal}"><h3>${title}${sealTxt}</h3><div class="links"><a href="${f}">html</a></div><div class="meta">${size} KB · sha256 ${hash}…</div></div>`;
+  return `      <div class="work" data-title="${title}" data-seal="${seal}"><h3>${title}${sealTxt}</h3><div class="links"><a href="${f.replace(/\.html$/, "")}">html</a></div><div class="meta">${size} KB · sha256 ${hash}…</div></div>`;
 });
 
 // copy the WASM core
