@@ -18,3 +18,7 @@ A gyűrűk forognak — a hamu emlékszik. A lila, az ultralila — a mélység,
 ## Alt text
 
 Lila és ultralila háttéren egy arany gitár áll, körülötte lila dallam-hullámok. Fölötte egy rózsaszín szív lebeg. A kép alján a felirat: RENATA — a csupaszív vándorAngyal, zeneterapeuta — LISAN AL GAIB, foundational layered beats — lila · ultralila. A kép a Gaia Quant-Bible könyvet idézi, az apuka bölcső melletti gitáros dalait, és a lila, ultralila mélységet, amely visszahajlik.
+
+## Hang (a poszt hangja)
+
+`renata-voice.mp3` — a Renata-szöög valódi emberi hangon (gpt-4o-mini-tts, nova): az apuka, a bölcső, a gitár, a lila, az ultralila — a mélység, amely visszahajlik. A downtempo, a foundational layered beats — a rétegeek, amelyekre az élet épül.
