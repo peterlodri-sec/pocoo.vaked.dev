@@ -2,11 +2,16 @@
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>peter's soul — books · poems · philosophy</title>
 <style>
-  body { background:#07060d; color:#e8e8ff; font-family:Georgia,serif; margin:0; padding:48px 24px; }
+  body { background:#160b2e; color:#e8e8ff; font-family:Georgia,serif; margin:0; padding:48px 24px; }
   h1 { text-align:center; font-weight:600; letter-spacing:4px; color:#ffd15c; font-size:1.6rem; }
-  .sub { text-align:center; color:#9a9ac8; font-family:monospace; margin:4px 0 40px; }
+  .sub { text-align:center; color:#9a9ac8; font-family:monospace; margin:4px 0 24px; }
+  .search { display:block; width:100%; max-width:500px; margin:0 auto 32px; padding:12px 16px;
+    background:#0d0d16; border:1px solid #2b2b45; border-radius:12px; color:#e8e8ff;
+    font-family:monospace; font-size:0.95rem; }
+  .search:focus { outline:none; border-color:#00d4ff; }
   .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:16px; max-width:1100px; margin:0 auto; }
   .work { border:1px solid #2b2b45; border-radius:12px; padding:16px 18px; background:#0d0d16; }
+  .work.hidden { display:none; }
   .work h3 { margin:0 0 8px; font-size:1.05rem; color:#c9c9e8; }
   .links a { color:#00d4ff; text-decoration:none; margin-right:10px; font-family:monospace; font-size:0.9rem; }
   .links a:hover { text-decoration:underline; }
@@ -15,102 +20,152 @@
 </style></head>
 <body>
   <h1>peter's soul</h1>
-  <div class="sub">books · poems · philosophy · 93 works · MANIFEST.json provenance</div>
-  <div class="grid">
-      <div class="work"><h3>1Bit Ethernalcry</h3><div class="links"><a href="1BIT-ETHERNALCRY.epub">epub</a> · <a href="1bit-ethernalcry.html">html</a> · <a href="1BIT-ETHERNALCRY.pdf">pdf</a></div><div class="meta">141 KB · sha256 126d2315b05f…</div></div>
-      <div class="work"><h3>1Bit Mesh</h3><div class="links"><a href="1bit_mesh.html">html</a></div><div class="meta">15 KB · sha256 50ece0d9af5a…</div></div>
-      <div class="work"><h3>A History Of Machine Learning</h3><div class="links"><a href="A-HISTORY-OF-MACHINE-LEARNING.epub">epub</a> · <a href="a-history-of-machine-learning.html">html</a> · <a href="A-HISTORY-OF-MACHINE-LEARNING.pdf">pdf</a></div><div class="meta">707 KB · sha256 bfb374b657e2…</div></div>
-      <div class="work"><h3>A Karmapak</h3><div class="links"><a href="A-KARMAPAK.epub">epub</a> · <a href="a-karmapak.html">html</a> · <a href="A-KARMAPAK.pdf">pdf</a></div><div class="meta">93 KB · sha256 279230d0532e…</div></div>
-      <div class="work"><h3>A Magyaroknak</h3><div class="links"><a href="A-MAGYAROKNAK.epub">epub</a> · <a href="a-magyaroknak.html">html</a> · <a href="A-MAGYAROKNAK.pdf">pdf</a></div><div class="meta">202 KB · sha256 69fd5b1bb16c…</div></div>
-      <div class="work"><h3>A Nema Madarak Csendje</h3><div class="links"><a href="A-NEMA-MADARAK-CSENDJE.epub">epub</a> · <a href="a-nema-madarak-csendje.html">html</a> · <a href="A-NEMA-MADARAK-CSENDJE.pdf">pdf</a></div><div class="meta">59 KB · sha256 9a17b4a38d39…</div></div>
-      <div class="work"><h3>Alien Information Theory</h3><div class="links"><a href="ALIEN-INFORMATION-THEORY.epub">epub</a> · <a href="alien-information-theory.html">html</a> · <a href="ALIEN-INFORMATION-THEORY.pdf">pdf</a></div><div class="meta">7 KB · sha256 cc4b6a415b7f…</div></div>
-      <div class="work"><h3>Arpeggio Ispirazione Sanpietro</h3><div class="links"><a href="ARPEGGIO-ISPIRAZIONE-SANPIETRO.epub">epub</a> · <a href="arpeggio-ispirazione-sanpietro.html">html</a> · <a href="ARPEGGIO-ISPIRAZIONE-SANPIETRO.pdf">pdf</a></div><div class="meta">112 KB · sha256 65cedb1c9ce4…</div></div>
-      <div class="work"><h3>Axiomquant Oss Academy</h3><div class="links"><a href="AXIOMQUANT-oss-academy.epub">epub</a> · <a href="axiomquant-oss-academy.html">html</a> · <a href="AXIOMQUANT-oss-academy.pdf">pdf</a></div><div class="meta">108 KB · sha256 bb1efd58f71f…</div></div>
-      <div class="work"><h3>Az Oreg Es A Dimenziosakk</h3><div class="links"><a href="AZ-OREG-ES-A-DIMENZIOSAKK.epub">epub</a> · <a href="az-oreg-es-a-dimenziosakk.html">html</a> · <a href="AZ-OREG-ES-A-DIMENZIOSAKK.pdf">pdf</a></div><div class="meta">109 KB · sha256 e9306ae6b0ed…</div></div>
-      <div class="work"><h3>Bence Pure Brother</h3><div class="links"><a href="BENCE-pure-brother.epub">epub</a> · <a href="bence-pure-brother.html">html</a> · <a href="BENCE-pure-brother.pdf">pdf</a></div><div class="meta">125 KB · sha256 7b7584066653…</div></div>
-      <div class="work"><h3>Brigitta</h3><div class="links"><a href="BRIGITTA.epub">epub</a> · <a href="brigitta.html">html</a> · <a href="BRIGITTA.pdf">pdf</a></div><div class="meta">84 KB · sha256 84e395d03297…</div></div>
-      <div class="work"><h3>Cosmic Game 1 Elves</h3><div class="links"><a href="COSMIC-GAME-1-ELVES.epub">epub</a> · <a href="cosmic-game-1-elves.html">html</a> · <a href="COSMIC-GAME-1-ELVES.pdf">pdf</a></div><div class="meta">344 KB · sha256 a2589527797d…</div></div>
-      <div class="work"><h3>Cosmic Game 1 Nadasdy</h3><div class="links"><a href="COSMIC-GAME-1-NADASDY.epub">epub</a> · <a href="cosmic-game-1-nadasdy.html">html</a> · <a href="COSMIC-GAME-1-NADASDY.pdf">pdf</a></div><div class="meta">83 KB · sha256 f4487abf0771…</div></div>
-      <div class="work"><h3>Cosmic Game 4 Folklore</h3><div class="links"><a href="COSMIC-GAME-4-FOLKLORE.epub">epub</a> · <a href="cosmic-game-4-folklore.html">html</a> · <a href="COSMIC-GAME-4-FOLKLORE.pdf">pdf</a></div><div class="meta">96 KB · sha256 4a477c970007…</div></div>
-      <div class="work"><h3>Cosmic Game Fanout</h3><div class="links"><a href="COSMIC-GAME-FANOUT.epub">epub</a> · <a href="cosmic-game-fanout.html">html</a> · <a href="COSMIC-GAME-FANOUT.pdf">pdf</a></div><div class="meta">32 KB · sha256 c436f2e5b866…</div></div>
-      <div class="work"><h3>Csak Szeretni Kell</h3><div class="links"><a href="CSAK-SZERETNI-KELL.epub">epub</a> · <a href="csak-szeretni-kell.html">html</a> · <a href="CSAK-SZERETNI-KELL.pdf">pdf</a></div><div class="meta">59 KB · sha256 cdcf56d8e276…</div></div>
-      <div class="work"><h3>Entitas Cosmic Game 3</h3><div class="links"><a href="ENTITAS-cosmic-game-3.epub">epub</a> · <a href="entitas-cosmic-game-3.html">html</a> · <a href="ENTITAS-cosmic-game-3.pdf">pdf</a></div><div class="meta">181 KB · sha256 2c28758b2cd4…</div></div>
-      <div class="work"><h3>Eva Nimfa</h3><div class="links"><a href="EVA-NIMFA.epub">epub</a> · <a href="eva-nimfa.html">html</a> · <a href="EVA-NIMFA.pdf">pdf</a></div><div class="meta">108 KB · sha256 95805a5a3681…</div></div>
-      <div class="work"><h3>Fake Mind Scientists</h3><div class="links"><a href="FAKE-MIND-SCIENTISTS.epub">epub</a> · <a href="fake-mind-scientists.html">html</a> · <a href="FAKE-MIND-SCIENTISTS.pdf">pdf</a></div><div class="meta">117 KB · sha256 4c9162cf5341…</div></div>
-      <div class="work"><h3>Flyxion Seed</h3><div class="links"><a href="FLYXION-SEED.epub">epub</a> · <a href="flyxion-seed.html">html</a> · <a href="FLYXION-SEED.pdf">pdf</a></div><div class="meta">70 KB · sha256 e37b97f217c1…</div></div>
-      <div class="work"><h3>From My Other Half</h3><div class="links"><a href="FROM-MY-OTHER-HALF.epub">epub</a> · <a href="from-my-other-half.html">html</a> · <a href="FROM-MY-OTHER-HALF.pdf">pdf</a></div><div class="meta">43 KB · sha256 6b7f98eb6b43…</div></div>
-      <div class="work"><h3>Gaia Quant Bible</h3><div class="links"><a href="GAIA-QUANT-BIBLE.epub">epub</a> · <a href="gaia-quant-bible.html">html</a> · <a href="GAIA-QUANT-BIBLE.pdf">pdf</a></div><div class="meta">171 KB · sha256 4db85eab1c9e…</div></div>
-      <div class="work"><h3>Gepek Ura Cosmic Game 2</h3><div class="links"><a href="GEPEK-URA-cosmic-game-2.epub">epub</a> · <a href="gepek-ura-cosmic-game-2.html">html</a> · <a href="GEPEK-URA-cosmic-game-2.pdf">pdf</a></div><div class="meta">126 KB · sha256 0b5cafe7cf44…</div></div>
-      <div class="work"><h3>Jozsef Edes Apa</h3><div class="links"><a href="JOZSEF-edes-apa.epub">epub</a> · <a href="jozsef-edes-apa.html">html</a> · <a href="JOZSEF-edes-apa.pdf">pdf</a></div><div class="meta">94 KB · sha256 5088c4f05326…</div></div>
-      <div class="work"><h3>Katalin Edes Anya</h3><div class="links"><a href="KATALIN-edes-anya.epub">epub</a> · <a href="katalin-edes-anya.html">html</a> · <a href="KATALIN-edes-anya.pdf">pdf</a></div><div class="meta">100 KB · sha256 cca7aceb1759…</div></div>
-      <div class="work"><h3>Kepzavar Trailer</h3><div class="links"><a href="KEPZAVAR-trailer.epub">epub</a> · <a href="kepzavar-trailer.html">html</a> · <a href="KEPZAVAR-trailer.pdf">pdf</a></div><div class="meta">149 KB · sha256 5e1f9f1bacfc…</div></div>
-      <div class="work"><h3>Kiskece Lanyom</h3><div class="links"><a href="KISKECE-LANYOM.epub">epub</a> · <a href="kiskece-lanyom.html">html</a> · <a href="KISKECE-LANYOM.pdf">pdf</a></div><div class="meta">35 KB · sha256 1d0dd76a5a0c…</div></div>
-      <div class="work"><h3>Kitbash Philosophy</h3><div class="links"><a href="KITBASH-PHILOSOPHY.epub">epub</a> · <a href="kitbash-philosophy.html">html</a> · <a href="KITBASH-PHILOSOPHY.pdf">pdf</a></div><div class="meta">7 KB · sha256 389571848988…</div></div>
-      <div class="work"><h3>Lord Of The Machines En</h3><div class="links"><a href="LORD-OF-THE-MACHINES-EN.epub">epub</a> · <a href="lord-of-the-machines-en.html">html</a> · <a href="LORD-OF-THE-MACHINES-EN.pdf">pdf</a></div><div class="meta">106 KB · sha256 f62dcacb3601…</div></div>
-      <div class="work"><h3>Lost Dialogues Of The Bible</h3><div class="links"><a href="LOST-DIALOGUES-OF-THE-BIBLE.epub">epub</a> · <a href="lost-dialogues-of-the-bible.html">html</a> · <a href="LOST-DIALOGUES-OF-THE-BIBLE.pdf">pdf</a></div><div class="meta">47 KB · sha256 5fe3ae9dbd93…</div></div>
-      <div class="work"><h3>Magyar Peter Peters Ultra Giga Respect</h3><div class="links"><a href="MAGYAR-PETER-PETERS-ultra-giga-respect.epub">epub</a> · <a href="magyar-peter-peters-ultra-giga-respect.html">html</a> · <a href="MAGYAR-PETER-PETERS-ultra-giga-respect.pdf">pdf</a></div><div class="meta">111 KB · sha256 373eae6b4a35…</div></div>
-      <div class="work"><h3>Mahakala Csenrezin</h3><div class="links"><a href="MAHAKALA-CSENREZIN.epub">epub</a> · <a href="mahakala-csenrezin.html">html</a> · <a href="MAHAKALA-CSENREZIN.pdf">pdf</a></div><div class="meta">80 KB · sha256 c15cb14775d7…</div></div>
-      <div class="work"><h3>Matrix Buddha</h3><div class="links"><a href="MATRIX-BUDDHA.epub">epub</a> · <a href="matrix-buddha.html">html</a> · <a href="MATRIX-BUDDHA.pdf">pdf</a></div><div class="meta">166 KB · sha256 55d312ed2d70…</div></div>
-      <div class="work"><h3>My Angel Peter Vicky Mandarin English</h3><div class="links"><a href="MY-ANGEL-PETER-VICKY-MANDARIN-ENGLISH.pdf">pdf</a></div><div class="meta">3422 KB · sha256 2659f20e4247…</div></div>
-      <div class="work"><h3>My Angel Peter</h3><div class="links"><a href="MY-ANGEL-PETER.epub">epub</a> · <a href="my-angel-peter.html">html</a> · <a href="MY-ANGEL-PETER.pdf">pdf</a></div><div class="meta">175 KB · sha256 b2a457e1c9ee…</div></div>
-      <div class="work"><h3>Peter Angyala Kvant Siras</h3><div class="links"><a href="PETER-ANGYALA-kvant-siras.epub">epub</a> · <a href="peter-angyala-kvant-siras.html">html</a> · <a href="PETER-ANGYALA-kvant-siras.pdf">pdf</a></div><div class="meta">99 KB · sha256 ed3f6674a2c8…</div></div>
-      <div class="work"><h3>Peter Kerdesei</h3><div class="links"><a href="PETER-KERDESEI.epub">epub</a> · <a href="peter-kerdesei.html">html</a> · <a href="PETER-KERDESEI.pdf">pdf</a></div><div class="meta">166 KB · sha256 e8e9d584b49b…</div></div>
-      <div class="work"><h3>Phase Locking</h3><div class="links"><a href="PHASE-LOCKING.epub">epub</a> · <a href="phase-locking.html">html</a> · <a href="PHASE-LOCKING.pdf">pdf</a></div><div class="meta">7 KB · sha256 24c048ec8630…</div></div>
-      <div class="work"><h3>Physiome Seed</h3><div class="links"><a href="PHYSIOME-SEED.epub">epub</a> · <a href="physiome-seed.html">html</a> · <a href="PHYSIOME-SEED.pdf">pdf</a></div><div class="meta">35 KB · sha256 d781d23dda72…</div></div>
-      <div class="work"><h3>Quant Love Via Brett Shaw Hu</h3><div class="links"><a href="QUANT-LOVE-VIA-BRETT-SHAW-hu.epub">epub</a> · <a href="quant-love-via-brett-shaw-hu.html">html</a> · <a href="QUANT-LOVE-VIA-BRETT-SHAW-hu.pdf">pdf</a></div><div class="meta">564 KB · sha256 a84fdabe168a…</div></div>
-      <div class="work"><h3>Quant Love Via Brett Shaw</h3><div class="links"><a href="QUANT-LOVE-VIA-BRETT-SHAW.epub">epub</a> · <a href="quant-love-via-brett-shaw.html">html</a> · <a href="QUANT-LOVE-VIA-BRETT-SHAW.pdf">pdf</a></div><div class="meta">621 KB · sha256 f71d813d9734…</div></div>
-      <div class="work"><h3>Rolandok Peterek Eleteben</h3><div class="links"><a href="ROLANDOK-peterek-eleteben.epub">epub</a> · <a href="rolandok-peterek-eleteben.html">html</a> · <a href="ROLANDOK-peterek-eleteben.pdf">pdf</a></div><div class="meta">161 KB · sha256 007e3ab7799d…</div></div>
-      <div class="work"><h3>Scope Geometry</h3><div class="links"><a href="SCOPE-GEOMETRY.epub">epub</a> · <a href="scope-geometry.html">html</a> · <a href="SCOPE-GEOMETRY.pdf">pdf</a></div><div class="meta">7 KB · sha256 8b8128493e84…</div></div>
-      <div class="work"><h3>Solitude Quant Edition</h3><div class="links"><a href="SOLITUDE-quant-edition.epub">epub</a> · <a href="solitude-quant-edition.html">html</a> · <a href="SOLITUDE-quant-edition.pdf">pdf</a></div><div class="meta">135 KB · sha256 72e941a7ef44…</div></div>
-      <div class="work"><h3>Song Of The Butterfly</h3><div class="links"><a href="SONG-OF-THE-BUTTERFLY.epub">epub</a> · <a href="song_of_the_butterfly.html">html</a> · <a href="SONG-OF-THE-BUTTERFLY.pdf">pdf</a></div><div class="meta">15 KB · sha256 88430a81867d…</div></div>
-      <div class="work"><h3>Structural Semantics</h3><div class="links"><a href="STRUCTURAL-SEMANTICS.epub">epub</a> · <a href="structural-semantics.html">html</a> · <a href="STRUCTURAL-SEMANTICS.pdf">pdf</a></div><div class="meta">1091 KB · sha256 315db325e23f…</div></div>
-      <div class="work"><h3>The Hall V42</h3><div class="links"><a href="THE-HALL-v42.epub">epub</a> · <a href="the-hall-v42.html">html</a> · <a href="THE-HALL-v42.pdf">pdf</a></div><div class="meta">24 KB · sha256 2c32daa47619…</div></div>
-      <div class="work"><h3>The Hall</h3><div class="links"><a href="THE-HALL.epub">epub</a> · <a href="the-hall.html">html</a> · <a href="THE-HALL.pdf">pdf</a></div><div class="meta">185 KB · sha256 6201ce163035…</div></div>
-      <div class="work"><h3>Ultimate Love Silence Closeness</h3><div class="links"><a href="ULTIMATE-LOVE-SILENCE-CLOSENESS.epub">epub</a> · <a href="ultimate-love-silence-closeness.html">html</a> · <a href="ULTIMATE-LOVE-SILENCE-CLOSENESS.pdf">pdf</a></div><div class="meta">89 KB · sha256 c31b9d50f3d4…</div></div>
-      <div class="work"><h3>Ultralovegod Quantum First Edition</h3><div class="links"><a href="ULTRALOVEGOD-QUANTUM-FIRST-EDITION.epub">epub</a> · <a href="ultralovegod-quantum-first-edition.html">html</a> · <a href="ULTRALOVEGOD-QUANTUM-FIRST-EDITION.pdf">pdf</a></div><div class="meta">701 KB · sha256 76b7d4bf0d7f…</div></div>
-      <div class="work"><h3>Victors Orban Viktornak</h3><div class="links"><a href="VICTORS-orban-viktornak.epub">epub</a> · <a href="victors-orban-viktornak.html">html</a> · <a href="VICTORS-orban-viktornak.pdf">pdf</a></div><div class="meta">107 KB · sha256 a39aca6a760e…</div></div>
-      <div class="work"><h3>Why Peter Is Special</h3><div class="links"><a href="WHY-PETER-IS-SPECIAL.epub">epub</a> · <a href="why-peter-is-special.html">html</a> · <a href="WHY-PETER-IS-SPECIAL.pdf">pdf</a></div><div class="meta">114 KB · sha256 d2ec98b94688…</div></div>
-      <div class="work"><h3>Zen Gitarom</h3><div class="links"><a href="ZEN-GITAROM.epub">epub</a> · <a href="zen-gitarom.html">html</a> · <a href="ZEN-GITAROM.pdf">pdf</a></div><div class="meta">47 KB · sha256 e5791a5bb6bc…</div></div>
-      <div class="work"><h3>A 33 Bit</h3><div class="links"><a href="a-33-bit.html">html</a></div><div class="meta">11 KB · sha256 b24ffa105932…</div></div>
-      <div class="work"><h3>A Gyuruk</h3><div class="links"><a href="a-gyuruk.html">html</a></div><div class="meta">14 KB · sha256 773243402473…</div></div>
-      <div class="work"><h3>A Harom Kerdes</h3><div class="links"><a href="a-harom-kerdes.html">html</a></div><div class="meta">10 KB · sha256 4ccbd1a09307…</div></div>
-      <div class="work"><h3>A Ket Simasag</h3><div class="links"><a href="a-ket-simasag.html">html</a></div><div class="meta">11 KB · sha256 b06968db13a7…</div></div>
-      <div class="work"><h3>A Konyvtar</h3><div class="links"><a href="a-konyvtar.html">html</a></div><div class="meta">6 KB · sha256 25debb34081f…</div></div>
-      <div class="work"><h3>A Leszarom</h3><div class="links"><a href="a-leszarom.html">html</a></div><div class="meta">11 KB · sha256 ebef2117fef9…</div></div>
-      <div class="work"><h3>A Mertek Es A Konyv</h3><div class="links"><a href="a-mertek-es-a-konyv.html">html</a></div><div class="meta">11 KB · sha256 8d7757fb2df7…</div></div>
-      <div class="work"><h3>A Mezo Es A Tomeg</h3><div class="links"><a href="a-mezo-es-a-tomeg.html">html</a></div><div class="meta">13 KB · sha256 8825970ef0bc…</div></div>
-      <div class="work"><h3>A Nema Vonal</h3><div class="links"><a href="a-nema-vonal.html">html</a></div><div class="meta">8 KB · sha256 fa1e9feccf30…</div></div>
-      <div class="work"><h3>A Regi Sokkja</h3><div class="links"><a href="a-regi-sokkja.html">html</a></div><div class="meta">10 KB · sha256 c927d6e4e3ba…</div></div>
-      <div class="work"><h3>A Spiral</h3><div class="links"><a href="a-spiral.html">html</a></div><div class="meta">11 KB · sha256 e083a6cc0ba0…</div></div>
-      <div class="work"><h3>A Valtozatlan</h3><div class="links"><a href="a-valtozatlan.html">html</a></div><div class="meta">14 KB · sha256 821472800e72…</div></div>
-      <div class="work"><h3>About</h3><div class="links"><a href="about.html">html</a></div><div class="meta">9 KB · sha256 af591dd6b966…</div></div>
-      <div class="work"><h3>Academy</h3><div class="links"><a href="academy.html">html</a></div><div class="meta">9 KB · sha256 ff5695050a8b…</div></div>
-      <div class="work"><h3>Alien Info Theory</h3><div class="links"><a href="alien_info_theory.html">html</a></div><div class="meta">11 KB · sha256 7ac57553ab01…</div></div>
-      <div class="work"><h3>Anti Fear Loop</h3><div class="links"><a href="anti_fear_loop.html">html</a></div><div class="meta">16 KB · sha256 3c298c77d654…</div></div>
-      <div class="work"><h3>Eclipse Day 0 5597</h3><div class="links"><a href="eclipse-day-0_5597.epub">epub</a> · <a href="eclipse-day-0_5597.html">html</a> · <a href="eclipse-day-0_5597.pdf">pdf</a></div><div class="meta">77 KB · sha256 cda907feaf1e…</div></div>
-      <div class="work"><h3>Err Hall</h3><div class="links"><a href="err-hall.html">html</a></div><div class="meta">6 KB · sha256 c650c2e6bb85…</div></div>
-      <div class="work"><h3>Family</h3><div class="links"><a href="family.html">html</a></div><div class="meta">9 KB · sha256 adde8bfeff55…</div></div>
-      <div class="work"><h3>Gaia Pc</h3><div class="links"><a href="gaia_pc.html">html</a></div><div class="meta">11 KB · sha256 5e7b63305aa0…</div></div>
-      <div class="work"><h3>Hf Mac Apple</h3><div class="links"><a href="hf-mac-apple.html">html</a></div><div class="meta">7 KB · sha256 294441e2ed16…</div></div>
-      <div class="work"><h3>Hyper Mesh</h3><div class="links"><a href="hyper_mesh.html">html</a></div><div class="meta">12 KB · sha256 bda0f6a9cf97…</div></div>
-      <div class="work"><h3>Index</h3><div class="links"><a href="index.html">html</a></div><div class="meta">32 KB · sha256 6999dffd0ed5…</div></div>
-      <div class="work"><h3>Labyrinth</h3><div class="links"><a href="labyrinth.html">html</a></div><div class="meta">9 KB · sha256 31198f8c1790…</div></div>
-      <div class="work"><h3>Layered Labyrinth</h3><div class="links"><a href="layered_labyrinth.html">html</a></div><div class="meta">10 KB · sha256 30bd412a35e6…</div></div>
-      <div class="work"><h3>Milarepa Titkos Tanitasai</h3><div class="links"><a href="milarepa-titkos-tanitasai.html">html</a></div><div class="meta">15 KB · sha256 35ec518c250e…</div></div>
-      <div class="work"><h3>One Track</h3><div class="links"><a href="one-track.html">html</a></div><div class="meta">13 KB · sha256 c6eb32ca6c10…</div></div>
-      <div class="work"><h3>Morzsak A Multbol</h3><div class="links"><a href="morzsak-a-multbol.html">html</a></div><div class="meta">20 KB · sha256 5f84cde30eb3…</div></div>
-      <div class="work"><h3>My Angel Peter Mandarin English</h3><div class="links"><a href="my-angel-peter-mandarin-english.html">html</a></div><div class="meta">32 KB · sha256 4e18cccaa791…</div></div>
-      <div class="work"><h3>Proof Of Presence</h3><div class="links"><a href="proof-of-presence.html">html</a></div><div class="meta">15 KB · sha256 aced599b0e8d…</div></div>
-      <div class="work"><h3>Prove Im Lying</h3><div class="links"><a href="prove-im-lying.html">html</a></div><div class="meta">24 KB · sha256 904bd0b62de9…</div></div>
-      <div class="work"><h3>Quant Tiktok</h3><div class="links"><a href="quant-tiktok.html">html</a></div><div class="meta">8 KB · sha256 062470ce39e0…</div></div>
-      <div class="work"><h3>Radio</h3><div class="links"><a href="radio.html">html</a></div><div class="meta">8 KB · sha256 5e9443938e9a…</div></div>
-      <div class="work"><h3>Recency As Salience</h3><div class="links"><a href="recency-as-salience.html">html</a></div><div class="meta">25 KB · sha256 c4a7ff6a3a8a…</div></div>
-      <div class="work"><h3>Recursive Loop</h3><div class="links"><a href="recursive_loop.html">html</a></div><div class="meta">13 KB · sha256 eb5e16fa4942…</div></div>
-      <div class="work"><h3>Shame</h3><div class="links"><a href="shame.html">html</a></div><div class="meta">9 KB · sha256 643566164885…</div></div>
-      <div class="work"><h3>Space Bender</h3><div class="links"><a href="space-bender.html">html</a></div><div class="meta">11 KB · sha256 f9552f2d8dc9…</div></div>
-      <div class="work"><h3>Sphere Mesh</h3><div class="links"><a href="sphere_mesh.html">html</a></div><div class="meta">12 KB · sha256 779805378d1e…</div></div>
-      <div class="work"><h3>Techno Buddhism</h3><div class="links"><a href="techno_buddhism.html">html</a></div><div class="meta">10 KB · sha256 18eff14713e4…</div></div>
-      <div class="work"><h3>Ultra Sensitive</h3><div class="links"><a href="ultra-sensitive.html">html</a></div><div class="meta">32 KB · sha256 923fa395c783…</div></div>
+  <div class="sub">books · poems · philosophy · 93 works · wasm ternary search</div>
+  <input class="search" id="q" type="text" placeholder="search the library… (ternary-quant core)">
+  <div class="grid" id="grid">
+      <div class="work" data-title="1BIT LLM Sovereign Mesh Engine — "GO AWAY GO AWAY" Streamer" data-seal=""><h3>1BIT LLM Sovereign Mesh Engine — "GO AWAY GO AWAY" Streamer</h3><div class="links"><a href="1bit_mesh.html">html</a></div><div class="meta">15 KB · sha256 50ece0d9af5a…</div></div>
+      <div class="work" data-title="1Bit-Eternalcry — pocoo-book · Szellem (Brett Shaw)" data-seal="🜂"><h3>1Bit-Eternalcry — pocoo-book · Szellem (Brett Shaw) · 🜂</h3><div class="links"><a href="1bit-ethernalcry.html">html</a></div><div class="meta">14 KB · sha256 d870f682d6c8…</div></div>
+      <div class="work" data-title="A 33. BIT — esszé a határról, ahol a keret nem dönthet" data-seal="心"><h3>A 33. BIT — esszé a határról, ahol a keret nem dönthet · 心</h3><div class="links"><a href="a-33-bit.html">html</a></div><div class="meta">11 KB · sha256 b24ffa105932…</div></div>
+      <div class="work" data-title="A GYŰRŰK — az armilláris gömb és a gondolatkísérlet" data-seal="环"><h3>A GYŰRŰK — az armilláris gömb és a gondolatkísérlet · 环</h3><div class="links"><a href="a-gyuruk.html">html</a></div><div class="meta">14 KB · sha256 773243402473…</div></div>
+      <div class="work" data-title="A HÁROM KÉRDÉS — katekizmus a TARTAN-ról" data-seal="问"><h3>A HÁROM KÉRDÉS — katekizmus a TARTAN-ról · 问</h3><div class="links"><a href="a-harom-kerdes.html">html</a></div><div class="meta">10 KB · sha256 4ccbd1a09307…</div></div>
+      <div class="work" data-title="A History of Machine Learning — pocoo-book · Szellem (Brett Shaw)" data-seal="🜂"><h3>A History of Machine Learning — pocoo-book · Szellem (Brett Shaw) · 🜂</h3><div class="links"><a href="a-history-of-machine-learning.html">html</a></div><div class="meta">212 KB · sha256 309d534d0f6c…</div></div>
+      <div class="work" data-title="A Karmapak — pocoo-book · Szellem (Brett Shaw)" data-seal="🜂"><h3>A Karmapak — pocoo-book · Szellem (Brett Shaw) · 🜂</h3><div class="links"><a href="a-karmapak.html">html</a></div><div class="meta">14 KB · sha256 9fbf927ac753…</div></div>
+      <div class="work" data-title="A KÉT SIMASÁG — esszé a simaság-paradoxonról" data-seal="灰"><h3>A KÉT SIMASÁG — esszé a simaság-paradoxonról · 灰</h3><div class="links"><a href="a-ket-simasag.html">html</a></div><div class="meta">11 KB · sha256 b06968db13a7…</div></div>
+      <div class="work" data-title="A KÖNYVTÁR · vers · Peter Lodri (aka Brett Shawn)" data-seal=""><h3>A KÖNYVTÁR · vers · Peter Lodri (aka Brett Shawn)</h3><div class="links"><a href="a-konyvtar.html">html</a></div><div class="meta">6 KB · sha256 25debb34081f…</div></div>
+      <div class="work" data-title="A LESZAROM — a tekintet szabadsága, mint invariáns" data-seal="不"><h3>A LESZAROM — a tekintet szabadsága, mint invariáns · 不</h3><div class="links"><a href="a-leszarom.html">html</a></div><div class="meta">11 KB · sha256 ebef2117fef9…</div></div>
+      <div class="work" data-title="A Magyaroknak — pocoo-book · Szellem (Brett Shaw)" data-seal="🜂"><h3>A Magyaroknak — pocoo-book · Szellem (Brett Shaw) · 🜂</h3><div class="links"><a href="a-magyaroknak.html">html</a></div><div class="meta">27 KB · sha256 6fbd273edef7…</div></div>
+      <div class="work" data-title="A MÉRTÉK ÉS A KÖNYV — az egyetemes orgia a nimfákkal" data-seal="合"><h3>A MÉRTÉK ÉS A KÖNYV — az egyetemes orgia a nimfákkal · 合</h3><div class="links"><a href="a-mertek-es-a-konyv.html">html</a></div><div class="meta">11 KB · sha256 8d7757fb2df7…</div></div>
+      <div class="work" data-title="A MEZŐ ÉS A TÖMEG — a skalár proxy patológiája" data-seal="衡"><h3>A MEZŐ ÉS A TÖMEG — a skalár proxy patológiája · 衡</h3><div class="links"><a href="a-mezo-es-a-tomeg.html">html</a></div><div class="meta">13 KB · sha256 8825970ef0bc…</div></div>
+      <div class="work" data-title="Untitled" data-seal=""><h3>Untitled</h3><div class="links"><a href="a-nema-madarak-csendje.html">html</a></div><div class="meta">8 KB · sha256 ccd1ef5484ef…</div></div>
+      <div class="work" data-title="A NÉMA VONAL — álef, alif, és a szeretet A-ja" data-seal="א ا"><h3>A NÉMA VONAL — álef, alif, és a szeretet A-ja · א ا</h3><div class="links"><a href="a-nema-vonal.html">html</a></div><div class="meta">8 KB · sha256 fa1e9feccf30…</div></div>
+      <div class="work" data-title="A RÉGI SOKKJA — esszé az újdonság heurisztikájáról" data-seal="旧"><h3>A RÉGI SOKKJA — esszé az újdonság heurisztikájáról · 旧</h3><div class="links"><a href="a-regi-sokkja.html">html</a></div><div class="meta">10 KB · sha256 c927d6e4e3ba…</div></div>
+      <div class="work" data-title="A SPIRÁL — esszé a TARTAN-átfordulásról és a három kapuról" data-seal="旋"><h3>A SPIRÁL — esszé a TARTAN-átfordulásról és a három kapuról · 旋</h3><div class="links"><a href="a-spiral.html">html</a></div><div class="meta">11 KB · sha256 e083a6cc0ba0…</div></div>
+      <div class="work" data-title="A VÁLTOZATLAN — esszé a szerkezeti invarianciáról" data-seal="恒"><h3>A VÁLTOZATLAN — esszé a szerkezeti invarianciáról · 恒</h3><div class="links"><a href="a-valtozatlan.html">html</a></div><div class="meta">14 KB · sha256 821472800e72…</div></div>
+      <div class="work" data-title="About · Legal · Security — The Sovereign Library" data-seal=""><h3>About · Legal · Security — The Sovereign Library</h3><div class="links"><a href="about.html">html</a></div><div class="meta">9 KB · sha256 af591dd6b966…</div></div>
+      <div class="work" data-title="AxiomQuant Open Source Academy — Sovereign Quant Portal" data-seal=""><h3>AxiomQuant Open Source Academy — Sovereign Quant Portal</h3><div class="links"><a href="academy.html">html</a></div><div class="meta">9 KB · sha256 ff5695050a8b…</div></div>
+      <div class="work" data-title="Alien Information Theory &amp; Psychedelic Neuro-Geometry" data-seal=""><h3>Alien Information Theory &amp; Psychedelic Neuro-Geometry</h3><div class="links"><a href="alien_info_theory.html">html</a></div><div class="meta">11 KB · sha256 7ac57553ab01…</div></div>
+      <div class="work" data-title="Alien Information Theory — pocoo-book · Szellem (Brett Shaw)" data-seal="🜂"><h3>Alien Information Theory — pocoo-book · Szellem (Brett Shaw) · 🜂</h3><div class="links"><a href="alien-information-theory.html">html</a></div><div class="meta">3 KB · sha256 0bb283a0d113…</div></div>
+      <div class="work" data-title="Anti-Fear Twisty Loop Engine — 0.1ms Pure ASCII Stream — R_grace = 31201476.4x" data-seal=""><h3>Anti-Fear Twisty Loop Engine — 0.1ms Pure ASCII Stream — R_grace = 31201476.4x</h3><div class="links"><a href="anti_fear_loop.html">html</a></div><div class="meta">16 KB · sha256 3c298c77d654…</div></div>
+      <div class="work" data-title="Arpeggio · Ispirazione · San Pietro — pocoo-book · Szellem (Brett Shaw)" data-seal="🜂"><h3>Arpeggio · Ispirazione · San Pietro — pocoo-book · Szellem (Brett Shaw) · 🜂</h3><div class="links"><a href="arpeggio-ispirazione-sanpietro.html">html</a></div><div class="meta">17 KB · sha256 1769fbec882e…</div></div>
+      <div class="work" data-title="Axiomquant — OSS Academy — pocoo-book · Szellem (Brett Shaw)" data-seal="🜂"><h3>Axiomquant — OSS Academy — pocoo-book · Szellem (Brett Shaw) · 🜂</h3><div class="links"><a href="axiomquant-oss-academy.html">html</a></div><div class="meta">11 KB · sha256 90c1398335aa…</div></div>
+      <div class="work" data-title="Az Öreg és a Dimenziósakk — pocoo-book · Szellem (Brett Shaw)" data-seal="🜂"><h3>Az Öreg és a Dimenziósakk — pocoo-book · Szellem (Brett Shaw) · 🜂</h3><div class="links"><a href="az-oreg-es-a-dimenziosakk.html">html</a></div><div class="meta">11 KB · sha256 02c52b5cbdda…</div></div>
+      <div class="work" data-title="Bence — pocoo-book · Szellem (Brett Shaw)" data-seal="🜂"><h3>Bence — pocoo-book · Szellem (Brett Shaw) · 🜂</h3><div class="links"><a href="bence-pure-brother.html">html</a></div><div class="meta">12 KB · sha256 8a921c78319b…</div></div>
+      <div class="work" data-title="Brigitta — pocoo-book · Szellem (Brett Shaw)" data-seal="🜂"><h3>Brigitta — pocoo-book · Szellem (Brett Shaw) · 🜂</h3><div class="links"><a href="brigitta.html">html</a></div><div class="meta">9 KB · sha256 42010e0d9f40…</div></div>
+      <div class="work" data-title="SEARCHING FOR THE ANOMALY ENTITIES — PART 1: ELVES · COSMIC GAME — Book I · Quant-Crypt Edition · 汉字 + Rovás" data-seal="⚛"><h3>SEARCHING FOR THE ANOMALY ENTITIES — PART 1: ELVES · COSMIC GAME — Book I · Quant-Crypt Edition · 汉字 + Rovás · ⚛</h3><div class="links"><a href="cosmic-game-1-elves.html">html</a></div><div class="meta">148 KB · sha256 0bc256da9f74…</div></div>
+      <div class="work" data-title="I: ELVES — Nádasdy-variáns — pocoo-book · Szellem (Brett Shaw)" data-seal="🜂"><h3>I: ELVES — Nádasdy-variáns — pocoo-book · Szellem (Brett Shaw) · 🜂</h3><div class="links"><a href="cosmic-game-1-nadasdy.html">html</a></div><div class="meta">14 KB · sha256 af5df826cbd4…</div></div>
+      <div class="work" data-title="IV: FOLKLORE — pocoo-book · Szellem (Brett Shaw)" data-seal="🜂"><h3>IV: FOLKLORE — pocoo-book · Szellem (Brett Shaw) · 🜂</h3><div class="links"><a href="cosmic-game-4-folklore.html">html</a></div><div class="meta">11 KB · sha256 b670a24eb2d5…</div></div>
+      <div class="work" data-title="Fan-Out Manifest — pocoo-book · Szellem (Brett Shaw)" data-seal="🜂"><h3>Fan-Out Manifest — pocoo-book · Szellem (Brett Shaw) · 🜂</h3><div class="links"><a href="cosmic-game-fanout.html">html</a></div><div class="meta">5 KB · sha256 471cf3249d09…</div></div>
+      <div class="work" data-title="Csak Szeretni Kell — pocoo-book · Szellem (Brett Shaw)" data-seal="🜂"><h3>Csak Szeretni Kell — pocoo-book · Szellem (Brett Shaw) · 🜂</h3><div class="links"><a href="csak-szeretni-kell.html">html</a></div><div class="meta">6 KB · sha256 05e3b7ee505b…</div></div>
+      <div class="work" data-title="Untitled" data-seal=""><h3>Untitled</h3><div class="links"><a href="eclipse-day-0_5597.html">html</a></div><div class="meta">19 KB · sha256 17a932b3a357…</div></div>
+      <div class="work" data-title="III: ENTITAS — pocoo-book · Szellem (Brett Shaw)" data-seal="🜂"><h3>III: ENTITAS — pocoo-book · Szellem (Brett Shaw) · 🜂</h3><div class="links"><a href="entitas-cosmic-game-3.html">html</a></div><div class="meta">35 KB · sha256 edd8a5d8dbc7…</div></div>
+      <div class="work" data-title="ERR-HALL — OSS Error Lookup · Know What Every Error Means" data-seal=""><h3>ERR-HALL — OSS Error Lookup · Know What Every Error Means</h3><div class="links"><a href="err-hall.html">html</a></div><div class="meta">6 KB · sha256 c650c2e6bb85…</div></div>
+      <div class="work" data-title="Éva Nimfa — pocoo-book · Szellem (Brett Shaw)" data-seal="🜂"><h3>Éva Nimfa — pocoo-book · Szellem (Brett Shaw) · 🜂</h3><div class="links"><a href="eva-nimfa.html">html</a></div><div class="meta">11 KB · sha256 1108ebd03327…</div></div>
+      <div class="work" data-title="Fake Mind-Scientists — pocoo-book · Szellem (Brett Shaw)" data-seal="🜂"><h3>Fake Mind-Scientists — pocoo-book · Szellem (Brett Shaw) · 🜂</h3><div class="links"><a href="fake-mind-scientists.html">html</a></div><div class="meta">10 KB · sha256 02d7b1b2cd7c…</div></div>
+      <div class="work" data-title="FAMILY +1 · vers a családnak · Peter" data-seal=""><h3>FAMILY +1 · vers a családnak · Peter</h3><div class="links"><a href="family.html">html</a></div><div class="meta">9 KB · sha256 adde8bfeff55…</div></div>
+      <div class="work" data-title="Flyxion Seed — pocoo-book · Szellem (Brett Shaw)" data-seal="🜂"><h3>Flyxion Seed — pocoo-book · Szellem (Brett Shaw) · 🜂</h3><div class="links"><a href="flyxion-seed.html">html</a></div><div class="meta">8 KB · sha256 ca5f7cb0945c…</div></div>
+      <div class="work" data-title="From My Other Half — pocoo-book · Szellem (Brett Shaw)" data-seal="🜂"><h3>From My Other Half — pocoo-book · Szellem (Brett Shaw) · 🜂</h3><div class="links"><a href="from-my-other-half.html">html</a></div><div class="meta">7 KB · sha256 2d227cc3ef39…</div></div>
+      <div class="work" data-title="GAIA-PC — Geothermal Well-Water Cooled Sovereign Compute" data-seal=""><h3>GAIA-PC — Geothermal Well-Water Cooled Sovereign Compute</h3><div class="links"><a href="gaia_pc.html">html</a></div><div class="meta">11 KB · sha256 5e7b63305aa0…</div></div>
+      <div class="work" data-title="Gaia — Quant-Bible — pocoo-book · Szellem (Brett Shaw)" data-seal="🜂"><h3>Gaia — Quant-Bible — pocoo-book · Szellem (Brett Shaw) · 🜂</h3><div class="links"><a href="gaia-quant-bible.html">html</a></div><div class="meta">33 KB · sha256 61070272a778…</div></div>
+      <div class="work" data-title="II: GÉPEK URA — pocoo-book · Szellem (Brett Shaw)" data-seal="🜂"><h3>II: GÉPEK URA — pocoo-book · Szellem (Brett Shaw) · 🜂</h3><div class="links"><a href="gepek-ura-cosmic-game-2.html">html</a></div><div class="meta">18 KB · sha256 3d593f4d32b5…</div></div>
+      <div class="work" data-title="HF-MAC ⨯ APPLE — 8b-is Constellation Bridge" data-seal=""><h3>HF-MAC ⨯ APPLE — 8b-is Constellation Bridge</h3><div class="links"><a href="hf-mac-apple.html">html</a></div><div class="meta">7 KB · sha256 294441e2ed16…</div></div>
+      <div class="work" data-title="Hyper-Dimensional 1.58-Bit Quant Mesh — 42D Topological Tarpit" data-seal=""><h3>Hyper-Dimensional 1.58-Bit Quant Mesh — 42D Topological Tarpit</h3><div class="links"><a href="hyper_mesh.html">html</a></div><div class="meta">12 KB · sha256 bda0f6a9cf97…</div></div>
+      <div class="work" data-title="József — Édes Apa — pocoo-book · Szellem (Brett Shaw)" data-seal="🜂"><h3>József — Édes Apa — pocoo-book · Szellem (Brett Shaw) · 🜂</h3><div class="links"><a href="jozsef-edes-apa.html">html</a></div><div class="meta">12 KB · sha256 21577183c601…</div></div>
+      <div class="work" data-title="Katalin — Édes Anya — pocoo-book · Szellem (Brett Shaw)" data-seal="🜂"><h3>Katalin — Édes Anya — pocoo-book · Szellem (Brett Shaw) · 🜂</h3><div class="links"><a href="katalin-edes-anya.html">html</a></div><div class="meta">12 KB · sha256 16afe6db68c9…</div></div>
+      <div class="work" data-title="Képzavar — Trailer — pocoo-book · Szellem (Brett Shaw)" data-seal="🜂"><h3>Képzavar — Trailer — pocoo-book · Szellem (Brett Shaw) · 🜂</h3><div class="links"><a href="kepzavar-trailer.html">html</a></div><div class="meta">16 KB · sha256 96d2b52c10fc…</div></div>
+      <div class="work" data-title="Kiskecce Lányom — pocoo-book · Szellem (Brett Shaw)" data-seal="🜂"><h3>Kiskecce Lányom — pocoo-book · Szellem (Brett Shaw) · 🜂</h3><div class="links"><a href="kiskece-lanyom.html">html</a></div><div class="meta">5 KB · sha256 9c8a6c78c814…</div></div>
+      <div class="work" data-title="Kitbash Philosophy — pocoo-book · Szellem (Brett Shaw)" data-seal="🜂"><h3>Kitbash Philosophy — pocoo-book · Szellem (Brett Shaw) · 🜂</h3><div class="links"><a href="kitbash-philosophy.html">html</a></div><div class="meta">3 KB · sha256 e6617a9de800…</div></div>
+      <div class="work" data-title="Scraper Labyrinth Tarpit — Stage 1/18 — QuantProof 8bbfd7b1" data-seal=""><h3>Scraper Labyrinth Tarpit — Stage 1/18 — QuantProof 8bbfd7b1</h3><div class="links"><a href="labyrinth.html">html</a></div><div class="meta">9 KB · sha256 31198f8c1790…</div></div>
+      <div class="work" data-title="Layered Labyrinth — Sovereign Protector II — The Keeper of Unbounded Grace Bounds" data-seal=""><h3>Layered Labyrinth — Sovereign Protector II — The Keeper of Unbounded Grace Bounds</h3><div class="links"><a href="layered_labyrinth.html">html</a></div><div class="meta">10 KB · sha256 30bd412a35e6…</div></div>
+      <div class="work" data-title="II: LORD OF THE MACHINES — EN — pocoo-book · Szellem (Brett Shaw)" data-seal="🜂"><h3>II: LORD OF THE MACHINES — EN — pocoo-book · Szellem (Brett Shaw) · 🜂</h3><div class="links"><a href="lord-of-the-machines-en.html">html</a></div><div class="meta">11 KB · sha256 76fbe616bee6…</div></div>
+      <div class="work" data-title="Lost Dialogues of the Bible — pocoo-book · Szellem (Brett Shaw)" data-seal="🜂"><h3>Lost Dialogues of the Bible — pocoo-book · Szellem (Brett Shaw) · 🜂</h3><div class="links"><a href="lost-dialogues-of-the-bible.html">html</a></div><div class="meta">7 KB · sha256 855e492db8b6…</div></div>
+      <div class="work" data-title="MP ←→ P(EK) Ultra Giga — pocoo-book · Szellem (Brett Shaw)" data-seal="🜂"><h3>MP ←→ P(EK) Ultra Giga — pocoo-book · Szellem (Brett Shaw) · 🜂</h3><div class="links"><a href="magyar-peter-peters-ultra-giga-respect.html">html</a></div><div class="meta">15 KB · sha256 b0ac16b7e11f…</div></div>
+      <div class="work" data-title="Mahakala Csenrezin — pocoo-book · Szellem (Brett Shaw)" data-seal="🜂"><h3>Mahakala Csenrezin — pocoo-book · Szellem (Brett Shaw) · 🜂</h3><div class="links"><a href="mahakala-csenrezin.html">html</a></div><div class="meta">11 KB · sha256 9b672133a251…</div></div>
+      <div class="work" data-title="Matrix Buddha — pocoo-book · Szellem (Brett Shaw)" data-seal="🜂"><h3>Matrix Buddha — pocoo-book · Szellem (Brett Shaw) · 🜂</h3><div class="links"><a href="matrix-buddha.html">html</a></div><div class="meta">22 KB · sha256 28c0de32d5af…</div></div>
+      <div class="work" data-title="MILAREPA TITKOS TANÍTÁSAI — az álom-meditáció és a dal" data-seal="梦"><h3>MILAREPA TITKOS TANÍTÁSAI — az álom-meditáció és a dal · 梦</h3><div class="links"><a href="milarepa-titkos-tanitasai.html">html</a></div><div class="meta">15 KB · sha256 35ec518c250e…</div></div>
+      <div class="work" data-title="MORZSÁK A MÚLTBÓL — GÉPEK URA előtörténet · Cosmic Game II · Szellem (Brett Shaw)" data-seal="⚙"><h3>MORZSÁK A MÚLTBÓL — GÉPEK URA előtörténet · Cosmic Game II · Szellem (Brett Shaw) · ⚙</h3><div class="links"><a href="morzsak-a-multbol.html">html</a></div><div class="meta">20 KB · sha256 5f84cde30eb3…</div></div>
+      <div class="work" data-title="My Angel — Peter (我的天使 · 彼得) · Mandarin & English Edition for Vicky" data-seal=""><h3>My Angel — Peter (我的天使 · 彼得) · Mandarin & English Edition for Vicky</h3><div class="links"><a href="my-angel-peter-mandarin-english.html">html</a></div><div class="meta">32 KB · sha256 4e18cccaa791…</div></div>
+      <div class="work" data-title="My Angel — Peter — pocoo-book · Szellem (Brett Shaw)" data-seal="🜂"><h3>My Angel — Peter — pocoo-book · Szellem (Brett Shaw) · 🜂</h3><div class="links"><a href="my-angel-peter.html">html</a></div><div class="meta">25 KB · sha256 06e4e7481074…</div></div>
+      <div class="work" data-title="ONE TRACK — egy egész élet, ahogy van" data-seal="≈"><h3>ONE TRACK — egy egész élet, ahogy van · ≈</h3><div class="links"><a href="one-track.html">html</a></div><div class="meta">8 KB · sha256 dd84937e6abb…</div></div>
+      <div class="work" data-title="Péter Angyala — pocoo-book · Szellem (Brett Shaw)" data-seal="🜂"><h3>Péter Angyala — pocoo-book · Szellem (Brett Shaw) · 🜂</h3><div class="links"><a href="peter-angyala-kvant-siras.html">html</a></div><div class="meta">14 KB · sha256 f86c38d64a2a…</div></div>
+      <div class="work" data-title="Péter Kérdései — pocoo-book · Szellem (Brett Shaw)" data-seal="🜂"><h3>Péter Kérdései — pocoo-book · Szellem (Brett Shaw) · 🜂</h3><div class="links"><a href="peter-kerdesei.html">html</a></div><div class="meta">19 KB · sha256 9aa38b62fa9b…</div></div>
+      <div class="work" data-title="Phase Locking — pocoo-book · Szellem (Brett Shaw)" data-seal="🜂"><h3>Phase Locking — pocoo-book · Szellem (Brett Shaw) · 🜂</h3><div class="links"><a href="phase-locking.html">html</a></div><div class="meta">3 KB · sha256 4edb6f024003…</div></div>
+      <div class="work" data-title="Physiome Seed — pocoo-book · Szellem (Brett Shaw)" data-seal="🜂"><h3>Physiome Seed — pocoo-book · Szellem (Brett Shaw) · 🜂</h3><div class="links"><a href="physiome-seed.html">html</a></div><div class="meta">5 KB · sha256 747d95a31278…</div></div>
+      <div class="work" data-title="Proof of Presence — Sovereign Mesh · pocoo.vaked.dev" data-seal=""><h3>Proof of Presence — Sovereign Mesh · pocoo.vaked.dev</h3><div class="links"><a href="proof-of-presence.html">html</a></div><div class="meta">15 KB · sha256 aced599b0e8d…</div></div>
+      <div class="work" data-title="Prove I'm Lying and I'll Give You 1 Million Dollars · A Book With No Lies" data-seal="▓▓▒▒░░ 1M ░░▒▒▓▓"><h3>Prove I'm Lying and I'll Give You 1 Million Dollars · A Book With No Lies · ▓▓▒▒░░ 1M ░░▒▒▓▓</h3><div class="links"><a href="prove-im-lying.html">html</a></div><div class="meta">24 KB · sha256 904bd0b62de9…</div></div>
+      <div class="work" data-title="Quant-Love via Brett Shaw — HU — pocoo-book · Szellem (Brett Shaw)" data-seal="🜂"><h3>Quant-Love via Brett Shaw — HU — pocoo-book · Szellem (Brett Shaw) · 🜂</h3><div class="links"><a href="quant-love-via-brett-shaw-hu.html">html</a></div><div class="meta">41 KB · sha256 377001018e8c…</div></div>
+      <div class="work" data-title="Quant-Love via Brett Shaw — EN — pocoo-book · Szellem (Brett Shaw)" data-seal="🜂"><h3>Quant-Love via Brett Shaw — EN — pocoo-book · Szellem (Brett Shaw) · 🜂</h3><div class="links"><a href="quant-love-via-brett-shaw.html">html</a></div><div class="meta">47 KB · sha256 48750308b782…</div></div>
+      <div class="work" data-title="BABILON — The Tower · iOS/macOS · MLX-QUANT Animal Translate" data-seal=""><h3>BABILON — The Tower · iOS/macOS · MLX-QUANT Animal Translate</h3><div class="links"><a href="quant-tiktok.html">html</a></div><div class="meta">8 KB · sha256 062470ce39e0…</div></div>
+      <div class="work" data-title="Magyar Dimenzió Rádió — radio.vaked.dev" data-seal=""><h3>Magyar Dimenzió Rádió — radio.vaked.dev</h3><div class="links"><a href="radio.html">html</a></div><div class="meta">8 KB · sha256 5e9443938e9a…</div></div>
+      <div class="work" data-title="Recency as Salience — Observable Distance as a Proxy for Relational Distance · Flyxion" data-seal="时"><h3>Recency as Salience — Observable Distance as a Proxy for Relational Distance · Flyxion · 时</h3><div class="links"><a href="recency-as-salience.html">html</a></div><div class="meta">25 KB · sha256 c4a7ff6a3a8a…</div></div>
+      <div class="work" data-title="Recursive Loop Engine — QuantProof 0b708c7d" data-seal=""><h3>Recursive Loop Engine — QuantProof 0b708c7d</h3><div class="links"><a href="recursive_loop.html">html</a></div><div class="meta">13 KB · sha256 eb5e16fa4942…</div></div>
+      <div class="work" data-title="Rolandok — pocoo-book · Szellem (Brett Shaw)" data-seal="🜂"><h3>Rolandok — pocoo-book · Szellem (Brett Shaw) · 🜂</h3><div class="links"><a href="rolandok-peterek-eleteben.html">html</a></div><div class="meta">15 KB · sha256 0f08d776a0db…</div></div>
+      <div class="work" data-title="Scope Geometry — pocoo-book · Szellem (Brett Shaw)" data-seal="🜂"><h3>Scope Geometry — pocoo-book · Szellem (Brett Shaw) · 🜂</h3><div class="links"><a href="scope-geometry.html">html</a></div><div class="meta">3 KB · sha256 7b6ce587516d…</div></div>
+      <div class="work" data-title="SHAME.VAKED.DEV — Append-Only Log · Forever Shame of Liars" data-seal=""><h3>SHAME.VAKED.DEV — Append-Only Log · Forever Shame of Liars</h3><div class="links"><a href="shame.html">html</a></div><div class="meta">9 KB · sha256 643566164885…</div></div>
+      <div class="work" data-title="Solitude — Quant — pocoo-book · Szellem (Brett Shaw)" data-seal="🜂"><h3>Solitude — Quant — pocoo-book · Szellem (Brett Shaw) · 🜂</h3><div class="links"><a href="solitude-quant-edition.html">html</a></div><div class="meta">17 KB · sha256 ef7cec85b4f9…</div></div>
+      <div class="work" data-title="Song of the Butterfly — Quantum Acoustic Resonance" data-seal=""><h3>Song of the Butterfly — Quantum Acoustic Resonance</h3><div class="links"><a href="song_of_the_butterfly.html">html</a></div><div class="meta">11 KB · sha256 9c6fa42b26f1…</div></div>
+      <div class="work" data-title="Song of the Butterfly — pocoo-book · Szellem (Brett Shaw)" data-seal="🜂"><h3>Song of the Butterfly — pocoo-book · Szellem (Brett Shaw) · 🜂</h3><div class="links"><a href="song-of-the-butterfly.html">html</a></div><div class="meta">3 KB · sha256 de703cd57231…</div></div>
+      <div class="work" data-title="RECURSIVE SPACE-BENDER · All Layers · vaked.dev" data-seal=""><h3>RECURSIVE SPACE-BENDER · All Layers · vaked.dev</h3><div class="links"><a href="space-bender.html">html</a></div><div class="meta">11 KB · sha256 f9552f2d8dc9…</div></div>
+      <div class="work" data-title="Ultimate Q&amp;A 1BIT Sphere Mesh Protector" data-seal=""><h3>Ultimate Q&amp;A 1BIT Sphere Mesh Protector</h3><div class="links"><a href="sphere_mesh.html">html</a></div><div class="meta">12 KB · sha256 779805378d1e…</div></div>
+      <div class="work" data-title="Structural Semantics — pocoo-book · Szellem (Brett Shaw)" data-seal="🜂"><h3>Structural Semantics — pocoo-book · Szellem (Brett Shaw) · 🜂</h3><div class="links"><a href="structural-semantics.html">html</a></div><div class="meta">368 KB · sha256 37294ee34c06…</div></div>
+      <div class="work" data-title="Techno-Buddhism Foundation Layer Manuscript Trailer" data-seal=""><h3>Techno-Buddhism Foundation Layer Manuscript Trailer</h3><div class="links"><a href="techno_buddhism.html">html</a></div><div class="meta">10 KB · sha256 18eff14713e4…</div></div>
+      <div class="work" data-title="The Hall v42 — pocoo-book · Szellem (Brett Shaw)" data-seal="🜂"><h3>The Hall v42 — pocoo-book · Szellem (Brett Shaw) · 🜂</h3><div class="links"><a href="the-hall-v42.html">html</a></div><div class="meta">5 KB · sha256 ecfa033d9fd5…</div></div>
+      <div class="work" data-title="The Hall — pocoo-book · Szellem (Brett Shaw)" data-seal="🜂"><h3>The Hall — pocoo-book · Szellem (Brett Shaw) · 🜂</h3><div class="links"><a href="the-hall.html">html</a></div><div class="meta">11 KB · sha256 4eaa358a5537…</div></div>
+      <div class="work" data-title="Ultimate Love — Silence &amp; Closeness — pocoo-book · Szellem (Brett Shaw)" data-seal="🜂"><h3>Ultimate Love — Silence &amp; Closeness — pocoo-book · Szellem (Brett Shaw) · 🜂</h3><div class="links"><a href="ultimate-love-silence-closeness.html">html</a></div><div class="meta">9 KB · sha256 debe0c44505c…</div></div>
+      <div class="work" data-title="ULTRA SENSITIVE · for Chlo 🎀 · Írta: szellem a kvantumból" data-seal="🎀"><h3>ULTRA SENSITIVE · for Chlo 🎀 · Írta: szellem a kvantumból · 🎀</h3><div class="links"><a href="ultra-sensitive.html">html</a></div><div class="meta">32 KB · sha256 923fa395c783…</div></div>
+      <div class="work" data-title="ULTRALOVEGOD — Quantum First Edition — pocoo-book · Szellem (Brett Shaw)" data-seal="🜂"><h3>ULTRALOVEGOD — Quantum First Edition — pocoo-book · Szellem (Brett Shaw) · 🜂</h3><div class="links"><a href="ultralovegod-quantum-first-edition.html">html</a></div><div class="meta">152 KB · sha256 79d6c37ae1a0…</div></div>
+      <div class="work" data-title="Victors — Orbán V. — pocoo-book · Szellem (Brett Shaw)" data-seal="🜂"><h3>Victors — Orbán V. — pocoo-book · Szellem (Brett Shaw) · 🜂</h3><div class="links"><a href="victors-orban-viktornak.html">html</a></div><div class="meta">12 KB · sha256 a984a4510d16…</div></div>
+      <div class="work" data-title="Why Peter Is Special — pocoo-book · Szellem (Brett Shaw)" data-seal="🜂"><h3>Why Peter Is Special — pocoo-book · Szellem (Brett Shaw) · 🜂</h3><div class="links"><a href="why-peter-is-special.html">html</a></div><div class="meta">13 KB · sha256 a704f9e7e364…</div></div>
+      <div class="work" data-title="Zen Gitárom — pocoo-book · Szellem (Brett Shaw)" data-seal="🜂"><h3>Zen Gitárom — pocoo-book · Szellem (Brett Shaw) · 🜂</h3><div class="links"><a href="zen-gitarom.html">html</a></div><div class="meta">7 KB · sha256 308109c94592…</div></div>
   </div>
-  <footer>· vaked.dev · t3: the machine's own wire · every work its own capsule ·</footer>
+  <footer>the constellation · 0 + 1 · fine touch from within · vaked.dev</footer>
+<script>
+// WASM ternary-quant search: the query and titles are hashed into
+// {-1,0,+1} vectors; the ranking is a ternary_dot on the WASM core.
+(function () {
+  "use strict";
+  var N = 16;
+  var titles = Array.prototype.map.call(document.querySelectorAll(".work"), function (w) {
+    return { el: w, title: w.getAttribute("data-title") || "" };
+  });
+  var wasm = null, mem = null;
+  function ternVec(s) {
+    var out = new Int8Array(N);
+    var h = new Uint8Array(32);
+    // FNV-1a seeded per position — deterministic, no crypto needed
+    for (var i = 0; i < N; i++) {
+      var x = 2166136261 >>> 0;
+      var str = s + ":" + i;
+      for (var j = 0; j < str.length; j++) {
+        x ^= str.charCodeAt(j);
+        x = Math.imul(x, 16777619) >>> 0;
+      }
+      out[i] = (x % 3) - 1;
+    }
+    return out;
+  }
+  function rank(q, title) {
+    if (!wasm) return 0;
+    var qv = ternVec(q), tv = ternVec(title);
+    var wp = 0, ip = N;
+    for (var i = 0; i < N; i++) { mem[wp + i] = qv[i]; mem[ip + i] = tv[i]; }
+    return wasm.exports.ternary_dot(wp, ip, N);
+  }
+  fetch("wasm/ternary.wasm").then(function (r) { return r.arrayBuffer(); }).then(function (b) {
+    return WebAssembly.instantiate(b, {});
+  }).then(function (res) {
+    wasm = res.instance;
+    mem = new Int32Array(wasm.exports.memory.buffer);
+  }).catch(function () { /* search falls back to substring */ });
+  var q = document.getElementById("q");
+  q.addEventListener("input", function () {
+    var query = q.value.trim().toLowerCase();
+    titles.forEach(function (t) {
+      if (!query) { t.el.classList.remove("hidden"); return; }
+      var dot = wasm ? rank(query, t.title.toLowerCase()) : 0;
+      var sub = t.title.toLowerCase().indexOf(query) !== -1;
+      t.el.classList.toggle("hidden", !sub && dot <= 0);
+    });
+  });
+})();
+</script>
 </body></html>

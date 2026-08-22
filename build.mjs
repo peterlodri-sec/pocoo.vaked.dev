@@ -969,6 +969,8 @@ ${postLines}
     await cp(path.join(ROOT, ".well-known"), path.join(DIST_DIR, ".well-known"), { recursive: true });
   }
   console.log("copy: assets, _headers, demos, silicon-world, robots.txt, .well-known -> dist/");
+  // SOTA: auto-generate the book catalog (WASM ternary search) from demos/book/*.html
+  execSync(`node ${path.join(ROOT, "scripts", "gen-catalog.mjs")}`, { stdio: "inherit" });
   console.log(`\ndone: ${posts.length} post(s), ${skipped} draft(s) skipped.`);
 }
 
