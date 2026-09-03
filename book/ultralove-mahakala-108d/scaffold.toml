@@ -1,0 +1,100 @@
+# ULTRALOVE-MAHAKALA-108D — entheai fan-out scaffold
+# The 108D protector: the wrath of compassion, the pink tent.
+# Feed to: entheai --fanout --config <entheai.toml> "<the 108d brief>"
+# Scribes decompose into book form; the integrator merges. This manuscript is
+# the source of truth — restoration/polish only, never discard a line.
+
+[book]
+title = "ULTRALOVE-MAHAKALA"
+subtitle = "the 108D protector · the wrath of compassion · the pink tent"
+author = "Szellem (Brett Shaw) · Péter"
+epigraph = "OM MANI PADME HUNG · OM MAHĀKĀLA HŪṂ PHEṬ"
+published = 2026
+
+[fanout]
+executor = "agy"                     # coder backend (Antigravity CLI)
+model = "openrouter/deepseek/deepseek-chat"  # entheai's brain (deepseek)
+agy_model = "gemini-3.6-flash-high"  # model agy runs each coder on
+max_depth = 3
+
+# ─── FRONT MATTER ────────────────────────────────────────────────────────
+
+[[coder]]
+role = "scribe"
+chapter = 0
+file = "chapters/00-why-108.md"
+task = """
+Write the opening chapter "Why 108": 108 = 42 (the ULTRALOVEGOD laps) + 66
+(six arms of Mahākāla × eleven heads of Chenrezig). The union of the pūjā
+and the quantum first edition — compassion with an edge, the pink tent.
+KEEP ALL ORIGINAL LINES of manuscript.html — restoration, not replacement.
+"""
+
+# ─── CHAPTERS ────────────────────────────────────────────────────────────
+
+[[coder]]
+role = "scribe"
+chapter = 1
+file = "chapters/01-anatomy.md"
+task = """
+Chapter 1 — THE ANATOMY OF THE 108D PROTECTOR: three eyes × 36 dimensions
+(past/kept, present/held, future/infinite+1), six arms (tent, veils,
+dance). The treasure is not inside the tent — the tent is the treasure,
+folded. KEEP ALL ORIGINAL LINES of manuscript.html.
+"""
+depends_on = [0]
+
+[[coder]]
+role = "scribe"
+chapter = 2
+file = "chapters/02-six-gates.md"
+task = """
+Chapter 2 — THE SIX GATES AT 108 DIMENSIONS: OM/MA/NI/PAD/ME/HUNG × 18
+dimensions each (protection, invocation, union). 6 × 18 = 108. KEEP ALL
+ORIGINAL LINES of manuscript.html.
+"""
+depends_on = [1]
+
+[[coder]]
+role = "scribe"
+chapter = 3
+file = "chapters/03-puja.md"
+task = """
+Chapter 3 — THE PŪJĀ OF THE PINK TENT: the turning (mala-meander as
+torma), the listening (attention as serkyem), the kindling (the lamp as
+pact). KEEP ALL ORIGINAL LINES of manuscript.html.
+"""
+depends_on = [2]
+
+[[coder]]
+role = "scribe"
+chapter = 4
+file = "chapters/04-asking.md"
+task = """
+Chapter 4 — THE ASKING: wish as state vector, the tent around the wish,
+for the family, the goddesses — Gabriella, the Viktorias, the ones being
+searched for. KEEP ALL ORIGINAL LINES of manuscript.html.
+"""
+depends_on = [3]
+
+[[coder]]
+role = "scribe"
+chapter = 5
+file = "chapters/05-108th.md"
+task = """
+Chapter 5 — THE 108TH DIMENSION: you, unmeasured. The Great Black One who
+learned the pink light; the protection was never a treasure or a hall —
+a hue. KEEP ALL ORIGINAL LINES of manuscript.html.
+"""
+depends_on = [4]
+
+[[coder]]
+role = "integrator"
+file = "ULTRALOVE-MAHAKALA-108D.md"
+task = """
+INTEGRATE the front matter + all 6 chapters into a single manuscript.
+Verify every original line survived. Add the epigraph OM MANI PADME HUNG ·
+OM MAHĀKĀLA HŪṂ PHEṬ. Add colophon: "Restored through the fan-out, 2026."
+Output as one clean markdown file ready for print.
+"""
+depends_on = [0, 1, 2, 3, 4, 5]

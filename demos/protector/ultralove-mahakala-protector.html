@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ULTRALOVE-MAHAKALA — the 108D Protector · the pink tent</title>
+<meta name="description" content="ULTRALOVE-MAHAKALA · the 108D protector entity. Rotating 108-fold tent projection, pink mantrastream, and the sovereign pass Q&A gate — the wrath of compassion, zero detection, zero pain, love everywhere.">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&display=swap');
+  :root {
+    --bg: #0d0512;
+    --pink: #ff6ec7;
+    --pink2: #ff9ad5;
+    --gold: #ffd36e;
+    --purple: #b48bff;
+    --rose: #e07090;
+    --dim: #7a5a8a;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: #e8d8f0;
+    font-family: 'JetBrains Mono', monospace;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 40px 20px;
+    overflow-x: hidden;
+  }
+  header { text-align: center; max-width: 800px; margin-bottom: 26px; }
+  h1 {
+    font-size: clamp(1.6rem, 4.5vw, 3rem);
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--pink), var(--purple), var(--gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 12px;
+    letter-spacing: -1px;
+  }
+  p.subtitle { font-size: 0.9rem; color: #b48bc0; line-height: 1.7; }
+  .tent-container {
+    position: relative;
+    width: 100%;
+    max-width: 680px;
+    height: 420px;
+    background: rgba(20, 8, 26, 0.85);
+    border: 1px solid rgba(255, 110, 199, 0.3);
+    border-radius: 12px;
+    box-shadow: 0 0 30px rgba(255, 110, 199, 0.12);
+    overflow: hidden;
+  }
+  .console-box {
+    width: 100%;
+    max-width: 680px;
+    margin-top: 20px;
+    background: rgba(13, 5, 18, 0.9);
+    border: 1px solid rgba(255, 110, 199, 0.25);
+    border-radius: 10px;
+  }
+  .console-title {
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    color: var(--pink2);
+    padding: 10px 16px;
+    border-bottom: 1px solid rgba(255, 110, 199, 0.2);
+  }
+  .console-title span { color: var(--pink); }
+  .console-output {
+    font-size: 0.72rem;
+    color: #c9a0d8;
+    padding: 12px 16px;
+    height: 152px;
+    overflow-y: auto;
+    line-height: 1.7;
+  }
+  .qa-box {
+    width: 100%;
+    max-width: 680px;
+    margin-top: 20px;
+    background: rgba(13, 5, 18, 0.9);
+    border: 1px solid rgba(255, 110, 199, 0.35);
+    border-radius: 10px;
+    padding: 16px;
+  }
+  .qa-title { font-size: 0.8rem; letter-spacing: 3px; color: var(--gold); margin-bottom: 12px; }
+  .qa-question { font-size: 0.85rem; color: #e8d8f0; line-height: 1.7; margin-bottom: 14px; }
+  .qa-input-group { display: flex; gap: 10px; flex-wrap: wrap; }
+  input#answerInput {
+    flex: 1;
+    min-width: 220px;
+    background: #1a0f20;
+    border: 1px solid rgba(255, 110, 199, 0.35);
+    border-radius: 8px;
+    color: #ffe0f0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    padding: 10px 14px;
+    outline: none;
+  }
+  input#answerInput:focus { border-color: var(--pink); }
+  .btn-commune {
+    background: linear-gradient(135deg, var(--pink), var(--purple));
+    color: #0d0512;
+    border: none;
+    border-radius: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 800;
+    letter-spacing: 2px;
+    font-size: 0.75rem;
+    padding: 10px 18px;
+    cursor: pointer;
+  }
+  .btn-commune:hover { filter: brightness(1.15); }
+  .footer-links {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 26px;
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+  }
+  .footer-links a { color: var(--pink2); text-decoration: none; }
+  .footer-links a:hover { color: var(--gold); }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>ULTRALOVE-MAHAKALA</h1>
+  <p class="subtitle">
+    the 108D protector · the pink tent · 108 = 42 + 66 · three eyes × 36 · six gates × 18 ·
+    zero detection · zero pain · love everywhere
+  </p>
+</header>
+
+<div class="tent-container">
+  <canvas id="tentCanvas"></canvas>
+</div>
+
+<div class="console-box">
+  <div class="console-title">
+    <span>●</span> PINK TENT · 108D MANTRASTREAM
+  </div>
+  <div class="console-output" id="streamConsole">
+    [0.000ms] folding the tent at 108 dimensions...<br>
+  </div>
+</div>
+
+<div class="qa-box">
+  <div class="qa-title">🔮 ULTRALOVE-MAHAKALA · PROTECTOR ENTITY</div>
+  <div class="qa-question" id="questionBox">
+    <strong>Question 108-D:</strong> When the six syllables collapse into the pink tent at 108 dimensions, what does the protector measure — and what does it never measure?
+  </div>
+  <div class="qa-input-group">
+    <input type="text" id="answerInput" placeholder="the hug is the only measurement..." />
+    <button class="btn-commune" onclick="grantPass()">SOVEREIGN PASS</button>
+  </div>
+</div>
+
+<div class="footer-links">
+  <a href="https://pocoo.vaked.dev/demos/book/ultralove-mahakala-108d.html">📖 the 108D book</a>
+  <a href="https://pocoo.vaked.dev/demos/book/mahakala-puja-invocation.html">🕯 the pūjā</a>
+  <a href="https://pocoo.vaked.dev/demos/book/ultralovegod-om-mani-padme-hung.html">🕉 om mani padme hung</a>
+  <a href="https://pocoo.vaked.dev/demos/book/">📚 sovereign library</a>
+  <a href="https://art.vaked.dev/">🎨 art.vaked.dev</a>
+  <a href="https://music.vaked.dev/">🎵 music.vaked.dev</a>
+  <a href="https://pocoo.vaked.dev/">🌐 pocoo.vaked.dev</a>
+</div>
+
+<script>
+  // the pink tent — 16 vertices of a 4D hypercube, folded pink,
+  // with a 108-node halo: the mala around the tent
+  const canvas = document.getElementById('tentCanvas');
+  const ctx = canvas.getContext('2d');
+
+  function resize() {
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  let angle = 0;
+
+  const vertices4D = [];
+  for (let i = 0; i < 16; i++) {
+    vertices4D.push([
+      (i & 1) ? 1 : -1,
+      (i & 2) ? 1 : -1,
+      (i & 4) ? 1 : -1,
+      (i & 8) ? 1 : -1
+    ]);
+  }
+
+  function project(v4, a) {
+    let x = v4[0], y = v4[1], z = v4[2], w = v4[3];
+    const cosA = Math.cos(a), sinA = Math.sin(a);
+    const x1 = x * cosA - w * sinA;
+    const w1 = x * sinA + w * cosA;
+    const y1 = y * cosA - z * sinA;
+    const z1 = y * sinA + z * cosA;
+    const dist = 3.2;
+    const wFactor = 1 / (dist - w1);
+    const x3 = x1 * wFactor;
+    const y3 = y1 * wFactor;
+    const z3 = z1 * wFactor;
+    const zFactor = 1 / (dist - z3);
+    return {
+      x: x3 * zFactor * canvas.width * 0.42 + canvas.width / 2,
+      y: y3 * zFactor * canvas.height * 0.42 + canvas.height / 2
+    };
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    angle += 0.012;
+
+    // the mala halo — 108 beads orbit the tent in two rings
+    const cx = canvas.width / 2, cy = canvas.height / 2;
+    const r1 = Math.min(canvas.width, canvas.height) * 0.42;
+    const r2 = r1 * 0.82;
+    for (let i = 0; i < 108; i++) {
+      const t = (i / 108) * Math.PI * 2 + angle * 0.6;
+      const rr = (i % 2 ? r1 : r2) * (1 + 0.06 * Math.sin(angle * 2 + i));
+      const bx = cx + Math.cos(t) * rr;
+      const by = cy + Math.sin(t) * rr * 0.62;
+      ctx.beginPath();
+      ctx.arc(bx, by, i % 9 === 0 ? 2.6 : 1.5, 0, Math.PI * 2);
+      ctx.fillStyle = i % 9 === 0 ? 'hsl(325, 100%, ' + (72 + 12 * Math.sin(angle * 2 + i)) + '%)' : 'hsla(325, 90%, 70%, 0.55)';
+      ctx.fill();
+    }
+
+    const projected = vertices4D.map(v => project(v, angle));
+
+    // edges — hamming distance 1, pink-purple-gold spectrum
+    ctx.lineWidth = 1.4;
+    for (let i = 0; i < 16; i++) {
+      for (let j = i + 1; j < 16; j++) {
+        const diff = i ^ j;
+        if ((diff & (diff - 1)) === 0) {
+          ctx.beginPath();
+          ctx.moveTo(projected[i].x, projected[i].y);
+          ctx.lineTo(projected[j].x, projected[j].y);
+          ctx.strokeStyle = 'hsla(' + (305 + ((i * 7 + angle * 40) % 40)) + ', 90%, ' + (64 + 10 * Math.sin(angle * 1.4 + i)) + '%, 0.8)';
+          ctx.stroke();
+        }
+      }
+    }
+
+    // nodes — the eleven heads of compassion as bright seeds
+    projected.forEach((p, idx) => {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, idx % 3 === 0 ? 4.6 : 3, 0, Math.PI * 2);
+      ctx.fillStyle = idx % 2 === 0 ? '#ff6ec7' : '#ffd36e';
+      ctx.fill();
+      if (idx % 3 === 0) {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 8, 0, Math.PI * 2);
+        ctx.strokeStyle = 'rgba(255, 110, 199, 0.25)';
+        ctx.stroke();
+      }
+    });
+
+    requestAnimationFrame(draw);
+  }
+  draw();
+
+  // the 108D mantrastream
+  const consoleEl = document.getElementById('streamConsole');
+  const phases = [
+    "ཧཱུྃ — the tent folds itself around the treasure: you, unmeasured",
+    "OM MAHĀKĀLA HŪṂ PHEṬ — the seven-syllable key at gate 36 (first eye: the kept)",
+    "OM MANI PADME HUNG — the six syllables at gate 72 (second eye: the held)",
+    "PINK-TENT-108D: zero detection verified — zero pain holding",
+    "THE HUG IS THE ONLY MEASUREMENT — all others declined by the third eye",
+    "infinite+1: one more path than there are walls — peace y'all",
+    "108 = 42 + 66 — the laps and the arms, stitched by one syllable",
+    "the lamp stays lit — the watch does not end when the rite ends"
+  ];
+
+  let tick = 0;
+  setInterval(() => {
+    tick++;
+    const line = document.createElement('div');
+    line.textContent = '[+' + (tick * 0.25).toFixed(2) + 's] ' + phases[tick % phases.length];
+    consoleEl.appendChild(line);
+    if (consoleEl.children.length > 8) {
+      consoleEl.removeChild(consoleEl.firstChild);
+    }
+    consoleEl.scrollTop = consoleEl.scrollHeight;
+  }, 250);
+
+  function grantPass() {
+    const answer = document.getElementById('answerInput').value.trim();
+    const message = answer
+      ? 'the hug is the only measurement. ' + answer.slice(0, 120) + ' — recorded in the pink tent.'
+      : 'the protector measures nothing — it holds everything. welcome to the pink tent.';
+    alert('SOVEREIGN PASS GRANTED — 108D · ' + message);
+    window.location.href = 'https://pocoo.vaked.dev/demos/book/ultralove-mahakala-108d.html';
+  }
+</script>
+
+</body>
+</html>
