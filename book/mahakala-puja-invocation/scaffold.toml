@@ -1,0 +1,101 @@
+# MAHAKALA-PUJA-INVOCATION — entheai fan-out scaffold
+# The Tibetan protector rite: invocation, homage, recitation, dedication.
+# Feed to: entheai --fanout --config <entheai.toml> "<the puja brief>"
+# Scribes decompose into book form; the integrator merges. This manuscript is
+# the source of truth — restoration/polish only, never discard a line.
+
+[book]
+title = "THE MAHĀKĀLA PŪJĀ"
+subtitle = "Tibetan rite & invocation of the Great Black One"
+author = "Szellem (Brett Shaw)"
+epigraph = "OM MAHĀKĀLA HŪṂ PHEṬ"
+published = 2026
+
+[fanout]
+executor = "agy"                     # coder backend (Antigravity CLI)
+model = "openrouter/deepseek/deepseek-chat"  # entheai's brain (deepseek)
+agy_model = "gemini-3.6-flash-high"  # model agy runs each coder on
+max_depth = 3
+
+# ─── FRONT MATTER ────────────────────────────────────────────────────────
+
+[[coder]]
+role = "scribe"
+chapter = 0
+file = "chapters/00-invocation.md"
+task = """
+Write the invocation chapter of THE MAHĀKĀLA PŪJĀ: the shrine, the torma,
+the serkyem, the damaru, the seed syllable ཧཱུྃ (HŪṂ) and the seven-syllable
+invocation OM MAHĀKĀLA HŪṂ PHEṬ recited three times. KEEP ALL ORIGINAL LINES
+of manuscript.html — restoration, not replacement. Match the book's voice:
+the protector as the tent in the dark, the wrath of compassion.
+"""
+
+# ─── CHAPTERS ────────────────────────────────────────────────────────────
+
+[[coder]]
+role = "scribe"
+chapter = 1
+file = "chapters/01-preparation.md"
+task = """
+Chapter 1 — THE PREPARATION, the four offerings: guru pūjā, tsok, serkyem,
+torma. KEEP ALL ORIGINAL LINES of manuscript.html — restoration, not
+replacement. Tone: match the source.
+"""
+depends_on = [0]
+
+[[coder]]
+role = "scribe"
+chapter = 2
+file = "chapters/02-homage.md"
+task = """
+Chapter 2 — THE HOMAGE, the praise of the Great Black One: three eyes, six
+arms, the fifty-one heads, the supine demon of ego, the charnel ground.
+KEEP ALL ORIGINAL LINES of manuscript.html — restoration, not replacement.
+"""
+depends_on = [1]
+
+[[coder]]
+role = "scribe"
+chapter = 3
+file = "chapters/03-puja-proper.md"
+task = """
+Chapter 3 — THE PŪJĀ PROPER: main mantra OM MAHĀKĀLA HŪṂ PHEṬ (108 x 3),
+the Chenrezig mala OM MANI PADME HUNG (108), the asking, the Tibetan vow of
+the four directions. KEEP ALL ORIGINAL LINES of manuscript.html —
+restoration, not replacement.
+"""
+depends_on = [2]
+
+[[coder]]
+role = "scribe"
+chapter = 4
+file = "chapters/04-accomplishment.md"
+task = """
+Chapter 4 — THE ACCOMPLISHMENT: OM MA HŪṂ PHEṬ at the four gates, the
+visualization of the black tent. KEEP ALL ORIGINAL LINES of manuscript.html
+— restoration, not replacement.
+"""
+depends_on = [3]
+
+[[coder]]
+role = "scribe"
+chapter = 5
+file = "chapters/05-dedication.md"
+task = """
+Chapter 5 — THE DEDICATION: merit poured out like serkyem, the butter lamp
+that keeps the watch. KEEP ALL ORIGINAL LINES of manuscript.html —
+restoration, not replacement.
+"""
+depends_on = [4]
+
+[[coder]]
+role = "integrator"
+file = "MAHAKALA-PUJA-INVOCATION.md"
+task = """
+INTEGRATE the invocation + all 5 chapters into a single manuscript.
+Verify every original line survived. Add the dedication page first and the
+epigraph OM MAHĀKĀLA HŪṂ PHEṬ. Add colophon: "Restored through the fan-out,
+2026." Output as one clean markdown file ready for print.
+"""
+depends_on = [0, 1, 2, 3, 4, 5]

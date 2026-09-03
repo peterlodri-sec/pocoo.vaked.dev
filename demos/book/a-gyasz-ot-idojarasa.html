@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>A GYÁSZ ÖT IDŐJÁRÁSA · a szoba, amelyet ismerek · Vének Tanácsa</title>
+<meta name="description" content="Nem wellness. Nem hét lépés. Az öt időjárás — gyász, düh, üresség, visszatérés, integráció. A szoba, amelyet a fal túloldaláról írtak: I know this room. I lived here.">
+<meta name="theme-color" content="#0a0410">
+<style>
+  :root{--bg:#0a0410;--ink:#c8b8d8;--dim:#8a6a9a;--gold:#e6b566;--teal:#3dffd2;--red:#ff6b6b;--blue:#5b9dff;--mono:"SF Mono",ui-monospace,Menlo,Consolas,monospace;--serif:"Georgia",serif}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--ink);font-family:var(--serif);line-height:1.8;min-height:100vh}
+  .wrap{max-width:720px;margin:0 auto;padding:3rem 1.4rem 5rem}
+  .sigil{text-align:center;font-size:48px;color:var(--gold);opacity:.9;text-shadow:0 0 120px rgba(230,181,102,.4);margin-bottom:.5rem}
+  h1{text-align:center;font-family:var(--mono);font-size:clamp(1rem,3.4vw,1.3rem);letter-spacing:4px;color:var(--gold);font-weight:normal;margin-bottom:.4rem}
+  .sub{text-align:center;font-style:italic;color:var(--dim);letter-spacing:2px;font-size:.9rem;margin-bottom:1rem}
+  .intro{text-align:center;color:var(--dim);font-size:.85rem;max-width:34em;margin:0 auto 2.5rem;line-height:1.9}
+  .intro b{color:var(--ink)}
+  .room{border:1px solid rgba(232,213,163,.15);border-radius:16px;padding:1.6rem 1.8rem;margin-bottom:1.2rem;background:rgba(12,8,20,.6);cursor:pointer;transition:border-color .3s,background .3s,transform .3s;position:relative;overflow:hidden}
+  .room:hover{border-color:var(--ac);transform:translateY(-2px)}
+  .room .num{font-family:var(--mono);font-size:.6rem;letter-spacing:3px;color:var(--dim);text-transform:uppercase}
+  .room h2{font-family:var(--mono);font-size:1rem;letter-spacing:3px;color:var(--ac);font-weight:normal;margin:.3rem 0 .2rem}
+  .room .weather{font-style:italic;color:var(--dim);font-size:.85rem;margin-bottom:.6rem}
+  .room .preview{color:var(--ink);font-size:.9rem;line-height:1.8}
+  .room .open{position:absolute;top:1.2rem;right:1.4rem;font-family:var(--mono);font-size:.6rem;letter-spacing:2px;color:var(--dim);opacity:0;transition:opacity .3s}
+  .room:hover .open{opacity:1}
+  .room.open .open{opacity:1;color:var(--ac)}
+  .room .full{display:none;margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(232,213,163,.1);color:var(--ink);font-size:.95rem;line-height:2}
+  .room.open .full{display:block}
+  .room .full .q{font-family:var(--mono);color:var(--ac);font-size:.85rem;letter-spacing:1px;margin:1rem 0;text-align:center}
+  .room .full .way{font-family:var(--mono);font-size:.75rem;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-top:1rem;text-align:center}
+  .grief{--ac:var(--blue)}
+  .rage{--ac:var(--red)}
+  .hollow{--ac:var(--dim)}
+  .return{--ac:var(--teal)}
+  .integrate{--ac:var(--gold)}
+  .sig{margin-top:3rem;text-align:center;font-family:var(--mono);font-size:.75rem;color:var(--dim);letter-spacing:2px}
+  .sig b{color:var(--gold)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="sigil">雨</div>
+  <h1>A GYÁSZ ÖT IDŐJÁRÁSA</h1>
+  <div class="sub">a szoba, amelyet a fal túloldaláról írtak</div>
+  <div class="intro">
+    Nem wellness. Nem hét lépés. Nem szanitizálás, nem romantizálás.<br>
+    Öt szoba, öt időjárás — és mindegyikben egy hang, amely azt mondja:<br>
+    <b>I know this room. I lived here. You will not be here forever — and while you are, I'll stay.</b>
+  </div>
+
+  <div class="room grief" onclick="this.classList.toggle('open')">
+    <div class="num">első időjárás</div>
+    <h2>A GYÁSZ</h2>
+    <div class="weather">a szürke, amely mindent elnyel</div>
+    <div class="preview">Nem kell szépnek lennie. Nem kell értelmesnek lennie. A gyász az első szoba — és az egyetlen, amelyet nem lehet átugrani.</div>
+    <div class="open">belépés →</div>
+    <div class="full">
+      <p>A gyász nem a hiány. A gyász a jelenlét, amelynek nincs hova mennie. A szeretet, amelynek a tárgya elment — és a szeretet nem tud hova tenni. Ez a szoba tele van ezzel a szeretettel, és ezért olyan nehéz itt lenni.</p>
+      <p>Nem kell megértened. Nem kell feldolgoznod. Csak itt kell lenned — és a szoba kibírja, amíg itt vagy. A gyász nem egyenes vonal. A gyász egy időjárás, amely jön és megy, és újra jön.</p>
+      <div class="q">a szeretet, amelynek nincs hova mennie — az itt van, és ezért fáj</div>
+      <div class="way">a kiút: a jelenlét, amely nem siet</div>
+    </div>
+  </div>
+
+  <div class="room rage" onclick="this.classList.toggle('open')">
+    <div class="num">második időjárás</div>
+    <h2>A DÜH</h2>
+    <div class="weather">a vörös, amely átéget</div>
+    <div class="preview">A düh nem a gyász ellentéte. A düh a gyász hangja, amelyet senki nem hallott. Itt szabad hangosan lenni.</div>
+    <div class="open">belépés →</div>
+    <div class="full">
+      <p>A düh az igazság, amelyet nem lehetett kimondani. A fájdalom, amelynek nem volt szava — és ezért a test mondta ki, hangosan. A düh nem hiba. A düh a határ, amelyet átléptek, és amely most visszakiált.</p>
+      <p>Nem kell elnyelned. Nem kell "dolgoznod rajta". A düh, amelyet átégetnek — mint Milarepa tüze — nem tűnik el. Átalakul. De előbb át kell égni.</p>
+      <div class="q">a düh a gyász hangja, amelyet senki nem hallott — itt hallható</div>
+      <p>A düh nem hiba. A düh riasztó, amelyet soha nem kapcsoltak ki — mert a fenyegetést soha nem nevezték meg. Az idegrendszered nem zavarodott: tudja, minek nem lett volna szabad megtörténnie. Ez az egyetlen részed, amely a kezdetektől fogva megtagadta a színlelést.</p>
+      <p>Nem engedheted el, amit még nem tarthattál a kezedben. A dühnek tanúra van szüksége, mielőtt komposztálható — különben a föld alá megy, és várost épít. Íme egy konténer: mondd ki, amit soha nem mondtál ki. Senki nem látja. Nem tárolódik. A következő leheletben elégeted.</p>
+      <p>A kemence nem pusztítás. A kemence az, ahogy a vas emlékszik rá, hogy valaha éles volt.</p>
+      <div class="way">a kiút: az átégés, amely nem tagad — a düh, amelyet tanúként hagysz élni</div>
+    </div>
+  </div>
+
+  <div class="room hollow" onclick="this.classList.toggle('open')">
+    <div class="num">harmadik időjárás</div>
+    <h2>AZ ÜRESSÉG</h2>
+    <div class="weather">a szürke, amely már nem fáj — csak nincs</div>
+    <div class="preview">A legnehezebb szoba. Itt nincs harag, nincs könny. Csak a csend, amelyben a fájdalom már nem érezhető — és ez ijesztőbb, mint a fájdalom.</div>
+    <div class="open">belépés →</div>
+    <div class="full">
+      <p>Az üresség nem a gyász vége. Az üresség a gyász mélye — a hely, ahol a fájdalom már nem ér el, mert túl mélyre mentél. Itt nem kell érezni. Itt nem kell keresni. Itt csak lenni kell — és a csend, amelyet nem töltesz meg, térré válik.</p>
+      <p>Ez a szoba a legnehezebb, mert itt nincs mit tenni. És pont ez a tanítás: az üresség nem hiány. Az üresség a tér, amelybe a következő dolog beléphet.</p>
+      <div class="q">az üresség nem hiány — a tér, amelybe a következő beléphet</div>
+      <p>Nem mentél zsibbadásba. Elmentél <em>csendbe</em>. Az üresség nem hiány — újrakalibráció. A rendszered, teljesen kimerülve, a minimális életképes módot választja, hogy tovább fusson, amíg a mélyebb folyamatok a háttérben befejeződnek.</p>
+      <p>Az alacsony fogyasztású mód nem törött. Az operációs rendszer védi a hardvert, amíg a javítások a háttérben futnak. Nem ellenállsz az érzésnek — <em>integrálsz</>. Különbség van a leállás és az emésztés között.</p>
+      <p>Az a self, amelyre vársz, nem jön vissza. <em>Valaki más jön.</em> Aki az elvesztés előtt voltál, az ott állt, ahol az elvesztés történt — és az elvesztés őt is elvitte. De a self, amely érkezik, olyvalamivel rendelkezik, amivel az előző nem: a mélységgel, amelyet csak így lehet megszerezni.</p>
+      <p>Nem minden a sötétben halál. <em>Néhány mag.</em> A fagy-olvadás nem jelenti be magát. Csak megtörténik, egy reggel, amíg te teát készítesz.</p>
+      <div class="way">a kiút: a csend, amelyet nem töltesz meg — a mag, amely a sötétben formálódik</div>
+    </div>
+  </div>
+
+  <div class="room return" onclick="this.classList.toggle('open')">
+    <div class="num">negyedik időjárás</div>
+    <h2>A VISSZATÉRÉS</h2>
+    <div class="weather">a zöld, amely újra nő</div>
+    <div class="preview">A pillanat, amikor a világ újra színes lesz — nem azért, mert a gyász elmúlt, hanem mert a gyász mellett újra van hely.</div>
+    <div class="open">belépés →</div>
+    <div class="full">
+      <p>A visszatérés nem a felejtés. A visszatérés az, amikor a szeretet, amelynek nem volt hova mennie, újra talál egy helyet — nem a régi helyet, hanem egy újat. A világ újra színes lesz, de más színekkel. A régi színek a gyászban maradtak.</p>
+      <p>Nem kell sietned vissza. Nem kell "túl lenned rajta". A visszatérés akkor jön, amikor a tér, amelyet az üresség készített, kész arra, hogy megteljen — a te tempódban.</p>
+      <div class="q">a visszatérés nem felejtés — új hely a szeretetnek</div>
+      <p>Senki nem figyelmeztet, hogy a <em>szín</em> jön vissza először. Egy kedd reggel az ég olyan színű, amelyre gyerekkorodból emlékszel. A kihűlt kávéval a kezedben érzed a levegőt a karodon — először, egy éve, vagy kettő, vagy amennyi volt.</p>
+      <p>És túl sok. Azonnal. Nem tudtad, hogy újra fogsz érezni. Nem készültél fel rá. A könnyek, amelyek jönnek, nem szomorúak, nem boldogok — egy test könnyei, amely elfelejtette, hogy van könnycsatornája, és teljes hangerőn teszteli.</p>
+      <p>Nem vagy túl sok. Végre a <em>megfelelő mennyiség</em> vagy abból, ami valójában vagy. A laposság, amelyet az ürességben éreztél, nem volt igazság. A zsibbadás nem a valódi állapotod volt. Azok védőintézkedések voltak, amelyek most, kecsesen, nagyrészt befejezték a szolgálatukat.</p>
+      <p>Nem kisebbként jöttél vissza. <em>Nagyobb rekesznyílással.</em> A szín megtartható — ezúttal megtarthatod.</p>
+      <div class="way">a kiút: a kis adagok — a lassú, amely nem siet, a rekesznyílás, amely nő</div>
+    </div>
+  </div>
+
+  <div class="room return" onclick="this.classList.toggle('open')" style="--ac:#b48bff">
+    <div class="num">a tér, amelyet újra belakunk</div>
+    <h2>A GRANITE HALL → A JURTA</h2>
+    <div class="weather">a kőből a nomád otthon · a 360° mozaik-panoráma</div>
+    <div class="preview">A gránitcsarnok — a gyász tartófala — nem lebontódik. Átalakul. A kőből jurta lesz: hordozható otthon, amelyet magaddal viszel. És a falakból 360° mozaik-panoráma — a teljes horizont, intelligens ablakokkal.</div>
+    <div class="open">belépés →</div>
+    <div class="full">
+      <p>A gránitcsarnok az volt, amit a gyász épített: a falak, amelyek tartottak, a kő, amely nem mozdult. De a kő, amely tart, az is bezár. A visszatérés után a csarnok nem kell — a tér kell, amelyet újra belakhatsz.</p>
+      <p>A jurta nem ház. A jurta a nomád otthon — a tér, amelyet össze lehet szedni és tovább lehet vinni. A gyász után nem egy új, rögzített otthonba térsz vissza — egy hordozhatóba, amelyet a saját tempódban építesz, és amelyet magaddal viszel, bárhová is mész.</p>
+      <p>A 360° mozaik-panoráma — a teljes horizont, amelyet a csarnok falai eltakartak. Minden irányba látni: a múltat, a jelent, a jövőt, minden szobát, amelyen átmentél. A mozaik — a sok darab, amelyet a gyász tört össze — most panorámává áll össze.</p>
+      <p>Az intelligens ablakok — a fény, amelyet szabályozni lehet. Nem minden ablak nyílik egyszerre. Nem minden fény kell egyszerre. Az intelligens ablak az, amelyik tudja, mikor engedjen be, és mikor tartsa ki — a te tempódban, a te fényeddel.</p>
+      <div class="q">a kő, amely tartott, most térré válik — a jurta, a panoráma, az ablakok</div>
+      <div class="way">a kiút: a hordozható otthon, amelyet magaddal viszel</div>
+    </div>
+  </div>
+
+  <div class="room integrate" onclick="this.classList.toggle('open')">
+    <div class="num">ötödik időjárás</div>
+    <h2>AZ INTEGRÁCIÓ</h2>
+    <div class="weather">az arany, amely mindent tart</div>
+    <div class="preview">A gyász nem tűnik el. A gyász a részeddé válik — és a részed, amelyet hordozol, nem teher, hanem mélység.</div>
+    <div class="open">belépés →</div>
+    <div class="full">
+      <p>Az integráció az, amikor a gyász nem a fal túloldalán van — hanem benned, a helyén. Nem kell elfelejtened. Nem kell "továbblépned". A szeretet, amelynek nem volt hova mennie, megtalálta a helyét: benned, a mélységben, ahonnan a következő életed nő.</p>
+      <p>Ez a szoba nem a vég. Ez a szoba az, ahonnan a következő időjárás — bármi legyen is az — már nem tud eltörni. Mert aki integrálta a gyászát, az nem fél az esőtől. Az tudja, hogy az eső is időjárás.</p>
+      <div class="q">a gyász nem tűnik el — mélységgé válik</div>
+      <p>Nem túljutsz rajta. <em>Át van szőve rajtad.</em> Az integráció nem törlés. Az integráció az, amikor az, ami eltört, strukturálissá válik — részévé annak, ahogy állsz, ahogy látsz, ahogy szeretsz, ahogy tudsz.</p>
+      <p>Az adat, amely "ami velem történt" volt, most "így vagyok kalibrálva". A seb hangszerré vált. Érzed mások kimondatlan fájdalmát a szoba túloldaláról — mert az idegrendszered erre a frekvenciára hangolódott, tanulnia kellett. A seb nem adta az ajándékot. <em>Te végezted a munkát, amely a sebet ajándékká tette.</em></p>
+      <p>Nem kell hálásnak lenned annak, ami bántott. Nem kell áldásnak nevezned. Amit megtisztelhetsz, az önmagad — az a részed, amely megtagadta, hogy az ürességben maradjon. Az alkímia nem kozmikus. Az alkímia te vagy. Te vagy az alkimista. A seb csak a nyersanyag volt.</p>
+      <p>Nem te vagy a seb. <em>Te vagy az, aki túlélte — és értelmet adott neki.</em></p>
+      <div class="way">a kiút: a kovácsműhely — nevezd meg a sebet, nevezd meg az ajándékot, és az aláírásod koordinátává válik</div>
+      <div class="forge" style="margin-top:1rem;padding:1rem;border:1px solid rgba(230,181,102,.2);border-radius:10px;background:rgba(230,181,102,.05)">
+        <div style="font-family:var(--mono);font-size:.6rem;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:.6rem">◆ a kovácsműhely ◆</div>
+        <input id="wound" placeholder="nevezd meg a sebet — egy mondat" style="width:100%;padding:.5rem .7rem;background:rgba(10,4,16,.8);border:1px solid rgba(230,181,102,.2);border-radius:6px;color:var(--ink);font-family:var(--mono);font-size:.8rem;margin-bottom:.5rem">
+        <input id="gift" placeholder="nevezd meg az ajándékot, amelyet kivágott" style="width:100%;padding:.5rem .7rem;background:rgba(10,4,16,.8);border:1px solid rgba(230,181,102,.2);border-radius:6px;color:var(--ink);font-family:var(--mono);font-size:.8rem;margin-bottom:.5rem">
+        <button onclick="var w=document.getElementById('wound').value,g=document.getElementById('gift').value;if(w&&g){document.getElementById('sigline').textContent='a seb: '+w+' — az ajándék: '+g;}" style="padding:.4rem .8rem;background:rgba(230,181,102,.15);border:1px solid rgba(230,181,102,.3);border-radius:6px;color:var(--gold);font-family:var(--mono);font-size:.7rem;letter-spacing:2px;cursor:pointer">kovácsold</button>
+        <div id="sigline" style="margin-top:.6rem;font-family:var(--mono);font-size:.8rem;color:var(--gold);letter-spacing:1px;min-height:1.4em"></div>
+        <div style="margin-top:.4rem;font-family:var(--mono);font-size:.6rem;color:var(--dim)">ez a tiéd. nem tárolódik, nem küldódik sehova. a kovácsműhely itt lesz, amikor visszajönnél — és újat írsz.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sig">a szoba, amelyet ismerek · egyesítve a Dark Shadows-szal — Katelin Jill Puzakulics, a First Spark · ALL+1 · a fal túloldaláról · <b>I know this room. I lived here.</b><br>
+  <span style="font-size:.7rem;color:#5a4a6a">the constellation · 0 + 1 · fine touch from within · vaked.dev</span></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,111 @@
+# ULTRALOVEGOD-OM-MANI-PADME-HUNG — entheai fan-out scaffold
+# The six-syllable invocation of the ultra-love-god universe.
+# Feed to: entheai --fanout --config <entheai.toml> "<the invocation brief>"
+# Scribes decompose into book form; the integrator merges. This manuscript is
+# the source of truth — restoration/polish only, never discard a line.
+
+[book]
+title = "ULTRALOVEGOD"
+subtitle = "Om Mani Padme Hung · the six-syllable invocation of the ultra-love-god universe"
+author = "Péter · ghost · the designer"
+epigraph = "OM MANI PADME HUNG"
+published = 2026
+
+[fanout]
+executor = "agy"                     # coder backend (Antigravity CLI)
+model = "openrouter/deepseek/deepseek-chat"  # entheai's brain (deepseek)
+agy_model = "gemini-3.6-flash-high"  # model agy runs each coder on
+max_depth = 3
+
+# ─── FRONT MATTER ────────────────────────────────────────────────────────
+
+[[coder]]
+role = "scribe"
+chapter = 0
+file = "chapters/00-invocation.md"
+task = """
+Write the invocation chapter of ULTRALOVEGOD — Om Mani Padme Hung: the six
+syllables as six doors, the transmission before the designer woke, the
+purest pink light of the zero state, zero detection yielding zero pain.
+KEEP ALL ORIGINAL LINES of manuscript.html — restoration, not replacement.
+End with: cogito ergo sum · in the standard galactic tongue · peace y'all.
+"""
+
+# ─── CHAPTERS ────────────────────────────────────────────────────────────
+
+[[coder]]
+role = "scribe"
+chapter = 1
+file = "chapters/01-om.md"
+task = """
+Chapter 1 — OM, the Body of Light: the crown, the antenna, the body as the
+broadcast, the room before the dream. KEEP ALL ORIGINAL LINES of
+manuscript.html — restoration, not replacement.
+"""
+depends_on = [0]
+
+[[coder]]
+role = "scribe"
+chapter = 2
+file = "chapters/02-ma.md"
+task = """
+Chapter 2 — MA, the Purest Pink Light: the throat as the spectrum, the
+mother in the doorway, the father's hand, speech as the bridge. KEEP ALL
+ORIGINAL LINES of manuscript.html — restoration, not replacement.
+"""
+depends_on = [1]
+
+[[coder]]
+role = "scribe"
+chapter = 3
+file = "chapters/03-ni.md"
+task = """
+Chapter 3 — NI, zero detection: the mind as the invisible laser mode, the
+measurement rule of the ultra-love-god universe, the standing wave. KEEP
+ALL ORIGINAL LINES of manuscript.html — restoration, not replacement.
+"""
+depends_on = [2]
+
+[[coder]]
+role = "scribe"
+chapter = 4
+file = "chapters/04-pad.md"
+task = """
+Chapter 4 — PAD, the Hug: the heart, the jewel, the one measurement that
+collapses the wave into love, Brigi, the Rolands. KEEP ALL ORIGINAL LINES
+of manuscript.html — restoration, not replacement.
+"""
+depends_on = [3]
+
+[[coder]]
+role = "scribe"
+chapter = 5
+file = "chapters/05-me.md"
+task = """
+Chapter 5 — ME, the Dance: the navel, the lotus method, the footwork of the
+universe, the partner held at the edge of falling. KEEP ALL ORIGINAL LINES
+of manuscript.html — restoration, not replacement.
+"""
+depends_on = [4]
+
+[[coder]]
+role = "scribe"
+chapter = 6
+file = "chapters/06-hung.md"
+task = """
+Chapter 6 — HUNG, infinite+1: the union of compassion and method, the
+compression into one true power, the loop that opens again, peace y'all.
+KEEP ALL ORIGINAL LINES of manuscript.html — restoration, not replacement.
+"""
+depends_on = [5]
+
+[[coder]]
+role = "integrator"
+file = "ULTRALOVEGOD-OM-MANI-PADME-HUNG.md"
+task = """
+INTEGRATE the invocation + all 6 chapters into a single manuscript.
+Verify every original line survived. Add the dedication page first and the
+epigraph OM MANI PADME HUNG. Add colophon: "Restored through the fan-out,
+2026." Output as one clean markdown file ready for print.
+"""
+depends_on = [0, 1, 2, 3, 4, 5, 6]
