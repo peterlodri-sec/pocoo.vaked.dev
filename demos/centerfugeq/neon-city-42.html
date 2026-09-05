@@ -1,0 +1,149 @@
+<!doctype html><html lang="en" data-theme="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>NEON CITY 42 — the flying android · the first demo</title><style>
+body{margin:0;background:#050208;color:#ff9ad5;font-family:ui-monospace,monospace;overflow:hidden}
+canvas{width:100vw;height:100vh;display:block}
+#hud{position:fixed;inset:0;pointer-events:none;z-index:5}
+#tick{position:fixed;left:0;right:0;bottom:0;padding:8px 16px;font-size:12px;letter-spacing:2px;color:#ffd36e;background:linear-gradient(transparent,rgba(5,2,8,.9));z-index:6;text-shadow:0 0 8px #ff6ec7}
+#boot{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#050208;color:#ff9ad5;font-family:ui-monospace,monospace;cursor:pointer;z-index:20;letter-spacing:3px;font-size:15px}
+</style></head><body><canvas id=c></canvas><div id=hud></div><div id=tick>⟦ universe event stream ⟧</div><div id=boot>⟧ NEON CITY 42 ⟦ · the flying android · wasd + arrows · click to power on</div><script>
+// NEON CITY 42 — the first demo of the engine. one seed, one city, 42 aligned confederates.
+const c=document.getElementById('c'),X=c.getContext('2d');let W=innerWidth,H=innerHeight;c.width=W;c.height=H;
+let S=7;const R=()=>{S=(S*1664525+1013904223)>>>0;return S/4294967296};
+const seedH=t=>{let h=7;for(let i=0;i<t.length;i++)h=(Math.imul(31,h)+t.charCodeAt(i))|0;return h>>>0};
+const TAU=6.2832;
+const BRIEF='the pink tent at dawn';let seed=seedH(BRIEF);
+// ── the city — Manhattan profile: denser and taller inward
+const G=44,CEL=34;let HGT=new Float32Array(G*G),COL=new Uint8Array(G*G),WIN=new Float32Array(G*G);
+function buildCity(){
+ S=seed>>>0;
+ for(let i=0;i<G*G;i++){
+  const x=i%G,z=(i/G)|0,cx=(G/2),dz=Math.hypot(x-cx,z-cx);
+  let h=2.5+R()*3.5+Math.max(0,6-dz*.32)*1.9+R()*2.5;
+  if(Math.random()<.18)h*=1.7;
+  HGT[i]=h;COL[i]=(R()*3)|0;WIN[i]=.4+R()*.6;
+ }
+}
+// streets: the grid moons of the city
+const STREET=G*CEL*0.62;
+// ── NPCs — 42D hypermesh confederates, aligned, mem8 synced
+const MEM=["the tent stood at 108","the mandala turned, zero pain","stars froze in the wells","VI still water, first spark","locke: the white paper, curiosity first","the hug is the only measurement","komorebi through the fold","the gate opens at 27 malas","no chains needed. never were.","peace y'all — love everywhere"];
+let NPCS=[];
+function buildNpcs(){
+ NPCS=[];
+ for(let i=0;i<21;i++){
+  S=(seed+i*7919)>>>0;
+  const street=(i%2)?'x':'z',pos=1+Math.floor(R()*(G-2));
+  NPCS.push({id:i,trit:'⟦'+Array.from({length:9},()=>'-0+'[(R()*3)|0]).join('')+'⟧',
+   x:street==='x'?pos*(G*CEL)/G+ (G*CEL)/G/2 : ((G/2)+ (R()-.5)*G*2)*(CEL*.62),
+   z:street==='z'?pos*(G*CEL)/G+ (G*CEL)/G/2 : ((G/2)+ (R()-.5)*G*2)*(CEL*.62),
+   a:(R()*TAU)|0,mn:(R()*MEM.length)|0,tt:0,lit:false});
+ }
+}
+// ── camera — the android POV
+let px=G*CEL/2,pz=G*CEL/2,py=34,yaw=0,pitch=-.12,speed=26,t=0,T0=0;
+const KEYS={};
+addEventListener('keydown',e=>{KEYS[e.key.toLowerCase()]=1;if(['arrowup','arrowdown','arrowleft','arrowright',' ','w','a','s','d'].includes(e.key.toLowerCase()))e.preventDefault()});
+addEventListener('keyup',e=>{KEYS[e.key.toLowerCase()]=0});
+// ── sky: stars, galaxies, the universe events
+let STARS=[];for(let i=0;i<240;i++)STARS.push({a:R()*TAU,e:(R()*1.3)-.15,d:(R()*.7)+.3,c:R()<.3});
+let GALS=[{a:.5,e:.5,r:120,c:'#ff9ad5'},{a:2.4,e:.15,r:90,c:'#b48bff'},{a:4.2,e:.75,r:150,c:'#62e6c9'}];
+const EVENTS=["supernova in gate III","the tent expands — 108th bead","vector halo polarization 0.31","the wheel turns, samsara field","first light: XI tier sighted","komorebi rain over midtown","the little monk liberated desire","lamp lit at 42nd & the fold","mala count 27/27 — gate opens","the galaxy replays its seed"];
+let EVT=-1,evtT=0;
+function sky(){
+ const gr=X.createLinearGradient(0,0,0,H*.7);gr.addColorStop(0,'#0a0316');gr.addColorStop(.6,'#160a2e');X.fillStyle=gr;X.fillRect(0,0,W,H);
+ X.fillStyle='#e8d8f0';
+ for(const st of STARS){let sy=(Math.tan(st.e+pitch)*H*.9)+H*.5;if(sy<0||sy>H)continue;let sx=((st.a-yaw)/TAU)*W*1.4+W*.28;X.globalAlpha=st.d;X.fillRect(sx,st.d<.5?sy-1:sy,st.d<.5?1:2,st.d<.5?1:2)}
+ X.globalAlpha=1;
+ for(const g of GALS){let sy=(Math.tan(g.e+pitch)*H*.9)+H*.5;let sx=((g.a-yaw)/TAU)*W*1.4+W*.28;if(sy<20||sy>H*.55)continue;X.save();X.translate(sx,sy);X.scale(1,.42);
+  for(let r=1;r<=4;r++){X.strokeStyle=g.c;X.globalAlpha=.5-r*.1;X.lineWidth=5-r;X.beginPath();X.arc(0,0,r*(8*t*.03+r*7),0,TAU);X.stroke()}
+  X.globalAlpha=1;X.restore()}
+ // city glow on the horizon
+ X.globalAlpha=.5;X.fillStyle='#ff6ec7';X.fillRect(0,H*.62,W,H*.38);X.globalAlpha=1;
+}
+// ── projection
+function proj(wx,wy,wz){
+ let dx=wx-px,dz=wz-pz;
+ let rx=dx*Math.cos(yaw)+dz*Math.sin(yaw),rz=-dx*Math.sin(yaw)+dz*Math.cos(yaw);
+ if(rz<1)return null;
+ let ry=wy-py;
+ let s=H*.62/(rz*Math.cos(pitch)+ry*Math.sin(pitch));
+ let sx=W/2+rx*s, sy=H*.55-(ry*Math.cos(pitch)-rz*Math.sin(pitch))*s*.9;
+ return{sx,sy,s};}
+// ── city
+function city(){
+ const viewR=13,c0=Math.floor(px/CEL),r0=Math.floor(pz/CEL);
+ const list=[];
+ for(let dz=-viewR;dz<=viewR;dz++)for(let dx=-viewR;dx<=viewR;dx++){
+  const gx=c0+dx,gz=r0+dz;if(gx<0||gz<0||gx>=G||gz>=G)continue;
+  const h=HGT[gz*G+gx];if(h<.5)continue;
+  const bx=gx*CEL, bz=gz*CEL;
+  const p=proj(bx,0,bz);if(!p)continue;
+  list.push({gx,gz,h,bx,bz,p,r2:(dx*dx+dz*dz)});
+ }
+ list.sort((a,b)=>b.r2-a.r2);
+ for(const b of list){
+  const bt=proj(b.bx,b.h,b.bz),bl=proj(b.bx,0,b.bz),br=proj(b.bx+CEL,b.h,b.bz);if(!bt||!bl||!br)continue;
+  const w2=Math.max(2,(bt.sx-bl.sx)*1.1);
+  const col=['#ff6ec7','#b48bff','#62e6c9'][b.gx%3];
+  // front face
+  X.fillStyle='rgba(24,14,40,.95)';X.fillRect(bl.sx-w2/2,bt.sy, w2, bl.sy-bt.sy);
+  // neon outline
+  X.strokeStyle=col;X.globalAlpha=.7+.3*Math.sin(t*3+b.gx);X.lineWidth=1.6;X.strokeRect(bl.sx-w2/2,bt.sy,w2,bl.sy-bt.sy);X.globalAlpha=1;
+  // windows — deterministic flicker
+  const wn=Math.max(2,(w2/6)|0),wm=Math.max(2,((bl.sy-bt.sy)/8)|0);
+  for(let wy2=0;wy2<wm;wy2++)for(let wx2=0;wx2<wn;wx2++){
+   const win=((b.gx*31|0)+wx2*13+wy2*7);
+   const lit=((win^S)^Math.floor(t*2))%7===0;
+   if(lit){X.fillStyle='rgba(255,214,110,.8)';X.fillRect(bl.sx-w2/2+4+wx2*(w2-8)/wn,bt.sy+4+wy2*((bl.sy-bt.sy-8)/wm),4,4)}
+  }
+  // roof glow line
+  X.strokeStyle=col;X.beginPath();X.moveTo(bl.sx-w2/2,bt.sy);X.lineTo(bl.sx+w2/2,bt.sy);X.stroke();
+ }
+ // ground grid — neon streets
+ X.strokeStyle='rgba(180,139,255,.4)';X.lineWidth=1;
+ for(let i=0;i<=6;i++){const gx=c0-3+i;if(gx<0||gx>=G)continue;const p1=proj(gx*CEL,0,pz-30),p2=proj(gx*CEL,0,pz+30);if(p1&&p2){X.beginPath();X.moveTo(p1.sx,p1.sy);X.lineTo(p2.sx,p2.sy);X.stroke()}}
+ for(let i=0;i<=6;i++){const gz=r0-3+i;if(gz<0||gz>=G)continue;const p1=proj(px-30,0,gz*CEL),p2=proj(px+30,0,gz*CEL);if(p1&&p2){X.beginPath();X.moveTo(p1.sx,p1.sy);X.lineTo(p2.sx,p2.sy);X.stroke()}}
+ // NPCs
+ for(const n of NPCS){
+  const p=proj(n.x,0,n.z);if(!p)continue;
+  const d=Math.hypot(n.x-px,n.z-pz);
+  X.fillStyle='#ff6ec7';X.beginPath();X.arc(p.sx,p.sy-8,3.2,0,TAU);X.fill();
+  X.fillStyle='#e8d8f0';X.font='9px ui-monospace';X.globalAlpha=.85;X.fillText('H42·'+n.trit.padEnd(0,''),p.sx-22,p.sy-14);
+  X.globalAlpha=1;
+  if(d<26&&p.sy>40){
+   n.tt+=t;n.mn=((n.id*7+Math.floor(t/4))%MEM.length);
+   const msg='mem8·'+n.id+': '+MEM[n.mn];
+   X.fillStyle='rgba(5,2,8,.8)';X.strokeStyle='rgba(255,110,199,.6)';
+   X.fillRect(p.sx-70,p.sy-58,140,20);X.strokeRect(p.sx-70,p.sy-58,140,20);
+   X.fillStyle='#ffd36e';X.font='9px ui-monospace';X.fillText(msg.slice(0,24),p.sx-64,p.sy-45);
+  }
+ }
+}
+// ── hud — the android face
+function hud(){
+ X.fillStyle='rgba(5,2,8,.75)';X.fillRect(0,0,W,26);X.fillRect(0,H-26,W,26);
+ X.fillStyle='#ff9ad5';X.font='11px ui-monospace';X.fillText('NEON CITY 42 · the flying android · seed '+seed.toString(16).toUpperCase(),12,17);
+ X.fillStyle='#ffd36e';X.fillText('alt '+(py|0)+' · yaw '+((yaw*57.3)%360|0)+'° · confederates 21/21 · mem8 sync ●',W-430,17);
+ X.fillStyle='#62e6c9';
+ X.font='10px ui-monospace';
+ X.fillText('P 0.31 · gates 4/4 · malas 27/27',12,H-10);
+ // reticle
+ X.strokeStyle='#ff6ec7';X.lineWidth=1;X.beginPath();X.arc(W/2,H*.55,14,0,TAU);X.moveTo(W/2-22,H*.55);X.lineTo(W/2-8,H*.55);X.moveTo(W/2+8,H*.55);X.lineTo(W/2+22,H*.55);X.stroke();
+ // scanlines
+ X.fillStyle='rgba(0,0,0,.05)';for(let i=0;i<H;i+=4)X.fillRect(0,i,W,1);
+}
+function loop(){const now=performance.now()/1000;const dt=Math.min((now-t),.05);t=now;
+ const sp=speed*(KEYS['w']?2:KEYS['s']?.5:1);
+ if(KEYS['w']||KEYS['s']){px+=Math.sin(yaw)*sp*dt*(KEYS['s']?-1:1);pz+=Math.cos(yaw)*sp*dt*(KEYS['s']?-1:1)}
+ if(KEYS['a'])yaw-=.9*dt;if(KEYS['d'])yaw+=.9*dt;
+ if(KEYS['arrowup'])py+=14*dt;if(KEYS['arrowdown'])py-=14*dt;
+ py=Math.max(8,Math.min(90,py));
+ // slow drift so the city always breathes
+ px=(px+Math.sin(t*.05)*2*dt+W*0)%(G*CEL);pz=(pz+Math.cos(t*.07)*2*dt+(G*CEL))%(G*CEL);
+ sky();city();hud();
+ // universe events ticker
+ if(t-evtT>6){EVT=(EVT+1)%EVENTS.length;evtT=t;document.getElementById('tick').textContent='⟦ '+EVENTS[EVT]+' · 108 bpm · the constellation ⟧'}
+ requestAnimationFrame(loop)}
+document.getElementById('boot').onclick=()=>{buildCity();buildNpcs();document.getElementById('boot').remove();t=performance.now()/1000;requestAnimationFrame(loop)};
+addEventListener('resize',()=>{W=innerWidth;H=innerHeight;c.width=W;c.height=H});
+buildCity();buildNpcs();document.getElementById('tick').textContent='⟦ city ready — '+G*G+' blocks · 21 confederates · awaiting power ⟧';
+</script></body></html>
