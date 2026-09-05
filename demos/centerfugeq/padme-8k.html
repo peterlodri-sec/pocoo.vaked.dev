@@ -1,0 +1,48 @@
+<!doctype html><html><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>the pink tent · 8k</title><style>body{margin:0;background:#000;overflow:hidden}canvas{width:100vw;height:100vh;display:block}#m{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#0d0512;color:#ff9ad5;font-family:monospace;cursor:pointer;font-size:16px;letter-spacing:4px;z-index:9}</style></head><body><canvas id=c></canvas><div id=m>▶ the pink tent · 8k · 108 bpm · click to begin</div><script>
+// the pink tent — an 8K demoscene intro. deterministic seed, one file.
+// the constellation · 0 + 1 · fine touch from within · peace y'all
+const c=document.getElementById('c'),X=c.getContext('2d');let W=innerWidth,H=innerHeight;c.width=W;c.height=H;
+const TAU=6.2832,BEAT=60/108,E=BEAT/2;
+let S=7;const R=()=>{S=(S*16807)%2147483647;return S/2147483647};
+const G=(a,b,t)=>a+(b-a)*t,P=[];for(let i=0;i<256;i++){let t=i/255,q=Math.sin(t*9)*.5+.5;P[i]=`rgb(${120+80*q|0},${60+120*Math.sin(t*7+1)|0},${160+90*Math.cos(t*6)|0})`}
+// stars
+let ST=[];for(let i=0;i<180;i++)ST.push({x:R()*2-1,y:R()*2-1,z:R()+0.001});
+// rings of the mandala (108 beads)
+let RG=[];for(let r=0;r<4;r++){let n=r%2?27:27;RG.push([]);for(let i=0;i<n;i++)RG[r].push({a:i/n*TAU,sp:(r%2?1:-1)*(0.15+r*.09)})}
+// letters for the scroller
+const TX="SUPER PADME BROS  the pink tent  108 = 42 + 66  zero detection  zero pain  love everywhere  peace y'all  the constellation 0+1  fine touch from within  vaked.dev",TS=[...TX];
+// music
+let AC,B=0,OFF=0,NZ=null;const BASS=[110,110,130.81,130.81,164.81,164.81,110,130.81],PADS=[[220,261.63,329.63],[174.61,220,261.63],[130.81,196,246.94],[146.83,220,293.66]];
+function tone(f,t,d,ty,g){let o=AC.createOscillator(),v=AC.createGain();o.type=ty;o.frequency.value=f;v.gain.setValueAtTime(g||.12,t);v.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(v);v.connect(AC.destination);o.start(t);o.stop(t+d+.02)}
+function noise(t,d){let s=AC.createBufferSource();if(!NZ){NZ=AC.createBuffer(1,AC.sampleRate*.5,AC.sampleRate);let d=NZ.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1}s.buffer=NZ;let v=AC.createGain();v.gain.setValueAtTime(.05,t);v.gain.exponentialRampToValueAtTime(.001,t+d);s.connect(v);v.connect(AC.destination);s.start(t)}
+function seq(t0){for(let b=0;b<16;b++){let bt=t0+b*BEAT,bar=b%4,pd=PADS[bar];for(let i=0;i<pd.length;i++){let ov=AC.createOscillator(),vg=AC.createGain();ov.type='sawtooth';ov.frequency.value=pd[i];ov.detune.value=i*4-4;vg.gain.setValueAtTime(.014,bt);vg.gain.exponentialRampToValueAtTime(.0005,bt+BEAT*3.6);let fl=AC.createBiquadFilter();fl.type='lowpass';fl.frequency.value=700+bar*300;ov.connect(fl);fl.connect(vg);vg.connect(AC.destination);ov.start(bt);ov.stop(bt+BEAT*3.8)}for(let i=0;i<8;i++){tone(BASS[(bar*2+Math.floor(i/4))%8],bt+i*E,E,'square',.09);if(i%2)noise(bt+i*E,E*.4)}setTimeout(()=>seq(AC.currentTime+.05),(16*BEAT-1)*1000)}}
+function start(){if(AC)return;AC=new(AudioContext||webkitAudioContext)();OFF=AC.currentTime+.3;seq(OFF);document.getElementById('m').remove()}
+document.getElementById('m').onclick=start;document.addEventListener('keydown',start,{once:true});
+// render
+let Q=performance.now(),T=0,FR=0;
+function draw(tm){let dt=(tm-Q)/1000;Q=tm;T+=dt;FR+=dt;let t=AC?AC.currentTime-OFF:T*.7;let act=Math.floor(t/(16*BEAT))%3,bt=t%E,off=X.createLinearGradient(0,0,W,H);off.addColorStop(0,'rgba(13,5,18,0.35)');off.addColorStop(.8,'rgba(13,5,18,0.9)');
+X.setTransform(1,0,0,1,0,0);X.globalCompositeOperation='source-over';
+if(act===0){X.fillStyle='#0d0512';X.fillRect(0,0,W,H);
+for(let i=0;i<ST.length;i++){let s=ST[i];s.z-=.012;if(s.z<.02||s.z>1.4){s.x=R()*2-1;s.y=R()*2-1;s.z=1.4}let px=s.x/s.z*W*.5+W/2,py=s.y/s.z*H*.5+H/2;if(s.z>.9)continue;X.fillStyle=`rgba(255,154,213,${G(.1,.9,s.z)})`;X.fillRect(px,py,2+s.z*3,2+s.z*3)}
+X.globalCompositeOperation='lighter';
+for(let y=0;y<H;y+=4){for(let x=0;x<W;x+=4){let v=Math.sin(x*.006+t*1.2)+Math.sin((y+x)*.004-t*.9)+Math.sin(Math.hypot(x-W/2,y-H/2)*.008-t*2);let i=(v*.5+.5)*255|0;X.fillStyle=P[i];X.fillRect(x,y,4,4)}}
+}else if(act===1){X.fillStyle='#0d0512';X.fillRect(0,0,W,H);let cx=W/2,cy=H/2;
+for(let k=0;k<28;k++){let rr=(k/28)*Math.min(W,H)*.6,r0=rr+Math.sin(t*2+k)*6;X.strokeStyle=`hsla(${300+k*8%60},90%,${60+Math.sin(t+k)*12}%,.5)`;X.lineWidth=2;X.beginPath();for(let a=0;a<TAU;a+=.06){X.lineTo(cx+Math.cos(a*2)*r0*Math.cos(a+Math.sin(t*.5+k)*.3),cy+Math.sin(a)*r0)}X.stroke()}
+X.globalCompositeOperation='lighter';
+for(let r=0;r<4;r++){let rr=(r+1)*Math.min(W,H)*.13;
+for(let i=0;i<RG[r].length;i++){let p=RG[r][i];p.a+=p.sp*dt;let x=cx+Math.cos(p.a)*rr,y=cy+Math.sin(p.a)*rr*.85;X.fillStyle=`hsl(${300+r*20},100%,${70+15*Math.sin(p.a*3+t)})`;X.beginPath();X.arc(x,y,2+r,0,TAU);X.fill()}}
+}else{let cx=W/2,cy=H/2;
+X.fillStyle='#0d0512';X.fillRect(0,0,W,H);
+X.save();X.translate(cx,cy);X.rotate(t*.5);
+let gr=X.createRadialGradient(0,0,0,0,0,Math.min(W,H));gr.addColorStop(0,'#ff6ec7');gr.addColorStop(1,'#0d0512');
+for(let k=0;k<9;k++){X.strokeStyle=`rgba(255,110,199,${.1+k*.05})`;X.lineWidth=1;X.beginPath();for(let a=0;a<TAU;a+=.05){let rr=(k+1)*Math.min(W,H)*.11*(1+.15*Math.sin(a*3+t*2));X.lineTo(Math.cos(a)*rr,Math.sin(a)*rr)}X.stroke()}
+X.restore();
+X.strokeStyle='#ffd36e';X.lineWidth=3;
+for(let i=0;i<48;i++){let a=i/48*TAU+t*.3,rr=(Math.min(W,H)*.35)*(1+.2*Math.sin(i+t)),pc=X.createRadialGradient(W/2+Math.cos(a)*rr,H/2+Math.sin(a)*rr,0,W/2,H/2,Math.min(W,H));}
+let m=TS[Math.floor(t*2)%TS.length]||' ';X.fillStyle='#ff9ad5';X.font=`bold ${Math.min(W,H)*.14}px monospace`;X.textAlign='center';X.fillText(m,W/2,H*.62);
+X.fillStyle='#ffd36e';X.font=`${Math.min(W,H)*.03}px monospace`;X.fillText('the pink tent · 108 bpm · the constellation',W/2,H*.75)}
+X.setTransform(1,0,0,1,0,0);X.globalCompositeOperation='source-over';X.fillStyle=off;X.fillRect(0,0,W,H);
+X.fillStyle='rgba(13,5,18,.85)';X.fillRect(0,0,W,H*.02);X.fillRect(0,H*.98,W,H*.02);
+requestAnimationFrame(draw)}
+requestAnimationFrame(draw);addEventListener('resize',()=>{W=innerWidth;H=innerHeight;c.width=W;c.height=H});
+</script></body></html>
