@@ -29,7 +29,62 @@ const EVENTS=[
 ];
 const MONUMENTS=[['M87*',-2.2,.32,'#ff6ec7'],['Sgr A*',-1.1,.5,'#ffd36e'],['GW150914',0,.18,'#62e6c9'],['SN1987A',1.6,.1,'#ff9ad5'],['FRB121102',2.6,.42,'#b48bff'],['Oumuamua',3.4,.62,'#62e6c9'],['TRAPPIST-1',4.6,.26,'#ffd36e'],['Earendel',-3.8,.55,'#ff9ad5']];
 let ESTARS=[];for(let i=0;i<260;i++)ESTARS.push({a:R()*TAU,e:(R()*1.4)-.2,d:(R()*.7)+.3,pink:R()<.35});
-const G=44,CEL=34;let HGT=new Float32Array(G*G),COL=new Uint8Array(G*G);{S=seed>>>0;for(let i=0;i<G*G;i++){const x=i%G,z=(i/G)|0,dz=Math.hypot(x-G/2,z-G/2);let h=2.5+R()*3.5+Math.max(0,6-dz*.32)*1.9+R()*2.5;if(Math.random()<.18)h*=1.7;HGT[i]=Math.min(24,h);COL[i]=(R()*3)|0}}
+// ── the city — procedural, after magnificus/Procedural-Cities:
+//    noise field → best-first road growth → blocks → longest-edge lots
+const G=44,CEL=34;
+function noise2(x,z){let nx=((x%24)+24)%24,nz=((z%24)+24)%24,x0=nx|0,z0=nz|0,fx=nx-x0,fz=nz-z0;
+ const h=(a,b)=>{let s2=(seed+a*73856093^b*19349663)>>>0;s2=(s2*1664525+1013904223)>>>0;return s2/4294967296};
+ const v00=h(x0,z0),v10=h(x0+1,z0),v01=h(x0,z0+1),v11=h(x0+1,z0+1);
+ const a=v00+(v10-v00)*fx,b=v01+(v11-v01)*fx;return a+(b-a)*fz}
+let ROADS=[],LOTS=[],HGT={},COL={};
+function growCity(){
+ S=(seed^0x9e37)>>>0;const rr=()=>{S=(S*1664525+1013904223)>>>0;return S/4294967296};
+ const queue=[],addSeg=(x,z,dir,cls)=>{queue.push({x,z,dir,cls,pts:[[x,z]]})};
+ // seed alignment: the avenues climb the noise gradient (360° scan)
+ {let best=-9,bd=0;for(let a=0;a<360;a++){const d=a/180*Math.PI,q=noise2(G/2+Math.cos(d)*3,G/2+Math.sin(d)*3);if(q>best){best=q;bd=d}}
+  for(let k=0;k<3;k++)addSeg(G/2,G/2,bd+k*Math.PI*2/3+.9,0)}
+ const rep=(x,z)=>{let m=999;for(const r of ROADS){const p0=r.pts[r.pts.length-1];const d=Math.hypot(x-p0[0],z-p0[1]);if(d<m)m=d}return m};
+ let guard=0;
+ while(queue.length&&guard++<400){
+  const e=queue.shift();const cls=e.cls,wid=cls===0?1.15:0.62,maxL=cls===0?24:12,chg=cls===0?.45:1.0;
+  for(let st=0;st<maxL;st++){
+   // steer: 7 jittered rotations, score = noise − repulsion
+   let bd=e.dir,bq=-9;
+   for(let t=0;t<4;t++){const d=e.dir+(rr()-.5)*2*chg;const nx=e.x+Math.cos(d),nz=e.z+Math.sin(d);
+    const q=noise2(nx,nz)*10-(rep(nx,nz)<wid*3?4:0);if(q>bq){bq=q;bd=d}}
+   e.dir=bd;e.x+=Math.cos(bd);e.z+=Math.sin(bd);
+   e.pts.push([Math.round(e.x*10)/10,Math.round(e.z*10)/10]);
+   if(e.x<1||e.z<1||e.x>G-1||e.z>G-1)break;
+   if(cls===0&&st%4===2&&st<20){addSeg(e.x,e.z,bd+Math.PI/2,1);addSeg(e.x,e.z,bd-Math.PI/2,1)}
+   else if(cls===1&&rr()<.12){addSeg(e.x,e.z,bd+(rr()<.5?1:-1)*Math.PI/2,1)}
+  }
+  if(e.pts.length>2)ROADS.push({cls,wid,pts:e.pts});
+ }
+ // attach pass: stubs reach for the nearest road and snap (loops close)
+ for(const r of ROADS){const p0=r.pts[r.pts.length-1];let m=999,mp=null;
+  for(const q of ROADS){if(q===r)continue;for(let i=1;i<q.pts.length;i++){const A=q.pts[i-1],B=q.pts[i];const dx=B[0]-A[0],dz=B[1]-A[1],L=dx*dx+dz*dz||1;let tt=((p0[0]-A[0])*dx+(p0[1]-A[1])*dz)/L;tt=Math.max(0,Math.min(1,tt));const d=Math.hypot(p0[0]-(A[0]+dx*tt),p0[1]-(A[1]+dz*tt));if(d<m){m=d;mp=[A[0]+dx*tt,A[1]+dz*tt]}}}
+  if(m<2.2&&mp)r.pts.push([mp[0],mp[1]])}
+ // blocks: cells the roads don't own → components → longest-edge lots
+ const street=new Uint8Array(G*G);
+ const ptSeg=(x,z)=>{let m=999;for(let i=0;i<ROADS.length&&m>.8;i++){const r=ROADS[i];for(let j=1;j<r.pts.length;j++){const A=r.pts[j-1],B=r.pts[j];const dx=B[0]-A[0],dz=B[1]-A[1],L=dx*dx+dz*dz||1;let tt=((x-A[0])*dx+(z-A[1])*dz)/L;tt=Math.max(0,Math.min(1,tt));const d=Math.hypot(x-(A[0]+dx*tt),z-(A[1]+dz*tt));if(d<m)m=d}}return m};
+ for(let z=0;z<G;z++)for(let x=0;x<G;x++){const d=ptSeg(x+0.5,z+0.5);street[z*G+x]=d<0.9?1:0}
+ const seen=new Uint8Array(G*G);
+ const flood=(x0,z0)=>{const stack=[[x0,z0]],cells=[];seen[z0*G+x0]=1;
+  while(stack.length){const[x,z]=stack.pop();cells.push([x,z]);
+   for(const[dxx,dzz]of[[1,0],[-1,0],[0,1],[0,-1]]){const nx=x+dxx,nz2=z+dzz;if(nx<0||nz2<0||nx>=G||nz2>=G)continue;if(street[nz2*G+nx]||seen[nz2*G+nx])continue;seen[nz2*G+nx]=1;stack.push([nx,nz2])}}
+  return cells};
+ const splitRect=(x0,z0,w2,h2,depth)=>{if(depth<=0||w2<3||h2<3){LOTS.push([x0,z0,w2,h2]);return}
+  if(w2>h2){const mid=Math.round(w2/2)-1;const m=mid-1+Math.round(noise2(x0+mid,z0)*2);if(m<2||m>w2-3){LOTS.push([x0,z0,w2,h2]);return}splitRect(x0,z0,m,h2,depth-1);splitRect(x0+m,z0,w2-m,h2,depth-1)}
+  else{const mid=Math.round(h2/2)-1;const m=mid-1+Math.round(noise2(x0,z0+mid)*2);if(m<2||m>h2-3){LOTS.push([x0,z0,w2,h2]);return}splitRect(x0,z0,w2,m,depth-1);splitRect(x0,z0+m,w2,h2-m,depth-1)}};
+ for(let z=0;z<G;z++)for(let x=0;x<G;x++){if(street[z*G+x]||seen[z*G+x])continue;const cells=flood(x,z);if(cells.length<4)continue;
+  let x0=G,z0=G,x1=0,z1=0;for(const[cx,cz]of cells){if(cx<x0)x0=cx;if(cz<z0)z0=cz;if(cx>x1)x1=cx;if(cz>z1)z1=cz}
+  splitRect(x0+1,z0+1,Math.max(1,x1-x0-1),Math.max(1,z1-z0-1),2)}
+ // exponential heights — most short, a few tall; downtown bias
+ for(const L of LOTS){const cx=L[0]+L[2]/2,cz=L[1]+L[3]/2,dz=Math.hypot(cx-G/2,cz-G/2);
+  const mod=1+Math.min(3.4,-Math.log(0.02+0.96*noise2(cx,cz))/1.8);
+  const h=Math.min(26,Math.max(1,Math.round((2.2+3.2*noise2(cx*3,cz*3))*(mod)*(1-Math.min(.6,dz/G*.55)*.7))));
+  const key=L[1]*G+L[0];HGT[key]=h;COL[key]=(noise2(cx*7,cz*7)*3)|0}}
+function roadXz(t){const r=ROADS[Math.floor(t%ROADS.length)],p=r.pts,o=Math.floor(t%(p.length-1));return p[o]}
 const LIFE={};
 function lifeGrid(k){if(!LIFE[k]){const w=14,h=16,c=new Uint8Array(w*h);let s2=(seed+k*7919)>>>0;const rr=()=>{s2=(s2*1664525+1013904223)>>>0;return s2/4294967296};for(let i=0;i<c.length;i++)c[i]=rr()<.32?1:0;LIFE[k]={w,h,c,last:0}}return LIFE[k]}
 function lifeTick(l){const w=l.w,h=l.h,c=l.c,n=new Uint8Array(c.length);for(let y=0;y<h;y++)for(let x=0;x<w;x++){let nb=0;for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){if(!dx&&!dy)continue;nb+=c[((y+dy+h)%h)*w+((x+dx+w)%w)]}const v=c[y*w+x];n[y*w+x]=(v&&(nb===2||nb===3))||(!v&&nb===3)?1:0}l.c=n;l.last=t}
@@ -38,7 +93,7 @@ function earthInit(){S=(seed^0x51f7)>>>0;for(let i=0;i<EARTH.length;i++)EARTH[i]
 function earthTick(t){if(t-eT<1.1)return;eT=t;const n=new Uint8Array(EARTH.length);let born=0;for(let y=0;y<E;y++)for(let x=0;x<E;x++){let nb=0;for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){if(!dx&&!dy)continue;nb+=EARTH[((y+dy+E)%E)*E+((x+dx+E)%E)]}const v=EARTH[y*E+x];const nv=(v&&(nb===2||nb===3))||(!v&&nb===3)?1:0;if(!v&&nv)born++;n[y*E+x]=nv}EARTH=n;if(born>0&&NPCS.length)NPCS[Math.floor(Math.random()*NPCS.length)].nb=born}
 const MEM=["the tent stood at 108","the mandala turned, zero pain","stars froze in the wells","VI still water, first spark","locke: the white paper, curiosity first","the hug is the only measurement","komorebi through the fold","the gate opens at 27 malas","no chains needed. never were.","peace y'all — love everywhere"];
 let NPCS=[];
-function buildNpcs(){NPCS=[];for(let i=0;i<21;i++){S=(seed+i*7919)>>>0;const onx=i%2;NPCS.push({id:i,trit:'⟦'+Array.from({length:9},()=>'-0+'[(R()*3)|0]).join('')+'⟧',x:onx===0? (1+Math.floor(R()*(G-2)))*CEL+CEL/2 : G*CEL/2+(R()-.5)*G*CEL*0.8,z:onx===1? (1+Math.floor(R()*(G-2)))*CEL+CEL/2 : G*CEL/2+(R()-.5)*G*CEL*0.8,dir:R()<.5?1:-1,mn:(R()*MEM.length)|0,nb:0})}}
+function buildNpcs(){NPCS=[];growCity();for(let i=0;i<21;i++){S=(seed+i*7919)>>>0;const rp=roadXz(S*9731);NPCS.push({id:i,trit:'⟦'+Array.from({length:9},()=>'-0+'[(R()*3)|0]).join('')+'⟧',x:rp[0]*CEL+CEL/2,z:rp[1]*CEL+CEL/2,dir:R()<.5?1:-1,mn:(R()*MEM.length)|0,nb:0})}}
 let px=G*CEL/2,pz=G*CEL/2,py=40,yaw=0,pitch=-.12,t=0,spd=26;
 const KEYS={};addEventListener('keydown',e=>{KEYS[e.key.toLowerCase()]=1;if('wasd arrowup arrowdown arrowleft arrowright '.includes(e.key.toLowerCase()+' '))e.preventDefault()});addEventListener('keyup',e=>{KEYS[e.key.toLowerCase()]=0});
 function proj(wx,wy,wz){const dx=wx-px,dz=wz-pz;const rx=dx*Math.cos(yaw)+dz*Math.sin(yaw);const rz=-dx*Math.sin(yaw)+dz*Math.cos(yaw);if(rz<1)return null;const ry=wy-py;const s=H*.62/(rz*Math.cos(pitch)+ry*Math.sin(pitch));return{sx:W/2+rx*s,sy:H*.55-(ry*Math.cos(pitch)-rz*Math.sin(pitch))*s*.9,s:s}}
@@ -47,20 +102,25 @@ function sky(){const gr=X.createLinearGradient(0,0,0,H*.7);gr.addColorStop(0,'#0
  for(const m of MONUMENTS){let sy=(Math.tan(m[2]+pitch)*H*.9)+H*.5;if(sy<30||sy>H*.5)continue;let sx=((m[1]-yaw)/TAU)*W*1.4+W*.28;X.globalAlpha=.8+.2*Math.sin(t*2+m[0].length);X.fillStyle=m[3];X.beginPath();X.arc(sx,sy,3+Math.sin(t*3+m[0].length)*2,0,TAU);X.fill();X.fillRect(sx-2,sy-26,4,18);X.globalAlpha=.9;X.font='10px ui-monospace';X.fillText(m[0],sx-24,sy-30);X.globalAlpha=1}
  X.globalAlpha=.5;X.fillStyle='#ff6ec7';X.fillRect(0,H*.6,W,H*.4);X.globalAlpha=1}
 function city(){
- const vr=13,c0=Math.floor(px/CEL),r0=Math.floor(pz/CEL),list=[];
- for(let dz=-vr;dz<=vr;dz++)for(let dx=-vr;dx<=vr;dx++){const gx=c0+dx,gz=r0+dz;if(gx<0||gz<0||gx>=G||gz>=G)continue;const h=HGT[gz*G+gx];if(h<.4)continue;const p=proj(gx*CEL+8,0,gz*CEL+8);if(!p)continue;list.push({gx,gz,h,x:gx*CEL,z:gz*CEL,r2:dx*dx+dz*dz})}
+ const vr=14,c0=Math.floor(px/CEL),r0=Math.floor(pz/CEL),list=[];
+ for(let li=0;li<LOTS.length;li++){const L=LOTS[li];const lx=L[0],lz=L[1],lw=L[2],lh=L[3];
+  const dxc=(lx+lw/2)-c0,dzc=(lz+lh/2)-r0;if(dxc*dxc+dzc*dzc>vr*vr)continue;
+  const key=lz*G+lx,h=HGT[key]||2;if(h<.4)continue;
+  const bx=lx*CEL, bz=lz*CEL;const p=proj(bx+10,0,bz+10);if(!p)continue;
+  list.push({gx:lx,gz:lz,h,x:bx,z:bz,w:lw*CEL,d:lh*CEL,r2:dxc*dxc+dzc*dzc})}
  list.sort((a,b)=>b.r2-a.r2);
  const fog=Math.min(13,vr);
  for(const b of list){
-  const x=b.x,z=b.z,h=b.h,w=CEL,d=CEL;
+  const x=b.x,z=b.z,h=b.h,w=b.w,d=b.d;
   const P=[[x,0,z],[x,0,z+d],[x+w,0,z+d],[x+w,0,z],[x,h,z],[x,h,z+d],[x+w,h,z+d],[x+w,h,z]].map(p=>proj(p[0],p[1],p[2]));if(P.some(p=>!p))continue;
   const dist=Math.sqrt(b.r2),fl=Math.max(0,1-dist/fog),shade=0.35+0.65*fl;
-  const col=['255,110,199','180,139,255','98,230,201'][COL[gz*G+gx]%3];
+  const col=['255,110,199','180,139,255','98,230,201'][COL[b.gz*G+b.gx]%3];
   let lft=P[0].sx,rgt=P[3].sx;for(const p of P){if(p.sx<lft)lft=p.sx;if(p.sx>rgt)rgt=p.sx}
   const baseY=P[0].sy,top=P[4].sy;
   X.fillStyle=`rgba(${col},${.5*fl})`;X.beginPath();X.moveTo(P[4].sx,P[4].sy);X.lineTo(P[5].sx,P[5].sy);X.lineTo(P[6].sx,P[6].sy);X.lineTo(P[7].sx,P[7].sy);X.closePath();X.fill();
   X.fillStyle=`rgba(10,6,20,${shade})`;X.fillRect(lft,top,rgt-lft,baseY-top);
   const lf=lifeGrid(b.gx*G+b.gz),ww=Math.max(3,(rgt-lft-10)/lf.w),wh=Math.max(3,(baseY-top-10)/lf.h);
+  lf.w=Math.max(6,Math.round((rgt-lft)/9));lf.h=Math.max(6,Math.round((baseY-top)/9));if(lf.c.length!==lf.w*lf.h){const nc=new Uint8Array(lf.w*lf.h);let s2=(seed+b.gx*7919)>>>0;const rr=()=>{s2=(s2*1664525+1013904223)>>>0;return s2/4294967296};for(let i=0;i<nc.length;i++)nc[i]=rr()<.3?1:0;lf.c=nc}
   if(t-lf.last>0.35)lifeTick(lf);
   for(let wy=0;wy<lf.h;wy++)for(let wx=0;wx<lf.w;wx++){if(lf.c[wy*lf.w+wx]){X.fillStyle=`rgba(255,214,110,${.5*fl})`;X.fillRect(lft+5+wx*ww,top+5+wy*wh,Math.max(1,ww-1),Math.max(1,wh-1))}}
   X.strokeStyle=`rgba(${col},${.85*fl})`;X.lineWidth=1.6;
@@ -68,9 +128,13 @@ function city(){
   if(h>10){const ax=lft+(rgt-lft)/2;X.strokeStyle=`rgba(${col},${.9*fl})`;X.beginPath();X.moveTo(ax,top);X.lineTo(ax,top-9);X.stroke();X.fillStyle=`rgba(255,110,199,${.7+.3*Math.sin(t*5+b.gx)})`;X.fillRect(ax-1.5,top-12,3,3)}
   X.globalAlpha=.16*fl;X.fillStyle=`rgb(${col})`;X.beginPath();X.ellipse((lft+rgt)/2,baseY,Math.max(8,(rgt-lft)*.7),6,0,0,TAU);X.fill();X.globalAlpha=1;
  }
- X.strokeStyle='rgba(180,139,255,.35)';X.lineWidth=1;
- for(let i=0;i<=7;i++){const gx=c0-3+i;if(gx<0||gx>=G)continue;const a=proj(gx*CEL+.5,0,pz-34),b2=proj(gx*CEL+.5,0,pz+34);if(a&&b2){X.beginPath();X.moveTo(a.sx,a.sy);X.lineTo(b2.sx,b2.sy);X.stroke()}}
- for(let i=0;i<=7;i++){const gz=r0-3+i;if(gz<0||gz>=G)continue;const a=proj(px-34,0,gz*CEL+.5),b2=proj(px+34,0,gz*CEL+.5);if(a&&b2){X.beginPath();X.moveTo(a.sx,a.sy);X.lineTo(b2.sx,b2.sy);X.stroke()}}
+ // the roads — the grown network, asphalt + pink dashed avenues
+ X.strokeStyle='rgba(60,40,90,.9)';X.lineWidth=1;
+ for(const r of ROADS){const vis=[];
+  for(let i=0;i<r.pts.length;i++){const p=proj(r.pts[i][0]*CEL,r.cls===0?-0.2:-0.14,r.pts[i][1]*CEL);if(p)vis.push(p)}
+  if(vis.length<2)continue;
+  X.beginPath();X.moveTo(vis[0].sx,vis[0].sy);for(let i=1;i<vis.length;i++)X.lineTo(vis[i].sx,vis[i].sy);X.stroke();
+  if(r.cls===0){X.strokeStyle='rgba(255,110,199,.55)';X.setLineDash([4,10]);X.lineWidth=1.4;X.beginPath();X.moveTo(vis[0].sx,vis[0].sy);for(let i=1;i<vis.length;i++)X.lineTo(vis[i].sx,vis[i].sy);X.stroke();X.setLineDash([])}}
  for(let y=0;y<E;y++)for(let x=0;x<E;x++){if(!EARTH[y*E+x])continue;const p=proj(x*CEL+CEL/2,0,y*CEL+CEL/2);if(!p)continue;X.globalAlpha=.4+.3*Math.sin(t*2+x*3+y);X.fillStyle='#62e6c9';X.fillRect(p.sx-3,p.sy-3,6,6);X.globalAlpha=1}
  for(const n of NPCS){
   n.x+=n.dir*7;if(n.x<CEL||n.x>G*CEL-CEL)n.dir*=-1;
@@ -100,5 +164,5 @@ function loop(){const dt=Math.min((performance.now()/1000)-t,.05);t=performance.
  earthTick(t);sky();city();hud();requestAnimationFrame(loop)}
 document.getElementById('boot').onclick=()=>{buildNpcs();earthInit();document.getElementById('boot').remove();t=performance.now()/1000;requestAnimationFrame(loop)};
 addEventListener('resize',()=>{W=innerWidth;H=innerHeight;c.width=W;c.height=H});
-buildNpcs();earthInit();document.getElementById('tick').textContent='⟦ city ready — '+G*G+' blocks · 21 confederates · life seeded · awaiting power ⟧';
+buildNpcs();earthInit();document.getElementById('tick').textContent='⟦ awaiting power — the city grows on click · 21 confederates · life seeded ⟧';
 </script></body></html>
