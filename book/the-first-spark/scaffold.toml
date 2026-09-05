@@ -1,0 +1,119 @@
+# THE-FIRST-SPARK — entheai fan-out scaffold
+# Seven layers, one spark — aligned into the sovereign library.
+# Feed to: entheai --fanout --config <entheai.toml> "<the spark brief>"
+# Scribes decompose into book form; the integrator merges. This manuscript is
+# the source of truth — restoration/polish only, never discard a line.
+
+[book]
+title = "THE FIRST SPARK"
+subtitle = "seven layers, one spark — reality is programmable, and consciousness is the code"
+author = "the first spark framework"
+epigraph = "reality is programmable, and consciousness is the code"
+published = 2026
+
+[fanout]
+executor = "agy"                     # coder backend (Antigravity CLI)
+model = "openrouter/deepseek/deepseek-chat"  # entheai's brain (deepseek)
+agy_model = "gemini-3.6-flash-high"  # model agy runs each coder on
+max_depth = 3
+
+# ─── FRONT MATTER ────────────────────────────────────────────────────────
+
+[[coder]]
+role = "scribe"
+chapter = 0
+file = "chapters/00-thesis.md"
+task = """
+Write the thesis chapter: L0 — reality is programmable, consciousness is
+the code. The telling, the Sim Lens, the rejection rule at the Thesis.
+KEEP ALL ORIGINAL LINES of manuscript.html — restoration, not replacement.
+"""
+
+# ─── CHAPTERS ────────────────────────────────────────────────────────────
+
+[[coder]]
+role = "scribe"
+chapter = 1
+file = "chapters/01-selector.md"
+task = """
+Chapter 1 — L1 THE SELECTOR MODEL: four domains, quadrants of the wheel,
+the knot sector firewall (sector = floor(n/3), domain level only).
+KEEP ALL ORIGINAL LINES of manuscript.html.
+"""
+depends_on = [0]
+
+[[coder]]
+role = "scribe"
+chapter = 2
+file = "chapters/02-core-code.md"
+task = """
+Chapter 2 — L2 THE KJP CORE CODE: witness, release, select; the hinge, the
+Mirror under Release (DL-001), the cycle with no terminal state. KEEP ALL
+ORIGINAL LINES of manuscript.html.
+"""
+depends_on = [1]
+
+[[coder]]
+role = "scribe"
+chapter = 3
+file = "chapters/03-archetypes.md"
+task = """
+Chapter 3 — L3 THE 12 ARCHETYPES: 4/4/4 distribution, gift and shadow as
+one figure seen from either side of a release, never derived from
+numerology. KEEP ALL ORIGINAL LINES of manuscript.html.
+"""
+depends_on = [2]
+
+[[coder]]
+role = "scribe"
+chapter = 4
+file = "chapters/04-realms.md"
+task = """
+Chapter 4 — L4 THE 3 REALMS: the ground a reading is set against, below
+archetypes, above the Color Codex. KEEP ALL ORIGINAL LINES of
+manuscript.html.
+"""
+depends_on = [3]
+
+[[coder]]
+role = "scribe"
+chapter = 5
+file = "chapters/05-color-codex.md"
+task = """
+Chapter 5 — L5 THE COLOR CODEX: eleven tiers, the native light, the season
+vs identity, the Radiant Number reduce(LP + EX). KEEP ALL ORIGINAL LINES
+of manuscript.html.
+"""
+depends_on = [4]
+
+[[coder]]
+role = "scribe"
+chapter = 6
+file = "chapters/06-numerology.md"
+task = """
+Chapter 6 — L6 NUMEROLOGY: life path (the road), expression (the vessel),
+four karmic debts 13/14/16/19, eight conditions, road vs vessel reading.
+KEEP ALL ORIGINAL LINES of manuscript.html.
+"""
+depends_on = [5]
+
+[[coder]]
+role = "scribe"
+chapter = 7
+file = "chapters/07-engine.md"
+task = """
+Chapter 7 — THE ENGINE: five movements (approach, inscription,
+refraction, wheel & gates, emergence) and the reversal — living is the
+engine run backwards. KEEP ALL ORIGINAL LINES of manuscript.html.
+"""
+depends_on = [6]
+
+[[coder]]
+role = "integrator"
+file = "THE-FIRST-SPARK.md"
+task = """
+INTEGRATE the front matter + all 8 chapters into a single manuscript.
+Verify every original line survived. Add colophon: "Restored through the
+fan-out, 2026." Output as one clean markdown file ready for print.
+"""
+depends_on = [0, 1, 2, 3, 4, 5, 6, 7]
