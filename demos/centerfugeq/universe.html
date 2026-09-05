@@ -1,136 +1,179 @@
-<!doctype html><html lang="en" data-theme="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>UNIVERSE — live galaxy formation · quantGame</title><style>
+<!doctype html><html lang="en" data-theme="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>UNIVERSE — travel · time · formation · quantGame</title><style>
 body{margin:0;background:#020108;color:#e8d8f0;font-family:ui-monospace,monospace;overflow:hidden}
 canvas{width:100vw;height:100vh;display:block}
 #tick{position:fixed;left:0;right:0;bottom:0;padding:8px 16px;font-size:12px;letter-spacing:2px;color:#ffd36e;background:linear-gradient(transparent,rgba(2,1,8,.92));z-index:6;text-shadow:0 0 8px #ff6ec7}
+#rail{position:fixed;top:34px;left:50%;transform:translateX(-50%);display:flex;gap:6px;flex-wrap:wrap;justify-content:center;z-index:7;max-width:96vw}
+#rail button{background:rgba(13,6,20,.85);border:1px solid rgba(255,110,199,.4);color:#ff9ad5;font:700 .62rem ui-monospace,monospace;letter-spacing:1px;padding:6px 9px;border-radius:7px;cursor:pointer}
+#rail button.on{background:linear-gradient(135deg,#ff6ec7,#b48bff);color:#0d0512}
+#speed{position:fixed;top:34px;right:14px;background:rgba(13,6,20,.85);border:1px solid rgba(255,211,110,.4);color:#ffd36e;font:700 .62rem ui-monospace,monospace;padding:6px 9px;border-radius:7px;cursor:pointer;z-index:7}
 #boot{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#020108;color:#ff9ad5;font-family:ui-monospace,monospace;cursor:pointer;z-index:20;letter-spacing:3px;font-size:15px;text-align:center;flex-direction:column}
 #boot .s{font-size:11px;color:#b48bc0;margin-top:10px}
-input{position:fixed;top:34px;right:16px;width:280px;background:#0d0614;border:1px solid rgba(255,110,199,.35);border-radius:8px;color:#ffe0f0;font:.72rem ui-monospace,monospace;padding:8px 10px;outline:none;z-index:7}
-</style></head><body><canvas id=c></canvas><input id=seed value="the pink tent at dawn" title="seed — replay the same universe">
+</style></head><body><canvas id=c></canvas>
+<div id=rail></div><div id=speed>T ×1</div>
 <div id=tick>⟦ universe event stream ⟧</div>
-<div id=boot>⟧ UNIVERSE ⟦ · live galaxy formation<br>wasd pan · +/- zoom · click a galaxy to drop mass (perturb)<br><span class=s>the vector halo dances, the ising lattice breathes, the stars freeze</span></div>
+<div id=boot>⟧ UNIVERSE ⟦ · travel · time · formation<br>1-9 destinations · T = relative time speed · wasd pan · +/- zoom<br><span class=s>origo of time: the Earth around the Sun — 1 T = one orbit</span></div>
 <script>
-// UNIVERSE — the quantGame engine, live: vector DM halos (polarization
-// dynamics) x 2D Ising layers (image statistics), three galaxies forming
-// in one sky. One seed, one universe — replayable, byte for byte.
+// UNIVERSE v2 — travel to the known objects, watch formation, bend time.
+// The clock: T counts Earth orbits (origo = Earth+Sun rotation).
 const c=document.getElementById('c'),X=c.getContext('2d');let W=innerWidth,H=innerHeight;c.width=W;c.height=H;
 let S=7;const R=()=>{S=(S*1664525+1013904223)>>>0;return S/4294967296};
 const seedH=t=>{let h=7;for(let i=0;i<t.length;i++)h=(Math.imul(31,h)+t.charCodeAt(i))|0;return h>>>0};
 const TAU=6.2832;
-let seed=seedH('the pink tent at dawn'),camX=0,camY=0,zoom=1,t=0,TT=0;
+let seed=seedH('the pink tent at dawn');
+const T_YEAR=45;         // 1 T-year = 45 real seconds at ×1 — the origo
+let tAbs=0,tRel=0,scale=1,SCALES=[1,10,100,1000,0],si=0;
 const EVENTS=[
- ['GW 150914 — the first gravitational wave','merger'],['M87* — the first black hole image','blackhole'],
- ['GW 170817 — neutron stars + kilonova','merger'],['Sgr A* — our galaxy\'s hole imaged','blackhole'],
- ['FRB 121102 — the repeating fast burst','pulsar'],['SGR 1806-20 — the magnetar giant flare','pulsar'],
- ['1I/\'Oumuamua — the first interstellar visitor','comet'],['2I/Borisov — the second one','comet'],
- ['Arrokoth — the farthest flyby','probe'],['Voyager 1 — inside interstellar space','probe'],
- ['SN 1987A — the neutrino supernova','supernova'],['the Crab — SN 1054, still glowing','supernova'],
- ['Kepler-452b — Earth\'s older cousin','exoplanet'],['TRAPPIST-1 — seven rocky worlds','exoplanet'],
- ['SMACS 0723 — the JWST deep field','galaxy'],['Earendel — the farthest star, lensed','galaxy'],
- ['the CMB — first light, 13.8 Gyr','galaxy'],['the Antennae — two galaxies dancing','galaxy'],
- ['Perseids — the August rain','comet'],['the Oort cloud — the shell of comets','comet'],
- ['the Heliopause — the wind\'s wall','probe'],['2024 PT5 — the mini-moon','probe'],
- ['12P/Pons-Brooks — the horned comet','comet'],['Andromeda — our 4.5 Gyr appointment','galaxy'],
- ['GW 190521 — a black hole being born','blackhole'],['Betelgeuse — the dimming kept secret','supernova'],
- ['HD 140283 — Methuselah, the oldest star','galaxy'],['Gliese 12 b — a temperate world nearby','exoplanet'],
+ ['GW 150914 — the first gravitational wave'],['M87* — the first black hole image'],['GW 170817 — kilonova'],
+ ['Sgr A* — our galaxy\'s hole imaged'],['FRB 121102 — the repeating burst'],['SGR 1806-20 — magnetar flare'],
+ ['1I/\'Oumuamua — interstellar visitor'],['2I/Borisov — the second one'],['Arrokoth — farthest flyby'],
+ ['Voyager 1 — interstellar space'],['SN 1987A — neutrino supernova'],['the Crab — SN 1054'],
+ ['Kepler-452b — Earth\'s cousin'],['TRAPPIST-1 — seven worlds'],['SMACS 0723 — JWST deep field'],
+ ['Earendel — farthest star'],['the CMB — first light'],['the Antennae — dancing'],
+ ['Perseids — august rain'],['the Oort cloud'],['the Heliopause'],['2024 PT5 — mini-moon'],
+ ['12P/Pons-Brooks — horned comet'],['Andromeda — 4.5 Gyr appointment'],['GW 190521 — black hole birth'],
+ ['Betelgeuse — the dimming'],['HD 140283 — Methuselah'],['Gliese 12 b — temperate world'],
 ];
-// one galaxy: halo (vector DM) + ising (baryons), coupled
-function mkGalaxy(sd,x,y,scale,name,type){
- S=sd>>>0;
- const halo=[];for(let i=0;i<70;i++)halo.push({x:(R()-.5)*2,y:(R()-.5)*2,vx:(R()-.5)*.4,vy:(R()-.5)*.4,th:R()*TAU,m:.5+R()});
- const L=28,spins=new Int8Array(L*L);for(let i=0;i<spins.length;i++)spins[i]=R()<.92?(R()<.5?-1:1):0;
- return{x,y,scale,name,type,halo,spins,L,step:0,stars:0,bias:new Float32Array(L*L)};
-}
+// destinations: a view is drawn from tRel — all in Earth-orbit units
+const DEST=[
+ {id:'U',name:'1 UNIVERSE',view:'universe'},
+ {id:'E',name:'2 EARTH·SUN (T-origo)',view:'earth'},
+ {id:'G',name:'3 GALAXY CORE',view:'core'},
+ {id:'B',name:'4 BLACK HOLE · Sgr A*',view:'hole'},
+ {id:'Q',name:'5 QUASAR · 3C 273',view:'quasar'},
+ {id:'M',name:'6 MAGNETAR',view:'magnetar'},
+ {id:'A',name:'7 ASTEROID BELT',view:'belt'},
+ {id:'F',name:'8 FORMATION · Antennae',view:'formation'},
+];
+let dest='U',camX=0,camY=0,zoom=1,tr=0,from={x:0,y:0,z:1};
+function travel(id){from={x:camX,y:camY,z:zoom};dest=id;tr=0;refreshRail()}
+function refreshRail(){const rail=document.getElementById('rail');rail.innerHTML='';
+ DEST.forEach(d=>{const b=document.createElement('button');b.textContent=d.name;b.className=dest===d.id?'on':'';b.onclick=()=>travel(d.id);rail.appendChild(b)})}
+document.getElementById('speed').onclick=()=>{si=(si+1)%SCALES.length;scale=SCALES[si];document.getElementById('speed').textContent='T ×'+(scale||'∞')};
+// the galaxy mk + step (same engine as before)
+function mkGalaxy(sd,n,x,y,scale,name){
+ S=sd>>>0;const halo=[];for(let i=0;i<n;i++)halo.push({x:(R()-.5)*2,y:(R()-.5)*2,vx:(R()-.5)*.4,vy:(R()-.5)*.4,th:R()*TAU,m:.5+R()});
+ const L=22,spins=new Int8Array(L*L);for(let i=0;i<spins.length;i++)spins[i]=R()<.92?(R()<.5?-1:1):0;
+ return{x,y,scale,name,halo,spins,L,bias:new Float32Array(L*L)}}
 function stepGalaxy(g,dt){
- const h=g.halo;
- let cx=0,cy=0,cm=0;for(const p of h){cx+=p.x*p.m;cy+=p.y*p.m;cm+=p.m}cx/=cm;cy/=cm;
- for(const p of h){
-  let sx=0,sy=0,cnt=0;for(const q of h){const d=Math.hypot(q.x-p.x,q.y-p.y);if(d<.5&&d>.001){sx+=Math.cos(q.th);sy+=Math.sin(q.th);cnt++}}
-  const mt=cnt?Math.atan2(sy,sx):p.th;
-  const dx=cx-p.x,dy=cy-p.y,r=Math.hypot(dx,dy)+.18;
-  // differential rotation — the arms wind: omega ~ 1/r
-  const om=.15+1.1/(r+.3);const a=om*dt;
-  const rx=p.x*Math.cos(a)-p.y*Math.sin(a),ry=p.x*Math.sin(a)+p.y*Math.cos(a);
-  p.x=rx;p.y=ry;
-  p.vx+=dx/r*.8*.2*p.m+.5*.05*Math.cos(mt)+(R()-.5)*.08;
-  p.vy+=dy/r*.8*.2*p.m+.5*.05*Math.sin(mt)+(R()-.5)*.08;
-  p.vx*=.96;p.vy*=.96;p.th=Math.atan2(p.vy,p.vx)*.15+p.th*.85;
-  p.x+=p.vx*dt;p.y+=p.vy*dt;
- }
- // ising the baryons
- const L=g.L,spins=g.spins,bias=g.bias;
- bias.fill(0);const cell=2/L;for(const p of h){const bx=Math.min(L-1,Math.max(0,Math.floor((p.x+1)/cell))),by=Math.min(L-1,Math.max(0,Math.floor((p.y+1)/cell)));bias[by*L+bx]+=p.m}
+ const h=g.halo;let cx=0,cy=0,cm=0;for(const p of h){cx+=p.x*p.m;cy+=p.y*p.m;cm+=p.m}cx/=cm;cy/=cm;
+ for(const p of h){let sx=0,sy=0,cnt=0;for(const q of h){const d=Math.hypot(q.x-p.x,q.y-p.y);if(d<.5&&d>.001){sx+=Math.cos(q.th);sy+=Math.sin(q.th);cnt++}}
+  const mt=cnt?Math.atan2(sy,sx):p.th,dx=cx-p.x,dy=cy-p.y,r=Math.hypot(dx,dy)+.18;
+  const a=(.15+1.1/(r+.3))*dt,rx=p.x*Math.cos(a)-p.y*Math.sin(a),ry=p.x*Math.sin(a)+p.y*Math.cos(a);
+  p.x=rx;p.y=ry;p.vx+=dx/r*.8*.2*p.m+.5*.05*Math.cos(mt)+(R()-.5)*.08;p.vy+=dy/r*.8*.2*p.m+.5*.05*Math.sin(mt)+(R()-.5)*.08;
+  p.vx*=.96;p.vy*=.96;p.th=Math.atan2(p.vy,p.vx)*.15+p.th*.85;p.x+=p.vx*dt;p.y+=p.vy*dt}
+ const L=g.L,spins=g.spins,bias=g.bias;bias.fill(0);const cell=2/L;
+ for(const p of h){const bx=Math.min(L-1,Math.max(0,Math.floor((p.x+1)/cell))),by=Math.min(L-1,Math.max(0,Math.floor((p.y+1)/cell)));bias[by*L+bx]+=p.m}
  for(let i=0;i<bias.length;i++)bias[i]=Math.min(1.2,bias[i]*.3);
- for(let n=0;n<L*L*2;n++){
-  const ii=(R()*L)|0,jj=(R()*L)|0,idx=ii*L+jj,s2=spins[idx];if(s2===0)continue;
+ for(let n=0;n<L*L*2;n++){const ii=(R()*L)|0,jj=(R()*L)|0,idx=ii*L+jj,s2=spins[idx];if(s2===0)continue;
   let sum=spins[((ii+1)%L)*L+jj]+spins[((ii+L-1)%L)*L+jj]+spins[ii*L+((jj+1)%L)]+spins[ii*L+((jj+L-1)%L)];
   const Tt=Math.max(.85,2.2-bias[idx]*1.6),hb=s2===1?-bias[idx]:bias[idx],dE=2*s2*sum+2*hb*s2;
-  if(dE<=0||R()<Math.exp(-dE/Tt))spins[idx]=-s2;
- }
- let stars=0;for(let i=0;i<spins.length;i++)if(spins[i]===1&&bias[i]>.22)stars++;
- g.stars=stars;g.step++;
-}
-function pol(g){let sx=0,sy=0;for(const p of g.halo){sx+=Math.cos(p.th);sy+=Math.sin(p.th)}return Math.hypot(sx,sy)/g.halo.length}
+  if(dE<=0||R()<Math.exp(-dE/Tt))spins[idx]=-s2}
+ let stars=0;for(let i=0;i<spins.length;i++)if(spins[i]===1&&bias[i]>.22)stars++;g.stars=stars}
 let GS=[];
-function rebuild(){
- const brief=document.getElementById('seed').value.trim()||'the pink tent at dawn';
- seed=seedH(brief);S=seed>>>0;
- GS=[
-  mkGalaxy(seed,W*.22,H*.30,.55,'M87* — the vector halo','halo'),
-  mkGalaxy(seed^0x9e3779b9,W*.64,H*.62,.7,'Andromeda — the ising disk','disk'),
-  mkGalaxy(seed^0x51f7a3e1,W*.45,H*.16,.38,'the Antennae — birth','merge'),
- ];
-}
-// camera + boot
-const KEYS={};addEventListener('keydown',e=>{KEYS[e.key.toLowerCase()]=1;if('wasd +-'.includes(e.key.toLowerCase()+' '))e.preventDefault()});addEventListener('keyup',e=>{KEYS[e.key.toLowerCase()]=0});
-c.addEventListener('click',e=>{
- const r=c.getBoundingClientRect(),mx=(e.clientX-r.left)/r.width,my=(e.clientY-r.top)/r.height;
- let bg=null,bd=9;for(const g of GS){const d=Math.hypot(mx-g.x/W,my-g.y/H);if(d<bd){bd=d;bg=g}}
- if(bg){for(let i=0;i<4;i++){const p=bg.halo[(R()*bg.halo.length)|0];p.m+=1.6}}else{
-  S=(seed+Date.now())>>>0;GS.push(mkGalaxy(seed^((Date.now()%99991)|0),mx*W,my*H,.4,'born — the observation','halo'));if(GS.length>5)GS.shift()}
-});
-let interval=0;function loop(){const now=performance.now()/1000,dt=Math.min(now-t,.05);t=now;
- const sp=300*dt/zoom;
- camX+=(KEYS['d']?sp:0)-(KEYS['a']?sp:0);camY+=(KEYS['s']?sp:0)-(KEYS['w']?sp:0);
- if(KEYS['+']||KEYS['='])zoom=Math.min(6,zoom*1.02);if(KEYS['-'])zoom=Math.max(.4,zoom*.98);
- const gr=X.createLinearGradient(0,0,W,H);gr.addColorStop(0,'#05010a');gr.addColorStop(.55,'#0d0420');gr.addColorStop(1,'#020108');X.fillStyle=gr;X.fillRect(0,0,W,H);
- // far stars
- X.fillStyle='#e8d8f0';
- for(let i=0;i<140;i++){const px2=((i*97)%W+camX*0.1+W)%W,py2=((i*53)%H+camY*0.1+H)%H;X.globalAlpha=.25+.4*Math.sin(t*2+i);X.fillRect(px2,py2,1.4,1.4)}
- X.globalAlpha=1;
- // the galaxies
- for(const g of GS){
-  for(let k=0;k<3;k++)for(let i=0;i<g.halo.length;i++)stepGalaxy(g,dt/3);
+function rebuild(){seed=seedH(document.getElementById('seed')?document.getElementById('seed').value.trim()||'the pink tent at dawn':'the pink tent at dawn');S=seed>>>0;
+ GS=[mkGalaxy(seed,70,W*.22,H*.30,.4,'M87*'),mkGalaxy(seed^0x9e3779b9,80,W*.64,H*.62,.55,'Andromeda'),mkGalaxy(seed^0x51f7a3e1,60,W*.45,H*.9,.3,'the Antennae')]}
+// views
+function stars(speed){X.fillStyle='#e8d8f0';for(let i=0;i<150;i++){const px2=((i*97)%W+camX*.1+W)%W,py2=((i*53)%H+camY*.1+H)%H;X.globalAlpha=.25+.4*Math.sin(tAbs*2+i);X.fillRect(px2,py2,1.4,1.4)}X.globalAlpha=1}
+function drawUniverse(dt){
+ const gr=X.createLinearGradient(0,0,W,H);gr.addColorStop(0,'#05010a');gr.addColorStop(.55,'#0d0420');gr.addColorStop(1,'#020108');X.fillStyle=gr;X.fillRect(0,0,W,H);stars();
+ for(const g of GS){for(let k=0;k<2;k++)stepGalaxy(g,dt*Math.max(1,scale||3));
   const gx=g.x-camX,gy=g.y-camY,sc=g.scale*zoom;
   if(gx<-W*.4||gx>W*1.4||gy<-H*.4||gy>H*1.4)continue;
-  // ising disk — the baryons as faint cells
   const cs=sc*2/g.L;
-  for(let y=0;y<g.L;y++)for(let x=0;x<g.L;x++){const v=g.spins[y*g.L+x];if(v===0)continue;
-   X.globalAlpha=v===1?.05+.1*g.bias[y*g.L+x]:.03;
-   X.fillStyle=v===1?'#ffd36e':'#5b9dff';X.fillRect(gx+(x-g.L/2)*cs,gy+(y-g.L/2)*cs,cs+1,cs+1)}
+  for(let y=0;y<g.L;y++)for(let x=0;x<g.L;x++){const v=g.spins[y*g.L+x];if(!v)continue;X.globalAlpha=v===1?.05+.1*g.bias[y*g.L+x]:.03;X.fillStyle=v===1?'#ffd36e':'#5b9dff';X.fillRect(gx+(x-g.L/2)*cs,gy+(y-g.L/2)*cs,cs+1,cs+1)}
   X.globalAlpha=1;
-  // the halo — vector light, colored by polarization
-  for(const p of g.halo){
-   const px2=gx+p.x*sc,py2=gy+p.y*sc;
-   X.fillStyle=`hsl(${Math.round(280+p.th*90)},92%,${58+16*Math.abs(Math.cos(p.th))}%)`;
-   X.fillRect(px2,py2,2.4,2.4)}
-  // frozen stars
-  X.fillStyle='#ffd36e';
-  for(let y=0;y<g.L;y++)for(let x=0;x<g.L;x++){if(g.spins[y*g.L+x]===1&&g.bias[y*g.L+x]>.22){X.globalAlpha=.9;X.fillRect(gx+(x-g.L/2)*cs-1,gy+(y-g.L/2)*cs-1,3,3)}}
-  X.globalAlpha=1;
-  // label — the known object registry
-  X.font='10px ui-monospace';X.fillStyle='#ff9ad5';
-  X.fillText(g.name+' · P '+pol(g).toFixed(2)+' · stars '+g.stars,gx-sc*.6,gy+sc*.7);
- }
+  for(const p of g.halo){const px2=gx+p.x*sc,py2=gy+p.y*sc;X.fillStyle=`hsl(${Math.round(280+p.th*90)},92%,${58+16*Math.abs(Math.cos(p.th))}%)`;X.fillRect(px2,py2,2.4,2.4)}
+  X.fillStyle='#ffd36e';for(let y=0;y<g.L;y++)for(let x=0;x<g.L;x++){if(g.spins[y*g.L+x]===1&&g.bias[y*g.L+x]>.22){X.globalAlpha=.9;X.fillRect(gx+(x-g.L/2)*cs-1,gy+(y-g.L/2)*cs-1,3,3)}}
+  X.globalAlpha=1;X.font='10px ui-monospace';X.fillStyle='#ff9ad5';X.fillText(g.name+' · stars '+g.stars,gx-sc*.6,gy+sc*.7)}}
+function drawEarth(){
+ const gr=X.createLinearGradient(0,0,W,H);gr.addColorStop(0,'#02010a');gr.addColorStop(1,'#0a0014');X.fillStyle=gr;X.fillRect(0,0,W,H);stars();
+ const cx=W/2-camX,cy=H/2-camY,AU=Math.min(W,H)*.28*zoom;
+ // the origo: the Sun
+ const sg=X.createRadialGradient(cx,cy,0,cx,cy,AU*.45);sg.addColorStop(0,'#fff7d6');sg.addColorStop(.25,'#ffd36e');sg.addColorStop(1,'rgba(255,211,110,0)');
+ X.fillStyle=sg;X.fillRect(cx-AU*.45,cy-AU*.45,AU*.9,AU*.9);
+ X.fillStyle='#ffd36e';X.beginPath();X.arc(cx,cy,AU*.09,0,TAU);X.fill();
+ // orbit rings: Earth + moon
+ X.strokeStyle='rgba(255,154,213,.25)';X.lineWidth=1;
+ X.beginPath();X.ellipse(cx,cy,AU,AU*.62,0,0,TAU);X.stroke();
+ X.strokeStyle='rgba(98,230,201,.18)';X.beginPath();X.ellipse(cx,cy,AU*.16,AU*.1,0,0,TAU);X.stroke();
+ // Earth — orbital angle from tRel: the base of T
+ const ea=tRel*TAU,ex=cx+Math.cos(ea)*AU,ey=cy+Math.sin(ea)*AU*.62;
+ X.fillStyle='#5b9dff';X.beginPath();X.arc(ex,ey,AU*.045,0,TAU);X.fill();
+ // city lights on the night side
+ for(let i=0;i<18;i++){const la=ea+Math.PI+.2*Math.sin(i*9.3);X.fillStyle='rgba(255,214,110,.75)';X.fillRect(ex+Math.cos(la)*AU*.03,ey+Math.sin(la)*AU*.03,1.6,1.6)}
+ // Moon
+ const ma=ea*13.4;X.fillStyle='#c8c8e0';X.beginPath();X.arc(ex+Math.cos(ma)*AU*.16,ey+Math.sin(ma)*AU*.1,AU*.012,0,TAU);X.fill();
+ X.font='10px ui-monospace';X.fillStyle='#ff9ad5';
+ X.fillText('EARTH·SUN — the T origo · 1 T = one orbit',cx-AU*.4,cy-AU*.7);
+ X.fillStyle='#62e6c9';X.fillText('⊕ the city lights below',ex+AU*.05,ey+AU*.05)}
+function ringView(kind,label,tag){
+ const gr=X.createLinearGradient(0,0,W,H);gr.addColorStop(0,'#0a020e');gr.addColorStop(1,'#02010a');X.fillStyle=gr;X.fillRect(0,0,W,H);stars();
+ const cx=W/2-camX,cy=H/2-camY,R=Math.min(W,H)*.2*zoom;
+ // the photon ring / event horizon
+ const rg=X.createRadialGradient(cx,cy,0,cx,cy,R*2.2);rg.addColorStop(0,'#000');rg.addColorStop(.35,'#ff9ad5');rg.addColorStop(.6,'#ff6ec7');rg.addColorStop(1,'rgba(255,110,199,0)');
+ X.fillStyle=rg;X.fillRect(cx-R*2.2,cy-R*2.2,R*4.4,R*4.4);
+ X.strokeStyle='#ffd36e';X.lineWidth=1.6;X.beginPath();X.arc(cx,cy,R,0,TAU);X.stroke();
+ X.strokeStyle='rgba(255,154,213,.5)';X.lineWidth=1;X.beginPath();X.arc(cx,cy,R*1.45,0,TAU);X.stroke();
+ // infalling matter — frame dragging spirals
+ for(let i=0;i<90;i++){const q=((i*37+tRel*30*(scale||3))%90)/90,a=q*TAU*3+((i*7)%5),r=R*(.9+.6*Math.sin(q*Math.PI));
+  X.globalAlpha=.25+.6*(1-q);X.fillStyle=kind==='hole'?'#ff9ad5':kind==='quasar'?'#ffd36e':'#b48bff';
+  X.fillRect(cx+Math.cos(a)*r-1.5,cy+Math.sin(a)*r-1.5,3,3)}
+ X.globalAlpha=1;
+ if(kind==='quasar'){ // the jets
+  for(let i=0;i<40;i++){const q=((i*11+tRel*8*(scale||3))%40)/40,jr=R*2.2+q*R*6;
+   X.globalAlpha=.8*(1-q);X.fillStyle='#62e6c9';X.fillRect(cx+(q<.5?-1:1)*jr*.35-1,cy+Math.sin(i)*3-1+jr*(q<.5?-.55:.55)*.35,2,2)}X.globalAlpha=1}
+ if(kind==='magnetar'){ // field lines + giant flare pulses
+  X.strokeStyle='rgba(98,230,201,.3)';X.lineWidth=1;
+  for(let i=0;i<6;i++){X.beginPath();for(let a=0;a<TAU;a+=.1){const rr=R*.4+R*1.1*Math.sin((tRel*20*Math.max(1,scale||3))+a*2+i);X.lineTo(cx+Math.cos(a)*rr/2,cy+Math.sin(a)*rr)}X.stroke()}
+  const fl=Math.pow(Math.max(0,Math.sin(tRel*9*(scale||3)*10)),24);
+  X.globalAlpha=fl;X.fillStyle='#fff';X.beginPath();X.arc(cx,cy,R*2.4,0,TAU);X.fill();X.globalAlpha=1}
+ if(kind==='belt'){ // the swarm
+  for(let i=0;i<140;i++){const aa=((i*29+tRel*22*Math.max(1,scale||3))%140)/140*a2pi(),rr=R*2+((i*13)%70)/70*R*2.4,s2=((i*7)%13)/13;
+   X.globalAlpha=.3+.5*s2;X.fillStyle=i%5?'#b48bc0':'#ffd36e';X.fillRect(cx+Math.cos(aa)*rr,cy+Math.sin(aa)*rr* .6,1.5+2*s2,1.5+2*s2)}
+  X.globalAlpha=1}
+ X.font='11px ui-monospace';X.fillStyle='#ff9ad5';X.fillText(label,cx-R*1.4,cy-R*2.6);
+ X.fillStyle='#b48bc0';X.font='9px ui-monospace';X.fillText(tag,cx-R*1.4,cy+R*2.9)}
+function a2pi(){return ((Math.sin(tAbs*793)+1)/2)*TAU}
+function drawFormation(dt){
+ const gr=X.createLinearGradient(0,0,W,H);gr.addColorStop(0,'#040208');gr.addColorStop(1,'#0d0420');X.fillStyle=gr;X.fillRect(0,0,W,H);stars();
+ const g=GS[2];stepGalaxy(g,dt*3*(Math.max(1,scale||3)));
+ const gx=W/2-camX,gy=H/2-camY,sc=g.scale*zoom;
+ const cs=sc*2/g.L;
+ for(let y=0;y<g.L;y++)for(let x=0;x<g.L;x++){const v=g.spins[y*g.L+x];if(!v)continue;X.globalAlpha=v===1?.05+.1*g.bias[y*g.L+x]:.03;X.fillStyle=v===1?'#ffd36e':'#5b9dff';X.fillRect(gx+(x-g.L/2)*cs,gy+(y-g.L/2)*cs,cs+1,cs+1)}
+ X.globalAlpha=1;
+ for(const p of g.halo){const px2=gx+p.x*sc,py2=gy+p.y*sc;X.fillStyle=`hsl(${Math.round(280+p.th*90)},92%,${58+16*Math.abs(Math.cos(p.th))}%)`;X.fillRect(px2,py2,2.4,2.4)}
+ X.font='11px ui-monospace';X.fillStyle='#62e6c9';X.fillText('FORMATION WATCH — the Antennae, merging live · '+g.stars+' stars frozen',gx-sc,gy-sc*.9)}
+// loop
+const KEYS={};addEventListener('keydown',e=>{KEYS[e.key.toLowerCase()]=1;
+ const k=parseInt(e.key);if(k>=1&&k<=8)travel(DEST[k-1].id);
+ if(e.key==='t'||e.key==='T')document.getElementById('speed').onclick();
+ if('wasd +-t'.includes(e.key.toLowerCase()+' '))e.preventDefault()});
+addEventListener('keyup',e=>{KEYS[e.key.toLowerCase()]=0});
+function loop(){const now=performance.now()/1000,dt=Math.min(now-tAbs,0.05);tAbs=now;
+ tRel+=dt*Math.max(scale||0)/T_YEAR;
+ const sp=260*dt/zoom;
+ camX+=(KEYS['d']?sp:0)-(KEYS['a']?sp:0);camY+=(KEYS['s']?sp:0)-(KEYS['w']?sp:0);
+ if(KEYS['+']||KEYS['='])zoom=Math.min(6,zoom*1.02);if(KEYS['-'])zoom=Math.max(.4,zoom*.98);
+ // travel glide: from → target per view
+ if(dest==='U'){from={x:0,y:0,z:1};drawUniverse(dt)}
+ else if(dest==='E'){drawEarth()}
+ else if(dest==='G'){ringView('core','GALAXY CORE — M87*','the heart where the vector halo coheres — frame-dragging visible at ×100')}
+ else if(dest==='B'){ringView('hole','BLACK HOLE — Sgr A*','the photon ring; matter spirals in, time slows relative to the origo')}
+ else if(dest==='Q'){ringView('quasar','QUASAR — 3C 273','the brightest engine: accretion + relativistic jets')}
+ else if(dest==='M'){ringView('magnetar','MAGNETAR — SGR 1806-20','magnetic field lines; giant flares pulse on relative time')}
+ else if(dest==='A'){ringView('belt','ASTEROID BELT','the swarm between the rocks — collisions flash, clusters form')}
+ else if(dest==='F'){drawFormation(dt)}
  // HUD
- X.fillStyle='rgba(5,2,8,.8)';X.fillRect(0,0,W,28);X.fillRect(0,H-26,W,26);
- X.fillStyle='#ff9ad5';X.font='11px ui-monospace';X.fillText('UNIVERSE · live galaxy formation · seed '+seed.toString(16).toUpperCase(),12,18);
- X.fillStyle='#ffd36e';X.fillText('galaxies '+GS.length+' · zoom '+zoom.toFixed(1)+'x · click to perturb',W-380,18);
- X.fillStyle='#62e6c9';X.font='10px ui-monospace';X.fillText('vector halo × ising disk · polarization dynamics · image statistics · the constellation',12,H-8);
+ X.fillStyle='rgba(5,2,8,.8)';X.fillRect(0,0,W,26);X.fillRect(0,H-24,W,24);
+ X.fillStyle='#ff9ad5';X.font='11px ui-monospace';
+ X.fillText('UNIVERSE · '+DEST.find(d=>d.id===dest).name.split(' ').slice(1).join(' ')+' · seed '+seed.toString(16).toUpperCase(),12,17);
+ X.fillStyle='#ffd36e';
+ X.fillText('T = '+tRel.toFixed(4)+' yr (origo: Earth·Sun) · ×'+(scale||'∞')+' · 1-8 travel · T time',W-460,17);
+ X.fillStyle='#62e6c9';X.font='10px ui-monospace';X.fillText('watch the formations · the clock is the orbit — the constellation',12,H-8);
  const tick=document.getElementById('tick');
- if(t-interval>5){interval=t;tick.textContent='⟦ '+EVENTS[(interval/5|0)%EVENTS.length][0]+' · the constellation ⟧'}
+ if(now-(window._ev||0)>5){window._ev=now;tick.textContent='⟦ '+EVENTS[(now/5|0)%EVENTS.length][0]+' · the constellation ⟧'}
  requestAnimationFrame(loop)}
-document.getElementById('boot').onclick=()=>{rebuild();document.getElementById('boot').remove();document.getElementById('seed').onchange=()=>rebuild();t=performance.now()/1000;requestAnimationFrame(loop)};
-document.getElementById('seed').addEventListener('keydown',e=>{if(e.key==='Enter')rebuild()});
+document.getElementById('boot').onclick=()=>{rebuild();refreshRail();document.getElementById('boot').remove();tAbs=performance.now()/1000;requestAnimationFrame(loop)};
 addEventListener('resize',()=>{W=innerWidth;H=innerHeight;c.width=W;c.height=H});
-rebuild();
+rebuild();refreshRail();
 </script></body></html>
