@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SUPER PADME BROS — the buddhist platformer · quantTernEngine</title>
+<meta name="description" content="A Mario-like adventure on the ternary wire: collect 108 malas across the four gates, liberate the three poisons, reach the pink tent. Every level is generated from a seed line.">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0d0512; color: #e8d8f0; font-family: "JetBrains Mono", ui-monospace, monospace; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 28px 16px 60px; }
+  h1 { background: linear-gradient(135deg, #ff6ec7, #b48bff, #ffd36e); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: clamp(1.4rem, 4vw, 2.4rem); letter-spacing: 3px; text-align: center; }
+  .sub { color: #b48bc0; font-size: .78rem; letter-spacing: 2px; margin: 6px 0 18px; text-align: center; text-transform: uppercase; }
+  .wrap { position: relative; width: min(960px, 96vw); }
+  canvas { width: 100%; border: 1px solid rgba(255, 110, 199, .35); border-radius: 10px; background: #160a1e; display: block; box-shadow: 0 0 40px rgba(255, 110, 199, .12); }
+  .hud { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; font-size: .72rem; color: #b48bc0; margin: 10px 2px; letter-spacing: 1px; }
+  .hud b { color: #ffd36e; }
+  .seedline { background: rgba(255, 110, 199, .08); border: 1px solid rgba(255, 110, 199, .3); border-radius: 8px; padding: 8px 12px; font-size: .68rem; color: #ff9ad5; word-break: break-all; margin-bottom: 12px; }
+  input.seed { width: 100%; max-width: 460px; background: #160a1e; border: 1px solid rgba(255, 110, 199, .35); border-radius: 8px; color: #ffe0f0; font: .72rem ui-monospace, monospace; padding: 8px 12px; outline: none; }
+  input.seed:focus { border-color: #ff6ec7; }
+  .keys { color: #7a5a8a; font-size: .68rem; margin-top: 10px; text-align: center; letter-spacing: 1px; }
+  .toast { position: absolute; top: 18%; left: 50%; transform: translateX(-50%); max-width: 80%; background: rgba(13,5,18,.92); border: 1px solid rgba(255,211,110,.5); color: #ffd36e; border-radius: 10px; padding: 12px 18px; font-size: .85rem; text-align: center; opacity: 0; transition: opacity .4s; pointer-events: none; }
+  .toast.show { opacity: 1; }
+</style>
+</head>
+<body>
+<h1>SUPER PADME BROS.</h1>
+<div class="sub">a buddhist platformer on the ternary wire · collect 108 malas · liberate the three poisons · reach the pink tent</div>
+<div class="seedline" id="seedLine">⟦ … ⟧</div>
+<div class="wrap">
+  <canvas id="c" width="960" height="540"></canvas>
+  <div class="toast" id="toast"></div>
+</div>
+<div class="hud">
+  <span>level <b id="lv">1</b>/4 · gate: <b id="gateName">the tent</b></span>
+  <span>malas <b id="malas">0</b>/<b id="malasGoal">27</b> · karma <b id="karma">0</b></span>
+  <span>mode: <b id="mode">0/1</b></span>
+</div>
+<div class="hud">
+  <input class="seed" id="seedInput" placeholder="seed — paste any brief, replay the same level…" value="the pink tent at dawn">
+  <span style="align-self:center"><button onclick="regen()">⟳ replay</button> · <button onclick="resetLevel()">restart level</button></span>
+</div>
+<div class="keys">← → / AD run · ↑ / W / SPACE jump (×2 with the lotus) · stomp a poison to LIBERATE it · collect the lotus for the pink mode</div>
+
+<script>
+// ────────────────────────────────────────────────────────────────────────
+// SUPER PADME BROS — the engine inline: quantTernEngine (tern.ts), trimmed:
+// sha256 → balanced trits {-1, 0, +1} → mulberry32 → board, poisons, malas.
+// The same brief, the same level — every machine, every time.
+// ────────────────────────────────────────────────────────────────────────
+
+// compact sha256 (public-domain style, FIPS 180-4) — no crypto.subtle needed
+function sha256hex(str) {
+  const K = new Uint32Array([0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2])
+  const H = new Uint32Array([0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19])
+  const out = []
+  const bytes = []
+  for (let i = 0; i < str.length; i++) { const c = str.charCodeAt(i); if (c < 128) bytes.push(c); else if (c < 2048) { bytes.push(192 | c >> 6, 128 | c & 63) } else { bytes.push(224 | c >> 12, 128 | c >> 6 & 63, 128 | c & 63) } }
+  const l = bytes.length
+  bytes.push(0x80)
+  while (bytes.length % 64 !== 56) bytes.push(0)
+  const hi = Math.floor(l / 0x20000000), lo = l << 3
+  for (let i = 55; i >= 0; i--) bytes.push(i >= 4 ? 0 : (i === 3 ? hi & 255 : (i === 2 ? hi >>> 8 & 255 : (i === 1 ? lo >>> 8 & 255 : lo & 255))))
+  const w = new Uint32Array(64)
+  for (let off = 0; off < bytes.length; off += 64) {
+    for (let i = 0; i < 16; i++) w[i] = (bytes[off + i * 4] << 24) | (bytes[off + i * 4 + 1] << 16) | (bytes[off + i * 4 + 2] << 8) | bytes[off + i * 4 + 3]
+    for (let i = 16; i < 64; i++) { const a = w[i - 15], b = w[i - 2]; const s0 = (a >>> 7 | a << 25) ^ (a >>> 18 | a << 14) ^ (a >>> 3); const s1 = (b >>> 17 | b << 15) ^ (b >>> 19 | b << 13) ^ (b >>> 10); w[i] = (w[i - 16] + s0 + w[i - 7] + s1) >>> 0 }
+    let [a, b, c, d, e, f, g, h] = H
+    for (let i = 0; i < 64; i++) { const S1 = (e >>> 6 | e << 26) ^ (e >>> 11 | e << 21) ^ (e >>> 25 | e << 7); const ch = (e & f) ^ (~e & g); const t1 = (h + S1 + ch + K[i] + w[i]) >>> 0; const S0 = (a >>> 2 | a << 30) ^ (a >>> 13 | a << 19) ^ (a >>> 22 | a << 10); const maj = (a & b) ^ (a & c) ^ (b & c); const t2 = (S0 + maj) >>> 0; h = g; g = f; f = e; e = (d + t1) >>> 0; d = c; c = b; b = a; a = (t1 + t2) >>> 0 }
+    H[0] = (H[0] + a) >>> 0; H[1] = (H[1] + b) >>> 0; H[2] = (H[2] + c) >>> 0; H[3] = (H[3] + d) >>> 0; H[4] = (H[4] + e) >>> 0; H[5] = (H[5] + f) >>> 0; H[6] = (H[6] + g) >>> 0; H[7] = (H[7] + h) >>> 0
+  }
+  for (let i = 0; i < 8; i++) for (let j = 3; j >= 0; j--) out.push((H[i] >>> j * 8) & 255)
+  return out.map(x => x.toString(16).padStart(2, "0")).join("")
+}
+function seedFromText(s) { return BigInt("0x" + sha256hex(s)) }
+function balancedTrits(seed, dims) {
+  const out = []; let x = seed
+  for (let i = 0; i < dims; i++) { const r = Number(x % 3n); if (r === 2) { out.push(-1); x = (x + 1n) / 3n } else { out.push(r); x = (x - BigInt(r)) / 3n } }
+  return out
+}
+function randFromSeed(seed) { let a = Number(seed % 4294967296n) >>> 0; return () => { a |= 0; a = (a + 0x6d2b79f5) | 0; let t = Math.imul(a ^ (a >>> 15), 1 | a); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296 } }
+function wireOf(text, n = 27) { const t = balancedTrits(seedFromText(text), n); const sym = ["-", "0", "+"]; let s = ""; for (let i = 0; i < t.length; i++) s += sym[t[i] + 1]; return s }
+function range(rng, lo, hi) { return lo + Math.floor(rng() * (hi - lo)) }
+
+// ─── level generation from a brief ──────────────────────────────────────
+const TILE = 48, W = 64, H = 11, VW = 20
+const GATES = ["the tent", "the six gates", "the samsara field", "the 108th dimension"]
+const POISON_NAMES = { 0: "desire", 1: "aversion", 2: "ignorance" }
+const POISON_COLOR = { 0: "#ff6ec7", 1: "#5b9dff", 2: "#2b2b45" }
+const QUOTES = ["the stream continues — return", "no chains needed. never were.", "the loop has an exit", "rest is a pause, not a destination", "the why never expires", "stay with the unknown; it is the only door", "peace is every step"]
+
+let level = 0
+let brief = "the pink tent at dawn"
+let tiles = [], malas = [], poisons = [], lamps = [], lotus = null, gateX = 0
+let collected = 0, karma = 0, mode = 0, modeT = 0
+let px = 96, py = 320, vx = 0, vy = 0, onGround = false, jumpBuf = 0, dead = false, won = false, winT = 0
+let lampX = 0, lampY = 0
+let toastT = 0, toastMsg = ""
+const keys = {}
+let last = performance.now()
+
+function buildLevel() {
+  const rng = randFromSeed(seedFromText(brief))
+  const trits = balancedTrits(seedFromText(brief), 108)
+  tiles = []; malas = []; poisons = []; lamps = []
+  for (let c = 0; c < W; c++) {
+    const t = trits[c % 108]
+    const pit = t === -1 && c > 5 && c < 58 && c % 6 === 0
+    const h = pit ? -1 : (c < 4 ? 2 : 1 + Math.abs(t) + (trits[(c + 13) % 108] === 1 ? 1 : 0))
+    tiles[c] = Math.max(1, Math.min(H - 2, h))
+  }
+  // malas: 27 per level, arcs over pits and on ledges
+  let placed = 0
+  for (let c = 4; c < W - 4 && placed < 27; c++) {
+    if (tiles[c] === -1) { for (let k = 1; k <= 3 && placed < 27; k++) { malas.push({ x: c, y: k, got: false }); placed++ } }
+    else if (trits[c % 108] === 0 && c % 3 === 1) { malas.push({ x: c, y: 1, got: false }); placed++ }
+  }
+  // the three poisons patrol the ground
+  for (let c = 8; c < W - 6; c += 7) { if (tiles[c] >= 0) { poisons.push({ x: c, t: c % 3, dir: (balancedTrits(seedFromText(brief + c), 3)[0] >= 0 ? 1 : -1), dead: 0 }) } }
+  // butter lamps — checkpoints
+  for (const c of [16, 32, 48]) { lamps.push({ x: c, lit: false }) }
+  // the lotus — pink mode
+  const lc = 24 + (trits[99] + 1) * 6
+  lotus = { x: lc, y: 2 }
+  gateX = W - 2
+  lampX = 96; lampY = 300
+}
+
+// ─── physics ────────────────────────────────────────────────────────────
+function tileAt(px_, py_) { const c = Math.floor(px_ / TILE), r = Math.floor(py_ / TILE); if (c < 0 || c >= W || r < 0 || r >= H) return -1; return tiles[c] === -1 ? -2 : (r >= H - tiles[c] ? 1 : 0) }
+function grounded(px_, py_) { return tileAt(px_, py_ + 6) === 1 && tileAt(px_ + 34, py_ + 6) === 1 }
+
+function collidePoison(e) {
+  const ex = e.x * TILE + 8, ey = (H - e.tileY) * TILE
+  return px + 38 > ex && px < ex + 32 && py + 44 > ey && py < ey + 32
+}
+
+function update(dt) {
+  if (dead || won) { winT += dt; if (winT > 2) { won = false; resetLevel() } return }
+  if (modeT > 0) modeT -= dt
+  const run = 260 * (modeT > 0 ? 1.35 : 1)
+  const left = (keys["ArrowLeft"] || keys["a"]) ? 1 : 0, right = (keys["ArrowRight"] || keys["d"]) ? 1 : 0
+  vx = (right - left) * run
+  if (jumpBuf > 0) { jumpBuf -= dt }
+  if ((keys["ArrowUp"] || keys["w"] || keys[" "]) && onGround) { vy = -(780 + (modeT > 0 ? 220 : 0)); onGround = false }
+  const prevY = py
+  vy = Math.min(vy + 2200 * dt, 900)
+  py += vy * dt; px += vx * dt
+  if (py > H * TILE) { die() }
+  if (tileAt(px + 6, py + 44) === 1 || tileAt(px + 34, py + 44) === 1) { if (vy > 0) { py = Math.floor((py + 44) / TILE) * TILE - 44; vy = 0; onGround = true } }
+  if (tileAt(px, py + 6) === 1 || tileAt(px + 38, py + 6) === 1) { py = Math.floor(py / TILE) * TILE + TILE; onGround = false }
+  onGround = grounded(px, py)
+  // walls
+  if (tileAt(px, py + 20) === 1) px = Math.floor(px / TILE) * TILE + TILE
+  if (tileAt(px + 38, py + 20) === 1) px = Math.floor((px + 38) / TILE) * TILE - TILE - 1
+  // malas
+  for (const m of malas) {
+    const mx = m.x * TILE + TILE / 2, my = (H - m.y) * TILE - TILE / 2
+    if (!m.got && Math.hypot(px + 19 - mx, py + 22 - my) < 36) { m.got = true; collected++; toast("mala +1 · " + collected + "/27 — the stream remembers") }
+  }
+  // lotus
+  const lx = lotus.x * TILE + TILE / 2, ly = (H - lotus.y) * TILE - TILE / 2
+  if (Math.hypot(px + 19 - lx, py + 22 - ly) < 40 && modeT <= 0) { modeT = 8; toast("the lotus — pink mode: zero detection, zero pain") }
+  // poisons
+  for (const e of poisons) {
+    e.x += e.dir * 60 * dt
+    if (e.x < 8 || e.x > W - 5) e.dir *= -1
+    e.tileY = tiles[Math.floor(e.x)] >= 0 ? Math.max(1, H - tiles[Math.floor(e.x)]) : H - 1
+    if (collidePoison(e)) {
+      if (vy > 350 && py + 40 < (H - e.tileY) * TILE + 12) { e.dead = 1; karma++; vy = -420; toast("liberated " + POISON_NAMES[e.t] + " — karma +1, nem-ártás") }
+      else die()
+    }
+  }
+  // lamps
+  for (const l of lamps) { const lx2 = l.x * TILE; if (!l.lit && px > lx2 + 10 && px < lx2 + 60) { l.lit = true; lampX = lx2 + 10; lampY = py - 40; toast("butter lamp lit — the watch does not end") } }
+  // the gate
+  if (px > gateX * TILE) { won = true; winT = 0; toast(collected >= 27 ? "THE GATE OPENS — the pink tent · into the next gate" : "the gate waits — it opens at 27 malas") }
+  if (modeT <= 0 && mode === 1) mode = 0
+  render()
+}
+
+function die() { dead = true; winT = 0; toast(QUOTES[Math.floor(Math.random() * QUOTES.length)]) }
+
+function resetLevel() { dead = false; won = false; winT = 0; px = lampX; py = lampY - 30; vx = 0; vy = 0 }
+
+function regen() { collected = 0; karma = 0; modeT = 0; level = 0; brief = document.getElementById("seedInput").value.trim() || "the pink tent at dawn"; startLevel() }
+
+function nextGate() { if (level < 3) { level++; collected = 0 } regenLvl() }
+
+function regenLvl() { brief = "gate " + (level + 1) + " — " + GATES[level] + " · " + (document.getElementById("seedInput").value.trim() || "the pink tent at dawn"); buildLevel(); lampX = 96; lampY = 300; resetLevel() }
+
+function startLevel() { level = 0; buildLevel(); lampX = 96; lampY = 300; resetLevel() }
+
+function toast(msg) { toastMsg = msg; toastT = 1.6 }
+
+// ─── render ─────────────────────────────────────────────────────────────
+const cv = document.getElementById("c"), ctx = cv.getContext("2d")
+function render() {
+  ctx.fillStyle = "#160a1e"; ctx.fillRect(0, 0, 960, 540)
+  // stars
+  for (let i = 0; i < 40; i++) { const sx = ((i * 137) % 960), sy = ((i * 61) % 300) + 30; ctx.globalAlpha = .3 + .4 * Math.sin(performance.now() / 900 + i); ctx.fillStyle = "#ff9ad5"; ctx.fillRect(sx, sy, 2, 2) }
+  ctx.globalAlpha = 1
+  const cam = Math.max(0, Math.min(px - 200, (W - VW) * TILE))
+  ctx.save(); ctx.translate(-cam, 0)
+  for (let c = 0; c < W; c++) {
+    const h = tiles[c]
+    if (h === -1) continue
+    for (let r = 0; r < h; r++) {
+      const y = (H - 1 - r) * TILE
+      const grd = ctx.createLinearGradient(0, y, 0, y + TILE)
+      grd.addColorStop(0, "#3a2150"); grd.addColorStop(1, "#241236")
+      ctx.fillStyle = grd
+      if (r === 0) ctx.fillStyle = "rgba(180, 139, 255, .28)"
+      ctx.fillRect(c * TILE + 1, y + 1, TILE - 2, TILE - 2)
+    }
+  }
+  // malas
+  for (const m of malas) { if (m.got) continue; const mx = m.x * TILE + TILE / 2, my = (H - m.y) * TILE; ctx.beginPath(); ctx.arc(mx, my, 7, 0, 7); ctx.fillStyle = "#ffd36e"; ctx.fill(); ctx.beginPath(); ctx.arc(mx, my - 3, 3, 0, 7); ctx.fillStyle = "#ff9ad5"; ctx.fill() }
+  // lotus
+  const lx = lotus.x * TILE + TILE / 2, ly = (H - lotus.y) * TILE
+  if (modeT <= 0) { ctx.fillStyle = "#ff6ec7"; ctx.beginPath(); for (let i = 0; i < 8; i++) { const a = i / 8 * 7, r = 10 + 4 * Math.sin(performance.now() / 200 + i); ctx.lineTo(lx + Math.cos(a) * r, ly + Math.sin(a) * r) } ctx.closePath(); ctx.fill() }
+  // poisons
+  for (const e of poisons) { if (e.dead) continue; const ey = (H - e.tileY) * TILE; ctx.fillStyle = POISON_COLOR[e.t]; ctx.beginPath(); ctx.arc(e.x * TILE + 24, ey - 14, 12, 0, 7); ctx.fill(); ctx.fillStyle = "#0d0512"; ctx.font = "10px ui-monospace"; ctx.fillText(POISON_NAMES[e.t], e.x * TILE + 6, ey - 20) }
+  // lamps
+  for (const l of lamps) { const lx2 = l.x * TILE + 24; ctx.fillStyle = l.lit ? "#ffd36e" : "#5a4a6a"; ctx.beginPath(); ctx.arc(lx2, (H - 1) * TILE - 26, 8, 0, 7); ctx.fill(); if (l.lit) { ctx.fillStyle = "rgba(255,211,110,.35)"; ctx.beginPath(); ctx.arc(lx2, (H - 1) * TILE - 26, 16 + 4 * Math.sin(performance.now() / 250), 0, 7); ctx.fill() } }
+  // the gate — the pink tent
+  const gx = gateX * TILE
+  ctx.fillStyle = "#ff6ec7"; ctx.fillRect(gx, (H - 3) * TILE, 14, TILE * 3)
+  ctx.fillStyle = "#ff9ad5"; ctx.beginPath(); ctx.moveTo(gx - 20, (H - 3) * TILE); ctx.lineTo(gx + 34, (H - 3) * TILE); ctx.lineTo(gx + 7, (H - 5) * TILE); ctx.closePath(); ctx.fill()
+  // player — the little monk
+  ctx.fillStyle = modeT > 0 ? "#ff9ad5" : "#e8d8f0"
+  ctx.beginPath(); ctx.arc(px + 19, py - 4, 10, 0, 7); ctx.fill()
+  ctx.fillStyle = modeT > 0 ? "#ffd36e" : "#b48bff"
+  ctx.fillRect(px + 8, py + 8, 22, 26)
+  ctx.fillStyle = modeT > 0 ? "#ff6ec7" : "#d4a017"
+  ctx.beginPath(); ctx.arc(px + 19, py - 4, 3.5, 0, 7); ctx.fill()
+  ctx.restore()
+  // hud
+  document.getElementById("lv").textContent = level + 1
+  document.getElementById("gateName").textContent = GATES[level]
+  document.getElementById("malas").textContent = collected
+  document.getElementById("karma").textContent = karma
+  document.getElementById("mode").textContent = modeT > 0 ? "lotus 🌸" : "0/1"
+}
+
+// ─── loop ───────────────────────────────────────────────────────────────
+function frame(now) { const dt = Math.min((now - last) / 1000, 0.05); last = now; if (!dead && !won) update(dt); else { winT += dt; if (winT > 2 && !won) { dead = false; resetLevel() } if (won && winT > 1.2) { if (collected >= 27) nextGate(); else { won = false; resetLevel() } } render() } if (toastT > 0) { toastT -= dt; const t = document.getElementById("toast"); t.textContent = toastMsg; t.classList.add("show") } else document.getElementById("toast").classList.remove("show"); requestAnimationFrame(frame) }
+
+document.addEventListener("keydown", e => { keys[e.key] = true; if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", " "].includes(e.key)) e.preventDefault() })
+document.addEventListener("keyup", e => { keys[e.key] = false })
+document.getElementById("seedLine").textContent = "⟦ " + brief + " · " + wireOf(brief, 27) + " ⟧"
+startLevel()
+document.getElementById("seedLine").textContent = "⟦ " + brief + " · " + wireOf(brief, 27) + " ⟧"
+requestAnimationFrame(frame)
+</script>
+</body>
+</html>
