@@ -29,6 +29,7 @@ const EVENTS=[
 ];
 const MONUMENTS=[['M87*',-2.2,.32,'#ff6ec7'],['Sgr A*',-1.1,.5,'#ffd36e'],['GW150914',0,.18,'#62e6c9'],['SN1987A',1.6,.1,'#ff9ad5'],['FRB121102',2.6,.42,'#b48bff'],['Oumuamua',3.4,.62,'#62e6c9'],['TRAPPIST-1',4.6,.26,'#ffd36e'],['Earendel',-3.8,.55,'#ff9ad5']];
 let ESTARS=[];for(let i=0;i<260;i++)ESTARS.push({a:R()*TAU,e:(R()*1.4)-.2,d:(R()*.7)+.3,pink:R()<.35});
+let GALS=[];for(let g=0;g<3;g++){const arr=[];S=(seed+g*12345)>>>0;for(let i=0;i<70;i++){const r=(10+Math.pow(R(),1.6)*130),a=R()*TAU;arr.push({r,a})}GALS.push({a:.6+g*2.4,e:.1+g*.28,arr,c:['#ff9ad5','#b48bff','#62e6c9'][g]})}
 // ── the city — procedural, after magnificus/Procedural-Cities:
 //    noise field → best-first road growth → blocks → longest-edge lots
 const G=44,CEL=34;
@@ -100,6 +101,12 @@ function proj(wx,wy,wz){const dx=wx-px,dz=wz-pz;const rx=dx*Math.cos(yaw)+dz*Mat
 function sky(){const gr=X.createLinearGradient(0,0,0,H*.7);gr.addColorStop(0,'#07021a');gr.addColorStop(.62,'#1a0a30');X.fillStyle=gr;X.fillRect(0,0,W,H);
  for(const st of ESTARS){let sy=(Math.tan(st.e+pitch)*H*.9)+H*.5;if(sy<0||sy>H*.7)continue;let sx=((st.a-yaw)/TAU)*W*1.4+W*.28;X.globalAlpha=st.d;X.fillStyle=st.pink?'#ff9ad5':'#e8d8f0';X.fillRect(sx,sy-1,1.6,1.6)}X.globalAlpha=1;
  for(const m of MONUMENTS){let sy=(Math.tan(m[2]+pitch)*H*.9)+H*.5;if(sy<30||sy>H*.5)continue;let sx=((m[1]-yaw)/TAU)*W*1.4+W*.28;X.globalAlpha=.8+.2*Math.sin(t*2+m[0].length);X.fillStyle=m[3];X.beginPath();X.arc(sx,sy,3+Math.sin(t*3+m[0].length)*2,0,TAU);X.fill();X.fillRect(sx-2,sy-26,4,18);X.globalAlpha=.9;X.font='10px ui-monospace';X.fillText(m[0],sx-24,sy-30);X.globalAlpha=1}
+ for(const g of GALS){let sy=(Math.tan(g.e+pitch)*H*.9)+H*.5;if(sy<0||sy>H*.55)continue;let sx=((g.a-yaw)/TAU)*W*1.4+W*.28;
+  for(const p of g.arr){const w=p.r*.11,ang=p.a+t*(0.25+2.2/(p.r+25));
+   const dx=Math.cos(ang)*w*.62,dy=Math.sin(ang)*w;
+   X.globalAlpha=.25+.45*(1-p.r/150);X.fillStyle=g.c;
+   X.fillRect(sx+dx-1,sy+dy-1,2,2)}
+  X.globalAlpha=1}
  X.globalAlpha=.5;X.fillStyle='#ff6ec7';X.fillRect(0,H*.6,W,H*.4);X.globalAlpha=1}
 function city(){
  const vr=14,c0=Math.floor(px/CEL),r0=Math.floor(pz/CEL),list=[];
