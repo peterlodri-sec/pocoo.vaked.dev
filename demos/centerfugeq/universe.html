@@ -3,6 +3,8 @@ body{margin:0;background:#020108;color:#e8d8f0;font-family:ui-monospace,monospac
 canvas{width:100vw;height:100vh;display:block}
 #side{position:fixed;left:0;top:0;bottom:0;width:270px;background:rgba(4,2,10,.92);border-right:1px solid rgba(255,110,199,.25);z-index:8;display:flex;flex-direction:column;backdrop-filter:blur(8px)}
 #side h3{margin:12px 12px 6px;color:#ff9ad5;font-size:11px;letter-spacing:2px}
+#ev{flex:0 0 auto;margin:0 12px 8px;background:#120a18;border:1px solid rgba(98,230,201,.45);border-radius:8px;color:#c8ffe8;font:.7rem ui-monospace,monospace;padding:8px 10px;outline:none}
+#ev:focus{border-color:#62e6c9}
 #q{flex:0 0 auto;margin:0 12px 8px;background:#0d0614;border:1px solid rgba(255,110,199,.35);border-radius:8px;color:#ffe0f0;font:.7rem ui-monospace,monospace;padding:8px 10px;outline:none}
 #chips{flex:0 0 auto;display:flex;flex-wrap:wrap;gap:4px;padding:0 12px 8px}
 #chips button{background:rgba(180,139,255,.12);border:1px solid rgba(180,139,255,.35);color:#b48bff;font-size:.6rem;padding:3px 7px;border-radius:20px;cursor:pointer}
@@ -18,7 +20,7 @@ canvas{width:100vw;height:100vh;display:block}
 #boot{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#020108;color:#ff9ad5;font-family:ui-monospace,monospace;cursor:pointer;z-index:20;letter-spacing:3px;font-size:15px;text-align:center;flex-direction:column}
 #boot .s{font-size:11px;color:#b48bc0;margin-top:10px}
 </style></head><body><canvas id=c></canvas>
-<aside id=side><h3>⟦ the catalog · 2026 ⟧</h3><input id=q placeholder="/ search…">
+<aside id=side><h3>⟦ the catalog · 2026 ⟧</h3><input id=ev placeholder="⚡ any galactic event — type, watch, replay"><input id=q placeholder="/ search…">
 <div id=chips></div><div id=lst></div></aside>
 <div id=crumb>you are here: the universe</div><div id=speed>T ×1</div>
 <div id=tick>⟦ universe event stream ⟧</div>
@@ -204,6 +206,68 @@ function viewCag(tag){const cx=W/2-camX,cy=H/2-camY;fade();
   X.beginPath();for(let p=0;p<=30;p++){const u=p/30;X.lineTo(cx+Math.cos(a*3+u)*rr*(u<.5?u*2:(1-u)*2),cy+Math.sin(a*3+u)*rr* (u<.5?u*2:(1-u)*2)* .8)}X.stroke()}
  X.font='11px ui-monospace';X.fillStyle='#ff9ad5';X.fillText('CONSTRAINT AS GROUND — the ground holds',cx-140,cy-110);
  X.fillStyle='#b48bc0';X.font='9px ui-monospace';X.fillText('8b-public-documents — constraint_as_ground.pdf · '+tag,cx-140,cy+120)}
+// ══ the event simulator — ANY galactic event from a prompt ══
+let EV=null;
+function classify(k){
+ if(/(merge|collide|collision|dance|attract|fuse|kiss)/.test(k))return'merge';
+ if(/(supernova|explod|burst|boom|flash|nova)/.test(k))return'burst';
+ if(/(black hole|hole|collapse|implod|suck|swallow|eat|spaghett)/.test(k))return'infall';
+ if(/(comet|asteroid|impact|hit|flyby|strike|fall)/.test(k))return'impact';
+ if(/(quasar|jet|flare|magnetar|beam|puls)/.test(k))return'jets';
+ if(/(birth|formation|condense|ignite|nursery|create|born)/.test(k))return'condense';
+ if(/(warp|fold|dissolve|void|dimension|ternary|quant|vacuum|decay|nothing|phase)/.test(k))return'fold';
+ return'event';
+}
+function mkParts(evseed,n){
+ S=evseed>>>0;const parts=[];
+ for(let i=0;i<n;i++)parts.push({x:(R()-.5)*2,y:(R()-.5)*2,vx:(R()-.5)*1.5,vy:(R()-.5)*1.5,c:(R()*6)|0,lock:0});
+ return parts}
+function viewEvent(dt,prompt){
+ const k=prompt.toLowerCase();
+ if(!EV||EV.prompt!==prompt){EV={prompt,kind:classify(k),t:0,parts:mkParts(seedH(prompt),170),seed:seedH(prompt)}}
+ EV.t+=dt*Math.max(1,scale||2);
+ const cx=W/2-camX,cy=H/2-camY,kind=EV.kind,p=EV.parts,tt=EV.t;
+ fade();
+ const PAL=['#ff6ec7','#ff9ad5','#b48bff','#62e6c9','#ffd36e','#e8d8f0'];
+ for(const q of p){
+  let fx=0,fy=0,r=Math.hypot(q.x,q.y)+.01;
+  if(kind==='burst'){fx=q.x/r*2;fy=q.y/r*2}
+  else if(kind==='merge'){fx=(.3-q.x)*1.1;fy=(.3-q.y)*1.1}
+  else if(kind==='infall'){fx=-q.x*(2.4/r);fy=-q.y*(2.4/r);q.x*=1-0.12*Math.min(1,tt/12);q.y*=1-0.12*Math.min(1,tt/12)}
+  else if(kind==='impact'){fx=tt<6?-1.4:0;fy=tt<6?-.35:0}
+  else if(kind==='jets'){fx=-q.x*.6;fy=Math.abs(q.y)*0}
+  else if(kind==='condense'){fx=-q.x*.55*(1-r*.2);fy=-q.y*.55*(1-r*.2)}
+  else{fx=-q.x*.4;fy=-q.y*.4}
+  q.vx+=fx*dt*.5;q.vy+=fy*dt*.5;q.vx*=.985;q.vy*=.985;q.x+=q.vx*dt;q.y+=q.vy*dt;
+  if(kind==='condense'&&r<.14&&Math.random()<.02)q.lock=1;
+  const R2=Math.min(W,H)*.42*zoom;
+  const px=cx+q.x*R2,py=cy+q.y*R2;
+  if(px<-20||px>W+20||py<-20||py>H+20)continue;
+  X.globalAlpha=q.lock?.95:.35+.6*(1-Math.min(1,r));
+  X.fillStyle=q.lock?'#ffd36e':'hsl('+(((280+q.c*24+tt*10)%360)|0)+',92%,'+(55+12*Math.sin(tt*2+q.c))+'%)';
+  X.fillRect(px-1.6,py-1.6,3.2,3.2)}
+ X.globalAlpha=1;
+ if(kind==='burst'){const rr=(tt*30)%(Math.min(W,H)*.5*zoom);X.strokeStyle='rgba(255,214,110,'+(0.7-tt*.04)+')';X.lineWidth=2;X.beginPath();X.arc(cx,cy,rr,0,TAU);X.stroke();
+  X.fillStyle='#fff7d6';X.beginPath();X.arc(cx,cy,Math.max(2,8-tt),0,TAU);X.fill()}
+ else if(kind==='merge'){for(let r2=1;r2<=3;r2++){X.strokeStyle='rgba(98,230,201,'+(0.6-r2*.15)+')';X.beginPath();X.arc(cx,cy,r2*14+tt*8,0,TAU);X.stroke()}
+  glowDot(cx,cy,Math.min(W,H)*.14,'rgba(255,154,213,.5)','rgba(255,154,213,0)')}
+ else if(kind==='infall'){const rg=X.createRadialGradient(cx,cy,0,cx,cy,Math.min(W,H)*.22*zoom);rg.addColorStop(0,'#000');rg.addColorStop(.5,'#ff9ad5');rg.addColorStop(1,'rgba(255,110,199,0)');X.fillStyle=rg;X.fillRect(cx-Math.min(W,H)*.22*zoom,cy-Math.min(W,H)*.22*zoom,Math.min(W,H)*.44*zoom,Math.min(W,H)*.44*zoom);
+  X.strokeStyle='#ffd36e';X.lineWidth=1.6;X.beginPath();X.arc(cx,cy,Math.min(W,H)*.07*zoom,0,TAU);X.stroke()}
+ else if(kind==='impact'){if(tt>5){for(let r2=1;r2<=4;r2++){X.strokeStyle='rgba(255,110,199,'+(1-r2*.2)+')';X.beginPath();X.arc(cx,cy,r2*12+(tt-5)*22,0,TAU);X.stroke()}
+  glowDot(cx,cy,Math.min(W,H)*.16,'rgba(255,211,110,.8)','rgba(255,211,110,0)')}
+  else{X.fillStyle='#b48bc0';X.beginPath();X.arc(cx+tt*30,cy+tt*7.5,6,0,TAU);X.fill();
+  X.strokeStyle='rgba(180,139,192,.5)';X.beginPath();X.moveTo(cx+tt*30-14,cy+tt*7.5);X.lineTo(cx+tt*30-40,cy+tt*7.5-14);X.stroke()}}
+ else if(kind==='jets'){for(let i=0;i<2;i++){const a=Math.PI/2*i+Math.sin(tt*.4)*.5;X.strokeStyle='rgba(98,230,201,.5)';X.lineWidth=2.4;X.beginPath();X.moveTo(cx,cy);X.lineTo(cx+Math.cos(a)*Math.min(W,H)*.4,cy+Math.sin(a)*Math.min(W,H)*.4);X.stroke()}
+  X.fillStyle='#fff';X.beginPath();X.arc(cx,cy,6+3*Math.sin(tt*9),0,TAU);X.fill()}
+ else if(kind==='condense'){const rr=(Math.min(W,H)*.4*zoom)*(1-Math.min(.6,tt*.01));X.strokeStyle='rgba(255,154,213,.4)';X.lineWidth=1.4;X.beginPath();X.arc(cx,cy,rr,0,TAU);X.stroke();
+  X.fillStyle='#ffd36e';X.font='10px ui-monospace';X.fillText(Math.min(99,EV.t*3|0)+' stars frozen',cx-40,cy+rr+16)}
+ else if(kind==='fold'){X.strokeStyle='rgba(180,139,255,.5)';X.lineWidth=1.6;
+  for(let f=0;f<4;f++){X.beginPath();for(let i=0;i<=40;i++){const a=i/40*TAU;const r=(30+f*18)*(1+.2*Math.sin(a*3+f*2+tt*2.2));X.lineTo(cx+Math.cos(a+r*.05)*r/1.6,cy+Math.sin(a+r*.05)*r/1.9)}X.stroke()}}
+ else{X.strokeStyle='rgba(255,154,213,.35)';for(let i=0;i<3;i++){X.beginPath();X.ellipse(cx,cy,(30+i*16)*(1+Math.sin(tt*.5+i)*.1),(20+i*12)*(1+Math.cos(tt*.4+i)*.1),0,0,TAU);X.stroke()}}
+ X.font='13px ui-monospace';X.fillStyle='#ff9ad5';X.fillText(prompt,cx-160,cy-Math.min(W,H)*.4*zoom-10);
+ X.fillStyle='#62e6c9';X.font='9px ui-monospace';
+ X.fillText('class: '+kind+' · seed 0x'+EV.seed.toString(16).toUpperCase()+' · retype to replay · T='+tRel.toFixed(3),cx-170,cy+Math.min(W,H)*.4*zoom+22)}
+O('⚡ EVENT SIMULATOR','event','any',.5,.5,.5,'type any galactic event below — the prompt is the physics');
 // ══ main ══
 const KEYS={};addEventListener('keydown',e=>{KEYS[e.key.toLowerCase()]=1;
  if(e.key==='/'){e.preventDefault();document.getElementById('q').focus()}
@@ -211,6 +275,7 @@ const KEYS={};addEventListener('keydown',e=>{KEYS[e.key.toLowerCase()]=1;
  if(e.key==='t'||e.key==='T')document.getElementById('speed').onclick();
  if('wasd +-'.includes(e.key.toLowerCase()+' '))e.preventDefault()});
 addEventListener('keyup',e=>{KEYS[e.key.toLowerCase()]=0});
+document.getElementById('ev').addEventListener('keydown',e=>{if(e.key==='Enter'){const v=e.target.value.trim();if(v){EV=null;travel({name:v,type:'event',cat:'any',z:.8,desc:'the prompt is the physics'});}}});
 document.getElementById('q').addEventListener('input',e=>{q=e.target.value;list(filter())});
 function list(items){const lst=document.getElementById('lst');lst.innerHTML='';for(const o of items){const d=document.createElement('div');d.className='o'+(sel===o.name?' on':'');d.innerHTML='<b>'+o.name+'</b><span>'+o.type+' · '+o.desc.slice(0,42)+'</span>';d.onclick=()=>travel(o);lst.appendChild(d)}}
 function loop(){const now=performance.now()/1000,dt=Math.min(now-tAbs,.05);tAbs=now;
@@ -219,7 +284,8 @@ function loop(){const now=performance.now()/1000,dt=Math.min(now-tAbs,.05);tAbs=
  const kt=Math.min(1,(tv+=dt*1.6));camX+=(TX-camX)*(kt*(2-kt));camY+=(TY-camY)*(kt*(2-kt));zoom+=(TZ-zoom)*(kt*(2-kt));
  const sp=260*dt/zoom;camX+=(KEYS['d']?sp:0)-(KEYS['a']?sp:0);camY+=(KEYS['s']?sp:0)-(KEYS['w']?sp:0);
  if(KEYS['+']||KEYS['='])zoom=Math.min(8,zoom*1.02);if(KEYS['-'])zoom=Math.max(.3,zoom*.98);
- if(!sel)viewUniverse(dt);else{
+ if(!sel)viewUniverse(dt);else if(sel.type==='event')viewEvent(dt,sel.name);
+ else{
   const t2=sel.type;
   if(t2==='home')viewOrbit(1,sel.name,sel.desc);
   else if(t2==='star')ringView('core',1,sel.name,sel.desc);
