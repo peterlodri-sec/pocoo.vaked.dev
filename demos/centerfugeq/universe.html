@@ -1,179 +1,260 @@
-<!doctype html><html lang="en" data-theme="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>UNIVERSE — travel · time · formation · quantGame</title><style>
+<!doctype html><html lang="en" data-theme="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>UNIVERSE — catalog · travel · the papers</title><style>
 body{margin:0;background:#020108;color:#e8d8f0;font-family:ui-monospace,monospace;overflow:hidden}
 canvas{width:100vw;height:100vh;display:block}
-#tick{position:fixed;left:0;right:0;bottom:0;padding:8px 16px;font-size:12px;letter-spacing:2px;color:#ffd36e;background:linear-gradient(transparent,rgba(2,1,8,.92));z-index:6;text-shadow:0 0 8px #ff6ec7}
-#rail{position:fixed;top:34px;left:50%;transform:translateX(-50%);display:flex;gap:6px;flex-wrap:wrap;justify-content:center;z-index:7;max-width:96vw}
-#rail button{background:rgba(13,6,20,.85);border:1px solid rgba(255,110,199,.4);color:#ff9ad5;font:700 .62rem ui-monospace,monospace;letter-spacing:1px;padding:6px 9px;border-radius:7px;cursor:pointer}
-#rail button.on{background:linear-gradient(135deg,#ff6ec7,#b48bff);color:#0d0512}
-#speed{position:fixed;top:34px;right:14px;background:rgba(13,6,20,.85);border:1px solid rgba(255,211,110,.4);color:#ffd36e;font:700 .62rem ui-monospace,monospace;padding:6px 9px;border-radius:7px;cursor:pointer;z-index:7}
+#side{position:fixed;left:0;top:0;bottom:0;width:270px;background:rgba(4,2,10,.92);border-right:1px solid rgba(255,110,199,.25);z-index:8;display:flex;flex-direction:column;backdrop-filter:blur(8px)}
+#side h3{margin:12px 12px 6px;color:#ff9ad5;font-size:11px;letter-spacing:2px}
+#q{flex:0 0 auto;margin:0 12px 8px;background:#0d0614;border:1px solid rgba(255,110,199,.35);border-radius:8px;color:#ffe0f0;font:.7rem ui-monospace,monospace;padding:8px 10px;outline:none}
+#chips{flex:0 0 auto;display:flex;flex-wrap:wrap;gap:4px;padding:0 12px 8px}
+#chips button{background:rgba(180,139,255,.12);border:1px solid rgba(180,139,255,.35);color:#b48bff;font-size:.6rem;padding:3px 7px;border-radius:20px;cursor:pointer}
+#chips button.on{background:#ff6ec7;border-color:#ff6ec7;color:#0d0512}
+#lst{flex:1 1 auto;overflow-y:auto;padding:0 8px 12px}
+#lst .o{padding:7px 9px;border-radius:7px;cursor:pointer;border:1px solid transparent;margin-bottom:3px}
+#lst .o:hover,#lst .o.on{background:rgba(255,110,199,.12);border-color:rgba(255,110,199,.45)}
+#lst .o b{color:#ff9ad5;font-size:.68rem;display:block}
+#lst .o span{color:#8a6aa0;font-size:.6rem}
+#crumb{position:fixed;top:10px;right:14px;z-index:9;color:#62e6c9;font-size:.68rem;letter-spacing:1px;background:rgba(4,2,10,.8);padding:6px 10px;border-radius:8px;border:1px solid rgba(98,230,201,.3)}
+#speed{position:fixed;top:34px;right:14px;background:rgba(13,6,20,.85);border:1px solid rgba(255,211,110,.4);color:#ffd36e;font:700 .62rem ui-monospace,monospace;padding:6px 9px;border-radius:7px;cursor:pointer;z-index:9}
+#tick{position:fixed;left:0;right:0;bottom:0;padding:8px 16px;padding-left:286px;font-size:12px;letter-spacing:2px;color:#ffd36e;background:linear-gradient(transparent,rgba(2,1,8,.92));z-index:6;text-shadow:0 0 8px #ff6ec7}
 #boot{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#020108;color:#ff9ad5;font-family:ui-monospace,monospace;cursor:pointer;z-index:20;letter-spacing:3px;font-size:15px;text-align:center;flex-direction:column}
 #boot .s{font-size:11px;color:#b48bc0;margin-top:10px}
 </style></head><body><canvas id=c></canvas>
-<div id=rail></div><div id=speed>T ×1</div>
+<aside id=side><h3>⟦ the catalog · 2026 ⟧</h3><input id=q placeholder="/ search…">
+<div id=chips></div><div id=lst></div></aside>
+<div id=crumb>you are here: the universe</div><div id=speed>T ×1</div>
 <div id=tick>⟦ universe event stream ⟧</div>
-<div id=boot>⟧ UNIVERSE ⟦ · travel · time · formation<br>1-9 destinations · T = relative time speed · wasd pan · +/- zoom<br><span class=s>origo of time: the Earth around the Sun — 1 T = one orbit</span></div>
+<div id=boot>⟧ UNIVERSE v3 ⟦ · catalog · travel · the papers<br>click an object · / search · T time · wasd pan · +/- zoom · esc home<br><span class=s>the sky is a library: the objects and the papers, one map</span></div>
 <script>
-// UNIVERSE v2 — travel to the known objects, watch formation, bend time.
-// The clock: T counts Earth orbits (origo = Earth+Sun rotation).
 const c=document.getElementById('c'),X=c.getContext('2d');let W=innerWidth,H=innerHeight;c.width=W;c.height=H;
 let S=7;const R=()=>{S=(S*1664525+1013904223)>>>0;return S/4294967296};
 const seedH=t=>{let h=7;for(let i=0;i<t.length;i++)h=(Math.imul(31,h)+t.charCodeAt(i))|0;return h>>>0};
-const TAU=6.2832;
-let seed=seedH('the pink tent at dawn');
-const T_YEAR=45;         // 1 T-year = 45 real seconds at ×1 — the origo
-let tAbs=0,tRel=0,scale=1,SCALES=[1,10,100,1000,0],si=0;
-const EVENTS=[
- ['GW 150914 — the first gravitational wave'],['M87* — the first black hole image'],['GW 170817 — kilonova'],
- ['Sgr A* — our galaxy\'s hole imaged'],['FRB 121102 — the repeating burst'],['SGR 1806-20 — magnetar flare'],
- ['1I/\'Oumuamua — interstellar visitor'],['2I/Borisov — the second one'],['Arrokoth — farthest flyby'],
- ['Voyager 1 — interstellar space'],['SN 1987A — neutrino supernova'],['the Crab — SN 1054'],
- ['Kepler-452b — Earth\'s cousin'],['TRAPPIST-1 — seven worlds'],['SMACS 0723 — JWST deep field'],
- ['Earendel — farthest star'],['the CMB — first light'],['the Antennae — dancing'],
- ['Perseids — august rain'],['the Oort cloud'],['the Heliopause'],['2024 PT5 — mini-moon'],
- ['12P/Pons-Brooks — horned comet'],['Andromeda — 4.5 Gyr appointment'],['GW 190521 — black hole birth'],
- ['Betelgeuse — the dimming'],['HD 140283 — Methuselah'],['Gliese 12 b — temperate world'],
-];
-// destinations: a view is drawn from tRel — all in Earth-orbit units
-const DEST=[
- {id:'U',name:'1 UNIVERSE',view:'universe'},
- {id:'E',name:'2 EARTH·SUN (T-origo)',view:'earth'},
- {id:'G',name:'3 GALAXY CORE',view:'core'},
- {id:'B',name:'4 BLACK HOLE · Sgr A*',view:'hole'},
- {id:'Q',name:'5 QUASAR · 3C 273',view:'quasar'},
- {id:'M',name:'6 MAGNETAR',view:'magnetar'},
- {id:'A',name:'7 ASTEROID BELT',view:'belt'},
- {id:'F',name:'8 FORMATION · Antennae',view:'formation'},
-];
-let dest='U',camX=0,camY=0,zoom=1,tr=0,from={x:0,y:0,z:1};
-function travel(id){from={x:camX,y:camY,z:zoom};dest=id;tr=0;refreshRail()}
-function refreshRail(){const rail=document.getElementById('rail');rail.innerHTML='';
- DEST.forEach(d=>{const b=document.createElement('button');b.textContent=d.name;b.className=dest===d.id?'on':'';b.onclick=()=>travel(d.id);rail.appendChild(b)})}
+const TAU=6.2832;let seed=seedH('the pink tent at dawn');
+const T_YEAR=45,tAbs0=performance.now()/1000;let tAbs=tAbs0,tRel=0,scale=1,SCALES=[1,10,100,1000,0],si=0;
+// ── THE CATALOG: every kind of mapped object, and the papers live here too
+const CAT=[];
+const O=(name,type,cat,x,y,z,desc)=>{CAT.push({name,type,cat,x,y,z,desc})};
+// stars
+O('Betelgeuse','star','star',.22,.3,.8,'the dimming that kept its secret — a red supergiant, M1-2 lab'),O('Rigel','star','star',.3,.18,.6,'blue supergiant, the hunter\'s foot'),O('VY Canis Majoris','star','star',.45,.24,.5,'one of the largest known stars'),O('UY Scuti','star','star',.52,.3,.45,'the radius champion — 1,700 suns wide'),O('HD 140283','star','star',.6,.2,.55,'Methuselah — the oldest star'),O('Earendel','star','star',.74,.26,.4,'the farthest star yet, lensed by WHL0137-LS'),O('Proxima Centauri','star','star',.33,.42,.7,'the next-door star, with a planet'),O('the Crab pulsar','pulsar','star',.7,.32,.5,'SN 1054 remnant — 30× a second');
+// exoplanets
+O('TRAPPIST-1','exo','exo',.25,.5,.6,'seven rocky worlds'),O('Kepler-452b','exo','exo',.36,.54,.55,'Earth\'s older cousin'),O('Proxima b','exo','exo',.42,.48,.5,'the next-door planet'),O('Gliese 12 b','exo','exo',.5,.52,.45,'a temperate world nearby'),O('K2-18b','exo','exo',.58,.56,.4,'a hycean candidate');
+// galaxies
+O('Andromeda','galaxy','galaxy',.64,.62,.6,'our 4.5 Gyr appointment'),O('M87*','galaxy','galaxy',.7,.55,.4,'the vector halo that images itself'),O('the Antennae','galaxy','galaxy',.78,.66,.5,'two galaxies dancing'),O('the Sombrero','galaxy','galaxy',.5,.66,.55,'the nearly edge-on hat'),O('the Whirlpool','galaxy','galaxy',.58,.7,.45,'grand-design spirals, M51'),O('Triangulum','galaxy','galaxy',.66,.72,.4,'M33, the third of the local group'),O('LMC','galaxy','galaxy',.44,.72,.5,'the Large Magellanic Cloud — the Tarantula\'s home'),O('IC 1101','galaxy','galaxy',.85,.7,.35,'the biggest measured galaxy');
+// black holes / quasar
+O('Sgr A*','hole','bh',.62,.4,.55,'our galaxy\'s heart — photon ring'),O('M87\'s hole','hole','bh',.68,.44,.45,'the first image, 2019'),O('GW 150914','hole','bh',.72,.48,.4,'the first gravitational wave — 36+29 solar masses'),O('GW 170817','hole','bh',.76,.5,.35,'neutron stars + kilonova'),O('TON 618','quasar','bh',.82,.46,.3,'the brightest engine known'),O('3C 273','quasar','bh',.8,.54,.4,'the first quasar identified'),O('OJ 287','quasar','bh',.84,.6,.35,'the binary black hole beacon'),O('Cygnus X-1','hole','bh',.66,.35,.5,'the first confirmed black hole'),O('SGR 1806-20','magnetar','bh',.28,.62,.5,'the giant flare'),O('PSR J1748','pulsar','bh',.34,.64,.45,'44,928 rpm pulsar');
+// nebulae
+O('Orion nebula','nebula','neb',.12,.35,.6,'the stellar nursery'),O('the Crab','nebula','neb',.18,.28,.55,'SN 1054, still glowing'),O('the Helix','nebula','neb',.25,.22,.5,'the Eye of God'),O('the Ring (M57)','nebula','neb',.32,.2,.48,'a planetary shroud'),O('the Tarantula','nebula','neb',.4,.26,.42,'30 Doradus — the star factory'),O('Barnard\'s Loop','nebula','neb',.48,.22,.5,'the hunter\'s arc'),O('Hanny\'s Voorwerp','nebula','neb',.55,.18,.4,'the green ionized ghost');
+// clusters / structure
+O('the Pleiades','cluster','struct',.13,.55,.55,'the seven sisters'),O('the Hyades','cluster','struct',.2,.6,.5,'the nearest open cluster'),O('Hercules cluster','cluster','struct',.27,.68,.45,'M13 — 300,000 suns'),O('the Bullet Cluster','cluster','struct',.35,.72,.4,'dark matter trails the light'),O('MACS J0717','cluster','struct',.42,.76,.38,'the colliding cluster'),O('the Great Attractor','struct','struct',.5,.8,.35,'600 Mly away — something pulls'),O('Laniakea','struct','struct',.58,.82,.3,'our home supercluster'),O('the Shapley','struct','struct',.66,.78,.35,'the great concentrator'),O('the BOÖTES void','void','struct',.72,.86,.4,'the great nothing'),O('the Local Void','void','struct',.78,.8,.45,'our neighborhood\'s gap'),O('the Hercules–Corona wall','wall','struct',.82,.74,.3,'the largest known structure'),O('the cosmic web','grid','struct',.9,.78,.5,'filaments of galaxies everywhere');
+// comets / small bodies / dwarfs
+O('1I/\'Oumuamua','comet','small',.14,.7,.5,'the first interstellar visitor'),O('2I/Borisov','comet','small',.2,.74,.45,'the second one'),O('Halley','comet','small',.26,.64,.55,'the homecoming 2061'),O('12P/Pons-Brooks','comet','small',.31,.72,.4,'the horned comet'),O('Perseids','comet','small',.37,.68,.5,'the August rain'),O('Ceres','dwarf','small',.44,.78,.45,'the dwarf between the rocks'),O('Pluto','dwarf','small',.5,.84,.4,'a heart on ice'),O('Makemake','dwarf','small',.56,.86,.38,'the reddish dwarf'),O('Eris','dwarf','small',.62,.88,.35,'the most massive dwarf'),O('Sedna','dwarf','small',.68,.84,.4,'the far wanderer — 11,000 year orbit'),O('Haumea','dwarf','small',.73,.88,.42,'the egg, spinning'),O('the Kuiper belt','belt','small',.8,.82,.5,'the second kingdom'),O('the scattered disc','belt','small',.85,.88,.4,'the third'),O('the Oort cloud','belt','small',.92,.85,.55,'the shell of comets');
+// probes / the home
+O('the Moon','probe','home',.18,.84,.6,'Apollo walked here'),O('Mars','probe','home',.24,.88,.55,'the rust world — the next step'),O('Voyager 1','probe','home',.3,.82,.5,'inside interstellar space, 1977\'s promise'),O('Voyager 2','probe','home',.35,.86,.48,'the grand tour'),O('New Horizons','probe','home',.4,.9,.45,'Arrokoth\'s visitor'),O('JWST','probe','home',.46,.88,.5,'SMACS 0723 — the deep field'),O('2024 PT5','probe','home',.5,.9,.48,'the mini-moon that stayed'),O('Earth·Sun','home','home',.1,.92,.7,'the origo of time — 1 T = one orbit');
+// the papers — the research floor
+O('TERNARY CMB','res_cmb','paper',.15,.1,.5,'the first light, quantized {-1,0,+1} — MLX-QUANT\'s gamma on the sky'),O('MP TEST','res_mp','paper',.25,.14,.45,'the ESD of a seeded matrix vs Marchenko–Pastur — KOMPRESS v2'),O('KOMPRESS CONSENSUS','res_k','paper',.35,.1,.4,'five teachers, one geometric-mean logit — the Council'),O('SPECTRAL RIGIDITY','res_sr','paper',.45,.14,.5,'live smax ≤ √(pn)(1+√γ) check — no collapse'),O('CLIO PROJECTION','res_clio','paper',.55,.1,.45,'8b-public-documents/forth/02-clio-projection.fth'),O('RSVP DYNAMICS','res_rsvp','paper',.65,.14,.4,'8b-public-documents/forth/04-rsvp-dynamics.fth'),O('AXIOMQUANT ACADEMY','res_axq','paper',.75,.1,.45,'axiomquant.org — the monograph, the threshold'),O('CONSTRAINT AS GROUND','res_cag','paper',.85,.14,.5,'8b-public-documents — constraint_as_ground.pdf');
+// ── menu
+const CATS=[['all','✦ all'],['paper','📜 papers'],['home','🌍 home'],['star','✧ stars'],['exo','🪐 exoplanets'],['galaxy','🌀 galaxies'],['bh','🕳 black holes'],['neb','🌫 nebulae'],['struct','🕸 structure'],['small','☄ small bodies']];
+function menu(){const chips=document.getElementById('chips');chips.innerHTML='';for(const[cat,lab]of CATS){const b=document.createElement('button');b.textContent=lab;b.className=(cat===cur?'on':'');b.onclick=()=>{cur=cat;menu();list(filter())};chips.appendChild(b)}
+ const lst=document.getElementById('lst');lst.innerHTML='';
+ for(const o of filter()){const d=document.createElement('div');d.className='o'+(sel===o.name?' on':'');d.innerHTML='<b>'+o.name+'</b><span>'+o.type+' · '+o.desc.slice(0,44)+'</span>';d.onclick=()=>travel(o);lst.appendChild(d)}}
+let cur='all',q='';
+function filter(){return CAT.filter(o=>(cur==='all'||o.cat===cur)&&(!q||o.name.toLowerCase().includes(q.toLowerCase())))}
+// ── travel + camera
+let sel=null,camX=0,camY=0,zoom=1,TX=0,TY=0,TZ=1,tv=0;
+function travel(o){sel=o;TX=(o.x-.5)*W*1.5;TY=(o.y-.45)*H*1.4;TZ=o.z*4;tv=0;
+ document.getElementById('crumb').textContent='you are here: '+o.name+' · '+(o.cat==='paper'?'the papers':'the catalog')}
+function home(){sel=null;TX=0;TY=0;TZ=1;tv=0;document.getElementById('crumb').textContent='you are here: the universe'}
 document.getElementById('speed').onclick=()=>{si=(si+1)%SCALES.length;scale=SCALES[si];document.getElementById('speed').textContent='T ×'+(scale||'∞')};
-// the galaxy mk + step (same engine as before)
-function mkGalaxy(sd,n,x,y,scale,name){
- S=sd>>>0;const halo=[];for(let i=0;i<n;i++)halo.push({x:(R()-.5)*2,y:(R()-.5)*2,vx:(R()-.5)*.4,vy:(R()-.5)*.4,th:R()*TAU,m:.5+R()});
- const L=22,spins=new Int8Array(L*L);for(let i=0;i<spins.length;i++)spins[i]=R()<.92?(R()<.5?-1:1):0;
- return{x,y,scale,name,halo,spins,L,bias:new Float32Array(L*L)}}
-function stepGalaxy(g,dt){
- const h=g.halo;let cx=0,cy=0,cm=0;for(const p of h){cx+=p.x*p.m;cy+=p.y*p.m;cm+=p.m}cx/=cm;cy/=cm;
+// engines
+function mkGalaxy(sd,n,x,y,sc,name){S=sd>>>0;const halo=[];for(let i=0;i<n;i++)halo.push({x:(R()-.5)*2,y:(R()-.5)*2,vx:(R()-.5)*.4,vy:(R()-.5)*.4,th:R()*TAU,m:.5+R()});const L=18,spins=new Int8Array(L*L);for(let i=0;i<spins.length;i++)spins[i]=R()<.92?(R()<.5?-1:1):0;return{x,y,scale:sc,name,halo,spins,L,bias:new Float32Array(L*L)}}
+function stepGalaxy(g,dt){const h=g.halo;let cx=0,cy=0,cm=0;for(const p of h){cx+=p.x*p.m;cy+=p.y*p.m;cm+=p.m}cx/=cm;cy/=cm;
  for(const p of h){let sx=0,sy=0,cnt=0;for(const q of h){const d=Math.hypot(q.x-p.x,q.y-p.y);if(d<.5&&d>.001){sx+=Math.cos(q.th);sy+=Math.sin(q.th);cnt++}}
-  const mt=cnt?Math.atan2(sy,sx):p.th,dx=cx-p.x,dy=cy-p.y,r=Math.hypot(dx,dy)+.18;
-  const a=(.15+1.1/(r+.3))*dt,rx=p.x*Math.cos(a)-p.y*Math.sin(a),ry=p.x*Math.sin(a)+p.y*Math.cos(a);
-  p.x=rx;p.y=ry;p.vx+=dx/r*.8*.2*p.m+.5*.05*Math.cos(mt)+(R()-.5)*.08;p.vy+=dy/r*.8*.2*p.m+.5*.05*Math.sin(mt)+(R()-.5)*.08;
-  p.vx*=.96;p.vy*=.96;p.th=Math.atan2(p.vy,p.vx)*.15+p.th*.85;p.x+=p.vx*dt;p.y+=p.vy*dt}
+  const mt=cnt?Math.atan2(sy,sx):p.th,dx=cx-p.x,dy=cy-p.y,r=Math.hypot(dx,dy)+.18,a=(.15+1.1/(r+.3))*dt,rx=p.x*Math.cos(a)-p.y*Math.sin(a),ry=p.x*Math.sin(a)+p.y*Math.cos(a);
+  p.x=rx;p.y=ry;p.vx+=dx/r*.8*.2*p.m+.5*.05*Math.cos(mt)+(R()-.5)*.08;p.vy+=dy/r*.8*.2*p.m+.5*.05*Math.sin(mt)+(R()-.5)*.08;p.vx*=.96;p.vy*=.96;p.th=Math.atan2(p.vy,p.vx)*.15+p.th*.85;p.x+=p.vx*dt;p.y+=p.vy*dt}
  const L=g.L,spins=g.spins,bias=g.bias;bias.fill(0);const cell=2/L;
  for(const p of h){const bx=Math.min(L-1,Math.max(0,Math.floor((p.x+1)/cell))),by=Math.min(L-1,Math.max(0,Math.floor((p.y+1)/cell)));bias[by*L+bx]+=p.m}
  for(let i=0;i<bias.length;i++)bias[i]=Math.min(1.2,bias[i]*.3);
- for(let n=0;n<L*L*2;n++){const ii=(R()*L)|0,jj=(R()*L)|0,idx=ii*L+jj,s2=spins[idx];if(s2===0)continue;
-  let sum=spins[((ii+1)%L)*L+jj]+spins[((ii+L-1)%L)*L+jj]+spins[ii*L+((jj+1)%L)]+spins[ii*L+((jj+L-1)%L)];
-  const Tt=Math.max(.85,2.2-bias[idx]*1.6),hb=s2===1?-bias[idx]:bias[idx],dE=2*s2*sum+2*hb*s2;
-  if(dE<=0||R()<Math.exp(-dE/Tt))spins[idx]=-s2}
+ for(let n=0;n<L*L*2;n++){const ii=(R()*L)|0,jj=(R()*L)|0,idx=ii*L+jj,s2=spins[idx];if(!s2)continue;let sum=spins[((ii+1)%L)*L+jj]+spins[((ii+L-1)%L)*L+jj]+spins[ii*L+((jj+1)%L)]+spins[ii*L+((jj+L-1)%L)];const Tt=Math.max(.85,2.2-bias[idx]*1.6),hb=s2===1?-bias[idx]:bias[idx],dE=2*s2*sum+2*hb*s2;if(dE<=0||R()<Math.exp(-dE/Tt))spins[idx]=-s2}
  let stars=0;for(let i=0;i<spins.length;i++)if(spins[i]===1&&bias[i]>.22)stars++;g.stars=stars}
-let GS=[];
-function rebuild(){seed=seedH(document.getElementById('seed')?document.getElementById('seed').value.trim()||'the pink tent at dawn':'the pink tent at dawn');S=seed>>>0;
- GS=[mkGalaxy(seed,70,W*.22,H*.30,.4,'M87*'),mkGalaxy(seed^0x9e3779b9,80,W*.64,H*.62,.55,'Andromeda'),mkGalaxy(seed^0x51f7a3e1,60,W*.45,H*.9,.3,'the Antennae')]}
-// views
-function stars(speed){X.fillStyle='#e8d8f0';for(let i=0;i<150;i++){const px2=((i*97)%W+camX*.1+W)%W,py2=((i*53)%H+camY*.1+H)%H;X.globalAlpha=.25+.4*Math.sin(tAbs*2+i);X.fillRect(px2,py2,1.4,1.4)}X.globalAlpha=1}
-function drawUniverse(dt){
- const gr=X.createLinearGradient(0,0,W,H);gr.addColorStop(0,'#05010a');gr.addColorStop(.55,'#0d0420');gr.addColorStop(1,'#020108');X.fillStyle=gr;X.fillRect(0,0,W,H);stars();
- for(const g of GS){for(let k=0;k<2;k++)stepGalaxy(g,dt*Math.max(1,scale||3));
-  const gx=g.x-camX,gy=g.y-camY,sc=g.scale*zoom;
-  if(gx<-W*.4||gx>W*1.4||gy<-H*.4||gy>H*1.4)continue;
-  const cs=sc*2/g.L;
-  for(let y=0;y<g.L;y++)for(let x=0;x<g.L;x++){const v=g.spins[y*g.L+x];if(!v)continue;X.globalAlpha=v===1?.05+.1*g.bias[y*g.L+x]:.03;X.fillStyle=v===1?'#ffd36e':'#5b9dff';X.fillRect(gx+(x-g.L/2)*cs,gy+(y-g.L/2)*cs,cs+1,cs+1)}
-  X.globalAlpha=1;
-  for(const p of g.halo){const px2=gx+p.x*sc,py2=gy+p.y*sc;X.fillStyle=`hsl(${Math.round(280+p.th*90)},92%,${58+16*Math.abs(Math.cos(p.th))}%)`;X.fillRect(px2,py2,2.4,2.4)}
-  X.fillStyle='#ffd36e';for(let y=0;y<g.L;y++)for(let x=0;x<g.L;x++){if(g.spins[y*g.L+x]===1&&g.bias[y*g.L+x]>.22){X.globalAlpha=.9;X.fillRect(gx+(x-g.L/2)*cs-1,gy+(y-g.L/2)*cs-1,3,3)}}
-  X.globalAlpha=1;X.font='10px ui-monospace';X.fillStyle='#ff9ad5';X.fillText(g.name+' · stars '+g.stars,gx-sc*.6,gy+sc*.7)}}
-function drawEarth(){
- const gr=X.createLinearGradient(0,0,W,H);gr.addColorStop(0,'#02010a');gr.addColorStop(1,'#0a0014');X.fillStyle=gr;X.fillRect(0,0,W,H);stars();
- const cx=W/2-camX,cy=H/2-camY,AU=Math.min(W,H)*.28*zoom;
- // the origo: the Sun
- const sg=X.createRadialGradient(cx,cy,0,cx,cy,AU*.45);sg.addColorStop(0,'#fff7d6');sg.addColorStop(.25,'#ffd36e');sg.addColorStop(1,'rgba(255,211,110,0)');
- X.fillStyle=sg;X.fillRect(cx-AU*.45,cy-AU*.45,AU*.9,AU*.9);
- X.fillStyle='#ffd36e';X.beginPath();X.arc(cx,cy,AU*.09,0,TAU);X.fill();
- // orbit rings: Earth + moon
- X.strokeStyle='rgba(255,154,213,.25)';X.lineWidth=1;
- X.beginPath();X.ellipse(cx,cy,AU,AU*.62,0,0,TAU);X.stroke();
- X.strokeStyle='rgba(98,230,201,.18)';X.beginPath();X.ellipse(cx,cy,AU*.16,AU*.1,0,0,TAU);X.stroke();
- // Earth — orbital angle from tRel: the base of T
- const ea=tRel*TAU,ex=cx+Math.cos(ea)*AU,ey=cy+Math.sin(ea)*AU*.62;
+let GS=[mkGalaxy(seed,70,.22,.3,.4,'M87*'),mkGalaxy(seed^0x9e3779b9,80,.64,.62,.55,'Andromeda'),mkGalaxy(seed^0x51f7a3e1,60,.45,.9,.3,'the Antennae')];
+// ══ views ══
+function fade(){X.clearRect(0,0,W,H);const gr=X.createLinearGradient(0,0,W,H);gr.addColorStop(0,'#05010a');gr.addColorStop(.55,'#0d0420');gr.addColorStop(1,'#020108');X.fillStyle=gr;X.fillRect(0,0,W,H);X.fillStyle='#e8d8f0';for(let i=0;i<110;i++){const px=(((i*97)%W+camX*.08+W)%W),py=(((i*53)%H+camY*.08+H)%H);X.globalAlpha=.2+.35*Math.sin(tAbs*2+i);X.fillRect(px,py,1.3,1.3)}X.globalAlpha=1}
+function glowDot(x,y,r,inner,outer){const g=X.createRadialGradient(x-r,y-r,0,x,y,r);g.addColorStop(0,inner);g.addColorStop(1,outer);X.fillStyle=g;X.fillRect(x-r,y-r,r*2,r*2)}
+function viewUniverse(dt){fade();
+ for(const g of GS){stepGalaxy(g,dt*Math.max(1,scale||3));const gx=g.x*W-camX,gy=g.y*H-camY,sc=g.scale*zoom;if(gx<-W*.3||gx>W*1.3||gy<-H*.3||gy>H*1.3)continue;
+  const cs=sc*2/g.L;for(let y=0;y<g.L;y++)for(let x=0;x<g.L;x++){const v=g.spins[y*g.L+x];if(!v)continue;X.globalAlpha=v===1?.05+.1*g.bias[y*g.L+x]:.03;X.fillStyle=v===1?'#ffd36e':'#5b9dff';X.fillRect(gx+(x-g.L/2)*cs,gy+(y-g.L/2)*cs,cs+1,cs+1)}X.globalAlpha=1;
+  for(const p of g.halo){X.fillStyle=`hsl(${Math.round(280+p.th*90)},92%,${58+16*Math.abs(Math.cos(p.th))}%)`;X.fillRect(gx+p.x*sc,gy+p.y*sc,2.2,2.2)}
+  X.font='10px ui-monospace';X.fillStyle='#ff9ad5';X.fillText(g.name+' · '+g.stars+' stars',gx-sc*.6,gy+sc*.7)}
+ X.font='10px ui-monospace';X.fillStyle='#8a6aa0';
+ for(const o of CAT.filter(o=>o.cat!=='paper')){const px=o.x*W-camX,py=o.y*H-camY;if(px<10||px>W-10||py<10||py>H-10)continue;X.fillStyle='rgba(138,106,160,.6)';X.beginPath();X.arc(px,py,1.6,0,TAU);X.fill();if(px>40&&px<W-40&&py>40&&py<H-40)X.fillText(o.name,px+6,py+3)}}
+function viewOrbit(scale0,label,tag){
+ const cx=W/2-camX,cy=H/2-camY,AU=Math.min(W,H)*.26*zoom;
+ glowDot(cx,cy,AU*.5,'#fff7d6','rgba(255,211,110,0)');X.fillStyle='#ffd36e';X.beginPath();X.arc(cx,cy,AU*.09,0,TAU);X.fill();
+ X.strokeStyle='rgba(255,154,213,.25)';X.beginPath();X.ellipse(cx,cy,AU,AU*.62,0,0,TAU);X.stroke();
+ const ea=tRel*TAU;const ex=cx+Math.cos(ea)*AU,ey=cy+Math.sin(ea)*AU*.62;
  X.fillStyle='#5b9dff';X.beginPath();X.arc(ex,ey,AU*.045,0,TAU);X.fill();
- // city lights on the night side
- for(let i=0;i<18;i++){const la=ea+Math.PI+.2*Math.sin(i*9.3);X.fillStyle='rgba(255,214,110,.75)';X.fillRect(ex+Math.cos(la)*AU*.03,ey+Math.sin(la)*AU*.03,1.6,1.6)}
- // Moon
- const ma=ea*13.4;X.fillStyle='#c8c8e0';X.beginPath();X.arc(ex+Math.cos(ma)*AU*.16,ey+Math.sin(ma)*AU*.1,AU*.012,0,TAU);X.fill();
- X.font='10px ui-monospace';X.fillStyle='#ff9ad5';
- X.fillText('EARTH·SUN — the T origo · 1 T = one orbit',cx-AU*.4,cy-AU*.7);
- X.fillStyle='#62e6c9';X.fillText('⊕ the city lights below',ex+AU*.05,ey+AU*.05)}
-function ringView(kind,label,tag){
- const gr=X.createLinearGradient(0,0,W,H);gr.addColorStop(0,'#0a020e');gr.addColorStop(1,'#02010a');X.fillStyle=gr;X.fillRect(0,0,W,H);stars();
- const cx=W/2-camX,cy=H/2-camY,R=Math.min(W,H)*.2*zoom;
- // the photon ring / event horizon
- const rg=X.createRadialGradient(cx,cy,0,cx,cy,R*2.2);rg.addColorStop(0,'#000');rg.addColorStop(.35,'#ff9ad5');rg.addColorStop(.6,'#ff6ec7');rg.addColorStop(1,'rgba(255,110,199,0)');
- X.fillStyle=rg;X.fillRect(cx-R*2.2,cy-R*2.2,R*4.4,R*4.4);
- X.strokeStyle='#ffd36e';X.lineWidth=1.6;X.beginPath();X.arc(cx,cy,R,0,TAU);X.stroke();
- X.strokeStyle='rgba(255,154,213,.5)';X.lineWidth=1;X.beginPath();X.arc(cx,cy,R*1.45,0,TAU);X.stroke();
- // infalling matter — frame dragging spirals
- for(let i=0;i<90;i++){const q=((i*37+tRel*30*(scale||3))%90)/90,a=q*TAU*3+((i*7)%5),r=R*(.9+.6*Math.sin(q*Math.PI));
-  X.globalAlpha=.25+.6*(1-q);X.fillStyle=kind==='hole'?'#ff9ad5':kind==='quasar'?'#ffd36e':'#b48bff';
-  X.fillRect(cx+Math.cos(a)*r-1.5,cy+Math.sin(a)*r-1.5,3,3)}
+ for(let i=0;i<14;i++){const la=ea+Math.PI+.2*Math.sin(i*9.3);X.fillStyle='rgba(255,214,110,.75)';X.fillRect(ex+Math.cos(la)*AU*.03,ey+Math.sin(la)*AU*.03,1.6,1.6)}
+ X.font='11px ui-monospace';X.fillStyle='#ff9ad5';X.fillText(label,cx-AU*.4,cy-AU*.7);X.fillStyle='#62e6c9';X.font='9px ui-monospace';X.fillText(tag,cx-AU*.4,cy-AU*.6)}
+function ringView(kind,r0,label,tag){
+ const cx=W/2-camX,cy=H/2-camY,R=Math.min(W,H)*.2*zoom*r0;fade();
+ if(kind==='hole'||kind==='quasar'||kind==='core'){const rg=X.createRadialGradient(cx,cy,0,cx,cy,R*2.2);rg.addColorStop(0,'#000');rg.addColorStop(.35,'#ff9ad5');rg.addColorStop(.6,'#ff6ec7');rg.addColorStop(1,'rgba(255,110,199,0)');X.fillStyle=rg;X.fillRect(cx-R*2.2,cy-R*2.2,R*4.4,R*4.4);
+  X.strokeStyle='#ffd36e';X.lineWidth=1.6;X.beginPath();X.arc(cx,cy,R,0,TAU);X.stroke();X.strokeStyle='rgba(255,154,213,.5)';X.beginPath();X.arc(cx,cy,R*1.45,0,TAU);X.stroke();
+  for(let i=0;i<80;i++){const q=((i*37+tRel*30*Math.max(1,scale||3))%80)/80,a=q*TAU*3+(i*7)%5,r=R*(.9+.6*Math.sin(q*Math.PI));X.globalAlpha=.25+.6*(1-q);X.fillStyle=kind==='quasar'?'#ffd36e':'#ff9ad5';X.fillRect(cx+Math.cos(a)*r-1.5,cy+Math.sin(a)*r-1.5,3,3)}X.globalAlpha=1}
+ if(kind==='quasar'){for(let i=0;i<36;i++){const q=((i*11+tRel*8*Math.max(1,scale||3))%36)/36;jr=R*2.2+q*R*6;X.globalAlpha=.8*(1-q);X.fillStyle='#62e6c9';X.fillRect(cx+(q<.5?-1:1)*jr*.35-1,cy+Math.sin(i)*3-1+jr*(q<.5?-.55:.55)*.35,2,2)}X.globalAlpha=1}
+ if(kind==='magnetar'){X.strokeStyle='rgba(98,230,201,.3)';for(let i=0;i<6;i++){X.beginPath();for(let a=0;a<TAU;a+=.1){const rr=R*.4+R*1.1*Math.sin(tRel*20*Math.max(1,scale||3)+a*2+i);X.lineTo(cx+Math.cos(a)*rr/2,cy+Math.sin(a)*rr)}X.stroke()}
+  const fl=Math.pow(Math.max(0,Math.sin(tRel*90*Math.max(1,scale||3))),24);X.globalAlpha=fl;X.fillStyle='#fff';X.beginPath();X.arc(cx,cy,R*2.4,0,TAU);X.fill();X.globalAlpha=1}
+ if(kind==='pulsar'){for(let i=0;i<4;i++){const a=tRel*(scale||3)*40+i*Math.PI/2;X.strokeStyle='rgba(98,230,201,.35)';X.lineWidth=2;X.beginPath();X.moveTo(cx,cy);X.lineTo(cx+Math.cos(a)*R*3,cy+Math.sin(a)*R*3);X.stroke()}X.fillStyle='#fff';X.beginPath();X.arc(cx,cy,R*.3,0,TAU);X.fill()}
+ X.font='11px ui-monospace';X.fillStyle='#ff9ad5';X.fillText(label,cx-R*1.4,cy-R*2.6);X.fillStyle='#b48bc0';X.font='9px ui-monospace';X.fillText(tag,cx-R*1.4,cy+R*2.9)}
+function viewNebula(tag){const cx=W/2-camX,cy=H/2-camY;fade();S=(seed^0xabba)>>>0;
+ for(let b=0;b<10;b++){const bx=cx+(R()-.5)*W*.3,by=cy+(R()-.5)*H*.24,r=40+R()*120;const col=['255,154,213','180,139,255','98,230,201','255,211,110'][b%4];
+  const g=X.createRadialGradient(bx,by,0,bx,by,r);g.addColorStop(0,`rgba(${col},.16)`);g.addColorStop(1,`rgba(${col},0)`);X.fillStyle=g;X.fillRect(bx-r,by-r,r*2,r*2)}
+ X.fillStyle='#ffd36e';for(let i=0;i<40;i++){const a=(R()*TAU),r=R()*W*.2;X.globalAlpha=.5+.5*R();X.fillRect(cx+Math.cos(a)*r,cy+Math.sin(a)*r,2,2)}X.globalAlpha=1;
+ X.font='11px ui-monospace';X.fillStyle='#ff9ad5';X.fillText('nebula — the nursery',cx-80,cy-R*2);X.fillStyle='#b48bc0';X.font='9px ui-monospace';X.fillText(tag,cx-80,cy+120)}
+function viewCluster(tag){const cx=W/2-camX,cy=H/2-camY;fade();S=(seed^0x5eed)>>>0;
+ for(let i=0;i<150;i++){const a=R()*TAU,r=R()*.9*Math.min(W,H)*.28;X.globalAlpha=.35+.55*R();X.fillStyle=i%4?'#ff9ad5':'#ffd36e';X.fillRect(cx+Math.cos(a)*r,cy+Math.sin(a)*r* .7,1.4+2*R(),1.4+2*R())}X.globalAlpha=1;
+ glowDot(cx,cy,Math.min(W,H)*.3,'rgba(255,154,213,.14)','rgba(255,154,213,0)');
+ X.font='11px ui-monospace';X.fillStyle='#ff9ad5';X.fillText('the cluster — thousands of suns',cx-110,cy-Math.min(W,H)*.28-20);X.fillStyle='#b48bc0';X.font='9px ui-monospace';X.fillText(tag,cx-110,cy-Math.min(W,H)*.28-8)}
+function viewLens(tag){const cx=W/2-camX,cy=H/2-camY;fade();
+ for(let i=0;i<70;i++){const a=(i/70)*TAU+Trel()*0,rr=Math.min(W,H)*.2*zoom*(1+.05*Math.sin(i*3+tAbs));X.globalAlpha=.2+.5*Math.abs(Math.sin(i));X.fillStyle='#ffd36e';X.fillRect(cx+Math.cos(a)*rr,cy+Math.sin(a)*rr*.4,2.2,2.2)}X.globalAlpha=1;
+ X.strokeStyle='rgba(255,214,110,.7)';X.lineWidth=2;X.beginPath();X.ellipse(cx,cy,Math.min(W,H)*.22*zoom,Math.min(W,H)*.09*zoom,0,0,TAU);X.stroke();X.strokeStyle='rgba(98,230,201,.4)';X.beginPath();X.ellipse(cx,cy,Math.min(W,H)*.32*zoom,Math.min(W,H)*.14*zoom,0,0,TAU);X.stroke();
+ glowDot(cx,cy,Math.min(W,H)*.3,'rgba(255,214,110,.2)','rgba(255,214,110,0)');
+ X.font='11px ui-monospace';X.fillStyle='#ff9ad5';X.fillText('the gravitational lens — Einstein ring',cx-110,cy-Math.min(W,H)*.25);X.fillStyle='#b48bc0';X.font='9px ui-monospace';X.fillText(tag,cx-110,cy-Math.min(W,H)*.22)}
+function Trel(){return tRel}
+function viewGrid(tag,kind){const cx=W/2-camX,cy=H/2-camY;fade();
+ for(let y=0;y<18;y++)for(let x=0;x<26;x++){const px=x*34-140,py=y*24-120;const inVoid=kind==='void'&&Math.hypot(px/84,py/60)<1.05;
+  X.globalAlpha=.18+.32*Math.abs(Math.sin(x*3+y+tAbs*.5));X.fillStyle=inVoid?'rgba(5,2,8,.3)':'#8a6aa0';
+  X.fillRect(cx+px-(39),cy+py-(33),2,2)}X.globalAlpha=1;
+ if(kind==='wall'){X.strokeStyle='rgba(255,154,213,.5)';X.lineWidth=2;X.beginPath();X.moveTo(cx-180,cy-60);X.quadraticCurveTo(cx,cy+120,cx+180,cy-40);X.stroke();
+  X.fillStyle='#ff9ad5';X.font='10px ui-monospace';X.fillText('the great wall — millions of galaxies in a line',cx-170,cy+140)}
+ else if(kind==='void'){X.strokeStyle='rgba(98,230,201,.35)';X.beginPath();X.arc(cx,cy,90,0,TAU);X.stroke();X.fillStyle='#62e6c9';X.font='10px ui-monospace';X.fillText('the void — 330 Mly of nothing',cx-100,cy+120)}
+ else{X.fillStyle='#62e6c9';X.font='10px ui-monospace';X.fillText('the cosmic web — filaments everywhere',cx-130,cy+120)}}
+function viewDwarf(tag){const cx=W/2-camX,cy=H/2-camY;fade();
+ glowDot(cx,cy,Math.min(W,H)*.16,'rgba(180,180,220,.7)','rgba(180,180,220,0)');
+ X.fillStyle='#c8d0e8';X.beginPath();X.arc(cx,cy,Math.min(W,H)*.05*zoom,0,TAU);X.fill();
+ X.strokeStyle='rgba(200,208,232,.35)';for(let i=0;i<3;i++){X.beginPath();X.ellipse(cx,cy,Math.min(W,H)*.11*(i+1)*zoom,Math.min(W,H)*.04*(i+1)*zoom,0,0,TAU);X.stroke()}
+ X.font='11px ui-monospace';X.fillStyle='#ff9ad5';X.fillText('the small kingdom — ice and stone',cx-100,cy-Math.min(W,H)*.15);X.fillStyle='#b48bc0';X.font='9px ui-monospace';X.fillText(tag,cx-100,cy+Math.min(W,H)*.17)}
+function viewProbe(tag){const cx=W/2-camX,cy=H/2-camY;fade();
+ for(let i=0;i<60;i++){const q=((i*13+tRel*6*Math.max(1,scale||3))%60)/60;X.globalAlpha=.6*(1-q);X.fillStyle='#62e6c9';X.fillRect(cx-Math.cos(tRel*3)*q*200-1,cy-Math.sin(tRel*2.4)*q*140-1,2,2)}X.globalAlpha=1;
+ glowDot(cx,cy,26,'rgba(255,214,110,.9)','rgba(255,214,110,0)');
+ X.fillStyle='#ffd36e';X.fillRect(cx-2,cy-4,4,8);
+ X.font='11px ui-monospace';X.fillStyle='#ff9ad5';X.fillText('the little hand — a human signal',cx-96,cy-46);X.fillStyle='#b48bc0';X.font='9px ui-monospace';X.fillText(tag,cx-96,cy-34)}
+// ══ the papers ══ (real formulas, cited)
+function viewCmb(tag){const cx=W/2-camX,cy=H/2-camY;fade();S=(seed^0xc0de)>>>0;const n=44,cs=10;
+ for(let y=0;y<n;y++)for(let x=0;x<n;x++){const v=R()*2-1;const g=Math.max(.02,Math.abs(v));const q=Math.max(-1,Math.min(1,Math.round(v/g))); // MLX-QUANT: clip(round(W/gamma))
+  X.fillStyle=q===1?'#ff6ec7':q===-1?'#5b9dff':'#120a20';X.globalAlpha=.4+.6*Math.abs(v);X.fillRect(cx-x*cs* .5+ n*cs*.25,cy-y*cs*.5+n*cs*.25,cs-1,cs-1)}X.globalAlpha=1;
+ X.font='11px ui-monospace';X.fillStyle='#ff9ad5';X.fillText('the TERNARY CMB — first light as {-1,0,+1}',cx-n*6,cy-n*cs*.5-14);
+ X.fillStyle='#b48bc0';X.font='9px ui-monospace';X.fillText('quantizer: W̄=clip(round(W/γ),-1,+1), γ=mean|W| · MLX-QUANT · KOMPRESS family · '+tag,cx-n*6,cy+n*cs*.5+10)}
+function jacobiEig(M,n,it){const A=M.slice(),v=new Float64Array(n),V=new Float64Array(n*n);for(let i=0;i<n;i++){v[i]=A[i*n+i];for(let j=0;j<n;j++)V[i*n+j]=i===j?1:0}
+ for(let it2=0;it2<it;it2++){let off=0,ai=1,aj=0;for(let i=0;i<n;i++)for(let j=i+1;j<n;j++){if(Math.abs(A[i*n+j])>off){off=Math.abs(A[i*n+j]);ai=i;aj=j}}
+  if(off<1e-9)break;const app=A[ai*n+ai],aqq=A[aj*n+aj],apq=A[ai*n+aj];const tau=(aqq-app)/(2*apq),tg=tau>=0?1/(tau+Math.sqrt(1+tau*tau)):-1/(tau-Math.sqrt(1+tau*tau)),c=1/Math.sqrt(1+tg*tg),s2=tg*c;
+  for(let k=0;k<n;k++){const ak=A[k*n+ai],aik=A[ai*n+k],akj=A[k*n+aj],ajk=A[aj*n+k];
+   A[k*n+ai]=c*aik-s2*akj;A[ai*n+k]=A[k*n+ai];A[k*n+aj]=s2*aik+c*akj;A[aj*n+k]=A[k*n+aj]}
+  const aa=app-c*(app-aqq)*c+2*apq*c*s2;let bb=aqq+c*(app-aqq)*c-2*apq*c*s2;A[ai*n+ai]=aa;A[aj*n+aj]=bb;A[ai*n+aj]=0;A[aj*n+ai]=0;
+  for(let k=0;k<n;k++){const vki=V[k*n+ai],vkj=V[k*n+aj];V[k*n+ai]=c*vki-s2*vkj;V[k*n+aj]=s2*vki+c*vkj}}
+ const out=[];for(let i=0;i<n;i++)out.push(A[i*n+i]);return out}
+function viewMp(tag){const cx=W/2-camX,cy=H/2-camY;fade();S=(seed^0x6d6f)>>>0;const m=26,n=78,gamma=m/n;
+ const M=[];for(let i=0;i<m;i++){const row=[];for(let j=0;j<n;j++)row.push(R()*2-1);M.push(row)}
+ const MM=[];for(let i=0;i<m;i++){for(let j=0;j<m;j++){let s2=0;for(let k=0;k<n;k++)s2+=M[i][k]*M[j][k];MM[i*m+j]=s2/n}}
+ const eig=jacobiEig(MM,m,40).sort((a,b)=>a-b);
+ const Wm=Math.min(W,H)*.34,Hm=Wm*.62,bx=cx-Wm/2,by2=cy+Hm/2;
+ X.strokeStyle='rgba(180,139,255,.4)';X.strokeRect(bx,by2-Hm,Wm,Hm);
+ X.fillStyle='#ff9ad5';for(const e of eig){if(e<0)continue;X.globalAlpha=.55;const xh=bx+(e/(2.6))*Wm*.7;X.fillRect(xh,by2-2,2,2)}X.globalAlpha=1;
+ const a=(1-Math.sqrt(gamma))*(1-Math.sqrt(gamma)),b=(1+Math.sqrt(gamma))*(1+Math.sqrt(gamma));
+ X.strokeStyle='#62e6c9';X.lineWidth=1.6;X.beginPath();
+ for(let k=0;k<=80;k++){const x=a+(b-a)*k/80;const rho=gammastar(x,gamma);const px=bx+(x/(b*1.05))*Wm;const py=by2-rho*(Hm*.95)/ (1/(2*Math.PI*gamma*a) + .1);k===0?X.moveTo(px,py):X.lineTo(px,py)}X.stroke();
+ X.font='11px ui-monospace';X.fillStyle='#ff9ad5';X.fillText('MP TEST — the ESD hears Marchenko–Pastur',cx-Wm/2,by2-Hm-16);
+ X.fillStyle='#b48bc0';X.font='9px ui-monospace';X.fillText('γ=m/n='+gamma.toFixed(3)+' · ρ(x)=(1/2πγx)√((b²−x²)(x²−a²)) · spectral rigidity of {-1,0,+1} · '+tag,cx-Wm/2,by2-Hm-4)}
+function gammastar(x,g){const a=(1-Math.sqrt(g))*(1-Math.sqrt(g)),b=(1+Math.sqrt(g))*(1+Math.sqrt(g));if(x<=a||x>=b)return 0;return Math.sqrt((b*b-x*x)*(x*x-a*a))/(2*Math.PI*g*x)}
+function viewK(tag){const cx=W/2-camX,cy=H/2-camY;fade();
+ for(let t2=0;t2<5;t2++){const a0=t2/5*TAU*2+tRel*.4*(scale||2);
+  for(let i=0;i<26;i++){const p=i/26;const rr=(60+i*9)*(1-p*.5);const px=cx+Math.cos(a0+p*4)*rr,py=cy+Math.sin(a0+p*4)*rr*.8;X.globalAlpha=.8-p*.7;X.fillStyle=['#ff6ec7','#ffd36e','#62e6c9','#b48bff','#ff9ad5'][t2];X.fillRect(px-1.6,py-1.6,3.2,3.2)}}
  X.globalAlpha=1;
- if(kind==='quasar'){ // the jets
-  for(let i=0;i<40;i++){const q=((i*11+tRel*8*(scale||3))%40)/40,jr=R*2.2+q*R*6;
-   X.globalAlpha=.8*(1-q);X.fillStyle='#62e6c9';X.fillRect(cx+(q<.5?-1:1)*jr*.35-1,cy+Math.sin(i)*3-1+jr*(q<.5?-.55:.55)*.35,2,2)}X.globalAlpha=1}
- if(kind==='magnetar'){ // field lines + giant flare pulses
-  X.strokeStyle='rgba(98,230,201,.3)';X.lineWidth=1;
-  for(let i=0;i<6;i++){X.beginPath();for(let a=0;a<TAU;a+=.1){const rr=R*.4+R*1.1*Math.sin((tRel*20*Math.max(1,scale||3))+a*2+i);X.lineTo(cx+Math.cos(a)*rr/2,cy+Math.sin(a)*rr)}X.stroke()}
-  const fl=Math.pow(Math.max(0,Math.sin(tRel*9*(scale||3)*10)),24);
-  X.globalAlpha=fl;X.fillStyle='#fff';X.beginPath();X.arc(cx,cy,R*2.4,0,TAU);X.fill();X.globalAlpha=1}
- if(kind==='belt'){ // the swarm
-  for(let i=0;i<140;i++){const aa=((i*29+tRel*22*Math.max(1,scale||3))%140)/140*a2pi(),rr=R*2+((i*13)%70)/70*R*2.4,s2=((i*7)%13)/13;
-   X.globalAlpha=.3+.5*s2;X.fillStyle=i%5?'#b48bc0':'#ffd36e';X.fillRect(cx+Math.cos(aa)*rr,cy+Math.sin(aa)*rr* .6,1.5+2*s2,1.5+2*s2)}
-  X.globalAlpha=1}
- X.font='11px ui-monospace';X.fillStyle='#ff9ad5';X.fillText(label,cx-R*1.4,cy-R*2.6);
- X.fillStyle='#b48bc0';X.font='9px ui-monospace';X.fillText(tag,cx-R*1.4,cy+R*2.9)}
-function a2pi(){return ((Math.sin(tAbs*793)+1)/2)*TAU}
-function drawFormation(dt){
- const gr=X.createLinearGradient(0,0,W,H);gr.addColorStop(0,'#040208');gr.addColorStop(1,'#0d0420');X.fillStyle=gr;X.fillRect(0,0,W,H);stars();
- const g=GS[2];stepGalaxy(g,dt*3*(Math.max(1,scale||3)));
- const gx=W/2-camX,gy=H/2-camY,sc=g.scale*zoom;
- const cs=sc*2/g.L;
- for(let y=0;y<g.L;y++)for(let x=0;x<g.L;x++){const v=g.spins[y*g.L+x];if(!v)continue;X.globalAlpha=v===1?.05+.1*g.bias[y*g.L+x]:.03;X.fillStyle=v===1?'#ffd36e':'#5b9dff';X.fillRect(gx+(x-g.L/2)*cs,gy+(y-g.L/2)*cs,cs+1,cs+1)}
- X.globalAlpha=1;
- for(const p of g.halo){const px2=gx+p.x*sc,py2=gy+p.y*sc;X.fillStyle=`hsl(${Math.round(280+p.th*90)},92%,${58+16*Math.abs(Math.cos(p.th))}%)`;X.fillRect(px2,py2,2.4,2.4)}
- X.font='11px ui-monospace';X.fillStyle='#62e6c9';X.fillText('FORMATION WATCH — the Antennae, merging live · '+g.stars+' stars frozen',gx-sc,gy-sc*.9)}
-// loop
+ const cq=1-(1/Math.pow(26,1/5))*0; // the geometric-mean point — the consensus
+ glowDot(cx,cy,26,'rgba(255,214,110,.85)','rgba(255,214,110,0)');
+ X.font='11px ui-monospace';X.fillStyle='#ff9ad5';X.fillText('KOMPRESS CONSENSUS — 5 teachers, one logit',cx-140,cy-90);
+ X.fillStyle='#b48bc0';X.font='9px ui-monospace';X.fillText("z̄=mean of teachers' z · the geometric-mean logit · 8b-public-documents/sparse-representations/kompress_v2 · "+tag,cx-140,cy-76)}
+function viewSr(tag){const cx=W/2-camX,cy=H/2-camY;fade();S=(seed^0x51a1)>>>0;const m=20,n=60,p=.35,gm=m/n;
+ const M=[];for(let i=0;i<m;i++){const row=[];for(let j=0;j<n;j++)row.push(R()<p?(R()<.5?1:-1):0);M.push(row)}
+ const MM2=[];for(let i=0;i<m;i++){for(let j=0;j<m;j++){let s2=0;for(let k=0;k<n;k++)s2+=M[i][k]*M[j][k];MM2[i*m+j]=s2/n}}
+ const eig=jacobiEig(MM2,m,40);let smax=0;for(const e of eig)smax=Math.max(smax,Math.abs(e));
+ const bound=Math.sqrt(p*n)*(1+Math.sqrt(gm));
+ const ok=smax<=bound+1e-6;const frac=Math.min(1,smax/bound);
+ X.strokeStyle='rgba(255,214,110,.5)';X.lineWidth=10;X.beginPath();X.arc(cx,cy,Math.min(W,H)*.18,0,TAU*.75);X.stroke();
+ X.strokeStyle=ok?'#62e6c9':'#ff6b63';X.lineWidth=10;X.beginPath();X.arc(cx,cy,Math.min(W,H)*.18,0,TAU*.75*frac);X.stroke();
+ X.font='22px ui-monospace';X.fillStyle=ok?'#62e6c9':'#ff6b63';X.fillText(ok?'RIGID':'DRIFT',cx-44,cy+8);
+ X.font='11px ui-monospace';X.fillStyle='#ff9ad5';X.fillText('SPECTRAL RIGIDITY — live check',cx-100,cy-Math.min(W,H)*.22);
+ X.fillStyle='#b48bc0';X.font='9px ui-monospace';X.fillText('smax='+smax.toFixed(3)+' ≤ √(pn)(1+√γ)='+bound.toFixed(3)+' · the ternary weights cannot collapse · '+tag,cx-190,cy+Math.min(W,H)*.22+18)}
+function viewClio(tag){const cx=W/2-camX,cy=H/2-camY;fade();S=(seed^0xc110)>>>0;const n=7;
+ X.strokeStyle='rgba(255,154,213,.6)';X.lineWidth=1.4;
+ for(let f=0;f<3;f++){X.beginPath();for(let i=0;i<=40;i++){const a=i/40*TAU;const r=(26+f*22)*(1+.18*Math.sin(a*3+tRel*3*(scale||2)+f));const u=(r-26)/70;X.lineTo(cx+Math.cos(a+u)*r,cy+Math.sin(a+u)*r*.72*(1+.1*Math.sin(a*5-f)))}X.stroke()}
+ for(let i=0;i<n;i++){const a=i/n*TAU+tRel*.5*(scale||2);X.fillStyle='#ffd36e';X.fillRect(cx+Math.cos(a)*40-2,cy+Math.sin(a)*30-2,4,4)}
+ X.font='11px ui-monospace';X.fillStyle='#ff9ad5';X.fillText('CLIO PROJECTION — the morphing lens',cx-110,cy-120);
+ X.fillStyle='#b48bc0';X.font='9px ui-monospace';X.fillText('8b-public-documents/forth/02-clio-projection.fth · '+tag,cx-150,cy+130)}
+function viewRsvp(tag){const cx=W/2-camX,cy=H/2-camY;fade();
+ for(let i=0;i<7;i++){const off=i/7*TAU;X.strokeStyle=`hsla(${280+i*14},90%,70%,.5)`;X.lineWidth=2.4;
+  X.beginPath();for(let p=0;p<60;p++){const u=p/60,a=u*TAU*2-off;const r=Math.min(W,H)*.08*(1+.55*Math.abs(Math.sin(a*2+tRel*8*(scale||2))));X.lineTo(cx+Math.cos(a+off)*r,cy+Math.sin(a+off)*r*.8)}X.stroke()}
+ X.font='11px ui-monospace';X.fillStyle='#ff9ad5';X.fillText('RSVP DYNAMICS — the pulse trains',cx-100,cy-120);
+ X.fillStyle='#b48bc0';X.font='9px ui-monospace';X.fillText('8b-public-documents/forth/04-rsvp-dynamics.fth · relative-time pulses · '+tag,cx-150,cy+130)}
+function viewAcademy(tag){const cx=W/2-camX,cy=H/2-camY;fade();S=(seed^0xacad)>>>0;
+ for(let y=0;y<10;y++)for(let x=0;x<16;x++){const px=cx-160+x*22,py=cy-80+y*16;X.globalAlpha=.3+.5*Math.abs(Math.sin(x*2.7+y*1.3+tAbs*.7));X.fillStyle='#b48bff';X.fillRect(px,py,9,4)}X.globalAlpha=1;
+ glowDot(cx,cy,Math.min(W,H)*.2,'rgba(180,139,255,.16)','rgba(180,139,255,0)');
+ X.font='11px ui-monospace';X.fillStyle='#ff9ad5';X.fillText('AXIOMQUANT ACADEMY — the monograph hall',cx-140,cy-110);
+ X.fillStyle='#b48bc0';X.font='9px ui-monospace';X.fillText('axiomquant.org/academy · the threshold · quant and ternary research · '+tag,cx-160,cy+120)}
+function viewCag(tag){const cx=W/2-camX,cy=H/2-camY;fade();
+ X.strokeStyle='rgba(255,211,110,.55)';X.lineWidth=1.6;
+ for(let i=0;i<12;i++){const a=i/12*TAU,rr=Math.min(W,H)*.13*(1+.2*Math.sin(tRel*2.2*Math.max(1,scale||3)+i*2));
+  X.beginPath();for(let p=0;p<=30;p++){const u=p/30;X.lineTo(cx+Math.cos(a*3+u)*rr*(u<.5?u*2:(1-u)*2),cy+Math.sin(a*3+u)*rr* (u<.5?u*2:(1-u)*2)* .8)}X.stroke()}
+ X.font='11px ui-monospace';X.fillStyle='#ff9ad5';X.fillText('CONSTRAINT AS GROUND — the ground holds',cx-140,cy-110);
+ X.fillStyle='#b48bc0';X.font='9px ui-monospace';X.fillText('8b-public-documents — constraint_as_ground.pdf · '+tag,cx-140,cy+120)}
+// ══ main ══
 const KEYS={};addEventListener('keydown',e=>{KEYS[e.key.toLowerCase()]=1;
- const k=parseInt(e.key);if(k>=1&&k<=8)travel(DEST[k-1].id);
+ if(e.key==='/'){e.preventDefault();document.getElementById('q').focus()}
+ if(e.key==='Escape')home();
  if(e.key==='t'||e.key==='T')document.getElementById('speed').onclick();
- if('wasd +-t'.includes(e.key.toLowerCase()+' '))e.preventDefault()});
+ if('wasd +-'.includes(e.key.toLowerCase()+' '))e.preventDefault()});
 addEventListener('keyup',e=>{KEYS[e.key.toLowerCase()]=0});
-function loop(){const now=performance.now()/1000,dt=Math.min(now-tAbs,0.05);tAbs=now;
+document.getElementById('q').addEventListener('input',e=>{q=e.target.value;list(filter())});
+function list(items){const lst=document.getElementById('lst');lst.innerHTML='';for(const o of items){const d=document.createElement('div');d.className='o'+(sel===o.name?' on':'');d.innerHTML='<b>'+o.name+'</b><span>'+o.type+' · '+o.desc.slice(0,42)+'</span>';d.onclick=()=>travel(o);lst.appendChild(d)}}
+function loop(){const now=performance.now()/1000,dt=Math.min(now-tAbs,.05);tAbs=now;
  tRel+=dt*Math.max(scale||0)/T_YEAR;
- const sp=260*dt/zoom;
- camX+=(KEYS['d']?sp:0)-(KEYS['a']?sp:0);camY+=(KEYS['s']?sp:0)-(KEYS['w']?sp:0);
- if(KEYS['+']||KEYS['='])zoom=Math.min(6,zoom*1.02);if(KEYS['-'])zoom=Math.max(.4,zoom*.98);
- // travel glide: from → target per view
- if(dest==='U'){from={x:0,y:0,z:1};drawUniverse(dt)}
- else if(dest==='E'){drawEarth()}
- else if(dest==='G'){ringView('core','GALAXY CORE — M87*','the heart where the vector halo coheres — frame-dragging visible at ×100')}
- else if(dest==='B'){ringView('hole','BLACK HOLE — Sgr A*','the photon ring; matter spirals in, time slows relative to the origo')}
- else if(dest==='Q'){ringView('quasar','QUASAR — 3C 273','the brightest engine: accretion + relativistic jets')}
- else if(dest==='M'){ringView('magnetar','MAGNETAR — SGR 1806-20','magnetic field lines; giant flares pulse on relative time')}
- else if(dest==='A'){ringView('belt','ASTEROID BELT','the swarm between the rocks — collisions flash, clusters form')}
- else if(dest==='F'){drawFormation(dt)}
+ // glide toward target
+ const kt=Math.min(1,(tv+=dt*1.6));camX+=(TX-camX)*(kt*(2-kt));camY+=(TY-camY)*(kt*(2-kt));zoom+=(TZ-zoom)*(kt*(2-kt));
+ const sp=260*dt/zoom;camX+=(KEYS['d']?sp:0)-(KEYS['a']?sp:0);camY+=(KEYS['s']?sp:0)-(KEYS['w']?sp:0);
+ if(KEYS['+']||KEYS['='])zoom=Math.min(8,zoom*1.02);if(KEYS['-'])zoom=Math.max(.3,zoom*.98);
+ if(!sel)viewUniverse(dt);else{
+  const t2=sel.type;
+  if(t2==='home')viewOrbit(1,sel.name,sel.desc);
+  else if(t2==='star')ringView('core',1,sel.name,sel.desc);
+  else if(t2==='exo')ringView('core',.8,sel.name,sel.desc);
+  else if(t2==='galaxy')ringView('core',1.2,sel.name,sel.desc);
+  else if(t2==='hole')ringView('hole',1,sel.name,sel.desc);
+  else if(t2==='quasar')ringView('quasar',1,sel.name,sel.desc);
+  else if(t2==='magnetar')ringView('magnetar',1,sel.name,sel.desc);
+  else if(t2==='pulsar')ringView('pulsar',1,sel.name,sel.desc);
+  else if(t2==='nebula')viewNebula(sel.desc);
+  else if(t2==='cluster')viewCluster(sel.desc);
+  else if(t2==='lens')viewLens(sel.desc);
+  else if(t2==='void'||t2==='wall'||t2==='grid')viewGrid(sel.desc,t2);
+  else if(t2==='dwarf')viewDwarf(sel.desc);
+  else if(t2==='belt')ringView('core',1.4,sel.name,sel.desc);
+  else if(t2==='comet')viewProbe(sel.desc+' · the tail follows');
+  else if(t2==='probe')viewProbe(sel.desc);
+  else if(t2==='res_cmb')viewCmb(sel.desc);
+  else if(t2==='res_mp')viewMp(sel.desc);
+  else if(t2==='res_k')viewK(sel.desc);
+  else if(t2==='res_sr')viewSr(sel.desc);
+  else if(t2==='res_clio')viewClio(sel.desc);
+  else if(t2==='res_rsvp')viewRsvp(sel.desc);
+  else if(t2==='res_axq')viewAcademy(sel.desc);
+  else if(t2==='res_cag')viewCag(sel.desc);
+  else viewUniverse(dt)}
  // HUD
  X.fillStyle='rgba(5,2,8,.8)';X.fillRect(0,0,W,26);X.fillRect(0,H-24,W,24);
- X.fillStyle='#ff9ad5';X.font='11px ui-monospace';
- X.fillText('UNIVERSE · '+DEST.find(d=>d.id===dest).name.split(' ').slice(1).join(' ')+' · seed '+seed.toString(16).toUpperCase(),12,17);
- X.fillStyle='#ffd36e';
- X.fillText('T = '+tRel.toFixed(4)+' yr (origo: Earth·Sun) · ×'+(scale||'∞')+' · 1-8 travel · T time',W-460,17);
- X.fillStyle='#62e6c9';X.font='10px ui-monospace';X.fillText('watch the formations · the clock is the orbit — the constellation',12,H-8);
+ X.fillStyle='#ff9ad5';X.font='11px ui-monospace';X.fillText('UNIVERSE v3 · '+CAT.length+' objects · seed '+seed.toString(16).toUpperCase(),12,17);
+ X.fillStyle='#ffd36e';X.fillText('T = '+tRel.toFixed(4)+' yr (origo Earth·Sun) · ×'+(scale||'∞')+' · / search · esc home',W-470,17);
+ X.fillStyle='#62e6c9';X.font='10px ui-monospace';X.fillText('the catalog is the sky, the papers are the floor — the constellation',12,H-8);
  const tick=document.getElementById('tick');
- if(now-(window._ev||0)>5){window._ev=now;tick.textContent='⟦ '+EVENTS[(now/5|0)%EVENTS.length][0]+' · the constellation ⟧'}
+ if(now-(window._ev||0)>5){window._ev=now;tick.textContent='⟦ '+CAT[Math.floor(now/5)%CAT.length].name+' · the constellation ⟧'}
  requestAnimationFrame(loop)}
-document.getElementById('boot').onclick=()=>{rebuild();refreshRail();document.getElementById('boot').remove();tAbs=performance.now()/1000;requestAnimationFrame(loop)};
+document.getElementById('boot').onclick=()=>{menu();list(filter());document.getElementById('boot').remove();tAbs=performance.now()/1000;requestAnimationFrame(loop)};
 addEventListener('resize',()=>{W=innerWidth;H=innerHeight;c.width=W;c.height=H});
-rebuild();refreshRail();
+menu();list(filter());
 </script></body></html>
