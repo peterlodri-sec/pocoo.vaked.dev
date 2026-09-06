@@ -21,7 +21,7 @@ const W = C.width, H = C.height, TILE = 46, TAU = 6.2832;
 // ── the level — the ising field unrolled
 const LW = 96, LH = 11, MN = M.level;
 const heights = new Array(LW);
-for (let c = 0; c < LW; c++) { const v = MN.tiles[c % MN.width]; heights[c] = v === 0 ? LH - 3 : v === 1 ? LH - 4 - (c % 3) : -1; if (heights[c] < 0) heights[c] = -1; }
+for (let c = 0; c < LW; c++) { const v = MN.tiles[c % MN.width]; heights[c] = v === 1 ? LH - 4 - (c % 3) : LH - 3; if (v === 2 && c % 6 === 0 && c > 4 && c < LW - 8) heights[c] = -1; }
 // ── the talent tree — PoE/Diablo style, baked from the seed
 const TREE = M.tree;
 const stats = { dash: 1, jump: 1, air: 0, run: 0, magnet: 34, lotus: 8, reach: 40 };
@@ -38,7 +38,8 @@ for (let i = 0; i < 6; i++) BE.push({ x: 14 + i * 15, dir: 1, t: i % 3 });
 const malas = []; for (let i = 0; i < 27; i++) malas.push({ x: 4 + i * 4, y: LH - 3 - (i % 3), got: 0 });
 const GX = LW - 2;
 // ── the player — celeste discipline
-let px = 120, py = 320, vx = 0, vy = 0, onGround = false, coyote = 0, jbuf = 0, jheld = false;
+let spawnC = 0; for (let c = 0; c < LW; c++) { if (heights[c] > 0) { spawnC = c; break; } }
+let px = spawnC * TILE + 40, py = (LH - heights[spawnC]) * TILE - 46, vx = 0, vy = 0, onGround = false, coyote = 0, jbuf = 0, jheld = false;
 let dashes = stats.dash, dashT = 0, dashX = 0, dashY = 0, cdash = 0, wallDir = 0;
 let dead = false, won = false, collected = 0, karma = 0, modeT = 0, treeOpen = false;
 let t = 0, last = performance.now(), menuOpen = false;
@@ -55,7 +56,7 @@ document.addEventListener('keyup', e => {
   KEYS[e.key] = 0;
 });
 function tileAt(a, b) { const c = Math.floor(a / TILE), r = Math.floor(b / TILE); if (c < 0 || c >= LW || r < 0 || r >= LH) return -1; const h = heights[c]; if (h < 0) return -2; return r >= LH - h ? 1 : 0; }
-function groundedAt(a, b) { return tileAt(a, b + 6) === 1 && tileAt(a + 34, b + 6) === 1; }
+function groundedAt(a, b) { return tileAt(a, b + 44) === 1 && tileAt(a + 34, b + 44) === 1; }
 function startDash() {
   let dx = (KEYS['d'] || KEYS['ArrowRight'] ? 1 : 0) - (KEYS['a'] || KEYS['ArrowLeft'] ? 1 : 0);
   let dy = (KEYS['s'] || KEYS['ArrowDown'] ? 1 : 0) - (KEYS['w'] || KEYS['ArrowUp'] || KEYS[' '] ? 1 : 0);
