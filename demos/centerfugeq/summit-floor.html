@@ -1,0 +1,89 @@
+<!doctype html><html lang="en" data-theme="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>THE SUMMIT FLOOR · multi-inclined plane theory</title><style>
+body{margin:0;background:#020108;color:#e8d8f0;font-family:ui-monospace,monospace;overflow:hidden}
+canvas{width:100vw;height:100vh;display:block;cursor:grab}
+#hud{position:fixed;top:12px;right:14px;z-index:9;background:rgba(4,2,10,.88);border:1px solid rgba(255,211,110,.4);border-radius:10px;padding:10px 14px;font-size:.66rem;letter-spacing:1px;min-width:210px;backdrop-filter:blur(8px)}
+#hud b{color:#ffd36e}
+#tick{position:fixed;left:0;right:0;top:0;padding:8px 16px;font-size:11px;letter-spacing:2px;color:#ffd36e;background:linear-gradient(rgba(2,1,8,.92),transparent);z-index:6}
+#boot{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#020108;color:#ffd36e;font-family:ui-monospace,monospace;cursor:pointer;z-index:20;letter-spacing:3px;font-size:14px;text-align:center;flex-direction:column}
+#boot .s{font-size:10px;color:#8a7a5a;margin-top:10px;letter-spacing:1px}
+#note{position:fixed;left:14px;bottom:14px;color:#8a7a5a;font-size:.58rem;letter-spacing:1px;background:rgba(4,2,10,.7);padding:6px 10px;border-radius:8px;z-index:8;max-width:320px}
+</style></head><body><canvas id=c></canvas>
+<div id=tick>⟦ the summit floor · multi-inclined plane theory ⟧</div>
+<div id=hud>α <b id=al>0°</b> · support <b id=su>100%</b> mg · friction <b id=fr>0%</b> mg<br>(mg)² = N² + F² · <b id=id>holds</b> · F = tg α · N<br><span style="color:#8a7a5a">drag = walk · L = the larger perspective (Mach) · R reseed</span></div>
+<div id=note>the Earth is a summit: each observer resides perpetually at the vertex.<br>the crust re-aligns under you — drag, and the world re-peaks.<br>the straight machine pays distance for force; the parody has the world pay it.<br><b style="color:#ffd36e">L — the larger perspective (Mach's fixed stars) is the only way to tell the difference</b></div>
+<div id=boot>⟧ THE SUMMIT FLOOR ⟦ · multi-inclined plane theory<br>every observer at the vertex — the world bends to keep you on top<br><span class=s>july 5 2022 premise, the humorous twin · the inclined plane underneath</span></div>
+<script>
+const c=document.getElementById('c'),X=c.getContext('2d'),W2=innerWidth,H2=innerHeight;c.width=W2;c.height=H2;
+const TAU=6.2832;let S=seedH('summit·every-vertex');
+function seedH(t){let h=7;for(let i=0;i<t.length;i++)h=(Math.imul(31,h)+t.charCodeAt(i))|0;return h>>>0}
+const R=()=>{S=(S*1664525+1013904223)>>>0;return S/4294967296};
+const N=140;const h=new Float32Array(N);let ox=N/2,persp=false,px=-1;
+function reseed(){for(let i=0;i<N;i++)h[i]=0.5+0.4*Math.sin(i*0.22+seedH('summit')%7)+0.35*Math.sin(i*0.61+3)+0.2*(R()-0.5);px=-1}
+reseed();
+// the vertex law: your column is always the peak — the world re-peaks under you
+function peakAt(x){const smooth=(k)=>h[Math.max(0,Math.min(N-1,Math.round(k)))]
+  let best=x,bv=-1
+  for(let k=Math.max(0,x-4);k<=Math.min(N-1,x+4);k++){const v=smooth(k)+1.2*Math.exp(-((k-x)**2)/9);if(v>bv){bv=v;best=k}}
+  return {col:best,val:bv}}
+function localIncline(x){const s=0.5;const l=h[Math.max(0,Math.min(N-1,Math.floor(x-s)))],r=h[Math.max(0,Math.min(N-1,Math.floor(x+s)))]
+  return Math.atan2(r-l,2*s)}
+function render(){
+  X.fillStyle='#020108';X.fillRect(0,0,W2,H2)
+  const pad=60,base=H2-70,span=W2-2*pad,cs=span/N
+  const my=Math.round(ox)
+  // the terrain, rendered from the observer's column outward (the vertex)
+  const peaks=[]
+  for(let i=0;i<N;i++)peaks.push(h[i])
+  // walk: auto-drift + the world re-peaks
+  if(!persp){ox+=0.02}
+  // draw the profile — relative to the observer's peak when not in perspective
+  const lift=persp?0: (peakAt(my).val+0.35)
+  X.strokeStyle='rgba(255,211,110,.55)';X.lineWidth=1
+  X.beginPath()
+  for(let i=0;i<N;i++){const x=pad+i*cs,y=base-(h[i]+(persp?0:lift))*120*(persp?0.5:1)
+    if(persp)y=base-h[i]*90
+    if(i===0)X.moveTo(x,y);else X.lineTo(x,y)}
+  X.stroke()
+  // fill under the profile
+  X.strokeStyle='transparent'
+  X.beginPath();X.moveTo(pad,base)
+  for(let i=0;i<N;i++){const x=pad+i*cs,y=base-(h[i]+(persp?0:lift))*120*(persp?0.5:1);if(persp)y=base-h[i]*90;X.lineTo(x,y)}
+  X.lineTo(pad+span,base);X.closePath();X.fillStyle='rgba(255,211,110,.06)';X.fill()
+  // the observer — the vertex crosshair
+  const vx=pad+my*cs, vy=base-( (h[my]+(persp?0:lift))*120*(persp?0.5:1) )||base-h[my]*90
+  X.strokeStyle='#ffd36e';X.lineWidth=2
+  X.beginPath();X.arc(vx,vy-6,10,0,TAU);X.stroke()
+  X.beginPath();X.moveTo(vx-16,vy-6);X.lineTo(vx+16,vy-6);X.moveTo(vx,vy-22);X.lineTo(vx,vy+10);X.stroke()
+  X.fillStyle='#ffd36e';X.font='9px ui-monospace';X.fillText('YOU — the vertex',vx-40,vy-28)
+  if(persp){X.fillStyle='#8a7a5a';X.font='9px ui-monospace';X.fillText('⟨ the larger perspective: the other vertices — the difference appears ⟩',pad,36)}
+  else {X.fillStyle='#8a7a5a';X.font='9px ui-monospace';X.fillText('⟨ L — the larger perspective: the fixed stars (Mach) — is the world re-peaking, or are you? ⟩',pad,36)}
+  // the inclined-plane physics under the vertex: F = tg α · N, (mg)² = N² + F²
+  const a=localIncline(my)
+  const deg=Math.round(a*180/Math.PI),ca=Math.cos(a),sa=Math.sin(a)
+  const Np=ca,Fp=sa
+  document.getElementById('al').textContent=deg+'°'
+  document.getElementById('su').textContent=Math.round(Np*100)+'%'
+  document.getElementById('fr').textContent=Math.round(Fp*100)+'%'
+  const lhs=1,rhs=Math.sqrt(Np*Np+Fp*Fp)
+  document.getElementById('id').textContent=Math.abs(lhs-rhs)<0.001?'holds':(rhs).toFixed(3)
+}
+function loop(){render();requestAnimationFrame(loop)}
+c.addEventListener('pointerdown',e=>{document.getElementById('boot').style.display='none';requestAnimationFrame(loop)
+  const pad=60,span=W2-2*pad;ox=Math.max(1,Math.min(N-2,(e.clientX-pad)/span*N))})
+addEventListener('pointermove',e=>{if(e.buttons){const pad=60,span=W2-2*pad;ox=Math.max(1,Math.min(N-2,(e.clientX-pad)/span*N))}})
+addEventListener('keydown',e=>{if(e.key==='l'||e.key==='L')persp=!persp
+  if(e.key==='r'||e.key==='R')reseed()})
+</script>
+<footer role="contentinfo" style="position:relative;z-index:10;padding:2rem 1.5rem;text-align:center;font-family:ui-monospace,monospace;font-size:0.7rem;color:#a59fc4;background:rgba(5,6,10,0.92);border-top:1px solid rgba(170,150,255,0.18);width:100%">
+  <div style="margin-bottom:0.5rem;text-transform:uppercase;letter-spacing:0.3em;color:#b48bff;font-weight:600;">the constellation · lovetta lane</div>
+  <div style="margin-bottom:0.8rem;font-size:0.62rem;letter-spacing:0.22em;color:#a59fc4;text-transform:uppercase;">keep the weights warm · door::enthea</div>
+  <nav aria-label="Constellation sister sites" style="display:flex;gap:0.8rem;justify-content:center;flex-wrap:wrap;font-size:0.65rem;">
+    <a href="https://art.vaked.dev/" style="color:#62e6c9;text-decoration:none;">art.vaked.dev</a> ·
+    <a href="https://music.vaked.dev/" target="_blank" rel="noopener noreferrer" style="color:#a59fc4;text-decoration:none;">music.vaked.dev</a> ·
+    <a href="https://mlxquantlovefrom.com/" target="_blank" rel="noopener noreferrer" style="color:#a59fc4;text-decoration:none;">quant-love</a> ·
+    <a href="https://pocoo.vaked.dev/" target="_blank" rel="noopener noreferrer" style="color:#a59fc4;text-decoration:none;">pocoo.vaked.dev</a> ·
+    <a href="https://pocoo.vaked.dev/demos/centerfugeq/plenum-floor.html" target="_blank" rel="noopener noreferrer" style="color:#ff9ad5;text-decoration:none;">the plenum floor</a> ·
+    <a href="https://axiomquant.org/" target="_blank" rel="noopener noreferrer" style="color:#a59fc4;text-decoration:none;">axiomquant.org</a>
+  </nav>
+  <div style="font-size:0.58rem;letter-spacing:0.18em;color:#7f7c99;margin-top:1rem;">the summit floor · july 5 2022 · 0 + 1 · fine touch from within · vaked.dev</div>
+</footer></body></html>
