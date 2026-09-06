@@ -53,6 +53,7 @@ O('the Moon','probe','home',.18,.84,.6,'Apollo walked here'),O('Mars','probe','h
 // the papers — the research floor
 O('TERNARY CMB','res_cmb','paper',.15,.1,.5,'the first light, quantized {-1,0,+1} — MLX-QUANT\'s gamma on the sky'),O('MP TEST','res_mp','paper',.25,.14,.45,'the ESD of a seeded matrix vs Marchenko–Pastur — KOMPRESS v2'),O('KOMPRESS CONSENSUS','res_k','paper',.35,.1,.4,'five teachers, one geometric-mean logit — the Council'),O('SPECTRAL RIGIDITY','res_sr','paper',.45,.14,.5,'live smax ≤ √(pn)(1+√γ) check — no collapse'),O('CLIO PROJECTION','res_clio','paper',.55,.1,.45,'8b-public-documents/forth/02-clio-projection.fth'),O('RSVP DYNAMICS','res_rsvp','paper',.65,.14,.4,'8b-public-documents/forth/04-rsvp-dynamics.fth'),O('AXIOMQUANT ACADEMY','res_axq','paper',.75,.1,.45,'axiomquant.org — the monograph, the threshold'),O('CONSTRAINT AS GROUND','res_cag','paper',.85,.14,.5,'8b-public-documents — constraint_as_ground.pdf');
 O('POLARIZED PLENUM','res_plenum','paper',.95,.12,.55,'isek kérdése: az izing híd — m(x,t), ρ_S=−∇·m, a lapos forgási görbe');
+O('LISSAJOUS · magnetar × the hole','res_lissa','paper',.05,.16,.5,'fázisportré: az órák viszonya — gravity → the changing relations among clocks');
 // ── menu
 const CATS=[['all','✦ all'],['paper','📜 papers'],['home','🌍 home'],['star','✧ stars'],['exo','🪐 exoplanets'],['galaxy','🌀 galaxies'],['bh','🕳 black holes'],['neb','🌫 nebulae'],['struct','🕸 structure'],['small','☄ small bodies']];
 function menu(){const chips=document.getElementById('chips');chips.innerHTML='';for(const[cat,lab]of CATS){const b=document.createElement('button');b.textContent=lab;b.className=(cat===cur?'on':'');b.onclick=()=>{cur=cat;menu();list(filter())};chips.appendChild(b)}
@@ -311,6 +312,26 @@ function rotationCurveLite(st){const L=st.L,cx=L/2,cy=L/2,r=[],vK=[],vF=[];
   r.push(rr);vK.push(Math.sqrt(Math.max(0,gk*rr))*.8);vF.push(Math.sqrt(Math.max(0,g2*rr))*.8)}
  return{r,vK,vF}}
 
+function lissaInit(sd){let r2=sd>>>0;const rr=()=>{r2=(r2*1664525+1013904223)>>>0;return r2/4294967296};
+ const suit={kr:1.1+rr()*.6,kt:2.3+rr()*.9,kp:1,spin:3.7+rr()*.8,pre:.11+rr()*.2,em:7.9+rr()*1.1,ms:4.1+rr()*.6};
+ const ratio=suit.kp/suit.spin;
+ let p0=1,q0=0,p1=0,q1=1,v2=ratio;
+ for(let i=0;i<12;i++){const a=Math.floor(v2),p2=a*p1+p0,q2=a*q1+q0;p0=p1;q0=q1;p1=p2;q1=q2;const r3=v2-a;if(Math.abs(p1/q1-ratio)<1e-3||q1>500)break;v2=r3!==0?1/r3:1}
+ return{suit,ratio,closed:Math.abs(ratio-p1/q1)<1e-3,orbits:q1,pts:[]}}
+function lissaTrace(res,len,dt){const s=res.suit,pex=res.suit.pre*2*Math.PI,omx=s.kr+s.kp,omy=s.spin;let t=0;const pts=[];
+ for(let i=0;i<len;i++){t+=dt;pts.push({x:Math.sin(omx*t*6.2832+.9)*Math.cos(pex*t*.5),y:Math.sin(omy*t*6.2832+1.1)})}return pts}
+function viewLissa(tag){const cx=W/2-camX,cy=H/2-camY;fade();
+ if(!LJ)LJ={suit:lissaInit(seed).suit,ratio:lissaInit(seed).ratio,closed:lissaInit(seed).closed,orbits:lissaInit(seed).orbits};
+ const pts=lissaTrace({suit:LJ.suit},600,.004*Math.max(1,scale||2));
+ X.strokeStyle='rgba(255,154,213,.35)';X.strokeRect(cx-150,cy-110,300,220);
+ X.strokeStyle='rgba(98,230,201,.22)';X.lineWidth=1;X.beginPath();X.moveTo(cx-150,cy);X.lineTo(cx+150,cy);X.moveTo(cx,cy-110);X.lineTo(cx,cy+110);X.stroke();
+ X.strokeStyle='rgba(255,110,199,.95)';X.lineWidth=1.5;X.beginPath();
+ for(let i=0;i<pts.length;i++){const px=cx+pts[i].x*130,py2=cy-pts[i].y*90;i===0?X.moveTo(px,py2):X.lineTo(px,py2)}
+ X.stroke();
+ X.font='11px ui-monospace';X.fillStyle='#ff9ad5';X.fillText('LISSAJOUS — magnetar × the hole',cx-140,cy-132);
+ X.fillStyle='#b48bc0';X.font='9px ui-monospace';
+ X.fillText('Ωφ/spin='+LJ.ratio.toFixed(4)+' · '+(LJ.closed?'closes in '+LJ.orbits+' orbits':'quasiperiodic — never closes')+' · gravity → relations among clocks',cx-190,cy+140)}
+let LJ=null;
 // ══ main ══
 const KEYS={};addEventListener('keydown',e=>{KEYS[e.key.toLowerCase()]=1;
  if(e.key==='/'){e.preventDefault();document.getElementById('q').focus()}
@@ -355,6 +376,7 @@ function loop(){const now=performance.now()/1000,dt=Math.min(now-tAbs,.05);tAbs=
   else if(t2==='res_axq')viewAcademy(sel.desc);
   else if(t2==='res_cag')viewCag(sel.desc);
   else if(t2==='res_plenum')viewPlenum(sel.desc);
+  else if(t2==='res_lissa')viewLissa(sel.desc);
   else viewUniverse(dt)}
  // HUD
  X.fillStyle='rgba(5,2,8,.8)';X.fillRect(0,0,W,26);X.fillRect(0,H-24,W,24);
