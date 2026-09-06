@@ -53,6 +53,7 @@ O('the Moon','probe','home',.18,.84,.6,'Apollo walked here'),O('Mars','probe','h
 // the papers — the research floor
 O('TERNARY CMB','res_cmb','paper',.15,.1,.5,'the first light, quantized {-1,0,+1} — MLX-QUANT\'s gamma on the sky'),O('MP TEST','res_mp','paper',.25,.14,.45,'the ESD of a seeded matrix vs Marchenko–Pastur — KOMPRESS v2'),O('KOMPRESS CONSENSUS','res_k','paper',.35,.1,.4,'five teachers, one geometric-mean logit — the Council'),O('SPECTRAL RIGIDITY','res_sr','paper',.45,.14,.5,'live smax ≤ √(pn)(1+√γ) check — no collapse'),O('CLIO PROJECTION','res_clio','paper',.55,.1,.45,'8b-public-documents/forth/02-clio-projection.fth'),O('RSVP DYNAMICS','res_rsvp','paper',.65,.14,.4,'8b-public-documents/forth/04-rsvp-dynamics.fth'),O('AXIOMQUANT ACADEMY','res_axq','paper',.75,.1,.45,'axiomquant.org — the monograph, the threshold'),O('CONSTRAINT AS GROUND','res_cag','paper',.85,.14,.5,'8b-public-documents — constraint_as_ground.pdf');
 O('POLARIZED PLENUM','res_plenum','paper',.95,.12,.55,'isek kérdése: az izing híd — m(x,t), ρ_S=−∇·m, a lapos forgási görbe');
+O('THE BIG BANG — the root of T','res_bb','paper',.95,.02,.6,'{} — a teremtés-pillanat: az idő gyökere, ahonnan a huzal fut');
 const MSG=[['M1','nebula','Tau','the Crab — SN 1054'],['M2','cluster','Aqr','globular'],['M3','cluster','CVn','globular'],['M4','cluster','Sco','globular'],['M5','cluster','Ser','globular'],['M6','cluster','Sco','open — the butterfly'],['M7','cluster','Sco','open — Ptolemy\'s'],['M8','nebula','Sgr','the Lagoon'],['M13','cluster','Her','the Great Hercules'],['M16','nebula','Ser','the Eagle — pillars'],['M17','nebula','Sgr','the Omega'],['M20','nebula','Sgr','the Trifid'],['M22','cluster','Sgr','globular'],['M27','nebula','Vul','the Dumbbell'],['M31','galaxy','And','the Andromeda galaxy'],['M32','galaxy','And','the satellite'],['M33','galaxy','Tri','the Triangulum'],['M42','nebula','Ori','the Orion nebula'],['M45','cluster','Tau','the Pleiades'],['M51','galaxy','CVn','the Whirlpool'],['M57','nebula','Lyr','the Ring'],['M63','galaxy','CVn','the Sunflower'],['M64','galaxy','Com','the Black Eye'],['M81','galaxy','UMa','Bode\'s galaxy'],['M82','galaxy','UMa','the Cigar'],['M83','galaxy','Hya','the Southern Pinwheel'],['M87','galaxy','Vir','the giant elliptical'],['M97','nebula','UMa','the Owl'],['M101','galaxy','UMa','the Pinwheel'],['M104','galaxy','Vir','the Sombrero'],['NGC104','cluster','Tuc','47 Tucanae'],['NGC3372','nebula','Car','the Carina nebula'],['NGC5139','cluster','Cen','Omega Centauri'],['NGC4565','galaxy','Com','the Needle — edge-on'],['NGC7000','nebula','Cyg','the North America nebula']]
 let MSGX=0;
 for(const m2 of MSG){O(m2[0],m2[1]==='galaxy'?'galaxy':m2[1]==='nebula'?'nebula':'cluster','deep',.04+MSGX*.021,(MSGX%10)*.07+.05,.4+((MSGX*7)%5)*.08,m2[3]+' · '+m2[2]);MSGX++}
@@ -399,6 +400,48 @@ function viewMsphere(tag){const cx=W/2-camX,cy=H/2-camY;const R2=Math.min(W,H)*.
  X.fillStyle='#62e6c9';X.font='9px ui-monospace';
  X.fillText('T shared at the geometric center ⌖ · witnesses 𓆝 outside · own magnetars private · gate ⧉ returns · breath '+ MS.breath.toFixed(2)+' · balance '+ (Math.abs(MS.nodes.length/3-Math.abs(MS.breath))*0).toFixed(0)+'·∿',cx-R2*2.1,cy+R2*2.5)}
 let MS=null;
+// the root of T — the Big Bang, the creation moment {}
+let BBT=0;
+function viewBigBang(tag){const cx=W/2-camX,cy=H/2-camY;fade();const dt2=0.03*Math.max(1,scale||2);
+ // the cosmic clock: from {} to now — demo-second ~ 0.46 Gyr
+ BBT+=dt2;const gyr=BBT*0.46,age=13.8,f=Math.min(1,gyr/age);
+ const era=f<.35?'radiation':f<.85?'matter':'dark energy';
+ // {} — before the first trit: the empty set, then the first flash
+ if(gyr<1.2){X.fillStyle='rgba(5,2,8,.6)';X.fillRect(0,0,W,H);
+  X.font='80px ui-monospace';X.fillStyle='#ffd36e';X.textAlign='center';
+  X.fillText('{}',cx,cy-20);X.textAlign='left';
+  X.fillStyle='#b48bc0';X.font='12px ui-monospace';X.fillText('no T before this — the axis begins here',cx-110,cy+40);
+  // the first light: the flash + the expanding shell
+  const rr=(gyr*420)%(Math.min(W,H)*.5);
+  X.strokeStyle='rgba(255,214,110,'+Math.max(0,.9-gyr*.5)+')';X.lineWidth=2.5;X.beginPath();X.arc(cx,cy,rr,0,TAU);X.stroke();
+  X.fillStyle='#fff7d6';X.beginPath();X.arc(cx,cy,Math.max(1,14-gyr*9),0,TAU);X.fill();
+  // the first trits — the wire emerging from {}
+  if(gyr>.3){const n=Math.min(220,Math.floor(gyr*180));S=(seed^0xbb)>>>0;const R2=()=>{S=(S*1664525+1013904223)>>>0;return S/4294967296};
+   for(let i=0;i<n;i++){const a=R2()*TAU,q=(R2()*gyr*.8);const px=cx+Math.cos(a)*q*(Math.min(W,H)*.5/n)*0*i+Math.cos(a)*Math.min(W,H)*.42*q,py=cy+Math.sin(a)*Math.min(W,H)*.42*q;
+    X.globalAlpha=Math.max(0,1-q*1.4);X.fillStyle=q<.33?'#ff6ec7':q<.66?'#ff9ad5':'#b48bff';X.fillRect(px-1.6,py-1.6,3.2,3.2)}X.globalAlpha=1}}
+ else{
+  // the eras: radiation → matter → dark energy, the light cone
+  const cone=Math.min(W,H)*.34*(.3+f*.7);
+  X.strokeStyle='rgba(255,154,213,.4)';X.lineWidth=1.4;X.beginPath();X.moveTo(cx,cy);X.lineTo(cx-cone,cy-cone);X.moveTo(cx,cy);X.lineTo(cx+cone,cy-cone);X.stroke();
+  X.fillStyle='#b48bff';X.beginPath();X.moveTo(cx,cy);X.lineTo(cx-cone,cy-cone);X.lineTo(cx+cone,cy-cone);X.closePath();X.globalAlpha=.06;X.fill();X.globalAlpha=1;
+  // the seeded cosmos: CMB shimmer early, halos later, galaxies latest
+  S=(seed^0xc0de)>>>0;const R2=()=>{S=(S*1664525+1013904223)>>>0;return S/4294967296};
+  if(f<.5){for(let y=0;y<22;y++)for(let x=0;x<22;x++){if(R2()<.5)continue;const v=R2()*2-1,q=Math.max(.02,Math.abs(v)),trit=Math.max(-1,Math.min(1,Math.round(v/q)));
+   X.fillStyle=trit===1?'#ff6ec7':trit===-1?'#5b9dff':'#120a20';X.globalAlpha=.2+.5*Math.abs(v);
+   X.fillRect(cx+(x-11)*10+(Math.min(W,H)*.16),cy+(y-11)*10+(Math.min(W,H)*.16),8,8)}X.globalAlpha=1}
+  // structure: condensation knots → stars
+  for(let i=0;i<60;i++){const a=R2()*TAU,rr=R2()*cone*.8;
+   const px=cx+Math.cos(a)*rr,py=cy+Math.sin(a)*rr*.85-Math.min(W,H)*.15;
+   X.globalAlpha=.3+.5*Math.sin(i*7+f*40);X.fillStyle=i%4?'#ff9ad5':'#ffd36e';X.fillRect(px,py-1,2,2)}X.globalAlpha=1}
+ // the era bar
+ const bw=Math.min(W,H)*.5,bx=cx-bw/2,by=cy+Math.min(W,H)*.3;
+ X.strokeStyle='rgba(180,139,255,.5)';X.strokeRect(bx,by,bw,10);
+ X.fillStyle='#ff6ec7';X.fillRect(bx,by,bw*.35,10);X.fillStyle='#b48bff';X.fillRect(bx+bw*.35,by,bw*.5,10);X.fillStyle='#62e6c9';X.fillRect(bx+bw*.85,by,bw*.15,10);
+ X.fillStyle='#ffd36e';X.fillRect(bx,by,bw*f,10);
+ X.font='11px ui-monospace';X.fillStyle='#ff9ad5';
+ X.fillText('THE BIG BANG — {} · the root of T',bx-60,by-40);
+ X.fillStyle='#b48bc0';X.font='9px ui-monospace';
+ X.fillText('T_root = '+gyr.toFixed(2)+' / '+age+' Gyr · era: '+era+' · local T anchor: Earth·Sun orbit · the wire runs from the empty set',bx-120,by+26)}
 // ══ main ══
 const KEYS={};addEventListener('keydown',e=>{KEYS[e.key.toLowerCase()]=1;
  if(e.key==='/'){e.preventDefault();document.getElementById('q').focus()}
@@ -459,12 +502,14 @@ function loop(){const now=performance.now()/1000,dt=Math.min(now-tAbs,.05);tAbs=
   else if(t2==='res_plenum')viewPlenum(sel.desc);
   else if(t2==='res_lissa')viewLissa(sel.desc);
   else if(t2==='res_msph')viewMsphere(sel.desc);
+  else if(t2==='res_bb')viewBigBang(sel.desc);
   else viewUniverse(dt)}
  // HUD
  X.fillStyle='rgba(5,2,8,.8)';X.fillRect(0,0,W,26);X.fillRect(0,H-24,W,24);
  X.fillStyle='#ff9ad5';X.font='11px ui-monospace';X.fillText('UNIVERSE v3 · '+CAT.length+' objects · seed '+seed.toString(16).toUpperCase(),12,17);
  X.fillStyle='#ffd36e';X.fillText('T = '+tRel.toFixed(4)+' yr (origo Earth·Sun) · ×'+(scale||'∞')+' · / search · esc home',W-470,17);
  X.fillStyle='#62e6c9';X.font='10px ui-monospace';X.fillText('the catalog is the sky, the papers are the floor — the constellation',12,H-8);
+ X.fillStyle='#ffd36e';X.font='9px ui-monospace';X.fillText('root of T: {} — the Big Bang · 13.8 Gyr · local anchor: Earth·Sun',W-400,H-8);
  const tick=document.getElementById('tick');
  if(now-(window._ev||0)>5){window._ev=now;tick.textContent='⟦ '+CAT[Math.floor(now/5)%CAT.length].name+' · the constellation ⟧'}
  requestAnimationFrame(loop)}
