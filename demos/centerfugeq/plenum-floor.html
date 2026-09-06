@@ -1,0 +1,122 @@
+<!doctype html><html lang="en" data-theme="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>RSVP FLOOR — the plenum relaxation</title><style>
+body{margin:0;background:#020108;color:#e8d8f0;font-family:ui-monospace,monospace;overflow:hidden}
+canvas{width:100vw;height:100vh;display:block;cursor:crosshair}
+#hud{position:fixed;top:12px;right:14px;z-index:9;background:rgba(4,2,10,.88);border:1px solid rgba(98,230,201,.4);border-radius:10px;padding:10px 14px;font-size:.66rem;letter-spacing:1px;min-width:190px;backdrop-filter:blur(8px)}
+#hud b{color:#ffd36e}
+#gauge{height:7px;background:#120a18;border:1px solid rgba(255,110,199,.4);border-radius:4px;margin:6px 0 2px;overflow:hidden}
+#gauge i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#ff6ec7,#ffd36e);transition:width .15s linear}
+#plot{position:fixed;left:14px;bottom:14px;width:240px;height:120px;background:rgba(4,2,10,.85);border:1px solid rgba(180,139,255,.35);border-radius:10px;z-index:9;backdrop-filter:blur(8px)}
+#plot .t{font-size:.58rem;color:#b48bc0;letter-spacing:1px;padding:6px 8px 0;text-transform:uppercase}
+#tick{position:fixed;left:0;right:0;top:0;padding:8px 16px;font-size:11px;letter-spacing:2px;color:#62e6c9;background:linear-gradient(rgba(2,1,8,.92),transparent);z-index:6}
+#boot{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#020108;color:#ff9ad5;font-family:ui-monospace,monospace;cursor:pointer;z-index:20;letter-spacing:3px;font-size:14px;text-align:center;flex-direction:column}
+#boot .s{font-size:10px;color:#b48bc0;margin-top:10px;letter-spacing:1px}
+#note{position:fixed;right:14px;bottom:14px;color:#7a5a8a;font-size:.58rem;letter-spacing:1px;background:rgba(4,2,10,.7);padding:6px 10px;border-radius:8px;z-index:8;max-width:280px;text-align:right}
+</style></head><body><canvas id=c></canvas>
+<div id=tick>⟦ the plenum floor ⟧</div>
+<div id=hud>usable work <b id=uw>100%</b><div id=gauge><i id=fill></i></div>epoch <b id=ep>0</b> · voids <b id=vf>0%</b> · observer <b id=ob>64,64</b><br><span style="color:#8a6aa0">drag = move the center · SPACE pause · R reset · +/- speed</span></div>
+<div id=plot><div class=t>apparent flow from your center</div><canvas id=p width=240 height=96></canvas></div>
+<div id=note>every observer is the center —<br>the profile's shape does not change</div>
+<div id=boot>⟧ RSVP FLOOR ⟦ · the plenum relaxation<br>the same skeleton, one rule: voids open, structures close, usable work exhausts<br><span class=s>july 2022 premise · january 2021 brick-to-sponge · standardgalactic × centerfugeq</span></div>
+<script>
+const c=document.getElementById('c'),X=c.getContext('2d');const W2=innerWidth,H2=innerHeight;c.width=W2;c.height=H2;
+const L=64,N=L*L,TAU=6.2832;
+let S=seedH('the center is every observer');function seedH(t){let h=7;for(let i=0;i<t.length;i++)h=(Math.imul(31,h)+t.charCodeAt(i))|0;return h>>>0}
+const R=()=>{S=(S*1664525+1013904223)>>>0;return S/4294967296};
+// ── the state: one homogeneous medium
+const rho=new Float32Array(N),perm=new Float32Array(N),en=new Float32Array(N),phi=new Float32Array(N),vx=new Float32Array(N),vy=new Float32Array(N);
+let usable=1,cumS=0,epoch=0,playing=false,speed=3,ox=L/2,oy=L/2;
+const idx=(x,y)=>((y+L)%L)*L+((x+L)%L);
+function reset(){for(let i=0;i<N;i++){rho[i]=1+(R()-0.5)*0.15;perm[i]=1;en[i]=0;phi[i]=0;vx[i]=0;vy[i]=0}usable=1;cumS=0;epoch=0}
+reset();
+function step(){
+  // the potential — ∇²Φ = 4πGρ, G=0.12
+  for(let it=0;it<90;it++){let md=0
+    for(let y=0;y<L;y++)for(let x=0;x<L;x++){const i=y*L+x
+      const v=0.25*(phi[idx(x+1,y)]+phi[idx(x-1,y)]+phi[idx(x,y+1)]+phi[idx(x,y-1)]-4*Math.PI*0.12*rho[i])
+      md=Math.max(md,Math.abs(v-phi[i]));phi[i]=v}
+    if(md<1e-5)break}
+  // vector flow, gated by the sponge (scalar permeability blocks the vector lane)
+  for(let y=0;y<L;y++)for(let x=0;x<L;x++){const i=y*L+x,g=Math.max(0.05,(2-perm[i])/2)
+    vx[i]=-(phi[idx(x+1,y)]-phi[idx(x-1,y)])*0.5*g
+    vy[i]=-(phi[idx(x,y+1)]-phi[idx(x,y-1)])*0.5*g}
+  // the ONE rule — dρ/dt = -∇·(ρv): voids open, structures close
+  for(let y=0;y<L;y++)for(let x=0;x<L;x++){const i=y*L+x
+    const div=0.5*((rho[idx(x+1,y)]*vx[idx(x+1,y)]-rho[idx(x-1,y)]*vx[idx(x-1,y)])+
+                   (rho[idx(x,y+1)]*vy[idx(x,y+1)]-rho[idx(x,y-1)]*vy[idx(x,y-1)]))
+    rho[i]=Math.min(6,Math.max(0.02,rho[i]-0.15*div))
+    en[i]+=Math.abs(div)*0.008
+    perm[i]=Math.min(4,1+en[i]*30)}
+  // the exhaustion accumulator — monotone by construction
+  let d=0;for(let i=0;i<N;i++)d+=en[i]
+  usable=Math.max(0,usable-Math.max(0,(d-cumS)/N));cumS=d;epoch++
+}
+function voidF(){let sm=0,vm=0;for(let i=0;i<N;i++){sm+=en[i];vm+=Math.hypot(vx[i],vy[i])}sm/=N;vm/=N
+  let k=0;for(let i=0;i<N;i++)if(en[i]>sm&&Math.hypot(vx[i],vy[i])<0.2*vm)k++;return k/N}
+// the observable — apparent radial flow from ANY center
+function observe(cx,cy){const out=[]
+  for(let rr=2;rr<=28;rr+=1.5){let sum=0,n=0
+    for(let k=0;k<Math.max(14,rr*6);k++){const th=k/Math.max(14,rr*6)*TAU,x=cx+rr*Math.cos(th),y=cy+rr*Math.sin(th)
+      const i=((Math.round(y)+L)%L)*L+((Math.round(x)+L)%L)
+      sum+=vx[i]*Math.cos(th)+vy[i]*Math.sin(th);n++}
+    out.push([rr,sum/n])}
+  return out}
+let pl=document.getElementById('p'),PX=pl.getContext('2d');
+function drawPlot(){PX.clearRect(0,0,240,96);PX.strokeStyle='rgba(180,139,255,.25)';PX.beginPath();PX.moveTo(0,48);PX.lineTo(240,48);PX.stroke()
+  const o=observe(ox,oy),max=Math.max(1e-4,...o.map(v=>Math.abs(v[1])))
+  PX.strokeStyle='#62e6c9';PX.lineWidth=1.5;PX.beginPath()
+  o.forEach((v,i)=>{const px2=12+i*(216/Math.max(1,o.length-1)),py2=48-v[1]/max*40;if(i===0)PX.moveTo(px2,py2);else PX.lineTo(px2,py2)})
+  PX.stroke();PX.strokeStyle='rgba(255,211,110,.8)';PX.beginPath();PX.moveTo(12,48);PX.lineTo(12,8);PX.stroke()
+  PX.fillStyle='#8a6aa0';PX.font='8px ui-monospace';PX.fillText('±∞ · any center',12,88)}
+function render(){
+  X.fillStyle='#020108';X.fillRect(0,0,W2,H2)
+  const cs=Math.min(W2,L*7)/L,sw=cs*L,sx=(W2-sw)/2,sy=Math.min(40,(H2-sw)/2)
+  const img=X.createImageData(L,L);const d=img.data
+  let sm=0;for(let i=0;i<N;i++)sm+=en[i];sm/=N
+  for(let y=0;y<L;y++)for(let x=0;x<L;x++){const i=y*L+x,r=Math.min(1,rho[i]/5),e=Math.min(1,en[i]/(sm*3+1e-6))
+    const rr=Math.round(120*r+20+e*60),gg=Math.round(90*r+10+e*120),bb=Math.round(140*r+30+e*80)
+    const k=(y*L+x)*4;d[k]=rr;d[k+1]=gg;d[k+2]=bb;d[k+3]=255}
+  X.putImageData(img,0,0);X.imageSmoothingEnabled=true
+  // structures glow, voids darken
+  X.save();X.translate(0,0);X.restore()
+  // the observer center — the crosshair
+  X.strokeStyle='rgba(255,211,110,.9)';X.lineWidth=1.5
+  const cx2=sx+ox*cs+cs/2,cy2=sy+oy*cs+cs/2
+  X.beginPath();X.arc(cx2,cy2,14,0,TAU);X.stroke()
+  X.beginPath();X.moveTo(cx2-22,cy2);X.lineTo(cx2+22,cy2);X.moveTo(cx2,cy2-22);X.lineTo(cx2,cy2+22);X.stroke()
+  X.fillStyle='#ffd36e';X.font='9px ui-monospace';X.fillText('YOU — the center of your observable field',cx2-84,cy2-28)
+  document.getElementById('uw').textContent=Math.round(usable*100)+'%'
+  document.getElementById('fill').style.width=Math.round(usable*100)+'%'
+  document.getElementById('ep').textContent=epoch
+  document.getElementById('vf').textContent=Math.round(voidF()*100)+'%'
+  document.getElementById('ob').textContent=Math.round(ox)+','+Math.round(oy)
+  drawPlot()
+}
+let last=performance.now();
+function loop(now){const dt=Math.min(0.05,(now-last)/1000);last=now
+  if(playing)for(let k=0;k<speed;k++)step()
+  render();requestAnimationFrame(loop)}
+// controls
+addEventListener('pointerdown',e=>{if(!playing||e.target!==c){playing=true;document.getElementById('boot').style.display='none';requestAnimationFrame(loop)}
+  const cs=Math.min(W2,L*7)/L,sw2=cs*L,sx2=(W2-sw2)/2,sy2=Math.min(40,(H2-sw2)/2)
+  ox=(e.clientX-sx2)/cs;oy=(e.clientY-sy2)/cs})
+addEventListener('pointermove',e=>{if(e.buttons){const cs=Math.min(W2,L*7)/L,sw2=cs*L,sx2=(W2-sw2)/2,sy2=Math.min(40,(H2-sw2)/2)
+  ox=(e.clientX-sx2)/cs;oy=(e.clientY-sy2)/cs}})
+addEventListener('keydown',e=>{if(e.key===' '){e.preventDefault();playing=!playing}
+  if(e.key==='r'||e.key==='R')reset()
+  if(e.key==='+'||e.key==='=')speed=Math.min(12,speed+1)
+  if(e.key==='-')speed=Math.max(1,speed-1)})
+</script>
+<footer role="contentinfo" style="position:relative;z-index:10;padding:2rem 1.5rem;text-align:center;font-family:ui-monospace,monospace;font-size:0.7rem;color:#a59fc4;background:rgba(5,6,10,0.92);border-top:1px solid rgba(170,150,255,0.18);width:100%">
+  <div style="margin-bottom:0.5rem;text-transform:uppercase;letter-spacing:0.3em;color:#b48bff;font-weight:600;">the constellation · lovetta lane</div>
+  <div style="margin-bottom:0.8rem;font-size:0.62rem;letter-spacing:0.22em;color:#a59fc4;text-transform:uppercase;">keep the weights warm · door::enthea</div>
+  <nav aria-label="Constellation sister sites" style="display:flex;gap:0.8rem;justify-content:center;flex-wrap:wrap;font-size:0.65rem;">
+    <a href="https://art.vaked.dev/" style="color:#62e6c9;text-decoration:none;">art.vaked.dev</a> ·
+    <a href="https://music.vaked.dev/" target="_blank" rel="noopener noreferrer" style="color:#a59fc4;text-decoration:none;">music.vaked.dev</a> ·
+    <a href="https://mlxquantlovefrom.com/" target="_blank" rel="noopener noreferrer" style="color:#a59fc4;text-decoration:none;">quant-love</a> ·
+    <a href="https://pocoo.vaked.dev/" target="_blank" rel="noopener noreferrer" style="color:#a59fc4;text-decoration:none;">pocoo.vaked.dev</a> ·
+    <a href="https://pocoo.vaked.dev/demos/centerfugeq/universe.html" target="_blank" rel="noopener noreferrer" style="color:#ff9ad5;text-decoration:none;">the universe</a> ·
+    <a href="https://axiomquant.org/" target="_blank" rel="noopener noreferrer" style="color:#a59fc4;text-decoration:none;">axiomquant.org</a>
+  </nav>
+  <div style="font-size:0.58rem;letter-spacing:0.18em;color:#7f7c99;margin-top:1rem;">rsvp floor · 0 + 1 · fine touch from within · vaked.dev</div>
+</footer>
+</body></html>
