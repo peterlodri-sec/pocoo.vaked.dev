@@ -53,6 +53,9 @@ O('the Moon','probe','home',.18,.84,.6,'Apollo walked here'),O('Mars','probe','h
 // the papers — the research floor
 O('TERNARY CMB','res_cmb','paper',.15,.1,.5,'the first light, quantized {-1,0,+1} — MLX-QUANT\'s gamma on the sky'),O('MP TEST','res_mp','paper',.25,.14,.45,'the ESD of a seeded matrix vs Marchenko–Pastur — KOMPRESS v2'),O('KOMPRESS CONSENSUS','res_k','paper',.35,.1,.4,'five teachers, one geometric-mean logit — the Council'),O('SPECTRAL RIGIDITY','res_sr','paper',.45,.14,.5,'live smax ≤ √(pn)(1+√γ) check — no collapse'),O('CLIO PROJECTION','res_clio','paper',.55,.1,.45,'8b-public-documents/forth/02-clio-projection.fth'),O('RSVP DYNAMICS','res_rsvp','paper',.65,.14,.4,'8b-public-documents/forth/04-rsvp-dynamics.fth'),O('AXIOMQUANT ACADEMY','res_axq','paper',.75,.1,.45,'axiomquant.org — the monograph, the threshold'),O('CONSTRAINT AS GROUND','res_cag','paper',.85,.14,.5,'8b-public-documents — constraint_as_ground.pdf');
 O('POLARIZED PLENUM','res_plenum','paper',.95,.12,.55,'isek kérdése: az izing híd — m(x,t), ρ_S=−∇·m, a lapos forgási görbe');
+const MSG=[['M1','nebula','Tau','the Crab — SN 1054'],['M2','cluster','Aqr','globular'],['M3','cluster','CVn','globular'],['M4','cluster','Sco','globular'],['M5','cluster','Ser','globular'],['M6','cluster','Sco','open — the butterfly'],['M7','cluster','Sco','open — Ptolemy\'s'],['M8','nebula','Sgr','the Lagoon'],['M13','cluster','Her','the Great Hercules'],['M16','nebula','Ser','the Eagle — pillars'],['M17','nebula','Sgr','the Omega'],['M20','nebula','Sgr','the Trifid'],['M22','cluster','Sgr','globular'],['M27','nebula','Vul','the Dumbbell'],['M31','galaxy','And','the Andromeda galaxy'],['M32','galaxy','And','the satellite'],['M33','galaxy','Tri','the Triangulum'],['M42','nebula','Ori','the Orion nebula'],['M45','cluster','Tau','the Pleiades'],['M51','galaxy','CVn','the Whirlpool'],['M57','nebula','Lyr','the Ring'],['M63','galaxy','CVn','the Sunflower'],['M64','galaxy','Com','the Black Eye'],['M81','galaxy','UMa','Bode\'s galaxy'],['M82','galaxy','UMa','the Cigar'],['M83','galaxy','Hya','the Southern Pinwheel'],['M87','galaxy','Vir','the giant elliptical'],['M97','nebula','UMa','the Owl'],['M101','galaxy','UMa','the Pinwheel'],['M104','galaxy','Vir','the Sombrero'],['NGC104','cluster','Tuc','47 Tucanae'],['NGC3372','nebula','Car','the Carina nebula'],['NGC5139','cluster','Cen','Omega Centauri'],['NGC4565','galaxy','Com','the Needle — edge-on'],['NGC7000','nebula','Cyg','the North America nebula']]
+let MSGX=0;
+for(const m2 of MSG){O(m2[0],m2[1]==='galaxy'?'galaxy':m2[1]==='nebula'?'nebula':'cluster','deep',.04+MSGX*.021,(MSGX%10)*.07+.05,.4+((MSGX*7)%5)*.08,m2[3]+' · '+m2[2]);MSGX++}
 O('LISSAJOUS · magnetar × the hole','res_lissa','paper',.05,.16,.5,'fázisportré: az órák viszonya — gravity → the changing relations among clocks');
 O('MSPHERE — the dual sphere','res_msph','paper',.05,.05,.55,'duality === the double cross · witnesses outside · T shared at the geometric center');
 // ── menu
@@ -62,6 +65,10 @@ function menu(){const chips=document.getElementById('chips');chips.innerHTML='';
  for(const o of filter()){const d=document.createElement('div');d.className='o'+(sel===o.name?' on':'');d.innerHTML='<b>'+o.name+'</b><span>'+o.type+' · '+o.desc.slice(0,44)+'</span>';d.onclick=()=>travel(o);lst.appendChild(d)}}
 let cur='all',q='';
 function filter(){return CAT.filter(o=>(cur==='all'||o.cat===cur)&&(!q||o.name.toLowerCase().includes(q.toLowerCase())))}
+// the deep field — the community's sky sampled: ~1 in 88 wears a real name
+const BRIGHT=[['Sirius','CMa'],['Canopus','Car'],['Arcturus','Boo'],['Vega','Lyr'],['Capella','Aur'],['Rigel','Ori'],['Procyon','CMi'],['Betelgeuse','Ori'],['Achernar','Eri'],['Altair','Aql'],['Spica','Vir'],['Pollux','Gem'],['Regulus','Leo'],['Adhara','CMa'],['Deneb','Cyg'],['Mimosa','Cru'],['Shaula','Sco'],['Bellatrix','Ori'],['Alnilam','Ori'],['Alnitak','Ori'],['Alioth','UMa'],['Mirfak','Per'],['Alkaid','UMa'],['Dubhe','UMa'],['Alhena','Gem'],['Peacock','Pav'],['Alphard','Hya'],['Polaris','UMi'],['Hamal','Ari'],['Mirzam','CMa'],['Diphda','Cet'],['Nunki','Sgr'],['Mira','Cet'],['Alpheratz','And'],['Scheat','Peg'],['Ankaa','Phe'],['Markab','Peg'],['Eltanin','Dra'],['Alphecca','CrB'],['Mintaka','Ori'],['Mizar','UMa'],['Denebola','Leo'],['Algol','Per'],['Schedar','Cas'],['Kochab','UMi'],['Saiph','Ori'],['Regor','Vel'],['Aldebaran','Tau']];
+let DEEP=[];for(let i=0;i<4200;i++){DEEP.push({a:((i*137+seed)%360)/180*Math.PI,e:((i*61)%997)/997-.5,d:.15+.85*Math.abs(Math.sin(i*13+seed)),src:i%88===0?BRIGHT[(i/88|0)%BRIGHT.length]:null})}
+const CONSTLINES=[['Orion',[['Betelgeuse',.2,.12],['Bellatrix',.18,.1],['Mintaka',.22,.08],['Alnilam',.24,.09],['Alnitak',.26,.1],['Rigel',.28,.14],['Saiph',.3,.12]]],['Cassiopeia',[['Schedar',.5,.05],['Caph',.52,.07],['Gamma Cas',.54,.05],['Ruchbah',.56,.07],['Segin',.58,.05]]],['UMa',[['Dubhe',.7,.03],['Merak',.7,.05],['Phecda',.72,.06],['Megrez',.72,.04],['Alioth',.74,.03],['Mizar',.76,.04],['Alkaid',.78,.06]]],['Cygnus',[['Deneb',.1,.5],['Sadr',.12,.48],['Gienah',.12,.46],['Albireo',.14,.44]]],['Scorpius',[['Antares',.85,.5],['Dschubba',.87,.52],['Sargas',.9,.56],['Shaula',.92,.58]]],['Lyra',[['Vega',.45,.4]]],['Crux',[['Acrux',.6,.3],['Mimosa',.62,.3],['Gacrux',.63,.32]]],['Leo',[['Regulus',.8,.3],['Algieba',.82,.32],['Denebola',.85,.34]]],['Taurus',[['Aldebaran',.15,.6],['Elnath',.18,.58]]],['Sgr',[['Kaus Australis',.88,.8],['Nunki',.9,.82]]]];
 // ── travel + camera
 let sel=null,camX=0,camY=0,zoom=1,TX=0,TY=0,TZ=1,tv=0;
 function travel(o){sel=o;TX=(o.x-.5)*W*1.5;TY=(o.y-.45)*H*1.4;TZ=o.z*4;tv=0;
@@ -81,7 +88,24 @@ function stepGalaxy(g,dt){const h=g.halo;let cx=0,cy=0,cm=0;for(const p of h){cx
  let stars=0;for(let i=0;i<spins.length;i++)if(spins[i]===1&&bias[i]>.22)stars++;g.stars=stars}
 let GS=[mkGalaxy(seed,70,.22,.3,.4,'M87*'),mkGalaxy(seed^0x9e3779b9,80,.64,.62,.55,'Andromeda'),mkGalaxy(seed^0x51f7a3e1,60,.45,.9,.3,'the Antennae')];
 // ══ views ══
-function fade(){X.clearRect(0,0,W,H);const gr=X.createLinearGradient(0,0,W,H);gr.addColorStop(0,'#05010a');gr.addColorStop(.55,'#0d0420');gr.addColorStop(1,'#020108');X.fillStyle=gr;X.fillRect(0,0,W,H);X.fillStyle='#e8d8f0';for(let i=0;i<110;i++){const px=(((i*97)%W+camX*.08+W)%W),py=(((i*53)%H+camY*.08+H)%H);X.globalAlpha=.2+.35*Math.sin(tAbs*2+i);X.fillRect(px,py,1.3,1.3)}X.globalAlpha=1}
+function fade(){
+ const gr=X.createLinearGradient(0,0,W,H);gr.addColorStop(0,'#05010a');gr.addColorStop(.55,'#0d0420');gr.addColorStop(1,'#020108');X.fillStyle=gr;X.fillRect(0,0,W,H);
+ for(const s3 of DEEP){const px=(((s3.a/TAU*1.4-.2)*W+camX*.08)%W+W)%W,py=((s3.e+.5)*H*.72+camY*.08)%H;
+  if(py<0||py>H*.72)continue;
+  X.globalAlpha=s3.src?.95:.12+.5*s3.d;X.fillStyle=s3.src?'#fff7d6':'#c8c8e0';
+  X.fillRect(px,py-1,s3.src?4:1,s3.src?4:1);
+  if(s3.src){X.fillStyle='#ffd36e';X.font='9px ui-monospace';X.fillText(s3.src[0]+' · '+s3.src[1],px+6,py+3)}}
+ X.globalAlpha=1;
+ X.strokeStyle='rgba(98,230,201,.3)';X.lineWidth=1;
+ for(const cn of CONSTLINES){X.beginPath();
+  for(let i=0;i<cn[1].length;i++){const px2=(((cn[1][i][1]*1.4-.2)*W+camX*.08)%W+W)%W,py2=((cn[1][i][2]-.12)*H*.72+camY*.08)%H;i===0?X.moveTo(px2,py2):X.lineTo(px2,py2)}
+  X.stroke();
+  X.fillStyle='rgba(98,230,201,.4)';X.font='8px ui-monospace';
+  X.fillText(cn[0],(((cn[1][0][1]*1.4-.2)*W+camX*.08)%W+W)%W,((cn[1][0][2]-.12)*H*.72+camY*.08)%H-8)}
+ X.fillStyle='rgba(5,2,8,.6)';X.fillRect(0,H*.72,W,H*.28);
+ X.fillStyle='#8a6aa0';X.font='9px ui-monospace';
+ X.fillText('mapped by the international community: Gaia ≈1.8B stars · SIMBAD ≈11M objects · MPC ≈1.3M minor planets · ≈5,800 exoplanets · 110 Messier · 7,840 NGC — this sky keeps the famous ones, the rest is a seeded deep field',10,H*.72+16)
+}
 function glowDot(x,y,r,inner,outer){const g=X.createRadialGradient(x-r,y-r,0,x,y,r);g.addColorStop(0,inner);g.addColorStop(1,outer);X.fillStyle=g;X.fillRect(x-r,y-r,r*2,r*2)}
 function viewUniverse(dt){fade();
  for(const g of GS){stepGalaxy(g,dt*Math.max(1,scale||3));const gx=g.x*W-camX,gy=g.y*H-camY,sc=g.scale*zoom;if(gx<-W*.3||gx>W*1.3||gy<-H*.3||gy>H*1.3)continue;
