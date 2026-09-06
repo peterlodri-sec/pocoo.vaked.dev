@@ -54,6 +54,7 @@ O('the Moon','probe','home',.18,.84,.6,'Apollo walked here'),O('Mars','probe','h
 O('TERNARY CMB','res_cmb','paper',.15,.1,.5,'the first light, quantized {-1,0,+1} — MLX-QUANT\'s gamma on the sky'),O('MP TEST','res_mp','paper',.25,.14,.45,'the ESD of a seeded matrix vs Marchenko–Pastur — KOMPRESS v2'),O('KOMPRESS CONSENSUS','res_k','paper',.35,.1,.4,'five teachers, one geometric-mean logit — the Council'),O('SPECTRAL RIGIDITY','res_sr','paper',.45,.14,.5,'live smax ≤ √(pn)(1+√γ) check — no collapse'),O('CLIO PROJECTION','res_clio','paper',.55,.1,.45,'8b-public-documents/forth/02-clio-projection.fth'),O('RSVP DYNAMICS','res_rsvp','paper',.65,.14,.4,'8b-public-documents/forth/04-rsvp-dynamics.fth'),O('AXIOMQUANT ACADEMY','res_axq','paper',.75,.1,.45,'axiomquant.org — the monograph, the threshold'),O('CONSTRAINT AS GROUND','res_cag','paper',.85,.14,.5,'8b-public-documents — constraint_as_ground.pdf');
 O('POLARIZED PLENUM','res_plenum','paper',.95,.12,.55,'isek kérdése: az izing híd — m(x,t), ρ_S=−∇·m, a lapos forgási görbe');
 O('LISSAJOUS · magnetar × the hole','res_lissa','paper',.05,.16,.5,'fázisportré: az órák viszonya — gravity → the changing relations among clocks');
+O('MSPHERE — the dual sphere','res_msph','paper',.05,.05,.55,'duality === the double cross · witnesses outside · T shared at the geometric center');
 // ── menu
 const CATS=[['all','✦ all'],['paper','📜 papers'],['home','🌍 home'],['star','✧ stars'],['exo','🪐 exoplanets'],['galaxy','🌀 galaxies'],['bh','🕳 black holes'],['neb','🌫 nebulae'],['struct','🕸 structure'],['small','☄ small bodies']];
 function menu(){const chips=document.getElementById('chips');chips.innerHTML='';for(const[cat,lab]of CATS){const b=document.createElement('button');b.textContent=lab;b.className=(cat===cur?'on':'');b.onclick=()=>{cur=cat;menu();list(filter())};chips.appendChild(b)}
@@ -332,6 +333,37 @@ function viewLissa(tag){const cx=W/2-camX,cy=H/2-camY;fade();
  X.fillStyle='#b48bc0';X.font='9px ui-monospace';
  X.fillText('Ωφ/spin='+LJ.ratio.toFixed(4)+' · '+(LJ.closed?'closes in '+LJ.orbits+' orbits':'quasiperiodic — never closes')+' · gravity → relations among clocks',cx-190,cy+140)}
 let LJ=null;
+function viewMsphere(tag){const cx=W/2-camX,cy=H/2-camY;const R2=Math.min(W,H)*.22*zoom;fade();const t2=tRel*6*(Math.max(1,scale||2));
+ if(!MS||tAbs-MS.t>3){MS={t:tAbs,nodes:[],ws:[],breath:0};let r2=seed>>>0;const rr=()=>{r2=(r2*1664525+1013904223)>>>0;return r2/4294967296};
+  for(let i=0;i<18;i++)MS.nodes.push({x:(rr()-.5)*2,y:(rr()-.5)*2,r:.08+rr()*.1,th:rr()*TAU,kind:i%3===0});
+  for(let i=0;i<5;i++)MS.ws.push({a:rr()*TAU,ra:.5+rr()*1.2,id:i,g:0,ph:'out',gt:0,s:rr()*100})}
+ // breath, shared T ring, the sphere
+ MS.breath=Math.sin((2*Math.PI/8)*t2);
+ X.strokeStyle='rgba(255,211,110,'+(.25+.3*MS.breath)+')';X.lineWidth=1.6;X.beginPath();X.arc(cx,cy,R2*0.85,0,TAU);X.stroke(); // the T ring: the geometric center
+ glowDot(cx,cy,R2*1.5,'rgba(255,154,213,.16)','rgba(255,154,213,0)');
+ glowDot(cx,cy,14,'#fff7d6','rgba(255,214,110,0)');
+ // godNodes [X]D — lattice, and individuals [1→X→1]
+ for(const nd of MS.nodes){for(let k=0;k<12;k++){const a=k/12*TAU+t2*.4;X.globalAlpha=.1;X.fillStyle=nd.kind?'#b48bff':'#62e6c9';X.fillRect(cx+Math.cos(a)*(R2*1.5),cy+Math.sin(a)*(R2*1.5),1,1)}X.globalAlpha=1}
+ for(const nd of MS.nodes){nd.th+=0.02*(0.4+.2*MS.breath);const px=cx+nd.x*R2+Math.cos(nd.th)*nd.r*R2*.3,py2=cy+nd.y*R2+Math.sin(nd.th)*nd.r*R2*.3;
+  X.globalAlpha=nd.kind?.92:.75;X.fillStyle=nd.kind?'#b48bff':'#ff6ec7';X.fillRect(px-2.2,py2-2.2,4.4,4.4);X.globalAlpha=1}
+ // witnesses — the fish outside, own magnetars, the gate
+ X.font='12px ui-monospace';
+ for(const w of MS.ws){w.s+=0.02;const t3=w.s;
+  if(w.phase==='out'){const a=w.a + w.ra*0.9*t3*0.12*(1+Math.sin(w.id+t3*.13));const rr2=R2*(2.3+.5*Math.sin(t3*.27+w.id));const px=cx+Math.cos(a)*rr2,py2=cy+Math.sin(a)*rr2*.72;
+   const flare=Math.pow(Math.max(0,Math.sin(t3*.31+w.id*2.1)),7);
+   X.fillStyle='#62e6c9';X.fillText('𓆝',px-8,py2+4);
+   X.globalAlpha=.4+flare*.6;X.fillStyle='#ffd36e';X.beginPath();X.arc(px+10,py2-6,3+flare*9,0,TAU);X.fill();X.globalAlpha=1;
+   w.polar=(w.polar||0)+flare*.05;
+   if(w.polar>1){w.phase='gate';w.gt=tAbs;w.polar=0}}
+  else if(w.phase==='gate'){X.fillStyle='#ffd36e';X.fillText('⧉',cx-6,cy-6);X.strokeStyle='rgba(255,211,110,.8)';X.lineWidth=2;X.beginPath();X.arc(cx,cy,R2*2.3,0,TAU);X.stroke();
+   if(tAbs-w.gt>1.5){w.phase='ret';w.gt=tAbs}}
+  else{X.fillStyle='#ff9ad5';X.fillText('𓆝',cx+Math.cos(w.a+2.1)*R2*.75-8,cy+Math.sin(w.a+2.1)*R2*.55+4);
+   if(tAbs-w.gt>8){w.phase='out';w.a+=1.9}}}
+ // HUD-lite
+ X.font='11px ui-monospace';X.fillStyle='#ff9ad5';X.fillText('MSPHERE — duality: ['+MS.nodes.filter(n=>n.kind).length+']D <~> [1→X→1]D',cx-R2*2,cy-R2*2.4);
+ X.fillStyle='#62e6c9';X.font='9px ui-monospace';
+ X.fillText('T shared at the geometric center ⌖ · witnesses 𓆝 outside · own magnetars private · gate ⧉ returns · breath '+ MS.breath.toFixed(2)+' · balance '+ (Math.abs(MS.nodes.length/3-Math.abs(MS.breath))*0).toFixed(0)+'·∿',cx-R2*2.1,cy+R2*2.5)}
+let MS=null;
 // ══ main ══
 const KEYS={};addEventListener('keydown',e=>{KEYS[e.key.toLowerCase()]=1;
  if(e.key==='/'){e.preventDefault();document.getElementById('q').focus()}
@@ -377,6 +409,7 @@ function loop(){const now=performance.now()/1000,dt=Math.min(now-tAbs,.05);tAbs=
   else if(t2==='res_cag')viewCag(sel.desc);
   else if(t2==='res_plenum')viewPlenum(sel.desc);
   else if(t2==='res_lissa')viewLissa(sel.desc);
+  else if(t2==='res_msph')viewMsphere(sel.desc);
   else viewUniverse(dt)}
  // HUD
  X.fillStyle='rgba(5,2,8,.8)';X.fillRect(0,0,W,26);X.fillRect(0,H-24,W,24);
