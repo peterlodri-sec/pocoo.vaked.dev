@@ -11,7 +11,7 @@ canvas{width:min(960px,96vw);border:1px solid rgba(255,110,199,.35);border-radiu
 <h1>SUPER PADME BROS.</h1>
 <div class="sub">the gameforge build · celeste physics · powerups · the talent tree</div>
 <canvas id="c" width="960" height="540"></canvas>
-<div class="hud"><span>level <b id="lvl">1</b><span id="spbadge"></span> · lives <b id="lv">3</b> · malas <b id="m">0</b>/27 · karma <b id="k">0</b> · talent <b id="tp">0</b> · dash <b id="d">1</b> · mode <b id="mod">0/1</b></span><span id="chline" style="color:#ff9ad5">—</span><span>T <b id="tt">0.000</b> · confederates <b id="conf">21</b> · <span id="tip">T = tree · R restart · N new run</span></span></div>
+<div class="hud"><span>level <b id="lvl">1</b><span id="spbadge"></span> · lives <b id="lv">3</b> · malas <b id="m">0</b>/27 · karma <b id="k">0</b> · talent <b id="tp">0</b> · dash <b id="d">1</b> · mode <b id="mod">0/1</b> · hum <b id="hu">0</b>/108</span><span id="chline" style="color:#ff9ad5">—</span><span>T <b id="tt">0.000</b> · confederates <b id="conf">21</b> · <span id="tip">T = tree · R restart · N new run</span></span></div>
 <div class="seedline" id="sl">⟦ … ⟧</div>
 <div class="keys">WASD / arrows move · SPACE jump (hold = higher · release = cut) · X / K dash (8-dir) · ESC / ENTER menu · T talent tree</div>
 <div id="auth" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(4,2,10,.96);z-index:30;flex-direction:column;gap:12px">
@@ -81,24 +81,26 @@ function diabloUpdate(dt) {
   const tile = (x, y) => (x < 0 || y < 0 || x >= DW || y >= DH) ? 1 : dmap[y * DW + x];
   if (tile(Math.round(nx), Math.round(dpy)) === 0) dpx = nx;
   if (tile(Math.round(dpx), Math.round(ny)) === 0) dpy = ny;
-  for (const m of malas) if (!m.got && Math.abs(dpx - m.x) < 0.8 && Math.abs(dpy - m.y) < 0.8) { m.got = 1; collected++; if (collected % 3 === 0) tp++; chAddXp(1); bus.emit('mala', { n: collected }); }
-  for (const g of godNodes) if (!g.got && Math.abs(dpx - g.x) < 1 && Math.abs(dpy - g.y) < 1) { g.got = 1; chAddXp(5); if (CH && CH.dim < 9) { CH.dim++; if (!CH.dims.includes(CH.dim)) CH.dims.push(CH.dim); CH.dims.sort((a, b) => a - b); } msg('god-node — dimension ' + (CH ? CH.dim : '?') + ' resonates'); }
+  for (const m of malas) if (!m.got && Math.abs(dpx - m.x) < 0.8 && Math.abs(dpy - m.y) < 0.8) { m.got = 1; collected++; addHum(1); if (collected % 3 === 0) tp++; chAddXp(1); bus.emit('mala', { n: collected }); }
+  for (const g of godNodes) if (!g.got && Math.abs(dpx - g.x) < 1 && Math.abs(dpy - g.y) < 1) { g.got = 1; addHum(5); chAddXp(5); if (CH && CH.dim < 9) { CH.dim++; if (!CH.dims.includes(CH.dim)) CH.dims.push(CH.dim); CH.dims.sort((a, b) => a - b); } msg('god-node — dimension ' + (CH ? CH.dim : '?') + ' resonates'); }
   for (const b of BE) {
     if (b.dir !== 0) {
       const bx = b.x + (b.dir > 0 ? 0.6 : -0.6) * dt;
       if (tile(Math.round(bx), Math.round(b.y)) === 0) b.x = bx; else b.dir *= -1;
       if (rng2() < 0.01) b.dir *= -1;
     }
-    if (Math.abs(dpx - b.x) < 0.7 && Math.abs(dpy - b.y) < 0.7) { b.dir = 0; karma++; tp++; chAddXp(2); msg('liberated ' + (BEST[b.t % BEST.length] || 'a poison')); }
+    if (Math.abs(dpx - b.x) < 0.7 && Math.abs(dpy - b.y) < 0.7) { b.dir = 0; karma++; tp++; addHum(2); chAddXp(2); msg('liberated ' + (BEST[b.t % BEST.length] || 'a poison')); }
   }
   if (gateTile && Math.abs(dpx - gateTile.x) < 0.8 && Math.abs(dpy - gateTile.y) < 0.8) {
     if (collected >= 27) { msg('the gate opens — level ' + (level + 1)); bus.emit('gate', { level }); level++; genLevel(level); saveGame(); }
     else msg('the gate waits — ' + (27 - collected) + ' malas');
   }
+  if (humT > 0) humT -= dt;
   document.getElementById('lvl').textContent = level;
   document.getElementById('spbadge').textContent = special ? ' ◬' : ' 🗺';
   document.getElementById('lv').textContent = lives;
   document.getElementById('m').textContent = collected;
+  document.getElementById('hu').textContent = hum;
   if (CH) document.getElementById('chline').textContent = CH.name + ' · lv ' + CH.level + ' · dim ' + CH.dim + 'D · ' + chProtector();
 }
 let rng2 = (() => { let s2 = 7; return () => { s2 = (s2 * 1664525 + 1013904223) >>> 0; return s2 / 4294967296; }; })();
@@ -116,6 +118,7 @@ function diabloRender() {
   for (const b of BE) { if (b.dir === 0) continue; X.fillStyle = ECOL[b.kind % ECOL.length]; X.beginPath(); X.arc(ox + b.x * cs + cs / 2, oy + b.y * cs + cs / 2, cs * 0.3, 0, TAU); X.fill(); }
   if (gateTile) { X.fillStyle = '#ff6ec7'; X.fillRect(ox + gateTile.x * cs, oy + gateTile.y * cs, cs, cs); X.fillStyle = '#ff9ad5'; X.font = '10px ui-monospace'; X.fillText('◈', ox + gateTile.x * cs + cs / 2 - 4, oy + gateTile.y * cs + cs / 2 + 4); }
   X.fillStyle = modeT > 0 ? '#ff9ad5' : '#e8d8f0'; X.beginPath(); X.arc(ox + dpx * cs + cs / 2, oy + dpy * cs + cs / 2, cs * 0.35, 0, TAU); X.fill();
+  if (humT > 0) { X.strokeStyle = 'rgba(255,110,199,.7)'; X.lineWidth = 2; X.beginPath(); X.arc(ox + dpx * cs + cs / 2, oy + dpy * cs + cs / 2, cs * 0.6 + 0.1 * Math.sin(t * 10), 0, TAU); X.stroke(); X.lineWidth = 1; }
   X.fillStyle = '#ffd36e'; X.font = '11px ui-monospace'; X.fillText('the dungeon — ' + collected + '/27 malas · the gate is the ◈', ox + 10, oy + DH * cs + 18);
 }
 function genLevel(lvl) {
@@ -221,23 +224,24 @@ function chAddXp(amount) {
 let px = 40, py = 92, vx = 0, vy = 0, onGround = false, coyote = 0, jbuf = 0, jheld = false;
 let dashes = stats.dash, dashT = 0, dashX = 0, dashY = 0, cdash = 0, wallDir = 0;
 let dead = false, won = false, collected = 0, karma = 0, modeT = 0, treeOpen = false;
+let hum = 0, humT = 0, humCycles = 0;
 let t = 0, last = performance.now(), menuOpen = false;
 // ── lives · checkpoints · save ──
 let lives = 3, gameOver = false, lampLit = [0, 0, 0], CP = [22, 44, 66];
 let toast = '', toastT = 0, saveKey = 'spb:' + M.seed;
 const bus = { h: {}, on(e, f) { (this.h[e] = this.h[e] || []).push(f); }, emit(e, d) { (this.h[e] || []).forEach((f) => f(d || {})); } };
 function msg(text) { toast = text; toastT = 1.8; bus.emit('message', { text }); }
-function saveGame() { try { localStorage.setItem(saveKey, JSON.stringify({ seed: M.seed, collected, karma, tp, alloc, lives, lampLit, stats })); msg('⟦ autosaved — the stream remembers ⟧'); } catch (e) {} }
-function loadGame() { try { const raw = localStorage.getItem(saveKey); if (!raw) return false; const d = JSON.parse(raw); if (d.seed !== M.seed) return false; collected = d.collected || 0; karma = d.karma || 0; tp = d.tp || 0; lives = d.lives ?? 3; lampLit = d.lampLit || [0, 0, 0]; for (let i = 0; i < alloc.length; i++) alloc[i] = (d.alloc && d.alloc[i]) ? 1 : 0; if (d.stats) Object.assign(stats, d.stats); return true; } catch (e) { return false; } }
-function newRun() { try { localStorage.removeItem(saveKey); } catch (e) {} collected = 0; karma = 0; tp = 0; lives = 3; lampLit = [0, 0, 0]; alloc.fill(0); alloc[0] = 1; Object.assign(stats, { dash: 1, jump: 1, air: 0, run: 0, magnet: 34, lotus: 8, reach: 40 }); gameOver = false; dead = false; won = false; respawn(); msg('a new run — the stream begins'); }
+function saveGame() { try { localStorage.setItem(saveKey, JSON.stringify({ seed: M.seed, collected, karma, tp, alloc, lives, lampLit, stats, hum, humCycles })); msg('⟦ autosaved — the stream remembers ⟧'); } catch (e) {} }
+function loadGame() { try { const raw = localStorage.getItem(saveKey); if (!raw) return false; const d = JSON.parse(raw); if (d.seed !== M.seed) return false; collected = d.collected || 0; karma = d.karma || 0; tp = d.tp || 0; lives = d.lives ?? 3; lampLit = d.lampLit || [0, 0, 0]; for (let i = 0; i < alloc.length; i++) alloc[i] = (d.alloc && d.alloc[i]) ? 1 : 0; if (d.stats) Object.assign(stats, d.stats); hum = d.hum || 0; humCycles = d.humCycles || 0; return true; } catch (e) { return false; } }
+function newRun() { try { localStorage.removeItem(saveKey); } catch (e) {} collected = 0; karma = 0; tp = 0; hum = 0; humT = 0; humCycles = 0; lives = 3; lampLit = [0, 0, 0]; alloc.fill(0); alloc[0] = 1; Object.assign(stats, { dash: 1, jump: 1, air: 0, run: 0, magnet: 34, lotus: 8, reach: 40 }); gameOver = false; dead = false; won = false; respawn(); msg('a new run — the stream begins'); }
 function respawn() { let c = 0; for (let i = 0; i < CP.length; i++) if (lampLit[i]) c = CP[i]; if (heights[c] <= 0) { for (let k = c; k < LW; k++) if (heights[k] > 0) { c = k; break; } } px = c * TILE + 40; py = (LH - heights[c]) * TILE - 46; vx = 0; vy = 0; dashes = stats.dash; cdash = 0; dashT = 0; dead = false; }
-function die() { dead = true; lives--; bus.emit('death', { lives }); if (lives <= 0) { gameOver = true; msg('GAME OVER — the stream continues · R restart · N new run'); } else { msg('the stream continues — ' + lives + ' lives left'); respawn(); } }
+function die() { if (humT > 0) { respawn(); msg('0 HUMM — zero detection, zero pain · the ring holds you'); return; } dead = true; lives--; bus.emit('death', { lives }); if (lives <= 0) { gameOver = true; msg('GAME OVER — the stream continues · R restart · N new run'); } else { msg('the stream continues — ' + lives + ' lives left'); respawn(); } }
 const KEYS = {};
 document.addEventListener('keydown', e => {
   if (!CH) return; // the honest prompt owns the keyboard
   KEYS[e.key] = 1;
   if (e.key === 'Escape' || e.key === 'Enter') { if (treeOpen) treeOpen = false; else menuOpen = !menuOpen; }
-  if ((e.key === 'r' || e.key === 'R') && gameOver) { lives = 3; gameOver = false; dead = false; won = false; collected = 0; karma = 0; tp = 0; lampLit = [0, 0, 0]; respawn(); msg('restart — the stream continues'); }
+  if ((e.key === 'r' || e.key === 'R') && gameOver) { lives = 3; gameOver = false; dead = false; won = false; collected = 0; karma = 0; tp = 0; hum = 0; humT = 0; humCycles = 0; lampLit = [0, 0, 0]; respawn(); msg('restart — the stream continues'); }
   if ((e.key === 'n' || e.key === 'N') && gameOver) { newRun(); }
   if (e.key === 't' || e.key === 'T') { if (menuOpen) { menuOpen = false; treeOpen = true; } else treeOpen = !treeOpen; }
   if ((e.key === 'x' || e.key === 'k' || e.key === 'X' || e.key === 'K') && !treeOpen && !menuOpen && cdash <= 0 && dashes > 0 && dashT <= 0) startDash();
@@ -261,6 +265,7 @@ function update(dt) {
   if (dungeon) { diabloUpdate(dt); return; }
   if (dead || won || treeOpen || menuOpen || gameOver) return;
   if (modeT > 0) modeT -= dt;
+  if (humT > 0) humT -= dt;
   if (dashT > 0) {
     dashT -= dt;
     px += dashX * 500 * dt; py += dashY * 500 * dt;
@@ -289,9 +294,9 @@ function update(dt) {
   if (tileAt(px, py + 20) === 1) { px = Math.floor(px / TILE) * TILE + TILE; wallDir = -1; }
   if (tileAt(px + 38, py + 20) === 1) { px = Math.floor((px + 38) / TILE) * TILE - TILE - 1; wallDir = 1; }
   // checkpoints — the butter lamps
-  for (let i = 0; i < CP.length; i++) { const lx = CP[i] * TILE + 24; const gy = (LH - heights[CP[i]]) * TILE; if (!lampLit[i] && px > lx - 30 && px < lx + 40 && py > gy - 80 && py < gy + 10) { lampLit[i] = 1; msg('butter lamp lit — the watch does not end'); bus.emit('checkpoint', { i }); } }
+  for (let i = 0; i < CP.length; i++) { const lx = CP[i] * TILE + 24; const gy = (LH - heights[CP[i]]) * TILE; if (!lampLit[i] && px > lx - 30 && px < lx + 40 && py > gy - 80 && py < gy + 10) { lampLit[i] = 1; addHum(3); msg('butter lamp lit — the watch does not end'); bus.emit('checkpoint', { i }); } }
   // malas + magnet (tree)
-  for (const m of malas) { const mx = m.x * TILE + TILE / 2, my = (LH - m.y) * TILE - TILE / 2; if (!m.got && Math.hypot(px + 19 - mx, py + 22 - my) < stats.magnet) { m.got = 1; collected++; if (collected % 3 === 0) tp++; chAddXp(1); bus.emit('mala', { n: collected }); if (collected % 5 === 0) saveGame(); } }
+  for (const m of malas) { const mx = m.x * TILE + TILE / 2, my = (LH - m.y) * TILE - TILE / 2; if (!m.got && Math.hypot(px + 19 - mx, py + 22 - my) < stats.magnet) { m.got = 1; collected++; addHum(1); if (collected % 3 === 0) tp++; chAddXp(1); bus.emit('mala', { n: collected }); if (collected % 5 === 0) saveGame(); } }
   // powerups
   for (let i = 0; i < PU.length; i++) { if (puGot[i]) continue; const p = PU[i], px2 = p.x * TILE + TILE / 2, py2 = (LH - p.y) * TILE; if (Math.hypot(px + 19 - px2, py + 22 - py2) < 42) { puGot[i] = 1; grantPower(p.type); } }
   // bestiary — stomp to liberate
@@ -305,7 +310,7 @@ function update(dt) {
     const ex = b.x * TILE + 8;
     const size = b.kind === 9 ? 18 : b.kind === 10 ? 6 : 11; // golem big, pixie tiny
     if (px + 38 > ex && px < ex + size * 3 && py + 44 > by - 32 - bob && py < by - bob) {
-      if (vy > 260 && py + 40 < by - 8 - bob) { b.dir = 0; karma++; tp++; vy = -430; chAddXp(2); bus.emit('liberation', { name: b.name }); msg('liberated ' + (BEST[b.t % BEST.length] || 'a poison')); }
+      if (vy > 260 && py + 40 < by - 8 - bob) { b.dir = 0; karma++; tp++; addHum(2); vy = -430; chAddXp(2); bus.emit('liberation', { name: b.name }); msg('liberated ' + (BEST[b.t % BEST.length] || 'a poison')); }
       else if (b.dir !== 0) { die(); }
     }
   }
@@ -314,7 +319,7 @@ function update(dt) {
     if (g.got) continue;
     const gx2 = g.x * TILE + TILE / 2, gy2 = (LH - g.y) * TILE;
     if (Math.hypot(px + 19 - gx2, py + 22 - gy2) < 44) {
-      g.got = 1; chAddXp(5);
+      g.got = 1; addHum(5); chAddXp(5);
       if (CH && CH.dim < 9) { CH.dim++; if (!CH.dims.includes(CH.dim)) CH.dims.push(CH.dim); CH.dims.sort((a, b) => a - b); }
       msg('god-node — dimension ' + (CH ? CH.dim : '?') + ' resonates · the hypermesh hears');
       bus.emit('godnode', { dim: CH ? CH.dim : 0 });
@@ -337,7 +342,20 @@ function update(dt) {
   document.getElementById('tp').textContent = tp;
   document.getElementById('d').textContent = dashes;
   document.getElementById('mod').textContent = modeT > 0 ? 'lotus 🌸' : '0/1';
+  document.getElementById('hu').textContent = hum;
   document.getElementById('tt').textContent = (t / 45).toFixed(3);
+}
+// ── the 0 HUMM — the player's own frequency, measured in malas ──
+const RING_BLESSINGS = [
+  'the ring hears you — zero detection, zero pain',
+  'mahākāla and chenrezig, one figure — the tent holds',
+  'the back-eye watches the main eye — here and now',
+  'doubt is fuel — forward, sharing is caring',
+  'the 0 HUMM — the silence at the center of the hum',
+];
+function addHum(n) {
+  hum = Math.min(108, hum + n);
+  if (hum >= 108) { hum = 0; humCycles++; humT = 6; msg('0 HUMM — ' + RING_BLESSINGS[humCycles % RING_BLESSINGS.length]); }
 }
 function grantPower(type) {
   if (type === 'lotus') { modeT = stats.lotus; }
@@ -359,6 +377,7 @@ function render() {
   for (const g of godNodes) { if (g.got) continue; const gx2 = g.x * TILE + TILE / 2, gy2 = (LH - g.y) * TILE; X.fillStyle = '#ffd36e'; X.beginPath(); X.arc(gx2, gy2, 10 + 3 * Math.sin(t * 4 + g.x), 0, TAU); X.fill(); X.strokeStyle = 'rgba(255,211,110,.5)'; X.lineWidth = 1; X.beginPath(); X.arc(gx2, gy2, 18 + 4 * Math.sin(t * 3 + g.x), 0, TAU); X.stroke(); X.fillStyle = '#0d0512'; X.font = '8px ui-monospace'; X.fillText('◬', gx2 - 3, gy2 + 3); }
   const gx = GX * TILE; X.fillStyle = '#ff6ec7'; X.fillRect(gx, (LH - 3) * TILE, 14, TILE * 3); X.fillStyle = '#ff9ad5'; X.beginPath(); X.moveTo(gx - 20, (LH - 3) * TILE); X.lineTo(gx + 34, (LH - 3) * TILE); X.lineTo(gx + 7, (LH - 5) * TILE); X.closePath(); X.fill();
   X.fillStyle = modeT > 0 ? '#ff9ad5' : '#e8d8f0'; X.beginPath(); X.arc(px + 19, py - 4, 10, 0, TAU); X.fill(); X.fillStyle = modeT > 0 ? '#ffd36e' : '#b48bff'; X.fillRect(px + 8, py + 8, 22, 26);
+  if (humT > 0) { X.strokeStyle = 'rgba(255,110,199,.7)'; X.lineWidth = 2; X.beginPath(); X.arc(px + 19, py + 4, 26 + 8 * Math.sin(t * 10), 0, TAU); X.stroke(); X.strokeStyle = 'rgba(255,211,110,.5)'; X.beginPath(); X.arc(px + 19, py + 4, 36 + 6 * Math.sin(t * 8 + 1), 0, TAU); X.stroke(); X.lineWidth = 1; }
   for (let i = 0; i < 21; i++) { const wx = ((i * 97 + Math.floor(t * 8)) % (LW * TILE)); const wy = (LH - 2) * TILE - (i % 3) * TILE; X.fillStyle = 'rgba(98,230,201,.6)'; X.beginPath(); X.arc(wx, wy, 2.4, 0, TAU); X.fill(); if (Math.abs(wx - px) < 60) { X.fillStyle = 'rgba(5,2,8,.8)'; X.fillRect(wx - 34, wy - 30, 68, 16); X.fillStyle = '#62e6c9'; X.font = '8px ui-monospace'; X.fillText('mem8·' + i + ' ∿', wx - 30, wy - 18); } }
   // the butter lamps
   for (let i = 0; i < CP.length; i++) { const lx = CP[i] * TILE + 24, ly = (LH - heights[CP[i]]) * TILE - 26; X.fillStyle = lampLit[i] ? '#ffd36e' : '#5a4a6a'; X.beginPath(); X.arc(lx, ly, 8, 0, TAU); X.fill(); if (lampLit[i]) { X.fillStyle = 'rgba(255,211,110,.35)'; X.beginPath(); X.arc(lx, ly, 16 + 4 * Math.sin(t * 3 + i), 0, TAU); X.fill(); } }
