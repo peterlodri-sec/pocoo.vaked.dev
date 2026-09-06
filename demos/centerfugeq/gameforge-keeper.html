@@ -81,20 +81,22 @@ const bus = { h: {}, on(e, f) { (this.h[e] = this.h[e] || []).push(f); }, emit(e
 function msg(text) { toast = text; toastT = 1.8; bus.emit('message', { text }); }
 function saveGame() { try { localStorage.setItem(saveKey, JSON.stringify({ seed: M.seed, collected, karma, tp, alloc, lives, lampLit, stats })); msg('⟦ autosaved — the stream remembers ⟧'); } catch (e) {} }
 function loadGame() { try { const raw = localStorage.getItem(saveKey); if (!raw) return false; const d = JSON.parse(raw); if (d.seed !== M.seed) return false; collected = d.collected || 0; karma = d.karma || 0; tp = d.tp || 0; lives = d.lives ?? 3; lampLit = d.lampLit || [0, 0, 0]; for (let i = 0; i < alloc.length; i++) alloc[i] = (d.alloc && d.alloc[i]) ? 1 : 0; if (d.stats) Object.assign(stats, d.stats); return true; } catch (e) { return false; } }
-function newRun() { try { localStorage.removeItem(saveKey); } catch (e) {} collected = 0; karma = 0; tp = 0; lives = 3; lampLit = [0, 0, 0]; alloc.fill(0); alloc[0] = 1; Object.assign(stats, { dash: 1, jump: 1, air: 0, run: 0, magnet: 34, lotus: 8, reach: 40 }); gameOver = false; dead = false; respawn(); msg('a new run — the stream begins'); }
-function respawn() { let c = 0; for (let i = 0; i < CP.length; i++) if (lampLit[i]) c = CP[i]; if (heights[c] <= 0) { for (let k = c; k < LW; k++) if (heights[k] > 0) { c = k; break; } } px = c * TILE + 40; py = (LH - heights[c]) * TILE - 46; vx = 0; vy = 0; dashes = stats.dash; cdash = 0; dashT = 0; }
+function newRun() { try { localStorage.removeItem(saveKey); } catch (e) {} collected = 0; karma = 0; tp = 0; lives = 3; lampLit = [0, 0, 0]; alloc.fill(0); alloc[0] = 1; Object.assign(stats, { dash: 1, jump: 1, air: 0, run: 0, magnet: 34, lotus: 8, reach: 40 }); gameOver = false; dead = false; won = false; respawn(); msg('a new run — the stream begins'); }
+function respawn() { let c = 0; for (let i = 0; i < CP.length; i++) if (lampLit[i]) c = CP[i]; if (heights[c] <= 0) { for (let k = c; k < LW; k++) if (heights[k] > 0) { c = k; break; } } px = c * TILE + 40; py = (LH - heights[c]) * TILE - 46; vx = 0; vy = 0; dashes = stats.dash; cdash = 0; dashT = 0; dead = false; }
 function die() { dead = true; lives--; bus.emit('death', { lives }); if (lives <= 0) { gameOver = true; msg('GAME OVER — the stream continues · R restart · N new run'); } else { msg('the stream continues — ' + lives + ' lives left'); respawn(); } }
 const KEYS = {};
 document.addEventListener('keydown', e => {
+  if (!CH) return; // the honest prompt owns the keyboard
   KEYS[e.key] = 1;
   if (e.key === 'Escape' || e.key === 'Enter') { if (treeOpen) treeOpen = false; else menuOpen = !menuOpen; }
-  if ((e.key === 'r' || e.key === 'R') && gameOver) { lives = 3; gameOver = false; dead = false; collected = 0; karma = 0; tp = 0; lampLit = [0, 0, 0]; respawn(); msg('restart — the stream continues'); }
+  if ((e.key === 'r' || e.key === 'R') && gameOver) { lives = 3; gameOver = false; dead = false; won = false; collected = 0; karma = 0; tp = 0; lampLit = [0, 0, 0]; respawn(); msg('restart — the stream continues'); }
   if ((e.key === 'n' || e.key === 'N') && gameOver) { newRun(); }
   if (e.key === 't' || e.key === 'T') { if (menuOpen) { menuOpen = false; treeOpen = true; } else treeOpen = !treeOpen; }
   if ((e.key === 'x' || e.key === 'k' || e.key === 'X' || e.key === 'K') && !treeOpen && !menuOpen && cdash <= 0 && dashes > 0 && dashT <= 0) startDash();
   if ('wasd arrowup arrowdown arrowleft arrowright xk '.includes(e.key.toLowerCase() + ' ')) e.preventDefault();
 });
 document.addEventListener('keyup', e => {
+  if (!CH) return;
   if (e.key === ' ' || e.key === 'w' || e.key === 'W' || e.key === 'ArrowUp') { if (vy < 0) vy *= 0.45; jheld = false; }
   KEYS[e.key] = 0;
 });
