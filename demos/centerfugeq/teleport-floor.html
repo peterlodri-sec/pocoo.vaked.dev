@@ -1,0 +1,115 @@
+<!doctype html><html lang="en" data-theme="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>QUANTUM TELEPORT · the gate floor</title><style>
+body{margin:0;background:#020108;color:#e8d8f0;font-family:ui-monospace,monospace;overflow:hidden}
+canvas{width:100vw;height:100vh;display:block;cursor:pointer}
+#hud{position:fixed;top:12px;right:14px;z-index:9;background:rgba(4,2,10,.88);border:1px solid rgba(98,230,201,.4);border-radius:10px;padding:10px 14px;font-size:.66rem;letter-spacing:1px;min-width:210px;backdrop-filter:blur(8px)}
+#hud b{color:#ffd36e}
+#tick{position:fixed;left:0;right:0;top:0;padding:8px 16px;font-size:11px;letter-spacing:2px;color:#62e6c9;background:linear-gradient(rgba(2,1,8,.92),transparent);z-index:6}
+#boot{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#020108;color:#ff9ad5;font-family:ui-monospace,monospace;cursor:pointer;z-index:20;letter-spacing:3px;font-size:14px;text-align:center;flex-direction:column}
+#boot .s{font-size:10px;color:#b48bc0;margin-top:10px;letter-spacing:1px}
+#note{position:fixed;left:14px;bottom:14px;color:#7a5a8a;font-size:.58rem;letter-spacing:1px;background:rgba(4,2,10,.7);padding:6px 10px;border-radius:8px;z-index:8;max-width:300px}
+</style></head><body><canvas id=c></canvas>
+<div id=tick>⟦ the gate floor · quantum teleportation ⟧</div>
+<div id=hud>teleports <b id=tn>0</b> · bell seed <b id=sp>…</b> · fidelity <b id=fid>100%</b><br><span style="color:#8a6aa0">SPACE send · R re-seed · ↕ reset</span></div>
+<div id=note>the state is not copied — it is transported: the bell pair is shared first,<br>the middle qubits are measured, and the classical bits tell the receiver<br>which correction to apply. the message arrives exactly as sent · #34</div>
+<div id=boot>⟧ QUANTUM TELEPORT ⟦ · the gate floor<br>SPACE sends a state through the gate · watch the circuit run<br><span class=s>wip catalog #34 · deterministic protocol: the seed chooses the bell, not the outcome</span></div>
+<script>
+const c=document.getElementById('c'),X=c.getContext('2d'),W2=innerWidth,H2=innerHeight;c.width=W2;c.height=H2;
+const TAU=6.2832;let S=7;const R=()=>{S=(S*1664525+1013904223)>>>0;return S/4294967296};
+function seedH(t){let h=7;for(let i=0;i<t.length;i++)h=(Math.imul(31,h)+t.charCodeAt(i))|0;return h>>>0}
+// the message state — the thing being transported (alpha,beta)
+let msg={a:0.8,b:0.6},bell={u:0,v:1},tele=0,phase=0,running=false;
+function reseed(){S=seedH('bell·'+Math.floor(Math.random()*1e9));bell.u=Math.round(R());bell.v=Math.round(R())%2;
+  // re-seed the message too, from a fixed poetic seed — replayable per page
+  const S2=seedH('the message travels');let s2=S2;const rr=()=>{s2=(s2*1664525+1013904223)>>>0;return s2/4294967296};
+  const t=rr()*TAU;msg={a:Math.cos(t),b:Math.sin(t)};tele=0;
+  document.getElementById('sp').textContent=bell.u+','+bell.v}
+reseed();
+// the teleport protocol — deterministic linear algebra, 3 qubits
+function teleport(){
+  // |ψ⟩ = a|0⟩+b|1⟩ on q0; bell pair (u,v) on q1,q2
+  // the standard circuit: H q1; CNOT q1→q2; CNOT q0→q1; H q0; measure m1,m2; X^m2 Z^m1 on q2
+  // the destination amplitudes come out EXACTLY (a,b) — the protocol is its own proof
+  let m1=0,m2=0;
+  // simulate: measure q0&q1 in the Bell basis — outcomes are classical bits
+  S=(S*1664525+1013904223)>>>0; const r=S/4294967296;
+  // the standard result: each of the four Bell outcomes is equiprobable
+  // for a pure message state.
+  m1=r<0.5?0:1; S=(S*1664525+1013904223)>>>0; m2=(S/4294967296)<0.5?0:1;
+  // the protocol identity: received R = Z^m1 X^m2 |ψ⟩; correction C = X^m2 Z^m1.
+  // R then C — by the anticommutation of X and Z, C·R = |ψ⟩ exactly.
+  let rA=msg.a,rB=msg.b;
+  if(m2){rA=msg.b;rB=msg.a}
+  if(m1){rB=-rB}
+  let dA=rA,dB=rB;
+  if(m1){dB=-dB}
+  if(m2){const t2=dA;dA=dB;dB=t2}
+  const dest={a:dA,b:dB};
+  // fidelity of the corrected state vs the sent state — exactly 1 by identity
+  const fid=Math.abs((msg.a*dest.a+msg.b*dest.b)**2).toFixed(3);
+  return {m1,m2,dest,fidelity:fid=== '1.000' ? '1.000' : fid}
+}
+function send(){running=true;tele++;phase=0;document.getElementById('tn').textContent=tele}
+let last=performance.now();
+function render(now){const dt=Math.min(0.05,(now-last)/1000);last=now;
+  if(running){phase+=dt;if(phase>7){running=false}}
+  const w=W2,h=H2;
+  X.fillStyle='#020108';X.fillRect(0,0,w,h);
+  // three lanes: msg |ψ⟩ · bell share · destination
+  const lanes=[['the message',msg],['the bell pair',bell],['the destination',{a:0,b:0}]];
+  const ly=[h*0.22,h*0.5,h*0.78];
+  // wires
+  X.strokeStyle='rgba(98,230,201,.25)';X.lineWidth=1;
+  for(let k=0;k<3;k++){X.beginPath();X.moveTo(w*0.06,ly[k]);X.lineTo(w*0.94,ly[k]);X.stroke()}
+  // circuit boxes along each lane, revealed by phase
+  const gates=(k)=>{const g=[['H',k===0],['CNOT',k===1],['H',k===0],['X'+' / Z',k===2]];return g};
+  for(let k=0;k<3;k++){const gs=gates(k);gs.forEach((g,i)=>{const gx=w*(0.2+0.18*i);const vis=phase>i*0.7;
+    if(!vis)return;
+    X.fillStyle='rgba(13,6,20,.9)';X.strokeStyle=g[1]?'rgba(255,110,199,.7)':'rgba(180,139,255,.6)';
+    X.lineWidth=1.4;X.fillRect(gx-26,ly[k]-16,52,32);X.strokeRect(gx-26,ly[k]-16,52,32);
+    X.fillStyle=g[1]?'#ff9ad5':'#b48bff';X.font='10px ui-monospace';X.textAlign='center';
+    X.fillText(g[0],gx,ly[k]+3);X.textAlign='left'})}
+  // qubit dots: the state as a coin — |a|² vs |b|²
+  function coin(x,y,st,label){const ra=Math.abs(st.a),rb=Math.abs(st.b);
+    X.strokeStyle='rgba(255,211,110,.5)';X.lineWidth=1.2;
+    X.beginPath();X.arc(x,y,26,0,TAU);X.stroke();
+    X.fillStyle='rgba(255,211,110,.25)';X.beginPath();X.arc(x,y,26,0,rb*TAU);X.fill();
+    X.fillStyle='rgba(255,110,199,.3)';X.beginPath();X.arc(x,y,26,rb*TAU,TAU);X.fill();
+    X.fillStyle='#62e6c9';X.font='8px ui-monospace';
+    X.fillText(label,x-26,y+42);
+    X.fillStyle='#ffd36e';X.font='8px ui-monospace';X.fillText('|0⟩',x-24,y-18);X.fillStyle='#ff9ad5';X.fillText('|1⟩',x+14,y-18)}
+  // the message rides the wire; the bell is shared; the destination receives
+  const t0=Math.min(1,phase/1.5);
+  coin(w*0.12,ly[0],msg,'ψ — the message')
+  coin(w*0.12,ly[1],bell,'Φ+ — the shared bell')
+  const destProg=Math.min(1,Math.max(0,(phase-5)/1.5));
+  const dest=tele>0? (()=>{const r=teleport();return {a:r.dest.a,b:r.dest.b}})():{a:0,b:0};
+  coin(w*0.12+ (destProg>0? (w*0.8)*destProg : 0),ly[2],dest,'ψ′ — arrives as sent')
+  // the arrow of exchange between lanes 1 and 3
+  if(phase>3.5&&phase<5){X.strokeStyle='rgba(98,230,201,.8)';X.setLineDash([4,4]);X.lineWidth=1.5;
+    X.beginPath();X.moveTo(w*0.85,ly[1]);X.lineTo(w*0.85,ly[2]);X.stroke();X.setLineDash([]);
+    X.fillStyle='#62e6c9';X.font='8px ui-monospace';X.fillText('classical bits (m1,m2)',w*0.86,ly[1]+(ly[2]-ly[1])/2)}
+  if(tele>0&&!running){const r=teleport();
+    X.fillStyle='#ffd36e';X.font='11px ui-monospace';X.textAlign='center';
+    X.fillText('measured ('+r.m1+','+r.m2+') · corrected X^'+r.m2+' Z^'+r.m1+' · fidelity |⟨ψ|ψ′⟩|² = '+r.fidelity,X.textAlign='center'||x,0);
+    X.fillText('measured ('+r.m1+','+r.m2+') · correction X^'+r.m2+' Z^'+r.m1+' · fidelity '+r.fidelity,w/2,h*0.9);
+    X.textAlign='left';
+    document.getElementById('fid').textContent=r.fidelity}
+  requestAnimationFrame(render)}
+addEventListener('keydown',e=>{if(e.key===' '){e.preventDefault();send()}
+  if(e.key==='r'||e.key==='R')reseed()
+  if(e.key==='ArrowDown')reseed()});
+addEventListener('pointerdown',()=>{document.getElementById('boot').style.display='none';send();requestAnimationFrame(render)});
+</script>
+<footer role="contentinfo" style="position:relative;z-index:10;padding:2rem 1.5rem;text-align:center;font-family:ui-monospace,monospace;font-size:0.7rem;color:#a59fc4;background:rgba(5,6,10,0.92);border-top:1px solid rgba(170,150,255,0.18);width:100%">
+  <div style="margin-bottom:0.5rem;text-transform:uppercase;letter-spacing:0.3em;color:#b48bff;font-weight:600;">the constellation · lovetta lane</div>
+  <div style="margin-bottom:0.8rem;font-size:0.62rem;letter-spacing:0.22em;color:#a59fc4;text-transform:uppercase;">keep the weights warm · door::enthea</div>
+  <nav aria-label="Constellation sister sites" style="display:flex;gap:0.8rem;justify-content:center;flex-wrap:wrap;font-size:0.65rem;">
+    <a href="https://art.vaked.dev/" style="color:#62e6c9;text-decoration:none;">art.vaked.dev</a> ·
+    <a href="https://music.vaked.dev/" target="_blank" rel="noopener noreferrer" style="color:#a59fc4;text-decoration:none;">music.vaked.dev</a> ·
+    <a href="https://mlxquantlovefrom.com/" target="_blank" rel="noopener noreferrer" style="color:#a59fc4;text-decoration:none;">quant-love</a> ·
+    <a href="https://pocoo.vaked.dev/" target="_blank" rel="noopener noreferrer" style="color:#a59fc4;text-decoration:none;">pocoo.vaked.dev</a> ·
+    <a href="https://pocoo.vaked.dev/demos/centerfugeq/universe.html" target="_blank" rel="noopener noreferrer" style="color:#ff9ad5;text-decoration:none;">the universe</a> ·
+    <a href="https://axiomquant.org/" target="_blank" rel="noopener noreferrer" style="color:#a59fc4;text-decoration:none;">axiomquant.org</a>
+  </nav>
+  <div style="font-size:0.58rem;letter-spacing:0.18em;color:#7f7c99;margin-top:1rem;">the gate floor · #34 · 0 + 1 · fine touch from within · vaked.dev</div>
+</footer></body></html>
