@@ -11,7 +11,7 @@ canvas{width:min(960px,96vw);border:1px solid rgba(255,110,199,.35);border-radiu
 <h1>SUPER PADME BROS.</h1>
 <div class="sub">the gameforge build · celeste physics · powerups · the talent tree</div>
 <canvas id="c" width="960" height="540"></canvas>
-<div class="hud"><span>malas <b id="m">0</b>/27 · karma <b id="k">0</b> · talent <b id="tp">0</b> · dash <b id="d">1</b> · mode <b id="mod">0/1</b></span><span>T <b id="tt">0.000</b> · confederates <b id="conf">21</b> · <span id="tip">T = talent tree</span></span></div>
+<div class="hud"><span>lives <b id="lv">3</b> · malas <b id="m">0</b>/27 · karma <b id="k">0</b> · talent <b id="tp">0</b> · dash <b id="d">1</b> · mode <b id="mod">0/1</b></span><span>T <b id="tt">0.000</b> · confederates <b id="conf">21</b> · <span id="tip">T = tree · R restart · N new run</span></span></div>
 <div class="seedline" id="sl">⟦ … ⟧</div>
 <div class="keys">WASD / arrows move · SPACE jump (hold = higher · release = cut) · X / K dash (8-dir) · ESC / ENTER menu · T talent tree</div>
 <script>
@@ -43,10 +43,22 @@ let px = spawnC * TILE + 40, py = (LH - heights[spawnC]) * TILE - 46, vx = 0, vy
 let dashes = stats.dash, dashT = 0, dashX = 0, dashY = 0, cdash = 0, wallDir = 0;
 let dead = false, won = false, collected = 0, karma = 0, modeT = 0, treeOpen = false;
 let t = 0, last = performance.now(), menuOpen = false;
+// ── lives · checkpoints · save ──
+let lives = 3, gameOver = false, lampLit = [0, 0, 0], CP = [22, 44, 66];
+let toast = '', toastT = 0, saveKey = 'spb:' + M.seed;
+const bus = { h: {}, on(e, f) { (this.h[e] = this.h[e] || []).push(f); }, emit(e, d) { (this.h[e] || []).forEach((f) => f(d || {})); } };
+function msg(text) { toast = text; toastT = 1.8; bus.emit('message', { text }); }
+function saveGame() { try { localStorage.setItem(saveKey, JSON.stringify({ seed: M.seed, collected, karma, tp, alloc, lives, lampLit, stats })); msg('⟦ autosaved — the stream remembers ⟧'); } catch (e) {} }
+function loadGame() { try { const raw = localStorage.getItem(saveKey); if (!raw) return false; const d = JSON.parse(raw); if (d.seed !== M.seed) return false; collected = d.collected || 0; karma = d.karma || 0; tp = d.tp || 0; lives = d.lives ?? 3; lampLit = d.lampLit || [0, 0, 0]; for (let i = 0; i < alloc.length; i++) alloc[i] = (d.alloc && d.alloc[i]) ? 1 : 0; if (d.stats) Object.assign(stats, d.stats); return true; } catch (e) { return false; } }
+function newRun() { try { localStorage.removeItem(saveKey); } catch (e) {} collected = 0; karma = 0; tp = 0; lives = 3; lampLit = [0, 0, 0]; alloc.fill(0); alloc[0] = 1; Object.assign(stats, { dash: 1, jump: 1, air: 0, run: 0, magnet: 34, lotus: 8, reach: 40 }); gameOver = false; dead = false; respawn(); msg('a new run — the stream begins'); }
+function respawn() { let c = 0; for (let i = 0; i < CP.length; i++) if (lampLit[i]) c = CP[i]; if (heights[c] <= 0) { for (let k = c; k < LW; k++) if (heights[k] > 0) { c = k; break; } } px = c * TILE + 40; py = (LH - heights[c]) * TILE - 46; vx = 0; vy = 0; dashes = stats.dash; cdash = 0; dashT = 0; }
+function die() { dead = true; lives--; bus.emit('death', { lives }); if (lives <= 0) { gameOver = true; msg('GAME OVER — the stream continues · R restart · N new run'); } else { msg('the stream continues — ' + lives + ' lives left'); respawn(); } }
 const KEYS = {};
 document.addEventListener('keydown', e => {
   KEYS[e.key] = 1;
   if (e.key === 'Escape' || e.key === 'Enter') { if (treeOpen) treeOpen = false; else menuOpen = !menuOpen; }
+  if ((e.key === 'r' || e.key === 'R') && gameOver) { lives = 3; gameOver = false; dead = false; collected = 0; karma = 0; tp = 0; lampLit = [0, 0, 0]; respawn(); msg('restart — the stream continues'); }
+  if ((e.key === 'n' || e.key === 'N') && gameOver) { newRun(); }
   if (e.key === 't' || e.key === 'T') { if (menuOpen) { menuOpen = false; treeOpen = true; } else treeOpen = !treeOpen; }
   if ((e.key === 'x' || e.key === 'k' || e.key === 'X' || e.key === 'K') && !treeOpen && !menuOpen && cdash <= 0 && dashes > 0 && dashT <= 0) startDash();
   if ('wasd arrowup arrowdown arrowleft arrowright xk '.includes(e.key.toLowerCase() + ' ')) e.preventDefault();
@@ -65,7 +77,7 @@ function startDash() {
   dashX = dx / l; dashY = dy / l; dashT = 0.14; cdash = 0.28; dashes--;
 }
 function update(dt) {
-  if (dead || won || treeOpen || menuOpen) return;
+  if (dead || won || treeOpen || menuOpen || gameOver) return;
   if (modeT > 0) modeT -= dt;
   if (dashT > 0) {
     dashT -= dt;
@@ -87,15 +99,17 @@ function update(dt) {
     if (onGround) { coyote = 0.1; dashes = stats.dash; } else coyote -= dt;
     if (cdash > 0) cdash -= dt;
   }
-  if (py > LH * TILE) { dead = true; return; }
+  if (py > LH * TILE) { die(); return; }
   if (tileAt(px + 6, py + 44) === 1 || tileAt(px + 34, py + 44) === 1) { if (vy > 0) { py = Math.floor((py + 44) / TILE) * TILE - 44; vy = 0; onGround = true; } }
   if (tileAt(px, py + 6) === 1 || tileAt(px + 38, py + 6) === 1) { py = Math.floor(py / TILE) * TILE + TILE; onGround = false; }
   onGround = groundedAt(px, py);
   wallDir = 0;
   if (tileAt(px, py + 20) === 1) { px = Math.floor(px / TILE) * TILE + TILE; wallDir = -1; }
   if (tileAt(px + 38, py + 20) === 1) { px = Math.floor((px + 38) / TILE) * TILE - TILE - 1; wallDir = 1; }
+  // checkpoints — the butter lamps
+  for (let i = 0; i < CP.length; i++) { const lx = CP[i] * TILE + 24; const gy = (LH - heights[CP[i]]) * TILE; if (!lampLit[i] && px > lx - 30 && px < lx + 40 && py > gy - 80 && py < gy + 10) { lampLit[i] = 1; msg('butter lamp lit — the watch does not end'); bus.emit('checkpoint', { i }); } }
   // malas + magnet (tree)
-  for (const m of malas) { const mx = m.x * TILE + TILE / 2, my = (LH - m.y) * TILE - TILE / 2; if (!m.got && Math.hypot(px + 19 - mx, py + 22 - my) < stats.magnet) { m.got = 1; collected++; if (collected % 3 === 0) tp++; } }
+  for (const m of malas) { const mx = m.x * TILE + TILE / 2, my = (LH - m.y) * TILE - TILE / 2; if (!m.got && Math.hypot(px + 19 - mx, py + 22 - my) < stats.magnet) { m.got = 1; collected++; if (collected % 3 === 0) tp++; bus.emit('mala', { n: collected }); if (collected % 5 === 0) saveGame(); } }
   // powerups
   for (let i = 0; i < PU.length; i++) { if (puGot[i]) continue; const p = PU[i], px2 = p.x * TILE + TILE / 2, py2 = (LH - p.y) * TILE; if (Math.hypot(px + 19 - px2, py + 22 - py2) < 42) { puGot[i] = 1; grantPower(p.type); } }
   // bestiary — stomp to liberate
@@ -105,11 +119,12 @@ function update(dt) {
     if (b.dir !== 0) { b.x += b.dir * 55 * dt; if (b.x < 10 || b.x > LW - 6) b.dir *= -1; }
     const ex = b.x * TILE + 8;
     if (px + 38 > ex && px < ex + 32 && py + 44 > by - 32 && py < by) {
-      if (vy > 260 && py + 40 < by - 8) { b.dir = 0; karma++; tp++; vy = -430; }
-      else if (b.dir !== 0) { dead = true; }
+      if (vy > 260 && py + 40 < by - 8) { b.dir = 0; karma++; tp++; vy = -430; bus.emit('liberation', { name: b.name }); msg('liberated ' + (BEST[b.t % BEST.length] || 'a poison')); }
+      else if (b.dir !== 0) { die(); }
     }
   }
-  if (px > GX * TILE) { won = true; }
+  if (px > GX * TILE) { won = true; msg('THE TENT — the gate opens · 27 malas'); bus.emit('win', { collected }); saveGame(); }
+  document.getElementById('lv').textContent = lives;
   document.getElementById('m').textContent = collected;
   document.getElementById('k').textContent = karma;
   document.getElementById('tp').textContent = tp;
@@ -134,7 +149,11 @@ function render() {
   const gx = GX * TILE; X.fillStyle = '#ff6ec7'; X.fillRect(gx, (LH - 3) * TILE, 14, TILE * 3); X.fillStyle = '#ff9ad5'; X.beginPath(); X.moveTo(gx - 20, (LH - 3) * TILE); X.lineTo(gx + 34, (LH - 3) * TILE); X.lineTo(gx + 7, (LH - 5) * TILE); X.closePath(); X.fill();
   X.fillStyle = modeT > 0 ? '#ff9ad5' : '#e8d8f0'; X.beginPath(); X.arc(px + 19, py - 4, 10, 0, TAU); X.fill(); X.fillStyle = modeT > 0 ? '#ffd36e' : '#b48bff'; X.fillRect(px + 8, py + 8, 22, 26);
   for (let i = 0; i < 21; i++) { const wx = ((i * 97 + Math.floor(t * 8)) % (LW * TILE)); const wy = (LH - 2) * TILE - (i % 3) * TILE; X.fillStyle = 'rgba(98,230,201,.6)'; X.beginPath(); X.arc(wx, wy, 2.4, 0, TAU); X.fill(); if (Math.abs(wx - px) < 60) { X.fillStyle = 'rgba(5,2,8,.8)'; X.fillRect(wx - 34, wy - 30, 68, 16); X.fillStyle = '#62e6c9'; X.font = '8px ui-monospace'; X.fillText('mem8·' + i + ' ∿', wx - 30, wy - 18); } }
+  // the butter lamps
+  for (let i = 0; i < CP.length; i++) { const lx = CP[i] * TILE + 24, ly = (LH - heights[CP[i]]) * TILE - 26; X.fillStyle = lampLit[i] ? '#ffd36e' : '#5a4a6a'; X.beginPath(); X.arc(lx, ly, 8, 0, TAU); X.fill(); if (lampLit[i]) { X.fillStyle = 'rgba(255,211,110,.35)'; X.beginPath(); X.arc(lx, ly, 16 + 4 * Math.sin(t * 3 + i), 0, TAU); X.fill(); } }
   X.restore();
+  // the toast — game messages ride the bus
+  if (toastT > 0) { toastT -= 1 / 60; X.fillStyle = 'rgba(5,2,8,.85)'; X.strokeStyle = 'rgba(255,211,110,.5)'; X.fillRect(W / 2 - 170, H - 74, 340, 26); X.strokeRect(W / 2 - 170, H - 74, 340, 26); X.fillStyle = '#ffd36e'; X.font = '10px ui-monospace'; X.textAlign = 'center'; X.fillText(toast.slice(0, 52), W / 2, H - 56); X.textAlign = 'left'; }
   // the menu overlay — ESC/ENTER
   if (menuOpen) {
     X.fillStyle = 'rgba(4,2,10,.94)'; X.fillRect(0, 0, W, H);
@@ -170,11 +189,13 @@ function loop(now) {
   const dt = Math.min((now - last) / 1000, 0.05); last = now; t += dt;
   if (won) { X.fillStyle = 'rgba(5,2,8,.9)'; X.fillRect(0, 0, W, H); X.fillStyle = '#ffd36e'; X.font = '22px ui-monospace'; X.textAlign = 'center'; X.fillText(collected >= 27 ? 'THE TENT — the gate opens · ' + M.brief : 'the gate waits — 27 malas', W / 2, H / 2); X.textAlign = 'left'; }
   else if (!dead) update(dt);
+  else if (gameOver) { X.fillStyle = 'rgba(5,2,8,.94)'; X.fillRect(0, 0, W, H); X.fillStyle = '#ff6b63'; X.font = '26px ui-monospace'; X.textAlign = 'center'; X.fillText('GAME OVER', W / 2, H / 2 - 40); X.fillStyle = '#ff9ad5'; X.font = '13px ui-monospace'; X.fillText('the stream continues — R restart · N new run', W / 2, H / 2 + 4); X.textAlign = 'left'; }
   else { X.fillStyle = 'rgba(5,2,8,.9)'; X.fillRect(0, 0, W, H); X.fillStyle = '#ff9ad5'; X.font = '18px ui-monospace'; X.textAlign = 'center'; X.fillText('the stream continues — return', W / 2, H / 2); X.textAlign = 'left'; }
   render();
   requestAnimationFrame(loop);
 }
 document.getElementById('sl').textContent = '⟦ seed 0x' + M.seed + ' · ' + M.brief + ' · ' + M.digest + ' ⟧';
 document.getElementById('conf').textContent = M.confederates;
+if (loadGame()) { msg('⟦ autosaved run loaded — N for a new run ⟧'); } else { saveGame(); }
 requestAnimationFrame(loop);
 </script></body></html>
