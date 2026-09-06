@@ -52,6 +52,7 @@ O('1I/\'Oumuamua','comet','small',.14,.7,.5,'the first interstellar visitor'),O(
 O('the Moon','probe','home',.18,.84,.6,'Apollo walked here'),O('Mars','probe','home',.24,.88,.55,'the rust world — the next step'),O('Voyager 1','probe','home',.3,.82,.5,'inside interstellar space, 1977\'s promise'),O('Voyager 2','probe','home',.35,.86,.48,'the grand tour'),O('New Horizons','probe','home',.4,.9,.45,'Arrokoth\'s visitor'),O('JWST','probe','home',.46,.88,.5,'SMACS 0723 — the deep field'),O('2024 PT5','probe','home',.5,.9,.48,'the mini-moon that stayed'),O('Earth·Sun','home','home',.1,.92,.7,'the origo of time — 1 T = one orbit');
 // the papers — the research floor
 O('TERNARY CMB','res_cmb','paper',.15,.1,.5,'the first light, quantized {-1,0,+1} — MLX-QUANT\'s gamma on the sky'),O('MP TEST','res_mp','paper',.25,.14,.45,'the ESD of a seeded matrix vs Marchenko–Pastur — KOMPRESS v2'),O('KOMPRESS CONSENSUS','res_k','paper',.35,.1,.4,'five teachers, one geometric-mean logit — the Council'),O('SPECTRAL RIGIDITY','res_sr','paper',.45,.14,.5,'live smax ≤ √(pn)(1+√γ) check — no collapse'),O('CLIO PROJECTION','res_clio','paper',.55,.1,.45,'8b-public-documents/forth/02-clio-projection.fth'),O('RSVP DYNAMICS','res_rsvp','paper',.65,.14,.4,'8b-public-documents/forth/04-rsvp-dynamics.fth'),O('AXIOMQUANT ACADEMY','res_axq','paper',.75,.1,.45,'axiomquant.org — the monograph, the threshold'),O('CONSTRAINT AS GROUND','res_cag','paper',.85,.14,.5,'8b-public-documents — constraint_as_ground.pdf');
+O('POLARIZED PLENUM','res_plenum','paper',.95,.12,.55,'isek kérdése: az izing híd — m(x,t), ρ_S=−∇·m, a lapos forgási görbe');
 // ── menu
 const CATS=[['all','✦ all'],['paper','📜 papers'],['home','🌍 home'],['star','✧ stars'],['exo','🪐 exoplanets'],['galaxy','🌀 galaxies'],['bh','🕳 black holes'],['neb','🌫 nebulae'],['struct','🕸 structure'],['small','☄ small bodies']];
 function menu(){const chips=document.getElementById('chips');chips.innerHTML='';for(const[cat,lab]of CATS){const b=document.createElement('button');b.textContent=lab;b.className=(cat===cur?'on':'');b.onclick=()=>{cur=cat;menu();list(filter())};chips.appendChild(b)}
@@ -268,6 +269,48 @@ function viewEvent(dt,prompt){
  X.fillStyle='#62e6c9';X.font='9px ui-monospace';
  X.fillText('class: '+kind+' · seed 0x'+EV.seed.toString(16).toUpperCase()+' · retype to replay · T='+tRel.toFixed(3),cx-170,cy+Math.min(W,H)*.4*zoom+22)}
 O('⚡ EVENT SIMULATOR','event','any',.5,.5,.5,'type any galactic event below — the prompt is the physics');
+function viewPlenum(tag){const cx=W/2-camX,cy=H/2-camY;fade();const L=24,cs=Math.min(W,H)*.5/L;
+ // a compact in-browser plenum run (few steps for the demo)
+ if(!PLW||tAbs-PLW.t>4){PLW={t:tAbs,st:{L,planes:[],m:new Float32Array(L*L),S:new Float32Array(L*L),rhoS:new Float32Array(L*L),phi:new Float32Array(L*L),rhoM:new Float32Array(L*L),T_k:2.0,step:0},rc:null}}
+ const st=PLW.st;if(!st.planes.length){let r2=seed>>>0;const rr=()=>{r2=(r2*1664525+1013904223)>>>0;return r2/4294967296};
+  for(let p=0;p<5;p++){const sp=new Int8Array(L*L);for(let i=0;i<sp.length;i++)sp[i]=rr()<.9?(rr()<.5?-1:1):0;st.planes.push(sp)}}
+ // one coarsened plenum step per second-ish
+ for(let k=0;k<2;k++)plenumStepLite(st);
+ // m field
+ for(let y=0;y<L;y++)for(let x=0;x<L;x++){const v=st.m[y*L+x];X.fillStyle=v>0?`rgba(255,110,199,${.12+.5*Math.abs(v)})`:`rgba(91,157,255,${.12+.5*Math.abs(v)})`;X.fillRect(cx+(x-L/2)*cs,cy+(y-L/2)*cs,cs,cs)}
+ // phi contours
+ X.strokeStyle='rgba(255,211,110,.35)';X.lineWidth=1;
+ for(let c=0;c<5;c++){X.beginPath();for(let a=0;a<TAU;a+=.05){const rr=(Math.min(W,H)*.16)*(c+1)*(1+.06*Math.sin(a*3+tAbs*.4));X.lineTo(cx+Math.cos(a)*rr,cy+Math.sin(a)*rr*.9)}X.stroke()}
+ // rotation curve mini-plot
+ const rc=rotationCurveLite(st);
+ X.strokeStyle='rgba(180,139,255,.5)';X.lineWidth=1.2;X.strokeRect(cx+L/2*cs+30,cy-L/2*cs,120,90);
+ X.fillStyle='#5b9dff';X.font='8px ui-monospace';X.fillText('Kepler',cx+L/2*cs+34,cy-L/2*cs+12);
+ X.fillStyle='#ffd36e';X.fillText('entropic',cx+L/2*cs+76,cy-L/2*cs+12);
+ X.strokeStyle='#5b9dff';X.beginPath();rc.vK.forEach((v,i)=>{const px2=cx+L/2*cs+36+i*110/rc.vK.length,py2=cy+L/2*cs+80-v*30;i===0?X.moveTo(px2,py2):X.lineTo(px2,py2)});X.stroke();
+ X.strokeStyle='#ffd36e';X.beginPath();rc.vF.forEach((v,i)=>{const px2=cx+L/2*cs+36+i*110/rc.vF.length,py2=cy+L/2*cs+80-v*30;i===0?X.moveTo(px2,py2):X.lineTo(px2,py2)});X.stroke();
+ X.font='11px ui-monospace';X.fillStyle='#ff9ad5';
+ X.fillText('THE POLARIZED PLENUM — gravity from a polarized plenum',cx-190,cy-Math.min(W,H)*.3);
+ X.fillStyle='#b48bc0';X.font='9px ui-monospace';
+ X.fillText('∇²Φ=4πG(ρm+ρS) · ρS=−∇·m · m=mean spin over the stack · S≈ln Vol(A) · |m|avg='+ (st.m.reduce((a,b)=>a+Math.abs(b),0)/st.m.length).toFixed(2) +' · the curve goes flat',cx-250,cy-Math.min(W,H)*.3+16)}
+let PLW=null;
+// lite in-browser plenum engine (js port, coarse)
+function plenumStepLite(st){const L=st.L,T=Math.max(.9,st.T_k),P=st.planes.length;let r2=(seed+st.step*97)>>>0;const rr=()=>{r2=(r2*1664525+1013904223)>>>0;return r2/4294967296};
+ for(let p=0;p<P;p++){const plane=st.planes[p];
+  for(let n=0;n<L*L*2;n++){const ii=(rr()*L)|0,jj=(rr()*L)|0,idx=ii*L+jj,sv=plane[idx];if(!sv)continue;
+   let sum=plane[((ii+1)%L)*L+jj]+plane[((ii+L-1)%L)*L+jj]+plane[ii*L+((jj+1)%L)]+plane[ii*L+((jj+L-1)%L)];
+   let field=0;for(let q=0;q<P;q++){if(q!==p)field+=st.planes[q][idx]}
+   const dE=2*sv*(sum+.6*field);if(dE<=0||rr()<Math.exp(-dE/T))plane[idx]=-sv}}
+ for(let i=0;i<L*L;i++){let ms=0;for(let p=0;p<P;p++)ms+=st.planes[p][i];st.m[i]=ms/P;st.S[i]=Math.log(1+Math.abs(st.m[i])*8)}
+ for(let y=0;y<L;y++)for(let x=0;x<L;x++){const idx=y*L+x;const dmx=st.m[y*L+((x+1)%L)]-st.m[y*L+((x+L-1)%L)],dmy=st.m[((y+1)%L)*L+x]-st.m[((y+L-1)%L)*L+x];st.rhoS[idx]=Math.max(0,-(dmx+dmy)*.5+st.S[idx]*.04)}
+ const phi=st.phi,src=new Float32Array(L*L);for(let i=0;i<L*L;i++)src[i]=st.rhoM[i]+st.rhoS[i]*2.4;
+ for(let it=0;it<40;it++){const next=new Float32Array(L*L);for(let y=0;y<L;y++)for(let x=0;x<L;x++){const idx=y*L+x;next[idx]=.25*(phi[((y+1)%L)*L+x]+phi[((y+L-1)%L)*L+x]+phi[y*L+((x+1)%L)]+phi[y*L+((x+L-1)%L)]-4*Math.PI*src[idx])}phi.set(next)}
+ st.step++}
+function rotationCurveLite(st){const L=st.L,cx=L/2,cy=L/2,r=[],vK=[],vF=[];
+ for(let rr=2;rr<=L*.45;rr+=1.5){const ay=Math.min(L-1,Math.floor(cy));let g2=Math.abs(st.phi[ay*L+Math.min(L-1,Math.floor(cx+rr)+1)]-st.phi[ay*L+Math.min(L-1,Math.floor(cx+rr)-1)])/.5;
+  let gk=0;for(let y=0;y<L;y++)for(let x=0;x<L;x++){if(st.rhoM[y*L+x]>0){const d=Math.hypot(x-cx,y-cy)||.3;if(d>=rr-.5&&d<=rr+.5)gk+=st.rhoM[y*L+x]*.4/d}}
+  r.push(rr);vK.push(Math.sqrt(Math.max(0,gk*rr))*.8);vF.push(Math.sqrt(Math.max(0,g2*rr))*.8)}
+ return{r,vK,vF}}
+
 // ══ main ══
 const KEYS={};addEventListener('keydown',e=>{KEYS[e.key.toLowerCase()]=1;
  if(e.key==='/'){e.preventDefault();document.getElementById('q').focus()}
@@ -311,6 +354,7 @@ function loop(){const now=performance.now()/1000,dt=Math.min(now-tAbs,.05);tAbs=
   else if(t2==='res_rsvp')viewRsvp(sel.desc);
   else if(t2==='res_axq')viewAcademy(sel.desc);
   else if(t2==='res_cag')viewCag(sel.desc);
+  else if(t2==='res_plenum')viewPlenum(sel.desc);
   else viewUniverse(dt)}
  // HUD
  X.fillStyle='rgba(5,2,8,.8)';X.fillRect(0,0,W,26);X.fillRect(0,H-24,W,24);
