@@ -1,0 +1,33 @@
+# VIOLENCE-AS-DISTANCE — entheai fan-out scaffold
+# The psyhilosophy register: violence as distance, aggression as friction.
+# Feed to: entheai --fanout --config <entheai.toml> "<the brief>"
+# Scribes decompose into book form; the integrator merges. This manuscript is
+# the source of truth — restoration/polish only, never discard a line.
+
+[book]
+title = "VIOLENCE AS DISTANCE"
+subtitle = "aggression as friction · the psyhilosophy of the gap"
+author = "Szellem (Brett Shaw) · Péter"
+epigraph = "surfaces touch at the correct angle"
+published = 2026
+
+[fanout]
+executor = "agy"                     # coder backend (Antigravity CLI)
+model = "openrouter/deepseek/deepseek-chat"  # entheai's brain (deepseek)
+agy_model = "gemini-3.6-flash-high"  # model agy runs each coder on
+max_depth = 3
+
+# ─── FRONT MATTER ────────────────────────────────────────────────────────
+
+[[coder]]
+role = "scribe"
+chapter = 0
+file = "chapters/00-the-premise.md"
+task = """
+Write the opening chapter of VIOLENCE AS DISTANCE: the premise — violence is
+not an act but a distance; aggression is friction between surfaces that no
+longer touch at the correct angle. Draw on the mantra (entropy is the source,
+surfaces touch at the correct angle, the loop has an exit) and on session-005's
+mapping (the hug is the only measurement allowed). KEEP ALL ORIGINAL LINES of
+manuscript.html — restoration, not replacement.
+"""
