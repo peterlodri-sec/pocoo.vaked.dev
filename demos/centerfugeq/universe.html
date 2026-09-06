@@ -14,7 +14,7 @@ canvas{width:100vw;height:100vh;display:block}
 #lst .o:hover,#lst .o.on{background:rgba(255,110,199,.12);border-color:rgba(255,110,199,.45)}
 #lst .o b{color:#ff9ad5;font-size:.68rem;display:block}
 #lst .o span{color:#8a6aa0;font-size:.6rem}
-#crumb{position:fixed;top:10px;right:14px;z-index:9;color:#62e6c9;font-size:.68rem;letter-spacing:1px;background:rgba(4,2,10,.8);padding:6px 10px;border-radius:8px;border:1px solid rgba(98,230,201,.3)}
+#crumb{position:fixed;top:10px;right:14px;z-index:9;color:#62e6c9;font-size:.68rem;letter-spacing:1px;background:rgba(4,2,10,.85);padding:7px 11px;border-radius:8px;border:1px solid rgba(98,230,201,.4);cursor:pointer;backdrop-filter:blur(6px)}#crumb:hover{border-color:#ffd36e;color:#ffd36e}
 #speed{position:fixed;top:34px;right:14px;background:rgba(13,6,20,.85);border:1px solid rgba(255,211,110,.4);color:#ffd36e;font:700 .62rem ui-monospace,monospace;padding:6px 9px;border-radius:7px;cursor:pointer;z-index:9}
 #tick{position:fixed;left:0;right:0;bottom:0;padding:8px 16px;padding-left:286px;font-size:12px;letter-spacing:2px;color:#ffd36e;background:linear-gradient(transparent,rgba(2,1,8,.92));z-index:6;text-shadow:0 0 8px #ff6ec7}
 #boot{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#020108;color:#ff9ad5;font-family:ui-monospace,monospace;cursor:pointer;z-index:20;letter-spacing:3px;font-size:15px;text-align:center;flex-direction:column}
@@ -65,8 +65,8 @@ function filter(){return CAT.filter(o=>(cur==='all'||o.cat===cur)&&(!q||o.name.t
 // ── travel + camera
 let sel=null,camX=0,camY=0,zoom=1,TX=0,TY=0,TZ=1,tv=0;
 function travel(o){sel=o;TX=(o.x-.5)*W*1.5;TY=(o.y-.45)*H*1.4;TZ=o.z*4;tv=0;
- document.getElementById('crumb').textContent='you are here: '+o.name+' · '+(o.cat==='paper'?'the papers':'the catalog')}
-function home(){sel=null;TX=0;TY=0;TZ=1;tv=0;document.getElementById('crumb').textContent='you are here: the universe'}
+ document.getElementById('crumb').innerHTML='🚪 glassDoor · '+o.name+(o.cat==='paper'?' ⚗':' ✦')+' · click the door to step back'}
+function home(){sel=null;TX=0;TY=0;TZ=1;tv=0;document.getElementById('crumb').innerHTML='🚪 glassDoor · the universe'}
 document.getElementById('speed').onclick=()=>{si=(si+1)%SCALES.length;scale=SCALES[si];document.getElementById('speed').textContent='T ×'+(scale||'∞')};
 // engines
 function mkGalaxy(sd,n,x,y,sc,name){S=sd>>>0;const halo=[];for(let i=0;i<n;i++)halo.push({x:(R()-.5)*2,y:(R()-.5)*2,vx:(R()-.5)*.4,vy:(R()-.5)*.4,th:R()*TAU,m:.5+R()});const L=18,spins=new Int8Array(L*L);for(let i=0;i<spins.length;i++)spins[i]=R()<.92?(R()<.5?-1:1):0;return{x,y,scale:sc,name,halo,spins,L,bias:new Float32Array(L*L)}}
@@ -89,7 +89,18 @@ function viewUniverse(dt){fade();
   for(const p of g.halo){X.fillStyle=`hsl(${Math.round(280+p.th*90)},92%,${58+16*Math.abs(Math.cos(p.th))}%)`;X.fillRect(gx+p.x*sc,gy+p.y*sc,2.2,2.2)}
   X.font='10px ui-monospace';X.fillStyle='#ff9ad5';X.fillText(g.name+' · '+g.stars+' stars',gx-sc*.6,gy+sc*.7)}
  X.font='10px ui-monospace';X.fillStyle='#8a6aa0';
- for(const o of CAT.filter(o=>o.cat!=='paper')){const px=o.x*W-camX,py=o.y*H-camY;if(px<10||px>W-10||py<10||py>H-10)continue;X.fillStyle='rgba(138,106,160,.6)';X.beginPath();X.arc(px,py,1.6,0,TAU);X.fill();if(px>40&&px<W-40&&py>40&&py<H-40)X.fillText(o.name,px+6,py+3)}}
+ for(const o of CAT.filter(o=>o.cat!=='paper')){const px=o.x*W-camX,py=o.y*H-camY;if(px<10||px>W-10||py<10||py>H-10)continue;
+  const hov=HOV===o;
+  X.fillStyle=hov?'#ffd36e':'rgba(138,106,160,.6)';X.beginPath();X.arc(px,py,hov?3.4:1.6,0,TAU);X.fill();
+  if(px>40&&px<W-40&&py>40&&py<H-40)X.fillText(o.name,px+6,py+3)}
+ if(HOV){HOV._px=HOV.x*W-camX;HOV._py=HOV.y*H-camY;
+  if(HOV._px>0&&HOV._px<W&&HOV._py>30&&HOV._py<H-30){
+   X.strokeStyle='rgba(255,211,110,.8)';X.lineWidth=1;X.beginPath();X.arc(HOV._px,HOV._py,10+2*Math.sin(tAbs*3),0,TAU);X.stroke();
+   const bx=Math.min(W-190,Math.max(10,HOV._px-90)),by=Math.max(30,HOV._py+16);
+   X.fillStyle='rgba(4,2,10,.9)';X.fillRect(bx,by,180,34);X.strokeStyle='rgba(255,211,110,.5)';X.strokeRect(bx,by,180,34);
+   X.fillStyle='#ffd36e';X.font='bold 10px ui-monospace';X.fillText(HOV.name,bx+6,by+13);
+   X.fillStyle='#b48bc0';X.font='8px ui-monospace';X.fillText('click → '+HOV.type+' · '+(HOV.cat==='paper'?'the papers':'the catalog'),bx+6,by+26)}}
+ document.body.style.cursor=HOV?'pointer':'default';}
 function viewOrbit(scale0,label,tag){
  const cx=W/2-camX,cy=H/2-camY,AU=Math.min(W,H)*.26*zoom;
  glowDot(cx,cy,AU*.5,'#fff7d6','rgba(255,211,110,0)');X.fillStyle='#ffd36e';X.beginPath();X.arc(cx,cy,AU*.09,0,TAU);X.fill();
@@ -372,6 +383,20 @@ const KEYS={};addEventListener('keydown',e=>{KEYS[e.key.toLowerCase()]=1;
  if('wasd +-'.includes(e.key.toLowerCase()+' '))e.preventDefault()});
 addEventListener('keyup',e=>{KEYS[e.key.toLowerCase()]=0});
 document.getElementById('ev').addEventListener('keydown',e=>{if(e.key==='Enter'){const v=e.target.value.trim();if(v){EV=null;travel({name:v,type:'event',cat:'any',z:.8,desc:'the prompt is the physics'});}}});
+document.getElementById('crumb').addEventListener('click',home);
+let MOX=0,MOY=0,HOV=null;
+c.addEventListener('mousemove',e=>{const r=c.getBoundingClientRect();MOX=(e.clientX-r.left)/r.width*W;MOY=(e.clientY-r.top)/r.height*H;HOV=pickHover(MOX,MOY)});
+c.addEventListener('click',e=>{if(sel&&sel.type==='event')return;e.preventDefault();
+ const r=c.getBoundingClientRect(),mx=(e.clientX-r.left)/r.width,my=(e.clientY-r.top)/r.height;
+ // click-through: if an object is hovered, step through the glassDoor
+ const hit=pickHover(mx*W,my*H);
+ if(hit)travel(hit);});
+function pickHover(mx,my){
+ if(sel)return null;
+ let best=null,bd=22;
+ for(const o of CAT){const px=o.x*W-camX,py=o.y*H-camY;if(px<-30||px>W+30||py<-30||py>H+30)continue;
+  const d=Math.hypot(mx-px,my-py);if(d<bd){bd=d;best=o}}
+ return best}
 document.getElementById('q').addEventListener('input',e=>{q=e.target.value;list(filter())});
 function list(items){const lst=document.getElementById('lst');lst.innerHTML='';for(const o of items){const d=document.createElement('div');d.className='o'+(sel===o.name?' on':'');d.innerHTML='<b>'+o.name+'</b><span>'+o.type+' · '+o.desc.slice(0,42)+'</span>';d.onclick=()=>travel(o);lst.appendChild(d)}}
 function loop(){const now=performance.now()/1000,dt=Math.min(now-tAbs,.05);tAbs=now;
