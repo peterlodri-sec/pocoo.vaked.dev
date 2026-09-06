@@ -11,7 +11,7 @@ canvas{width:min(960px,96vw);border:1px solid rgba(255,110,199,.35);border-radiu
 <h1>SUPER PADME BROS.</h1>
 <div class="sub">the gameforge build · celeste physics · powerups · the talent tree</div>
 <canvas id="c" width="960" height="540"></canvas>
-<div class="hud"><span>lives <b id="lv">3</b> · malas <b id="m">0</b>/27 · karma <b id="k">0</b> · talent <b id="tp">0</b> · dash <b id="d">1</b> · mode <b id="mod">0/1</b></span><span id="chline" style="color:#ff9ad5">—</span><span>T <b id="tt">0.000</b> · confederates <b id="conf">21</b> · <span id="tip">T = tree · R restart · N new run</span></span></div>
+<div class="hud"><span>level <b id="lvl">1</b><span id="spbadge"></span> · lives <b id="lv">3</b> · malas <b id="m">0</b>/27 · karma <b id="k">0</b> · talent <b id="tp">0</b> · dash <b id="d">1</b> · mode <b id="mod">0/1</b></span><span id="chline" style="color:#ff9ad5">—</span><span>T <b id="tt">0.000</b> · confederates <b id="conf">21</b> · <span id="tip">T = tree · R restart · N new run</span></span></div>
 <div class="seedline" id="sl">⟦ … ⟧</div>
 <div class="keys">WASD / arrows move · SPACE jump (hold = higher · release = cut) · X / K dash (8-dir) · ESC / ENTER menu · T talent tree</div>
 <div id="auth" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(4,2,10,.96);z-index:30;flex-direction:column;gap:12px">
@@ -25,8 +25,161 @@ const C = document.getElementById('c'), X = C.getContext('2d');
 const W = C.width, H = C.height, TILE = 46, TAU = 6.2832;
 // ── the level — the ising field unrolled
 const LW = 96, LH = 11, MN = M.level;
+let level = 1, maze = false, special = false, godNodes = [], dungeon = false, dmap = null, dpx = 0, dpy = 0;
 const heights = new Array(LW);
-for (let c = 0; c < LW; c++) { const v = MN.tiles[c % MN.width]; heights[c] = v === 1 ? LH - 4 - (c % 3) : LH - 3; if (v === 2 && c % 6 === 0 && c > 4 && c < LW - 8) heights[c] = -1; }
+function lcg(seed) { let s2 = (seed ^ 0x9e3779b9) >>> 0; return () => { s2 = (s2 * 1664525 + 1013904223) >>> 0; return s2 / 4294967296; }; }
+// the mutable world arrays — declared before the generators that fill them
+let PU = M.powerups;
+let BEST = M.bestiary.concat(['elf', 'sprite', 'golem', 'wisp', 'pixie']);
+let BE = [];
+let malas = [];
+// ── the diablo dungeon — procedural rooms + corridors, top-down ──
+const DW = 24, DH = 14;
+function genDungeon(rng) {
+  dmap = new Uint8Array(DW * DH).fill(1);
+  const rooms = [];
+  let guard = 0;
+  while (rooms.length < 5 && guard++ < 200) {
+    const w = 3 + Math.floor(rng() * 4), h = 3 + Math.floor(rng() * 3);
+    const x = 1 + Math.floor(rng() * (DW - w - 2)), y = 1 + Math.floor(rng() * (DH - h - 2));
+    let ok = true;
+    for (const r of rooms) if (x < r.x + r.w + 1 && x + w + 1 > r.x && y < r.y + r.h + 1 && y + h + 1 > r.y) { ok = false; break; }
+    if (!ok) continue;
+    for (let ry = y; ry < y + h; ry++) for (let rx = x; rx < x + w; rx++) dmap[ry * DW + rx] = 0;
+    rooms.push({ x, y, w, h });
+  }
+  // L-corridors between consecutive room centers
+  for (let i = 1; i < rooms.length; i++) {
+    const a = rooms[i - 1], b = rooms[i];
+    const ax = a.x + (a.w >> 1), ay = a.y + (a.h >> 1), bx = b.x + (b.w >> 1), by = b.y + (b.h >> 1);
+    for (let x = Math.min(ax, bx); x <= Math.max(ax, bx); x++) dmap[ay * DW + x] = 0;
+    for (let y = Math.min(ay, by); y <= Math.max(ay, by); y++) dmap[y * DW + bx] = 0;
+  }
+  // malas in rooms
+  malas.length = 0;
+  let placed = 0;
+  for (const r of rooms) for (let ry = r.y; ry < r.y + r.h && placed < 27; ry++) for (let rx = r.x; rx < r.x + r.w && placed < 27; rx++) { if (dmap[ry * DW + rx] === 0) { malas.push({ x: rx, y: ry, got: 0 }); placed++; } }
+  // enemies patrol the rooms
+  BE.length = 0;
+  for (let i = 0; i < Math.min(10, 5 + level); i++) { const r = rooms[i % rooms.length]; BE.push({ x: r.x + 1 + (i % (r.w - 1)), y: r.y + 1 + (i % (r.h - 1)), dir: 1, t: i % BEST.length, kind: i % 8 }); }
+  // god-nodes on special levels
+  godNodes = [];
+  if (special) for (let i = 0; i < 8; i++) { const r = rooms[i % rooms.length]; godNodes.push({ x: r.x + 1 + (i % Math.max(1, r.w - 1)), y: r.y + 1 + (i % Math.max(1, r.h - 1)), got: 0 }); }
+  // the gate — the exit tile in the last room
+  const last = rooms[rooms.length - 1];
+  gateTile = { x: last.x + (last.w >> 1), y: last.y + (last.h >> 1) };
+  dpx = rooms[0].x + (rooms[0].w >> 1); dpy = rooms[0].y + (rooms[0].h >> 1);
+  lampLit = [0, 0, 0];
+  collected = 0;
+}
+let gateTile = null;
+function diabloUpdate(dt) {
+  const sp = 150 * (modeT > 0 ? 1.3 : 1);
+  let dx = ((KEYS['d'] || KEYS['ArrowRight'] ? 1 : 0) - (KEYS['a'] || KEYS['ArrowLeft'] ? 1 : 0));
+  let dy = ((KEYS['s'] || KEYS['ArrowDown'] ? 1 : 0) - (KEYS['w'] || KEYS['ArrowUp'] ? 1 : 0));
+  const nx = dpx + dx * sp * dt, ny = dpy + dy * sp * dt;
+  const tile = (x, y) => (x < 0 || y < 0 || x >= DW || y >= DH) ? 1 : dmap[y * DW + x];
+  if (tile(Math.round(nx), Math.round(dpy)) === 0) dpx = nx;
+  if (tile(Math.round(dpx), Math.round(ny)) === 0) dpy = ny;
+  for (const m of malas) if (!m.got && Math.abs(dpx - m.x) < 0.8 && Math.abs(dpy - m.y) < 0.8) { m.got = 1; collected++; if (collected % 3 === 0) tp++; chAddXp(1); bus.emit('mala', { n: collected }); }
+  for (const g of godNodes) if (!g.got && Math.abs(dpx - g.x) < 1 && Math.abs(dpy - g.y) < 1) { g.got = 1; chAddXp(5); if (CH && CH.dim < 9) { CH.dim++; if (!CH.dims.includes(CH.dim)) CH.dims.push(CH.dim); CH.dims.sort((a, b) => a - b); } msg('god-node — dimension ' + (CH ? CH.dim : '?') + ' resonates'); }
+  for (const b of BE) {
+    if (b.dir !== 0) {
+      const bx = b.x + (b.dir > 0 ? 0.6 : -0.6) * dt;
+      if (tile(Math.round(bx), Math.round(b.y)) === 0) b.x = bx; else b.dir *= -1;
+      if (rng2() < 0.01) b.dir *= -1;
+    }
+    if (Math.abs(dpx - b.x) < 0.7 && Math.abs(dpy - b.y) < 0.7) { b.dir = 0; karma++; tp++; chAddXp(2); msg('liberated ' + (BEST[b.t % BEST.length] || 'a poison')); }
+  }
+  if (gateTile && Math.abs(dpx - gateTile.x) < 0.8 && Math.abs(dpy - gateTile.y) < 0.8) {
+    if (collected >= 27) { msg('the gate opens — level ' + (level + 1)); bus.emit('gate', { level }); level++; genLevel(level); saveGame(); }
+    else msg('the gate waits — ' + (27 - collected) + ' malas');
+  }
+  document.getElementById('lvl').textContent = level;
+  document.getElementById('spbadge').textContent = special ? ' ◬' : ' 🗺';
+  document.getElementById('lv').textContent = lives;
+  document.getElementById('m').textContent = collected;
+  if (CH) document.getElementById('chline').textContent = CH.name + ' · lv ' + CH.level + ' · dim ' + CH.dim + 'D · ' + chProtector();
+}
+let rng2 = (() => { let s2 = 7; return () => { s2 = (s2 * 1664525 + 1013904223) >>> 0; return s2 / 4294967296; }; })();
+function diabloRender() {
+  X.fillStyle = '#0d0512'; X.fillRect(0, 0, W, H);
+  const cs = Math.min(W / DW, H / DH);
+  const ox = (W - DW * cs) / 2, oy = (H - DH * cs) / 2;
+  for (let y = 0; y < DH; y++) for (let x = 0; x < DW; x++) {
+    if (dmap[y * DW + x] === 1) { X.fillStyle = '#241236'; X.fillRect(ox + x * cs, oy + y * cs, cs, cs); X.strokeStyle = 'rgba(180,139,255,.15)'; X.strokeRect(ox + x * cs, oy + y * cs, cs, cs); }
+    else { X.fillStyle = 'rgba(22,10,30,.6)'; X.fillRect(ox + x * cs, oy + y * cs, cs, cs); }
+  }
+  for (const m of malas) { if (m.got) continue; X.fillStyle = '#ffd36e'; X.beginPath(); X.arc(ox + m.x * cs + cs / 2, oy + m.y * cs + cs / 2, cs * 0.2, 0, TAU); X.fill(); }
+  for (const g of godNodes) { if (g.got) continue; X.fillStyle = '#ffd36e'; X.beginPath(); X.arc(ox + g.x * cs + cs / 2, oy + g.y * cs + cs / 2, cs * 0.3, 0, TAU); X.fill(); X.strokeStyle = 'rgba(255,211,110,.5)'; X.beginPath(); X.arc(ox + g.x * cs + cs / 2, oy + g.y * cs + cs / 2, cs * 0.5, 0, TAU); X.stroke(); }
+  const ECOL = ['#ff6ec7', '#5b9dff', '#2b2b45', '#62e6c9', '#ffd36e', '#b48bff', '#ff9ad5', '#8a6aa0', '#62e6c9', '#ff6b63', '#e8d8f0'];
+  for (const b of BE) { if (b.dir === 0) continue; X.fillStyle = ECOL[b.kind % ECOL.length]; X.beginPath(); X.arc(ox + b.x * cs + cs / 2, oy + b.y * cs + cs / 2, cs * 0.3, 0, TAU); X.fill(); }
+  if (gateTile) { X.fillStyle = '#ff6ec7'; X.fillRect(ox + gateTile.x * cs, oy + gateTile.y * cs, cs, cs); X.fillStyle = '#ff9ad5'; X.font = '10px ui-monospace'; X.fillText('◈', ox + gateTile.x * cs + cs / 2 - 4, oy + gateTile.y * cs + cs / 2 + 4); }
+  X.fillStyle = modeT > 0 ? '#ff9ad5' : '#e8d8f0'; X.beginPath(); X.arc(ox + dpx * cs + cs / 2, oy + dpy * cs + cs / 2, cs * 0.35, 0, TAU); X.fill();
+  X.fillStyle = '#ffd36e'; X.font = '11px ui-monospace'; X.fillText('the dungeon — ' + collected + '/27 malas · the gate is the ◈', ox + 10, oy + DH * cs + 18);
+}
+function genLevel(lvl) {
+  const rng = lcg((M.seed | 0) + lvl * 7919);
+  const roll = rng();
+  maze = roll < 0.25;
+  dungeon = roll >= 0.25 && roll < 0.55;
+  special = lvl % 5 === 0;
+  if (dungeon) { genDungeon(rng); return; }
+  for (let c = 0; c < LW; c++) {
+    const v = Math.floor(rng() * 4);
+    heights[c] = v === 1 ? LH - 4 - (c % 3) : LH - 3;
+    if (v === 2 && c % 6 === 0 && c > 4 && c < LW - 8) heights[c] = -1;
+  }
+  if (maze) {
+    // a seeded recursive-backtracker maze over 12x8 cells, tiled
+    const gw = 12, gh = 8, cell = Math.floor(LW / gw);
+    const grid = Array.from({ length: gh }, () => new Array(gw).fill(1));
+    const stack = [[0, 0]]; grid[0][0] = 0;
+    while (stack.length) {
+      const [cx, cy] = stack[stack.length - 1];
+      const dirs = [[1, 0], [-1, 0], [0, 1], [0, -1]].sort(() => rng() - 0.5);
+      let moved = false;
+      for (const [dx, dy] of dirs) {
+        const nx = cx + dx * 2, ny = cy + dy * 2;
+        if (nx >= 0 && ny >= 0 && nx < gw && ny < gh && grid[ny][nx] === 1) {
+          grid[ny][nx] = 0; grid[cy + dy][cx + dx] = 0;
+          stack.push([nx, ny]); moved = true; break;
+        }
+      }
+      if (!moved) stack.pop();
+    }
+    for (let gy = 0; gy < gh; gy++) for (let gx = 0; gx < gw; gx++) {
+      if (grid[gy][gx] === 1) {
+        for (let c = gx * cell; c < (gx + 1) * cell && c < LW; c++) heights[c] = LH; // wall
+      }
+    }
+  }
+  // malas — 27 on solid ledges
+  malas.length = 0;
+  for (let i = 0; i < 27; i++) malas.push({ x: 4 + i * 4, y: LH - 3 - (i % 3), got: 0 });
+  // the bestiary — elves, sprites, golems, wisps, pixies join the roster
+  BE.length = 0;
+  const count = Math.min(12, 6 + lvl);
+  for (let i = 0; i < count; i++) BE.push({ x: 14 + i * 13, dir: 1, t: i % BEST.length, kind: i % 8 });
+  // powerups
+  PU.length = 0;
+  for (let i = 0; i < 8; i++) PU.push({ type: ['lotus', 'dash', 'shield', 'tempest'][(rng() * 4) | 0], x: 8 + i * 11, y: 3 + (i % 3) });
+  // lamps
+  lampLit = [0, 0, 0];
+  // god-nodes — the special level's hypermesh lattice
+  godNodes = [];
+  if (special) {
+    for (let i = 0; i < 8; i++) {
+      let c = 6 + Math.floor(rng() * (LW - 12));
+      if (heights[c] <= 0) { for (let k = c; k < LW; k++) if (heights[k] > 0) { c = k; break; } }
+      godNodes.push({ x: c, y: LH - 2 - (i % 3), got: 0 });
+    }
+  }
+  // spawn on the first solid column
+  let sc = 0; for (let c = 0; c < LW; c++) { if (heights[c] > 0 && heights[c] < LH) { sc = c; break; } }
+  px = sc * TILE + 40; py = (LH - heights[sc]) * TILE - 46; vx = 0; vy = 0;
+  dashes = stats.dash; cdash = 0; dashT = 0; dead = false;
+}
 // ── the talent tree — PoE/Diablo style, baked from the seed
 const TREE = M.tree;
 const stats = { dash: 1, jump: 1, air: 0, run: 0, magnet: 34, lotus: 8, reach: 40 };
@@ -35,12 +188,8 @@ alloc[0] = 1;
 let tp = 0;
 function applyNode(i) { const n = TREE.nodes[i]; stats[n.stat] = Math.min(n.max, stats[n.stat] + n.amt); }
 // ── powerups — the seeded shrines
-const PU = M.powerups;
 const puGot = new Array(PU.length).fill(0);
 // ── bestiary + malas + gate
-const BEST = M.bestiary; const BE = [];
-for (let i = 0; i < 6; i++) BE.push({ x: 14 + i * 15, dir: 1, t: i % 3 });
-const malas = []; for (let i = 0; i < 27; i++) malas.push({ x: 4 + i * 4, y: LH - 3 - (i % 3), got: 0 });
 const GX = LW - 2;
 // ── the character — born from the honest-auth prompt ──
 const DEITIES = ['Mahakala', 'Chenrezig', 'Tara', 'Manjushri', 'Vajrapani', 'Amitabha', 'Medicine Buddha', 'Ksitigarbha', 'Padmasambhava', 'Yamantaka', 'Vajrayogini', 'Marici'];
@@ -69,8 +218,7 @@ function chAddXp(amount) {
   }
 }
 // ── the player — celeste discipline
-let spawnC = 0; for (let c = 0; c < LW; c++) { if (heights[c] > 0) { spawnC = c; break; } }
-let px = spawnC * TILE + 40, py = (LH - heights[spawnC]) * TILE - 46, vx = 0, vy = 0, onGround = false, coyote = 0, jbuf = 0, jheld = false;
+let px = 40, py = 92, vx = 0, vy = 0, onGround = false, coyote = 0, jbuf = 0, jheld = false;
 let dashes = stats.dash, dashT = 0, dashX = 0, dashY = 0, cdash = 0, wallDir = 0;
 let dead = false, won = false, collected = 0, karma = 0, modeT = 0, treeOpen = false;
 let t = 0, last = performance.now(), menuOpen = false;
@@ -110,6 +258,7 @@ function startDash() {
   dashX = dx / l; dashY = dy / l; dashT = 0.14; cdash = 0.28; dashes--;
 }
 function update(dt) {
+  if (dungeon) { diabloUpdate(dt); return; }
   if (dead || won || treeOpen || menuOpen || gameOver) return;
   if (modeT > 0) modeT -= dt;
   if (dashT > 0) {
@@ -146,17 +295,41 @@ function update(dt) {
   // powerups
   for (let i = 0; i < PU.length; i++) { if (puGot[i]) continue; const p = PU[i], px2 = p.x * TILE + TILE / 2, py2 = (LH - p.y) * TILE; if (Math.hypot(px + 19 - px2, py + 22 - py2) < 42) { puGot[i] = 1; grantPower(p.type); } }
   // bestiary — stomp to liberate
+  const SPD = [55, 55, 55, 55, 55, 55, 80, 70, 30, 20, 100];
   for (const b of BE) {
     const hcol = heights[Math.max(0, Math.min(LW - 1, Math.floor(b.x)))];
     const by = (LH - (hcol < 0 ? 1 : hcol)) * TILE;
-    if (b.dir !== 0) { b.x += b.dir * 55 * dt; if (b.x < 10 || b.x > LW - 6) b.dir *= -1; }
+    const sp = SPD[b.kind % SPD.length] || 55;
+    if (b.dir !== 0) { b.x += b.dir * sp * dt; if (b.x < 10 || b.x > LW - 6) b.dir *= -1; }
+    const bob = b.kind === 8 ? Math.sin(t * 6 + b.x) * 14 : 0; // wisp floats
     const ex = b.x * TILE + 8;
-    if (px + 38 > ex && px < ex + 32 && py + 44 > by - 32 && py < by) {
-      if (vy > 260 && py + 40 < by - 8) { b.dir = 0; karma++; tp++; vy = -430; chAddXp(2); bus.emit('liberation', { name: b.name }); msg('liberated ' + (BEST[b.t % BEST.length] || 'a poison')); }
+    const size = b.kind === 9 ? 18 : b.kind === 10 ? 6 : 11; // golem big, pixie tiny
+    if (px + 38 > ex && px < ex + size * 3 && py + 44 > by - 32 - bob && py < by - bob) {
+      if (vy > 260 && py + 40 < by - 8 - bob) { b.dir = 0; karma++; tp++; vy = -430; chAddXp(2); bus.emit('liberation', { name: b.name }); msg('liberated ' + (BEST[b.t % BEST.length] || 'a poison')); }
       else if (b.dir !== 0) { die(); }
     }
   }
-  if (px > GX * TILE) { won = true; msg('THE TENT — the gate opens · 27 malas'); bus.emit('win', { collected }); saveGame(); }
+  // the god-nodes — the special level's hypermesh lattice
+  for (const g of godNodes) {
+    if (g.got) continue;
+    const gx2 = g.x * TILE + TILE / 2, gy2 = (LH - g.y) * TILE;
+    if (Math.hypot(px + 19 - gx2, py + 22 - gy2) < 44) {
+      g.got = 1; chAddXp(5);
+      if (CH && CH.dim < 9) { CH.dim++; if (!CH.dims.includes(CH.dim)) CH.dims.push(CH.dim); CH.dims.sort((a, b) => a - b); }
+      msg('god-node — dimension ' + (CH ? CH.dim : '?') + ' resonates · the hypermesh hears');
+      bus.emit('godnode', { dim: CH ? CH.dim : 0 });
+    }
+  }
+  // the gate — infinite: it opens into the next level
+  if (px > GX * TILE) {
+    if (collected >= 27) {
+      msg('the gate opens — level ' + (level + 1) + (special ? ' · the god-nodes were here' : ''));
+      bus.emit('gate', { level });
+      level++; collected = 0; genLevel(level); saveGame();
+    } else { msg('the gate waits — ' + (27 - collected) + ' malas to go'); }
+  }
+  document.getElementById('lvl').textContent = level;
+  document.getElementById('spbadge').textContent = special ? ' ◬' : maze ? ' 🕸' : '';
   document.getElementById('lv').textContent = lives;
   if (CH) document.getElementById('chline').textContent = CH.name + ' · lv ' + CH.level + ' · dim ' + CH.dim + 'D · ' + chProtector();
   document.getElementById('m').textContent = collected;
@@ -173,13 +346,17 @@ function grantPower(type) {
   else if (type === 'tempest') { stats.run = 140; }
 }
 function render() {
+  if (dungeon) { diabloRender(); return; }
   X.fillStyle = '#160a1e'; X.fillRect(0, 0, W, H);
   const cam = Math.max(0, Math.min(px - 200, (LW - 20) * TILE));
   X.save(); X.translate(-cam, 0);
   for (let c = 0; c < LW; c++) { const h = heights[c]; if (h < 0) continue; for (let r = 0; r < h; r++) { const y = (LH - 1 - r) * TILE; X.fillStyle = r === 0 ? 'rgba(180,139,255,.3)' : 'rgba(58,33,80,.7)'; X.fillRect(c * TILE + 1, y + 1, TILE - 2, TILE - 2); } }
   for (const m of malas) { if (m.got) continue; const mx = m.x * TILE + TILE / 2, my = (LH - m.y) * TILE; X.fillStyle = '#ffd36e'; X.beginPath(); X.arc(mx, my, 6, 0, TAU); X.fill(); X.fillStyle = '#ff9ad5'; X.beginPath(); X.arc(mx, my - 3, 2.4, 0, TAU); X.fill(); }
   for (let i = 0; i < PU.length; i++) { if (puGot[i]) continue; const p = PU[i], px2 = p.x * TILE + TILE / 2, py2 = (LH - p.y) * TILE; X.fillStyle = p.type === 'lotus' ? '#ff6ec7' : p.type === 'dash' ? '#62e6c9' : p.type === 'shield' ? '#ffd36e' : '#ff9ad5'; X.beginPath(); X.arc(px2, py2, 9 + 2 * Math.sin(t * 4 + i), 0, TAU); X.fill(); X.fillStyle = '#0d0512'; X.font = '9px ui-monospace'; X.fillText(p.type[0].toUpperCase(), px2 - 3, py2 + 3); }
-  for (const b of BE) { const hcol = heights[Math.max(0, Math.min(LW - 1, Math.floor(b.x)))]; const by = (LH - (hcol < 0 ? 1 : hcol)) * TILE; if (b.dir === 0) continue; X.fillStyle = ['#ff6ec7', '#5b9dff', '#2b2b45'][b.t]; X.beginPath(); X.arc(b.x * TILE + 24, by - 14, 11, 0, TAU); X.fill(); X.fillStyle = '#0d0512'; X.font = '9px ui-monospace'; X.fillText(BEST[b.t % BEST.length].slice(0, 7), b.x * TILE + 4, by - 22); }
+  const ECOL = ['#ff6ec7', '#5b9dff', '#2b2b45', '#62e6c9', '#ffd36e', '#b48bff', '#ff9ad5', '#8a6aa0', '#62e6c9', '#ff6b63', '#e8d8f0'];
+  for (const b of BE) { const hcol = heights[Math.max(0, Math.min(LW - 1, Math.floor(b.x)))]; const by = (LH - (hcol < 0 ? 1 : hcol)) * TILE; if (b.dir === 0) continue; const bob = b.kind === 8 ? Math.sin(t * 6 + b.x) * 14 : 0; const size = b.kind === 9 ? 18 : b.kind === 10 ? 6 : 11; X.fillStyle = ECOL[b.kind % ECOL.length]; X.beginPath(); X.arc(b.x * TILE + 24, by - 14 + bob, size, 0, TAU); X.fill(); X.fillStyle = '#0d0512'; X.font = '8px ui-monospace'; X.fillText((BEST[b.t % BEST.length] || 'elf').slice(0, 6), b.x * TILE + 4, by - 24 + bob); }
+  // the god-nodes — the hypermesh lattice on special levels
+  for (const g of godNodes) { if (g.got) continue; const gx2 = g.x * TILE + TILE / 2, gy2 = (LH - g.y) * TILE; X.fillStyle = '#ffd36e'; X.beginPath(); X.arc(gx2, gy2, 10 + 3 * Math.sin(t * 4 + g.x), 0, TAU); X.fill(); X.strokeStyle = 'rgba(255,211,110,.5)'; X.lineWidth = 1; X.beginPath(); X.arc(gx2, gy2, 18 + 4 * Math.sin(t * 3 + g.x), 0, TAU); X.stroke(); X.fillStyle = '#0d0512'; X.font = '8px ui-monospace'; X.fillText('◬', gx2 - 3, gy2 + 3); }
   const gx = GX * TILE; X.fillStyle = '#ff6ec7'; X.fillRect(gx, (LH - 3) * TILE, 14, TILE * 3); X.fillStyle = '#ff9ad5'; X.beginPath(); X.moveTo(gx - 20, (LH - 3) * TILE); X.lineTo(gx + 34, (LH - 3) * TILE); X.lineTo(gx + 7, (LH - 5) * TILE); X.closePath(); X.fill();
   X.fillStyle = modeT > 0 ? '#ff9ad5' : '#e8d8f0'; X.beginPath(); X.arc(px + 19, py - 4, 10, 0, TAU); X.fill(); X.fillStyle = modeT > 0 ? '#ffd36e' : '#b48bff'; X.fillRect(px + 8, py + 8, 22, 26);
   for (let i = 0; i < 21; i++) { const wx = ((i * 97 + Math.floor(t * 8)) % (LW * TILE)); const wy = (LH - 2) * TILE - (i % 3) * TILE; X.fillStyle = 'rgba(98,230,201,.6)'; X.beginPath(); X.arc(wx, wy, 2.4, 0, TAU); X.fill(); if (Math.abs(wx - px) < 60) { X.fillStyle = 'rgba(5,2,8,.8)'; X.fillRect(wx - 34, wy - 30, 68, 16); X.fillStyle = '#62e6c9'; X.font = '8px ui-monospace'; X.fillText('mem8·' + i + ' ∿', wx - 30, wy - 18); } }
@@ -221,7 +398,7 @@ C.addEventListener('click', (ev) => {
 });
 function loop(now) {
   const dt = Math.min((now - last) / 1000, 0.05); last = now; t += dt;
-  if (won) { X.fillStyle = 'rgba(5,2,8,.9)'; X.fillRect(0, 0, W, H); X.fillStyle = '#ffd36e'; X.font = '22px ui-monospace'; X.textAlign = 'center'; X.fillText(collected >= 27 ? 'THE TENT — the gate opens · ' + M.brief : 'the gate waits — 27 malas', W / 2, H / 2); X.textAlign = 'left'; }
+  if (won) { X.fillStyle = 'rgba(5,2,8,.9)'; X.fillRect(0, 0, W, H); X.fillStyle = '#ffd36e'; X.font = '20px ui-monospace'; X.textAlign = 'center'; X.fillText('the gate opens — level ' + (level + 1) + (special ? ' · the god-nodes were here' : ''), W / 2, H / 2); X.textAlign = 'left'; }
   else if (!dead) update(dt);
   else if (gameOver) { X.fillStyle = 'rgba(5,2,8,.94)'; X.fillRect(0, 0, W, H); X.fillStyle = '#ff6b63'; X.font = '26px ui-monospace'; X.textAlign = 'center'; X.fillText('GAME OVER', W / 2, H / 2 - 40); X.fillStyle = '#ff9ad5'; X.font = '13px ui-monospace'; X.fillText('the stream continues — R restart · N new run', W / 2, H / 2 + 4); X.textAlign = 'left'; }
   else { X.fillStyle = 'rgba(5,2,8,.9)'; X.fillRect(0, 0, W, H); X.fillStyle = '#ff9ad5'; X.font = '18px ui-monospace'; X.textAlign = 'center'; X.fillText('the stream continues — return', W / 2, H / 2); X.textAlign = 'left'; }
@@ -231,6 +408,7 @@ function loop(now) {
 document.getElementById('sl').textContent = '⟦ seed 0x' + M.seed + ' · seal ' + M.seal + ' · ADMISSIBLE · replayable ⇒ admissible (standardgalactic · Centerfuge) ⟧';
 const doorWire = (() => { let h = 7; for (let i = 0; i < M.brief.length; i++) h = (Math.imul(31, h) + M.brief.charCodeAt(i)) | 0; h = h >>> 0; const sym = ['-', '0', '+']; let w = ''; for (let i = 0; i < 36; i++) { w += sym[h % 3]; h = Math.floor(h / 3); } return w; })();
 document.getElementById('conf').textContent = M.confederates;
+genLevel(1);
 document.getElementById('authbtn').addEventListener('click', () => {
   const prompt = document.getElementById('authin').value.trim() || 'I am honest about everything';
   honestAuth(prompt);
