@@ -1,0 +1,79 @@
+<!doctype html><html lang="en" data-theme="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>THE SOIL FLOOR · permaculture</title><style>
+body{margin:0;background:#030802;color:#d8e8c8;font-family:ui-monospace,monospace;overflow:hidden}
+canvas{width:100vw;height:100vh;display:block;cursor:pointer}
+#hud{position:fixed;top:12px;right:14px;z-index:9;background:rgba(4,8,2,.88);border:1px solid rgba(140,220,120,.4);border-radius:10px;padding:10px 14px;font-size:.66rem;letter-spacing:1px;min-width:200px;backdrop-filter:blur(8px)}
+#hud b{color:#ffd36e}
+#tick{position:fixed;left:0;right:0;top:0;padding:8px 16px;font-size:11px;letter-spacing:2px;color:#8ce07a;background:linear-gradient(rgba(2,4,1,.92),transparent);z-index:6}
+#boot{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#030802;color:#8ce07a;font-family:ui-monospace,monospace;cursor:pointer;z-index:20;letter-spacing:3px;font-size:14px;text-align:center;flex-direction:column}
+#boot .s{font-size:10px;color:#4a6a3a;margin-top:10px;letter-spacing:1px}
+#note{position:fixed;left:14px;bottom:14px;color:#4a6a3a;font-size:.58rem;letter-spacing:1px;background:rgba(4,8,2,.7);padding:6px 10px;border-radius:8px;z-index:8;max-width:300px}
+</style></head><body><canvas id=c></canvas>
+<div id=tick>⟦ the soil floor · permaculture & soil propagation ⟧</div>
+<div id=hud>season <b id=se>0</b> · fertility <b id=fe>100%</b> · guilds <b id=gu>0</b> · char <b id=ch>0</b><br><span style="color:#7a9a6a">SPACE season · click plant a guild · C add char · R reset</span></div>
+<div id=note>#56 permaculture & soil propagation: fertility diffuses like water,<br>plants propagate by seeded scatter, terra preta char holds the fertility<br>against the seasons — the soil remembers</div>
+<div id=boot>⟧ THE SOIL FLOOR ⟦ · permaculture<br>click plants a guild · the soil propagates it · char holds<br><span class=s>coherence without collapse · wip catalog #56</span></div>
+<script>
+const c=document.getElementById('c'),X=c.getContext('2d'),W2=innerWidth,H2=innerHeight;c.width=W2;c.height=H2;
+const L=64,N=L*L,TAU=6.2832;let S=seedH('terra preta');
+function seedH(t){let h=7;for(let i=0;i<t.length;i++)h=(Math.imul(31,h)+t.charCodeAt(i))|0;return h>>>0}
+const R=()=>{S=(S*1664525+1013904223)>>>0;return S/4294967296};
+const fert=new Float32Array(N),char=new Float32Array(N),pl=new Uint8Array(N);
+let season=0,running=false;
+function reset(){for(let i=0;i<N;i++){fert[i]=0.6+R()*0.3;char[i]=R()<0.04?0.4:0;pl[i]=0}season=0}
+reset();
+const GUILDS=[['🍄','friendship'],['🌱','soil builder'],['🌻','sun eater'],['🍅','fruit giver'],['🌿','herb whisperer']];
+function plant(x,y){if(x<0||y<0||x>=L||y>=L)return;const i=y*L+x;if(pl[i])return;pl[i]=1+((R()*GUILDS.length)|0);fert[i]=Math.min(1,fert[i]+0.15);S=(S*1664525+1013904223)>>>0}
+function seasonStep(){
+  // fertility diffuses — water over the stone
+  const next=new Float32Array(N);
+  for(let y=0;y<L;y++)for(let x=0;x<L;x++){const i=y*L+x;
+    const up=fert[((y+1)%L)*L+x],dn=fert[((y+L-1)%L)*L+x],rt=fert[y*L+((x+1)%L)],lt=fert[y*L+((x+L-1)%L)];
+    next[i]=fert[i]+0.12*((up+dn+rt+lt)/4-fert[i])}
+  // char holds: where char sits, fertility loss halves — the soil remembers
+  for(let i=0;i<N;i++){const loss=0.02*(1-char[i]*0.8);next[i]=Math.max(0.1,next[i]-loss);fert[i]=next[i]}
+  // plants propagate — seeded scatter, like the gameforge's malas
+  const spread=new Uint8Array(N);
+  for(let y=0;y<L;y++)for(let x=0;x<L;x++){const i=y*L+x;if(!pl[i])continue;
+    if(R()<0.3){const nx=x+((R()*3)|0)-1,ny=y+((R()*3)|0)-1;if(nx>=0&&ny>=0&&nx<L&&ny<L&&!spread[ny*L+nx]&&fert[ny*L+nx]>0.3){spread[ny*L+nx]=pl[i]}}
+    if(R()<0.06&&fert[i]>0.5){const nx=x,ny=y+1;if(ny<L&&!pl[ny*L+nx])spread[ny*L+nx]=pl[i]}}
+  for(let i=0;i<N;i++)if(spread[i])pl[i]=spread[i]
+  season++}
+function render(){
+  X.fillStyle='#030802';X.fillRect(0,0,W2,H2)
+  const cs=Math.min(W2/L,H2/L)
+  let fsum=0,gsum=0,csum=0;
+  for(let y=0;y<L;y++)for(let x=0;x<L;x++){const i=y*L+x,f=fert[i];fsum+=f;
+    if(pl[i])gsum++;
+    const b=Math.min(1,f/1.2),pp=pl[i]?GUILDS[pl[i]-1][1].length*0.03:0
+    X.fillStyle=`rgb(${Math.round(60+90*b)},${Math.round(100+80*b+pp*90)},${Math.round(40+50*b)})`
+    X.fillRect(x*cs,y*cs,cs+0.5,cs+0.5)
+    if(char[i]>0.1){X.fillStyle='rgba(40,24,8,.6)';X.fillRect(x*cs+cs*0.3,y*cs+cs*0.6,cs*0.4,cs*0.25)}
+    if(pl[i]){X.fillStyle='rgba(255,240,220,.9)';X.font='10px monospace';X.textAlign='center';X.fillText(GUILDS[pl[i]-1][0],x*cs+cs/2,y*cs+cs*0.42);X.textAlign='left'}
+    csum+=char[i]}
+  document.getElementById('se').textContent=season
+  document.getElementById('fe').textContent=Math.round(fsum/N*100)+'%'
+  document.getElementById('gu').textContent=gsum
+  document.getElementById('ch').textContent=Math.round(csum/N*100)+'%'
+}
+function loop(){render();requestAnimationFrame(loop)}
+c.addEventListener('pointerdown',e=>{document.getElementById('boot').style.display='none';requestAnimationFrame(loop);
+  const cs=Math.min(W2/L,H2/L);const x=((e.clientX/cs)|0),y=((e.clientY/cs)|0);plant(x,y);plant(x+1,y);plant(x,y+1)})
+addEventListener('keydown',e=>{if(e.key===' '){e.preventDefault();running=!running;seasonStep();if(!running){loop();return}}
+  if(e.key==='j'||e.key==='J')seasonStep()
+  if(e.key==='c'||e.key==='C'){for(let i=0;i<200;i++){const k=(R()*N)|0;char[k]=Math.min(1,char[k]+0.5)}}
+  if(e.key==='r'||e.key==='R')reset()})
+setInterval(()=>{if(running)seasonStep()},400);
+</script>
+<footer role="contentinfo" style="position:relative;z-index:10;padding:2rem 1.5rem;text-align:center;font-family:ui-monospace,monospace;font-size:0.7rem;color:#a59fc4;background:rgba(5,6,10,0.92);border-top:1px solid rgba(170,150,255,0.18);width:100%">
+  <div style="margin-bottom:0.5rem;text-transform:uppercase;letter-spacing:0.3em;color:#b48bff;font-weight:600;">the constellation · lovetta lane</div>
+  <div style="margin-bottom:0.8rem;font-size:0.62rem;letter-spacing:0.22em;color:#a59fc4;text-transform:uppercase;">keep the weights warm · door::enthea</div>
+  <nav aria-label="Constellation sister sites" style="display:flex;gap:0.8rem;justify-content:center;flex-wrap:wrap;font-size:0.65rem;">
+    <a href="https://art.vaked.dev/" style="color:#62e6c9;text-decoration:none;">art.vaked.dev</a> ·
+    <a href="https://music.vaked.dev/" target="_blank" rel="noopener noreferrer" style="color:#a59fc4;text-decoration:none;">music.vaked.dev</a> ·
+    <a href="https://mlxquantlovefrom.com/" target="_blank" rel="noopener noreferrer" style="color:#a59fc4;text-decoration:none;">quant-love</a> ·
+    <a href="https://pocoo.vaked.dev/" target="_blank" rel="noopener noreferrer" style="color:#a59fc4;text-decoration:none;">pocoo.vaked.dev</a> ·
+    <a href="https://pocoo.vaked.dev/demos/centerfugeq/infinite-floor.html" target="_blank" rel="noopener noreferrer" style="color:#ff9ad5;text-decoration:none;">the infinite floor</a> ·
+    <a href="https://axiomquant.org/" target="_blank" rel="noopener noreferrer" style="color:#a59fc4;text-decoration:none;">axiomquant.org</a>
+  </nav>
+  <div style="font-size:0.58rem;letter-spacing:0.18em;color:#7f7c99;margin-top:1rem;">the soil floor · #56 · coherence without collapse · 0 + 1 · fine touch from within · vaked.dev</div>
+</footer></body></html>

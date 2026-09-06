@@ -197,6 +197,19 @@ const GX = LW - 2;
 // ── the character — born from the honest-auth prompt ──
 const DEITIES = ['Mahakala', 'Chenrezig', 'Tara', 'Manjushri', 'Vajrapani', 'Amitabha', 'Medicine Buddha', 'Ksitigarbha', 'Padmasambhava', 'Yamantaka', 'Vajrayogini', 'Marici'];
 const VIRTUES = { truth: 'TRUTH', love: 'COMPASSION', care: 'COMPASSION', fearless: 'FEARLESSNESS', brave: 'FEARLESSNESS', curious: 'WISDOM', calm: 'PEACE', peace: 'PEACE', discipline: 'DISCIPLINE', joy: 'JOY', laugh: 'JOY' };
+// ── cognitive instincts (#23) — the virtue is not a label, it is a birth.
+// each virtue grants its own starting instincts: hardwired stat gifts that
+// bias the run without deciding it. the character is honest, then born.
+const INSTINCTS = {
+  TRUTH: { run: 30, magnet: 6 },
+  COMPASSION: { magnet: 24, lotus: 4 },
+  FEARLESSNESS: { dash: 1, jump: 0.25 },
+  WISDOM: { magnet: 12, lotus: 5 },
+  PEACE: { air: 0.08, lotus: 6 },
+  DISCIPLINE: { dash: 1, air: 0.04 },
+  JOY: { jump: 0.25, run: 20 },
+  PRESENCE: { jump: 0.25, magnet: 12 },
+};
 let CH = null;
 function honestAuth(prompt) {
   let h = 7; for (let i = 0; i < prompt.length; i++) h = (Math.imul(31, h) + prompt.charCodeAt(i)) | 0; h = h >>> 0;
@@ -207,6 +220,9 @@ function honestAuth(prompt) {
   const first = words.find((w) => !stop.includes(w)) || 'the monk';
   const name = first === 'the monk' ? 'the monk' : first[0].toUpperCase() + first.slice(1) + ' the ' + virtue.toLowerCase();
   CH = { name, virtue, seed: h, level: 1, xp: 0, dims: [3], dim: 3 };
+  // the birth — instincts from the virtue, granted once, hardwired
+  const inst = INSTINCTS[CH.virtue] || INSTINCTS.PRESENCE;
+  for (const k in inst) stats[k] = Math.min(stats[k] + inst[k], k === 'dash' ? 3 : k === 'jump' ? 2 : k === 'magnet' ? 120 : k === 'lotus' ? 20 : k === 'run' ? 120 : k === 'air' ? 0.3 : 40);
 }
 function chProtector() { if (CH.dim === 3) return DEITIES[0]; return DEITIES[(CH.dim - 1) % DEITIES.length]; }
 function chAddXp(amount) {
@@ -233,7 +249,7 @@ const bus = { h: {}, on(e, f) { (this.h[e] = this.h[e] || []).push(f); }, emit(e
 function msg(text) { toast = text; toastT = 1.8; bus.emit('message', { text }); }
 function saveGame() { try { localStorage.setItem(saveKey, JSON.stringify({ seed: M.seed, collected, karma, tp, alloc, lives, lampLit, stats, hum, humCycles })); msg('⟦ autosaved — the stream remembers ⟧'); } catch (e) {} }
 function loadGame() { try { const raw = localStorage.getItem(saveKey); if (!raw) return false; const d = JSON.parse(raw); if (d.seed !== M.seed) return false; collected = d.collected || 0; karma = d.karma || 0; tp = d.tp || 0; lives = d.lives ?? 3; lampLit = d.lampLit || [0, 0, 0]; for (let i = 0; i < alloc.length; i++) alloc[i] = (d.alloc && d.alloc[i]) ? 1 : 0; if (d.stats) Object.assign(stats, d.stats); hum = d.hum || 0; humCycles = d.humCycles || 0; return true; } catch (e) { return false; } }
-function newRun() { try { localStorage.removeItem(saveKey); } catch (e) {} collected = 0; karma = 0; tp = 0; hum = 0; humT = 0; humCycles = 0; lives = 3; lampLit = [0, 0, 0]; alloc.fill(0); alloc[0] = 1; Object.assign(stats, { dash: 1, jump: 1, air: 0, run: 0, magnet: 34, lotus: 8, reach: 40 }); gameOver = false; dead = false; won = false; respawn(); msg('a new run — the stream begins'); }
+function newRun() { try { localStorage.removeItem(saveKey); } catch (e) {} collected = 0; karma = 0; tp = 0; hum = 0; humT = 0; humCycles = 0; lives = 3; lampLit = [0, 0, 0]; alloc.fill(0); alloc[0] = 1; Object.assign(stats, { dash: 1, jump: 1, air: 0, run: 0, magnet: 34, lotus: 8, reach: 40 }); if (CH) { const inst = INSTINCTS[CH.virtue] || INSTINCTS.PRESENCE; for (const k in inst) stats[k] = Math.min(stats[k] + inst[k], k === 'dash' ? 3 : k === 'jump' ? 2 : k === 'magnet' ? 120 : k === 'lotus' ? 20 : k === 'run' ? 120 : k === 'air' ? 0.3 : 40); } gameOver = false; dead = false; won = false; respawn(); msg('a new run — the stream begins'); }
 function respawn() { let c = 0; for (let i = 0; i < CP.length; i++) if (lampLit[i]) c = CP[i]; if (heights[c] <= 0) { for (let k = c; k < LW; k++) if (heights[k] > 0) { c = k; break; } } px = c * TILE + 40; py = (LH - heights[c]) * TILE - 46; vx = 0; vy = 0; dashes = stats.dash; cdash = 0; dashT = 0; dead = false; }
 function die() { if (humT > 0) { respawn(); msg('0 HUMM — zero detection, zero pain · the ring holds you'); return; } dead = true; lives--; bus.emit('death', { lives }); if (lives <= 0) { gameOver = true; msg('GAME OVER — the stream continues · R restart · N new run'); } else { msg('the stream continues — ' + lives + ' lives left'); respawn(); } }
 const KEYS = {};
@@ -432,7 +448,7 @@ document.getElementById('authbtn').addEventListener('click', () => {
   const prompt = document.getElementById('authin').value.trim() || 'I am honest about everything';
   honestAuth(prompt);
   document.getElementById('auth').remove();
-  msg('⟦ ' + CH.name + ' · virtue: ' + CH.virtue + ' · protector: Mahakala ⟧');
+  msg('⟦ ' + CH.name + ' · virtue: ' + CH.virtue + ' · instincts: ' + Object.keys(INSTINCTS[CH.virtue] || INSTINCTS.PRESENCE).join('/') + ' · protector: Mahakala ⟧');
   if (loadGame()) { msg('⟦ autosaved run loaded — N for a new run ⟧'); }
   requestAnimationFrame(loop);
 });

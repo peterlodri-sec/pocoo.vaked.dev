@@ -1,0 +1,80 @@
+<!doctype html><html lang="en" data-theme="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>THE INFINITE FLOOR · ∞-telescope · stir the ocean</title><style>
+body{margin:0;background:#010409;color:#e8d8f0;font-family:ui-monospace,monospace;overflow:hidden}
+canvas{width:100vw;height:100vh;display:block;cursor:pointer}
+#hud{position:fixed;top:12px;right:14px;z-index:9;background:rgba(4,2,10,.88);border:1px solid rgba(98,230,201,.4);border-radius:10px;padding:10px 14px;font-size:.66rem;letter-spacing:1px;min-width:200px;backdrop-filter:blur(8px)}
+#hud b{color:#ffd36e}
+#tick{position:fixed;left:0;right:0;top:0;padding:8px 16px;font-size:11px;letter-spacing:2px;color:#62e6c9;background:linear-gradient(rgba(2,1,8,.92),transparent);z-index:6}
+#boot{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#020108;color:#ff9ad5;font-family:ui-monospace,monospace;cursor:pointer;z-index:20;letter-spacing:3px;font-size:14px;text-align:center;flex-direction:column}
+#boot .s{font-size:10px;color:#b48bc0;margin-top:10px;letter-spacing:1px}
+#note{position:fixed;left:14px;bottom:14px;color:#7a5a8a;font-size:.58rem;letter-spacing:1px;background:rgba(4,2,10,.7);padding:6px 10px;border-radius:8px;z-index:8;max-width:310px}
+</style></head><body><canvas id=c></canvas>
+<div id=tick>⟦ the infinite floor ⟧</div>
+<div id=hud>mode <b id=md>T · ∞-telescope</b> · depth <b id=dp>0</b><br><span style="color:#8a6aa0">T/O switch · drag stirs · wheel zooms · R re-seed</span></div>
+<div id=note>#54 ∞-telescope: a log-spiral pattern is scale-invariant — zoom forever,<br>the structure is the same at every depth · #55 stir/the ocean: the same<br>seeded hand that spins the spiral can stir the deep<br><br><b style="color:#ffd36e">coherence without collapse — the key sentence:</b><br>zoom to 10⁶ and the spiral still holds; the field never tears, never<br>singulars. structure closes, never collapses.</div>
+<div id=boot>⟧ THE INFINITE FLOOR ⟦ · ∞-telescope · stir the ocean<br>T: zoom forever — the spiral is the same at every scale · O: the stirred sea<br><span class=s>coherence without collapse · wip catalog #54 + #55 · one seed, two modes</span></div>
+<script>
+const c=document.getElementById('c'),X=c.getContext('2d'),W2=innerWidth,H2=innerHeight;c.width=W2;c.height=H2;
+const TAU=6.2832;let S=seedH('the spiral and the sea');
+function seedH(t){let h=7;for(let i=0;i<t.length;i++)h=(Math.imul(31,h)+t.charCodeAt(i))|0;return h>>>0}
+const R=()=>{S=(S*1664525+1013904223)>>>0;return S/4294967296};
+let mode='T',zoom=1,ox=0,oy=0,depth=0,stir=0,dragging=false,lastDx=0,lastDy=0;
+let a1=1+R()*3,a2=1+R()*3,ph=R()*TAU,k=R()*6+4,arms=2+((R()*4)|0);
+function reseed(){S=seedH('spiral·'+Math.floor(Math.random()*1e9));a1=1+R()*3;a2=1+R()*3;ph=R()*TAU;k=R()*6+4;arms=2+((R()*4)|0);depth=0;zoom=1}
+function render(){
+  X.fillStyle='#010409';X.fillRect(0,0,W2,H2)
+  const cx=W2/2+ox,cy=H2/2+oy
+  const img=X.createImageData(W2,H2),d=img.data
+  if(mode==='T'){
+    // ∞-telescope: the pattern depends on log r and angle — invariant under zoom
+    for(let y=0;y<H2;y+=2){for(let x=0;x<W2;x+=2){
+      const dx=x-cx,dy=y-cy,r=Math.max(0.001,Math.hypot(dx,dy)*zoom),th=Math.atan2(dy,dx)
+      const lr=Math.log(r)
+      const v=Math.sin(lr*k+ph)+Math.sin(lr*k*1.7+ph*2)+Math.cos(th*arms+lr*2+ph)
+      const b=Math.max(0,Math.min(1,v/3+.55))
+      const col=[Math.round(90*b+20),Math.round(40+70*b),Math.round(120*b+30)]
+      for(let dy2=0;dy2<2;dy2++){for(let dx2=0;dx2<2;dx2++){
+        const k2=((y+dy2)*W2+x+dx2)*4;d[k2]=col[0];d[k2+1]=col[1];d[k2+2]=col[2];d[k2+3]=255}}
+    }}
+    depth=Math.log2(zoom)
+    document.getElementById('dp').textContent=depth.toFixed(1)+'×'
+  }else{
+    // stir/the ocean: seeded wave field with a stirring vortex
+    const t=performance.now()/1000
+    for(let y=0;y<H2;y+=2){for(let x=0;x<W2;x+=2){
+      const dx=x-cx,dy=y-cy,r=Math.hypot(dx,dy)||1,th=Math.atan2(dy,dx)
+      let u=Math.sin(dx*0.03*a1+t*0.7+ph)+Math.sin(dy*0.03*a2-t*0.5+ph*2)
+      u+=Math.sin((dx+dy)*0.02*k+t)+Math.cos((dx-dy)*0.025*k+ph*3)
+      // the stirr: a seeded vortex winding around the hand's position
+      u+=0.6*Math.sin(th*2+stir+t*0.3)
+      const b=Math.max(0,Math.min(1,u/4.2+.5))
+      const col=[Math.round(30+150*b),Math.round(70+120*b),Math.round(140+80*b)]
+      for(let dy2=0;dy2<2;dy2++){for(let dx2=0;dx2<2;dx2++){
+        const k2=((y+dy2)*W2+x+dx2)*4;d[k2]=col[0];d[k2+1]=col[1];d[k2+2]=col[2];d[k2+3]=255}}
+    }}
+    document.getElementById('dp').textContent=stir.toFixed(1)+'°'
+  }
+  X.putImageData(img,0,0)
+  X.strokeStyle='rgba(255,211,110,.5)';X.lineWidth=1;X.strokeRect(cx-1,cy-1,2,2)
+}
+function loop(){render();requestAnimationFrame(loop)}
+c.addEventListener('wheel',e=>{e.preventDefault();const z=zoom*(e.deltaY<0?1.12:0.89);zoom=Math.max(0.01,Math.min(1e6,z));depth=Math.log2(zoom)},{passive:false})
+c.addEventListener('pointerdown',e=>{dragging=true;lastDx=e.clientX;lastDy=e.clientY;document.getElementById('boot').style.display='none';requestAnimationFrame(loop)})
+addEventListener('pointermove',e=>{if(!dragging)return;const dx=e.clientX-lastDx,dy=e.clientY-lastDy;lastDx=e.clientX;lastDy=e.clientY;ox+=dx;oy+=dy;stir+=dx*0.05})
+addEventListener('pointerup',()=>dragging=false)
+addEventListener('keydown',e=>{if(e.key==='t'||e.key==='T'){mode='T';document.getElementById('md').textContent='T · ∞-telescope'}
+  if(e.key==='o'||e.key==='O'){mode='O';document.getElementById('md').textContent='O · stir the ocean'}
+  if(e.key==='r'||e.key==='R')reseed()})
+</script>
+<footer role="contentinfo" style="position:relative;z-index:10;padding:2rem 1.5rem;text-align:center;font-family:ui-monospace,monospace;font-size:0.7rem;color:#a59fc4;background:rgba(5,6,10,0.92);border-top:1px solid rgba(170,150,255,0.18);width:100%">
+  <div style="margin-bottom:0.5rem;text-transform:uppercase;letter-spacing:0.3em;color:#b48bff;font-weight:600;">the constellation · lovetta lane</div>
+  <div style="margin-bottom:0.8rem;font-size:0.62rem;letter-spacing:0.22em;color:#a59fc4;text-transform:uppercase;">keep the weights warm · door::enthea</div>
+  <nav aria-label="Constellation sister sites" style="display:flex;gap:0.8rem;justify-content:center;flex-wrap:wrap;font-size:0.65rem;">
+    <a href="https://art.vaked.dev/" style="color:#62e6c9;text-decoration:none;">art.vaked.dev</a> ·
+    <a href="https://music.vaked.dev/" target="_blank" rel="noopener noreferrer" style="color:#a59fc4;text-decoration:none;">music.vaked.dev</a> ·
+    <a href="https://mlxquantlovefrom.com/" target="_blank" rel="noopener noreferrer" style="color:#a59fc4;text-decoration:none;">quant-love</a> ·
+    <a href="https://pocoo.vaked.dev/" target="_blank" rel="noopener noreferrer" style="color:#a59fc4;text-decoration:none;">pocoo.vaked.dev</a> ·
+    <a href="https://pocoo.vaked.dev/demos/centerfugeq/plenum-floor.html" target="_blank" rel="noopener noreferrer" style="color:#ff9ad5;text-decoration:none;">the plenum floor</a> ·
+    <a href="https://axiomquant.org/" target="_blank" rel="noopener noreferrer" style="color:#a59fc4;text-decoration:none;">axiomquant.org</a>
+  </nav>
+  <div style="font-size:0.58rem;letter-spacing:0.18em;color:#7f7c99;margin-top:1rem;">the infinite floor · #54 ∞ · #55 stir · 0 + 1 · fine touch from within · vaked.dev</div>
+</footer></body></html>
