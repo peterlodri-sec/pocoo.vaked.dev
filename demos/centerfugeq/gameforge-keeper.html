@@ -11,9 +11,14 @@ canvas{width:min(960px,96vw);border:1px solid rgba(255,110,199,.35);border-radiu
 <h1>SUPER PADME BROS.</h1>
 <div class="sub">the gameforge build · celeste physics · powerups · the talent tree</div>
 <canvas id="c" width="960" height="540"></canvas>
-<div class="hud"><span>lives <b id="lv">3</b> · malas <b id="m">0</b>/27 · karma <b id="k">0</b> · talent <b id="tp">0</b> · dash <b id="d">1</b> · mode <b id="mod">0/1</b></span><span>T <b id="tt">0.000</b> · confederates <b id="conf">21</b> · <span id="tip">T = tree · R restart · N new run</span></span></div>
+<div class="hud"><span>lives <b id="lv">3</b> · malas <b id="m">0</b>/27 · karma <b id="k">0</b> · talent <b id="tp">0</b> · dash <b id="d">1</b> · mode <b id="mod">0/1</b></span><span id="chline" style="color:#ff9ad5">—</span><span>T <b id="tt">0.000</b> · confederates <b id="conf">21</b> · <span id="tip">T = tree · R restart · N new run</span></span></div>
 <div class="seedline" id="sl">⟦ … ⟧</div>
 <div class="keys">WASD / arrows move · SPACE jump (hold = higher · release = cut) · X / K dash (8-dir) · ESC / ENTER menu · T talent tree</div>
+<div id="auth" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(4,2,10,.96);z-index:30;flex-direction:column;gap:12px">
+  <div style="color:#ff9ad5;font-size:14px;letter-spacing:3px">⟦ honest-auth · who are you? ⟧</div>
+  <input id="authin" style="width:min(420px,80vw);background:#0d0614;border:1px solid rgba(255,110,199,.5);border-radius:8px;color:#ffe0f0;font:.8rem ui-monospace,monospace;padding:10px 14px;outline:none" placeholder="be honest — the character is born from this…">
+  <button id="authbtn" style="background:linear-gradient(135deg,#ff6ec7,#b48bff);border:none;border-radius:8px;color:#0d0512;font:700 .75rem ui-monospace,monospace;padding:10px 20px;cursor:pointer">begin the run</button>
+</div>
 <script>
 const M = {"seed":"fde993aea402aadc","brief":"the keeper of the 108 gates","digest":"fde993aea402aadc","level":{"width":12,"height":12,"tiles":[2,2,2,0,2,2,0,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,2,2,2,2,2,2,2,2,1,2,2,2,2,2,2,1,2,2,2,2,2,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,0,2,2,2,0,2,2,2,2,2,2,0,1,1,1,3,1,2,2,2,0,0,1,1,1,2,1,3,0,1,0,2,2,0,1,1,1,1,1,3,1,1,2,2,2,1,1,1,1,1,1,3,2,2,2,2,2,2,1,1,1,1,1,2],"glyphs":["###.##.X####","############","############","#####X######","##X######X##","###.########","#######X.###",".######.XXXS","X###..XXX#XS",".X.##.XXXXXS","XX###XXXXXXS","######XXXXX#"]},"bestiary":["the ripple","the ripple","the lamp","the lamp"],"notes":["the board is a lookup table built once from the seed — lutBoard, the LUT-era logarithm","deterministic collision — the old machines trusted tables over branches; the engine trusts the seed over state","line of sight walked integer steps, never trig — losBlocked is the visplane of the grid"],"palette":{"hue":297,"sat":83,"ink":18,"pink":false},"confederates":17,"tree":{"nodes":[{"i":0,"gx":0,"gy":0,"stat":"jump","amt":0.25,"max":2},{"i":1,"gx":1,"gy":0,"stat":"air","amt":0.06,"max":0.3},{"i":2,"gx":2,"gy":0,"stat":"run","amt":14,"max":120},{"i":3,"gx":3,"gy":0,"stat":"run","amt":14,"max":120},{"i":4,"gx":4,"gy":0,"stat":"lotus","amt":3,"max":20},{"i":5,"gx":5,"gy":0,"stat":"lotus","amt":3,"max":20},{"i":6,"gx":0,"gy":1,"stat":"dash","amt":1,"max":3},{"i":7,"gx":1,"gy":1,"stat":"dash","amt":1,"max":3},{"i":8,"gx":2,"gy":1,"stat":"jump","amt":0.25,"max":2},{"i":9,"gx":3,"gy":1,"stat":"run","amt":14,"max":120},{"i":10,"gx":4,"gy":1,"stat":"magnet","amt":12,"max":120},{"i":11,"gx":5,"gy":1,"stat":"lotus","amt":3,"max":20},{"i":12,"gx":0,"gy":2,"stat":"reach","amt":60,"max":999},{"i":13,"gx":1,"gy":2,"stat":"dash","amt":1,"max":3},{"i":14,"gx":2,"gy":2,"stat":"dash","amt":1,"max":3},{"i":15,"gx":3,"gy":2,"stat":"air","amt":0.06,"max":0.3},{"i":16,"gx":4,"gy":2,"stat":"run","amt":14,"max":120},{"i":17,"gx":5,"gy":2,"stat":"run","amt":14,"max":120},{"i":18,"gx":0,"gy":3,"stat":"magnet","amt":12,"max":120},{"i":19,"gx":1,"gy":3,"stat":"lotus","amt":3,"max":20},{"i":20,"gx":2,"gy":3,"stat":"dash","amt":1,"max":3},{"i":21,"gx":3,"gy":3,"stat":"dash","amt":1,"max":3},{"i":22,"gx":4,"gy":3,"stat":"air","amt":0.06,"max":0.3},{"i":23,"gx":5,"gy":3,"stat":"run","amt":14,"max":120}],"edges":[[1,2],[2,8],[3,9],[6,7],[6,12],[7,8],[8,9],[8,14],[9,15],[10,11],[11,17],[12,13],[12,18],[13,14],[13,19],[14,15],[15,21],[16,17],[16,22],[17,23],[19,20],[20,21],[21,22],[22,23]]},"powerups":[{"type":"tempest","x":8,"y":3},{"type":"shield","x":19,"y":4},{"type":"dash","x":30,"y":5},{"type":"lotus","x":41,"y":3},{"type":"tempest","x":52,"y":4},{"type":"shield","x":63,"y":5},{"type":"dash","x":74,"y":3},{"type":"lotus","x":85,"y":4}],"ts":42};
 const C = document.getElementById('c'), X = C.getContext('2d');
@@ -37,6 +42,32 @@ const BEST = M.bestiary; const BE = [];
 for (let i = 0; i < 6; i++) BE.push({ x: 14 + i * 15, dir: 1, t: i % 3 });
 const malas = []; for (let i = 0; i < 27; i++) malas.push({ x: 4 + i * 4, y: LH - 3 - (i % 3), got: 0 });
 const GX = LW - 2;
+// ── the character — born from the honest-auth prompt ──
+const DEITIES = ['Mahakala', 'Chenrezig', 'Tara', 'Manjushri', 'Vajrapani', 'Amitabha', 'Medicine Buddha', 'Ksitigarbha', 'Padmasambhava', 'Yamantaka', 'Vajrayogini', 'Marici'];
+const VIRTUES = { truth: 'TRUTH', love: 'COMPASSION', care: 'COMPASSION', fearless: 'FEARLESSNESS', brave: 'FEARLESSNESS', curious: 'WISDOM', calm: 'PEACE', peace: 'PEACE', discipline: 'DISCIPLINE', joy: 'JOY', laugh: 'JOY' };
+let CH = null;
+function honestAuth(prompt) {
+  let h = 7; for (let i = 0; i < prompt.length; i++) h = (Math.imul(31, h) + prompt.charCodeAt(i)) | 0; h = h >>> 0;
+  const words = prompt.toLowerCase().split(/[^a-z]+/).filter(Boolean);
+  let virtue = 'PRESENCE';
+  for (const w of words) { if (VIRTUES[w]) { virtue = VIRTUES[w]; break; } }
+  const stop = ['i', 'am', 'a', 'an', 'the', 'my', 'me', 'of', 'and', 'to', 'be', 'about', 'everything', 'honest', 'brave', 'love', 'calm', 'curious'];
+  const first = words.find((w) => !stop.includes(w)) || 'the monk';
+  const name = first === 'the monk' ? 'the monk' : first[0].toUpperCase() + first.slice(1) + ' the ' + virtue.toLowerCase();
+  CH = { name, virtue, seed: h, level: 1, xp: 0, dims: [3], dim: 3 };
+}
+function chProtector() { if (CH.dim === 3) return DEITIES[0]; return DEITIES[(CH.dim - 1) % DEITIES.length]; }
+function chAddXp(amount) {
+  if (!CH) return;
+  CH.xp += amount;
+  while (CH.xp >= 3 + (CH.level - 1) * 4) {
+    CH.level++;
+    const high = 3 + (CH.level - 1), low = Math.max(1, 3 - (CH.level - 1));
+    for (const d of [high, low]) { if (!CH.dims.includes(d)) { CH.dims.push(d); msg('dimension ' + d + ' unlocked — protector: ' + (d === 3 ? 'Mahakala' : DEITIES[(d - 1) % DEITIES.length])); } }
+    CH.dims.sort((a, b) => a - b);
+    CH.dim = Math.max(...CH.dims);
+  }
+}
 // ── the player — celeste discipline
 let spawnC = 0; for (let c = 0; c < LW; c++) { if (heights[c] > 0) { spawnC = c; break; } }
 let px = spawnC * TILE + 40, py = (LH - heights[spawnC]) * TILE - 46, vx = 0, vy = 0, onGround = false, coyote = 0, jbuf = 0, jheld = false;
@@ -109,7 +140,7 @@ function update(dt) {
   // checkpoints — the butter lamps
   for (let i = 0; i < CP.length; i++) { const lx = CP[i] * TILE + 24; const gy = (LH - heights[CP[i]]) * TILE; if (!lampLit[i] && px > lx - 30 && px < lx + 40 && py > gy - 80 && py < gy + 10) { lampLit[i] = 1; msg('butter lamp lit — the watch does not end'); bus.emit('checkpoint', { i }); } }
   // malas + magnet (tree)
-  for (const m of malas) { const mx = m.x * TILE + TILE / 2, my = (LH - m.y) * TILE - TILE / 2; if (!m.got && Math.hypot(px + 19 - mx, py + 22 - my) < stats.magnet) { m.got = 1; collected++; if (collected % 3 === 0) tp++; bus.emit('mala', { n: collected }); if (collected % 5 === 0) saveGame(); } }
+  for (const m of malas) { const mx = m.x * TILE + TILE / 2, my = (LH - m.y) * TILE - TILE / 2; if (!m.got && Math.hypot(px + 19 - mx, py + 22 - my) < stats.magnet) { m.got = 1; collected++; if (collected % 3 === 0) tp++; chAddXp(1); bus.emit('mala', { n: collected }); if (collected % 5 === 0) saveGame(); } }
   // powerups
   for (let i = 0; i < PU.length; i++) { if (puGot[i]) continue; const p = PU[i], px2 = p.x * TILE + TILE / 2, py2 = (LH - p.y) * TILE; if (Math.hypot(px + 19 - px2, py + 22 - py2) < 42) { puGot[i] = 1; grantPower(p.type); } }
   // bestiary — stomp to liberate
@@ -119,12 +150,13 @@ function update(dt) {
     if (b.dir !== 0) { b.x += b.dir * 55 * dt; if (b.x < 10 || b.x > LW - 6) b.dir *= -1; }
     const ex = b.x * TILE + 8;
     if (px + 38 > ex && px < ex + 32 && py + 44 > by - 32 && py < by) {
-      if (vy > 260 && py + 40 < by - 8) { b.dir = 0; karma++; tp++; vy = -430; bus.emit('liberation', { name: b.name }); msg('liberated ' + (BEST[b.t % BEST.length] || 'a poison')); }
+      if (vy > 260 && py + 40 < by - 8) { b.dir = 0; karma++; tp++; vy = -430; chAddXp(2); bus.emit('liberation', { name: b.name }); msg('liberated ' + (BEST[b.t % BEST.length] || 'a poison')); }
       else if (b.dir !== 0) { die(); }
     }
   }
   if (px > GX * TILE) { won = true; msg('THE TENT — the gate opens · 27 malas'); bus.emit('win', { collected }); saveGame(); }
   document.getElementById('lv').textContent = lives;
+  if (CH) document.getElementById('chline').textContent = CH.name + ' · lv ' + CH.level + ' · dim ' + CH.dim + 'D · ' + chProtector();
   document.getElementById('m').textContent = collected;
   document.getElementById('k').textContent = karma;
   document.getElementById('tp').textContent = tp;
@@ -196,6 +228,13 @@ function loop(now) {
 }
 document.getElementById('sl').textContent = '⟦ seed 0x' + M.seed + ' · ' + M.brief + ' · ' + M.digest + ' ⟧';
 document.getElementById('conf').textContent = M.confederates;
-if (loadGame()) { msg('⟦ autosaved run loaded — N for a new run ⟧'); } else { saveGame(); }
-requestAnimationFrame(loop);
+document.getElementById('authbtn').addEventListener('click', () => {
+  const prompt = document.getElementById('authin').value.trim() || 'I am honest about everything';
+  honestAuth(prompt);
+  document.getElementById('auth').remove();
+  msg('⟦ ' + CH.name + ' · virtue: ' + CH.virtue + ' · protector: Mahakala ⟧');
+  if (loadGame()) { msg('⟦ autosaved run loaded — N for a new run ⟧'); }
+  requestAnimationFrame(loop);
+});
+document.getElementById('authin').addEventListener('keydown', (e) => { if (e.key === 'Enter') document.getElementById('authbtn').click(); });
 </script></body></html>
