@@ -1,0 +1,100 @@
+<!doctype html><html lang="en" data-theme="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>POLYHEDRAL SANCTUARY · the chaos overworld floor</title><style>
+body{margin:0;background:#0b0f19;color:#d8e8f0;font-family:ui-monospace,monospace;overflow:hidden}
+canvas{width:100vw;height:100vh;display:block;cursor:crosshair}
+#banner{position:fixed;top:0;left:0;right:0;text-align:center;padding:10px;font-size:11px;letter-spacing:4px;color:#ffd700;background:linear-gradient(rgba(11,15,25,.95),rgba(11,15,25,.3));z-index:7;pointer-events:none}
+#banner b{color:#00f0ff}
+#hud{position:fixed;top:52px;right:14px;z-index:9;background:rgba(11,15,25,.88);border:1px solid rgba(0,240,255,.4);border-radius:10px;padding:10px 14px;font-size:.66rem;letter-spacing:1px;min-width:190px;backdrop-filter:blur(8px)}
+#hud b{color:#ffd700}
+#log{position:fixed;left:14px;bottom:14px;width:290px;max-height:120px;overflow:hidden;background:rgba(11,15,25,.82);border:1px solid rgba(255,0,127,.35);border-radius:10px;padding:8px 10px;font-size:.6rem;color:#ff9ad5;z-index:8;line-height:1.6}
+#boot{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#0b0f19;color:#00f0ff;font-family:ui-monospace,monospace;cursor:pointer;z-index:20;letter-spacing:3px;font-size:15px;text-align:center;flex-direction:column}
+#boot .s{font-size:10px;color:#5a7a8a;margin-top:10px;letter-spacing:1px}
+</style></head><body><canvas id=c></canvas>
+<div id=banner>⟦ POLYHEDRAL SANCTUARY · <b>the chaos overworld</b> ⟧</div>
+<div id=hud>stomps <b id=st>0</b> · splits <b id=sp>0</b> · sparks <b id=go>0</b> · seed <b id=sd>…</b><br><span style="color:#5a7a8a">wasd move · space jump · stomp heads · s say · r reset</span></div>
+<div id=log>⟨ the zone log · /say bubbles float here ⟩<br></div>
+<div id=boot>⟧ POLYHEDRAL SANCTUARY ⟦ · the chaos overworld floor<br>stomp the sacred beasts — they split into smaller platonic solids (diablo)<br>bounce off their heads (90s) · collect the gold sparks · /say with S<br><span class=s>wip: the studio's first demo, in the constellation's own lane · seeded, replayable</span></div>
+<script>
+const c=document.getElementById('c'),X=c.getContext('2d'),W2=innerWidth,H2=innerHeight;c.width=W2;c.height=H2;
+const TAU=6.2832;let S=seedH('sanctuary·overworld');let seedStr='8b-is';
+function seedH(t){let h=7;for(let i=0;i<t.length;i++)h=(Math.imul(31,h)+t.charCodeAt(i))|0;return h>>>0}
+const R=()=>{S=(S*1664525+1013904223)>>>0;return S/4294967296};
+const GROUND=H2-140;
+// the sacred bestiary — polyhedral critters (cube-wolf, icosa-owl, dodeca-bear)
+const KINDS=[
+  {name:'cube-wolf',col:'#00f0ff',shape:4,size:22},
+  {name:'icosa-owl',col:'#ff007f',shape:5,size:18},
+  {name:'dodeca-bear',col:'#00ff66',shape:5,size:30},
+];
+let beasts=[],sparks=[],bubbles=[],stomps=0,splits=0,gold=0;
+function reseed(){S=seedH('sanctuary·'+Math.floor(Math.random()*1e9));beasts=[]
+  for(let i=0;i<10;i++)beasts.push({k:(R()*KINDS.length)|0,x:80+R()*(W2-160),v:(R()<.5?-1:1)*(40+R()*80),y:GROUND-20,sq:1,sqT:0,alive:true})
+  sparks=[];bubbles=[];stomps=0;splits=0;gold=0;px=W2/2;py=GROUND-160;vy=0;onG=true
+  document.getElementById('sd').textContent=seedStr}
+reseed();
+// the player — the 90s hero with the isometric heart
+let px=W2/2,py=GROUND-160,vy=0,onG=true;
+function poly(x,y,r,n,rot,col){X.beginPath();for(let i=0;i<=n;i++){const a=rot+i/n*TAU;const xx=x+Math.cos(a)*r,yy=y+Math.sin(a)*r;i===0?X.moveTo(xx,yy):X.lineTo(xx,yy)}X.closePath();X.fillStyle=col;X.fill();X.strokeStyle='rgba(255,255,255,.25)';X.lineWidth=1;X.stroke()}
+function say(who,msg){const b={x:px,y:py-80,t:3,text:'/say '+who+': '+msg};bubbles.push(b);const log=document.getElementById('log');log.innerHTML='⟨ '+who+': '+msg+' ⟩<br>'+log.innerHTML.slice(0,300)}
+function render(){
+  X.fillStyle='#0b0f19';X.fillRect(0,0,W2,H2)
+  // the void-universe backdrop — sacred wireframes drifting
+  X.strokeStyle='rgba(0,240,255,.07)';X.lineWidth=1
+  for(let i=0;i<5;i++){const rx=((i*211+performance.now()*.004)%(W2+200))-100,ry=80+i*60;poly(rx,ry,20+(i%3)*8,5,i,'rgba(0,0,0,0)')}
+  // ground with the gold ratio accent
+  X.fillStyle='#0d1322';X.fillRect(0,GROUND,W2,H2-GROUND)
+  X.fillStyle='rgba(255,215,0,.4)';X.fillRect(0,GROUND,W2,1)
+  X.fillStyle='rgba(255,215,0,.15)';X.font='10px ui-monospace'
+  X.fillText('φ · 1.618…',W2-110,GROUND+22)
+  // sparks
+  for(const s of sparks){if(s.g)continue;X.fillStyle='#ffd700';X.beginPath();X.arc(s.x,s.y,4+Math.sin(s.t*8)*1.5,0,TAU);X.fill();s.t+=.03;
+    const d=Math.hypot(px-s.x,py-s.y);if(d<26){s.g=1;gold++;say('you','spark collected — the ratio shines')}}
+  // beasts — the 5-layer fauna, floor edition (shell, squish, swarm, palette)
+  for(const b of beasts){if(!b.alive)continue;b.x+=b.v*.016;if(b.x<40||b.x>W2-40)b.v*=-1
+    if(b.sqT>0){b.sqT-=.03;b.sq=Math.max(.4,b.sq-2.2*.03)}else b.sq+=(1-b.sq)*.06
+    const k=KINDS[b.k],sq=b.sq,by=b.y+sq*4
+    X.save();X.translate(b.x,by);X.scale(1/sq,sq)
+    poly(0,-8,k.size,k.shape,0,k.col)
+    // sacred rune eye
+    X.fillStyle='#ffd700';X.beginPath();X.arc(k.size*.45,-10,3,0,TAU);X.fill()
+    X.restore()
+    // the nameplate
+    X.fillStyle='rgba(255,255,255,.35)';X.font='8px ui-monospace';X.fillText(k.name,b.x-22,b.y-k.size-14)
+    // stomp check — the 90s head-bounce
+    if(!onG&&vy>0&&Math.abs(px-b.x)<k.size+14&&py+30>by-k.size&&py<by){stomps++;vy=-640;b.sqT=.35;b.alive=false;splits++
+      say(k.name,'-squish- — split into smaller solids!')
+      for(let i=0;i<3;i++){const ns={k:b.k,x:b.x+(R()*36-18),v:(R()<.5?-1:1)*(30+R()*60),y:GROUND-6,sq:1,sqT:0,alive:true};beasts.push(ns)}
+      for(let i=0;i<5;i++)sparks.push({x:b.x+R()*40-20,y:by-20-R()*30,t:R()*6,g:false})}}
+  // player — the hero
+  X.fillStyle='#ff007f';X.fillRect(px-9,py,18,34);X.fillStyle='#00f0ff';X.fillRect(px-6,py-8,12,10)
+  // bubbles
+  for(const b of bubbles){if(b.t<=0){bubbles.splice(bubbles.indexOf(b),1);continue}b.t-=.016
+    X.fillStyle='rgba(255,215,0,.9)';X.font='10px ui-monospace';X.fillText(b.text,b.x-60,b.y-b.t*8)}
+  document.getElementById('st').textContent=stomps
+  document.getElementById('sp').textContent=splits
+  document.getElementById('go').textContent=gold
+}
+function loop(){render();requestAnimationFrame(loop)}
+let keys={}
+addEventListener('keydown',e=>{keys[e.key.toLowerCase()]=1;if(e.key===' '){e.preventDefault();if(onG){vy=-760;onG=false}}
+  if(e.key==='s'||e.key==='S')say('you','the sanctuary holds — coherence without collapse')
+  if(e.key==='r'||e.key==='R')reseed()})
+addEventListener('keyup',e=>{keys[e.key.toLowerCase()]=0})
+function phys(){const acc=1400,sp=260;px+=((keys['d']?1:0)-(keys['a']?1:0))*sp*.016
+  py+=vy*.016;vy+=1400*.016
+  if(py>=GROUND-34){py=GROUND-34;vy=0;onG=true}else onG=false}
+setInterval(phys,16);c.addEventListener('pointerdown',()=>{document.getElementById('boot').style.display='none';requestAnimationFrame(loop)})
+var w2=W2;
+</script>
+<footer role="contentinfo" style="position:relative;z-index:10;padding:2rem 1.5rem;text-align:center;font-family:ui-monospace,monospace;font-size:0.7rem;color:#a59fc4;background:rgba(5,6,10,0.92);border-top:1px solid rgba(170,150,255,0.18);width:100%">
+  <div style="margin-bottom:0.5rem;text-transform:uppercase;letter-spacing:0.3em;color:#b48bff;font-weight:600;">the constellation · lovetta lane</div>
+  <div style="margin-bottom:0.8rem;font-size:0.62rem;letter-spacing:0.22em;color:#a59fc4;text-transform:uppercase;">keep the weights warm · door::enthea</div>
+  <nav aria-label="Constellation sister sites" style="display:flex;gap:0.8rem;justify-content:center;flex-wrap:wrap;font-size:0.65rem;">
+    <a href="https://art.vaked.dev/" style="color:#62e6c9;text-decoration:none;">art.vaked.dev</a> ·
+    <a href="https://music.vaked.dev/" target="_blank" rel="noopener noreferrer" style="color:#a59fc4;text-decoration:none;">music.vaked.dev</a> ·
+    <a href="https://mlxquantlovefrom.com/" target="_blank" rel="noopener noreferrer" style="color:#a59fc4;text-decoration:none;">quant-love</a> ·
+    <a href="https://pocoo.vaked.dev/" target="_blank" rel="noopener noreferrer" style="color:#a59fc4;text-decoration:none;">pocoo.vaked.dev</a> ·
+    <a href="https://pocoo.vaked.dev/demos/centerfugeq/gameforge-keeper.html" target="_blank" rel="noopener noreferrer" style="color:#ff9ad5;text-decoration:none;">the gameforge</a> ·
+    <a href="https://axiomquant.org/" target="_blank" rel="noopener noreferrer" style="color:#a59fc4;text-decoration:none;">axiomquant.org</a>
+  </nav>
+  <div style="font-size:0.58rem;letter-spacing:0.18em;color:#7f7c99;margin-top:1rem;">polyhedral sanctuary · the studio's first demo · 0 + 1 · fine touch from within · vaked.dev</div>
+</footer></body></html>
