@@ -1,0 +1,95 @@
+<!doctype html><html lang="en" data-theme="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>PSU NIVERSEQ · the first walk · an interactive tutorial</title><style>
+body{margin:0;background:#0b0f19;color:#d8e8f0;font-family:ui-monospace,monospace;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:30px 16px}
+#wrap{max-width:720px;width:100%}
+#banner{text-align:center;font-size:11px;letter-spacing:4px;color:#ffd700;margin-bottom:18px}
+#banner b{color:#00f0ff}
+#hud{display:flex;gap:10px;justify-content:center;margin-bottom:16px;flex-wrap:wrap}
+.hud{background:rgba(11,15,25,.88);border:1px solid rgba(0,240,255,.35);border-radius:9px;padding:7px 12px;font-size:.62rem;letter-spacing:1px;min-width:110px;text-align:center}
+.hud b{color:#ffd700}
+#stage{background:rgba(11,15,25,.9);border:1px solid rgba(255,0,127,.35);border-radius:14px;padding:22px 24px;min-height:300px;line-height:1.85;font-size:.82rem}
+#stage .speaker{color:#ff9ad5;letter-spacing:2px;font-size:.68rem;margin-bottom:8px}
+#stage .roll{color:#00f0ff;font-size:.68rem;letter-spacing:1px;margin:10px 0;opacity:.9}
+#stage .roll .crit{color:#ffd700}
+#stage .roll .fail{color:#ff007f}
+#stage .lore{color:#e8d8c8;border-left:2px solid rgba(255,215,0,.4);padding-left:12px;margin:10px 0}
+#stage .lore b{color:#ffd700}
+#choices{display:flex;flex-direction:column;gap:9px;margin-top:18px}
+#choices button{background:rgba(0,240,255,.08);border:1px solid rgba(0,240,255,.45);border-radius:10px;color:#00f0ff;font:.72rem ui-monospace,monospace;padding:12px 16px;cursor:pointer;letter-spacing:1px;text-align:left}
+#choices button:hover{background:rgba(0,240,255,.2)}
+#choices button .tag{color:#ff007f;margin-right:8px}
+#boot{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#0b0f19;color:#00f0ff;z-index:20;flex-direction:column;gap:14px;text-align:center;letter-spacing:3px;font-size:15px}
+#boot .s{font-size:10px;color:#5a7a8a;letter-spacing:1px;max-width:520px;line-height:1.8}
+#boot input{width:min(340px,72vw);background:#0d1322;border:1px solid rgba(0,240,255,.5);border-radius:9px;color:#e8f0f8;font:.8rem ui-monospace,monospace;padding:11px 14px;outline:none;text-align:center}
+#boot button{background:linear-gradient(135deg,#00f0ff,#ff007f);border:none;border-radius:9px;color:#0b0f19;font:700 .7rem ui-monospace,monospace;padding:10px 20px;cursor:pointer;letter-spacing:2px}
+#log{position:fixed;left:14px;bottom:14px;width:280px;max-height:120px;overflow:hidden;background:rgba(11,15,25,.82);border:1px solid rgba(255,0,127,.3);border-radius:10px;padding:8px 10px;font-size:.58rem;color:#ff9ad5;z-index:8;line-height:1.6}
+</style></head><body>
+<div id=banner>⟦ PSU NIVERSEQ · <b>the first walk</b> · an interactive tutorial ⟧</div>
+<div id=wrap>
+<div id=hud>
+  <div class=hud>lives <b id=lv>3</b></div>
+  <div class=hud>hum <b id=hum>0</b>/108</div>
+  <div class=hud>ZEN <b id=zen>0%</b></div>
+  <div class=hud>sparks <b id=sp>0</b></div>
+</div>
+<div id=stage></div>
+<div id=choices></div>
+</div>
+<div id=log>⟨ the walk log ⟩<br></div>
+<div id=boot>
+  <div style="font-size:34px;color:#ffd700;opacity:.9">ཧཱུྃ</div>
+  <div style="font-size:15px;letter-spacing:4px;color:#00f0ff">⟧ THE FIRST WALK ⟦</div>
+  <div style="font-size:10px;color:#5a7a8a;letter-spacing:2px">an interactive tutorial · taught by living it · like the old tabletop primers</div>
+  <input id=namein placeholder="your sacred name…">
+  <button id=begin>⚡ BE BORN</button>
+  <div style="font-size:9px;color:#5a7a8a;letter-spacing:1px">the gate · the stomp · the split · the hum · the ZEN · the tent</div>
+</div>
+<script>
+var $=function(id){return document.getElementById(id)};
+var S=0,state={hp:3,hum:0,zen:0,sparks:0,steps:0,name:'MAHĀKĀLA'};
+function seedH(t){var h=7;for(var i=0;i<t.length;i++)h=(Math.imul(31,h)+t.charCodeAt(i))|0;return h>>>0}
+function reroll(){S=(S*1664525+1013904223)>>>0;return S/4294967296}
+function d100(){return Math.floor(reroll()*100)+1}
+function log(t){$('log').innerHTML='⟨ '+t+' ⟩<br>'+$('log').innerHTML}
+function hud(){$('lv').textContent=state.hp;$('hum').textContent=state.hum;$('zen').textContent=state.zen+'%';$('sp').textContent=state.sparks}
+function rollLine(stat,label){var r=d100(),ok=r<=stat;return '<div class="roll">d100 <span class="'+(ok?'crit':'fail')+'">'+r+'</span> vs '+label+' '+stat+' — '+(ok?'<span class="crit">SUCCESS</span>':'<span class="fail">FAILURE</span>')+'</div>'}
+function say(who,html){$('stage').innerHTML='<div class="speaker">'+who+'</div>'+html}
+function choices(list){$('choices').innerHTML=list.map(function(c,i){return '<button onclick="pick('+i+')"><span class="tag">['+String.fromCharCode(65+i)+']</span>'+c.t+'</button>'}).join('')}
+function pick(i){SCENES[state.scene].choices[i].go()}
+function lore(html){return '<div class="lore">'+html+'</div>'}
+function go(i){state.scene=i;state.steps++;var sc=SCENES[i];say(sc.speaker,sc.html());choices(sc.choices)}
+function die(msg){state.hp--;hud();log('death: '+msg);if(state.hp<=0){say('the tent',lore('<b>THE RING BLESSING.</b> "zero detection, zero pain." The pink ring pulses — you are not dead, you are <b>respawned</b>, six seconds of invulnerability, the hum keeps its count.'));state.hp=3;hud();choices([{t:'stand up, walk on',go:function(){log('respawned');go(2)}}]);return}go(2)}
+var SCENES=[];
+SCENES[0]={speaker:'the overworld',html:function(){return lore('<b>ROOTLORE.</b> You are born in the chaos overworld, <b>'+state.name+'</b>. The first breath is a seed line: <b>⟦ 8010720c ⟦+00-00-0-…⟧⟧</b>. Before you, the 108-fold gate of the sanctuary, gold on void. Behind you, the swarm hums.')},
+choices:[
+ {t:'approach the gate',go:function(){say('the gate',lore('<b>THE PROTECTOR SPEAKS.</b> A voice, six arms of gold light: "The tent has no walls. Enter, and learn the three verbs."'));choices([{t:'enter',go:function(){go(1)}},{t:'ask its name',go:function(){say('the gate',lore('<b>MAHĀKĀLA.</b> "The great black one. The lord of the tent. My mantra is your first key: <b>OM MAHĀKĀLA HŪṂ PHEṬ</b>."'));choices([{t:'enter',go:function(){go(1)}}])}}])}},
+ {t:'wait at the threshold',go:function(){say('the gate',lore('The protector nods. "Stillness is already a lesson. The ZEN begins to charge."'));state.zen=Math.min(100,state.zen+25);hud();choices([{t:'enter',go:function(){go(1)}}])}},
+ {t:'turn back',go:function(){say('the swarm',lore('The swarm closes. A cube-wolf finds you before you find the door. You must learn the stomp — now.'));go(1)}}]};
+SCENES[1]={speaker:'the floor',html:function(){return lore('<b>THE STOMP.</b> A <b>cube-wolf</b> (cyan, four edges) charges across the sanctuary floor. The protector\'s voice: "Stomp on the fall. The ground is your first weapon."')},
+choices:[
+ {t:'jump and stomp it',go:function(){var r=rollLine(70,'stomp');log('stomp: '+r);if(r.indexOf('SUCCESS')>=0){state.sparks+=2;state.hum=Math.min(108,state.hum+1);hud();go(6)}else{go(1)}}},
+ {t:'run from it',go:function(){var r=rollLine(40,'dodge');log('dodge: '+r);if(r.indexOf('FAILURE')>=0){say('the swarm',lore('The cube-wolf catches you. <b>Death.</b> But the ring blessing holds — you respawn, the lesson kept.'));die('the cube-wolf caught you')}else{state.sparks+=1;hud();go(7)}}},
+ {t:'stand still',go:function(){state.zen=Math.min(100,state.zen+40);hud();say('the floor',lore('You hold still. The cube-wolf circles, confused — it cannot wound stillness. The ZEN charges: <b>40%</b>. The protector: "The gods cannot be hurt by motion. Only by the pause."'));choices([{t:'stomp it now',go:function(){state.sparks+=2;state.hum=Math.min(108,state.hum+1);hud();go(6)}}])}}]};
+SCENES[6]={speaker:'the floor',html:function(){return lore('<b>SPLIT + BOUNCE.</b> The cube-wolf <b>splits</b> into two smaller cubes (Diablo\'s density). You bounce off the second and it bursts into sparks. The 90s taught you this: momentum is a weapon. The hum: <b>+2 liberations</b>.')},
+choices:[
+ {t:'follow the sparks',go:function(){state.sparks+=3;state.hum=Math.min(108,state.hum+2);hud();go(2)}},
+ {t:'stand still',go:function(){state.zen=Math.min(100,state.zen+30);hud();say('the floor',lore('You stop. The swarm parts around you. The ZEN charges: <b>30%</b>. The protector: "Good. Now the hum."'));choices([{t:'follow the sparks',go:function(){go(2)}}])}}]};
+SCENES[7]={speaker:'the floor',html:function(){return lore('You slip past the wolf. It crashes into the gate and splits on its own. The hum: <b>+1</b>.')},
+choices:[
+ {t:'follow the sparks',go:function(){state.hum=Math.min(108,state.hum+1);hud();go(2)}}]};
+SCENES[2]={speaker:'the lamp',html:function(){return lore('<b>THE HUM.</b> Gold sparkles line a path to a <b>butter lamp</b> — a checkpoint, the watch never ends. The protector: "Feed the hum. Malas, liberations, god-nodes, lamps. At <b>108</b>, the ring blessing."')},
+choices:[
+ {t:'collect the sparks',go:function(){state.sparks+=5;state.hum=Math.min(108,state.hum+3);hud();say('the lamp',lore('The butter lamp kindles. <b>+3 hum.</b> The path opens toward a dark silhouette on the ridge — a deity, waiting.'));choices([{t:'approach the deity',go:function(){go(3)}},{t:'light another lamp',go:function(){state.hum=Math.min(108,state.hum+3);hud();say('the lamp',lore('A second lamp. <b>+3 hum.</b> The hum is now '+state.hum+'/108. The deity has not moved.'));choices([{t:'approach the deity',go:function(){go(3)}}])}}])}},
+ {t:'skip to the deity',go:function(){log('walking to the ridge');go(3)}}]};
+SCENES[3]={speaker:'tara',html:function(){return lore('<b>THE ZEN.</b> On the ridge stands <b>TARA</b> — the star that moves. Her light flickers between places. The protector\'s whisper: "Only stillness can wound her. Attack with motion and she is never where you strike."')},
+choices:[
+ {t:'attack her',go:function(){var r=rollLine(30,'strike');log('attack: '+r);if(r.indexOf('FAILURE')>=0){say('tara',lore('Your strike passes through where she was. She is already elsewhere. <b>Death</b> — but the ring holds.'));die('tara was never there')}else{state.hum=Math.min(108,state.hum+5);hud();say('tara',lore('A lucky hit — <b>+5 god-node</b>. But she smiles: "Luck is not a lesson. Stillness is."'));choices([{t:'stand still',go:function(){go(4)}}])}}},
+ {t:'stand still',go:function(){state.zen=Math.min(100,state.zen+60);hud();say('tara',lore('You stop. The star circles you and, for one breath, <b>holds</b>. The ZEN-stun lands: <b>60%</b>. She bows. "You have learned the pause. The tent is open to you."'));choices([{t:'enter the tent',go:function(){go(4)}}])}}]};
+SCENES[4]={speaker:'the tent',html:function(){return lore('<b>THE TENT.</b> The pink tent unfolds — 108 folds, the protector\'s projection. Inside, the sovereign pass: a question. <b>"What did you learn on the first walk?"</b>')},
+choices:[
+ {t:'the stomp, the split, the hum',go:function(){say('the tent',lore('<b>THE SOVEREIGN PASS.</b> The tent accepts. "The verbs, yes. But the deepest lesson is the one you carried without knowing it."'));choices([{t:'stillness',go:function(){go(5)}},{t:'the seed line',go:function(){go(5)}}])}},
+ {t:'stillness',go:function(){say('the tent',lore('<b>THE SOVEREIGN PASS.</b> "Correct. The gods cannot be hurt by motion. Only by the pause. You are ready."'));choices([{t:'receive the blessing',go:function(){go(5)}}])}}]};
+SCENES[5]={speaker:'the tent',html:function(){return lore('<b>THE RING BLESSING.</b> The hum reaches '+Math.min(108,state.hum)+'. The pink ring pulses around you: <b>"zero detection, zero pain."</b> Six seconds of invulnerability. The first walk is complete.')},
+choices:[
+ {t:'go play the real game',go:function(){say('the tent',lore('<b>THE FIRST WALK, COMPLETE.</b> You were born '+state.steps+' steps ago with '+state.sparks+' sparks and a hum of '+state.hum+'/108. The overworld is open: <b>sanctuary-floor</b> for the verbs, <b>psuniverseq</b> for the deities, <b>gameforge-keeper</b> for the hum. The deities await — ultra-hard ZEN.'));choices([{t:'play sanctuary-floor',go:function(){window.open('https://pocoo.vaked.dev/demos/centerfugeq/sanctuary-floor.html','_blank')}},{t:'play psuniverseq',go:function(){window.open('https://pocoo.vaked.dev/demos/centerfugeq/psuniverseq.html','_blank')}},{t:'walk again',go:function(){state.hp=3;state.hum=0;state.zen=0;state.sparks=0;state.steps=0;hud();go(0)}}])}}]};
+$('begin').onclick=function(){var n=$('namein').value.trim()||'MAHĀKĀLA';S=seedH(n+'·first-walk');state.name=n;state.scene=0;state.steps=0;$('boot').style.display='none';hud();go(0);log('born: '+n)};
+</script></body></html>

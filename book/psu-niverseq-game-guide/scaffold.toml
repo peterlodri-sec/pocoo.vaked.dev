@@ -1,0 +1,64 @@
+# PSU-NIVERSEQ-GAME-GUIDE — entheai fan-out scaffold
+# The unified game guide: lore, mechanics, deities, floors, engine, studio.
+# Feed to: entheai --fanout --config <entheai.toml> "<the game guide brief>"
+
+[book]
+title = "PSU NIVERSEQ"
+subtitle = "the chaos overworld · a game guide"
+author = "Péter Lódri · vaked"
+epigraph = "ཧཱུྃ · the ternary wire {-1, 0, +1}"
+published = 2026
+
+[fanout]
+executor = "local"
+model = "deepseek/deepseek-v4-flash"
+max_depth = 2
+
+[[coder]]
+role = "scribe"
+chapter = 0
+task = "The Seed — every artifact is a pure function of a seed line. KEEP ALL ORIGINAL LINES of manuscript.html."
+
+[[coder]]
+role = "scribe"
+chapter = 1
+task = "The World — the chaos overworld, the ternary wire, the palette, the bestiary. KEEP ALL ORIGINAL LINES."
+
+[[coder]]
+role = "scribe"
+chapter = 2
+task = "The Play — stomp/split/bounce, the 108-gate hum, the ring blessing. KEEP ALL ORIGINAL LINES."
+
+[[coder]]
+role = "scribe"
+chapter = 3
+task = "The ZEN — stand still to charge, stillness wounds the gods. KEEP ALL ORIGINAL LINES."
+
+[[coder]]
+role = "scribe"
+chapter = 4
+task = "The Deities — Chenrezig, Tara, Yamantaka, Mahākāla; the ternary door. KEEP ALL ORIGINAL LINES."
+
+[[coder]]
+role = "scribe"
+chapter = 5
+task = "The Floors — the seven playable prototypes and their lanes. KEEP ALL ORIGINAL LINES."
+
+[[coder]]
+role = "scribe"
+chapter = 6
+task = "The Engine — the 8b-is Engine v1 + design v2 (presence, protector nodes, trick library, world-as-DNS). KEEP ALL ORIGINAL LINES."
+
+[[coder]]
+role = "scribe"
+chapter = 7
+task = "The Studio — vaked, the EOS-CLA, the funding lane, the dev profile. KEEP ALL ORIGINAL LINES."
+
+[[coder]]
+role = "scribe"
+chapter = 8
+task = "How to Play — controls, where to play, the interactive tutorial. KEEP ALL ORIGINAL LINES."
+
+[[coder]]
+role = "integrator"
+task = "INTEGRATE all chapters into one manuscript. Verify every original line survived. Add the colophon."
