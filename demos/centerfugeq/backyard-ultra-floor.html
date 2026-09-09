@@ -1,11 +1,16 @@
 <!doctype html><html lang="en" data-theme="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>BACKYARD ULTRA · the last one standing · the chaos overworld</title><style>
+@layer base,overlay;
+:root{color-scheme:dark;--gold:oklch(.85 .16 85);--cyan:oklch(.8 .13 200);--pink:oklch(.68 .2 350);--green:oklch(.72 .18 150)}
+@layer base{
 body{margin:0;background:#0b0f19;color:#d8e8f0;font-family:ui-monospace,monospace;overflow:hidden}
 canvas{width:100vw;height:100vh;display:block;cursor:crosshair}
-#banner{position:fixed;top:0;left:0;right:0;text-align:center;padding:9px;font-size:11px;letter-spacing:4px;color:#ffd700;background:linear-gradient(rgba(11,15,25,.95),rgba(11,15,25,.3));z-index:7;pointer-events:none}
-#banner b{color:#00f0ff}
+#banner{position:fixed;top:0;left:0;right:0;text-align:center;padding:9px;font-size:11px;letter-spacing:4px;color:var(--gold);background:linear-gradient(rgba(11,15,25,.95),rgba(11,15,25,.3));z-index:7;pointer-events:none}
+#banner b{color:var(--cyan)}
 #hud{position:fixed;top:48px;right:12px;z-index:9;background:rgba(11,15,25,.88);border:1px solid rgba(0,240,255,.4);border-radius:10px;padding:10px 14px;font-size:.62rem;letter-spacing:1px;min-width:200px;backdrop-filter:blur(8px)}
-#hud b{color:#ffd700}
+#hud b{color:var(--gold)}
 #hud .row{display:flex;justify-content:space-between;gap:12px}
+#hud .dim{color:#5a7a8a}
+#wire{color:#5a7a8a;font-size:.55rem;max-width:200px;word-break:break-all;margin-top:6px;letter-spacing:1px}
 #barwrap{position:fixed;top:48px;left:12px;z-index:9;background:rgba(11,15,25,.88);border:1px solid rgba(0,255,102,.4);border-radius:10px;padding:8px 12px;width:220px;font-size:.6rem;backdrop-filter:blur(8px)}
 #zenbar{height:8px;background:#0d1322;border-radius:4px;overflow:hidden;border:1px solid rgba(255,255,255,.1);margin-top:4px}
 #zenbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#00ff66,#00f0ff)}
@@ -13,10 +18,16 @@ canvas{width:100vw;height:100vh;display:block;cursor:crosshair}
 #loopbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#ff007f,#ffd700)}
 #log{position:fixed;left:14px;bottom:14px;width:300px;max-height:120px;overflow:hidden;background:rgba(11,15,25,.82);border:1px solid rgba(255,0,127,.35);border-radius:10px;padding:8px 10px;font-size:.58rem;color:#ff9ad5;z-index:8;line-height:1.6}
 #overlay{position:fixed;inset:0;background:rgba(11,15,25,.96);z-index:18;display:none;align-items:center;justify-content:center;flex-direction:column;gap:12px;text-align:center}
-#overlay .t{color:#ffd700;font-size:14px;letter-spacing:3px}
+#overlay .t{color:var(--gold);font-size:14px;letter-spacing:3px}
 #overlay .s{color:#5a7a8a;font-size:10px;letter-spacing:1px;max-width:520px;line-height:1.8}
-#overlay button{background:rgba(0,240,255,.1);border:1px solid rgba(0,240,255,.5);border-radius:9px;color:#00f0ff;font:700 .7rem ui-monospace,monospace;padding:10px 18px;cursor:pointer;letter-spacing:1px}
+#overlay button{background:rgba(0,240,255,.1);border:1px solid rgba(0,240,255,.5);border-radius:9px;color:var(--cyan);font:700 .7rem ui-monospace,monospace;padding:10px 18px;cursor:pointer;letter-spacing:1px}
 #overlay button:hover{background:rgba(0,240,255,.25)}
+#boot{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#0b0f19;color:var(--cyan);font-family:ui-monospace,monospace;cursor:pointer;z-index:20;letter-spacing:3px;font-size:15px;text-align:center;flex-direction:column}
+#boot .s{font-size:10px;color:#5a7a8a;margin-top:10px;letter-spacing:1px}
+}
+@layer overlay{
+body:has(#overlay[style*="flex"]) #hud,body:has(#overlay[style*="flex"]) #barwrap{filter:blur(2px);opacity:.4}
+}
 </style></head><body><canvas id=c></canvas>
 <div id=banner>⟦ BACKYARD ULTRA · <b>the last one standing</b> · one loop, every hour, until one remains ⟧</div>
 <div id=barwrap>ZEN <b id=zn>0%</b><div id=zenbar><i id=zenfill></i></div>loop <b id=lt>0:60</b><div id=loopbar><i id=loopfill></i></div></div>
@@ -27,82 +38,103 @@ canvas{width:100vw;height:100vh;display:block;cursor:crosshair}
   <div class=row>hum <b id=hu>0</b>/108</div>
   <div class=row>sparks <b id=sp>0</b></div>
   <div class=row>stomps <b id=st>0</b></div>
-  <div class=row><span style=color:#5a7a8a>wasd move · space stomp · hold still = ZEN</span></div>
+  <div class=row><span class=dim>wasd move · space stomp · hold still = ZEN</span></div>
+  <div class=row><span class=dim>seed <span id=sd>—</span></span></div>
+  <div class=row><span class=dim>gaia · the world folds from the seed</span></div>
+  <div id=wire>the wire —</div>
 </div>
 <div id=log>⟨ the loop log ⟩<br></div>
 <div id=overlay></div>
+<div id=boot>
+  <div style="font-size:34px;color:var(--gold);margin-bottom:10px;opacity:.9">◉</div>
+  <div style="font-size:16px;letter-spacing:6px;color:var(--cyan);margin-bottom:12px">⟧ BACKYARD ULTRA ⟦</div>
+  <div style="font-size:10px;color:#5a7a8a;letter-spacing:2px;margin-bottom:16px">the last one standing · one loop, every hour, until one remains · every run a seed</div>
+  <button id=go style="background:linear-gradient(135deg,#00f0ff,#ff007f);border:none;border-radius:9px;color:#0b0f19;font:700 12px ui-monospace,monospace;padding:12px 26px;cursor:pointer;letter-spacing:3px">⚡ ENTER THE ARENA</button>
+  <div style="font-size:9px;color:#5a7a8a;margin-top:12px;letter-spacing:1px">wasd move · space stomp · hold still = ZEN · the hum rings at 108</div>
+</div>
 <script>
-var C=document.getElementById('c'),X=C.getContext('2d'),W=innerWidth,H=innerHeight;C.width=W;C.height=H;
-var TAU=6.2832, S=7, R=function(){S=(S*1664525+1013904223)>>>0;return S/4294967296};
-var cx=W/2, cy=H/2, arenaR=Math.min(W,H)*0.42;
-var hero={x:cx,y:cy,vx:0,vy:0,r:13,air:0,onGround:true};
-var beasts=[],sparks=[],bubbles=[],hum=0,humT=0,humCycles=0,zen=0,zenT=0;
-var loop=1, loopT=60, wave=0, survivors=1, stomps=0, sparkCount=0, laps=0;
-var keys={},over=false,dead=false,result='';
-function seedH(t){var h=7;for(var i=0;i<t.length;i++)h=(Math.imul(31,h)+t.charCodeAt(i))|0;return h>>>0}
-function msg(m){document.getElementById('log').innerHTML='⟨ '+m+' ⟩<br>'+document.getElementById('log').innerHTML}
-function hud(){$('loop').textContent=loop;$('wv').textContent=beasts.length;$('sur').textContent=survivors;$('hu').textContent=hum;$('sp').textContent=sparkCount;$('st').textContent=stomps;$('zn').textContent=Math.floor(zen)+'%';$('lt').textContent=Math.floor(loopT)+':60'}
+const C=document.getElementById('c'),X=C.getContext('2d');
+let W=innerWidth,H=innerHeight;C.width=W;C.height=H;
+const TAU=6.2832;
+let S=seedH('backyard-ultra'),seedStr='backyard-ultra';
+const R=()=>{S=(S*1664525+1013904223)>>>0;return S/4294967296};
+const GLYPH={'-1':'-','0':'0','1':'+'};
+let cx=W/2, cy=H/2, arenaR=Math.min(W,H)*0.42;
+let hero={x:cx,y:cy,vx:0,vy:0,r:13,air:0,onGround:true};
+let beasts=[],sparks=[],bubbles=[],hum=0,humT=0,humCycles=0,zen=0,zenT=0;
+let loop=1, loopT=60, wave=0, survivors=1, stomps=0, sparkCount=0, laps=0;
+let keys={},over=false,dead=false,result='';
+function seedH(t){let h=7;for(let i=0;i<t.length;i++)h=(Math.imul(31,h)+t.charCodeAt(i))|0;return h>>>0}
 function $(id){return document.getElementById(id)}
+function msg(m){$('log').innerHTML='⟨ '+m+' ⟩<br>'+$('log').innerHTML}
+function hud(){$('loop').textContent=loop;$('wv').textContent=beasts.length;$('sur').textContent=survivors;$('hu').textContent=hum;$('sp').textContent=sparkCount;$('st').textContent=stomps;$('zn').textContent=Math.floor(zen)+'%';$('lt').textContent=Math.floor(loopT)+':60'}
 function addHum(n){hum=Math.min(108,hum+n);if(hum>=108&&humT===0&&humCycles===0){ring()}else if(hum>=108){hum=0;humCycles++}}
-var RINGS=['zero detection, zero pain','the tent has no walls','the pause is a weapon','only stillness wounds the gods','the 108th is you','one loop, every hour, until one remains'];
+const RINGS=['zero detection, zero pain','the tent has no walls','the pause is a weapon','only stillness wounds the gods','the 108th is you','one loop, every hour, until one remains'];
 function ring(){humT=6;hum=0;humCycles++;msg('⟦ RING BLESSING ⟧ '+RINGS[humCycles%RINGS.length]+' · invulnerable 6s')}
 function spawnWave(){
   wave++;
-  var n=Math.min(3+loop*2,40);
+  const n=Math.min(3+loop*2,40);
   survivors=1+n;
-  for(var i=0;i<n;i++){
-    var a=R()*TAU, r=arenaR*0.75+Math.random()*arenaR*0.2;
-    var kind=['cube-wolf','icosa-owl','dodeca-bear'][Math.floor(R()*3)];
+  for(let i=0;i<n;i++){
+    const a=R()*TAU, r=arenaR*0.75+Math.random()*arenaR*0.2;
+    const kind=['cube-wolf','icosa-owl','dodeca-bear'][Math.floor(R()*3)];
     beasts.push({x:cx+Math.cos(a)*r,y:cy+Math.sin(a)*r,vx:0,vy:0,r:kind==='dodeca-bear'?17:kind==='icosa-owl'?11:13,col:kind==='cube-wolf'?'#00f0ff':kind==='icosa-owl'?'#ff007f':'#00ff66',kind:kind,shp:kind==='cube-wolf'?4:5,lives:kind==='dodeca-bear'?2:1,active:true});
   }
   msg('loop '+loop+' — '+n+' critters enter the arena');
 }
 function stomp(){
   if(dead||over)return;
-  var hit=false;
-  for(var i=beasts.length-1;i>=0;i--){var b=beasts[i];if(!b.active)continue;var dx=b.x-hero.x,dy=b.y-hero.y,d=Math.sqrt(dx*dx+dy*dy);if(d<b.r+hero.r+14){b.lives--;hit=true;if(b.lives<=0){b.active=false;survivors=Math.max(1,survivors-1);stomps++;sparkCount+=(b.kind==='dodeca-bear'?5:2);addHum(b.kind==='dodeca-bear'?3:1);spark(hero.x,hero.y,b.col);msg('stomp — '+b.kind+' unravels · hum +'+(b.kind==='dodeca-bear'?3:1));}else{spark(b.x,b.y,b.col);if(b.kind==='cube-wolf'){b.r=Math.max(6,b.r*0.7);beasts.push({x:b.x+8,y:b.y,vx:R()*2-1,vy:R()*2-1,r:8,col:b.col,kind:'cube-wolf',shp:4,lives:1,active:true});survivors++;}}}}
+  let hit=false;
+  for(let i=beasts.length-1;i>=0;i--){const b=beasts[i];if(!b.active)continue;const dx=b.x-hero.x,dy=b.y-hero.y,d=Math.sqrt(dx*dx+dy*dy);if(d<b.r+hero.r+14){b.lives--;hit=true;if(b.lives<=0){b.active=false;survivors=Math.max(1,survivors-1);stomps++;sparkCount+=(b.kind==='dodeca-bear'?5:2);addHum(b.kind==='dodeca-bear'?3:1);spark(hero.x,hero.y,b.col);msg('stomp — '+b.kind+' unravels · hum +'+(b.kind==='dodeca-bear'?3:1));}else{spark(b.x,b.y,b.col);if(b.kind==='cube-wolf'){b.r=Math.max(6,b.r*0.7);beasts.push({x:b.x+8,y:b.y,vx:R()*2-1,vy:R()*2-1,r:8,col:b.col,kind:'cube-wolf',shp:4,lives:1,active:true});survivors++;}}}}
   if(hit){stomps++;}else{hero.vy=-7;hero.air=8;}
 }
 function spark(x,y,col){sparks.push({x:x,y:y,vx:R()*4-2,vy:R()*4-2,t:30,col:col||'#ffd700'})}
-function zenCharge(dt){if(keys.s||keys.S){zen=Math.min(100,zen+dt*35);if(zen>=100&&zenT===0){zenT=2;hum=Math.min(108,hum+5);msg('ZEN — stillness shatters the near · god-node +5');for(var i=beasts.length-1;i>=0;i--){var b=beasts[i];if(b.active){var dx=b.x-hero.x,dy=b.y-hero.y,d=Math.sqrt(dx*dx+dy*dy);if(d<120){b.active=false;survivors=Math.max(1,survivors-1);spark(b.x,b.y,'#00ff66');}}}}zen=100;}else{zen=Math.max(0,zen-dt*20)}zenT=Math.max(0,zenT-dt);document.getElementById('zenfill').style.width=zen+'%'}
+function zenCharge(dt){if(keys.s||keys.S){zen=Math.min(100,zen+dt*35);if(zen>=100&&zenT===0){zenT=2;hum=Math.min(108,hum+5);msg('ZEN — stillness shatters the near · god-node +5');for(let i=beasts.length-1;i>=0;i--){const b=beasts[i];if(b.active){const dx=b.x-hero.x,dy=b.y-hero.y,d=Math.sqrt(dx*dx+dy*dy);if(d<120){b.active=false;survivors=Math.max(1,survivors-1);spark(b.x,b.y,'#00ff66');}}}}zen=100;}else{zen=Math.max(0,zen-dt*20)}zenT=Math.max(0,zenT-dt);$('zenfill').style.width=zen+'%'}
 function update(dt){
   if(over||dead)return;
   // hero
   hero.air+=dt;hero.x+=(keys.a?-1:keys.d?1:0)*3.2+hero.vx;hero.y+=(keys.w?-1:keys.s?1:0)*3.2+hero.vy;
-  var dx=hero.x-cx,dy=hero.y-cy,d=Math.sqrt(dx*dx+dy*dy),mx=Math.max(d,arenaR-hero.r);hero.x=cx+dx/d*mx;hero.y=cy+dy/d*mx;
+  const dx=hero.x-cx,dy=hero.y-cy,d=Math.sqrt(dx*dx+dy*dy),mx=Math.max(d,arenaR-hero.r);hero.x=cx+dx/d*mx;hero.y=cy+dy/d*mx;
   // critters converge on the hero
-  for(var i=0;i<beasts.length;i++){var b=beasts[i];if(!b.active)continue;var bdx=hero.x-b.x,bdy=hero.y-b.y,bd=Math.sqrt(bdx*bdx+bdy*bdy);b.x+=bdx/bd*(1.4+loop*0.08);b.y+=bdy/bd*(1.4+loop*0.08);if(bd<hero.r+b.r){if(humT>0){b.active=false;survivors=Math.max(1,survivors-1);spark(b.x,b.y,b.col);continue}dead=true;result='ELIMINATED ON LOOP '+loop+' · '+laps+' laps survived';gameOver();return}}
+  for(let i=0;i<beasts.length;i++){const b=beasts[i];if(!b.active)continue;const bdx=hero.x-b.x,bdy=hero.y-b.y,bd=Math.sqrt(bdx*bdx+bdy*bdy);b.x+=bdx/bd*(1.4+loop*0.08);b.y+=bdy/bd*(1.4+loop*0.08);if(bd<hero.r+b.r){if(humT>0){b.active=false;survivors=Math.max(1,survivors-1);spark(b.x,b.y,b.col);continue}dead=true;result='ELIMINATED ON LOOP '+loop+' · '+laps+' laps survived';gameOver();return}}
   // sparks
-  for(var j=sparks.length-1;j>=0;j--){sparks[j].x+=sparks[j].vx;sparks[j].y+=sparks[j].vy;sparks[j].t--;if(sparks[j].t<=0)sparks.splice(j,1)}
+  for(let j=sparks.length-1;j>=0;j--){sparks[j].x+=sparks[j].vx;sparks[j].y+=sparks[j].vy;sparks[j].t--;if(sparks[j].t<=0)sparks.splice(j,1)}
   // loop timer
-  loopT-=dt;document.getElementById('loopfill').style.width=(loopT/60*100)+'%';
+  loopT-=dt;$('loopfill').style.width=(loopT/60*100)+'%';
   if(loopT<=0){laps++;msg('loop '+loop+' complete — '+laps+' laps · the loop never gets easier');loop++;loopT=60;arenaR=Math.max(90,arenaR-12);spawnWave();}
   if(survivors<=1&&beasts.length===0&&!over){victory();return}
 }
 function gameOver(){over=true;$('overlay').style.display='flex';$('overlay').innerHTML='<div class=t>'+result+'</div><div class=s>the backyard ultra never ends — one loop, every hour, until one remains. the last one standing wins.</div><button onclick=reset()>⟲ RUN AGAIN</button>'}
 function victory(){over=true;msg('⟦ LAST ONE STANDING ⟧ the arena is yours · '+laps+' laps · hum '+hum+'/108');$('overlay').style.display='flex';$('overlay').innerHTML='<div class=t>LAST ONE STANDING</div><div class=s>'+laps+' loops survived · the tent holds you · the next runner enters on the hour.</div><button onclick=reset()>⟲ RUN AGAIN</button>'}
-function reset(){S=seedH('backyard-ultra');hero={x:cx,y:cy,vx:0,vy:0,r:13,air:0,onGround:true};beasts=[];sparks=[];hum=0;humT=0;humCycles=0;zen=0;zenT=0;loop=1;loopT=60;wave=0;survivors=1;stomps=0;sparkCount=0;laps=0;arenaR=Math.min(W,H)*0.42;over=false;dead=false;$('overlay').style.display='none';hud();msg('a new run — the loop begins');spawnWave();}
+function reset(){
+  seedStr=Math.floor(Math.random()*1e9).toString(16);
+  S=seedH('backyard-ultra·'+seedStr);
+  $('sd').textContent='0x'+seedStr;
+  $('wire').textContent='the wire · '+Array.from({length:40},()=>GLYPH[trit()]).join(' ');
+  hero={x:cx,y:cy,vx:0,vy:0,r:13,air:0,onGround:true};beasts=[];sparks=[];hum=0;humT=0;humCycles=0;zen=0;zenT=0;loop=1;loopT=60;wave=0;survivors=1;stomps=0;sparkCount=0;laps=0;arenaR=Math.min(W,H)*0.42;over=false;dead=false;$('overlay').style.display='none';hud();msg('a new run — the loop begins');spawnWave();}
+function trit(){S=(S*1664525+1013904223)>>>0;return (S%3===0?-1:S%3===1?0:1)}
 function draw(){
   X.fillStyle='#0b0f19';X.fillRect(0,0,W,H);
   X.fillStyle='rgba(13,19,34,.6)';X.beginPath();X.arc(cx,cy,arenaR,0,TAU);X.fill();
   X.strokeStyle='rgba(255,215,0,.35)';X.beginPath();X.arc(cx,cy,arenaR,0,TAU);X.stroke();
   X.strokeStyle='rgba(0,240,255,.2)';X.beginPath();X.arc(cx,cy,arenaR*0.5,0,TAU);X.stroke();
   // stars
-  for(var s=0;s<40;s++){X.fillStyle='rgba(255,255,255,'+(0.2+R()*0.4)+')';X.fillRect((R()*W), (R()*H), 2, 2)}
+  for(let s=0;s<40;s++){X.fillStyle='rgba(255,255,255,'+(0.2+R()*0.4)+')';X.fillRect((R()*W), (R()*H), 2, 2)}
   // sparks
-  for(var j=0;j<sparks.length;j++){var sp=sparks[j];X.fillStyle=sp.col;X.beginPath();X.arc(sp.x,sp.y,3,0,TAU);X.fill()}
+  for(let j=0;j<sparks.length;j++){const sp=sparks[j];X.fillStyle=sp.col;X.beginPath();X.arc(sp.x,sp.y,3,0,TAU);X.fill()}
   // beasts
-  for(var i=0;i<beasts.length;i++){var b=beasts[i];if(!b.active)continue;X.fillStyle=b.col;X.beginPath();for(var k=0;k<b.shp;k++){var a=TAU*k/b.shp;if(k===0)X.moveTo(b.x+Math.cos(a)*b.r,b.y+Math.sin(a)*b.r);else X.lineTo(b.x+Math.cos(a)*b.r,b.y+Math.sin(a)*b.r)}X.closePath();X.fill();X.strokeStyle='rgba(255,255,255,.4)';X.stroke()}
+  for(let i=0;i<beasts.length;i++){const b=beasts[i];if(!b.active)continue;X.fillStyle=b.col;X.beginPath();for(let k=0;k<b.shp;k++){const a=TAU*k/b.shp;if(k===0)X.moveTo(b.x+Math.cos(a)*b.r,b.y+Math.sin(a)*b.r);else X.lineTo(b.x+Math.cos(a)*b.r,b.y+Math.sin(a)*b.r)}X.closePath();X.fill();X.strokeStyle='rgba(255,255,255,.4)';X.stroke()}
   // hero (the trit triangle)
   X.save();X.translate(hero.x,hero.y);X.rotate(hero.air*0.1);X.fillStyle=humT>0?'#ff9ad5':'#ffd700';X.beginPath();X.moveTo(0,-hero.r);X.lineTo(hero.r*0.8,hero.r*0.7);X.lineTo(-hero.r*0.8,hero.r*0.7);X.closePath();X.fill();X.restore();
   if(humT>0){X.strokeStyle='rgba(255,110,199,.7)';X.lineWidth=2;X.beginPath();X.arc(hero.x,hero.y,hero.r+8+3*Math.sin(Date.now()/100),0,TAU);X.stroke();X.lineWidth=1}
   if(zen>=99){X.strokeStyle='rgba(0,255,102,.6)';X.beginPath();X.arc(hero.x,hero.y,120,0,TAU);X.stroke()}
   requestAnimationFrame(draw);
 }
-function loop_t(){var last=Date.now();setInterval(function(){var now=Date.now(),dt=(now-last)/1000;last=now;if(dt>0.1)dt=0.1;zenCharge(dt);update(dt);hud()},16)}
+function loop_t(){let last=Date.now();setInterval(function(){const now=Date.now(),dt=(now-last)/1000;last=now;if(dt>0.1)dt=0.1;zenCharge(dt);update(dt);hud()},16)}
 addEventListener('keydown',function(e){keys[e.key]=true;if(e.key===' ')stomp();if((e.key==='r'||e.key==='R')&&over)reset()});
 addEventListener('keyup',function(e){keys[e.key]=false});
 window.addEventListener('resize',function(){W=innerWidth;H=innerHeight;C.width=W;C.height=H;cx=W/2;cy=H/2});
-S=seedH('backyard-ultra');hud();msg('⟦ BACKYARD ULTRA ⟧ one loop, every hour, until one remains — survive the loop, be the last one standing');spawnWave();
+document.getElementById('go').addEventListener('click',function(){document.getElementById('boot').style.display='none';reset();requestAnimationFrame(draw);loop_t()});
+reset();hud();msg('⟦ BACKYARD ULTRA ⟧ one loop, every hour, until one remains — survive the loop, be the last one standing');
 requestAnimationFrame(draw);loop_t();
 </script></body></html>
