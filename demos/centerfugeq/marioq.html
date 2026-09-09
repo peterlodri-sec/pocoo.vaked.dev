@@ -1,0 +1,177 @@
+<!doctype html><html lang="en" data-theme="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MARIOQ · the ternary world — the original, replayed on the wire</title><style>
+@layer base,overlay;
+:root{color-scheme:dark;--gold:oklch(.85 .16 85);--cyan:oklch(.8 .13 200);--pink:oklch(.68 .2 350);--green:oklch(.72 .18 150);--bone:#e8d8c8}
+@layer base{
+body{margin:0;background:#0b0f19;color:var(--bone);font-family:ui-monospace,monospace;overflow:hidden}
+canvas{width:100vw;height:100vh;display:block;image-rendering:pixelated;cursor:crosshair}
+#banner{position:fixed;top:0;left:0;right:0;text-align:center;padding:10px;font-size:11px;letter-spacing:4px;color:var(--gold);background:linear-gradient(rgba(11,15,25,.95),rgba(11,15,25,.3));z-index:7;pointer-events:none}
+#banner b{color:var(--cyan)}
+#hud{position:fixed;top:52px;left:14px;z-index:9;background:rgba(11,15,25,.88);border:1px solid rgba(0,240,255,.4);border-radius:10px;padding:10px 14px;font-size:.64rem;letter-spacing:1px;min-width:150px;backdrop-filter:blur(8px)}
+#hud b{color:var(--gold)}
+#wire{position:fixed;bottom:14px;left:14px;right:14px;z-index:8;font-size:9px;letter-spacing:2px;color:rgba(0,240,255,.5);text-align:center;pointer-events:none;word-break:break-all}
+#overlay{position:fixed;inset:0;background:rgba(11,15,25,.97);z-index:18;display:none;align-items:center;justify-content:center;flex-direction:column;gap:14px;text-align:center}
+#overlay .t{color:var(--gold);font-size:26px;letter-spacing:8px}
+#overlay .s{color:#5a7a8a;font-size:10px;letter-spacing:1px;max-width:560px;line-height:1.8}
+#boot{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#0b0f19;color:var(--cyan);font-family:ui-monospace,monospace;cursor:pointer;z-index:20;letter-spacing:3px;font-size:15px;text-align:center;flex-direction:column}
+#boot .s{font-size:10px;color:#5a7a8a;margin-top:10px;letter-spacing:1px}
+}
+@layer overlay{
+body:has(#overlay[style*="flex"]) #hud{filter:blur(2px);opacity:.4}
+}
+</style></head><body><canvas id=c></canvas>
+<div id=banner>⟦ MARIOQ · <b>the ternary world</b> · the original, replayed on the wire ⟧</div>
+<div id=hud>◉ <b id=lv>3</b> · ◎ <b id=co>0</b> · ⊙ <b id=sc>000000</b><br><span id=seed style="color:#5a7a8a">seed —</span><br><span style="color:#5a7a8a">← → · space · r reseed · the wire is {-1,0,+1}</span></div>
+<div id=wire></div>
+<div id=overlay></div>
+<div id=boot>
+  <div style="font-size:34px;color:var(--gold);margin-bottom:10px;opacity:.9">🀄</div>
+  <div style="font-size:16px;letter-spacing:6px;color:var(--cyan);margin-bottom:12px">⟧ MARIOQ ⟦</div>
+  <div style="font-size:10px;color:#5a7a8a;letter-spacing:2px;margin-bottom:16px">the original MARIO, replayed on the ternary wire · every level a seed · replayable = admissible</div>
+  <button id=go style="background:linear-gradient(135deg,#00f0ff,#ff007f);border:none;border-radius:9px;color:#0b0f19;font:700 12px ui-monospace,monospace;padding:12px 26px;cursor:pointer;letter-spacing:3px">⚡ START THE WORLD</button>
+  <div style="font-size:9px;color:#5a7a8a;margin-top:12px;letter-spacing:1px">arrows / wasd move · space jump · stomp the fauna · hit the + blocks · reach the flag</div>
+</div>
+<script>
+const c=document.getElementById('c'),X=c.getContext('2d'),W2=innerWidth,H2=innerHeight;c.width=W2;c.height=H2;
+const TAU=6.2832;const TS=48,CAM_W=Math.ceil(W2/TS)+2;
+const GROUND=13;
+let S=seedH('marioq·overworld');
+function seedH(t){let h=7;for(let i=0;i<t.length;i++)h=(Math.imul(31,h)+t.charCodeAt(i))|0;return h>>>0}
+const R=()=>{S=(S*1664525+1013904223)>>>0;return S/4294967296};
+function trit(){S=(S*1664525+1013904223)>>>0;return (S%3===0?-1:S%3===1?0:1)} // the ternary stream
+// ternary glyphs for the wire readout
+const GLYPH={'-1':'-','0':'0','1':'+'}
+// the level — a ternary sequence {-1, 0, +1}: - is void, 0 is solid, + is a gift block
+const LEN=220;
+let lvl=[],blocks=[],gifts=[],coins=[],fauna=[],flagX=0,seedStr='';
+function buildLevel(){
+  S=seedH('marioq·'+seedStr); // seedStr set by reseed
+  lvl=[];blocks=[];gifts=[];coins=[];fauna=[];
+  for(let x=0;x<LEN;x++){
+    const t=trit();
+    lvl[x]={t};
+    // ground everywhere except seeded pits
+    const pit=t===-1?Math.random()<0.16:false;
+    lvl[x].pit=pit;
+    // upper decoration from the same trit stream
+    const d1=R(),d2=R();
+    if(!pit&&d1<0.22)blocks.push({x,y:9,id:x*3});
+    else if(!pit&&d2<0.10)gifts.push({x,y:8,t:trit()>0?1:-1});
+    if(!pit&&R()<0.10)coins.push({x,y:6+Math.floor(R()*3)});
+  }
+  // the gift blocks hold coins; the fauna marches in; the flag stands at the end
+  for(let x=28;x<LEN-6;x+=7+Math.floor(R()*5))fauna.push({x,y:GROUND-1,v:(R()<0.5?-1:1)*(40+40*R()),t:seedH('fauna·'+x)+1});
+  flagX=LEN-5;
+  // stairs to the flag
+  for(let k=0;k<4;k++)for(let i=0;i<4-k;i++)blocks.push({x:flagX-5+k,y:GROUND-1-i,id:100+k*4+i});
+}
+function reseed(){
+  seedStr=Math.floor(Math.random()*1e9).toString(16);
+  buildLevel();
+  px=TS*2;py=GROUND*TS-TS*1.05;vx=0;vy=0;onG=true;dead=false;win=false;coinN=0;winShown=false;
+  document.getElementById('seed').textContent='seed 0x'+seedStr;
+  document.getElementById('wire').textContent='the wire · '+Array.from({length:48},(_,i)=>GLYPH[lvl[i].t]).join(' ');
+  document.getElementById('overlay').style.display='none';
+}
+// ── the hero — cubic, gold, the first shape of the original
+let px=TS*2,py=GROUND*TS-TS*1.05,vx=0,vy=0,onG=true,dead=false,win=false,coinN=0,wT=0,winShown=false;
+let lives=3,score=0,coinTotal=0;
+// ── input
+let keys={};
+addEventListener('keydown',e=>{keys[e.key.toLowerCase()]=1;if(e.key===' '){e.preventDefault();if(onG&&!dead){vy=-TS*20;onG=false}}if(e.key==='r'||e.key==='R'){if(dead||true){lives=3;score=0;coinTotal=0;reseed()}}});
+addEventListener('keyup',e=>{keys[e.key.toLowerCase()]=0});
+// ── helpers
+function tileAt(x,y){if(x<0||y<0)return 0;if(x>=LEN)return 0;if(y<GROUND)return 0;return lvl[x].pit?0:1}
+function tileSolid(x,y){const t=tileAt(x,y);return t===1||isGift(x,y)}
+function isGift(x,y){for(const g of gifts)if(g.x===x&&g.y===y)return !g.empty;return false}
+function bumpGift(x,y){
+  for(let i=0;i<gifts.length;i++){const g=gifts[i];if(g.x===x&&g.y===y&&!g.empty){coins.push({x:g.x,y:g.y-1,f:1});g.empty=true;score+=50}}}
+const giftT={t:0};
+function phys(dt){
+  if(dead||win)return;
+  giftT.t+=dt;
+  const sp=TS*6,g=TS*50; // ~6 tiles/s run; the original's 4-tile jump arc
+  const vxI=(keys['d']||keys['arrowright']?1:0)-(keys['a']||keys['arrowleft']?1:0);
+  px+=vxI*sp*dt;
+  // horizontal collision
+  const x0=Math.floor(px/TS),xe=Math.floor((px+TS*0.9)/TS),y0=Math.floor(py/TS),ye=Math.floor((py+TS*0.95)/TS);
+  if(vx>0&&tileSolid(xe,y0)&&tileSolid(xe,ye)){px=xe*TS-TS*0.9;vx=0}
+  if(vx<0&&tileSolid(x0,y0)&&tileSolid(x0,ye)){px=(x0+1)*TS;vx=0}
+  // vertical
+  vy+=g*dt;
+  // head bump
+  for(let x=x0;x<=xe;x++){if(tileSolid(x,y0)&&vy<0){bumpGift(x,y0);vy=0;py=(y0+1)*TS}}
+  py+=vy*dt;
+  if(tileSolid(x0,ye)||tileSolid(xe,ye)){
+    if(vy>0){py=ye*TS-TS*0.95;vy=0;onG=true}else{onG=false}
+    // walk off tiles: ground check
+    onG=tileSolid(x0,ye+0)||tileSolid(xe,ye+0);
+  }else{onG=false}
+  // coins collect
+  for(let i=0;i<coins.length;i++){const co=coins[i];if(co.f){co.f+=dt*2;if(co.f>1.4)coins.splice(i,1);continue}
+    if(Math.abs(px+TS*0.45-co.x*TS-TS*0.5)<TS*0.7&&Math.abs(py+TS*0.45-co.y*TS-TS*0.5)<TS*0.8){coinN++;score+=100;coins.splice(i,1);bounce()}}
+  // fauna — march, turn at walls, stomp
+  for(let i=0;i<fauna.length;i++){const f=fauna[i];
+    f.x+=f.v*dt;
+    const fx=Math.floor((f.x+f.v/Math.abs(f.v)*TS*0.6)/TS),fy=Math.floor((f.y*TS+TS*0.9)/TS);
+    if(tileSolid(fx,fy)){f.v*=-1}
+    if(f.x<TS||f.x>(LEN-1)*TS)f.v*=-1;
+    // stomp
+    if(vy>0&&Math.abs(px+TS*0.45-(f.x+TS*0.5))<TS*0.8&&py+TS*0.95>f.y*TS&&py+TS*0.95<f.y*TS+TS*0.6){vy=-TS*12;score+=200;fauna.splice(i,1);continue}
+    // side hit
+    if(!dead&&Math.abs(px+TS*0.45-(f.x+TS*0.5))<TS*0.85&&Math.abs(py+TS*0.45-(f.y*TS+TS*0.5))<TS*0.8)die()}
+  // pit / flag
+  if(py>GROUND*TS+TS*2)die();
+  if(px>flagX*TS&&!win){win=true;score+=1000;winShown=false}
+}
+function bounce(){wT=1}
+function die(){
+  dead=true;lives--;
+  const o=document.getElementById('overlay');
+  if(lives<=0){o.innerHTML='<div class="t">⟦ THE WORLD FALLS ⟧</div><div class="s">the wire still runs — the hero returns to the breath.<br>R to rise again with a fresh seed.</div>';o.style.display='flex';
+    document.addEventListener('keydown',function k(e){if(e.key==='r'||e.key==='R'){document.removeEventListener('keydown',k);o.style.display='none';reseed();lives=3;score=0;coinTotal=0}})}
+  else setTimeout(()=>{if(!dead)return;reseed()},900)
+}
+function draw(){
+  const TL=GROUND+3;
+  X.fillStyle='#0b0f19';X.fillRect(0,0,W2,H2);
+  // the sky — a faint gaia weather read
+  X.fillStyle='rgba(255,215,0,.05)';X.font='9px ui-monospace';X.fillText('gaia · the world folds from the seed',W2-220,GROUND*TS-TS*3-30);
+  const cam=Math.max(0,Math.min(px-W2/2,(LEN-CAM_W)*TS));
+  X.save();X.translate(-cam,0);
+  // tiles — the ternary wire, read as ground
+  for(let x=Math.floor(cam/TS);x<Math.min(LEN,Math.floor((cam+W2)/TS)+1);x++){
+    const l=lvl[x];
+    if(l.pit){X.fillStyle='rgba(255,0,127,.12)';X.fillRect(x*TS,GROUND*TS,TS,H2-GROUND*TS);continue}
+    // ground as bricks (0)
+    for(let y=GROUND;y<TL;y++){X.fillStyle='#3a2150';X.fillRect(x*TS+2,y*TS+2,TS-4,TS-4);X.strokeStyle='rgba(255,215,0,.35)';X.strokeRect(x*TS+2,y*TS+2,TS-4,TS-4)}
+  }
+  // blocks (0, brick) and gifts (+1, the cyan block)
+  for(const b of blocks){X.fillStyle='#ff9ad5';X.fillRect(b.x*TS+2,b.y*TS+2,TS-4,TS-4);X.strokeStyle='rgba(255,215,0,.5)';X.strokeRect(b.x*TS+2,b.y*TS+2,TS-4,TS-4);X.fillStyle='rgba(255,215,0,.5)';X.fillRect(b.x*TS+2,b.y*TS+TS-9,TS-4,3)}
+  for(const g of gifts){const b=Math.abs(Math.sin(giftT.t+(g.x+g.y)*.4))>.5;const off=g.empty?0:Math.sin(performance.now()*.01+g.x)*3;
+    X.fillStyle=g.empty?'#3a2150':(b?'#00f0ff':'#0b0f19');X.fillRect(g.x*TS+2,g.y*TS+2+off,TS-4,TS-4);X.strokeStyle='#00f0ff';X.strokeRect(g.x*TS+2,g.y*TS+2+off,TS-4,TS-4);
+    X.fillStyle=b&&!g.empty?'#0b0f19':'#00f0ff';X.font='16px ui-monospace';X.textAlign='center';X.fillText(g.empty?'0':'+',g.x*TS+TS/2,g.y*TS+TS*0.72+off);X.textAlign='left'}
+  // coins — the golden circles
+  for(const co of coins){if(co.f){co.f+=.03}X.fillStyle='#ffd700';X.beginPath();X.arc(co.x*TS+TS/2,co.y*TS+TS/2+Math.sin(co.f||0)*4,9,0,TAU);X.fill()}
+  // fauna — the squishables (the original's shape, squared by the engine)
+  for(const f of fauna){X.fillStyle=f.t%2?'#ff007f':'#00ff66';poly(f.x,f.y*TS+TS*.7,14,3,0,X.fillStyle);X.fillStyle='#e8d8c8';X.fillRect(f.x+6,f.y*TS+19,5,5);X.fillRect(f.x+16,f.y*TS+19,5,5)}
+  // the flag — the goal, at the end of the wire
+  X.fillStyle='rgba(0,240,255,.15)';X.fillRect(flagX*TS,GROUND*TS-TS*6+((win?1:0)*TS*6),2,TS*6);
+  X.fillStyle='#00f0ff';X.fillRect(flagX*TS+2,GROUND*TS-TS*6+(win?TS*6:0),TS*1.3,TS*0.8);
+  // the hero — cubic, gold
+  if(!dead){X.fillStyle='#ffd700';X.fillRect(px,py,TS*0.9,TS*0.95);X.fillStyle='#0b0f19';X.fillRect(px+4,py+4,8,8);X.fillRect(px+TS*0.9-12,py+4,8,8)}
+  if(win&&!winShown){winShown=true;
+    const o=document.getElementById('overlay');o.innerHTML='<div class="t">⟦ THE FLAG ⟧</div><div class="s">the wire is complete — the world folds from seed 0x'+seedStr+'.<br>R · a new seed, a new world.</div>';o.style.display='flex'}
+  if(wT>0){wT-=.02;X.fillStyle='rgba(255,215,0,.9)';X.font='12px ui-monospace';X.fillText('◎ +100',px-20,py-14)}
+  X.restore();
+  // HUD
+  document.getElementById('lv').textContent=lives;
+  document.getElementById('co').textContent=coinTotal;
+  document.getElementById('sc').textContent=String(score).padStart(6,'0');
+}
+function poly(x,y,r,n,rot,col){X.beginPath();for(let i=0;i<=n;i++){const a=rot+i/n*TAU;const xx=x+Math.cos(a)*r,yy=y+Math.sin(a)*r;i===0?X.moveTo(xx,yy):X.lineTo(xx,yy)}X.closePath();X.fillStyle=col;X.fill()}
+document.getElementById('go').addEventListener('click',()=>{document.getElementById('boot').style.display='none';reseed();requestAnimationFrame(loop)});
+reseed(); // the world folds at boot — the START pours a fresh seed and plays
+let lastT=performance.now();
+setInterval(()=>{const now=performance.now(),dt=Math.min((now-lastT)/1000,.05);lastT=now;phys(dt)},32);
+function loop(){draw();requestAnimationFrame(loop)}
+</script></body></html>
