@@ -30,9 +30,9 @@ function reseed(){S=seedH('sanctuary·'+Math.floor(Math.random()*1e9));beasts=[]
   for(let i=0;i<10;i++)beasts.push({k:(R()*KINDS.length)|0,x:80+R()*(W2-160),v:(R()<.5?-1:1)*(40+R()*80),y:GROUND-20,sq:1,sqT:0,alive:true})
   sparks=[];bubbles=[];stomps=0;splits=0;gold=0;px=W2/2;py=GROUND-160;vy=0;onG=true
   document.getElementById('sd').textContent=seedStr}
-reseed();
 // the player — the 90s hero with the isometric heart
 let px=W2/2,py=GROUND-160,vy=0,onG=true;
+reseed();
 function poly(x,y,r,n,rot,col){X.beginPath();for(let i=0;i<=n;i++){const a=rot+i/n*TAU;const xx=x+Math.cos(a)*r,yy=y+Math.sin(a)*r;i===0?X.moveTo(xx,yy):X.lineTo(xx,yy)}X.closePath();X.fillStyle=col;X.fill();X.strokeStyle='rgba(255,255,255,.25)';X.lineWidth=1;X.stroke()}
 function say(who,msg){const b={x:px,y:py-80,t:3,text:'/say '+who+': '+msg};bubbles.push(b);const log=document.getElementById('log');log.innerHTML='⟨ '+who+': '+msg+' ⟩<br>'+log.innerHTML.slice(0,300)}
 function render(){
