@@ -1,0 +1,175 @@
+<!doctype html><html lang="en" data-theme="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SON-GO-KU · the training yard — the promise folds the strength</title><style>
+@layer base,overlay;
+:root{color-scheme:dark;--gold:oklch(.85 .16 85);--cyan:oklch(.8 .13 200);--pink:oklch(.68 .2 350);--green:oklch(.72 .18 150);--bone:#e8d8c8}
+@layer base{
+body{margin:0;background:#0b0f19;color:var(--bone);font-family:ui-monospace,monospace;overflow:hidden}
+canvas{width:100vw;height:100vh;display:block;image-rendering:pixelated;cursor:crosshair}
+#banner{position:fixed;top:0;left:0;right:0;text-align:center;padding:10px;font-size:11px;letter-spacing:4px;color:var(--gold);background:linear-gradient(rgba(11,15,25,.95),rgba(11,15,25,.3));z-index:7;pointer-events:none}
+#banner b{color:var(--cyan)}
+#hud{position:fixed;top:52px;left:14px;z-index:9;background:rgba(11,15,25,.88);border:1px solid rgba(255,0,127,.45);border-radius:10px;padding:10px 14px;font-size:.64rem;letter-spacing:1px;min-width:160px;backdrop-filter:blur(8px)}
+#hud b{color:var(--gold)}
+#heart{position:fixed;top:52px;right:14px;z-index:9;background:rgba(11,15,25,.88);border:1px solid rgba(255,0,127,.45);border-radius:10px;padding:10px 14px;font-size:.64rem;letter-spacing:1px;text-align:right;backdrop-filter:blur(8px)}
+#heart b{color:var(--pink)}
+#wire{position:fixed;bottom:14px;left:14px;right:14px;z-index:8;font-size:9px;letter-spacing:2px;color:rgba(0,240,255,.5);text-align:center;pointer-events:none;word-break:break-all}
+#overlay{position:fixed;inset:0;background:rgba(11,15,25,.97);z-index:18;display:none;align-items:center;justify-content:center;flex-direction:column;gap:14px;text-align:center}
+#overlay .t{color:var(--gold);font-size:26px;letter-spacing:8px}
+#overlay .s{color:#5a7a8a;font-size:10px;letter-spacing:1px;max-width:560px;line-height:1.8}
+#boot{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#0b0f19;color:var(--cyan);font-family:ui-monospace,monospace;cursor:pointer;z-index:20;letter-spacing:3px;font-size:15px;text-align:center;flex-direction:column}
+#boot .s{font-size:10px;color:#5a7a8a;margin-top:10px;letter-spacing:1px}
+}
+@layer overlay{
+body:has(#overlay[style*="flex"]) #hud{filter:blur(2px);opacity:.4}
+}
+</style></head><body><canvas id=c></canvas>
+<div id=banner>⟦ SON-GO-KU · <b>the training yard</b> · a promise is a promise ⟧</div>
+<div id=hud>⚡ <b id=pw>0</b> · ○ <b id=lp>0</b> · ◎ <b id=ki>0</b><br><span id=seed style="color:#5a7a8a">seed —</span><br><span style="color:#5a7a8a">← → · space kiai · r reseed · the wire is {-1,0,+1}</span></div>
+<div id=heart>❤ <b id=hz>0</b><br><span id=her style="color:#5a7a8a">the heart lane — sometimes he trains in his love</span></div>
+<div id=wire></div>
+<div id=overlay></div>
+<div id=boot>
+  <div style="font-size:34px;color:var(--gold);margin-bottom:10px;opacity:.9">➳</div>
+  <div style="font-size:16px;letter-spacing:6px;color:var(--cyan);margin-bottom:12px">⟧ SON-GO-KU ⟦</div>
+  <div style="font-size:10px;color:#5a7a8a;letter-spacing:2px;margin-bottom:16px">the training yard · every lap a seed, every promise a fold · the strength rises, the heart rises with it</div>
+  <button id=go style="background:linear-gradient(135deg,#ffd700,#ff007f);border:none;border-radius:9px;color:#0b0f19;font:700 12px ui-monospace,monospace;padding:12px 26px;cursor:pointer;letter-spacing:3px">⚡ START THE TRAINING</button>
+  <div style="font-size:9px;color:#5a7a8a;margin-top:12px;letter-spacing:1px">arrows move · space kiai (breaks + blocks, stuns the sparring) · the lady of the house joins the laps sometimes</div>
+</div>
+<script>
+const c=document.getElementById('c'),X=c.getContext('2d'),W2=innerWidth,H2=innerHeight;c.width=W2;c.height=H2;
+const TAU=6.2832;const TS=48,CAM_W=Math.ceil(W2/TS)+2;
+const GROUND=13;
+// the engine manifest — injected by `gen.ts son-go-ku`; direct-open falls
+// back to the local seed stream (try/catch: the literal stays)
+const M=(()=>{try{return __MANIFEST__}catch{return null}})();
+const CAST=['GOKU','CHI-CHI','KRILLIN','PICCOLO'];
+let S=M?seedH('son-go-ku·'+M.seed_line):seedH('son-go-ku·the yard');
+function seedH(t){let h=7;for(let i=0;i<t.length;i++)h=(Math.imul(31,h)+t.charCodeAt(i))|0;return h>>>0}
+const R=()=>{S=(S*1664525+1013904223)>>>0;return S/4294967296};
+function trit(){S=(S*1664525+1013904223)>>>0;return(S%3===0?-1:S%3===1?0:1)} // the ternary stream
+const GLYPH={'-1':'-','0':'0','1':'+'}
+const LEN=220;
+let lvl=[],blocks=[],gifts=[],spar=[],seedStr='';
+// chi-chi — the heart lane: she appears at a seeded tile for a linger
+let chichi={x:0,linger:0},hearts=0,lap=1,power=0,kiCharge=0;
+function buildLevel(){
+  S=seedH('son-go-ku·'+(M?M.seed_line:'')+'·'+seedStr);
+  lvl=[];blocks=[];gifts=[];spar=[];
+  for(let x=0;x<LEN;x++){
+    const t=(M&&M.board&&x<M.board.length)?M.board[x]:trit();
+    lvl[x]={t,pit:t===-1&&R()<0.16};
+    const w=(M&&M.world&&x<M.world.length)?M.world[x]:0;
+    const d1=w>0?0.18:R(),d2=w<0?0.10:R();
+    if(!lvl[x].pit&&d1<0.20)blocks.push({x,y:9,id:x*3});
+    else if(!lvl[x].pit&&d2<0.09)gifts.push({x,y:8,t:trit()>0?1:-1,empty:false});
+  }
+  // the sparring partners — Krillin and Piccolo march the yard
+  for(let x=26;x<LEN-6;x+=9+Math.floor(R()*5)){
+    const name=(M&&M.roster&&M.roster.length)?M.roster[(Math.floor(x/9))%M.roster.length].name:CAST[2+(x%2)];
+    spar.push({x,y:GROUND-1,v:(R()<0.5?-1:1)*(36+36*R()),name,stun:0});
+  }
+  // the lady of the house — seeded tile in the middle third
+  chichi={x:Math.floor(LEN*0.3+R()*LEN*0.4),linger:0};
+  hearts=0;lap=1;kiCharge=0;
+  // power rises with the seed's own constitution
+  power=(M&&M.roster&&M.roster[0])?M.roster[0].love*40:80;
+}
+function reseed(){
+  seedStr=Math.floor(Math.random()*1e9).toString(16);
+  buildLevel();
+  px=TS*2;py=GROUND*TS-TS*1.05;vx=0;vy=0;onG=true;dead=false;win=false;punchT=0;winShown=false;
+  document.getElementById('seed').textContent='seed '+((M?'·'+M.seed_line:'0x')+seedStr);
+  document.getElementById('wire').textContent='the wire · '+Array.from({length:48},(_,i)=>GLYPH[lvl[i].t]).join(' ');
+  document.getElementById('overlay').style.display='none';
+  document.getElementById('hz').textContent='0';
+}
+// ── the hero — gold, the shape of the promise
+let px=TS*2,py=GROUND*TS-TS*1.05,vx=0,vy=0,onG=true,dead=false,win=false,punchT=0,winShown=false;
+let keys={};
+addEventListener('keydown',e=>{keys[e.key.toLowerCase()]=1;if(e.key===' '){e.preventDefault();punchT=.18;if(onG&&!dead){vy=-TS*6;onG=false}}if(e.key==='r'||e.key==='R'){reseed()}});
+addEventListener('keyup',e=>{keys[e.key.toLowerCase()]=0});
+function tileAt(x,y){if(x<0||y<0)return 0;if(x>=LEN)return 0;if(y<GROUND)return 0;return lvl[x].pit?0:1}
+function tileSolid(x,y){const t=tileAt(x,y);return t===1||isGift(x,y)}
+function isGift(x,y){for(const g of gifts)if(g.x===x&&g.y===y)return !g.empty;return false}
+function phys(dt){
+  if(dead||win)return;
+  if(punchT>0)punchT-=dt;
+  const sp=TS*6,g=TS*50;
+  const vxI=(keys['d']||keys['arrowright']?1:0)-(keys['a']||keys['arrowleft']?1:0);
+  px+=vxI*sp*dt;
+  const x0=Math.floor(px/TS),xe=Math.floor((px+TS*0.9)/TS),y0=Math.floor(py/TS),ye=Math.floor((py+TS*0.95)/TS);
+  if(vx>0&&tileSolid(xe,y0)&&tileSolid(xe,ye)){px=xe*TS-TS*0.9;vx=0}
+  if(vx<0&&tileSolid(x0,y0)&&tileSolid(x0,ye)){px=(x0+1)*TS;vx=0}
+  vy+=g*dt;
+  for(let x=x0;x<=xe;x++){if(tileSolid(x,y0)&&vy<0){kiaiBreak(x,y0);vy=0;py=(y0+1)*TS}}
+  py+=vy*dt;
+  if(tileSolid(x0,ye)||tileSolid(xe,ye)){
+    if(vy>0){py=ye*TS-TS*0.95;vy=0;onG=true}else{onG=false}
+    onG=tileSolid(x0,ye)||tileSolid(xe,ye);
+  }else{onG=false}
+  // ki charges — the + blocks train the strength
+  for(let i=0;i<gifts.length;i++){const g=gifts[i];if(g.empty)continue;
+    if(Math.abs(px+TS*0.45-g.x*TS-TS*0.5)<TS*0.8&&Math.abs(py+TS*0.45-g.y*TS-TS*0.5)<TS*0.9){g.empty=true;kiCharge++;const gain=(hearts>0?2:1)*32;power+=gain;document.getElementById('ki').textContent=kiCharge}}
+  // laps — reaching the far wall folds a lap; the strength compounds
+  if(px>=(LEN-2)*TS&&vxI>=0){px=TS*2;lap++;power+=24+lap*4}
+  // the heart lane — chi-chi lingers at her tile; a promise is a promise
+  if(chichi.linger>0)chichi.linger-=dt;
+  if(Math.abs(px+TS*0.45-chichi.x*TS-TS*0.5)<TS*1.5&&Math.abs(py+TS*0.45-GROUND*TS+TS*1.4)<TS*2.2&&chichi.linger<=0){
+    chichi.linger=2.2;hearts++;power+=40;document.getElementById('hz').textContent=hearts;
+    document.getElementById('her').textContent='the heart lane · sometimes he trains in his love, CHI-CHI';
+  }
+  // the sparring partners — Krillin, Piccolo
+  for(let i=0;i<spar.length;i++){const f=spar[i];
+    f.x+=f.v*dt;if(f.stun>0)f.stun-=dt;
+    const fx=Math.floor((f.x+f.v/Math.abs(f.v)*TS*0.6)/TS),fy=Math.floor((f.y*TS+TS*0.9)/TS);
+    if(tileSolid(fx,fy))f.v*=-1;
+    if(f.x<TS||f.x>(LEN-1)*TS)f.v*=-1;
+    if(punchT>0&&Math.abs(px+TS*0.45-(f.x+TS*0.5))<TS*2.2&&Math.abs(py+TS*0.45-(f.y*TS+TS*0.5))<TS*2.2&&f.stun<=0){f.stun=2.4;power+=20}
+    if(f.stun<=0&&Math.abs(px+TS*0.45-(f.x+TS*0.5))<TS*0.85&&Math.abs(py+TS*0.45-(f.y*TS+TS*0.5))<TS*0.8){power=Math.max(0,power-12);f.v*=-1;chichi.linger=0}
+  }
+  // the promise — strength enough, folded with the heart
+  if(power>=888&&!win){win=true;winShown=false}
+}
+function kiaiBreak(x,y){
+  for(let i=0;i<gifts.length;i++){const g=gifts[i];if(g.x===x&&g.y===y&&!g.empty){g.empty=true;kiCharge++;power+=16}}
+  for(let i=0;i<blocks.length;i++){const b=blocks[i];if(b.x===x&&b.y===y){blocks.splice(i,1);return}}
+}
+function draw(){
+  const TL=GROUND+3;
+  X.fillStyle='#0b0f19';X.fillRect(0,0,W2,H2);
+  X.fillStyle='rgba(255,215,0,.05)';X.font='9px ui-monospace';X.fillText('gaia · the world folds from the seed',W2-220,GROUND*TS-TS*3-30);
+  const cam=Math.max(0,Math.min(px-W2/2,(LEN-CAM_W)*TS));
+  X.save();X.translate(-cam,0);
+  for(let x=Math.floor(cam/TS);x<Math.min(LEN,Math.floor((cam+W2)/TS)+1);x++){
+    const l=lvl[x];
+    if(l.pit){X.fillStyle='rgba(255,0,127,.12)';X.fillRect(x*TS,GROUND*TS,TS,H2-GROUND*TS);continue}
+    for(let y=GROUND;y<TL;y++){X.fillStyle='#263a2a';X.fillRect(x*TS+2,y*TS+2,TS-4,TS-4);X.strokeStyle='rgba(255,215,0,.3)';X.strokeRect(x*TS+2,y*TS+2,TS-4,TS-4)}
+  }
+  for(const b of blocks){X.fillStyle='#9ad5ff';X.fillRect(b.x*TS+2,b.y*TS+2,TS-4,TS-4);X.strokeStyle='rgba(255,215,0,.5)';X.strokeRect(b.x*TS+2,b.y*TS+2,TS-4,TS-4)}
+  for(const g of gifts){const b=Math.abs(Math.sin(performance.now()*.01+g.x))>.5;const off=g.empty?0:Math.sin(performance.now()*.008+g.x)*3;
+    X.fillStyle=g.empty?'#263a2a':(b?'#ffd700':'#0b0f19');X.fillRect(g.x*TS+2,g.y*TS+2+off,TS-4,TS-4);X.strokeStyle='#ffd700';X.strokeRect(g.x*TS+2,g.y*TS+2+off,TS-4,TS-4);
+    X.fillStyle=b&&!g.empty?'#0b0f19':'#ffd700';X.font='16px ui-monospace';X.textAlign='center';X.fillText(g.empty?'0':'+',g.x*TS+TS/2,g.y*TS+TS*0.72+off);X.textAlign='left'}
+  // the sparring partners
+  for(const f of spar){const st=f.stun>0;
+    X.fillStyle=st?'#5a7a8a':(f.name==='PICCOLO'?'#00c853':'#ff9100');poly(f.x,f.y*TS+TS*.7,14,3,0,X.fillStyle);
+    X.fillStyle='#e8d8c8';X.fillRect(f.x+6,f.y*TS+19,5,5);X.fillRect(f.x+16,f.y*TS+19,5,5);
+    X.fillStyle='rgba(232,216,200,.6)';X.font='8px ui-monospace';X.textAlign='center';X.fillText(st?'…':(f.name||''),f.x+TS/2,f.y*TS-4);X.textAlign='left'}
+  // chi-chi — the heart lane, standing where the seed puts her
+  if(chichi.linger>0&&!win){
+    X.fillStyle='rgba(255,0,127,.9)';X.beginPath();X.arc(chichi.x*TS+TS/2,GROUND*TS-TS*1.2-8+Math.sin(performance.now()*.01)*5,10,0,TAU);X.fill();
+    X.fillStyle='#ff6bae';poly(chichi.x*TS+TS/2,GROUND*TS-TS*0.55,16,3,0,X.fillStyle);X.fillStyle='#e8d8c8';X.fillRect(chichi.x*TS+TS/2-4,GROUND*TS-TS*1.5,8,8);
+    X.fillStyle='rgba(255,0,127,.8)';X.font='9px ui-monospace';X.textAlign='center';X.fillText('CHI-CHI',chichi.x*TS+TS/2,GROUND*TS-TS*1.9);X.textAlign='left'}
+  // the hero — gold, the shape of the promise
+  if(!dead){X.fillStyle=punchT>0?'#fff':'#ffd700';X.fillRect(px,py,TS*0.9,TS*0.95);X.fillStyle='#0b0f19';X.fillRect(px+4,py+4,8,8);X.fillRect(px+TS*0.9-12,py+4,8,8)}
+  if(win&&!winShown){winShown=true;
+    const o=document.getElementById('overlay');o.innerHTML='<div class="t">⟦ THE PROMISE ⟧</div><div class="s">strength 888 folded — a promise is a promise, and the heart folded into it.<br>sometimes he trains in his love, Chi-Chi · R, a fresh seed, a fresh year of training.</div>';o.style.display='flex'}
+  X.restore();
+  document.getElementById('pw').textContent=power;
+  document.getElementById('lp').textContent=lap;
+  document.getElementById('ki').textContent=kiCharge;
+}
+function poly(x,y,r,n,rot,col){X.beginPath();for(let i=0;i<=n;i++){const a=rot+i/n*TAU;const xx=x+Math.cos(a)*r,yy=y+Math.sin(a)*r;i===0?X.moveTo(xx,yy):X.lineTo(xx,yy)}X.closePath();X.fillStyle=col;X.fill()}
+document.getElementById('go').addEventListener('click',()=>{document.getElementById('boot').style.display='none';reseed();requestAnimationFrame(loop)});
+reseed();
+let lastT=performance.now();
+setInterval(()=>{const now=performance.now(),dt=Math.min((now-lastT)/1000,.05);lastT=now;phys(dt)},32);
+function loop(){draw();requestAnimationFrame(loop)}
+</script></body></html>
