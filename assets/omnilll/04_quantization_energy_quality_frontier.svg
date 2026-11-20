@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1160 520" width="1160" height="520" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <title>Bandwidth Roofline &amp; GSQ-RCO Quality Frontier</title>
+  <rect width="1160" height="520" fill="#FFFFFF" rx="10" stroke="#E2E8F0" stroke-width="1.5"/>
+  <text x="580" y="34" text-anchor="middle" font-size="18" font-weight="700" fill="#0F172A">Quantization Physics: Bandwidth Roofline (η=72/100) &amp; Bit-Quality Frontier</text>
+  <text x="305" y="66" text-anchor="middle" font-size="13" font-weight="700" fill="#1E293B">Panel A: Decode tok/s Roofline vs. Disc. #86 Empirical Anchors</text>
+  <rect x="80" y="90" width="450" height="340" fill="#FAFBFD" stroke="#CBD5E1"/>
+  <line x1="80" y1="368.2" x2="530.0" y2="368.2" stroke="#E2E8F0" stroke-dasharray="3 3"/>
+  <text x="72.0" y="372.2" text-anchor="end" font-size="11" fill="#475569">20</text>
+  <line x1="80" y1="306.4" x2="530.0" y2="306.4" stroke="#E2E8F0" stroke-dasharray="3 3"/>
+  <text x="72.0" y="310.4" text-anchor="end" font-size="11" fill="#475569">40</text>
+  <line x1="80" y1="244.5" x2="530.0" y2="244.5" stroke="#E2E8F0" stroke-dasharray="3 3"/>
+  <text x="72.0" y="248.5" text-anchor="end" font-size="11" fill="#475569">60</text>
+  <line x1="80" y1="182.7" x2="530.0" y2="182.7" stroke="#E2E8F0" stroke-dasharray="3 3"/>
+  <text x="72.0" y="186.7" text-anchor="end" font-size="11" fill="#475569">80</text>
+  <line x1="80" y1="120.9" x2="530.0" y2="120.9" stroke="#E2E8F0" stroke-dasharray="3 3"/>
+  <text x="72.0" y="124.9" text-anchor="end" font-size="11" fill="#475569">100</text>
+  <text x="110.0" y="446.0" text-anchor="middle" font-size="11" fill="#475569">2b</text>
+  <text x="170.0" y="446.0" text-anchor="middle" font-size="11" fill="#475569">3b</text>
+  <text x="230.0" y="446.0" text-anchor="middle" font-size="11" fill="#475569">4b</text>
+  <text x="290.0" y="446.0" text-anchor="middle" font-size="11" fill="#475569">5b</text>
+  <text x="350.0" y="446.0" text-anchor="middle" font-size="11" fill="#475569">6b</text>
+  <text x="410.0" y="446.0" text-anchor="middle" font-size="11" fill="#475569">7b</text>
+  <text x="470.0" y="446.0" text-anchor="middle" font-size="11" fill="#475569">8b</text>
+  <polyline fill="none" stroke="#10B981" stroke-width="2.5" points="110.0,113.5 120.0,137.8 130.0,158.7 140.0,176.8 150.0,192.6 160.0,206.6 170.0,219.0 180.0,230.1 190.0,240.1 200.0,249.1 210.0,257.4 220.0,264.9 230.0,271.7 240.0,278.1 250.0,283.9 260.0,289.3 270.0,294.4 280.0,299.0 290.0,303.4 300.0,307.5 310.0,311.3 320.0,314.9 330.0,318.3 340.0,321.5 350.0,324.5 360.0,327.3 370.0,330.0 380.0,332.6 390.0,335.0 400.0,337.4 410.0,339.6 420.0,341.7 430.0,343.7 440.0,345.6 450.0,347.4 460.0,349.2 470.0,350.9 480.0,352.5 490.0,354.0 500.0,355.5 510.0,357.0 520.0,358.3 530.0,359.7 "/>
+  <polyline fill="none" stroke="#DC2626" stroke-width="2.5" points="80.0,204.9 90.0,227.4 100.0,245.8 110.0,261.2 120.0,274.2 130.0,285.3 140.0,295.0 150.0,303.4 160.0,310.8 170.0,317.5 180.0,323.4 190.0,328.7 200.0,333.5 210.0,337.9 220.0,341.9 230.0,345.6 240.0,349.0 250.0,352.1 260.0,355.0 270.0,357.7 280.0,360.1 290.0,362.5 300.0,364.7 310.0,366.7 320.0,368.6 330.0,370.4 340.0,372.1 350.0,373.7 360.0,375.3 370.0,376.7 380.0,378.1 390.0,379.4 400.0,380.6 410.0,381.8 420.0,382.9 430.0,384.0 440.0,385.0 450.0,386.0 460.0,386.9 470.0,387.8 480.0,388.7 490.0,389.5 500.0,390.3 510.0,391.0 520.0,391.8 530.0,392.5 "/>
+  <polyline fill="none" stroke="#2563EB" stroke-width="2.5" points="80.0,254.2 90.0,271.7 100.0,286.1 110.0,298.1 120.0,308.3 130.0,317.0 140.0,324.5 150.0,331.1 160.0,336.9 170.0,342.1 180.0,346.7 190.0,350.9 200.0,354.6 210.0,358.1 220.0,361.2 230.0,364.1 240.0,366.7 250.0,369.1 260.0,371.4 270.0,373.5 280.0,375.4 290.0,377.2 300.0,379.0 310.0,380.5 320.0,382.0 330.0,383.5 340.0,384.8 350.0,386.0 360.0,387.2 370.0,388.4 380.0,389.4 390.0,390.4 400.0,391.4 410.0,392.3 420.0,393.2 430.0,394.0 440.0,394.8 450.0,395.6 460.0,396.3 470.0,397.0 480.0,397.7 490.0,398.3 500.0,399.0 510.0,399.6 520.0,400.1 530.0,400.7 "/>
+  <circle cx="245.0" cy="348.1" r="6.5" fill="#DC2626" stroke="#0F172A" stroke-width="1.5"/>
+  <text x="253.0" y="338.1" font-size="10.8" font-weight="700" fill="#991B1B">Disc. #86 IQ4_XS (26-27 t/s)</text>
+  <circle cx="155.0" cy="334.1" r="5.5" fill="#2563EB" stroke="#FFFFFF" stroke-width="1.5"/>
+  <text x="145.0" y="358.1" font-size="10.8" font-weight="700" fill="#1E3A8A">M1 GSQ ~2.75b (31.03 t/s)</text>
+  <text x="90" y="114" font-size="11" font-weight="700" fill="#10B981">Green: RTX 6000 Ada (960 GB/s)</text>
+  <text x="90" y="132" font-size="11" font-weight="700" fill="#DC2626">Red: RX 6900 XT (512 GB/s)</text>
+  <text x="90" y="150" font-size="11" font-weight="700" fill="#2563EB">Blue: M1 Max (400 GB/s)</text>
+  <text x="860" y="66" text-anchor="middle" font-size="13" font-weight="700" fill="#1E293B">Panel B: Disk Footprint vs. BF16 Retention (GSQ-RCO &amp; MLX)</text>
+  <rect x="620" y="90" width="480" height="340" fill="#FAFBFD" stroke="#CBD5E1"/>
+  <rect x="620" y="90" width="117.7" height="340" fill="#FEE2E2" fill-opacity="0.5"/>
+  <rect x="737.7" y="90" width="362.3" height="340" fill="#DBEAFE" fill-opacity="0.4"/>
+  <polyline fill="none" stroke="#475569" stroke-width="2" stroke-dasharray="5 4" points="641.7,398.4 677.1,248.1 722.3,148.5 793.0,128.0 851.8,118.5 1081.9,113.7"/>
+  <polyline fill="none" stroke="#059669" stroke-width="2.8" points="647.2,232.3 677.1,164.3 703.3,143.8 732.3,134.3 793.0,123.2"/>
+  <circle cx="722.3" cy="148.5" r="6" fill="#DC2626" stroke="#0F172A" stroke-width="1.2"/>
+  <text x="732.3" y="170.5" font-size="10.8" font-weight="700" fill="#991B1B">IQ4_XS (719/735 = 97.8%)</text>
+  <text x="761.7" y="415" font-size="11" font-weight="700" fill="#1E3A8A">M1 Max 64GB Zone (MLX 4/6-bit + GSQ-RCO)</text>
+  <text x="860" y="486" text-anchor="middle" font-size="11.5" fill="#334155">Model Weights Footprint (GB) — arXiv:2604.18556 &amp; arXiv:2611.17605</text>
+</svg>

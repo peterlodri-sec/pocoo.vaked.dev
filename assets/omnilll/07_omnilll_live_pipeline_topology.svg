@@ -1,0 +1,135 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 780" width="1280" height="780" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <title>OmniLLL Pure-Rust Live Pipeline Topology &amp; Pre-Flight Status</title>
+  <defs>
+    <linearGradient id="katawareSky" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090D1F"/>
+      <stop offset="55%" stop-color="#111834"/>
+      <stop offset="100%" stop-color="#1E1630"/>
+    </linearGradient>
+    <marker id="musubiArrow" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto">
+      <polygon points="0 0, 9 3.5, 0 7" fill="#F43F5E"/>
+    </marker>
+    <marker id="feedbackArrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#38BDF8"/>
+    </marker>
+  </defs>
+  <rect width="1280" height="780" fill="url(#katawareSky)" rx="12" stroke="#334155" stroke-width="1.5"/>
+  <text x="640" y="34" text-anchor="middle" font-size="20" font-weight="700" fill="#F8FAFC">OmniLLL — 100% Pure-Rust Live Pipeline Topology (Katawaredoki Twilight Board)</text>
+  <text x="640" y="56" text-anchor="middle" font-size="12.5" fill="#94A3B8">Zero Python (0 .py files) · Exact Rational Ratio p/q + Balanced Trit {-1, 0, +1} · Apple M1 Max 64 GB Verified</text>
+  <rect x="24" y="76" width="290" height="514" rx="10" fill="#131B36" stroke="#F43F5E" stroke-width="1.5"/>
+  <rect x="24" y="76" width="290" height="32" rx="10" fill="#881337"/>
+  <text x="169" y="97" text-anchor="middle" font-size="13" font-weight="700" fill="#FFF1F2">1. Corpus Shards (Sum = 1/1) &amp; Sensors</text>
+  <rect x="36" y="120" width="266" height="64" rx="7" fill="#0F172A" stroke="#38BDF8" stroke-width="1.2"/>
+  <text x="46" y="139" font-size="11.5" font-weight="700" fill="#F8FAFC">Shard 1 [1/4] Spatial WorldModel</text>
+  <text x="46" y="157" font-size="10.5" fill="#CBD5E1">nvidia/PhysicalAI-Spatial-Warehouse</text>
+  <text x="46" y="174" font-size="10" fill="#94A3B8">Oracle: Cosmos + StrideWorld</text>
+  <rect x="36" y="192" width="266" height="64" rx="7" fill="#0F172A" stroke="#A855F7" stroke-width="1.2"/>
+  <text x="46" y="211" font-size="11.5" font-weight="700" fill="#F8FAFC">Shard 2 [1/4] C64 &amp; Infinite Canvas</text>
+  <text x="46" y="229" font-size="10.5" fill="#CBD5E1">Angais/pixel-art-atlas-1.4m</text>
+  <text x="46" y="246" font-size="10" fill="#94A3B8">Oracle: Pepto 63B + OpenUSD .usda</text>
+  <rect x="36" y="264" width="266" height="64" rx="7" fill="#0F172A" stroke="#10B981" stroke-width="1.2"/>
+  <text x="46" y="283" font-size="11.5" font-weight="700" fill="#F8FAFC">Shard 3 [11/50] FASM &amp; 6502 Demos</text>
+  <text x="46" y="301" font-size="10.5" fill="#CBD5E1">datavorous/Demoscener-Dweets-25k</text>
+  <text x="46" y="318" font-size="10" fill="#94A3B8">Oracle: fasm + 64tass + 6502-is</text>
+  <rect x="36" y="336" width="266" height="64" rx="7" fill="#0F172A" stroke="#F59E0B" stroke-width="1.2"/>
+  <text x="46" y="355" font-size="11.5" font-weight="700" fill="#F8FAFC">Shard 4 [7/50] Arduino &amp; Sensors</text>
+  <text x="46" y="373" font-size="10.5" fill="#CBD5E1">CJJones/Multiturn-Arduino-LLM</text>
+  <text x="46" y="390" font-size="10" fill="#94A3B8">Oracle: arduino-cli + simavr</text>
+  <rect x="36" y="408" width="266" height="76" rx="7" fill="#0F172A" stroke="#F43F5E" stroke-width="1.2"/>
+  <text x="46" y="427" font-size="11.5" font-weight="700" fill="#F8FAFC">Shard 5 [7/50] Ontology &amp; CTO Anchors</text>
+  <text x="46" y="445" font-size="10.5" fill="#CBD5E1">Qwen3.8-27B + Nemotron Sidecar</text>
+  <text x="46" y="462" font-size="10" fill="#94A3B8">hu en zh non la yua/quc ar bo/sa</text>
+  <text x="46" y="476" font-size="9.5" fill="#FDA4AF">3.0x Asymmetric Loss critical mask</text>
+  <rect x="36" y="492" width="266" height="84" rx="7" fill="#0F172A" stroke="#EC4899" stroke-width="1.2"/>
+  <text x="46" y="511" font-size="11.5" font-weight="700" fill="#F8FAFC">Local Audio &amp; Vision Telemetry</text>
+  <text x="46" y="529" font-size="10.5" fill="#CBD5E1">Spotify.app + LRCLIB LIVE (karaoke-mcp)</text>
+  <text x="46" y="546" font-size="10" fill="#94A3B8">Anchor -&gt; Ratio p/q &amp; Q15.16</text>
+  <text x="46" y="563" font-size="10" fill="#FDA4AF">MultiSensorTelemetry -&gt; Ralph loop</text>
+  <rect x="346" y="76" width="286" height="514" rx="10" fill="#131B36" stroke="#38BDF8" stroke-width="1.5"/>
+  <rect x="346" y="76" width="286" height="32" rx="10" fill="#075985"/>
+  <text x="489" y="97" text-anchor="middle" font-size="13" font-weight="700" fill="#E0F2FE">2. omnilll-core (12/12, #![no_std])</text>
+  <rect x="358" y="120" width="262" height="102" rx="7" fill="#0F172A" stroke="#38BDF8" stroke-width="1.2"/>
+  <text x="368" y="140" font-size="11.5" font-weight="700" fill="#F8FAFC">Exact Arithmetic &amp; Ternary SIMD</text>
+  <text x="368" y="159" font-size="10.5" fill="#CBD5E1">Ratio { p, q } | Bonobo = 3/2</text>
+  <text x="368" y="177" font-size="10.5" fill="#CBD5E1">Trit {-1, 0, +1} | Q15.16 (65536)</text>
+  <text x="368" y="195" font-size="10.5" fill="#CBD5E1">NEON == Scalar Dot64: -25</text>
+  <text x="368" y="213" font-size="10.5" fill="#CBD5E1">Zero floats across core crates</text>
+  <rect x="358" y="232" width="262" height="110" rx="7" fill="#0F172A" stroke="#A855F7" stroke-width="1.2"/>
+  <text x="368" y="252" font-size="11.5" font-weight="700" fill="#F8FAFC">CTO spherepop-kernel Laws</text>
+  <text x="368" y="271" font-size="10.5" fill="#CBD5E1">Bfp64Plane (64-lane Kleene table)</text>
+  <text x="368" y="289" font-size="10.5" fill="#CBD5E1">SPQT base-243 + checksum_32</text>
+  <text x="368" y="307" font-size="10.5" fill="#CBD5E1">ExactIntLayerNorm + RmsNorm</text>
+  <text x="368" y="325" font-size="10.5" fill="#CBD5E1">PortableWarrantReceipt gate (0x62)</text>
+  <rect x="358" y="352" width="262" height="110" rx="7" fill="#0F172A" stroke="#10B981" stroke-width="1.2"/>
+  <text x="368" y="372" font-size="11.5" font-weight="700" fill="#F8FAFC">Graph &amp; Regularity Physics</text>
+  <text x="368" y="391" font-size="10.5" fill="#CBD5E1">Molloy-Reed kappa = 11/3 (&gt; 2)</text>
+  <text x="368" y="409" font-size="10.5" fill="#CBD5E1">SupercriticalGiant percolation</text>
+  <text x="368" y="427" font-size="10.5" fill="#CBD5E1">Erdos-Lodri delta_h3 = 0 (Landauer)</text>
+  <text x="368" y="445" font-size="10.5" fill="#CBD5E1">Szemeredi LOD: 5000/39x (14 T8R)</text>
+  <rect x="358" y="472" width="262" height="104" rx="7" fill="#0F172A" stroke="#F59E0B" stroke-width="1.2"/>
+  <text x="368" y="492" font-size="11.5" font-weight="700" fill="#F8FAFC">108-Cycle UltraDreamState</text>
+  <text x="368" y="511" font-size="10.5" fill="#CBD5E1">Mahakala Prune + Union Puja (8th)</text>
+  <text x="368" y="529" font-size="10.5" fill="#CBD5E1">Stuart-Landau phase diversity: true</text>
+  <text x="368" y="547" font-size="10.5" fill="#CBD5E1">Dual Ralph: spherepop surgical diffs</text>
+  <text x="368" y="565" font-size="10.5" fill="#CBD5E1">+ Tummo hardware thermal control</text>
+  <rect x="664" y="76" width="296" height="248" rx="10" fill="#131B36" stroke="#A855F7" stroke-width="1.5"/>
+  <rect x="664" y="76" width="296" height="32" rx="10" fill="#581C87"/>
+  <text x="812" y="97" text-anchor="middle" font-size="13" font-weight="700" fill="#F3E8FF">3A. omnilll-gpu (12/12 Tests)</text>
+  <text x="678" y="130" font-size="11" fill="#E2E8F0">Safetensors + GGUF v3 binary header parser</text>
+  <text x="678" y="156" font-size="11" fill="#E2E8F0">Fixed Qwen3.8 ChatML + AnyS1 budget gate</text>
+  <text x="678" y="182" font-size="11" fill="#E2E8F0">Asymmetric Critical Loss Weight = 3/1</text>
+  <text x="678" y="208" font-size="11" fill="#E2E8F0">Metal: shaders/ternary_ralph.metal</text>
+  <text x="678" y="234" font-size="11" fill="#E2E8F0">CUDA / WGSL: ternary_moe_cuda.cu | .wgsl</text>
+  <text x="678" y="260" font-size="11" fill="#E2E8F0">Roofline: M1 4b 18.96 t/s | GSQ 31.03 t/s</text>
+  <text x="678" y="286" font-size="11" fill="#E2E8F0">Roofline: RX 6900 XT IQ4_XS 25.70 t/s</text>
+  <rect x="664" y="342" width="296" height="248" rx="10" fill="#131B36" stroke="#10B981" stroke-width="1.5"/>
+  <rect x="664" y="342" width="296" height="32" rx="10" fill="#065F46"/>
+  <text x="812" y="363" text-anchor="middle" font-size="13" font-weight="700" fill="#D1FAE5">3B. omnilll-verify (12/12 Tests)</text>
+  <text x="678" y="396" font-size="11" fill="#E2E8F0">256-entry 6502/6510 PLA Opcode Oracle</text>
+  <text x="678" y="422" font-size="11" fill="#E2E8F0">PAL 6569 63-cycle scanline &amp; badline math</text>
+  <text x="678" y="448" font-size="11" fill="#E2E8F0">Static Warrants: 64tass=passed | FASM=passed</text>
+  <text x="678" y="474" font-size="11" fill="#E2E8F0">0x8B15 + 0x62 WireC1 frame seal = true</text>
+  <text x="678" y="500" font-size="11" fill="#E2E8F0">C64 63B+1B Pepto sprite exporter FIRST (.asm)</text>
+  <text x="678" y="526" font-size="11" fill="#E2E8F0">OpenUSD (.usda) &amp; WebGPU (.wgsl) twins</text>
+  <text x="678" y="552" font-size="11" fill="#E2E8F0">Spotify Q15.16 sensor + safe transport</text>
+  <rect x="992" y="76" width="264" height="248" rx="10" fill="#131B36" stroke="#F59E0B" stroke-width="1.5"/>
+  <rect x="992" y="76" width="264" height="32" rx="10" fill="#78350F"/>
+  <text x="1124" y="97" text-anchor="middle" font-size="13" font-weight="700" fill="#FEF3C7">4A. autoresearch (5/5 Tests)</text>
+  <text x="1006" y="130" font-size="10.8" fill="#E2E8F0">16-Cycle Dry-Run Ralph + Dream log</text>
+  <text x="1006" y="156" font-size="10.8" fill="#E2E8F0">out/ralph_dry_run_trace.jsonl (3.4K)</text>
+  <text x="1006" y="182" font-size="10.8" fill="#E2E8F0">out/frontier_weight_program_request.json</text>
+  <text x="1006" y="208" font-size="10.8" fill="#E2E8F0">out/sample_exports/* (.asm/.usda/.wgsl)</text>
+  <text x="1006" y="234" font-size="10.8" fill="#E2E8F0">NVIDIA NIM Bridge (curl, 0 secrets)</text>
+  <text x="1006" y="260" font-size="10.8" fill="#E2E8F0">Status: DRY_RUN_STANDBY_ENV_UNSET</text>
+  <text x="1006" y="286" font-size="10.8" fill="#E2E8F0">Models: nemotron-3-ultra, cosmos-1-7b</text>
+  <rect x="992" y="342" width="264" height="248" rx="10" fill="#131B36" stroke="#EC4899" stroke-width="1.5"/>
+  <rect x="992" y="342" width="264" height="32" rx="10" fill="#831843"/>
+  <text x="1124" y="363" text-anchor="middle" font-size="13" font-weight="700" fill="#FCE7F3">4B. viz (1/1) &amp; karaoke-mcp (6/6)</text>
+  <text x="1006" y="396" font-size="10.8" fill="#E2E8F0">100% Pure-Rust SVG Engine (no Python)</text>
+  <text x="1006" y="422" font-size="10.8" fill="#E2E8F0">figures/01..07_*.svg + dashboard.html</text>
+  <text x="1006" y="448" font-size="10.8" fill="#E2E8F0">EvCxR Rust Notebook (nbformat 4.5 JSON)</text>
+  <text x="1006" y="474" font-size="10.8" fill="#E2E8F0">omnilll-karaoke-mcp: 5 MCP tools + CLI</text>
+  <text x="1006" y="500" font-size="10.8" fill="#E2E8F0">skills/karaoke-spotify/SKILL.md (LRCLIB)</text>
+  <text x="1006" y="526" font-size="10.8" fill="#E2E8F0">Live 250ms terminal karaoke ticker</text>
+  <text x="1006" y="552" font-size="10.8" fill="#E2E8F0">Exact rational &amp; Roofline telemetry sync</text>
+  <line x1="314" y1="240" x2="344" y2="240" stroke="#F43F5E" stroke-width="2.4" marker-end="url(#musubiArrow)"/>
+  <line x1="314" y1="530" x2="344" y2="530" stroke="#F43F5E" stroke-width="2.4" marker-end="url(#musubiArrow)"/>
+  <line x1="632" y1="200" x2="662" y2="200" stroke="#F43F5E" stroke-width="2.4" marker-end="url(#musubiArrow)"/>
+  <line x1="632" y1="466" x2="662" y2="466" stroke="#F43F5E" stroke-width="2.4" marker-end="url(#musubiArrow)"/>
+  <line x1="960" y1="200" x2="990" y2="200" stroke="#F43F5E" stroke-width="2.4" marker-end="url(#musubiArrow)"/>
+  <line x1="960" y1="466" x2="990" y2="466" stroke="#F43F5E" stroke-width="2.4" marker-end="url(#musubiArrow)"/>
+  <line x1="812" y1="324" x2="812" y2="340" stroke="#F43F5E" stroke-width="2.4" marker-end="url(#musubiArrow)"/>
+  <path d="M 812 590 L 812 608 L 489 608 L 489 594" fill="none" stroke="#38BDF8" stroke-width="1.8" stroke-dasharray="5,4" marker-end="url(#feedbackArrow)"/>
+  <text x="650" y="604" text-anchor="middle" font-size="10" font-weight="600" fill="#7DD3FC">RLVR Warrant Feedback &amp; Every-8th Union Puja Consolidation</text>
+  <rect x="24" y="626" width="1232" height="134" rx="10" fill="#0F172A" stroke="#475569" stroke-width="1.5"/>
+  <rect x="24" y="626" width="1232" height="28" rx="10" fill="#1E293B"/>
+  <text x="640" y="644" text-anchor="middle" font-size="12" font-weight="700" fill="#F8FAFC">Live Pre-Flight Readiness Strip (Apple M1 Max 64 GB Unified RAM — Workspace Verified)</text>
+  <rect x="38" y="664" width="594" height="84" rx="8" fill="#064E3B" stroke="#10B981" stroke-width="1.2"/>
+  <text x="52" y="685" font-size="12" font-weight="700" fill="#A7F3D0">READY NOW (Green Gates)</text>
+  <text x="52" y="707" font-size="11" fill="#ECFDF5">cargo test --workspace: 48/48 passed (6 crates) | clippy -D warnings: 0 | 0 .py</text>
+  <text x="52" y="728" font-size="11" fill="#D1FAE5">CLI &amp; MCP: rustc, cargo, qemu, Spotify.app + LRCLIB karaoke-mcp LIVE</text>
+  <rect x="648" y="664" width="594" height="84" rx="8" fill="#451A03" stroke="#F59E0B" stroke-width="1.2"/>
+  <text x="662" y="685" font-size="12" font-weight="700" fill="#FDE68A">STANDBY / OPTIONAL (For Live Assemblers, Metal &amp; Cloud Calls)</text>
+  <text x="662" y="707" font-size="11" fill="#FEF3C7">Toolchains: Metal Compiler (Xcode CLT), 64tass, fasm, ca65, x64sc, arduino-cli</text>
+  <text x="662" y="728" font-size="11" fill="#FDE68A">Env Keys: HF_TOKEN, NVAPI_KEY, A6000_WATCHDOG_CONTROL_TOKEN (unset in dry-run)</text>
+</svg>

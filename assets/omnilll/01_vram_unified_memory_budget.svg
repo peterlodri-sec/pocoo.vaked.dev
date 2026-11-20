@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1160 580" width="1160" height="580" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <title>27B Multimodal Memory Budget Across Hardware</title>
+  <rect width="1160" height="580" fill="#FFFFFF" rx="10" stroke="#E2E8F0" stroke-width="1.5"/>
+  <text x="580" y="34" text-anchor="middle" font-size="18" font-weight="700" fill="#0F172A">27B Multimodal Training &amp; Inference Memory Budget (Pure-Rust Profile)</text>
+  <text x="580" y="56" text-anchor="middle" font-size="12" fill="#475569">Qwen3_5ForConditionalGeneration (64 Layers, hidden=5120, has_vision=true, mtp=1) — 100% Native BF16 / MLX / NF4</text>
+  <rect x="110" y="72" width="14" height="12" rx="2" fill="#2563EB"/>
+  <text x="129" y="82" font-size="11.5" font-weight="600" fill="#1E293B">Model Weights</text>
+  <rect x="272" y="72" width="14" height="12" rx="2" fill="#7C3AED"/>
+  <text x="291" y="82" font-size="11.5" font-weight="600" fill="#1E293B">Vision Tower</text>
+  <rect x="434" y="72" width="14" height="12" rx="2" fill="#0EA5E9"/>
+  <text x="453" y="82" font-size="11.5" font-weight="600" fill="#1E293B">KV + Checkpointed Act.</text>
+  <rect x="596" y="72" width="14" height="12" rx="2" fill="#F59E0B"/>
+  <text x="615" y="82" font-size="11.5" font-weight="600" fill="#1E293B">LoRA/DoRA Optim.</text>
+  <rect x="758" y="72" width="14" height="12" rx="2" fill="#94A3B8"/>
+  <text x="777" y="82" font-size="11.5" font-weight="600" fill="#1E293B">macOS OS Reserve</text>
+  <rect x="920" y="72" width="14" height="12" rx="2" fill="#DC2626"/>
+  <text x="939" y="82" font-size="11.5" font-weight="600" fill="#1E293B">Hardware Ceiling</text>
+  <line x1="310.0" y1="102" x2="310.0" y2="515" stroke="#E2E8F0" stroke-dasharray="4 3"/>
+  <text x="310.0" y="534" text-anchor="middle" font-size="11.5" fill="#475569">0 GB</text>
+  <line x1="440.5" y1="102" x2="440.5" y2="515" stroke="#E2E8F0" stroke-dasharray="4 3"/>
+  <text x="440.5" y="534" text-anchor="middle" font-size="11.5" fill="#475569">20 GB</text>
+  <line x1="571.1" y1="102" x2="571.1" y2="515" stroke="#E2E8F0" stroke-dasharray="4 3"/>
+  <text x="571.1" y="534" text-anchor="middle" font-size="11.5" fill="#475569">40 GB</text>
+  <line x1="701.6" y1="102" x2="701.6" y2="515" stroke="#E2E8F0" stroke-dasharray="4 3"/>
+  <text x="701.6" y="534" text-anchor="middle" font-size="11.5" fill="#475569">60 GB</text>
+  <line x1="832.1" y1="102" x2="832.1" y2="515" stroke="#E2E8F0" stroke-dasharray="4 3"/>
+  <text x="832.1" y="534" text-anchor="middle" font-size="11.5" fill="#475569">80 GB</text>
+  <text x="298" y="130.0" text-anchor="end" font-size="12" font-weight="600" fill="#1E293B">RX 6900 XT 16GB (Disc. #86 IQ4_XS Infer)</text>
+  <rect x="310.0" y="112.0" width="93.3" height="28" fill="#2563EB" stroke="#FFFFFF" stroke-width="0.8"/>
+  <rect x="403.3" y="112.0" width="2.6" height="28" fill="#7C3AED" stroke="#FFFFFF" stroke-width="0.8"/>
+  <rect x="405.9" y="112.0" width="7.2" height="28" fill="#0EA5E9" stroke="#FFFFFF" stroke-width="0.8"/>
+  <line x1="414.4" y1="108.0" x2="414.4" y2="144.0" stroke="#DC2626" stroke-width="3"/>
+  <text x="424.4" y="130.0" font-size="11.5" font-weight="700" fill="#B45309">15.8 / 16 GB [TIGHT: +0.2 GB]</text>
+  <text x="298" y="180.0" text-anchor="end" font-size="12" font-weight="600" fill="#1E293B">Colab T4 16GB (NF4 QLoRA Train)</text>
+  <rect x="310.0" y="162.0" width="97.2" height="28" fill="#2563EB" stroke="#FFFFFF" stroke-width="0.8"/>
+  <rect x="407.2" y="162.0" width="5.9" height="28" fill="#7C3AED" stroke="#FFFFFF" stroke-width="0.8"/>
+  <rect x="413.1" y="162.0" width="14.4" height="28" fill="#0EA5E9" stroke="#FFFFFF" stroke-width="0.8"/>
+  <rect x="427.5" y="162.0" width="7.8" height="28" fill="#F59E0B" stroke="#FFFFFF" stroke-width="0.8"/>
+  <line x1="414.4" y1="158.0" x2="414.4" y2="194.0" stroke="#DC2626" stroke-width="3"/>
+  <text x="445.3" y="180.0" font-size="11.5" font-weight="700" fill="#B91C1C">19.2 / 16 GB [OOM: -3.2 GB]</text>
+  <text x="298" y="230.0" text-anchor="end" font-size="12" font-weight="600" fill="#1E293B">Colab L4 24GB (NF4 QLoRA r=32 Chkpt)</text>
+  <rect x="310.0" y="212.0" width="97.2" height="28" fill="#2563EB" stroke="#FFFFFF" stroke-width="0.8"/>
+  <rect x="407.2" y="212.0" width="5.9" height="28" fill="#7C3AED" stroke="#FFFFFF" stroke-width="0.8"/>
+  <rect x="413.1" y="212.0" width="14.4" height="28" fill="#0EA5E9" stroke="#FFFFFF" stroke-width="0.8"/>
+  <rect x="427.5" y="212.0" width="7.8" height="28" fill="#F59E0B" stroke="#FFFFFF" stroke-width="0.8"/>
+  <line x1="466.6" y1="208.0" x2="466.6" y2="244.0" stroke="#DC2626" stroke-width="3"/>
+  <text x="476.6" y="230.0" font-size="11.5" font-weight="700" fill="#B45309">19.2 / 24 GB [TIGHT: +4.8 GB]</text>
+  <text x="298" y="280.0" text-anchor="end" font-size="12" font-weight="600" fill="#1E293B">Colab A100 40GB (NF4 QLoRA r=64 8K)</text>
+  <rect x="310.0" y="262.0" width="97.2" height="28" fill="#2563EB" stroke="#FFFFFF" stroke-width="0.8"/>
+  <rect x="407.2" y="262.0" width="7.2" height="28" fill="#7C3AED" stroke="#FFFFFF" stroke-width="0.8"/>
+  <rect x="414.4" y="262.0" width="28.7" height="28" fill="#0EA5E9" stroke="#FFFFFF" stroke-width="0.8"/>
+  <rect x="443.1" y="262.0" width="15.7" height="28" fill="#F59E0B" stroke="#FFFFFF" stroke-width="0.8"/>
+  <line x1="571.1" y1="258.0" x2="571.1" y2="294.0" stroke="#DC2626" stroke-width="3"/>
+  <text x="581.1" y="280.0" font-size="11.5" font-weight="700" fill="#047857">22.8 / 40 GB [OK: +17.2 GB]</text>
+  <text x="298" y="330.0" text-anchor="end" font-size="12" font-weight="600" fill="#1E293B">RTX 6000 Ada 48GB (cheet.is GRPO)</text>
+  <rect x="310.0" y="312.0" width="97.2" height="28" fill="#2563EB" stroke="#FFFFFF" stroke-width="0.8"/>
+  <rect x="407.2" y="312.0" width="7.2" height="28" fill="#7C3AED" stroke="#FFFFFF" stroke-width="0.8"/>
+  <rect x="414.4" y="312.0" width="33.9" height="28" fill="#0EA5E9" stroke="#FFFFFF" stroke-width="0.8"/>
+  <rect x="448.4" y="312.0" width="18.3" height="28" fill="#F59E0B" stroke="#FFFFFF" stroke-width="0.8"/>
+  <line x1="623.3" y1="308.0" x2="623.3" y2="344.0" stroke="#DC2626" stroke-width="3"/>
+  <text x="633.3" y="330.0" font-size="11.5" font-weight="700" fill="#047857">24.0 / 48 GB [OK: +24.0 GB]</text>
+  <text x="298" y="380.0" text-anchor="end" font-size="12" font-weight="600" fill="#1E293B">M1 Max 64GB Unified (MLX 4-bit + Vision)</text>
+  <rect x="310.0" y="362.0" width="100.5" height="28" fill="#2563EB" stroke="#FFFFFF" stroke-width="0.8"/>
+  <rect x="410.5" y="362.0" width="6.5" height="28" fill="#7C3AED" stroke="#FFFFFF" stroke-width="0.8"/>
+  <rect x="417.0" y="362.0" width="24.8" height="28" fill="#0EA5E9" stroke="#FFFFFF" stroke-width="0.8"/>
+  <rect x="441.8" y="362.0" width="15.7" height="28" fill="#F59E0B" stroke="#FFFFFF" stroke-width="0.8"/>
+  <rect x="457.5" y="362.0" width="52.2" height="28" fill="#94A3B8" stroke="#FFFFFF" stroke-width="0.8"/>
+  <line x1="727.7" y1="358.0" x2="727.7" y2="394.0" stroke="#DC2626" stroke-width="3"/>
+  <text x="737.7" y="380.0" font-size="11.5" font-weight="700" fill="#047857">30.6 / 64 GB [OK: +33.4 GB]</text>
+  <text x="298" y="430.0" text-anchor="end" font-size="12" font-weight="600" fill="#1E293B">M1 Max 64GB Unified (MLX 6-bit + Vision)</text>
+  <rect x="310.0" y="412.0" width="144.2" height="28" fill="#2563EB" stroke="#FFFFFF" stroke-width="0.8"/>
+  <rect x="454.2" y="412.0" width="6.5" height="28" fill="#7C3AED" stroke="#FFFFFF" stroke-width="0.8"/>
+  <rect x="460.8" y="412.0" width="27.4" height="28" fill="#0EA5E9" stroke="#FFFFFF" stroke-width="0.8"/>
+  <rect x="488.2" y="412.0" width="15.7" height="28" fill="#F59E0B" stroke="#FFFFFF" stroke-width="0.8"/>
+  <rect x="503.8" y="412.0" width="52.2" height="28" fill="#94A3B8" stroke="#FFFFFF" stroke-width="0.8"/>
+  <line x1="727.7" y1="408.0" x2="727.7" y2="444.0" stroke="#DC2626" stroke-width="3"/>
+  <text x="737.7" y="430.0" font-size="11.5" font-weight="700" fill="#047857">37.7 / 64 GB [OK: +26.3 GB]</text>
+  <text x="298" y="480.0" text-anchor="end" font-size="12" font-weight="600" fill="#1E293B">Colab A100 80GB (BF16 DoRA Train)</text>
+  <rect x="310.0" y="462.0" width="352.4" height="28" fill="#2563EB" stroke="#FFFFFF" stroke-width="0.8"/>
+  <rect x="662.4" y="462.0" width="13.1" height="28" fill="#7C3AED" stroke="#FFFFFF" stroke-width="0.8"/>
+  <rect x="675.5" y="462.0" width="42.4" height="28" fill="#0EA5E9" stroke="#FFFFFF" stroke-width="0.8"/>
+  <rect x="717.9" y="462.0" width="29.4" height="28" fill="#F59E0B" stroke="#FFFFFF" stroke-width="0.8"/>
+  <line x1="832.1" y1="458.0" x2="832.1" y2="494.0" stroke="#DC2626" stroke-width="3"/>
+  <text x="842.1" y="480.0" font-size="11.5" font-weight="700" fill="#047857">67.0 / 80 GB [OK: +13.0 GB]</text>
+  <text x="620" y="560" text-anchor="middle" font-size="12" font-weight="600" fill="#334155">Memory Footprint (GB) — M1 Max 64GB holds MLX 4/6-bit + Vision with 26-33 GB headroom</text>
+</svg>
