@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 620" width="1200" height="620">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0b0d14"/>
+      <stop offset="100%" stop-color="#141827"/>
+    </linearGradient>
+    <linearGradient id="rustGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#f97316"/>
+      <stop offset="100%" stop-color="#ec4899"/>
+    </linearGradient>
+    <linearGradient id="goGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#06b6d4"/>
+      <stop offset="100%" stop-color="#3b82f6"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="620" rx="16" fill="url(#bgGrad)"/>
+
+  <text x="48" y="54" fill="#f8fafc" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="24" font-weight="700">
+    8b-is/ayeOS One-Click Provisioning &amp; Brick-Guard Architecture
+  </text>
+  <text x="48" y="80" fill="#94a3b8" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">
+    Zero-Python Rust/Go Tooling Spine (Assembly &gt; Rust &gt; Go &gt; TypeScript &gt; C) | Safe Execution Ladder
+  </text>
+
+  <rect x="48" y="104" width="1104" height="74" rx="12" fill="#1e293b" stroke="url(#rustGrad)" stroke-width="2"/>
+  <text x="72" y="135" fill="#f8fafc" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="16" font-weight="700">
+    1. Entrypoint &amp; Brick-Guard Preflight (aye.is/flash WebUSB + aye-flash Rust CLI + samsung-re / ios-re)
+  </text>
+  <text x="72" y="160" fill="#cbd5e1" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">
+    Verifies Ed25519 + ML-DSA-65 manifest.v2.json | Probes ADB / Fastboot / /var/run/usbmuxd before writing a single byte
+  </text>
+
+  <rect x="48" y="202" width="536" height="332" rx="12" fill="#111827" stroke="#22c55e" stroke-width="1.5"/>
+  <text x="72" y="234" fill="#4ade80" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="17" font-weight="700">
+    TARGET 1: ANDROID (WebUSB + AVF/pKVM + Slot-B)
+  </text>
+
+  <rect x="70" y="252" width="492" height="58" rx="8" fill="#1f2937" stroke="#334155"/>
+  <text x="86" y="276" fill="#f8fafc" font-family="ui-monospace, monospace" font-size="14" font-weight="700">Tier A1: Signed ayeOS.apk (100% of Devices)</text>
+  <text x="86" y="296" fill="#94a3b8" font-family="ui-monospace, monospace" font-size="12">ya-webadb + JNI libayeos_core.so | Zero Brick Risk (SM-S928U1 Safe)</text>
+
+  <rect x="70" y="320" width="492" height="58" rx="8" fill="#1f2937" stroke="#334155"/>
+  <text x="86" y="344" fill="#f8fafc" font-family="ui-monospace, monospace" font-size="14" font-weight="700">Tier A2: AVF / pKVM EL2 MicroVM or DSU GSI</text>
+  <text x="86" y="364" fill="#94a3b8" font-family="ui-monospace, monospace" font-size="12">SESIP L5 pKVM + Pure-Rust pvmfw + crosvm | 1-Reboot Stock Revert</text>
+
+  <rect x="70" y="388" width="492" height="58" rx="8" fill="#1f2937" stroke="#334155"/>
+  <text x="86" y="412" fill="#f8fafc" font-family="ui-monospace, monospace" font-size="14" font-weight="700">Tier A3: Inactive Slot-B PID-1 Takeover</text>
+  <text x="86" y="432" fill="#94a3b8" font-family="ui-monospace, monospace" font-size="12">fastboot.js backs up Slot-A; blocks if ro.boot.flash.locked == 1</text>
+
+  <rect x="70" y="456" width="492" height="58" rx="8" fill="#1f2937" stroke="#334155"/>
+  <text x="86" y="480" fill="#f8fafc" font-family="ui-monospace, monospace" font-size="14" font-weight="700">Tier A4: Bare-Metal Rust (FDT / SimpleFB / Rescue)</text>
+  <text x="86" y="500" fill="#94a3b8" font-family="ui-monospace, monospace" font-size="12">#![no_std] aarch64 kernel + mtkclient / edl / Heimdall recovery</text>
+
+  <rect x="616" y="202" width="536" height="332" rx="12" fill="#111827" stroke="url(#goGrad)" stroke-width="1.5"/>
+  <text x="640" y="234" fill="#38bdf8" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="17" font-weight="700">
+    TARGET 2: iOS / APPLE SILICON (MLX + idevice)
+  </text>
+
+  <rect x="638" y="252" width="492" height="58" rx="8" fill="#1f2937" stroke="#334155"/>
+  <text x="654" y="276" fill="#f8fafc" font-family="ui-monospace, monospace" font-size="14" font-weight="700">Tier I1: Native ayeOS.ipa + Metal MLX-QUANT (100%)</text>
+  <text x="654" y="296" fill="#94a3b8" font-family="ui-monospace, monospace" font-size="12">jkcoxson/idevice + impactor + SideStore/Feather/LiveContainer (No JIT)</text>
+
+  <rect x="638" y="320" width="492" height="58" rx="8" fill="#1f2937" stroke="#334155"/>
+  <text x="654" y="344" fill="#f8fafc" font-family="ui-monospace, monospace" font-size="14" font-weight="700">Tier I2: On-Device JIT &amp; UTM VM (iOS 17.4-27+)</text>
+  <text x="654" y="364" fill="#94a3b8" font-family="ui-monospace, monospace" font-size="12">StikDebug + StosVPN loopback + .mobiledevicepairing (PC-Free JIT)</text>
+
+  <rect x="638" y="388" width="492" height="58" rx="8" fill="#1f2937" stroke="#334155"/>
+  <text x="654" y="412" fill="#f8fafc" font-family="ui-monospace, monospace" font-size="14" font-weight="700">Tier I3: Persistent LaunchDaemon (Research/SRD)</text>
+  <text x="654" y="432" fill="#94a3b8" font-family="ui-monospace, monospace" font-size="12">TrollStore / Dopamine / Apple SRD with ElleKit &amp; CoreTrust</text>
+
+  <rect x="638" y="456" width="492" height="58" rx="8" fill="#1f2937" stroke="#334155"/>
+  <text x="654" y="480" fill="#f8fafc" font-family="ui-monospace, monospace" font-size="14" font-weight="700">Tier I4: Tethered BootROM (A8-A13 Research Only)</text>
+  <text x="654" y="500" fill="#94a3b8" font-family="ui-monospace, monospace" font-size="12">checkm8/PongoOS &amp; usbliter8/Liter8 | Blocked on A14+ SPTM/TXM</text>
+
+  <rect x="48" y="550" width="1104" height="44" rx="8" fill="#0f172a" stroke="#334155"/>
+  <text x="72" y="577" fill="#e2e8f0" font-family="ui-monospace, monospace" font-size="13">
+    Empirical Tooling: samsung-re (audit-ipc, triage-elf, diff-elf) | ios-re (audit-kernelcache, audit-dsc, diff-kernelcache) | go repo-sync (156 repos)
+  </text>
+</svg>
