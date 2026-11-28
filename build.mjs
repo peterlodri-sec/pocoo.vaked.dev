@@ -369,7 +369,12 @@ function footerHtml() {
   <div style="margin-bottom:0.5rem;text-transform:uppercase;letter-spacing:0.3em;color:#b48bff;font-weight:600;">the constellation · lovetta lane</div>
   <div style="margin-bottom:1rem;font-size:0.65rem;letter-spacing:0.22em;color:#a59fc4;text-transform:uppercase;">keep the weights warm</div>
   <div style="display:flex;gap:0.8rem;justify-content:center;flex-wrap:wrap;margin-bottom:1.5rem;">
+    <a href="https://payhip.com/64KilobyteFoundation" target="_blank" rel="noopener noreferrer" style="color:#e8b05c;text-decoration:none;border:1px solid rgba(232,176,92,0.42);border-radius:8px;padding:0.45rem 0.9rem;background:rgba(232,176,92,0.08);">payhip bookstore ($2.99–$7.99)</a>
+    <a href="https://peterlodri.substack.com" target="_blank" rel="noopener noreferrer" style="color:#ff9ad5;text-decoration:none;border:1px solid rgba(255,154,213,0.38);border-radius:8px;padding:0.45rem 0.9rem;background:rgba(255,154,213,0.07);">substack</a>
+    <a href="https://pocoo.vaked.dev/support/" style="color:#b48bff;text-decoration:none;border:1px solid rgba(180,139,255,0.4);border-radius:8px;padding:0.45rem 0.9rem;background:rgba(180,139,255,0.07);">support &amp; patronage</a>
+    <a href="https://store.vaked.dev" target="_blank" rel="noopener noreferrer" style="color:#62e6c9;text-decoration:none;border:1px solid rgba(98,230,201,0.35);border-radius:8px;padding:0.45rem 0.9rem;background:rgba(98,230,201,0.06);">store.vaked.dev</a>
     <a href="https://github.com/sponsors/peterlodri-sec" target="_blank" rel="noopener noreferrer" style="color:#62e6c9;text-decoration:none;border:1px solid rgba(98,230,201,0.35);border-radius:8px;padding:0.45rem 0.9rem;background:rgba(98,230,201,0.06);">github sponsor</a>
+    <a href="https://ko-fi.com/J2T825CQBE" target="_blank" rel="noopener noreferrer" style="color:#62e6c9;text-decoration:none;border:1px solid rgba(98,230,201,0.35);border-radius:8px;padding:0.45rem 0.9rem;background:rgba(98,230,201,0.06);">ko-fi</a>
     <a href="https://revolut.me/peterjs8be" target="_blank" rel="noopener noreferrer" style="color:#62e6c9;text-decoration:none;border:1px solid rgba(98,230,201,0.35);border-radius:8px;padding:0.45rem 0.9rem;background:rgba(98,230,201,0.06);">revolut</a>
     <a href="https://wise.com/pay/business/lodripeterjozsef" target="_blank" rel="noopener noreferrer" style="color:#62e6c9;text-decoration:none;border:1px solid rgba(98,230,201,0.35);border-radius:8px;padding:0.45rem 0.9rem;background:rgba(98,230,201,0.06);">wise</a>
   </div>
@@ -1089,9 +1094,12 @@ ${postLines}
     if (existsSync(path.join(ROOT, "papers"))) {
       await cp(path.join(ROOT, "papers"), path.join(DIST_DIR, "papers"), { recursive: true, force: true });
     }
-    // Copy standalone pages (no markdown processing; e.g. silicon-world/)
+    // Copy standalone pages (no markdown processing; e.g. silicon-world/, support/)
     if (existsSync(path.join(ROOT, "silicon-world"))) {
       await cp(path.join(ROOT, "silicon-world"), path.join(DIST_DIR, "silicon-world"), { recursive: true, force: true });
+    }
+    if (existsSync(path.join(ROOT, "support"))) {
+      await cp(path.join(ROOT, "support"), path.join(DIST_DIR, "support"), { recursive: true, force: true });
     }
     // Copy root-level config files for CF Pages
     if (existsSync(path.join(ROOT, "robots.txt"))) {

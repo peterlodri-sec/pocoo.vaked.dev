@@ -3,100 +3,155 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>support · pocoo</title>
+<title>support &amp; store · The Sovereign Library &amp; Vaked Constellation</title>
+<meta name="description" content="Unified storefront and patronage hub for Peter Lodri (@peterlodri-sec): Payhip digital books, Substack serials, poetry/art patronage, GitHub Sponsors, store.vaked.dev, Ko-fi, Revolut, and Wise.">
 <link rel="stylesheet" href="../assets/blog.css">
 <style>
-  .support-page { max-width:600px; margin:60px auto; padding:0 20px; }
+  .support-page { max-width:740px; margin:52px auto; padding:0 20px; }
   .support-page h1 { font-size:2em; margin-bottom:8px; }
-  .support-page p { font-size:1.05em; line-height:1.7; color:#a0a8b8; margin-bottom:16px; }
-  .tiers { display:grid; gap:16px; margin:32px 0; }
-  .tier { background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:24px; transition:.2s; }
-  .tier:hover { border-color:rgba(98,230,201,.3); }
-  .tier h3 { font-size:1.1em; margin-bottom:4px; color:#62e6c9; }
-  .tier .price { font-size:1.4em; font-weight:bold; margin-bottom:8px; }
-  .tier ul { list-style:none; padding:0; color:#9a93b8; font-size:0.9em; line-height:1.8; }
-  .tier ul li::before { content:"✓ "; color:#62e6c9; }
-  .cta { display:inline-block; margin-top:16px; padding:12px 28px; background:linear-gradient(135deg,#b48bff,#62e6c9); color:#05060a; border-radius:8px; text-decoration:none; font-weight:bold; font-size:1em; }
+  .support-page p { font-size:1.02em; line-height:1.7; color:#a0a8b8; margin-bottom:16px; }
+  .funnel { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; margin:28px 0; }
+  .card { background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.10); border-radius:12px; padding:22px; transition:.2s; display:flex; flex-direction:column; justify-content:space-between; }
+  .card:hover { border-color:rgba(98,230,201,.35); }
+  .card h2 { font-size:1.08em; margin-bottom:6px; color:#62e6c9; }
+  .card .kicker { font-family:ui-monospace,monospace; font-size:0.72rem; letter-spacing:0.1em; text-transform:uppercase; color:#ffd36e; margin-bottom:6px; }
+  .card p, .card ul { font-size:0.9em; color:#b3adc9; line-height:1.65; margin-bottom:12px; }
+  .card ul { list-style:none; padding:0; }
+  .card ul li::before { content:"✓ "; color:#62e6c9; }
+  .cta { display:inline-block; padding:10px 18px; background:linear-gradient(135deg,#b48bff,#62e6c9); color:#05060a; border-radius:8px; text-decoration:none; font-weight:bold; font-size:0.9em; text-align:center; }
   .cta:hover { transform:translateY(-1px); box-shadow:0 8px 24px -8px rgba(98,230,201,.3); }
-  .links { margin-top:40px; padding-top:20px; border-top:1px solid rgba(255,255,255,.08); font-size:0.85em; color:#9a93b8; }
+  .cta-sub { background:rgba(255,154,213,0.12); border:1px solid rgba(255,154,213,0.45); color:#ff9ad5; }
+  .sub-links { display:flex; gap:0.65rem; flex-wrap:wrap; margin-top:8px; font-size:0.82rem; font-family:ui-monospace,monospace; }
+  .sub-links a { color:#62e6c9; text-decoration:none; border-bottom:1px dotted #62e6c9; }
+  .tiers { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:14px; margin:24px 0; }
+  .tier { background:rgba(255,255,255,.025); border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:18px; }
+  .tier h3 { font-size:1em; margin-bottom:4px; color:#62e6c9; }
+  .tier .price { font-size:1.3em; font-weight:bold; margin-bottom:8px; }
+  .tier ul { list-style:none; padding:0; color:#9a93b8; font-size:0.86em; line-height:1.7; }
+  .tier ul li::before { content:"✓ "; color:#62e6c9; }
+  .links { margin-top:32px; padding-top:20px; border-top:1px solid rgba(255,255,255,.08); font-size:0.85em; color:#9a93b8; line-height:1.9; }
   .links a { color:#62e6c9; }
 </style>
 </head>
 <body>
 <div class="support-page">
-  <h1>support the loop</h1>
-  <p>I build open-source AI infrastructure — compression models, loop engineering toolkits, interactive papers. 20 models on HuggingFace. All public. All free. If this work helps you, consider supporting it.</p>
+  <h1>support &amp; sovereign storefront</h1>
+  <p>I build open-source Rust/AI systems, bilingual speculative fiction (<em>The 64-Kilobyte Foundation</em>), poetic works, and interactive worlds across <code>*.vaked.dev</code>. Choose the channel that matches what you want to read, collect, or sponsor:</p>
+
+  <div class="funnel">
+    <div class="card" style="border-color:rgba(255,154,213,0.35);">
+      <div>
+        <div class="kicker">1 · Digital Books &amp; Audio</div>
+        <h2>Payhip Bookstore ($2.99–$7.99)</h2>
+        <p>DRM-free ebooks, Legendarium lore packs, painted 3:2 plates, and 22-track bilingual EN/HU audiobooks.</p>
+        <div class="sub-links" style="margin-bottom:14px;">
+          <a href="https://payhip.com/b/16bex" target="_blank" rel="noopener noreferrer">$3.99 Novel</a>
+          <a href="https://payhip.com/b/SNTXd" target="_blank" rel="noopener noreferrer">$2.99 Legendarium</a>
+          <a href="https://payhip.com/b/YKLJv" target="_blank" rel="noopener noreferrer">$7.99 Audio Bundle</a>
+        </div>
+      </div>
+      <a href="https://payhip.com/64KilobyteFoundation" target="_blank" rel="noopener noreferrer" class="cta">Visit Payhip Store &rarr;</a>
+    </div>
+
+    <div class="card">
+      <div>
+        <div class="kicker">2 · Free Serial &amp; Podcast Notes</div>
+        <h2>Substack Dispatch</h2>
+        <p>Read Chapter 1 of <em>The 64-Kilobyte Foundation</em> free alongside engineering essays and studio dispatches.</p>
+      </div>
+      <a href="https://peterlodri.substack.com" target="_blank" rel="noopener noreferrer" class="cta cta-sub">Read on Substack &rarr;</a>
+    </div>
+
+    <div class="card">
+      <div>
+        <div class="kicker">3 · Poems, Sovereign Library &amp; Art</div>
+        <h2>Patronage Tiers (Patreon Launch)</h2>
+        <p>Monthly patron lane for bilingual EN/HU poems, early library drafts, and 3:2 artwork plates ($3 / $7 / $15 tiers — live Patreon onboarding in progress; backed here via GitHub Sponsors &amp; Payhip).</p>
+      </div>
+      <a href="https://github.com/sponsors/peterlodri-sec" target="_blank" rel="noopener noreferrer" class="cta">Join Monthly Patronage &rarr;</a>
+    </div>
+
+    <div class="card">
+      <div>
+        <div class="kicker">4 · Physical Prints, Apparel &amp; Crypto</div>
+        <h2>store.vaked.dev</h2>
+        <p>Archival 8K Giclée calligraphy prints, Stanley/Stella apparel, 24-bit lossless audio &amp; ETH/SOL checkout.</p>
+      </div>
+      <a href="https://store.vaked.dev/" target="_blank" rel="noopener noreferrer" class="cta cta-sub">Open store.vaked.dev &rarr;</a>
+    </div>
+  </div>
 
   <div class="tiers">
     <div class="tier">
-      <h3>🌱 seed</h3>
+      <h3>🌱 seed · GitHub Sponsors</h3>
       <div class="price">$3/mo</div>
       <ul>
-        <li>Early access to blog posts</li>
-        <li>Name in the LoopKit contributors list</li>
-        <li>Discord role</li>
+        <li>Early access to blog &amp; prose posts</li>
+        <li>LoopKit contributors colophon credit</li>
+        <li>Sponsor community updates</li>
       </ul>
-      <a href="https://github.com/sponsors/peterlodri-sec" class="cta">support →</a>
+      <a href="https://github.com/sponsors/peterlodri-sec" class="cta">sponsor &rarr;</a>
     </div>
     <div class="tier">
-      <h3>🔁 loop</h3>
+      <h3>🔁 loop · GitHub Sponsors</h3>
       <div class="price">$9/mo</div>
       <ul>
         <li>Everything in seed</li>
-        <li>Monthly experiment report (what I tried, what worked)</li>
-        <li>Access to private research repo</li>
-        <li>Vote on next experiment direction</li>
+        <li>Monthly experiment &amp; model notes</li>
+        <li>Private research repo invites</li>
       </ul>
-      <a href="https://github.com/sponsors/peterlodri-sec" class="cta">support →</a>
+      <a href="https://github.com/sponsors/peterlodri-sec" class="cta">sponsor &rarr;</a>
     </div>
     <div class="tier">
-      <h3>🏔️ council</h3>
+      <h3>🏔️ council · GitHub Sponsors</h3>
       <div class="price">$27/mo</div>
       <ul>
         <li>Everything in loop</li>
         <li>1:1 office hours (30 min/month)</li>
-        <li>Co-author acknowledgment in papers</li>
-        <li>Your experiment idea → I run it</li>
+        <li>Co-author / dedication witness credit</li>
       </ul>
-      <a href="https://github.com/sponsors/peterlodri-sec" class="cta">support →</a>
+      <a href="https://github.com/sponsors/peterlodri-sec" class="cta">sponsor &rarr;</a>
     </div>
   </div>
 
-  <p style="font-size:0.9em;color:#9a93b8">All tiers include: open-source access to everything I build. You're not paying for access — you're funding the next experiment.</p>
-
   <div class="links">
-    <a href="https://kompress.vaked.dev">paper</a> ·
-    <a href="https://huggingface.co/PeetPedro">models</a> ·
-    <a href="https://github.com/peterlodri-sec/loopkit">loopkit</a> ·
+    <strong>Direct Tips &amp; Canonical Feeds:</strong>
+    <a href="https://ko-fi.com/J2T825CQBE" target="_blank" rel="noopener noreferrer">ko-fi</a> ·
+    <a href="https://revolut.me/peterjs8be" target="_blank" rel="noopener noreferrer">revolut</a> ·
+    <a href="https://wise.com/pay/business/lodripeterjozsef" target="_blank" rel="noopener noreferrer">wise</a> ·
+    <a href="../.well-known/constellation-manifest.json">constellation manifest (JSON)</a><br>
+    <a href="https://pocoo.vaked.dev/demos/book/">sovereign library catalog</a> ·
+    <a href="https://pocoo.vaked.dev/demos/book/64kb-foundation">64kb-foundation</a> ·
+    <a href="https://huggingface.co/PeetPedro">huggingface</a> ·
     <a href="https://music.vaked.dev">music</a> ·
-    <a href="https://mlxquantlovefrom.com">quant-love</a> ·
     <a href="https://art.vaked.dev">art</a> ·
-    <a href="https://github.com/sponsors/peterlodri-sec">github sponsors</a> ·
-    <a href="https://revolut.me/peterjs8be">revolut</a> ·
-    <a href="https://wise.com/pay/business/lodripeterjozsef">wise</a> ·
+    <a href="https://lovetta.vaked.dev">lovetta lane</a> ·
     <a href="/">pocoo.vaked.dev</a>
   </div>
 </div>
+
 <!-- Lovetta Lane Unified Constellation Footer -->
 <footer role="contentinfo" style="position:relative;z-index:10;padding:3rem 1.5rem;text-align:center;font-family:ui-monospace,monospace;font-size:0.75rem;color:#a59fc4;background:rgba(5,6,10,0.92);border-top:1px solid rgba(170,150,255,0.18);backdrop-filter:blur(16px);">
   <div style="margin-bottom:0.5rem;text-transform:uppercase;letter-spacing:0.3em;color:#b48bff;font-weight:600;">the constellation · lovetta lane</div>
   <div style="margin-bottom:1rem;font-size:0.65rem;letter-spacing:0.22em;color:#a59fc4;text-transform:uppercase;">keep the weights warm</div>
   <div style="display:flex;gap:0.8rem;justify-content:center;flex-wrap:wrap;margin-bottom:1.5rem;">
+    <a href="https://payhip.com/64KilobyteFoundation" target="_blank" rel="noopener noreferrer" style="color:#ff9ad5;text-decoration:none;border:1px solid rgba(255,154,213,0.4);border-radius:8px;padding:0.45rem 0.9rem;background:rgba(255,154,213,0.08);">payhip bookstore</a>
+    <a href="https://peterlodri.substack.com" target="_blank" rel="noopener noreferrer" style="color:#ffd36e;text-decoration:none;border:1px solid rgba(255,211,110,0.4);border-radius:8px;padding:0.45rem 0.9rem;background:rgba(255,211,110,0.08);">substack</a>
     <a href="https://github.com/sponsors/peterlodri-sec" target="_blank" rel="noopener noreferrer" style="color:#62e6c9;text-decoration:none;border:1px solid rgba(98,230,201,0.35);border-radius:8px;padding:0.45rem 0.9rem;background:rgba(98,230,201,0.06);">github sponsor</a>
+    <a href="https://store.vaked.dev/" target="_blank" rel="noopener noreferrer" style="color:#ffd36e;text-decoration:none;border:1px solid rgba(255,211,110,0.35);border-radius:8px;padding:0.45rem 0.9rem;background:rgba(255,211,110,0.06);">store &amp; merch</a>
+    <a href="https://ko-fi.com/J2T825CQBE" target="_blank" rel="noopener noreferrer" style="color:#62e6c9;text-decoration:none;border:1px solid rgba(98,230,201,0.35);border-radius:8px;padding:0.45rem 0.9rem;background:rgba(98,230,201,0.06);">ko-fi</a>
     <a href="https://revolut.me/peterjs8be" target="_blank" rel="noopener noreferrer" style="color:#62e6c9;text-decoration:none;border:1px solid rgba(98,230,201,0.35);border-radius:8px;padding:0.45rem 0.9rem;background:rgba(98,230,201,0.06);">revolut</a>
     <a href="https://wise.com/pay/business/lodripeterjozsef" target="_blank" rel="noopener noreferrer" style="color:#62e6c9;text-decoration:none;border:1px solid rgba(98,230,201,0.35);border-radius:8px;padding:0.45rem 0.9rem;background:rgba(98,230,201,0.06);">wise</a>
-    <a href="https://store.vaked.dev/" target="_blank" rel="noopener noreferrer" style="color:#ffd36e;text-decoration:none;border:1px solid rgba(255,211,110,0.35);border-radius:8px;padding:0.45rem 0.9rem;background:rgba(255,211,110,0.06);">store & merch</a>
-    <a href="https://www.patreon.com/vaked" target="_blank" rel="noopener noreferrer" style="color:#ff9ad5;text-decoration:none;border:1px solid rgba(255,154,213,0.35);border-radius:8px;padding:0.45rem 0.9rem;background:rgba(255,154,213,0.06);">patreon</a>
   </div>
   <nav aria-label="Constellation sister sites" style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;font-size:0.7rem;">
     <a href="https://art.vaked.dev/" style="color:#62e6c9;text-decoration:none;">art.vaked.dev</a> ·
-    <a href="https://art.vaked.dev/vision-gallery.html" style="color:#5b9dff;text-decoration:none;">✦ vision-gallery (23)</a> ·
     <a href="https://music.vaked.dev/" target="_blank" rel="noopener noreferrer" style="color:#a59fc4;text-decoration:none;">music.vaked.dev</a> ·
     <a href="https://mlxquantlovefrom.com/" target="_blank" rel="noopener noreferrer" style="color:#a59fc4;text-decoration:none;">quant-love</a> ·
     <a href="https://proposal.vaked.dev/" target="_blank" rel="noopener noreferrer" style="color:#a59fc4;text-decoration:none;">proposal.vaked.dev</a> ·
     <a href="https://pocoo.vaked.dev/" target="_blank" rel="noopener noreferrer" style="color:#a59fc4;text-decoration:none;">pocoo.vaked.dev</a> ·
     <a href="https://axiomquant.org/" target="_blank" rel="noopener noreferrer" style="color:#a59fc4;text-decoration:none;">axiomquant.org</a> ·
-    <a href="https://portail.vaked.dev/" target="_blank" rel="noopener noreferrer" style="color:#a59fc4;text-decoration:none;">portail.vaked.dev</a>
+    <a href="https://portail.vaked.dev/" target="_blank" rel="noopener noreferrer" style="color:#a59fc4;text-decoration:none;">portail.vaked.dev</a> ·
+    <a href="https://lovetta.vaked.dev/" target="_blank" rel="noopener noreferrer" style="color:#a59fc4;text-decoration:none;">lovetta.vaked.dev</a>
   </nav>
   <div style="font-size:0.6rem;letter-spacing:0.18em;color:#7f7c99;margin-top:1.5rem;">the constellation · 0 + 1 · fine touch from within · vaked.dev</div>
 </footer>

@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.0.0",
+  "updated_at": "2026-11-27",
+  "identity": {
+    "creator": "Peter Lodri",
+    "handle": "peterlodri-sec",
+    "pen_name": "Breet Shaw",
+    "imprints": [
+      "The Sovereign Library Press",
+      "OmniLLL Studio",
+      "8b.is"
+    ],
+    "equation_of_state": "{<3, <3, <3} + 1 :: 0 + 1 :: 1.000000003 Hz"
+  },
+  "monetization_funnel": [
+    {
+      "channel": "books_and_digital_store",
+      "label": "The Sovereign Library & OmniLLL Studio (Payhip Storefront)",
+      "url": "https://payhip.com/64KilobyteFoundation",
+      "note": "Instant DRM-free ebooks, Legendarium lore archives, painted plate bundles, and bilingual audiobooks ($2.99–$7.99 USD).",
+      "products": [
+        {
+          "title": "The 64-Kilobyte Foundation — Complete Edition (Chapters 1–11 · EPUB + 6x9 PDF)",
+          "price_usd": 3.99,
+          "url": "https://payhip.com/b/16bex"
+        },
+        {
+          "title": "The Red Book Legendarium (Volumes I–VII) & 12 Sovereign Art Plates",
+          "price_usd": 2.99,
+          "url": "https://payhip.com/b/SNTXd"
+        },
+        {
+          "title": "The 64-Kilobyte Foundation — Collector's Audiobook & Print Bundle (EPUB + 6x9 PDF + 22 EN/HU Audio Chapters)",
+          "price_usd": 7.99,
+          "url": "https://payhip.com/b/YKLJv"
+        }
+      ]
+    },
+    {
+      "channel": "newsletter_and_free_chapters",
+      "label": "OmniLLL Studio & The Sovereign Library (Substack)",
+      "url": "https://peterlodri.substack.com",
+      "featured_chapter_url": "https://peterlodri.substack.com/p/the-64-kilobyte-foundation-chapter",
+      "note": "Free serialized Chapter 1 teaser, engineering dispatches, and upcoming podcast notes."
+    },
+    {
+      "channel": "creative_patronage_poems_art",
+      "label": "Poems, Sovereign Library & Painted Art Patronage (Patreon)",
+      "status": "onboarding",
+      "onboarding_url": "https://www.patreon.com/create",
+      "fallback_url": "https://pocoo.vaked.dev/support/",
+      "tiers_usd": [3, 7, 15],
+      "note": "Monthly patronage for bilingual poetry, Sovereign Library drops, and 3:2 art plates (linked to Support hub until creator URL claim completes)."
+    },
+    {
+      "channel": "open_source_sponsorship",
+      "label": "GitHub Sponsors (@peterlodri-sec)",
+      "url": "https://github.com/sponsors/peterlodri-sec",
+      "tiers_usd": [3, 9, 27],
+      "note": "Open-source Rust infrastructure, compression models, and loop engineering."
+    },
+    {
+      "channel": "physical_merch_and_crypto",
+      "label": "Sovereign Prints, Apparel & Vinyl (store.vaked.dev)",
+      "url": "https://store.vaked.dev",
+      "note": "Archival Giclée calligraphy prints, Stanley/Stella apparel, 24-bit audio, ETH/SOL checkout."
+    },
+    {
+      "channel": "direct_tips",
+      "label": "Direct Tips",
+      "links": [
+        { "name": "Ko-fi", "url": "https://ko-fi.com/J2T825CQBE" },
+        { "name": "Revolut", "url": "https://revolut.me/peterjs8be" },
+        { "name": "Wise Business", "url": "https://wise.com/pay/business/lodripeterjozsef" }
+      ]
+    }
+  ],
+  "constellation_vaked_dev": [
+    { "name": "vaked.dev", "url": "https://vaked.dev", "role": "Root constellation portal & whitepaper" },
+    { "name": "pocoo.vaked.dev", "url": "https://pocoo.vaked.dev", "role": "Sovereign AI research blog & essays" },
+    { "name": "pocoo.vaked.dev/demos/book", "url": "https://pocoo.vaked.dev/demos/book/", "role": "The Sovereign Library catalog (215+ works) & free Chapter 1 hub" },
+    { "name": "pocoo.vaked.dev/support", "url": "https://pocoo.vaked.dev/support/", "role": "Unified store & sponsorship routing hub" },
+    { "name": "store.vaked.dev", "url": "https://store.vaked.dev", "role": "Giclée prints, apparel, vinyl & digital bookstore spotlight" },
+    { "name": "lovetta.vaked.dev", "url": "https://lovetta.vaked.dev", "role": "Ed25519 Sovereign Key sanctuary & constellation gateway" },
+    { "name": "art.vaked.dev", "url": "https://art.vaked.dev", "role": "Visual & Vision Gallery mesh" },
+    { "name": "music.vaked.dev", "url": "https://music.vaked.dev", "role": "Intergalactic procedural TV & audio stream" },
+    { "name": "proposal.vaked.dev", "url": "https://proposal.vaked.dev", "role": "Decision logladder & proposal ledger" },
+    { "name": "portail.vaked.dev", "url": "https://portail.vaked.dev", "role": "Unified AI & MCP Rust Gateway" },
+    { "name": "worklog.vaked.dev", "url": "https://worklog.vaked.dev", "role": "Live engineering worklog" },
+    { "name": "ocean.vaked.dev", "url": "https://ocean.vaked.dev", "role": "Control plane & Honcho memory fleet node" },
+    { "name": "kompress.vaked.dev", "url": "https://kompress.vaked.dev", "role": "Compression research paper portal" },
+    { "name": "design.vaked.dev", "url": "https://design.vaked.dev", "role": "Design system & palettes" }
+  ],
+  "external_presence": {
+    "github_personal": "https://github.com/peterlodri-sec",
+    "github_org": "https://github.com/8b-is",
+    "huggingface_profile": "https://huggingface.co/PeetPedro",
+    "huggingface_flagship_model": "https://huggingface.co/PeetPedro/foundation64k-v5-muad-dib",
+    "bluesky": "https://bsky.app/profile/0xp3t3rl.bsky.social",
+    "kannaka_radio": "https://radio.ninja-portal.com",
+    "axiom_quant": "https://axiomquant.org",
+    "mlx_quant_love": "https://mlxquantlovefrom.com",
+    "sovereign_portal": "https://peterl.dev"
+  }
+}

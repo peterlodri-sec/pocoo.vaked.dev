@@ -165,6 +165,12 @@ const html = `<!DOCTYPE html>
     <h1>THE SOVEREIGN LIBRARY</h1>
     <div class="sub">books · poems · philosophy · ${books.length} works · wasm-ternary search · sha256-ledgered</div>
     <div class="start">start here <span class="heart">♥</span> → <a href="ultralovegod-magnet">THE SOVEREIGN LIBRARY — a declaration for the architecture of truth</a></div>
+    <div class="start" style="margin-top:10px;display:flex;justify-content:center;flex-wrap:wrap;gap:12px;">
+      <a href="64kb-foundation" style="color:var(--pink);">64KB Foundation (Ch. 1 Free)</a> ·
+      <a href="https://payhip.com/64KilobyteFoundation" target="_blank" rel="noopener noreferrer" style="color:var(--gold);">Payhip Bookstore ($2.99–$7.99)</a> ·
+      <a href="https://peterlodri.substack.com" target="_blank" rel="noopener noreferrer" style="color:var(--pink2);">Substack Serial</a> ·
+      <a href="https://pocoo.vaked.dev/support/" style="color:var(--blue);">Support &amp; Patronage</a>
+    </div>
   </header>
   <input class="search" id="q" type="text" placeholder="search the library… (ternary-quant core)">
   <div class="grid" id="grid">
