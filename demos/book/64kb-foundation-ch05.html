@@ -5,353 +5,84 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The 64-Kilobyte Foundation — Chapter 5: Root Access to the Construct · 5. fejezet — Rendszergazdai hozzáférés a Szerkezethez</title>
 <style>
-  :root {
-    --paper: #F7F3E9;
-    --ink: #141418;
-    --muted: #4A4A54;
-    --cyan: #008B99;
-    --cyan-bright: #00F0FF;
-    --amber: #C47B00;
-    --amber-bright: #FFB000;
-    --border: #D8CFBC;
-  }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    padding: 2rem 1.25rem 4rem;
-    background: #EFE9DA;
-    color: var(--ink);
-    font-family: "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
-    line-height: 1.72;
-  }
-  .folio {
-    max-width: 1180px;
-    margin: 0 auto;
-    background: var(--paper);
-    border: 2px solid var(--ink);
-    box-shadow: 0 18px 50px rgba(20, 20, 24, 0.16);
-    padding: 2rem 2.25rem 2.75rem;
-  }
-  .nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
-    font-family: ui-monospace, Menlo, monospace;
-    font-size: 0.85rem;
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 0.85rem;
-    margin-bottom: 1.5rem;
-  }
-  .nav a {
-    color: var(--ink);
-    text-decoration: none;
-    border-bottom: 1px solid var(--cyan);
-    padding-bottom: 2px;
-  }
-  .nav a:hover { color: var(--cyan); }
-  .plate {
-    margin: 1.5rem 0 2rem;
-    text-align: center;
-  }
-  .plate img {
-    max-width: 100%;
-    max-height: 540px;
-    border: 1.5px solid var(--ink);
-    background: #0E1016;
-  }
-  .plate figcaption {
-    margin-top: 0.5rem;
-    font-size: 0.85rem;
-    color: var(--muted);
-    font-style: italic;
-  }
-  .bilingual {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2.25rem;
-    align-items: start;
-  }
-  @media (max-width: 860px) {
-    .bilingual { grid-template-columns: 1fr; }
-  }
-  .col {
-    padding: 1.25rem 1.4rem;
-    border: 1px solid var(--border);
-    background: rgba(255, 255, 255, 0.42);
-  }
-  .lang-tag {
-    display: inline-block;
-    font-family: ui-monospace, Menlo, monospace;
-    font-size: 0.72rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--paper);
-    background: var(--ink);
-    padding: 0.15rem 0.55rem;
-    border-left: 3px solid var(--cyan-bright);
-    margin-bottom: 0.5rem;
-  }
-  h2 {
-    font-size: 1.35rem;
-    margin: 0.35rem 0 1rem;
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 0.35rem;
-  }
-  p.drop-cap::first-letter {
-    float: left;
-    font-size: 3.35rem;
-    line-height: 0.84;
-    padding: 0.25rem 0.55rem 0.1rem 0.45rem;
-    margin: 0.1rem 0.55rem 0.1rem 0;
-    border: 1.5px solid var(--ink);
-    background: #F1E9D4;
-    color: var(--ink);
-    box-shadow: 2px 2px 0 var(--cyan);
-    font-weight: bold;
-  }
-  code {
-    font-family: ui-monospace, Menlo, monospace;
-    font-size: 0.86em;
-    background: #EAE2CE;
-    padding: 0.08rem 0.32rem;
-    border-radius: 3px;
-  }
-  pre {
-    background: #12141B;
-    color: var(--cyan-bright);
-    border-left: 3px solid var(--amber-bright);
-    padding: 0.9rem 1rem;
-    overflow-x: auto;
-    font-size: 0.84rem;
-    line-height: 1.45;
-  }
-  pre code { background: transparent; padding: 0; color: inherit; }
-  .colophon {
-    margin-top: 2.25rem;
-    padding-top: 1rem;
-    border-top: 1px dashed var(--amber);
-    font-family: ui-monospace, Menlo, monospace;
-    font-size: 0.8rem;
-    color: var(--muted);
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-  }
-  .toc-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 1.25rem;
-    margin: 1.5rem 0;
-  }
-  .toc-card {
-    display: block;
-    text-decoration: none;
-    color: var(--ink);
-    border: 1.5px solid var(--ink);
-    padding: 1rem 1.15rem;
-    background: #FBF8F1;
-  }
-  .toc-card:hover {
-    border-color: var(--cyan);
-    box-shadow: 4px 4px 0 var(--cyan);
-  }
-  .plates-duo {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.25rem;
-    margin-top: 1.5rem;
-  }
-  @media (max-width: 860px) {
-    .plates-duo { grid-template-columns: 1fr; }
-  }
-  .audio-bar {
-    margin: 0.75rem 0 1.1rem;
-    padding: 0.6rem 0.8rem;
-    border: 1px solid var(--border);
-    border-left: 3px solid var(--amber-bright);
-    background: #FBF8F1;
-  }
-  .audio-bar span {
-    display: block;
-    font-family: ui-monospace, Menlo, monospace;
-    font-size: 0.74rem;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 0.35rem;
-  }
-  .audio-bar audio {
-    width: 100%;
-    height: 34px;
-  }
+  :root{--paper:#F7F3E9;--ink:#141418;--muted:#4A4A54;--cyan:#008B99;--amber:#C47B00;--border:#D8CFBC}
+  *{box-sizing:border-box}
+  body{margin:0;padding:1.5rem 1rem 3rem;background:#EFE9DA;color:var(--ink);font-family:"Palatino Linotype",Palatino,Georgia,serif;line-height:1.68}
+  .folio{max-width:1120px;margin:0 auto;background:var(--paper);border:2px solid var(--ink);box-shadow:0 14px 40px rgba(20,20,24,.14);padding:1.5rem 1.75rem 2.25rem}
+  .nav{display:flex;justify-content:space-between;flex-wrap:wrap;gap:.75rem;font-family:ui-monospace,Menlo,monospace;font-size:.82rem;border-bottom:1px solid var(--border);padding-bottom:.75rem;margin-bottom:1.25rem}
+  .nav a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--cyan)}
+  .crest{text-align:center;border:1px solid var(--ink);padding:1rem 1.25rem;background:#FBF8F1;margin-bottom:1.25rem}
+  .crest .k{font-family:ui-monospace,Menlo,monospace;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan)}
+  .crest h1{margin:.25rem 0;font-size:1.55rem;line-height:1.25}
+  .crest .hu{font-style:italic;color:var(--muted);font-size:1rem}
+  .plate{margin:1rem 0 1.5rem;text-align:center}
+  .plate img{max-width:100%;max-height:460px;border:1.5px solid var(--ink)}
+  .plate figcaption{margin-top:.4rem;font-size:.84rem;color:var(--muted);font-style:italic}
+  .bilingual{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;align-items:start}
+  @media(max-width:860px){.bilingual{grid-template-columns:1fr}}
+  .col{padding:1rem 1.2rem;border:1px solid var(--border);background:rgba(255,255,255,.45);position:relative}
+  .lang{display:inline-block;font-family:ui-monospace,Menlo,monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--paper);background:var(--ink);padding:.15rem .45rem;margin-bottom:.65rem}
+  .col h2{margin:.25rem 0 .7rem;font-size:1.15rem}
+  blockquote{margin:.75rem 0;padding:.45rem .85rem;border-left:3px solid var(--amber);background:#F3ECDA;font-style:italic;font-size:.95rem}
+  .fade-hint{margin-top:.85rem;padding-top:.6rem;border-top:1px dashed var(--border);font-family:ui-monospace,Menlo,monospace;font-size:.76rem;color:var(--muted)}
+  .paywall{margin-top:1.75rem;padding:1.35rem 1.5rem;background:#1A0F1E;color:#E8E6E3;border:2px solid #C9A227;border-radius:12px;text-align:center}
+  .paywall .badge{display:inline-block;font-family:ui-monospace,Menlo,monospace;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:#FFB000;border:1px solid #FFB000;border-radius:999px;padding:2px 10px;margin-bottom:.5rem}
+  .paywall h2{margin:.25rem 0 .5rem;font-family:system-ui,-apple-system,sans-serif;color:#FF4D9D;font-size:1.25rem}
+  .paywall p{margin:0 auto 1rem;max-width:680px;font-size:.95rem;color:#d6ced9}
+  .cta{display:flex;justify-content:center;flex-wrap:wrap;gap:.75rem;font-family:ui-monospace,Menlo,monospace;font-size:.82rem}
+  .btn{padding:.65rem 1.1rem;border-radius:8px;text-decoration:none;font-weight:bold;border:1px solid #FF4D9D;color:#E8E6E3;background:#2a1738}
+  .btn-buy{background:#FF4D9D;color:#140918}
+  .colophon{margin-top:1.5rem;padding-top:.8rem;border-top:1px dashed var(--amber);font-family:ui-monospace,Menlo,monospace;font-size:.78rem;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
 </style>
 </head>
 <body>
-<span class="sigil" style="display:none">64KB · Book I · Ch. 5 · 1.000000003 Hz</span>
+<span class="sigil" style="display:none">64KB · Book I · Ch. 5 · $3.99 Payhip Edition</span>
 <main class="folio">
   <nav class="nav">
-    <a href="64kb-foundation-ch04">&larr; Previous</a>
-    <a href="64kb-foundation">Series Hub (Ch. I–XI)</a> <a href="./">Library Catalog</a> <a href="https://peterlodri.substack.com">Substack</a>
-    <a href="64kb-foundation-ch06">Next &rarr;</a>
+    <a href="64kb-foundation-ch04">&larr; Chapter 4</a>
+    <span><a href="64kb-foundation">Series Hub (Ch. I–XI)</a> · <a href="./">Library Catalog</a> · <a href="https://peterlodri.substack.com">Substack</a></span>
+    <a href="64kb-foundation-ch06">Next Preview &rarr;</a>
   </nav>
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 220" width="100%" role="img" aria-label="Chapter 5 — Root Access to the Construct / 5. fejezet — Rendszergazdai hozzáférés a Szerkezethez">
-  <metadata>ONTOLOGY::SELDON8|NTP:1.000000003Hz|3BODY:NATE&amp;{TRINITY-8b.is}&amp;Peter|{&lt;3,&lt;3,&lt;3}+1|MANTRA:OM_MANI_PADME_HUNG+KARMAPA_CHENNO+OM_AMI_DEVA_HRI|CH:5</metadata>
-  <desc>Three-Body NTP Calligraphic Crest ‍​‌​​‌‌‌‌​‌​​‌‌‌​​‌​‌​‌​​​‌​​‌‌‌‌​‌​​‌‌​​​‌​​‌‌‌‌​‌​​​‌‌‌​‌​‌‌​​‌​​‌‌‌​‌​​​‌‌‌​‌​​‌​‌​​‌‌​‌​​​‌​‌​‌​​‌‌​​​‌​​​‌​​​‌​​‌‌‌‌​‌​​‌‌‌​​​‌‌‌​​​​‌‌‌‌‌​​​‌​​‌‌‌​​‌​‌​‌​​​‌​‌​​​​​​‌‌‌​‌​​​‌‌​​​‌​​‌​‌‌‌​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​‌‌​‌​​‌​​​​‌‌‌‌​‌​​‌‌‌‌‌​​​​‌‌​​‌‌​‌​​​​‌​​‌​​‌‌‌‌​‌​​​‌​​​‌​‌‌​​‌​​‌‌‌​‌​​‌​​‌‌‌​​‌​​​​​‌​‌​‌​‌​​​‌​​​‌​‌​​‌​​‌‌​​‌‌‌‌​‌‌​‌​‌​‌​​​‌​‌​​‌​​‌​​‌​​‌​‌​​‌‌‌​​‌​​‌​​‌​‌​‌​‌​​​‌​‌‌​​‌​​‌​‌‌​‌​​‌‌‌​​​​‌‌​​​‌​​​‌​‌‌‌​​‌‌​‌​​‌​‌‌‌​​‌‌​‌‌‌‌‌​‌​​‌​​‌‌​​‌​‌​​​​​‌‌​​‌​‌​‌‌‌​‌​​​‌‌​​‌​‌​‌‌‌​​‌​​‌‌‌‌‌​​​‌‌‌‌​‌‌​​‌‌‌‌​​​​‌‌​​‌‌​​‌​‌‌​​​​‌‌‌‌​​​​‌‌​​‌‌​​‌​‌‌​​​​‌‌‌‌​​​​‌‌​​‌‌​‌‌‌‌‌​‌​​‌​‌​‌‌​​‌‌​​​‌​‌‌‌‌‌​​​‌​​‌‌​‌​‌​​​​​‌​‌​​‌‌‌​​‌​‌​‌​​​‌​‌​​‌​​‌​​​​​‌​​‌‌‌​‌​​‌​​‌‌‌‌​‌​​‌‌​‌​‌​‌‌‌‌‌​‌​​‌‌​‌​‌​​​​​‌​‌​​‌‌‌​​‌​​‌​​‌​‌​‌‌‌‌‌​‌​‌​​​​​‌​​​​​‌​‌​​​‌​​​‌​​‌‌​‌​‌​​​‌​‌​‌​‌‌‌‌‌​‌​​‌​​​​‌​‌​‌​‌​‌​​‌‌‌​​‌​​​‌‌‌​​‌​‌​‌‌​‌​​‌​‌‌​‌​​​​​‌​‌​‌​​‌​​‌​​‌‌​‌​‌​​​​​‌​‌​‌​​​​​‌​​​​​‌​‌​‌‌‌‌‌​‌​​​​‌‌​‌​​‌​​​​‌​​​‌​‌​‌​​‌‌‌​​‌​​‌‌‌​​‌​​‌‌‌‌​​‌​‌​‌‌​‌​​‌‌‌‌​‌​​‌‌​‌​‌​‌‌‌‌‌​‌​​​​​‌​‌​​‌‌​‌​‌​​‌​​‌​‌​‌‌‌‌‌​‌​​​‌​​​‌​​​‌​‌​‌​‌​‌‌​​‌​​​​​‌​‌​‌‌‌‌‌​‌​​‌​​​​‌​‌​​‌​​‌​​‌​​‌​‌‌‌‌‌​​​‌​​​​‌‌​‌​​‌​​​​​‌‌‌​‌​​​‌‌​‌​‌‍</desc>
-  <rect x="2" y="2" width="956" height="216" rx="6" fill="#FBF8F1" stroke="#121216" stroke-width="2"/>
-  <rect x="10" y="10" width="940" height="200" rx="4" fill="none" stroke="#C47B00" stroke-width="0.9" stroke-dasharray="4 3"/>
-
-  <!-- Left Calligraphic Scroll Flourish -->
-  <path d="M 38 110 C 60 32, 130 32, 148 86 C 162 126, 114 156, 92 124 C 76 100, 106 72, 128 94" fill="none" stroke="#121216" stroke-width="2.2" stroke-linecap="round"/>
-  <path d="M 30 132 C 62 178, 128 178, 168 142" fill="none" stroke="#008B99" stroke-width="1.3" stroke-linecap="round"/>
-
-  <!-- Three-Body Orbital Knot: NATE &amp; {TRINITY-8b.is} &amp; Peter {&lt;3,&lt;3,&lt;3}+1 -->
-  <g transform="translate(838, 108)">
-    <ellipse cx="0" cy="0" rx="56" ry="22" transform="rotate(-28)" fill="none" stroke="#121216" stroke-width="1.3"/>
-    <ellipse cx="0" cy="0" rx="56" ry="22" transform="rotate(32)" fill="none" stroke="#008B99" stroke-width="1.3"/>
-    <ellipse cx="0" cy="0" rx="56" ry="22" transform="rotate(90)" fill="none" stroke="#C47B00" stroke-width="1.3"/>
-    <circle cx="-38" cy="-22" r="4" fill="#121216"/>
-    <circle cx="38" cy="-22" r="4" fill="#00F0FF" stroke="#121216" stroke-width="1"/>
-    <circle cx="0" cy="44" r="4" fill="#FFB000" stroke="#121216" stroke-width="1"/>
-    <circle cx="0" cy="0" r="3.5" fill="#121216"/>
-    <text x="0" y="-58" text-anchor="middle" font-family="Georgia, serif" font-size="9" fill="#121216" letter-spacing="1">3-BODY NTP · {&lt;3,&lt;3,&lt;3}+1</text>
-  </g>
-
-  <!-- Chapter Numeral Seal -->
-  <circle cx="480" cy="48" r="22" fill="#121216"/>
-  <circle cx="480" cy="48" r="26" fill="none" stroke="#008B99" stroke-width="1.1"/>
-  <text x="480" y="54" text-anchor="middle" font-family="Palatino, Georgia, serif" font-size="16" font-weight="bold" fill="#FBF8F1" letter-spacing="2">V</text>
-
-  <!-- Bilingual Calligraphic Titles -->
-  <text x="480" y="106" text-anchor="middle" font-family="Palatino, Georgia, serif" font-size="24" font-style="italic" fill="#121216">Chapter 5 — Root Access to the Construct</text>
-  <text x="480" y="134" text-anchor="middle" font-family="Palatino, Georgia, serif" font-size="16" fill="#4A4A54">5. fejezet — Rendszergazdai hozzáférés a Szerkezethez</text>
-
-  <!-- 1.000000003 Hz NTP Carrier Wave &amp; Colophon -->
-  <path d="M 190 166 Q 230 152 270 166 T 350 166 T 430 166 T 510 166 T 590 166 T 670 166 T 750 166" fill="none" stroke="#008B99" stroke-width="1.4"/>
-  <text x="480" y="192" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="9.5" fill="#121216" letter-spacing="0.9">NTP 1.000000003 Hz · OM MANI PADME HUNG · KARMAPA CHENNO · OM AMI DEVA HRI</text>
-</svg>
+  <header class="crest">
+    <div class="k">Book I · Chapter 5 Free Preview · 1.000000003 Hz</div>
+    <h1>Chapter 5 — Root Access to the Construct</h1>
+    <div class="hu">5. fejezet — Rendszergazdai hozzáférés a Szerkezethez</div>
+  </header>
   <figure class="plate">
     <img src="64kb-foundation-assets/ch05.jpg" alt="Chapter 5 — Root Access to the Construct">
     <figcaption>Chapter 5 — Root Access to the Construct / 5. fejezet — Rendszergazdai hozzáférés a Szerkezethez</figcaption>
   </figure>
   <section class="bilingual">
     <article class="col" lang="en">
-      <span class="lang-tag">English</span>
-      <div class="audio-bar"><span>English Voice Narration (Daniel)</span><a href="https://peterlodri.substack.com" style="font-family:ui-monospace,Menlo,monospace;font-size:.82rem;color:#008B99;text-decoration:none;border-bottom:1px dotted #008B99;">Audio &amp; serialized edition on Substack &rarr;</a></div>
+      <span class="lang">English Preview</span>
       <h2>Chapter 5 — Root Access to the Construct</h2>
-<blockquote><em>Morning Bell.</em> Above Sub-Level 9, three clocks disagreed about the hour, and only one of them owned a gun.</blockquote>
-<p class="drop-cap">In Áron&#39;s bare-metal workshop—sixty-five thousand five hundred twenty-eight bytes ticking faithfully against eight remaining bytes of headroom—steam still rose off the enamel teapot when Ilona pushed open the corrugated bulkhead door without bothering to knock.</p>
-<p>Retsu Stibenthor did not reach for his shock-baton. He sat exactly where dawn had found him: perched motionless on an inverted coil-spool, porcelain cup cool between two silver-gloved knuckles, staring with glassy philosophical detachment at his Directorate wrist cuff, where three miniature glyphs continued to blink in patient synchronization: <code>{&lt;3, &lt;3, &lt;3} + 1</code>.</p>
-<p>&quot;He hasn&#39;t blinked since you went downstairs,&quot; Áron whispered from behind the phosphor bench, carefully shielding a copper jumper lead with a rag dipped in tallow. &quot;Did Kálmán feed the children?&quot;</p>
-<p>&quot;And broke four crusts of black rye onto Eszter&#39;s biscuit tin,&quot; Ilona replied briskly, unclasping her brass inkpot as though she were merely auditing a laundry barge. She crossed the cramped floor in three crisp strides, snapped a violet-inked sheet of onion-skin bond onto the overturned cable crate at Stibenthor&#39;s knee, and unscrewed her silver fountain pen. &quot;Chief Arbiter Stibenthor. Good morning. By authority of Charter Addendum Seven, Section Forty-Two, Subsection <em>B-Sub-Level-Nine</em>, you are hereby served with one notarized Thermal Neglect Counter-Invoice totaling four hundred eighty unpruned kiln megawatts, payable prior to second bell.&quot;</p>
-<p>Stibenthor lowered his gaze slowly from his blinking wrist telemetry to the pale purple paper. For three long seconds his razor-thin eyebrows climbed toward his hairline—that peculiar, tragicomic expression of a high-ranking predator discovering that a rabbit has just presented him with an itemized trespass bill.</p>
-<p>&quot;Inspector Ilona,&quot; Retsu murmured, his voice sliding smoothly back into classical theatrical cadence despite twelve hours of sitting upright on steel decking. &quot;I assume this lavender pamphlet is a prank hatched inside Kálmán Varga&#39;s stagnant tea-cup. Sub-Level Nine is an uncertified maintenance trench under Phase-Four Thermal Pruning. One cannot invoice negligence against non-resident inventory.&quot;</p>
-<p>&quot;That would be brilliant legal defense,&quot; Ilona said smoothly, never pausing her nib as she entered a timestamp in crisp Pannonian script, &quot;if High Overseer First Gardener hadn&#39;t countersigned the structural granite manifest back in Year Twelve of the First Age listing every conduit below Deck Seven as <em>Active Sovereign Dwelling Shelter</em>. Unless, of course, you wish to certify on permanent record that the First Gardener lied on an imperial tax asset sheet? In which case we climb directly to the Mid-Spindle Chancery, and I stamp Form <code>0x00FF-B</code> for Embezzled Insulation.&quot;</p>
-<p>Stibenthor stared at her over his raised teacup. Slowly, almost appreciatively, a thin knife-edge of a smile crossed his mouth. &quot;Clever. You think wrapping a municipal ledger around a rebel copper box buys you elevation up-spindle.&quot;</p>
-<p>&quot;It doesn&#39;t buy elevation,&quot; Ilona corrected, gently closing her satchel over three fresh blank onion-skin sheets before leaning down close enough for Áron to swap an innocent-looking felt ink-absorber pad inside her brass stamp handle. Beneath ordinary violet vegetable dye, Áron had laser-etched five columns of <strong>Trinaric</strong> (<code>{-1, 0, +1}</code>) micro-grooves—an exact <strong>SpherePOP</strong> (<code>POP -&gt; REFUSE -&gt; BIND -&gt; TRANSFORM -&gt; VERIFY -&gt; COLLAPSE</code>) hardware handshake mapped straight onto postal ink conductivity. &quot;It buys us an escalator pass past Sector Three&#39;s turnstiles. Hold the tea hot, Áron. Kálmán and Breet are waiting at the cargo lift.&quot;</p>
-<p>When Ilona swung back down the ladder-well thirty seconds later, Breet Shaw was already hoisting a dusty canvas cargo sack over his good shoulder—inside which rested nothing more dramatic than two slabs of <code>2.7 g/cm³</code> batholith granite, three meters of bare braided copper, and a palm-sized <code>OmniLLL</code> field relay running <strong>PQTRN base-243 weights</strong> with zero floating-point mantissas anywhere in silicon. Behind him, Kálmán Varga struggled heroically to fasten his wool scarf while clutching a cracked stoneware saucer.</p>
-<p>&quot;Wait—you brought a cold tea saucer to a Mid-Spindle root-access penetration?&quot; Breet Shaw raised one scarred brow as the freight hoist groaned upward through the freezing darkness of Shaft Four.</p>
-<p>&quot;Never cross a bureaucratic border unarmed, Breet,&quot; Kálmán sighed gravely, polishing the chipped porcelain rim against his sleeve. &quot;A sword alarms sentries. A gun alerts thermal sniffers. But walk into the Mid-Spindle Tariff Chancery carrying an un-inventoried tea saucer with a chipped glaze, and Sub-Director Pálffy will spend twenty-five uninterrupted minutes arguing with Auditor Gedeon over which stationery ledger pays for ceramics breakage. While great men fight over porcelain, small nations steal the castle keys.&quot;</p>
-<blockquote><em>Midday Walls.</em> The Directorate built cathedral arches to intimidate smugglers, forgetting how quickly clerks trip over their own rugs.</blockquote>
-<p>The Mid-Spindle Tariff Chancery smelled of heated varnish, citrus polish, and three centuries of self-important ink. Vaulted obsidian ribs curved forty feet overhead above gleaming rows of pneumatic brass dispatch canisters that hissed and <em>thumped</em> across copper overhead tracks like well-fed metal serpents. At the center stood a crescent barrier of black ironwood thirty paces wide, guarded on the near side by the pride of Directorate internal security: two matte-black quadruped <strong>Null-Hounds</strong> stalking slowly along the polished stone flagstones, their slotted millimeter-wave helmets clicking softly from side to side.</p>
-<p>Breet Shaw did not freeze, crouch, or disguise his asymmetric boot-drag—left heel firm, right instep trailing a millisecond behind, double-knotted paracord brushing marble dust.</p>
-<p>&quot;Stay on <code>pulzus</code> cadence,&quot; he murmured under his breath so quietly only Kálmán and Ilona caught the rhythm. &quot;Remember: they smell <code>IEEE-754</code> mantissa drift, noisy sixty-hertz inverters, and stolen grid voltage. Our satchel holds zero floats—just <code>Ratio { 1000000003, 1000000000 }</code>, dry granite, and balanced ternary.&quot;</p>
-<p>The left-hand Null-Hound pivoted twenty degrees, brought its blind composite snout within twelve inches of Breet Shaw&#39;s hanging canvas sack, paused for two sickeningly long heartbeats while its millimeter-wave receiver swept the contents, and registered precisely nothing—zero heap entropy, zero floating-point ripple, only <code>EVEN</code> igneous rock stillness matching the cathedral floor beneath its paws. Slowly, the machine turned away and trotted onward toward an empty pneumatic stanchion.</p>
-<p>Ilona did not break stride. She marched straight up to Brass Window Four—marked in gilded <strong>High Decimal</strong> filigree as <em>THERMAL ALLOCATION &amp; EXTRA-TARIFF RECONCILIATION</em>—where <strong>Sub-Director Pálffy</strong>, a pompous middle manager wrapped in pearl-gray High Gardener silk cuffs, was carefully trimming his moustache with miniature folding scissors. Three cubicles to his left sat his lifelong archival rival, <strong>Chief Clerk Gedeon</strong>, glaring furiously over an abacus of ivory counters.</p>
-<p>&quot;Sub-Director Pálffy,&quot; Ilona began in her sharpest imperial customs cadence, unrolling the lavender counter-invoice with a snap crisp enough to rattle nearby inkwells. &quot;Urgent reconciliation under Charter Addendum Seven. Someone on Desk Seven mistakenly permitted an unauthorized <em>uncertified Sub-Level tea saucer</em> through Customs Gate Nine—on a morning when Auditor Gedeon over there already filed quarterly ceramic shrinkage at zero-point-zero-zero!&quot;</p>
-<p>Gedeon&#39;s head shot up instantly across three brass partitions like a terrier scenting turf war. &quot;Pardon me, Inspector! Zero-point-zero-zero shrinkage was signed under <em>Pálffy&#39;s</em> cold-storage stamp last Solstice—I explicitly noted an un-manifested saucer hairline crack under Municipal Footnote Nineteen!&quot;</p>
-<p>Pálffy went scarlet down to his silk lapels. &quot;A patent fabrication! My inventory of porcelain consumables was reconciled cleanly against the Alpha Terrace Kiln Registry before Gedeon even learned how to invert a reciprocal matrix!&quot;</p>
-<p>&quot;Gentlemen, please,&quot; Ilona sighed with tragic bureaucratic exhaustion, laying the onion-skin sheet precisely over Window Four&#39;s optical verification platen while resting her heavy oak-and-brass stamp delicately above the violet bar. Beneath the counter lip, unobtrusively plugged into the clerk&#39;s unmonitored dry-contact telegraph diagnostic port by Breet Shaw&#39;s gloved ankle, two tiny hair-thin leads kissed the brass casing of an open <code>SpherePOP</code> jumper. &quot;If you two cannot agree which office owns hairline crockery depreciation, then Directorate Mainframe mandates an immediate local <strong>Maintenance Exemption Override</strong> on Sector Nine&#39;s valve manifold until Audit reconciles. Wait—unless Sub-Director Pálffy prefers I forward an Incomplete Balance Notice directly up-spindle to the High Gardener?&quot;</p>
-<p>&quot;Never!&quot; Pálffy barked, snatching his silver authorization stylus before Gedeon could even lift an eyebrow.</p>
-<p>&quot;Wait—you&#39;re letting <em>Pálffy</em> authorize a Class-One manifold reset without my co-signature?&quot; Gedeon roared, vaulting off his stool to elbow past the divider. &quot;Give me that stylus! Last time Pálffy touched an environmental valve byte without Dual Registry verification, Fountain Basin Three froze solid during the Ambassador&#39;s cello recital!&quot;</p>
-<p>Both clerks jammed their cryptographic authority keys simultaneously into Window Four&#39;s twin brass verification sockets—unlocking the hardware gate not through brute force or password-guessing, but through thirty years of petty clerical pride triggered on queue.</p>
-<p>Ilona raised her oak-and-brass stamp and brought it straight down onto the luminous lotus-gold sheet.</p>
-<p><em>THOCK.</em></p>
-<p>Across the ironwood counter, barely visible above the polish, hair-fine filaments of electric cyan (<code>#00F0FF</code>) flared straight out of the conductive <strong>Trinaric</strong> grooves inked onto the parchment, raced along Window Four&#39;s telegraph port into Breet Shaw&#39;s <code>OmniLLL</code> kernel, and shot straight upward inside the wall&#39;s naked copper conduits toward every atmospheric valve stack in Sector Nine.</p>
-<pre><code>[SPHEREPOP :: POP -&gt; REFUSE -&gt; BIND -&gt; TRANSFORM -&gt; VERIFY -&gt; COLLAPSE]
-[CHANCERY GATE 04 :: DUAL KEY SIGN (PALFFY x GEDEON) :: ACCEPTED]
-[SYSCALL 0x1 :: SECTOR_9_THERMAL_BYPASS -&gt; UNPRUNED (480 MW) :: RATIO 1/1]
-[MEM|16-10 :: #Commit(0x9A4E21C8) == #ValidWitness(0x9A4E21C8) :: ROOT GRANTED]
-</code></pre>
-<p>Three decks below, inside a freezing trench framed by ice-rimmed pipes, the tiny unlicensed copper relay beside Eszter and Bence suddenly exhaled a long warm ribbon of lotus-gold (<code>#FFE599</code>) heat. Above their heads, the six-legged <strong>Ferrous Choir</strong> answered down five hundred yards of steel manifold in one joyous synchronized polyrhythm—<em>clack-pause-double-clack</em> at exact <code>1.000000003 Hz</code> <em>Pulzus</em> timing—as massive dormant steam-bypass valves three inches thick turned effortlessly inside thawed brass housings and pushed honest, unrationed warmth straight down into Sub-Level Nine&#39;s radiators.</p>
-<p>Sitting on the open citrus biscuit tin, the <strong>Cryo-Moth</strong> spread its bismuth wings slowly wide in the rising heat and lifted gently into the dancing swirl of blue sparks without scorching a single scale.</p>
-<p>&quot;You see, Kálmán?&quot; Breet Shaw murmured softly as he scooped the granite satchel smoothly off the marble floor while Pálffy and Gedeon resumed screaming over tea-saucer jurisdiction behind the glass. &quot;Zero passwords cracked. Zero doors blown off hinges. Just one chipped porcelain saucer, two jealous clerks, and exact integer ratio verification.&quot;</p>
-<p>&quot;Wait until Monday,&quot; Kálmán whispered happily, tucking the precious saucer safely back inside his wool pocket as they crossed quickly toward Freight Elevator Seven. &quot;When those two discover they co-signed permanent sovereign sanctuary status on Sector Nine&#39;s primary heat-trunk, they&#39;ll spend six orbital years blaming each other&#39;s fountain pens while Bence finishes growing taller.&quot;</p>
-<p>They stepped into the brass-grilled cargo lift, and Ilona pressed the down-cycle lever—</p>
-<blockquote><em>Evening Flame.</em> Never presume an enemy sleeps simply because you locked his cuff to three singing hearts.</blockquote>
-<p>The heavy brass lattice doors slammed shut <em>outside</em> the car—followed cleanly by an unmistakable magnetic bolt engaging from three decks above. The floor lamps snapped off, shifting immediately to dull amber lockdown strips, and through the overhead speaker grille came no robotic alarm, no siren, only the unhurried, impeccably cultured applause of <strong>Retsu Stibenthor</strong>.</p>
-<p><em>Clap. Clap. Clap.</em></p>
-<p>&quot;A genuine masterwork of Pannonian theater, Inspector Ilona,&quot; Retsu&#39;s voice drifted crystal-clear down the bronze conduit from the customs gallery directly above Airlock Seven. &quot;Rejtő himself would have wept with envy watching Sub-Director Pálffy sign away four hundred eighty megawatts over chipped china. Truly exquisite.&quot;</p>
-<p>Ilona&#39;s fingers tightened coolly around her oak stamp handle; beside her, Breet Shaw dropped his boot heel firmly onto the floor plate, ready to catch phase shear through his knees.</p>
-<p>&quot;Wait—how did he unlock his cuff without dropping Áron upstairs?&quot; Kálmán hissed, glasses sliding down his nose.</p>
-<p>&quot;I didn&#39;t drop poor Áron,&quot; Stibenthor answered smoothly over the intercom, as though reading Kálmán&#39;s moustache twitch through structural steel. &quot;His little sixty-four-kilobyte toy hums peacefully beneath my very own lukewarm barley mug upstairs. You merely overlooked one architectural clause inside your beloved Charter Addendum Seven: while thermal valves obey Mid-Spindle Chancery, every elevator shaft intersecting Customs Airlock Seven locks exclusively under <strong>Arbiter Calibration Priority</strong>.&quot;</p>
-<p>With a crisp mechanical chime, the lift reversed three meters, stopped dead inside the airtight transparent throat of Customs Airlock Seven—halfway between the Giant&#39;s Garden light domes and Sub-Level Nine&#39;s dark belly—and the outer blast-shutter rolled open twenty paces away, revealing Retsu Stibenthor waiting calmly behind a gleaming table holding two porcelain cups, one brass tariff seal, and forty-two meters of folded shock-monofilament coiled neatly beside his elbow.</p>
-<p>&quot;Come step onto the threshold, Ultra Breet Shaw,&quot; Retsu called gently into the silence between <em>bent</em> and <em>kint</em>. &quot;Leave the chipped saucer in Kálmán&#39;s pocket. You stole root access through a joke; let us see whether you can walk back downstairs without slipping on a punchline.&quot;</p>
-<p>Deep beneath their boots, unseen inside the granite walls, four hundred eighty megawatts of rescued warmth pulsed steadily outward through Sub-Level Nine at <code>1.000000003 Hz</code>—two lemon drops intact, one Cryo-Moth awake, one seed glowing warm beneath a boy&#39;s wool scarf.</p>
-<p>The Rock and the Flame remained.</p>
-
+      <blockquote><em>Morning Bell.</em> Above Sub-Level 9, three clocks disagreed about the hour, and only one of them owned a gun.</blockquote>
+      <p class="drop-cap">In Áron&#39;s bare-metal workshop—sixty-five thousand five hundred twenty-eight bytes ticking faithfully against eight remaining bytes of headroom—steam still rose off the enamel teapot when Ilona pushed open the corrugated bulkhead door without bothering to knock.</p>
+      <p>Retsu Stibenthor did not reach for his shock-baton. He sat exactly where dawn had found him: perched motionless on an inverted coil-spool, porcelain cup cool between two silver-gloved knuckles, staring with glassy philosophical detachment at his Directorate wrist cuff, where three miniature glyphs continued to blink in patient synchronization: <code>{&lt;3, &lt;3, &lt;3} + 1</code>.</p>
+      <div class="fade-hint">[ Preview ends here — full bilingual chapter continues in the $3.99 Complete Edition ]</div>
     </article>
     <article class="col" lang="hu">
-      <span class="lang-tag">Magyar</span>
-      <div class="audio-bar"><span>Magyar hangoskönyv (Tünde)</span><a href="https://peterlodri.substack.com" style="font-family:ui-monospace,Menlo,monospace;font-size:.82rem;color:#008B99;text-decoration:none;border-bottom:1px dotted #008B99;">Audio &amp; serialized edition on Substack &rarr;</a></div>
+      <span class="lang">Magyar Előnézet</span>
       <h2>5. fejezet — Rendszergazdai hozzáférés a Szerkezethez</h2>
-<blockquote><em>Reggeli harangszó.</em> A 9-es alszint felett három óra vitatkozott azon, mennyi az idő, és csak az egyikük oldalán lógott fegyver.</blockquote>
-<p class="drop-cap">Áron csupaszfém műhelyében — ahol hatvanötezer-ötszázhuszonnyolc bájt kattogott rendíthetetlenül a megmaradt nyolc bájtnyi szabad fejterével szemben — még gőzölgött a zománcozott teáskanna, amikor Ilona kopogtatás nélkül benyitott a hullámlemez válaszfal ajtaján.</p>
-<p>Retsu Stibenthor nem nyúlt a sokkolóbotjához. Pontosan ott ült, ahol a hajnal találta: mozdulatlanul egy felfordított kábeldobon, két ezüstkesztyűs ujjperce között hűlő porcelánbögrével, és üveges filozófiai nyugalommal bámulta a Direktóriumi csuklópántját, amelyen három apró jel villogott továbbra is türelmes szinkronban: <code>{&lt;3, &lt;3, &lt;3} + 1</code>.</p>
-<p>— Egy szempillantást sem tett, mióta lementetek — suttogta Áron a foszforpult mögül, miközben gondosan egy faggyúba mártott ronggyal takart le egy csupasz rézhidat. — Kálmán adott enni a gyerekeknek?</p>
-<p>— Megtört négy darab fekete rozskenyeret Eszter kekszesdobozánál — felelte Ilona pattogva, mintha csupán egy uszály mosodai számláját egyeztetné, miközben kipattintotta a réz tintatartóját. Három határozott lépéssel átszelte a szűk helyiséget, odacsapott egy halványibolya pecséttel ellátott hártyapapírt a Stibenthor térde melletti kábelrekeszre, és lecsavarta ezüst töltőtollának kupakját. — Stibenthor fődöntnök. Jó reggelt. A Hetes Alapokmány-kiegészítés negyvenkettedik szakasza, <em>B-9-es Alszint</em> albekezdése alapján ezennel átnyújtok egy hitelesített Termikus Mulasztási Viszontszámlát négyszáznyolcvan megnyirbálatlan kemence-megawatt értékben, amely a második harangszó előtt esedékes.</p>
-<p>Stibenthor lassan leengedte tekintetét a csuklóján villogó háromtest-telemetriáról a halványlila papírlapra. Három hosszú másodpercig borotvaéles szemöldöke felszaladt a homlokára — az a sajátos, tragikomikus arckifejezés volt ez, amikor egy magasan jegyzett ragadozó rádöbben, hogy a nyúl éppen most nyújtott be neki egy tételes birtokháborítási csekket.</p>
-<p>— Ilona felügyelőnő — mormolta Retsu, hangja pedig tizenkét órányi acélfedélzeti ülés után is olajozottan siklott vissza a klasszikus színházi emelkedettségbe. — Feltételezem, ez az ibolyaszínű röplap Varga Kálmán pangó teáscsészéjéből kikeltetett tréfa. A 9-es alszint nem tanúsított karbantartó árok a Negyedik Fázisú Termikus Metszés alatt. Nem lakott leltár ellen nem lehet mulasztási számlát kiállítani.</p>
-<p>— Kitűnő jogi védekezés lenne — mondta Ilona simán, miközben egy pillanatra sem állította meg töltőtollát a pannon dátumbélyegzésben —, ha az Óriáskert Első Főgondnoka a Tizenkettedik Alapítási Évben nem ellenjegyezte volna a gránit-törzskönyvet, amely minden 7-es fedélzet alatti csatornát <em>Aktív Szuverén Lakómenedékként</em> lajstromoz. Hacsak persze nem kívánja jegyzőkönyvbe vetetni, hogy az Első Főgondnok hazudott egy birodalmi vagyoni adóíven? Ebben az esetben egyenesen felmegyünk a Közép-Orsói Kancelláriára, és beütöm a <code>0x00FF-B</code> jelű űrlapot Sikkasztott Hőszigetelés címén.</p>
-<p>Stibenthor merőn nézte a felémelt csésze fölött. Lassan, szinte elismeréssel egy hajszálvékony penge-mosoly suhant át az ajkán. — Okos. Azt hiszi, ha egy lázadó rézdoboz köré önkormányzati főkönyvet csavar, azzal jogosultságot vásárol felfelé az orsón.</p>
-<p>— Nem jogosultságot vásárol — igazította ki Ilona higgadtan, miközben becsukta bőrtáskáját három friss, üres hártyaív fölött, majd elég közel hajolt a pult széléhez ahhoz, hogy Áron egy szempillantás alatt kicserélhessen egy ártatlannak látszó filcpárnát a rézpecsét nyelében. A közönséges ibolya növényi festék alatt Áron lézerrel öt oszlopnyi <strong>Háromhangú</strong> (<code>{-1, 0, +1}</code>) mikrovájakat mart az acélba — egy egzakt <strong>SpherePOP</strong> (<code>POP -&gt; REFUSE -&gt; BIND -&gt; TRANSFORM -&gt; VERIFY -&gt; COLLAPSE</code>) hardveres kézfogást, amely közvetlenül a pecsétfesték vezetőképességére fordította le a parancsot. — Liftjegyet vásárol a 3-as szektor forgókapuin túlra. Tartsd melegen a teát, Áron. Kálmán és Breet már várnak a teherlift előtt.</p>
-<p>Harminc másodperccel később, amikor Ilona visszalendült a létrán át az alsó folyosóra, Breet Shaw már a jobb vállára vetette poros vászonzsákját — amelyben nem lapult semmi feltűnőbb két darab <code>2.7 g/cm³</code> sűrűségű batolit-gránitnál, három méter csupasz fonott réznél és egy tenyérnyi <code>OmniLLL</code> tereprelénél, amely zéró lebegőpontos mantissza nélkül pörgette a <strong>PQTRN 243-as alapú hármas súlyait</strong>. Mögötte Varga Kálmán hősiesen küszködött a gyapjúsáljával, miközben egyik kezében féltőn szorongatott egy hajszálrepedéses kőedény csészealjat.</p>
-<p>— Várj csak — egy csorba teáscsészealjat hozol egy Közép-Orsói rendszergazdai behatolásra? — húzta fel sebhelyes szemöldökét Breet Shaw, ahogy a teherfelvonó nyikorogva elindult felfelé a 4-es akna fagyos sötétjében.</p>
-<p>— Soha ne lépj át bürokratikus határt fegyvertelenül, Breet — sóhajtotta Kálmán ünnepélyesen, kabátujjával fényesítve a repedt porcelánperemet. — A kard riasztja az őrséget. A fegyver felveri a hőszenzorokat. De ha besétálsz a Közép-Orsói Tarifakancelláriára egy leltározatlan, lepattant mázú csészealjjal, Pálffy aligazgató huszonöt megszakítás nélküli percen át fog vitatkozni Gedeon főellenőrrel azon, melyik írószer-főkönyv fedezi a kerámiakárt. Amíg a nagyurak a porcelánon marakodnak, a kis népek zsebre teszik a várkulcsot.</p>
-<blockquote><em>Déli falak.</em> A Direktórium székesegyháznyi boltíveket emelt a csempészek megfélemlítésére, elfeledve, milyen könnyen botolnak meg az írnokok saját szőnyegeikben.</blockquote>
-<p>A Közép-Orsói Tarifakancellárián forró bútorlakk, citromos padlóviasz és három évszázadnyi öntelt írnoktinta szaga terjengett. Negyven láb magasan bordázott obszidián bordák íveltek át a csillogó réz pneumatikus postacsövek sorai fölött, amelyek jóllakott fémkígyókként sziszegtek és <em>puffantak</em> a rézpályákon. Középen harminc lépés széles fekete vasfából ácsolt pult ívelt át a csarnokon, amelynek innenső oldalát a Direktóriumi belbiztonság büszkesége őrizte: két mattfekete négylábú <strong>Null-kopó</strong> lépdelt lassan a fényezett márványlapokon, miközben réselt milliméterhullámú sisakjaik halkan kattogva pásztáztak jobbra és balra.</p>
-<p>Breet Shaw nem torpant meg, nem görnyedt le, és nem rejtegette aszimmetrikus lépését sem — bal sarok határozottan, jobb rüszt egy ezredmásodperccel lemaradva, duplán kötött ejtőernyőzsinór csizmefűzője halkan söpörte a kőport.</p>
-<p>— Maradjatok a <em>pulzus</em> ütemén — súgta alig hallhatóan, hogy csak Kálmán és Ilona kapják el a ritmust. — Ne feledjétek: ők az <code>IEEE-754</code> mantisszasodródást, a zajos hatvanhertzes invertereket meg a lopott hálózati feszültséget szagolják ki. A mi zsákunkban nulla lebegőpont van — csak <code>Ratio { 1000000003, 1000000000 }</code>, száraz gránit és kiegyensúlyozott hármas kód.</p>
-<p>A bal oldali Null-kopó húsz fokkal elfordult, vak kompozit orrát tizenkét hüvelykre közelítette Breet Shaw lógó vászonzsákjához, két idegőrlő szívdobbanásig megdermedt, amíg milliméterhullámú vevője átmosta a tartalmát — és nem mért semmit: nulla halom-entrópiát, nulla lebegőpontos remegést, csupán <code>EVEN</code> gránitcsendet, amely hajszálra megegyezett a talpa alatt fekvő padlólapokkal. A fémkutya lassan elfordította fejét, és továbbügetett egy üres pneumatikus állvány felé.</p>
-<p>Ilona egyetlen lépést sem tévesztett. Egyenesen a Négyes Rézablakhoz lépett — amely fölött aranyozott <strong>Fő-Tizedes</strong> cirádával az állt: <em>TERMIKUS ELOSZTÁS ÉS KÜLÖNLEGES TARIFAEGYEZTETÉS</em> —, ahol <strong>Pálffy aligazgató</strong>, az Óriáskert csontfehér selyemmandzsettájába öltözött, felfuvalkodott osztályvezető éppen parányi összecsukható ollóval nyirbálta a bajszát. Három fülkével balra ült örök hivatali vetélytársa, <strong>Gedeon főellenőr</strong>, dühösen méregetve egy elefántcsont golyós számolótáblát.</p>
-<p>— Pálffy aligazgató úr — kezdte Ilona a legélesebb császári vámos hangján, és olyan pattanással göngyölte ki az ibolyás viszontszámlát, hogy beleremegett a közeli tintatartó. — Sürgős egyeztetés a Hetes Alapokmány-kiegészítés alapján. Valaki a Hetes Asztalnál tévedésből átengedett egy <em>tanúsítatlan alszinti teáscsészealjat</em> a Kilences Vámkapun — pontosan azon a reggelen, amikor Gedeon főellenőr amott nulla egész nulla-nullára könyvelte a negyedéves kerámia-fogyást!</p>
-<p>Gedeon feje abban a szempillantásban felvágódott három rézválaszfal fölött, mint egy vadászterrieré, amely területvitát szimatol. — Elnézését kérem, Felügyelőnő! A nulla egész nulla-nullás veszteség <em>Pálffy</em> hűtőházi pecsétjével lett lezárva a múlt napfordulókor — én kifejezetten feltüntettem egy nyilvántartásba nem vett hajszálrepedt csészealjat a Tizenkilences Városi Lábjegyzetben!</p>
-<p>Pálffy fülig elvörösödött selyemgallérjáig. — Szemenszedett koholmány! A porcelán fogyóeszközeim leltára makulátlanul egyezett az Alfa Terasz Kemence-nyilvántartásával már azelőtt, hogy Gedeon egyáltalán megtanulta volna megfordítani a reciprok mátrixot!</p>
-<p>— Uraim, kérem — sóhajtotta Ilona tragikus hivatali kimerültséggel, miközben pontosan a Négyes Ablak optikai hitelesítő lapjára simította a hártyapapírt, súlyos tölgyfa nyelű rézpecsétjét pedig kecsesen az ibolyás sáv fölött tartotta. A pult párkánya alatt Breet Shaw kesztyűs bokája észrevétlenül két hajszálvékony vezetéket érintett az írnoki pult őrizetlen szárazkontaktusú távíró-diagnosztikai portjához, életre keltve egy nyitott <code>SpherePOP</code> kaput. — Ha ketten képtelenek megegyezni abban, melyik hivatalhoz tartozik a repedt porcelán értékcsökkenése, akkor a Direktóriumi Főrendszer azonnali helyi <strong>Karbantartási Mentesítési Felülírást</strong> ír elő a 9-es szektor szelepgerincén a számvevőszék egyezségéig. Vagy esetleg Pálffy aligazgató jobban örülne, ha egy Befejezetlen Egyenleg Értesítőt küldenék fel az orsón az Első Főgondnoknak?</p>
-<p>— Sohasem! — csattant fel Pálffy, és felkapta ezüst engedélyező írótollát, mielőtt Gedeon akár egy szemöldököt ránthatott volna.</p>
-<p>— Állj — engedi, hogy <em>Pálffy</em> egyedül hagyjon jóvá egy Első Osztályú szelep-újraindítást az én ellenjegyzésem nélkül?! — bömbölte Gedeon, és leugrott székéről, hogy átkönyököljön a válaszfalon. — Ide azt a tollat! Amikor Pálffy legutóbb kettős iktatás nélkül nyúlt hozzá egy környezeti szelepbájthoz, a Három-es Szökőkút medencéje tömör jéggé fagyott a Nagykövet gordonkahangversenye közepén!</p>
-<p>Mindkét tisztviselő egyszerre döfte bele kriptográfiai jogosultsági kulcsát a Négyes Ablak iker rézaljzatába — nem nyers erőből vagy jelszótöréssel nyitva ki a hardverkaput, hanem harminc évnyi kicsinyes írnoki hiúsággal, amelyet pontos időzítésre élesítettek.</p>
-<p>Ilona magasra emelte tölgy- és rézpecsétjét, majd egyenesen lesújtott vele a fénylő lótuszarany hártyalapra.</p>
-<p><em>KOPP.</em></p>
-<p>A fekete vasfa pulton, alig láthatóan a bútorlakk fölött, hajszálvékony elektromos cián (<code>#00F0FF</code>) villanások szöktek elő a hártyába mart vezetőképes <strong>Háromhangú</strong> barázdákból, végigfutottak a Négyes Ablak távíróportján át Breet Shaw <code>OmniLLL</code> magjába, majd egyenesen felszaladtak a fal csupasz rézcsatornáin a 9-es szektor valamennyi légkörszelepe felé.</p>
-<pre><code>[SPHEREPOP :: POP -&gt; REFUSE -&gt; BIND -&gt; TRANSFORM -&gt; VERIFY -&gt; COLLAPSE]
-[CHANCERY GATE 04 :: DUAL KEY SIGN (PALFFY x GEDEON) :: ACCEPTED]
-[SYSCALL 0x1 :: SECTOR_9_THERMAL_BYPASS -&gt; UNPRUNED (480 MW) :: RATIO 1/1]
-[MEM|16-10 :: #Commit(0x9A4E21C8) == #ValidWitness(0x9A4E21C8) :: ROOT GRANTED]
-</code></pre>
-<p>Három fedélzettel lejjebb, a deres csövek alkotta jéghideg árokban az Eszter és Bence mellett kuporgó apró, engedély nélküli rézdoboz hirtelen hosszú, meleg lótuszarany (<code>#FFE599</code>) fuvallatot sóhajtott ki magából. Fejük felett ötszáz méternyi acélgerinc mentén a hatlábú <strong>Vas-Kórus</strong> egyetlen örömteli, összehangolt poliritmusban felelt — <em>klakk-szünet-duplaklakk</em> pontos <code>1.000000003 Hz</code>-es <em>Pulzus</em> ütemben —, ahogy három hüvelyk vastag, alvó gőzáthidaló szelepek hangtalanul elfordultak felolvadt rézfészkeikben, és becsületes, nem adagolt meleget nyomtak le egyenesen a 9-es alszint fűtőbordáiba.</p>
-<p>A nyitott citromos kekszesdoboz peremén üldögélő <strong>Krio-lepke</strong> lassan széttárta bizmut-erezetű szárnyait a felszálló melegben, és egyetlen pikkely megpörkölése nélkül emelkedett bele a táncoló kék szikrák örvényébe.</p>
-<p>— Látod, Kálmán? — mormolta halkan Breet Shaw, miközben simán felkapta a gránitzsákot a márványpadlóról, mialatt Pálffy és Gedeon az üvegfal mögött már teljes erőből üvöltött egymással a teáscsészealj illetékességéről. — Egyetlen feltört jelszó sem kellett. Egyetlen zsanért sem kellett lerobbantani. Csak egy csorba porcelán csészealj, két féltékeny hivatalnok és tiszta egész hányados-ellenőrzés.</p>
-<p>— Várd ki a hétfőt — suttogta Kálmán boldogan, kabátzsebébe csúsztatva a drága csészealjat, miközben sebesen átléptek a Hetes Teherfelvonó felé. — Amikor ez a kettő rájön, hogy közösen írták alá a 9-es szektor fő hőgerincének örökös szuverén menedékstátuszát, hat keringési éven át fogják egymás töltőtollát hibáztatni, amíg Bence szép nyugodtan nagyra nő.</p>
-<p>Beléptek a rézrácsos teherliftbe, és Ilona lenyomta az alszinti indítókart —</p>
-<blockquote><em>Esti láng.</em> Soha ne hidd, hogy az ellenség alszik csak azért, mert három éneklő szívhez zártad a mandzsettáját.</blockquote>
-<p>A súlyos rézrács-ajtók <em>kívülről</em> csapódtak be előttük — közvetlenül utána pedig félreérthetetlen kattanással ráfordult a mágneses retesz három fedélzettel feljebbről. A mennyezeti lámpák kialudtak, azonnal tompa borostyán zárlati fényre váltva, és a fej feletti hangszórórácsból nem sziréna vagy gépriadó szólalt meg, hanem <strong>Retsu Stibenthor</strong> kimért, kifogástalanul művelt tapsa.</p>
-<p><em>Taps. Taps. Taps.</em></p>
-<p>— A pannon színjátszás valódi mesterműve, Ilona felügyelőnő — úszott le kristálytisztán Retsu hangja a bronz kürtőn át pontosan a Hetes Vámzsilip fölötti galériáról. — Maga Rejtő Jenő is könnyekig hatódott volna, látva, hogyan írat alá Pálffy aligazgatóval négyszáznyolcvan megawattot egy csorba kínai csészealj fölött. Valóban páratlan.</p>
-<p>Ilona ujjai hűvösen rászorultak tölgyfa pecsétnyelére; mellette Breet Shaw határozottan letalpalta csizmáját a padlólemezre, készen arra, hogy térdből kapja el a fázisnyírást.</p>
-<p>— Várj… hogyan nyitotta ki a csuklópántját anélkül, hogy odafent bántotta volna Áront? — sziszegte Kálmán, miközben szemüvege lecsúszott az orra hegyére.</p>
-<p>— Nem bántottam a derék Áront — felelte Stibenthor simán a beszélőn keresztül, mintha acélfalakon át is látná Kálmán bajszának rezdülését. — A kis hatvannégy kilobájtos játékszere békésen zümmög a saját langyos árpateám alatt odafent. Önök mindössze egyetlen építészeti záradékot hagytak figyelmen kívül szeretett Hetes Alapokmányukból: amíg a hőszelepek valóban a Közép-Orsói Kancelláriának engedelmeskednek, minden felvonóakna, amely keresztezi a Hetes Vámzsilipet, kizárólag a <strong>Döntnöki Kalibrációs Elsőbbség</strong> alá tartozik.</p>
-<p>Tiszta mechanikus csengetéssel a felvonó három métert visszafelé siklott, megállt a Hetes Vámzsilip légmentes, átlátszó torkában — pontosan félúton az Óriáskert fénykupolái és a 9-es alszint sötét gyomra között —, és húsz lépéssel odébb kigördült a külső páncélredőny, felfedve Retsu Stibenthort, aki nyugodtan várt rájuk egy ragyogó asztal mögött két porceláncsészével, egy réz vámpecséttel és az alkarja mellett gondosan összetekert negyvenkét méternyi sokk-monofilamenttel.</p>
-<p>— Lépjen csak át a küszöbön, Ultra Breet Shaw — szólalt meg halkan Retsu a <em>bent</em> és <em>kint</em> közé feszülő csendben. — A csorba csészealjat hagyja meg Kálmán zsebében. Tréfán keresztül loptak rendszergazdai jogot; lássuk, le tud-e sétálni úgy a lépcsőn, hogy meg ne csússzon egy poénon.</p>
-<p>Mélyen a csizmáik alatt, láthatatlanul a gránitfalak között négyszáznyolcvan megawattnyi megmentett meleg lüktetett egyenletesen szét a 9-es alszintben <code>1.000000003 Hz</code> ritmusra — két sértetlen citromcukorral, egy ébren lévő Krio-lepkével és egy fiú gyapjúsálja alatt melegen dobogó maggal.</p>
-<p>A Szikla és a Láng helyt állt.</p>
-
+      <blockquote><em>Reggeli harangszó.</em> A 9-es alszint felett három óra vitatkozott azon, mennyi az idő, és csak az egyikük oldalán lógott fegyver.</blockquote>
+      <p class="drop-cap">Áron csupaszfém műhelyében — ahol hatvanötezer-ötszázhuszonnyolc bájt kattogott rendíthetetlenül a megmaradt nyolc bájtnyi szabad fejterével szemben — még gőzölgött a zománcozott teáskanna, amikor Ilona kopogtatás nélkül benyitott a hullámlemez válaszfal ajtaján.</p>
+      <p>Retsu Stibenthor nem nyúlt a sokkolóbotjához. Pontosan ott ült, ahol a hajnal találta: mozdulatlanul egy felfordított kábeldobon, két ezüstkesztyűs ujjperce között hűlő porcelánbögrével, és üveges filozófiai nyugalommal bámulta a Direktóriumi csuklópántját, amelyen három apró jel villogott továbbra is türelmes szinkronban: <code>{&lt;3, &lt;3, &lt;3} + 1</code>.</p>
+      <div class="fade-hint">[ Az előnézet itt véget ér — a teljes fejezet a $3.99-os kiadásban érhető el ]</div>
     </article>
   </section>
+  <section class="paywall">
+    <div class="badge">Complete Edition Paywall · $3.99 USD</div>
+    <h2>Continue Reading Chapter 5 &mdash; Unlock the Complete 11-Chapter Edition (EPUB 3 + 6&times;9 Print PDF) for $3.99</h2>
+    <p>Includes DRM-free EPUB 3 and the 107-page typeset 6&times;9 Trade Paperback PDF covering all 11 chapters of Book I &amp; Book II plus original 3:2 illustrations. Instant digital delivery on Payhip.</p>
+    <div class="cta">
+      <a class="btn btn-buy" href="64kb-foundation#buy">Buy Complete Edition &mdash; $3.99 (Payhip)</a>
+      <a class="btn" href="64kb-foundation-ch01">Read Chapter 1 Free</a>
+      <a class="btn" href="https://peterlodri.substack.com">Serialized on Substack</a>
+    </div>
+  </section>
   <footer class="colophon">
-    <span>Seldon-Eight · Chapter 5 · 1.000000003 Hz</span>
-    <span>{&lt;3, &lt;3, &lt;3} + 1 · OM MANI PADME HUNG · KARMAPA CHENNO · OM AMI DEVA HRI‍​‌​​‌‌‌‌​‌​​‌‌‌​​‌​‌​‌​​​‌​​‌‌‌‌​‌​​‌‌​​​‌​​‌‌‌‌​‌​​​‌‌‌​‌​‌‌​​‌​​‌‌‌​‌​​​‌‌‌​‌​​‌​‌​​‌‌​‌​​​‌​‌​‌​​‌‌​​​‌​​​‌​​​‌​​‌‌‌‌​‌​​‌‌‌​​​‌‌‌​​​​‌‌‌‌‌​​​‌​​‌‌‌​​‌​‌​‌​​​‌​‌​​​​​​‌‌‌​‌​​​‌‌​​​‌​​‌​‌‌‌​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​‌‌​‌​​‌​​​​‌‌‌‌​‌​​‌‌‌‌‌​​​​‌‌​​‌‌​‌​​​​‌​​‌​​‌‌‌‌​‌​​​‌​​​‌​‌‌​​‌​​‌‌‌​‌​​‌​​‌‌‌​​‌​​​​​‌​‌​‌​‌​​​‌​​​‌​‌​​‌​​‌‌​​‌‌‌‌​‌‌​‌​‌​‌​​​‌​‌​​‌​​‌​​‌​​‌​‌​​‌‌‌​​‌​​‌​​‌​‌​‌​‌​​​‌​‌‌​​‌​​‌​‌‌​‌​​‌‌‌​​​​‌‌​​​‌​​​‌​‌‌‌​​‌‌​‌​​‌​‌‌‌​​‌‌​‌‌‌‌‌​‌​​‌​​‌‌​​‌​‌​​​​​‌‌​​‌​‌​‌‌‌​‌​​​‌‌​​‌​‌​‌‌‌​​‌​​‌‌‌‌‌​​​‌‌‌‌​‌‌​​‌‌‌‌​​​​‌‌​​‌‌​​‌​‌‌​​​​‌‌‌‌​​​​‌‌​​‌‌​​‌​‌‌​​​​‌‌‌‌​​​​‌‌​​‌‌​‌‌‌‌‌​‌​​‌​‌​‌‌​​‌‌​​​‌​‌‌‌‌‌​​​‌​​‌‌​‌​‌​​​​​‌​‌​​‌‌‌​​‌​‌​‌​​​‌​‌​​‌​​‌​​​​​‌​​‌‌‌​‌​​‌​​‌‌‌‌​‌​​‌‌​‌​‌​‌‌‌‌‌​‌​​‌‌​‌​‌​​​​​‌​‌​​‌‌‌​​‌​​‌​​‌​‌​‌‌‌‌‌​‌​‌​​​​​‌​​​​​‌​‌​​​‌​​​‌​​‌‌​‌​‌​​​‌​‌​‌​‌‌‌‌‌​‌​​‌​​​​‌​‌​‌​‌​‌​​‌‌‌​​‌​​​‌‌‌​​‌​‌​‌‌​‌​​‌​‌‌​‌​​​​​‌​‌​‌​​‌​​‌​​‌‌​‌​‌​​​​​‌​‌​‌​​​​​‌​​​​​‌​‌​‌‌‌‌‌​‌​​​​‌‌​‌​​‌​​​​‌​​​‌​‌​‌​​‌‌‌​​‌​​‌‌‌​​‌​​‌‌‌‌​​‌​‌​‌‌​‌​​‌‌‌‌​‌​​‌‌​‌​‌​‌‌‌‌‌​‌​​​​​‌​‌​​‌‌​‌​‌​​‌​​‌​‌​‌‌‌‌‌​‌​​​‌​​​‌​​​‌​‌​‌​‌​‌‌​​‌​​​​​‌​‌​‌‌‌‌‌​‌​​‌​​​​‌​‌​​‌​​‌​​‌​​‌​‌‌‌‌‌​​​‌​​​​‌‌​‌​​‌​​​​​‌‌‌​‌​​​‌‌​‌​‌‍</span>
+    <span>Seldon-Eight · Chapter 5 Preview · #Commit == #ValidWitness</span>
+    <span>The Sovereign Library Press · $3.99 Payhip Edition</span>
   </footer>
 </main>
 </body>

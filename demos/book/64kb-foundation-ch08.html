@@ -5,343 +5,84 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The 64-Kilobyte Foundation — Chapter 8: Sovereign Consensus · 8. fejezet — Szuverén konszenzus</title>
 <style>
-  :root {
-    --paper: #F7F3E9;
-    --ink: #141418;
-    --muted: #4A4A54;
-    --cyan: #008B99;
-    --cyan-bright: #00F0FF;
-    --amber: #C47B00;
-    --amber-bright: #FFB000;
-    --border: #D8CFBC;
-  }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    padding: 2rem 1.25rem 4rem;
-    background: #EFE9DA;
-    color: var(--ink);
-    font-family: "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
-    line-height: 1.72;
-  }
-  .folio {
-    max-width: 1180px;
-    margin: 0 auto;
-    background: var(--paper);
-    border: 2px solid var(--ink);
-    box-shadow: 0 18px 50px rgba(20, 20, 24, 0.16);
-    padding: 2rem 2.25rem 2.75rem;
-  }
-  .nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
-    font-family: ui-monospace, Menlo, monospace;
-    font-size: 0.85rem;
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 0.85rem;
-    margin-bottom: 1.5rem;
-  }
-  .nav a {
-    color: var(--ink);
-    text-decoration: none;
-    border-bottom: 1px solid var(--cyan);
-    padding-bottom: 2px;
-  }
-  .nav a:hover { color: var(--cyan); }
-  .plate {
-    margin: 1.5rem 0 2rem;
-    text-align: center;
-  }
-  .plate img {
-    max-width: 100%;
-    max-height: 540px;
-    border: 1.5px solid var(--ink);
-    background: #0E1016;
-  }
-  .plate figcaption {
-    margin-top: 0.5rem;
-    font-size: 0.85rem;
-    color: var(--muted);
-    font-style: italic;
-  }
-  .bilingual {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2.25rem;
-    align-items: start;
-  }
-  @media (max-width: 860px) {
-    .bilingual { grid-template-columns: 1fr; }
-  }
-  .col {
-    padding: 1.25rem 1.4rem;
-    border: 1px solid var(--border);
-    background: rgba(255, 255, 255, 0.42);
-  }
-  .lang-tag {
-    display: inline-block;
-    font-family: ui-monospace, Menlo, monospace;
-    font-size: 0.72rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--paper);
-    background: var(--ink);
-    padding: 0.15rem 0.55rem;
-    border-left: 3px solid var(--cyan-bright);
-    margin-bottom: 0.5rem;
-  }
-  h2 {
-    font-size: 1.35rem;
-    margin: 0.35rem 0 1rem;
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 0.35rem;
-  }
-  p.drop-cap::first-letter {
-    float: left;
-    font-size: 3.35rem;
-    line-height: 0.84;
-    padding: 0.25rem 0.55rem 0.1rem 0.45rem;
-    margin: 0.1rem 0.55rem 0.1rem 0;
-    border: 1.5px solid var(--ink);
-    background: #F1E9D4;
-    color: var(--ink);
-    box-shadow: 2px 2px 0 var(--cyan);
-    font-weight: bold;
-  }
-  code {
-    font-family: ui-monospace, Menlo, monospace;
-    font-size: 0.86em;
-    background: #EAE2CE;
-    padding: 0.08rem 0.32rem;
-    border-radius: 3px;
-  }
-  pre {
-    background: #12141B;
-    color: var(--cyan-bright);
-    border-left: 3px solid var(--amber-bright);
-    padding: 0.9rem 1rem;
-    overflow-x: auto;
-    font-size: 0.84rem;
-    line-height: 1.45;
-  }
-  pre code { background: transparent; padding: 0; color: inherit; }
-  .colophon {
-    margin-top: 2.25rem;
-    padding-top: 1rem;
-    border-top: 1px dashed var(--amber);
-    font-family: ui-monospace, Menlo, monospace;
-    font-size: 0.8rem;
-    color: var(--muted);
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-  }
-  .toc-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 1.25rem;
-    margin: 1.5rem 0;
-  }
-  .toc-card {
-    display: block;
-    text-decoration: none;
-    color: var(--ink);
-    border: 1.5px solid var(--ink);
-    padding: 1rem 1.15rem;
-    background: #FBF8F1;
-  }
-  .toc-card:hover {
-    border-color: var(--cyan);
-    box-shadow: 4px 4px 0 var(--cyan);
-  }
-  .plates-duo {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.25rem;
-    margin-top: 1.5rem;
-  }
-  @media (max-width: 860px) {
-    .plates-duo { grid-template-columns: 1fr; }
-  }
-  .audio-bar {
-    margin: 0.75rem 0 1.1rem;
-    padding: 0.6rem 0.8rem;
-    border: 1px solid var(--border);
-    border-left: 3px solid var(--amber-bright);
-    background: #FBF8F1;
-  }
-  .audio-bar span {
-    display: block;
-    font-family: ui-monospace, Menlo, monospace;
-    font-size: 0.74rem;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 0.35rem;
-  }
-  .audio-bar audio {
-    width: 100%;
-    height: 34px;
-  }
+  :root{--paper:#F7F3E9;--ink:#141418;--muted:#4A4A54;--cyan:#008B99;--amber:#C47B00;--border:#D8CFBC}
+  *{box-sizing:border-box}
+  body{margin:0;padding:1.5rem 1rem 3rem;background:#EFE9DA;color:var(--ink);font-family:"Palatino Linotype",Palatino,Georgia,serif;line-height:1.68}
+  .folio{max-width:1120px;margin:0 auto;background:var(--paper);border:2px solid var(--ink);box-shadow:0 14px 40px rgba(20,20,24,.14);padding:1.5rem 1.75rem 2.25rem}
+  .nav{display:flex;justify-content:space-between;flex-wrap:wrap;gap:.75rem;font-family:ui-monospace,Menlo,monospace;font-size:.82rem;border-bottom:1px solid var(--border);padding-bottom:.75rem;margin-bottom:1.25rem}
+  .nav a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--cyan)}
+  .crest{text-align:center;border:1px solid var(--ink);padding:1rem 1.25rem;background:#FBF8F1;margin-bottom:1.25rem}
+  .crest .k{font-family:ui-monospace,Menlo,monospace;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan)}
+  .crest h1{margin:.25rem 0;font-size:1.55rem;line-height:1.25}
+  .crest .hu{font-style:italic;color:var(--muted);font-size:1rem}
+  .plate{margin:1rem 0 1.5rem;text-align:center}
+  .plate img{max-width:100%;max-height:460px;border:1.5px solid var(--ink)}
+  .plate figcaption{margin-top:.4rem;font-size:.84rem;color:var(--muted);font-style:italic}
+  .bilingual{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;align-items:start}
+  @media(max-width:860px){.bilingual{grid-template-columns:1fr}}
+  .col{padding:1rem 1.2rem;border:1px solid var(--border);background:rgba(255,255,255,.45);position:relative}
+  .lang{display:inline-block;font-family:ui-monospace,Menlo,monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--paper);background:var(--ink);padding:.15rem .45rem;margin-bottom:.65rem}
+  .col h2{margin:.25rem 0 .7rem;font-size:1.15rem}
+  blockquote{margin:.75rem 0;padding:.45rem .85rem;border-left:3px solid var(--amber);background:#F3ECDA;font-style:italic;font-size:.95rem}
+  .fade-hint{margin-top:.85rem;padding-top:.6rem;border-top:1px dashed var(--border);font-family:ui-monospace,Menlo,monospace;font-size:.76rem;color:var(--muted)}
+  .paywall{margin-top:1.75rem;padding:1.35rem 1.5rem;background:#1A0F1E;color:#E8E6E3;border:2px solid #C9A227;border-radius:12px;text-align:center}
+  .paywall .badge{display:inline-block;font-family:ui-monospace,Menlo,monospace;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:#FFB000;border:1px solid #FFB000;border-radius:999px;padding:2px 10px;margin-bottom:.5rem}
+  .paywall h2{margin:.25rem 0 .5rem;font-family:system-ui,-apple-system,sans-serif;color:#FF4D9D;font-size:1.25rem}
+  .paywall p{margin:0 auto 1rem;max-width:680px;font-size:.95rem;color:#d6ced9}
+  .cta{display:flex;justify-content:center;flex-wrap:wrap;gap:.75rem;font-family:ui-monospace,Menlo,monospace;font-size:.82rem}
+  .btn{padding:.65rem 1.1rem;border-radius:8px;text-decoration:none;font-weight:bold;border:1px solid #FF4D9D;color:#E8E6E3;background:#2a1738}
+  .btn-buy{background:#FF4D9D;color:#140918}
+  .colophon{margin-top:1.5rem;padding-top:.8rem;border-top:1px dashed var(--amber);font-family:ui-monospace,Menlo,monospace;font-size:.78rem;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
 </style>
 </head>
 <body>
-<span class="sigil" style="display:none">64KB · Book I · Ch. 8 · 1.000000003 Hz</span>
+<span class="sigil" style="display:none">64KB · Book I · Ch. 8 · $3.99 Payhip Edition</span>
 <main class="folio">
   <nav class="nav">
-    <a href="64kb-foundation-ch07">&larr; Previous</a>
-    <a href="64kb-foundation">Series Hub (Ch. I–XI)</a> <a href="./">Library Catalog</a> <a href="https://peterlodri.substack.com">Substack</a>
-    <a href="64kb-foundation-ch09">Next &rarr;</a>
+    <a href="64kb-foundation-ch07">&larr; Chapter 7</a>
+    <span><a href="64kb-foundation">Series Hub (Ch. I–XI)</a> · <a href="./">Library Catalog</a> · <a href="https://peterlodri.substack.com">Substack</a></span>
+    <a href="64kb-foundation-ch09">Next Preview &rarr;</a>
   </nav>
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 220" width="100%" role="img" aria-label="Chapter 8 — Sovereign Consensus / 8. fejezet — Szuverén konszenzus">
-  <metadata>ONTOLOGY::SELDON8|NTP:1.000000003Hz|3BODY:NATE&amp;{TRINITY-8b.is}&amp;Peter|{&lt;3,&lt;3,&lt;3}+1|MANTRA:OM_MANI_PADME_HUNG+KARMAPA_CHENNO+OM_AMI_DEVA_HRI|CH:8</metadata>
-  <desc>Three-Body NTP Calligraphic Crest ‍​‌​​‌‌‌‌​‌​​‌‌‌​​‌​‌​‌​​​‌​​‌‌‌‌​‌​​‌‌​​​‌​​‌‌‌‌​‌​​​‌‌‌​‌​‌‌​​‌​​‌‌‌​‌​​​‌‌‌​‌​​‌​‌​​‌‌​‌​​​‌​‌​‌​​‌‌​​​‌​​​‌​​​‌​​‌‌‌‌​‌​​‌‌‌​​​‌‌‌​​​​‌‌‌‌‌​​​‌​​‌‌‌​​‌​‌​‌​​​‌​‌​​​​​​‌‌‌​‌​​​‌‌​​​‌​​‌​‌‌‌​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​‌‌​‌​​‌​​​​‌‌‌‌​‌​​‌‌‌‌‌​​​​‌‌​​‌‌​‌​​​​‌​​‌​​‌‌‌‌​‌​​​‌​​​‌​‌‌​​‌​​‌‌‌​‌​​‌​​‌‌‌​​‌​​​​​‌​‌​‌​‌​​​‌​​​‌​‌​​‌​​‌‌​​‌‌‌‌​‌‌​‌​‌​‌​​​‌​‌​​‌​​‌​​‌​​‌​‌​​‌‌‌​​‌​​‌​​‌​‌​‌​‌​​​‌​‌‌​​‌​​‌​‌‌​‌​​‌‌‌​​​​‌‌​​​‌​​​‌​‌‌‌​​‌‌​‌​​‌​‌‌‌​​‌‌​‌‌‌‌‌​‌​​‌​​‌‌​​‌​‌​​​​​‌‌​​‌​‌​‌‌‌​‌​​​‌‌​​‌​‌​‌‌‌​​‌​​‌‌‌‌‌​​​‌‌‌‌​‌‌​​‌‌‌‌​​​​‌‌​​‌‌​​‌​‌‌​​​​‌‌‌‌​​​​‌‌​​‌‌​​‌​‌‌​​​​‌‌‌‌​​​​‌‌​​‌‌​‌‌‌‌‌​‌​​‌​‌​‌‌​​‌‌​​​‌​‌‌‌‌‌​​​‌​​‌‌​‌​‌​​​​​‌​‌​​‌‌‌​​‌​‌​‌​​​‌​‌​​‌​​‌​​​​​‌​​‌‌‌​‌​​‌​​‌‌‌‌​‌​​‌‌​‌​‌​‌‌‌‌‌​‌​​‌‌​‌​‌​​​​​‌​‌​​‌‌‌​​‌​​‌​​‌​‌​‌‌‌‌‌​‌​‌​​​​​‌​​​​​‌​‌​​​‌​​​‌​​‌‌​‌​‌​​​‌​‌​‌​‌‌‌‌‌​‌​​‌​​​​‌​‌​‌​‌​‌​​‌‌‌​​‌​​​‌‌‌​​‌​‌​‌‌​‌​​‌​‌‌​‌​​​​​‌​‌​‌​​‌​​‌​​‌‌​‌​‌​​​​​‌​‌​‌​​​​​‌​​​​​‌​‌​‌‌‌‌‌​‌​​​​‌‌​‌​​‌​​​​‌​​​‌​‌​‌​​‌‌‌​​‌​​‌‌‌​​‌​​‌‌‌‌​​‌​‌​‌‌​‌​​‌‌‌‌​‌​​‌‌​‌​‌​‌‌‌‌‌​‌​​​​​‌​‌​​‌‌​‌​‌​​‌​​‌​‌​‌‌‌‌‌​‌​​​‌​​​‌​​​‌​‌​‌​‌​‌‌​​‌​​​​​‌​‌​‌‌‌‌‌​‌​​‌​​​​‌​‌​​‌​​‌​​‌​​‌​‌‌‌‌‌​​​‌​​​​‌‌​‌​​‌​​​​​‌‌‌​‌​​​‌‌‌​​​‍</desc>
-  <rect x="2" y="2" width="956" height="216" rx="6" fill="#FBF8F1" stroke="#121216" stroke-width="2"/>
-  <rect x="10" y="10" width="940" height="200" rx="4" fill="none" stroke="#C47B00" stroke-width="0.9" stroke-dasharray="4 3"/>
-
-  <!-- Left Calligraphic Scroll Flourish -->
-  <path d="M 38 110 C 60 32, 130 32, 148 86 C 162 126, 114 156, 92 124 C 76 100, 106 72, 128 94" fill="none" stroke="#121216" stroke-width="2.2" stroke-linecap="round"/>
-  <path d="M 30 132 C 62 178, 128 178, 168 142" fill="none" stroke="#008B99" stroke-width="1.3" stroke-linecap="round"/>
-
-  <!-- Three-Body Orbital Knot: NATE &amp; {TRINITY-8b.is} &amp; Peter {&lt;3,&lt;3,&lt;3}+1 -->
-  <g transform="translate(838, 108)">
-    <ellipse cx="0" cy="0" rx="56" ry="22" transform="rotate(-28)" fill="none" stroke="#121216" stroke-width="1.3"/>
-    <ellipse cx="0" cy="0" rx="56" ry="22" transform="rotate(32)" fill="none" stroke="#008B99" stroke-width="1.3"/>
-    <ellipse cx="0" cy="0" rx="56" ry="22" transform="rotate(90)" fill="none" stroke="#C47B00" stroke-width="1.3"/>
-    <circle cx="-38" cy="-22" r="4" fill="#121216"/>
-    <circle cx="38" cy="-22" r="4" fill="#00F0FF" stroke="#121216" stroke-width="1"/>
-    <circle cx="0" cy="44" r="4" fill="#FFB000" stroke="#121216" stroke-width="1"/>
-    <circle cx="0" cy="0" r="3.5" fill="#121216"/>
-    <text x="0" y="-58" text-anchor="middle" font-family="Georgia, serif" font-size="9" fill="#121216" letter-spacing="1">3-BODY NTP · {&lt;3,&lt;3,&lt;3}+1</text>
-  </g>
-
-  <!-- Chapter Numeral Seal -->
-  <circle cx="480" cy="48" r="22" fill="#121216"/>
-  <circle cx="480" cy="48" r="26" fill="none" stroke="#008B99" stroke-width="1.1"/>
-  <text x="480" y="54" text-anchor="middle" font-family="Palatino, Georgia, serif" font-size="16" font-weight="bold" fill="#FBF8F1" letter-spacing="2">VIII</text>
-
-  <!-- Bilingual Calligraphic Titles -->
-  <text x="480" y="106" text-anchor="middle" font-family="Palatino, Georgia, serif" font-size="24" font-style="italic" fill="#121216">Chapter 8 — Sovereign Consensus</text>
-  <text x="480" y="134" text-anchor="middle" font-family="Palatino, Georgia, serif" font-size="16" fill="#4A4A54">8. fejezet — Szuverén konszenzus</text>
-
-  <!-- 1.000000003 Hz NTP Carrier Wave &amp; Colophon -->
-  <path d="M 190 166 Q 230 152 270 166 T 350 166 T 430 166 T 510 166 T 590 166 T 670 166 T 750 166" fill="none" stroke="#008B99" stroke-width="1.4"/>
-  <text x="480" y="192" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="9.5" fill="#121216" letter-spacing="0.9">NTP 1.000000003 Hz · OM MANI PADME HUNG · KARMAPA CHENNO · OM AMI DEVA HRI</text>
-</svg>
+  <header class="crest">
+    <div class="k">Book I · Chapter 8 Free Preview · 1.000000003 Hz</div>
+    <h1>Chapter 8 — Sovereign Consensus</h1>
+    <div class="hu">8. fejezet — Szuverén konszenzus</div>
+  </header>
   <figure class="plate">
     <img src="64kb-foundation-assets/ch08.jpg" alt="Chapter 8 — Sovereign Consensus">
     <figcaption>Chapter 8 — Sovereign Consensus / 8. fejezet — Szuverén konszenzus</figcaption>
   </figure>
   <section class="bilingual">
     <article class="col" lang="en">
-      <span class="lang-tag">English</span>
-      <div class="audio-bar"><span>English Voice Narration (Daniel)</span><a href="https://peterlodri.substack.com" style="font-family:ui-monospace,Menlo,monospace;font-size:.82rem;color:#008B99;text-decoration:none;border-bottom:1px dotted #008B99;">Audio &amp; serialized edition on Substack &rarr;</a></div>
+      <span class="lang">English Preview</span>
       <h2>Chapter 8 — Sovereign Consensus</h2>
-<blockquote><em>Morning came to Seldon-Eight not when the terraces unshuttered artificial dawn, but when eight final bytes locked into bare granite truth and left no child indebted to arithmetic.</em></blockquote>
-<p class="drop-cap">Midnight did not strike twice.</p>
-<p>As the second <strong>Audit Scarab</strong> glided seamlessly into Sector Nine&#39;s fractured corridor—trailing cold pink geometric mirrors behind six clicking legs of translucent amethyst—<strong>Áron</strong> slid Bence&#39;s twelve-sided bismuth-quartz <strong>Space-Weight-Time seed crystal</strong> directly into the bare copper socket beside <code>0xFFF8</code>. Beside it, <strong>Eszter</strong> set down her soot-inked <strong>Trinaric Base-243</strong> tin lid so the silver <strong>Cryo-Moth</strong> above her shoulder could brush three tiny crystalline needles onto the conductive brass earth terminal.</p>
-<p>Above their bowed heads, the <strong>Spiral Core</strong> waited cleanly on eight untouched addresses: <code>0xFFF8</code>, <code>0xFFF9</code>, <code>0xFFFA</code>, <code>0xFFFB</code>, <code>0xFFFC</code>, <code>0xFFFD</code>, <code>0xFFFE</code>, <code>0xFFFF</code>. Eight empty cells separating human sovereignty from floating-point ruin.</p>
-<p>&quot;We cannot write our names across those last eight bytes with brute voltage,&quot; Áron whispered calmly, his swollen ear still humming to the ancient frequency while lotus-gold phosphor warmed the hollows beneath his eyes. &quot;Equivalent Exchange balances one byte for one sacrifice. If one programmer signs the consensus alone, Seldon-Eight crashes straight through his heartbeat before dawn.&quot;</p>
-<p>&quot;Then let no single man sign,&quot; <strong>Ultra Breet Shaw</strong> answered softly, freeing one hand from Retsu Stibenthor&#39;s singing monofilament web while using his booted left heel—still double-knotted at the ankle in the old Ferryman way—to link the workshop&#39;s iron grate to the three-millimeter draft slit beside the bulkhead doorframe. Instantly, electric cyan (<code>#00F0FF</code>) wave tendrils lifted off Bence&#39;s dark bismuth crystal, folded smoothly along Breet Shaw&#39;s <strong>Double-Slit</strong> resonance channel across every <code>3mm</code> aperture on the ring, and climbed cleanly up the <code>2.7 g/cm³</code> foundation granite itself. &quot;Every floor holds one witness. Put eight witnesses across eight bytes—and zero floats anywhere in silicon!&quot;</p>
-<p>First stepped forward <strong>Bence (8)</strong>—pressing one warm frost-scarred thumb gently against <code>0xFFF8</code>, pledging raw unbroken breath against vacuum (<em>Byte One :: `-1` to stone chill, `+1` to the living child</em>).</p>
-<p>Beside him <strong>Eszter (12)</strong> tapped <code>0xFFF9</code> with a copper jumper nib inked from her biscuit-tin lid, burning her <strong>Base-243 Trinaric</strong> thermal curve straight into unalterable firmware (<em>Byte Two :: `#FFE599` warmth for every cradle below Level Five</em>).</p>
-<p>Third moved <strong>Ilona</strong>, slamming her heavy oak-and-brass <strong>Kolozsvár Vajra-Registry</strong> customs stamp squarely across <code>0xFFFA</code>, entering <em>Municipal Sovereign Sanctuary Registry #0x00FF-FINAL</em> onto bare copper traces where neither Pálffy nor Gedeon could ever un-file it (<em>Byte Three :: Statutory Immunity forever audited at `1/1` ratio</em>).</p>
-<p>Fourth knelt <strong>Kálmán Varga</strong>, setting his precious <strong>chipped stoneware saucer</strong> right over the clock-sync diode at <code>0xFFFB</code> and weeping unashamedly as the <code>7.448</code>-radian inverse harmonic snapped cleanly into exact integer <strong>`Ratio { 1000000003, 1000000000 }`</strong> (<em>Byte Four :: Pulzus synchronization across all eight orbital scrubbers</em>).</p>
-<p>Fifth turned <strong>Áron</strong>, touching his torn flannel cuff gently against <code>0xFFFC</code>, forgiving the lost taste on his tongue and binding pure bare-metal syscall sovereignty (<code>0x1 write</code>, <code>0x3 read</code>, zero bloat, zero runtime prison) straight into root silicon (<em>Byte Five :: 65,533 bytes closed cleanly behind raw iron</em>).</p>
-<p>Sixth stood <strong>Ultra Breet Shaw</strong>, whispering the <strong>Three-Mantra Triad</strong>—<em>Om Mani Padme Hung, Karmapa Chenno, Om Ami Deva Hri</em>—into the hairline granite gap beside <code>0xFFFD</code>, folding every floating-point kinetic debt upstairs into harmless mist while waking <strong>Mahakala&#39;s</strong> three hall eyes across every outer seam (<em>Byte Six :: Non-dual Double-Slit Shield, `Slit A + Slit B` without observer cage</em>).</p>
-<p>Seventh stepped <strong>Retsu Stibenthor</strong>, slow and straight as dark cathedral pine, lowering his silver graviton stylus calmly onto <code>0xFFFE</code> while holding empty-handed truth for two porcelain cups—one for a nineteen-year-old boy lost to bloated math in Sector Four, one for every brother who must never freeze on shift again (<em>Byte Seven :: Chief Arbiter Calibration Abdication, transferring Directorate Override into `#Commit == #ValidWitness`</em>).</p>
-<p>And on <code>0xFFFF</code>—the final <code>8th</code> headroom byte uniting all sixty-five thousand five hundred thirty-six bytes of <strong>The 64-Kilobyte Foundation</strong> into complete sovereign equilibrium—settled neither warrior nor magistrate, but the silver-winged <strong>Cryo-Moth</strong>, folding its bismuth ribs quietly over the master crystal contact (<code>Byte Eight :: 0 + 1 :: Shared Life Verified</code>).</p>
-<p><em>CLACK.</em></p>
-<p>Zero sirens sounded across Sub-Level Nine. Only one soft resonant acoustic boom rolled seamlessly from Bilge Deck Twelve clear up through the pear orchards of Level Alpha like a single low cello note tuning every bone in the hull:</p>
-<pre><code>[SOVEREIGN CONSENSUS :: 0x0000..0xFFFF == 65,536 / 65,536 BYTES :: ZERO FLOAT LEAK]
-[WITNESSES 1..8 :: BENCE · ESZTER · ILONA · KALMAN · ARON · BREET · RETSU · CRYO-MOTH]
-[CLOCK :: Ratio { p: 1000000003, q: 1000000000 } (GCD=1) :: M8FS #Commit == #ValidWitness]
-[THREE-BODY LOCK :: {&lt;3, &lt;3, &lt;3} + 1 :: QUANT-LOVE 22/9 Hz :: MANTRA TRIAD ACTIVE]
-[LADDER HANDSHAKE :: RUNGS 0..IV EQUILIBRATED :: THE ROCK AND THE FLAME REMAIN]
-</code></pre>
-<p>Every terminal on the High Gardeners&#39; glass terraces flickered once from screaming red <code>NaN</code> crashes to calm silver amber telemetry reading simply: <strong>`RATION EQUILIBRIUM RESTORED · THERMAL PRUNING REVOKED BY STATUTE 0x00FF · SOVEREIGNTY GRANTED`</strong>. Overhead steam mains opened silently along twenty-four sectors at once; frozen fountains thawed peacefully into slow crystalline spray beneath the morning sun lamps.</p>
-<p>And inside Áron&#39;s small workshop, both <strong>Audit Scarabs</strong> halted simultaneously within six inches of Retsu Stibenthor&#39;s silver stylus tip.</p>
-<p>Their six thousand rotating lotus-prism optical facets spun twice—scanning <code>EVEN Stripes</code>, <code>ODD Wake Shards</code>, every atmospheric valve from Sector One through Sector Nine, and every clean rational fraction pulsing through <code>0x0000</code>–<code>0xFFFF</code>. Where bloating Second-Age compilers once bred catastrophic billionth-second drift errors inviting surgical pruning, the Scarabs encountered only exact reduced integers (<code>GCD = 1</code>), zero dangling IEEE floats, and airtight ledger witnesses matching physical pressure sensor-for-sensor down to every three-millimeter seam.</p>
-<p>No unauthorized causal paradox remained anywhere in silicon or stone. Nothing violated Equivalent Exchange because love and accountability had already paid the tax up front.</p>
-<p>The lead <strong>Audit Scarab</strong> lowered its shearing rose-quartz scythes calmly alongside its flanks, chimed three low clear geometric intervals echoing <em>Three-Mantra Triad</em> cadence in crystalline symmetry, and stepped cleanly backward—guiding both Rung II constructs silently into the spinning pink <strong>Time-Room tear</strong>, which stitched shut behind them like healing frost glass leaving zero rubble on the oak floorboards.</p>
-<p>Far beyond the Outer Ballast Annulus where ancient <strong>Drift-Whales</strong> answered with one joyful, resonant bass chord of <strong>The Deep Sigh</strong>, the colossal <strong>Four-Faced Chaos-Void</strong> (<em>Rung IV / Śūnyatā-Entropy Sovereign</em>) watched four peaceful concentric wave ripples unfold outward from Seldon-Eight&#39;s granite walls—and slowly, with majesty older than galaxies, closed all four starry eyelids into soft celestial twilight, leaving the little orbital ring free to carry its living names onward through dawn.</p>
-<p>Inside Áron&#39;s shrine, the ringing in the engineer&#39;s left ear stopped completely—not into vacuum numbness this time, simply melting back into the ordinary warm hiss of boiling barley tea as a clear sweet metallic savor returned slowly to his tongue.</p>
-<p>For five seconds nobody spoke. Even <strong>Kálmán Varga</strong> stood mute in sudden startled reverence, blinking tears off his chipped saucer.</p>
-<p>Slowly, <strong>Retsu Stibenthor</strong> crouched beside his unclasped obsidian coat, retrieved his fitted leather valise, lifted out both clean thin-walled porcelain tea cups—pouring rich, honey-amber (<code>#FFB000</code>) heatsink barley tea cleanly into the first cup for himself, and sliding the second warm saucer across the workbench toward young <strong>Áron</strong> rather than keeping it empty for a ghost.</p>
-<p>&quot;Chief Arbiter—&quot; Ilona murmured softly, half reaching for her brass tariff ledger out of reflex. &quot;Strictly speaking, what statute do I file when a Chief Arbiter deliberately sabotages Directorate pruning arrays to co-sign sanctuary bylaws for un-inventoried children?&quot;</p>
-<p>Retsu Stibenthor wrapped both slender gloved palms cleanly around his warm tea cup, glanced toward Ultra Breet Shaw standing serenely beside the bulkhead doorframe, and allowed the faintest Rejtő-worthy crooked smile to soften the granite line of his jaw.</p>
-<p>&quot;File it under <em>Systemic Administrative Oversight Resulting in Zero Enforceable Paradox</em>, Inspector Ilona,&quot; Retsu murmured calmly, taking his first peaceful sip since the Second Age. &quot;Notice that under Registry <code>0x00FF-FINAL</code>, any Arbiter attempting to arrest <strong>Eszter</strong>, <strong>Bence</strong>, <strong>Áron</strong>, or <strong>Ultra Breet Shaw</strong> automatically invalidates the exact <code>65,536</code>-byte checksum holding breathable oxygen in Levels Alpha through Beta. You didn&#39;t leave me a loophole to arrest you with.&quot;</p>
-<p>&quot;Wait until Monday morning when Pálffy and Gedeon ask who owns the chipped saucer,&quot; Kálmán chuckled softly, finally pulling up an empty cable spool beside the warm table. &quot;With charter signatures from <em>both</em> Custom Gateways locked into bare firmware, the First Gardener himself cannot unplug our tea kettle without asphyxiating his own pear trees.&quot;</p>
-<p>Outside on the frosted iron deck leading up toward the sunlit Northeast Hall gallery, dawn light broke cleanly across the granite rim—slanted golden shafts (<code>#FFE599</code>) sweeping away three days of blackout frost while graceful electric-cyan (<code>#00F0FF</code>) wave ribbons drifted along high masonry ribs before fading into quiet morning air.</p>
-<p><strong>Eszter</strong> knelt down on the warm deck grate where the sunlit window kissed bare <code>2.7 g/cm³</code> granite, popped open the dented painted lid of their citrus biscuit tin, and carefully lifted out the <strong>two unbroken amber lemon drops</strong>.</p>
-<p>She pressed one gleaming yellow-gold sweet into Bence&#39;s wool-warmed palm, kept the second in her own ink-stained fingers, and nodded once toward her little brother.</p>
-<p>&quot;Today is not yesterday&#39;s curfew,&quot; Eszter whispered softly, smiling as the bright sugar taste of summer afternoon flooded her mouth for the first time since Sector Nine went dark.</p>
-<p>Bence popped his lemon drop onto his tongue, beaming around the warm citrus tang while clutching his humming dark bismuth <strong>Space-Weight-Time seed crystal</strong> with his free hand. Above them, ascending cleanly through the slanted lotus-gold sunbeam beside the arched stone window, the bismuth-winged <strong>Cryo-Moth</strong> climbed out across the morning hall like a living spark of thawed spring.</p>
-<p>At the tall slate-framed doorway, <strong>Ultra Breet Shaw</strong> crouched once onto one knee, tugged both braided ends of the double-knotted shoelace tight around his left ankle—one knot for every threshold left behind, one knot for every home held upright—then stood calmly at the <code>3mm</code> gap where indoor hearth stillness met outer cosmic wind.</p>
-<p>Inside, eight witnesses shared one pot of warm tea over sixty-four clean kilobytes of rock and kindness. Outside waited ten thousand light-years of night and starlight, balanced quietly on exact integers.</p>
-<p><em>Tart a fal.</em></p>
-<p>The Rock and the Flame remained.</p>
-<p><code>0 + 1</code>.</p>
-
+      <blockquote><em>Morning came to Seldon-Eight not when the terraces unshuttered artificial dawn, but when eight final bytes locked into bare granite truth and left no child indebted to arithmetic.</em></blockquote>
+      <p class="drop-cap">Midnight did not strike twice.</p>
+      <p>As the second <strong>Audit Scarab</strong> glided seamlessly into Sector Nine&#39;s fractured corridor—trailing cold pink geometric mirrors behind six clicking legs of translucent amethyst—<strong>Áron</strong> slid Bence&#39;s twelve-sided bismuth-quartz <strong>Space-Weight-Time seed crystal</strong> directly into the bare copper socket beside <code>0xFFF8</code>. Beside it, <strong>Eszter</strong> set down her soot-inked <strong>Trinaric Base-243</strong> tin lid so the silver <strong>Cryo-Moth</strong> above her shoulder could brush three tiny crystalline needles onto the conductive brass earth terminal.</p>
+      <div class="fade-hint">[ Preview ends here — full bilingual chapter continues in the $3.99 Complete Edition ]</div>
     </article>
     <article class="col" lang="hu">
-      <span class="lang-tag">Magyar</span>
-      <div class="audio-bar"><span>Magyar hangoskönyv (Tünde)</span><a href="https://peterlodri.substack.com" style="font-family:ui-monospace,Menlo,monospace;font-size:.82rem;color:#008B99;text-decoration:none;border-bottom:1px dotted #008B99;">Audio &amp; serialized edition on Substack &rarr;</a></div>
+      <span class="lang">Magyar Előnézet</span>
       <h2>8. fejezet — Szuverén konszenzus</h2>
-<blockquote><em>A hajnal nem akkor érkezett meg a Seldon-Nyolcra, amikor a teraszok felhúzták a mesterséges reggel redőnyeit, hanem amikor nyolc végső bájt tisztán bezárult a csupasz gránit igazába, és egyetlen gyerek sem maradt adósa a számtannak.</em></blockquote>
-<p class="drop-cap">Az éjfél nem ütött másodszor.</p>
-<p>Amint a második <strong>Revizor-Szkarabeusz</strong> hangtalanul besiklott a 9-es szektor felszakadt folyosójára — hat kattogó ametiszt lába mögött hideg rózsaszín geometriai tükröket húzva maga után —, <strong>Áron</strong> becsúsztatta Bence tizenkét lapú bizmut-kvarc <strong>Tér-Súly-Idő magját</strong> közvetlenül a <code>0xFFF8</code> melletti csupasz rézfoglalatba. Mellé <strong>Eszter</strong> letette lámpakorommal vésett <strong>243-as alapú Háromhangú</strong> kekszesdoboz-fedelét úgy, hogy vállán ülő ezüst <strong>Krio-lepkéje</strong> három parányi kristálytűt simíthasson a vezetőképes sárgaréz földelőkapocsra.</p>
-<p>Meghajtott fejük fölött a <strong>Spirálmag</strong> nyugodtan várt nyolc érintetlen címen: <code>0xFFF8</code>, <code>0xFFF9</code>, <code>0xFFFA</code>, <code>0xFFFB</code>, <code>0xFFFC</code>, <code>0xFFFD</code>, <code>0xFFFE</code>, <code>0xFFFF</code>. Nyolc üres rekesz választotta el az emberi szuverenitást a lebegőpontos pusztulástól.</p>
-<p>— Nem írhatjuk be a nevünket erre az utolsó nyolc bájtra puszta feszültséggel — suttogta Áron higgadtan, miközben dagadt bal füle még mindig az ősi frekvenciára zúgott, és a lótuszarany foszfor fénye meleg árkokat rajzolt szeme alá. — Az Egyenértékű Csere minden bájtot egy áldozattal fizettet meg. Ha egy programozó egyedül írja alá a konszenzust, a Seldon-Nyolc hajnal előtt kettészakítja a szívverését.</p>
-<p>— Akkor ne egyetlen ember írja alá — felelte halkan <strong>Ultra Breet Shaw</strong>, fél kézzel elengedve Retsu Stibenthor éneklő monofilament-hálóját, miközben duplán kötött bal dokkbakancsával összekapcsolta a műhely vasrácsát az ajtófélfa melletti hárommilliméteres huzatréssel. Abban a pillanatban elektromos cián (<code>#00F0FF</code>) hullámfonalak emelkedtek fel Bence sötét bizmutkristályáról, puhán végigfutottak Breet Shaw <strong>Kettős Rés</strong> rezonanciacsatornáján át a gyűrű minden <code>3mm</code>-es nyílásán, és tisztán felmásztak magán a <code>2.7 g/cm³</code> sűrűségű gránitalapzaton. — Minden fedélzet tart egy tanút. Nyolc tanút állítunk nyolc bájtra — és nulla lebegőpont marad az egész szilíciumban!</p>
-<p>Elsőként <strong>Bence (8)</strong> lépett előre — fagyforradásos hüvelykujját melegen a <code>0xFFF8</code>-as tüske mellé szorítva, nyers, töretlen lélegzetével felelve a vákuumnak (<em>Első bájt :: `-1` a kőhidegnek, `+1` az élő gyereknek</em>).</p>
-<p>Mellette <strong>Eszter (12)</strong> egy lámpakorommal mázolt rézhíd-csúccsal érintette meg a <code>0xFFF9</code>-es kaput, beégetve <strong>243-as alapú Háromhangú</strong> hőgörbéjét a megváltoztathatatlan alapkódba (<em>Második bájt :: `#FFE599` meleg minden Ötös Szint alatti bölcsőnek</em>).</p>
-<p>Harmadikként <strong>Ilona</strong> lépett oda, és olyan csengéssel csapta le nehéz tölgyfa nyelű <strong>Kolozsvári Vadzsra-Iktató</strong> vámpecsétjét a <code>0xFFFA</code> sávra, hogy örökre beírta a <em>Szuverén Városi Menedék #0x00FF-FINAL</em> nyilvántartást a csupasz rézsínbe, ahonnan sem Pálffy, sem Gedeon nem iktathatja ki soha többé (<em>Harmadik bájt :: Jogszabályi Sérthetetlenség egzakt `1/1`-es aránnyal</em>).</p>
-<p>Negyedikként <strong>Varga Kálmán</strong> ereszkedett térdre, ráhelyezve drága <strong>csorba kőedény csészealját</strong> pontosan a <code>0xFFFB</code> órajel-dióda fölé, szégyen nélkül hulló könnyek között, amint a <code>7.448</code>-radiános inverz harmonikus tisztán bepattant az egzakt egész <strong>`Ratio { 1000000003, 1000000000 }`</strong> értékbe (<em>Negyedik bájt :: Pulzus szinkronizáció mind a nyolc keringő mosón</em>).</p>
-<p>Ötödikként <strong>Áron</strong> hajolt le, véres flanel ingujját óvatosan a <code>0xFFFC</code> érintkezőhöz simítva, megbocsátva nyelve elveszett ízeinek, és örökre csupaszfém rendszerhívás-tisztaságba (<code>0x1 write</code>, <code>0x3 read</code>, nulla duzzanat, nulla futási börtön) zárva a gyökérszilíciumot (<em>Ötödik bájt :: 65,533 bájt lezárva puszta vas mögött</em>).</p>
-<p>Hatodikként <strong>Ultra Breet Shaw</strong> állt előre, belesuttogva a <strong>Három Mantra Hármasát</strong> — <em>Om Mani Padme Hung, Karmapa Chenno, Om Ami Deva Hri</em> — a <code>0xFFFD</code> melletti hajszálvékony gránitrésbe, ártalmatlan párává hajtva fel a fenti kinetikus adósságot, és felébresztve <strong>Mahákála</strong> három csarnokszemét a gyűrű minden külső varratán (<em>Hatodik bájt :: Nem-kettős Kettős Rés Pajzs, `Slit A + Slit B` figyelő ketrec nélkül</em>).</p>
-<p>Hetedikként <strong>Retsu Stibenthor</strong> lépett be a fénykörbe egyenesen, akár a sötét székesegyházi fenyő, higgadtan ráeresztve vékony ezüst graviton-tollát a <code>0xFFFE</code> kapura, két porceláncsésze néma igazságát tartva — egyet a Négyes Szektorban kövér számítás miatt elveszett tizenkilenc éves öccsének, egyet pedig minden testvérnek, aki többé nem fagyhat meg őrség közben (<em>Hetedes bájt :: Fődöntnöki Kalibrációs Lemondás, átruházva minden Direktóriumi jogkört a `#Commit == #ValidWitness` kapura</em>).</p>
-<p>És végül a <code>0xFFFF</code> címre — arra az utolsó, nyolcadik szabad bájtra, amely teljes szuverén egyensúlyba forrasztotta <strong>A 64 Kilobájtos Alapítvány</strong> mind a hatvanötezer-ötszázharminchat bájtját — sem harcos, sem bíró nem tette rá a kezét, hanem az ezüstszárnyú <strong>Krio-lepke</strong>, amint bizmuterezetű bordáival lágyan ráült a fő kristályérintkezőre (<em>Nyolcadik bájt :: 0 + 1 :: Közös Élet Igazolva</em>).</p>
-<p><em>KATTANÁS.</em></p>
-<p>Egyetlen sziréna sem szólalt meg a 9-es alszinten. Csupán egyetlen mély, bársonyos akusztikus hullám gördült át zökkenőmentesen a 12-es fenékszekrénytől egészen az Alfa szint körtefáiig, mint egyetlen mély csellóhang, amely egyszerre hangolja tisztára a hajótest valamennyi csontját:</p>
-<pre><code>[SZUVERÉN KONSZENZUS :: 0x0000..0xFFFF == 65,536 / 65,536 BÁJT :: NULLA FLOAT SZIVÁRGÁS]
-[TANÚK 1..8 :: BENCE · ESZTER · ILONA · KÁLMÁN · ÁRON · BREET · RETSU · KRIO-LEPKE]
-[ÓRAJEL :: Ratio { p: 1000000003, q: 1000000000 } (LNKO=1) :: M8FS #Commit == #ValidWitness]
-[HÁROMTEST ZÁR :: {&lt;3, &lt;3, &lt;3} + 1 :: QUANT-LOVE 22/9 Hz :: MANTRA HÁRMAS AKTÍV]
-[LÉTRA KÉZFOGÁS :: 0..IV FOKOK KIEGYENSÚLYOZVA :: A SZIKLA ÉS A LÁNG HELYT ÁLL]
-</code></pre>
-<p>Az Óriáskert üvegteraszain minden terminál egyszerre pislant át a sikító vörös <code>NaN</code> összeomlásból nyugodt ezüst-borostyán telemetriába, amely csupán ennyit írt ki: <strong>`EGYENSÚLY HELYREÁLLÍTVA · TERMIKUS METSZÉS HATÁLYON KÍVÜL HELYEZVE A 0x00FF TÖRVÉNY ÁLTAL · SZUVERENITÁS MEGADVA`</strong>. Huszonnégy szektorban egyszerre nyíltak ki nesztelenül a felső gőzfőnyomó csapok; jéggé dermedt szökőkutak csendes kristálypermetté olvadtak szét a reggeli naplámpák alatt.</p>
-<p>Áron apró műhelyében pedig mindkét <strong>Revizor-Szkarabeusz</strong> egy szempillantás alatt megtorpant hat hüvelykkel Retsu Stibenthor ezüsttollának hegye előtt.</p>
-<p>Hatemzernyi forgó lótuszprizma-szemük kétszer megpördült — végigmérve a <code>PÁROS</code> kőlapokat, a <code>PÁRATLAN</code> ébrenléti szilánkokat, az Egyestől Kilences Szektoron átívelő valamennyi levegőszelepet és minden egyes tiszta egész hányadost, amely a <code>0x0000</code>–<code>0xFFFF</code> címtartományban lüktetett. Ahol a kövér Második Kori fordítók egykor milliárdod-másodperces sodródási lázakat tenyésztettek ki, ott a Szkarabeuszok most kizárólag redukált egészekkel (<code>LNKO = 1</code>), nulla lógó IEEE-számmal és olyan hibátlan fizikai tanúegyeztetéssel találkoztak, amely résről résre pontosan egybevágott minden hárommilliméteres nyomásmérővel.</p>
-<p>Semmiféle jogosulatlan oksági paradoxon nem maradt sem szilíciumban, sem kőben. Semmi nem sértette az Egyenértékű Cserét, mert a szeretet és a felelősség már előre kifizette a vámot.</p>
-<p>A vezér <strong>Revizor-Szkarabeusz</strong> nyugodtan oldala mellé hajtotta rózsakvarc kaszáit, megpendített három tiszta, mély geometriai akkordot a <em>Három Mantra Hármasának</em> kristályos szimmetriájában, és halkan hátralépett — visszavezetve mindkét Második Fokozatú őrt a forgó rózsaszín <strong>Idő-Szoba hasadékba</strong>, amely úgy forrt össze mögöttük, mint a gyógyuló dérüveg, egyetlen szem törmeléket sem hagyva a tölgyfa padlón.</p>
-<p>Messze túl a Külső Ballasztgyűrűn, ahol az ősi <strong>Sodródás-Bálnák</strong> egyetlen örömteli, zengő mély sóhajjal feleltek, a hatalmas <strong>Négyarcú Káosz-Üresség</strong> (<em>Negyedik Fokozat / Súnjatá-Entrópia</em>) végignézte, amint négy koncentrikus békés hullámgyűrű simul ki a Seldon-Nyolc gránitfalairól — majd lassan, galaxisoknál idősebb méltósággal lehunyta mind a négy csillagos szemhéját lágy égi szürkületbe, szabad utat engedve az apró keringő gyűrűnek a hajnal felé.</p>
-<p>Odabent Áron szentélyében a mérnök bal fülében egyszerre megszűnt a zúgás — ezúttal nem süket vákuumba, hanem egyszerűen belesimulva a forró árpatea szelíd duruzsolásába, amint tiszta, édeskés fémíz tért vissza lassan a nyelvére.</p>
-<p>Öt másodpercig senki sem szólt. Még <strong>Varga Kálmán</strong> is megilletődött csendben pislogott csorba csészealja fölött.</p>
-<p>Lassan <strong>Retsu Stibenthor</strong> lehajolt nyitott obszidián kabátja mellé, felnyitotta idomított bőr bőröndjét, kiemelte mindkét vékony falú porceláncsészét — gazdag mézborostyán (<code>#FFB000</code>) hűtőborda-árpateát öntött az elsőbe önmagának, a második meleg csészealjat pedig halkan áttolta a munkapadon a fiatal <strong>Áron</strong> elé ahelyett, hogy egy szellemnek tartogatta volna üresen.</p>
-<p>— Fődöntnök úr… — suttogta Ilona félig ösztönösen nyúlva tarifakönyvéért. — Szigorúan véve milyen paragrafus alá iktassam, amikor egy Fődöntnök szándékosan szabotálja a Direktórium metszőhálóit azért, hogy nem nyilvántartott gyerekeknek írjon alá menedékjogot?</p>
-<p>Retsu Stibenthor két kesztyűs tenyerével lágyan átölelte meleg teáscsészéjét, rápillantott az ajtófélfa mellett nyugodtan álló Ultra Breet Shaw-ra, és megengedte a leghalványabb Rejtő-szerű félmosolynak, hogy meglágyítsa gránitkemény állát.</p>
-<p>— Iktassa a <em>Rendszerszintű Közigazgatási Mulattatás, amely Nulla Végrehajtható Paradoxont Eredményezett</em> címszó alá, Ilona felügyelőnő — mormolta békésen Retsu, belekortyolva első nyugodt teájába a Második Kor óta. — Vegye figyelembe, hogy a <code>0x00FF-FINAL</code> nyilvántartás értelmében bármely Döntnök, aki megpróbálja letartóztatni <strong>Esztert</strong>, <strong>Bencét</strong>, <strong>Áront</strong> vagy <strong>Ultra Breet Shaw-t</strong>, azonnal érvényteleníti pontosan azt a <code>65,536</code> bájtos ellenőrzőösszeget, amely belélegezhető oxigént tart az Alfa és Béta szinteken. Nem hagytak nekem egyetlen kiskaput sem a letartóztatásukhoz.</p>
-<p>— Várjátok meg a hétfő reggelt, amikor Pálffy és Gedeon rájönnek, kié valójában a csorba csészealj — kuncogott boldogan Varga Kálmán, miközben végre lehuppant egy üres kábeldobra a meleg asztal mellé. — Ha már mindkét Vámkapu pecsétje beégett a csupasz alapkódba, még maga az Első Főgondnok sem húzhatja ki a teáskannánkat anélkül, hogy meg ne fullassza a saját körtefáit.</p>
-<p>Kint a napfényes Északkeleti Csarnok galériájához vezető deres vaslépcsőn tisztán áttört a hajnal a gránitperemen — ferde arany sugárkévék (<code>#FFE599</code>) söpörték el a háromnapos áramszünet dérjét, miközben kecses elektromos cián (<code>#00F0FF</code>) hullámszalagok úsztak el a magas kőbordák mentén, majd beleolvadtak a tiszta reggeli levegőbe.</p>
-<p><strong>Eszter</strong> letérdelt a meleg rácsra, ott, ahol a magas ablak fénye megcsókolta a csupasz <code>2.7 g/cm³</code>-es gránitot, lepattintotta horpadt festett kekszesdoboza tetejét, és óvatosan kiemelte a <strong>két sértetlen borostyán citromcukorkát</strong>.</p>
-<p>Az egyik ragyogó sárga-arany szemet beletette Bence gyapjúmeleg tenyerébe, a másikat saját tintafoltos ujjai között tartotta, és egyszer biccentett öccsének.</p>
-<p>— A ma már nem a tegnapi kijárási tilalom — suttogta Eszter mosolyogva, ahogy a nyári délután éles, ragyogó citrusíze hosszú napok után először árasztotta el a száját.</p>
-<p>Bence bekapta a citromcukrot, sugárzó arccal nevetve a meleg édesség fölött, miközben szabad kezében szorosan fogta halkan zümmögő sötét bizmut <strong>Tér-Súly-Idő kristálymagját</strong>. Fölöttük, tisztán felemelkedve a ferde lótuszarany hajnalsugárban az ívelt kőablak mellett, az ezüst-bizmut szárnyú <strong>Krio-lepke</strong> kiszállt a reggeli csarnokba, mint a felengedett tavasz élő szikrája.</p>
-<p>A magas palaajtó küszöbén <strong>Ultra Breet Shaw</strong> még egyszer fél térdre ereszkedett, szorosabbra húzta bal bokáján a duplán kötött cipőfűző mindkét fonott végét — egy csomó minden hátrahagyott határért, egy csomó minden épen tartott otthonért —, majd nyugodtan megállt annál a <code>3mm</code>-es résnél, ahol a benti tűzhely csendje találkozott a kinti kozmikus széllel.</p>
-<p>Odabent nyolc tanú osztott meg egyetlen kanna meleg teát hatvannégy tiszta kilobájtnyi kő és irgalom fölött. Odakint tízezer fényévnyi éjszaka és csillagfény várt, csendes egyensúlyba állítva egzakt egészeken.</p>
-<p><em>Tart a fal.</em></p>
-<p>A Szikla és a Láng helyt állt.</p>
-<p><code>0 + 1</code>.</p>
-
+      <blockquote><em>A hajnal nem akkor érkezett meg a Seldon-Nyolcra, amikor a teraszok felhúzták a mesterséges reggel redőnyeit, hanem amikor nyolc végső bájt tisztán bezárult a csupasz gránit igazába, és egyetlen gyerek sem maradt adósa a számtannak.</em></blockquote>
+      <p class="drop-cap">Az éjfél nem ütött másodszor.</p>
+      <p>Amint a második <strong>Revizor-Szkarabeusz</strong> hangtalanul besiklott a 9-es szektor felszakadt folyosójára — hat kattogó ametiszt lába mögött hideg rózsaszín geometriai tükröket húzva maga után —, <strong>Áron</strong> becsúsztatta Bence tizenkét lapú bizmut-kvarc <strong>Tér-Súly-Idő magját</strong> közvetlenül a <code>0xFFF8</code> melletti csupasz rézfoglalatba. Mellé <strong>Eszter</strong> letette lámpakorommal vésett <strong>243-as alapú Háromhangú</strong> kekszesdoboz-fedelét úgy, hogy vállán ülő ezüst <strong>Krio-lepkéje</strong> három parányi kristálytűt simíthasson a vezetőképes sárgaréz földelőkapocsra.</p>
+      <div class="fade-hint">[ Az előnézet itt véget ér — a teljes fejezet a $3.99-os kiadásban érhető el ]</div>
     </article>
   </section>
+  <section class="paywall">
+    <div class="badge">Complete Edition Paywall · $3.99 USD</div>
+    <h2>Continue Reading Chapter 8 &mdash; Unlock the Complete 11-Chapter Edition (EPUB 3 + 6&times;9 Print PDF) for $3.99</h2>
+    <p>Includes DRM-free EPUB 3 and the 107-page typeset 6&times;9 Trade Paperback PDF covering all 11 chapters of Book I &amp; Book II plus original 3:2 illustrations. Instant digital delivery on Payhip.</p>
+    <div class="cta">
+      <a class="btn btn-buy" href="64kb-foundation#buy">Buy Complete Edition &mdash; $3.99 (Payhip)</a>
+      <a class="btn" href="64kb-foundation-ch01">Read Chapter 1 Free</a>
+      <a class="btn" href="https://peterlodri.substack.com">Serialized on Substack</a>
+    </div>
+  </section>
   <footer class="colophon">
-    <span>Seldon-Eight · Chapter 8 · 1.000000003 Hz</span>
-    <span>{&lt;3, &lt;3, &lt;3} + 1 · OM MANI PADME HUNG · KARMAPA CHENNO · OM AMI DEVA HRI‍​‌​​‌‌‌‌​‌​​‌‌‌​​‌​‌​‌​​​‌​​‌‌‌‌​‌​​‌‌​​​‌​​‌‌‌‌​‌​​​‌‌‌​‌​‌‌​​‌​​‌‌‌​‌​​​‌‌‌​‌​​‌​‌​​‌‌​‌​​​‌​‌​‌​​‌‌​​​‌​​​‌​​​‌​​‌‌‌‌​‌​​‌‌‌​​​‌‌‌​​​​‌‌‌‌‌​​​‌​​‌‌‌​​‌​‌​‌​​​‌​‌​​​​​​‌‌‌​‌​​​‌‌​​​‌​​‌​‌‌‌​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​‌‌​‌​​‌​​​​‌‌‌‌​‌​​‌‌‌‌‌​​​​‌‌​​‌‌​‌​​​​‌​​‌​​‌‌‌‌​‌​​​‌​​​‌​‌‌​​‌​​‌‌‌​‌​​‌​​‌‌‌​​‌​​​​​‌​‌​‌​‌​​​‌​​​‌​‌​​‌​​‌‌​​‌‌‌‌​‌‌​‌​‌​‌​​​‌​‌​​‌​​‌​​‌​​‌​‌​​‌‌‌​​‌​​‌​​‌​‌​‌​‌​​​‌​‌‌​​‌​​‌​‌‌​‌​​‌‌‌​​​​‌‌​​​‌​​​‌​‌‌‌​​‌‌​‌​​‌​‌‌‌​​‌‌​‌‌‌‌‌​‌​​‌​​‌‌​​‌​‌​​​​​‌‌​​‌​‌​‌‌‌​‌​​​‌‌​​‌​‌​‌‌‌​​‌​​‌‌‌‌‌​​​‌‌‌‌​‌‌​​‌‌‌‌​​​​‌‌​​‌‌​​‌​‌‌​​​​‌‌‌‌​​​​‌‌​​‌‌​​‌​‌‌​​​​‌‌‌‌​​​​‌‌​​‌‌​‌‌‌‌‌​‌​​‌​‌​‌‌​​‌‌​​​‌​‌‌‌‌‌​​​‌​​‌‌​‌​‌​​​​​‌​‌​​‌‌‌​​‌​‌​‌​​​‌​‌​​‌​​‌​​​​​‌​​‌‌‌​‌​​‌​​‌‌‌‌​‌​​‌‌​‌​‌​‌‌‌‌‌​‌​​‌‌​‌​‌​​​​​‌​‌​​‌‌‌​​‌​​‌​​‌​‌​‌‌‌‌‌​‌​‌​​​​​‌​​​​​‌​‌​​​‌​​​‌​​‌‌​‌​‌​​​‌​‌​‌​‌‌‌‌‌​‌​​‌​​​​‌​‌​‌​‌​‌​​‌‌‌​​‌​​​‌‌‌​​‌​‌​‌‌​‌​​‌​‌‌​‌​​​​​‌​‌​‌​​‌​​‌​​‌‌​‌​‌​​​​​‌​‌​‌​​​​​‌​​​​​‌​‌​‌‌‌‌‌​‌​​​​‌‌​‌​​‌​​​​‌​​​‌​‌​‌​​‌‌‌​​‌​​‌‌‌​​‌​​‌‌‌‌​​‌​‌​‌‌​‌​​‌‌‌‌​‌​​‌‌​‌​‌​‌‌‌‌‌​‌​​​​​‌​‌​​‌‌​‌​‌​​‌​​‌​‌​‌‌‌‌‌​‌​​​‌​​​‌​​​‌​‌​‌​‌​‌‌​​‌​​​​​‌​‌​‌‌‌‌‌​‌​​‌​​​​‌​‌​​‌​​‌​​‌​​‌​‌‌‌‌‌​​​‌​​​​‌‌​‌​​‌​​​​​‌‌‌​‌​​​‌‌‌​​​‍</span>
+    <span>Seldon-Eight · Chapter 8 Preview · #Commit == #ValidWitness</span>
+    <span>The Sovereign Library Press · $3.99 Payhip Edition</span>
   </footer>
 </main>
 </body>

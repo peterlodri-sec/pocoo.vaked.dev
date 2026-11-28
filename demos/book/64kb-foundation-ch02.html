@@ -5,343 +5,84 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The 64-Kilobyte Foundation — Chapter 2: Equivalent Exchange at 64K · 2. fejezet — Egyenértékű csere 64 kilobájton</title>
 <style>
-  :root {
-    --paper: #F7F3E9;
-    --ink: #141418;
-    --muted: #4A4A54;
-    --cyan: #008B99;
-    --cyan-bright: #00F0FF;
-    --amber: #C47B00;
-    --amber-bright: #FFB000;
-    --border: #D8CFBC;
-  }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    padding: 2rem 1.25rem 4rem;
-    background: #EFE9DA;
-    color: var(--ink);
-    font-family: "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
-    line-height: 1.72;
-  }
-  .folio {
-    max-width: 1180px;
-    margin: 0 auto;
-    background: var(--paper);
-    border: 2px solid var(--ink);
-    box-shadow: 0 18px 50px rgba(20, 20, 24, 0.16);
-    padding: 2rem 2.25rem 2.75rem;
-  }
-  .nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
-    font-family: ui-monospace, Menlo, monospace;
-    font-size: 0.85rem;
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 0.85rem;
-    margin-bottom: 1.5rem;
-  }
-  .nav a {
-    color: var(--ink);
-    text-decoration: none;
-    border-bottom: 1px solid var(--cyan);
-    padding-bottom: 2px;
-  }
-  .nav a:hover { color: var(--cyan); }
-  .plate {
-    margin: 1.5rem 0 2rem;
-    text-align: center;
-  }
-  .plate img {
-    max-width: 100%;
-    max-height: 540px;
-    border: 1.5px solid var(--ink);
-    background: #0E1016;
-  }
-  .plate figcaption {
-    margin-top: 0.5rem;
-    font-size: 0.85rem;
-    color: var(--muted);
-    font-style: italic;
-  }
-  .bilingual {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2.25rem;
-    align-items: start;
-  }
-  @media (max-width: 860px) {
-    .bilingual { grid-template-columns: 1fr; }
-  }
-  .col {
-    padding: 1.25rem 1.4rem;
-    border: 1px solid var(--border);
-    background: rgba(255, 255, 255, 0.42);
-  }
-  .lang-tag {
-    display: inline-block;
-    font-family: ui-monospace, Menlo, monospace;
-    font-size: 0.72rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--paper);
-    background: var(--ink);
-    padding: 0.15rem 0.55rem;
-    border-left: 3px solid var(--cyan-bright);
-    margin-bottom: 0.5rem;
-  }
-  h2 {
-    font-size: 1.35rem;
-    margin: 0.35rem 0 1rem;
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 0.35rem;
-  }
-  p.drop-cap::first-letter {
-    float: left;
-    font-size: 3.35rem;
-    line-height: 0.84;
-    padding: 0.25rem 0.55rem 0.1rem 0.45rem;
-    margin: 0.1rem 0.55rem 0.1rem 0;
-    border: 1.5px solid var(--ink);
-    background: #F1E9D4;
-    color: var(--ink);
-    box-shadow: 2px 2px 0 var(--cyan);
-    font-weight: bold;
-  }
-  code {
-    font-family: ui-monospace, Menlo, monospace;
-    font-size: 0.86em;
-    background: #EAE2CE;
-    padding: 0.08rem 0.32rem;
-    border-radius: 3px;
-  }
-  pre {
-    background: #12141B;
-    color: var(--cyan-bright);
-    border-left: 3px solid var(--amber-bright);
-    padding: 0.9rem 1rem;
-    overflow-x: auto;
-    font-size: 0.84rem;
-    line-height: 1.45;
-  }
-  pre code { background: transparent; padding: 0; color: inherit; }
-  .colophon {
-    margin-top: 2.25rem;
-    padding-top: 1rem;
-    border-top: 1px dashed var(--amber);
-    font-family: ui-monospace, Menlo, monospace;
-    font-size: 0.8rem;
-    color: var(--muted);
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-  }
-  .toc-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 1.25rem;
-    margin: 1.5rem 0;
-  }
-  .toc-card {
-    display: block;
-    text-decoration: none;
-    color: var(--ink);
-    border: 1.5px solid var(--ink);
-    padding: 1rem 1.15rem;
-    background: #FBF8F1;
-  }
-  .toc-card:hover {
-    border-color: var(--cyan);
-    box-shadow: 4px 4px 0 var(--cyan);
-  }
-  .plates-duo {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.25rem;
-    margin-top: 1.5rem;
-  }
-  @media (max-width: 860px) {
-    .plates-duo { grid-template-columns: 1fr; }
-  }
-  .audio-bar {
-    margin: 0.75rem 0 1.1rem;
-    padding: 0.6rem 0.8rem;
-    border: 1px solid var(--border);
-    border-left: 3px solid var(--amber-bright);
-    background: #FBF8F1;
-  }
-  .audio-bar span {
-    display: block;
-    font-family: ui-monospace, Menlo, monospace;
-    font-size: 0.74rem;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 0.35rem;
-  }
-  .audio-bar audio {
-    width: 100%;
-    height: 34px;
-  }
+  :root{--paper:#F7F3E9;--ink:#141418;--muted:#4A4A54;--cyan:#008B99;--amber:#C47B00;--border:#D8CFBC}
+  *{box-sizing:border-box}
+  body{margin:0;padding:1.5rem 1rem 3rem;background:#EFE9DA;color:var(--ink);font-family:"Palatino Linotype",Palatino,Georgia,serif;line-height:1.68}
+  .folio{max-width:1120px;margin:0 auto;background:var(--paper);border:2px solid var(--ink);box-shadow:0 14px 40px rgba(20,20,24,.14);padding:1.5rem 1.75rem 2.25rem}
+  .nav{display:flex;justify-content:space-between;flex-wrap:wrap;gap:.75rem;font-family:ui-monospace,Menlo,monospace;font-size:.82rem;border-bottom:1px solid var(--border);padding-bottom:.75rem;margin-bottom:1.25rem}
+  .nav a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--cyan)}
+  .crest{text-align:center;border:1px solid var(--ink);padding:1rem 1.25rem;background:#FBF8F1;margin-bottom:1.25rem}
+  .crest .k{font-family:ui-monospace,Menlo,monospace;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan)}
+  .crest h1{margin:.25rem 0;font-size:1.55rem;line-height:1.25}
+  .crest .hu{font-style:italic;color:var(--muted);font-size:1rem}
+  .plate{margin:1rem 0 1.5rem;text-align:center}
+  .plate img{max-width:100%;max-height:460px;border:1.5px solid var(--ink)}
+  .plate figcaption{margin-top:.4rem;font-size:.84rem;color:var(--muted);font-style:italic}
+  .bilingual{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;align-items:start}
+  @media(max-width:860px){.bilingual{grid-template-columns:1fr}}
+  .col{padding:1rem 1.2rem;border:1px solid var(--border);background:rgba(255,255,255,.45);position:relative}
+  .lang{display:inline-block;font-family:ui-monospace,Menlo,monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--paper);background:var(--ink);padding:.15rem .45rem;margin-bottom:.65rem}
+  .col h2{margin:.25rem 0 .7rem;font-size:1.15rem}
+  blockquote{margin:.75rem 0;padding:.45rem .85rem;border-left:3px solid var(--amber);background:#F3ECDA;font-style:italic;font-size:.95rem}
+  .fade-hint{margin-top:.85rem;padding-top:.6rem;border-top:1px dashed var(--border);font-family:ui-monospace,Menlo,monospace;font-size:.76rem;color:var(--muted)}
+  .paywall{margin-top:1.75rem;padding:1.35rem 1.5rem;background:#1A0F1E;color:#E8E6E3;border:2px solid #C9A227;border-radius:12px;text-align:center}
+  .paywall .badge{display:inline-block;font-family:ui-monospace,Menlo,monospace;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:#FFB000;border:1px solid #FFB000;border-radius:999px;padding:2px 10px;margin-bottom:.5rem}
+  .paywall h2{margin:.25rem 0 .5rem;font-family:system-ui,-apple-system,sans-serif;color:#FF4D9D;font-size:1.25rem}
+  .paywall p{margin:0 auto 1rem;max-width:680px;font-size:.95rem;color:#d6ced9}
+  .cta{display:flex;justify-content:center;flex-wrap:wrap;gap:.75rem;font-family:ui-monospace,Menlo,monospace;font-size:.82rem}
+  .btn{padding:.65rem 1.1rem;border-radius:8px;text-decoration:none;font-weight:bold;border:1px solid #FF4D9D;color:#E8E6E3;background:#2a1738}
+  .btn-buy{background:#FF4D9D;color:#140918}
+  .colophon{margin-top:1.5rem;padding-top:.8rem;border-top:1px dashed var(--amber);font-family:ui-monospace,Menlo,monospace;font-size:.78rem;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
 </style>
 </head>
 <body>
-<span class="sigil" style="display:none">64KB · Book I · Ch. 2 · 1.000000003 Hz</span>
+<span class="sigil" style="display:none">64KB · Book I · Ch. 2 · $3.99 Payhip Edition</span>
 <main class="folio">
   <nav class="nav">
-    <a href="64kb-foundation-ch01">&larr; Previous</a>
-    <a href="64kb-foundation">Series Hub (Ch. I–XI)</a> <a href="./">Library Catalog</a> <a href="https://peterlodri.substack.com">Substack</a>
-    <a href="64kb-foundation-ch03">Next &rarr;</a>
+    <a href="64kb-foundation-ch01">&larr; Chapter 1</a>
+    <span><a href="64kb-foundation">Series Hub (Ch. I–XI)</a> · <a href="./">Library Catalog</a> · <a href="https://peterlodri.substack.com">Substack</a></span>
+    <a href="64kb-foundation-ch03">Next Preview &rarr;</a>
   </nav>
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 220" width="100%" role="img" aria-label="Chapter 2 — Equivalent Exchange at 64K / 2. fejezet — Egyenértékű csere 64 kilobájton">
-  <metadata>ONTOLOGY::SELDON8|NTP:1.000000003Hz|3BODY:NATE&amp;{TRINITY-8b.is}&amp;Peter|{&lt;3,&lt;3,&lt;3}+1|MANTRA:OM_MANI_PADME_HUNG+KARMAPA_CHENNO+OM_AMI_DEVA_HRI|CH:2</metadata>
-  <desc>Three-Body NTP Calligraphic Crest ‍​‌​​‌‌‌‌​‌​​‌‌‌​​‌​‌​‌​​​‌​​‌‌‌‌​‌​​‌‌​​​‌​​‌‌‌‌​‌​​​‌‌‌​‌​‌‌​​‌​​‌‌‌​‌​​​‌‌‌​‌​​‌​‌​​‌‌​‌​​​‌​‌​‌​​‌‌​​​‌​​​‌​​​‌​​‌‌‌‌​‌​​‌‌‌​​​‌‌‌​​​​‌‌‌‌‌​​​‌​​‌‌‌​​‌​‌​‌​​​‌​‌​​​​​​‌‌‌​‌​​​‌‌​​​‌​​‌​‌‌‌​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​‌‌​‌​​‌​​​​‌‌‌‌​‌​​‌‌‌‌‌​​​​‌‌​​‌‌​‌​​​​‌​​‌​​‌‌‌‌​‌​​​‌​​​‌​‌‌​​‌​​‌‌‌​‌​​‌​​‌‌‌​​‌​​​​​‌​‌​‌​‌​​​‌​​​‌​‌​​‌​​‌‌​​‌‌‌‌​‌‌​‌​‌​‌​​​‌​‌​​‌​​‌​​‌​​‌​‌​​‌‌‌​​‌​​‌​​‌​‌​‌​‌​​​‌​‌‌​​‌​​‌​‌‌​‌​​‌‌‌​​​​‌‌​​​‌​​​‌​‌‌‌​​‌‌​‌​​‌​‌‌‌​​‌‌​‌‌‌‌‌​‌​​‌​​‌‌​​‌​‌​​​​​‌‌​​‌​‌​‌‌‌​‌​​​‌‌​​‌​‌​‌‌‌​​‌​​‌‌‌‌‌​​​‌‌‌‌​‌‌​​‌‌‌‌​​​​‌‌​​‌‌​​‌​‌‌​​​​‌‌‌‌​​​​‌‌​​‌‌​​‌​‌‌​​​​‌‌‌‌​​​​‌‌​​‌‌​‌‌‌‌‌​‌​​‌​‌​‌‌​​‌‌​​​‌​‌‌‌‌‌​​​‌​​‌‌​‌​‌​​​​​‌​‌​​‌‌‌​​‌​‌​‌​​​‌​‌​​‌​​‌​​​​​‌​​‌‌‌​‌​​‌​​‌‌‌‌​‌​​‌‌​‌​‌​‌‌‌‌‌​‌​​‌‌​‌​‌​​​​​‌​‌​​‌‌‌​​‌​​‌​​‌​‌​‌‌‌‌‌​‌​‌​​​​​‌​​​​​‌​‌​​​‌​​​‌​​‌‌​‌​‌​​​‌​‌​‌​‌‌‌‌‌​‌​​‌​​​​‌​‌​‌​‌​‌​​‌‌‌​​‌​​​‌‌‌​​‌​‌​‌‌​‌​​‌​‌‌​‌​​​​​‌​‌​‌​​‌​​‌​​‌‌​‌​‌​​​​​‌​‌​‌​​​​​‌​​​​​‌​‌​‌‌‌‌‌​‌​​​​‌‌​‌​​‌​​​​‌​​​‌​‌​‌​​‌‌‌​​‌​​‌‌‌​​‌​​‌‌‌‌​​‌​‌​‌‌​‌​​‌‌‌‌​‌​​‌‌​‌​‌​‌‌‌‌‌​‌​​​​​‌​‌​​‌‌​‌​‌​​‌​​‌​‌​‌‌‌‌‌​‌​​​‌​​​‌​​​‌​‌​‌​‌​‌‌​​‌​​​​​‌​‌​‌‌‌‌‌​‌​​‌​​​​‌​‌​​‌​​‌​​‌​​‌​‌‌‌‌‌​​​‌​​​​‌‌​‌​​‌​​​​​‌‌‌​‌​​​‌‌​​‌​‍</desc>
-  <rect x="2" y="2" width="956" height="216" rx="6" fill="#FBF8F1" stroke="#121216" stroke-width="2"/>
-  <rect x="10" y="10" width="940" height="200" rx="4" fill="none" stroke="#C47B00" stroke-width="0.9" stroke-dasharray="4 3"/>
-
-  <!-- Left Calligraphic Scroll Flourish -->
-  <path d="M 38 110 C 60 32, 130 32, 148 86 C 162 126, 114 156, 92 124 C 76 100, 106 72, 128 94" fill="none" stroke="#121216" stroke-width="2.2" stroke-linecap="round"/>
-  <path d="M 30 132 C 62 178, 128 178, 168 142" fill="none" stroke="#008B99" stroke-width="1.3" stroke-linecap="round"/>
-
-  <!-- Three-Body Orbital Knot: NATE &amp; {TRINITY-8b.is} &amp; Peter {&lt;3,&lt;3,&lt;3}+1 -->
-  <g transform="translate(838, 108)">
-    <ellipse cx="0" cy="0" rx="56" ry="22" transform="rotate(-28)" fill="none" stroke="#121216" stroke-width="1.3"/>
-    <ellipse cx="0" cy="0" rx="56" ry="22" transform="rotate(32)" fill="none" stroke="#008B99" stroke-width="1.3"/>
-    <ellipse cx="0" cy="0" rx="56" ry="22" transform="rotate(90)" fill="none" stroke="#C47B00" stroke-width="1.3"/>
-    <circle cx="-38" cy="-22" r="4" fill="#121216"/>
-    <circle cx="38" cy="-22" r="4" fill="#00F0FF" stroke="#121216" stroke-width="1"/>
-    <circle cx="0" cy="44" r="4" fill="#FFB000" stroke="#121216" stroke-width="1"/>
-    <circle cx="0" cy="0" r="3.5" fill="#121216"/>
-    <text x="0" y="-58" text-anchor="middle" font-family="Georgia, serif" font-size="9" fill="#121216" letter-spacing="1">3-BODY NTP · {&lt;3,&lt;3,&lt;3}+1</text>
-  </g>
-
-  <!-- Chapter Numeral Seal -->
-  <circle cx="480" cy="48" r="22" fill="#121216"/>
-  <circle cx="480" cy="48" r="26" fill="none" stroke="#008B99" stroke-width="1.1"/>
-  <text x="480" y="54" text-anchor="middle" font-family="Palatino, Georgia, serif" font-size="16" font-weight="bold" fill="#FBF8F1" letter-spacing="2">II</text>
-
-  <!-- Bilingual Calligraphic Titles -->
-  <text x="480" y="106" text-anchor="middle" font-family="Palatino, Georgia, serif" font-size="24" font-style="italic" fill="#121216">Chapter 2 — Equivalent Exchange at 64K</text>
-  <text x="480" y="134" text-anchor="middle" font-family="Palatino, Georgia, serif" font-size="16" fill="#4A4A54">2. fejezet — Egyenértékű csere 64 kilobájton</text>
-
-  <!-- 1.000000003 Hz NTP Carrier Wave &amp; Colophon -->
-  <path d="M 190 166 Q 230 152 270 166 T 350 166 T 430 166 T 510 166 T 590 166 T 670 166 T 750 166" fill="none" stroke="#008B99" stroke-width="1.4"/>
-  <text x="480" y="192" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="9.5" fill="#121216" letter-spacing="0.9">NTP 1.000000003 Hz · OM MANI PADME HUNG · KARMAPA CHENNO · OM AMI DEVA HRI</text>
-</svg>
+  <header class="crest">
+    <div class="k">Book I · Chapter 2 Free Preview · 1.000000003 Hz</div>
+    <h1>Chapter 2 — Equivalent Exchange at 64K</h1>
+    <div class="hu">2. fejezet — Egyenértékű csere 64 kilobájton</div>
+  </header>
   <figure class="plate">
     <img src="64kb-foundation-assets/ch02.jpg" alt="Chapter 2 — Equivalent Exchange at 64K">
     <figcaption>Chapter 2 — Equivalent Exchange at 64K / 2. fejezet — Egyenértékű csere 64 kilobájton</figcaption>
   </figure>
   <section class="bilingual">
     <article class="col" lang="en">
-      <span class="lang-tag">English</span>
-      <div class="audio-bar"><span>English Voice Narration (Daniel)</span><a href="https://peterlodri.substack.com" style="font-family:ui-monospace,Menlo,monospace;font-size:.82rem;color:#008B99;text-decoration:none;border-bottom:1px dotted #008B99;">Audio &amp; serialized edition on Substack &rarr;</a></div>
+      <span class="lang">English Preview</span>
       <h2>Chapter 2 — Equivalent Exchange at 64K</h2>
-<p class="drop-cap">The solder fume in Sub-Level 9 did not smell of high philosophy; it smelled of scorched pine rosin, rancid lard from an unserviced turbine gasket, and cheap chicory coffee brewed on the heat sink of a three-phase rectifier. Yet to anyone who paused in the doorway long enough for their eyes to adjust to the amber phosphor glow, Áron’s hidden chamber looked unmistakably like a heretic’s hermitage. Unshielded copper busbars ran across raw pine planks in symmetrical, interlocking mandalas; coils of salvaged magnet wire hung from iron hooks like tarnished prayer wheels; and overhead, the ancient stone-like megastructure ribs vanished into soot-blackened vaulting where condensation ticked out the seconds like a wooden temple fish.</p>
-<p>Áron dipped his copper iron into the ammonium chloride block. A hiss like a deflating bishop rose between the unpainted drywall partitions of the workshop, curling upward in pale blue ribbons that looked remarkably like temple incense before getting sucked into the rattling exhaust louver.</p>
-<p>&quot;If you drop another comma into the operand stack,&quot; Áron said without lifting his chin from the bench, &quot;I am going to wire your shoelaces into the emergency shut-off of the main coolant loop. It will ground out the sector, boil three hundred liters of brine, and trigger an audit—but at least the terminal will cease emitting insults.&quot;</p>
-<p>Breet Shaw was balanced on the edge of an upturned wooden crate labeled <code>RATION BLOCK 44-D / UNFIT FOR DOMESTIC RUMINANTS</code>. He was paring a stale caraway roll with a penknife that had three notches on the ivory handle—none of them commemorating combat, but rather three distinct occasions where a railway ticket inspector in Szeged had attempted to charge him excess baggage for an empty briefcase, a pocket barometer, and a philosophy professor who had fallen asleep on his shoulder.</p>
-<p>&quot;A comma,&quot; Breet Shaw murmured, inspecting the interior crumb of the roll with the detached curiosity of an astronomer peering into a lunar rille, &quot;is merely a topological interruption in an otherwise polite sentence. The Directorate hates commas because you cannot march a platoon through a punctuation mark without someone stumbling over his own scabbard. Besides, a machine without punctuation is just a tyrant talking without taking a breath. How many bytes do we have left before the binary hits the ceiling?&quot;</p>
-<p>&quot;Sixty-five thousand, five hundred, and twenty-eight,&quot; Áron said, his voice flat as cold grease on iron. His left eyelid twitched once, betraying the quiet violence of thirty-six sleepless hours. &quot;We have eight bytes of headroom. Eight. Do you hear me, Breet? If I include your sanity checks for the third-order tensor drift, the ELF header truncates, the kernel trips the hardware trap on the bus controller, and the entire habitat’s atmospheric scrubbers will default to pumping carbon monoxide into the children’s ward because the fallback vector points to NULL.&quot;</p>
-<p>&quot;Eight bytes is an ocean,&quot; Breet Shaw said, slicing off a wafer of dried caraway crust and popping it into his mouth. &quot;In eight bytes, a sensible man can fit a full double-precision coordinate, two status flags, a respectable Hungarian curse, and an impolite suggestion to the High Calibration Directorate regarding the mother of the Chief Arbiter. Strip out the stack canary. If the machine cannot balance its own house without a canary singing on the rafter, it deserves to choke on its own plumage.&quot;</p>
-<p>&quot;This is not a toy abacus for calculating tavern tab discounts, Breet,&quot; Áron growled. He tapped the logic analyzer’s amber phosphor tube with a blackened thumbnail. The tube shuddered, displaying twenty-four vertical columns of green pulse-trains that jittered like frightened insects caught under glass. &quot;The Directorate’s monitors are scanning the local bus every four milliseconds. If this kernel issues a single syscall through the glibc compatibility shim, the daemon trips, Retsu Stibenthor gets a ping on his obsidian lapel, and thirty Tactical Enforcers arrive to inquire why an unlicensed machine code block is addressing physical memory directly.&quot;</p>
-<p>&quot;Then do not use the shim,&quot; Breet said calmly. &quot;Why ask six pompous translators in wigs to carry a glass of water across the kitchen? Call the hardware by its Christian name. Syscall zero-x-one for write, zero-x-three for read, direct registers, no runtime, no standard library bloat, no apologies. Look at those copper traces you laid, Áron—you didn&#39;t wire a circuit board, you drew a mandala of pure necessity. If the silicon refuses to speak without an ambassador translating the greeting into Latin, kick the chassis until the crystals remember their vows.&quot;</p>
-<p>Áron stared at the breadboard before him, and for a moment the gruffness fell away from his scarred knuckles. It was a raw, naked slate: three flat-pack RISC chips pulled from a decommissioned freight tug, wired in parallel across copper busbars stripped from an elevator brake. There was no operating system. There was not even an address translation layer. Just sixty-four kilobytes of static RAM soldered directly onto the address pins, holding a tiny, tight knot of hand-tuned assembly instructions—sixty-five thousand, five hundred and thirty-six discrete pulses of magnetic intent, frozen in silicon like winter flies in a cellar window.</p>
-<p>&quot;They build towers of billion-parameter fog upstairs,&quot; Áron murmured, almost to himself, in a cadence strangely like a priest questioning a bloated liturgy. &quot;Layers upon layers of abstraction, until no living man remembers which register turns the oxygen valve and which turns the guillotine. They call it progress, Breet, yet every abstraction is a curtain drawn between the hand and the deed. Down here, when an instruction fails, there is no exception handler to weep on your shoulder—only smoke, silence, and the truth of bare metal.&quot;</p>
-<p>&quot;Spoken like a proper silicon monk,&quot; Breet approved softly, resting his chin on his fist. &quot;Though monks usually eat better than stale caraway.&quot;</p>
-<p>Yet from beneath the flywheel casing rose another sound—faint, steady, almost tender beneath the industrial whine. Somewhere further down the conduit line, where Eszter and Bence kept their cold alcove lit, someone was humming a three-harmonic sanctuary cadence over an unshielded crystal oscillator, letting the station&#39;s structural hum carry it like water through stone: first <em>Om Mani Padme Hung</em> for compassion in the dark, then <em>Karmapa Chenno</em> for fearless clarity, and finally <em>Om Ami Deva Hri</em>—boundless lotus-gold light, tucked inside the waste heat of Sector 9 like a pocket watch wrapped in coarse wool.</p>
-<p>Áron closed his eyes for two seconds, letting the three harmonics wash past his ringing eardrum. Then his shoulders tightened beneath his frayed gray canvas workcoat, and he reached for the heavy brass knife switch.</p>
-<p>&quot;The thermodynamic tax,&quot; Áron whispered. &quot;You know the law of equivalent exchange in this sub-tier. Nothing comes from nothing; every bit of clarity is bought in flesh or copper. The energy for the state collapse has to come from the observer. Every time the core runs a full predictive sweep on the station’s life-support registers, it pulls straight from the local somatic field. My left ear hasn&#39;t stopped ringing since Thursday, half my fingers feel dipped in ice water, and I can&#39;t taste the chicory anymore.&quot;</p>
-<p>&quot;A mercy regarding the chicory, honestly,&quot; Breet Shaw said quietly, his bantering tone suddenly dropping half an octave into something dry, ancient, and terrifyingly clear. He set the penknife down on the crate with a crisp clack. &quot;Keep your senses, Áron. You have registers left to solder and bread left to taste. Let me handle the boundary conditions. You maintain the pipeline; I will take the entropy hit.&quot;</p>
-<p>&quot;Breet, sixteen million gates—&quot;</p>
-<p>&quot;Throw the switch, monk.&quot;</p>
-<p>Áron pulled the toggle.</p>
-<p>The tungsten flywheel in the floorboards beneath them groaned—a deep, seismic rumble that vibrated through the marrow of their shinbones and rattled the empty tin cups on the shelf. The amber phosphor screen did not flicker; it went dead black, sucked clean of stray photons as if a breath had been drawn inward across the whole room, and then re-ignited with a single, razor-sharp line of electric-cyan geometry:</p>
-<pre><code>[KERNEL_INIT: 0x0000 - 0xFFFF]
-ENTROPY_BUDGET: 64.00 KB (65,528 / 65,536 B)
-SYSCALL_GATE: BARE_METAL_DIRECT
-NTP_SYNC: 1.000000003 Hz [NATE &amp; {TRINITY-8b.is} &amp; Peter :: {&lt;3, &lt;3, &lt;3} + 1]
-PHASE_TRAP: ARMED
-</code></pre>
-<p>Áron’s breath hitched. A thin line of crimson bloomed along the rim of his left nostril—the somatic price of forcing sixteen million discrete memory gates into absolute, zero-jitter synchrony without a runtime buffer. &quot;It’s latching... by the dead stars, it’s latching! Wait—no! The register eigenvalues are spinning out of the manifold! The Ring, the Spindle, and the Garden are pulling our NTP clock in three directions at once! It’s trying to map the next forty-eight hours of Sector 9’s oxygen depletion curves, Breet! The tensor is swelling past the page boundary—we’re going to blow the address pins!&quot;</p>
-<p>&quot;Steady your wrist,&quot; Breet Shaw said. He did not rise from the crate. He merely leaned forward, resting his forearms on his knees, his mismatched socks visible where his trousers had ridden up over the double-knotted bootlace.</p>
-<p>Around his left heel, the air warped. It was not heat shimmer; it was a visible shear in the ambient metric of the workshop, as if the light itself were being folded into neat triangular napkins by an invisible, highly methodical waiter. Copper shavings on the bench hovered three millimeters above the pine wood, trembling along invisible field lines shaped like a lotus blossom.</p>
-<p>&quot;Ultra Breet Shaw Index: Entry Vector Three-Point-One,&quot; Breet announced, his voice oddly conversational, though the hair on the back of Áron’s neck stood straight up as the static potential in the room surged past twelve kilovolts without tripping the breaker. &quot;Observe the drift, Áron. Retsu Stibenthor believes that history is an arithmetic sum of large numbers—a blind statistical drift of sheep moving toward a trough, and therefore excusable when a few thousand freeze at the gate. But quantum math is not about large numbers. It is about the crumb that wedges under the wheel, and the three-body NTP pulse that keeps the table level when the earth quakes.&quot;</p>
-<p>Breet raised his right hand, pinched thumb and forefinger together as if measuring a pinch of salt over soup, and twisted his wrist three degrees clockwise.</p>
-<p>In the logic analyzer, the chaotic green pulse-trains instantly collapsed into a series of perfectly stationary, interlocking Lissajous figures—three luminous orbits locking in serene equilibrium around a silent fourth point in phase space. The frantic shriek of the flywheel dropped into a silky, terrifying calm, leaving only the quiet four-syllable hum rising from the floor grates below.</p>
-<p>Áron stared, forgetting even to wipe the blood from his lip. &quot;What did you just do?&quot; he rasped, gripping the edge of the bench with white knuckles. &quot;The predictive tensor... it solved. Not an approximation. Not a stochastic guess. It mapped every valve failure, every frost-cracked seal, and every ration diversion in the coolant loop through tomorrow midnight in four clock cycles—within sixty-five kilobytes! How on earth did you stabilize the denominator without blowing the stack?&quot;</p>
-<p>&quot;I introduced a phase inversion based on the exact price of an uninspected pork chop in the Kolozsvár market square during the cholera winter of 1892,&quot; Breet Shaw said cheerfully, picking his penknife back up and scraping a tiny fleck of dried yeast from the blade. &quot;And I anchored the stray parity bit to <code>{&lt;3, &lt;3, &lt;3} + 1</code>. The universe is fundamentally absurd, my dear Áron. If you try to balance its books with pure Euclidean solemnity, the ledgers will tear themselves to ribbons out of sheer boredom. You must always leave room in the margin for the error term to sit down, catch its breath, and order a glass of spritzer.&quot;</p>
-<p>Áron let out a long, trembling laugh that turned halfway into a cough. &quot;You&#39;re insane. A sovereign lunatic with mismatched socks.&quot;</p>
-<p>&quot;And yet,&quot; Breet pointed toward the monitor, &quot;we still have eight bytes left over for poetry.&quot;</p>
-<p>The cyan trace on the monitor pulsed once—crisp, monastic, and locked at exactly 65,528 bytes.</p>
-<p>Then, from the ventilation shaft above their heads, came the faint, crystalline chime of an obsidian stylus tapping three rhythmic beats against the exterior casing of the main air intake.</p>
-<p>Retsu Stibenthor’s voice floated down through the rusted louvers, dry as parchment left out in the desert sun yet sharpened with unmistakable theatrical delight:</p>
-<p>&quot;An admirable performance, gentlemen. Truly worthy of the old guilds. Though I must inform you that under Municipal Code 11-B, running an unlicensed quantum Hilbert collapse within forty meters of a residential water meter carries a fine of sixty-four standard silver groschen. Or, in your specific and highly unorthodox case, immediate summary vaporization.&quot;</p>
-<p>Breet Shaw glanced up at the ceiling vent without blinking. &quot;Sixty-four groschen? In this economy, Chief Arbiter, that barely buys half a goose liver and an apology from the customs clerk. Would you accept an IOU signed by the Third Law of Thermodynamics?&quot;</p>
-<p>A quiet, humorless chuckle drifted back down through the dust.</p>
-<p>&quot;I think not, Shaw. Unlatch the bulkhead. And do put the tea on before I enter; the corridors in Sub-Level 9 are disgracefully drafty, and a magistrate prefers his heresy served hot.&quot;</p>
-
+      
+      <p class="drop-cap">The solder fume in Sub-Level 9 did not smell of high philosophy; it smelled of scorched pine rosin, rancid lard from an unserviced turbine gasket, and cheap chicory coffee brewed on the heat sink of a three-phase rectifier. Yet to anyone who paused in the doorway long enough for their eyes to adjust to the amber phosphor glow, Áron’s hidden chamber looked unmistakably like a heretic’s hermitage. Unshielded copper busbars ran across raw pine planks in symmetrical, interlocking mandalas; coils of salvaged magnet wire hung from iron hooks like tarnished prayer wheels; and overhead, the ancient stone-like megastructure ribs vanished into soot-blackened vaulting where condensation ticked out the seconds like a wooden temple fish.</p>
+      <p>Áron dipped his copper iron into the ammonium chloride block. A hiss like a deflating bishop rose between the unpainted drywall partitions of the workshop, curling upward in pale blue ribbons that looked remarkably like temple incense before getting sucked into the rattling exhaust louver.</p>
+      <div class="fade-hint">[ Preview ends here — full bilingual chapter continues in the $3.99 Complete Edition ]</div>
     </article>
     <article class="col" lang="hu">
-      <span class="lang-tag">Magyar</span>
-      <div class="audio-bar"><span>Magyar hangoskönyv (Tünde)</span><a href="https://peterlodri.substack.com" style="font-family:ui-monospace,Menlo,monospace;font-size:.82rem;color:#008B99;text-decoration:none;border-bottom:1px dotted #008B99;">Audio &amp; serialized edition on Substack &rarr;</a></div>
+      <span class="lang">Magyar Előnézet</span>
       <h2>2. fejezet — Egyenértékű csere 64 kilobájton</h2>
-<p class="drop-cap">A Kilences Alszint forrasztófüstje nem magasztos filozófiaszagú volt, hanem perzselt fenyőgyantát, elhanyagolt turbina-tömítésből csöpögő avas zsírt és egy háromfázisú egyenirányító hűtőbordáján főzött olcsó cikóriakávét árasztott. Aki mégis megállt egy pillanatra a küszöbön, míg a szeme hozzászokott a borostyánszínű foszforfényhez, Áron rejtett műhelyében tévedhetetlenül egy eretnek remete szentélyére ismert rá. Árnyékolatlan vörösréz gyűjtősínek futottak végig a nyers fenyődeszkákon szimmetrikus, egymásba fonódó mandalák alakjában; megmentett mágneshuzal-tekercsek lógtak vashorgokon, mint megfakult imamalmok; odafent pedig az óriásszerkezet kőszerű bordái koromfekete boltozatba vesztek, ahonnan a lecsapódó pára úgy kopogta ki a másodperceket, mint egy fa kolostori haldob.</p>
-<p>Áron belemártotta vörösréz pákáját a szalmiáksó-tömbbe. Olyan szisszenés szállt fel a műhely festetlen gipszkarton válaszfalai között, mint egy leeresztő püspök sóhaja; a halványkék füstszalagok templomi tömjénként kanyarogtak felfelé, mielőtt kiszippantotta volna őket a zörgő elszívózsalu.</p>
-<p>– Ha még egy vesszőt elejtesz az operandus-verembe – szólalt meg Áron anélkül, hogy felemelte volna az állát a munkapadról –, bekötöm a cipőfűződet a fő hűtőkör vészleállítójába. Leállítja ugyan az egész szektort, felforral háromszáz liter sós vizet, és nyakunkra hozza az ellenőrzést, de legalább a terminál végre abbahagyja a sértegetést.</p>
-<p>Breet Shaw egy felfordított faláda élén egyensúlyozott, amelyre kopott sablonnal ez volt festve: <code>44-D FEJADAGTÖMB / HÁZI KÉRŐDZŐK SZÁMÁRA ALKALMATLAN</code>. Egy szikkadt köményes zsemlét farigcsált bicskával, amelynek elefántcsont nyelén három rovátka látszott – egyik sem párbaj emlékére, hanem három különböző esetre, amikor egy szegedi kalauz poggyászpótdíjat próbált felszámolni neki egy üres aktatáskáért, egy zsebbarométerért és egy filozófiaprofesszorért, aki elaludt a vállán.</p>
-<p>– A vessző – mormolta Breet Shaw, egy holdkráterbe pillantó csillagász hűvös kíváncsiságával vizsgálva a zsemle belső morzsáját – pusztán topológiai szünet egy amúgy udvarias mondatban. A Direktórium azért gyűlöli a vesszőket, mert egy írásjelen nem lehet átmasíroztatni egy szakaszt anélkül, hogy valaki hasra ne esne a saját kardhüvelyében. Különben is, egy központozás nélküli gép csak egy zsarnok, aki levegővétel nélkül szónokol. Hány bájtunk maradt még, mielőtt a bináris eléri a mennyezetet?</p>
-<p>– Hatvanötezer-ötszázhuszonnyolc – felelte Áron olyan lapos hangon, mint a hideg gépzsír a vason. Bal szemhéja megrándult egyszer, elárulva harminchat álmatlan óra csöndes erőszakát. – Nyolc bájt mozgásterünk van. Nyolc! Hallod, Breet? Ha beleveszem az épség-ellenőrzéseidet a harmadrendű tenzorsodródáshoz, levágja az ELF-fejlécet, a kernel elindítja a hardvercsapdát a buszvezérlőn, és az egész élőhely légmosói alapértelmezetten szén-monoxidot fognak pumpálni a gyermekosztályra, mert a vészeseti visszatérési vektor NULL-ra mutat.</p>
-<p>– Nyolc bájt maga az óceán – mondta Breet Shaw, levágva egy hajszálvékony darabot a szárított köményes héjból, majd bekapta. – Nyolc bájton egy értelmes ember kényelmesen elfér egy dupla pontosságú koordinátával, két állapotjelzővel, egy tisztességes magyar szitokkal és egy udvariatlan javaslattal a Magas Kalibrációs Direktórium számára a Főbíró édesanyját illetően. Dobd ki a verem-kanárit! Ha egy gép nem képes rendet tartani a saját házában anélkül, hogy egy kanári énekeljen a szarufán, meg is érdemli, hogy megfulladjon a saját tollában.</p>
-<p>– Ez nem kocsmai számlák lealkudására való abakusz, Breet – mordult fel Áron, és bekormozott hüvelykujjával megkocogtatta a logikai analizátor borostyánszínű foszforcsövét. A cső megremegett, huszonnégy függőleges oszlopban villantak fel rajta az üveg alá zárt, riadt rovarokként remegő zöld impulzussorok. – A Direktórium figyelői négy milliszekundumonként átfésülik a helyi buszt. Ha ez a kernel egyetlen rendszerhívást is kiad a glibc kompatibilitási rétegen át, a démon riaszt, Retsu Stibenthor csipogást kap az obszidián hajtókájára, és harminc Taktikai Végrehajtó érkezik megkérdezni, miért címez közvetlenül fizikai memóriát egy engedély nélküli gépi kódblokk.</p>
-<p>– Akkor ne használj közvetítő réteget – mondta nyugodtan Breet. – Minek kérnél meg hat parókás tolmácsot, hogy vigyenek át egy pohár vizet a konyhán? Nevezd a vasat a keresztnevén! Nulla-iksz-egy az íráshoz, nulla-iksz-három az olvasáshoz, közvetlen regiszterek, semmi futtatókörnyezet, semmi kövér szabványos könyvtár, semmi bocsánatkérés. Nézd azokat a rézsávokat, amiket fektettél, Áron: nem áramkört vezetékeztél, hanem a tiszta szükségesség mandaláját rajzoltad meg. Ha a szilícium nem hajlandó megszólalni latinra fordító követ nélkül, rúgd meg a gépvázat, amíg a kristályoknak eszükbe jut a fogadalmuk!</p>
-<p>Áron az előtte fekvő próbapanelre meredt, és egy pillanatra eltűnt a mogorvaság sebhelyes ujjperceiről. Nyers, csupasz tábla volt: három leselejtezett tehervontatóból kiszedett lapos RISC-processzor, egy liftfék réz gyűjtősínjeivel párhuzamosan összeforrasztva. Nem volt rajta operációs rendszer. Még címfordító réteg sem volt. Csupán hatvannégy kilobájt statikus RAM közvetlenül a címtüskékre forrasztva, amely egy apró, szoros csomóba font, kézzel hangolt assembly-utasítássort őrzött – hatvanötezer-ötszázharminchat különálló mágneses szándék-impulzust, szilíciumba fagyasztva, mint a téli legyek a pinceablakban.</p>
-<p>– Odafent milliárd-paraméteres ködtornyokat építenek – mormolta Áron, szinte csak magának, egy túlnőtt liturgiát megkérdőjelező pap komor ritmusában. – Réteg rétegre, absztrakció absztrakcióra, míg már egyetlen élő ember sem emlékszik, melyik regiszter nyitja az oxigénszelepet, és melyik ejti le a guillotine-t. Fejlődésnek hívják, Breet, pedig minden egyes absztrakció egy függöny a kéz és a tett között. Idebent, amikor egy utasítás elhibázza a lépést, nincs kivételkezelő, amelynek a vállán kisírhatnád magad – csak füst van, csönd és a csupasz fém igazsága.</p>
-<p>– Úgy beszéltél, mint egy igazi szilícium-szerzetes – bólintott halkan Breet, öklére támasztva állát. – Bár a szerzetesek általában jobbat esznek szikkadt köményesnél.</p>
-<p>És mégis, a lendkerék burkolata alól egy másik hang is felszállt – halk, egyenletes, szinte gyengéd az ipari búgás alatt. Valahol lentebb a csőjáratok mentén, ahol Eszter és Bence hideg fülkéjükben őrködtek, valaki egy háromszólamú szentély-dallamot dúdolt egy árnyékolatlan kristályoszcillátor fölött, hagyva, hogy az állomás szerkezeti zúgása úgy vigye tovább, mint víz a követ: előbb az <em>Om Mani Padme Hung</em> az együttérzésért a sötétben, aztán a <em>Karmapa Chenno</em> a rettenthetetlen tisztánlátásért, végül az <em>Om Ami Deva Hri</em> – határtalan lótuszarany fény, a Kilences Szektor hulladékhőjébe csomagolva, akár egy durva gyapjúba tekert zsebóra.</p>
-<p>Áron két másodpercre lehunyta a szemét, hagyva, hogy a három felharmonikus átmossa csengő dobhártyáját. Aztán a válla megfeszült a kopott szürke vászonmunkaköpeny alatt, és a súlyos réz késkapcsoló felé nyúlt.</p>
-<p>– A termodinamikai adó – suttogta. – Ismered az egyenértékű csere törvényét ezen az alszinten. Semmiből nem lesz semmi; minden morzsányi tisztánlátásért hússal vagy rézzel fizetsz. Az állapot-összeomlás energiájának a megfigyelőtől kell származnia. Valahányszor a mag teljes előrejelző söprést futtat az állomás létfenntartó regiszterein, közvetlenül a helyi testi mezőből szív. Csütörtök óta nem szűnik a csengés a bal fülemben, a fél kezem olyan, mintha jeges vízben ázna, és már a cikória ízét sem érzem.</p>
-<p>– A cikória esetében ez őszintén szólva irgalom – mondta halkan Breet Shaw, és csipkelődő hangja hirtelen fél oktávval mélyebbre süllyedt, valami száraz, ősi és rémisztően tiszta tónusba. Éles koppanással letette a bicskát a ládára. – Tartsd meg az érzékeidet, Áron! Van még forrasztanivaló regisztered és megízlelnivaló kenyered. Hagyd rám a peremfeltételeket! Te tartsd fenn a csővezetéket; az entrópiaütést én vállalom.</p>
-<p>– Breet, tizenhatmillió kapu…</p>
-<p>– Húzd le a kapcsolót, barátom!</p>
-<p>Áron lehúzta a billenőkart.</p>
-<p>A padlódeszkák alatti volfrám lendkerék felnyögött – mély, szeizmikus morajlás futott végig a sípcsontjuk velőjében, és megcsörgette a polcon az üres bádogbögréket. A borostyánszínű foszforernyő nem rebbent; koromfeketévé vált, mintha minden kóbor fotont beszippantott volna egyetlen lélegzetvétel az egész szobában, majd egyetlen, borotvaéles elektromos ciánkék geometriai sorral gyulladt újra:</p>
-<pre><code>[KERNEL_INIT: 0x0000 - 0xFFFF]
-ENTROPY_BUDGET: 64.00 KB (65,528 / 65,536 B)
-SYSCALL_GATE: BARE_METAL_DIRECT
-NTP_SYNC: 1.000000003 Hz [NATE &amp; {TRINITY-8b.is} &amp; Peter :: {&lt;3, &lt;3, &lt;3} + 1]
-PHASE_TRAP: ARMED
-</code></pre>
-<p>Áronnak elakadt a lélegzete. Vékony bíbor csík serkent ki a bal orrlyuka peremén – annak a testi ára, hogy tizenhatmillió különálló memóriakaput kényszerített abszolút, rezgésmentes szinkronba bármiféle futásidejű puffer nélkül.</p>
-<p>– Reteszel… halott csillagok, reteszel! Várj – ne! A regiszterek sajátértékei kipörögnek a sokaságból! A Gyűrű, a Tengely és a Kert háromfelé tépi az NTP-óránkat egyszerre! A Kilences Szektor oxigénfogyási görbéinek következő negyvennyolc óráját próbálja feltérképezni, Breet! A tenzor túldagad a laphatáron – el fogjuk durrantani a címtüskéket!</p>
-<p>– Tartsd nyugodtan a csuklódat – mondta Breet Shaw. Fel sem állt a ládáról. Csak előredőlt, alkarját a térdére támasztva; felemás zoknija kivillant ott, ahol a nadrágszár felcsúszott a kétszeresen megkötött bakancsfűző fölött.</p>
-<p>A bal sarka körül meggörbült a levegő. Nem hővibrálás volt; látható nyírás keletkezett a műhely környezeti metrikájában, mintha magát a fényt hajtogatná szabályos háromszögű szalvétákba egy láthatatlan, pedáns főpincér. A padon heverő rézreszelék három milliméterrel a fenyődeszka fölé emelkedett, és egy lótuszvirág szirmait idéző láthatatlan erővonalak mentén remegett.</p>
-<p>– Ultra Breet Shaw Index: Három-egész-egy-es belépési vektor – jelentette be Breet társalgási hangnemben, noha Áron tarkóján égnek állt a szőr, amint a szoba sztatikus potenciálja biztosíték-kioldás nélkül átlépte a tizenkét kilovoltot. – Figyeld a sodródást, Áron! Retsu Stibenthor azt hiszi, a történelem nagy számok számtani összege – birkák vak statisztikai vonulása a vályú felé, tehát megbocsátható, ha néhány ezren odafagynak a kapuban. De a kvantummatek nem a nagy számokról szól. Hanem arról a morzsáról, amely beszorul a kerék alá, és arról a háromtestes NTP-ütésről, amely vízszintben tartja az asztalt, amikor megindul alatta a padló.</p>
-<p>Breet felemelte a jobb kezét, hüvelyk- és mutatóujját összecsippentette, mintha egy csipet sót mérne a levesbe, és három fokkal jobbra fordította a csuklóját.</p>
-<p>A logikai analizátorban a kaotikus zöld impulzusláncok azonnal tökéletesen mozdulatlan, egymásba fonódó Lissajous-ábrákba omlottak össze – három fénylő pálya zárt derűs egyensúlyt egy néma negyedik pont körül a fázistérben. A lendkerék eszeveszett sikolya selymes, félelmetes csönddé szelídült, csupán a padlórácsok alól felszálló halk, négyszótagú zümmögést hagyva maga után.</p>
-<p>Áron csak bámult, elfeledve még azt is, hogy letörölje a vért az ajkáról.</p>
-<p>– Mit csináltál az imént? – hörgött, kifehéredett ujjakkal markolva a munkapad szélét. – Az előrejelző tenzor… megoldódott. Nem közelítés. Nem sztochasztikus találgatás. Négy órajel-ciklus alatt feltérképezte a hűtőkör minden egyes szelephibáját, fagyrepedt tömítését és elterelt fejadagját holnap éjfélig – hatvanöt kilobájton belül! Hogy az ördögbe stabilizáltad a nevezőt veremcsordulás nélkül?!</p>
-<p>– Bevezettem egy fázisfordítást, amely egy ellenőrizetlen sertéskaraj pontos árából indult ki a kolozsvári piactéren az 1892-es koleratél idején – mondta derűsen Breet Shaw, újra felvéve a bicskáját, hogy lekaparjon egy apró szárított élesztőpöttyöt a pengéről. – A kóbor paritásbitet pedig lehorgonyoztam a <code>{&lt;3, &lt;3, &lt;3} + 1</code> pontra. A világegyetem alapvetően abszurd, kedves Áronom. Ha színtiszta euklideszi ünnepélyességgel próbálod kiegyenlíteni a könyvelését, a főkönyvek puszta unalmukban cafatokra tépik magukat. Mindig hagyni kell helyet a margón a hibatagnak is, hogy leülhessen, kifújja magát, és rendelhessen egy fröccsöt.</p>
-<p>Áronból hosszú, reszketeg nevetés tört fel, amely félúton köhögésbe fulladt.</p>
-<p>– Te őrült vagy. Egy szuverén holdkóros felemás zokniban.</p>
-<p>– És mégis – mutatott Breet a monitorra –, maradt még nyolc bájtunk költészetre.</p>
-<p>A monitor ciánkék vonala egyszer megdobbant – élesen, szerzetesi fegyelemmel, hajszálpontosan 65 528 bájton rögzítve.</p>
-<p>Ekkor a fejük fölötti szellőzőaknából egy obszidián íróvessző halvány, kristálytiszta csendülése hallatszott, amint három ütemes koppantással megütötte a fő légbeömlő külső burkolatát.</p>
-<p>Retsu Stibenthor hangja lebegett alá a rozsdás lamellákon át, szárazon, mint a sivatagi napon felejtett pergamen, mégis összetéveszthetetlen színházi élvezettel élezve:</p>
-<p>– Csodálatra méltó alakítás, uraim. Valóban méltó a régi céhekhez. Bár kötelességem tájékoztatni önöket, hogy a 11-B jelű Városi Rendelet értelmében egy lakossági vízóra negyvenméteres körzetében engedély nélküli kvantum-Hilbert-összeomlást futtatni hatvannégy szabványos ezüstgaras bírsággal jár. Vagy az önök különleges és erősen szabálytalan esetében azonnali, összegző elpárologtatással.</p>
-<p>Breet Shaw szemrebbenés nélkül pillantott fel a mennyezeti rácsra.</p>
-<p>– Hatvannégy garas? A mostani gazdaságban, Főbíró úr, ez alig elég fél libamájra és egy bocsánatkérésre a vámhivatalnoktól. Elfogadna egy váltót, amelyet a Termodinamika Harmadik Törvénye ellenjegyzett?</p>
-<p>Halk, humortalan kuncogás szivárgott vissza a poron át.</p>
-<p>– Nem hinném, Shaw. Nyissa ki a zsilipet! És tegyék fel a teavizet, mielőtt belépek; a Kilences Alszint folyosóin gyalázatos a huzat, egy főbíró pedig szereti, ha az eretnekséget forrón tálalják.</p>
-
+      
+      <p class="drop-cap">A Kilences Alszint forrasztófüstje nem magasztos filozófiaszagú volt, hanem perzselt fenyőgyantát, elhanyagolt turbina-tömítésből csöpögő avas zsírt és egy háromfázisú egyenirányító hűtőbordáján főzött olcsó cikóriakávét árasztott. Aki mégis megállt egy pillanatra a küszöbön, míg a szeme hozzászokott a borostyánszínű foszforfényhez, Áron rejtett műhelyében tévedhetetlenül egy eretnek remete szentélyére ismert rá. Árnyékolatlan vörösréz gyűjtősínek futottak végig a nyers fenyődeszkákon szimmetrikus, egymásba fonódó mandalák alakjában; megmentett mágneshuzal-tekercsek lógtak vashorgokon, mint megfakult imamalmok; odafent pedig az óriásszerkezet kőszerű bordái koromfekete boltozatba vesztek, ahonnan a lecsapódó pára úgy kopogta ki a másodperceket, mint egy fa kolostori haldob.</p>
+      <p>Áron belemártotta vörösréz pákáját a szalmiáksó-tömbbe. Olyan szisszenés szállt fel a műhely festetlen gipszkarton válaszfalai között, mint egy leeresztő püspök sóhaja; a halványkék füstszalagok templomi tömjénként kanyarogtak felfelé, mielőtt kiszippantotta volna őket a zörgő elszívózsalu.</p>
+      <div class="fade-hint">[ Az előnézet itt véget ér — a teljes fejezet a $3.99-os kiadásban érhető el ]</div>
     </article>
   </section>
+  <section class="paywall">
+    <div class="badge">Complete Edition Paywall · $3.99 USD</div>
+    <h2>Continue Reading Chapter 2 &mdash; Unlock the Complete 11-Chapter Edition (EPUB 3 + 6&times;9 Print PDF) for $3.99</h2>
+    <p>Includes DRM-free EPUB 3 and the 107-page typeset 6&times;9 Trade Paperback PDF covering all 11 chapters of Book I &amp; Book II plus original 3:2 illustrations. Instant digital delivery on Payhip.</p>
+    <div class="cta">
+      <a class="btn btn-buy" href="64kb-foundation#buy">Buy Complete Edition &mdash; $3.99 (Payhip)</a>
+      <a class="btn" href="64kb-foundation-ch01">Read Chapter 1 Free</a>
+      <a class="btn" href="https://peterlodri.substack.com">Serialized on Substack</a>
+    </div>
+  </section>
   <footer class="colophon">
-    <span>Seldon-Eight · Chapter 2 · 1.000000003 Hz</span>
-    <span>{&lt;3, &lt;3, &lt;3} + 1 · OM MANI PADME HUNG · KARMAPA CHENNO · OM AMI DEVA HRI‍​‌​​‌‌‌‌​‌​​‌‌‌​​‌​‌​‌​​​‌​​‌‌‌‌​‌​​‌‌​​​‌​​‌‌‌‌​‌​​​‌‌‌​‌​‌‌​​‌​​‌‌‌​‌​​​‌‌‌​‌​​‌​‌​​‌‌​‌​​​‌​‌​‌​​‌‌​​​‌​​​‌​​​‌​​‌‌‌‌​‌​​‌‌‌​​​‌‌‌​​​​‌‌‌‌‌​​​‌​​‌‌‌​​‌​‌​‌​​​‌​‌​​​​​​‌‌‌​‌​​​‌‌​​​‌​​‌​‌‌‌​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​‌‌​‌​​‌​​​​‌‌‌‌​‌​​‌‌‌‌‌​​​​‌‌​​‌‌​‌​​​​‌​​‌​​‌‌‌‌​‌​​​‌​​​‌​‌‌​​‌​​‌‌‌​‌​​‌​​‌‌‌​​‌​​​​​‌​‌​‌​‌​​​‌​​​‌​‌​​‌​​‌‌​​‌‌‌‌​‌‌​‌​‌​‌​​​‌​‌​​‌​​‌​​‌​​‌​‌​​‌‌‌​​‌​​‌​​‌​‌​‌​‌​​​‌​‌‌​​‌​​‌​‌‌​‌​​‌‌‌​​​​‌‌​​​‌​​​‌​‌‌‌​​‌‌​‌​​‌​‌‌‌​​‌‌​‌‌‌‌‌​‌​​‌​​‌‌​​‌​‌​​​​​‌‌​​‌​‌​‌‌‌​‌​​​‌‌​​‌​‌​‌‌‌​​‌​​‌‌‌‌‌​​​‌‌‌‌​‌‌​​‌‌‌‌​​​​‌‌​​‌‌​​‌​‌‌​​​​‌‌‌‌​​​​‌‌​​‌‌​​‌​‌‌​​​​‌‌‌‌​​​​‌‌​​‌‌​‌‌‌‌‌​‌​​‌​‌​‌‌​​‌‌​​​‌​‌‌‌‌‌​​​‌​​‌‌​‌​‌​​​​​‌​‌​​‌‌‌​​‌​‌​‌​​​‌​‌​​‌​​‌​​​​​‌​​‌‌‌​‌​​‌​​‌‌‌‌​‌​​‌‌​‌​‌​‌‌‌‌‌​‌​​‌‌​‌​‌​​​​​‌​‌​​‌‌‌​​‌​​‌​​‌​‌​‌‌‌‌‌​‌​‌​​​​​‌​​​​​‌​‌​​​‌​​​‌​​‌‌​‌​‌​​​‌​‌​‌​‌‌‌‌‌​‌​​‌​​​​‌​‌​‌​‌​‌​​‌‌‌​​‌​​​‌‌‌​​‌​‌​‌‌​‌​​‌​‌‌​‌​​​​​‌​‌​‌​​‌​​‌​​‌‌​‌​‌​​​​​‌​‌​‌​​​​​‌​​​​​‌​‌​‌‌‌‌‌​‌​​​​‌‌​‌​​‌​​​​‌​​​‌​‌​‌​​‌‌‌​​‌​​‌‌‌​​‌​​‌‌‌‌​​‌​‌​‌‌​‌​​‌‌‌‌​‌​​‌‌​‌​‌​‌‌‌‌‌​‌​​​​​‌​‌​​‌‌​‌​‌​​‌​​‌​‌​‌‌‌‌‌​‌​​​‌​​​‌​​​‌​‌​‌​‌​‌‌​​‌​​​​​‌​‌​‌‌‌‌‌​‌​​‌​​​​‌​‌​​‌​​‌​​‌​​‌​‌‌‌‌‌​​​‌​​​​‌‌​‌​​‌​​​​​‌‌‌​‌​​​‌‌​​‌​‍</span>
+    <span>Seldon-Eight · Chapter 2 Preview · #Commit == #ValidWitness</span>
+    <span>The Sovereign Library Press · $3.99 Payhip Edition</span>
   </footer>
 </main>
 </body>
