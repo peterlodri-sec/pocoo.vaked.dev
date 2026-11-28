@@ -363,12 +363,25 @@ function telemetryScript(isPost, slug, title) {
 <\/script>`;
 }
 
+// ── Native ayeOS Constellation Banner (non-intrusive, zero-JS, zero-CLS) ─────
+function ayeosBannerHtml() {
+  return `<aside class="ayeos-constellation-bar" aria-label="ayeOS native constellation spotlight">
+  <a class="ayeos-bar-link" href="https://ayeos.com" target="_blank" rel="noopener noreferrer">
+    <span class="ayeos-dot" aria-hidden="true"></span>
+    <span class="ayeos-badge">ayeOS</span>
+    <span class="ayeos-copy">Bare-metal Rust OS · Zero Linux · Zero C · 525 tok/s local ternary AI</span>
+    <span class="ayeos-cta">ayeos.com ↗</span>
+  </a>
+</aside>`;
+}
+
 // ── Footer ───────────────────────────────────────────────────────────────────
 function footerHtml() {
-  return `<footer role="contentinfo" style="position:relative;z-index:10;padding:3rem 1.5rem;text-align:center;font-family:ui-monospace,monospace;font-size:0.75rem;color:#a59fc4;background:rgba(5,6,10,0.92);border-top:1px solid rgba(170,150,255,0.18);backdrop-filter:blur(16px);">
+  return `<footer role="contentinfo" style="position:relative;z-index:10;padding:3rem 1.5rem;text-align:center;font-family:ui-monospace,monospace;font-size:0.75rem;color:#a59fc4;background:rgba(5,6,10,0.92);border-top:1px solid rgba(170,150,255,0.18);backdrop-filter:blur(16px);content-visibility:auto;contain-intrinsic-size:auto 260px;">
   <div style="margin-bottom:0.5rem;text-transform:uppercase;letter-spacing:0.3em;color:#b48bff;font-weight:600;">the constellation · lovetta lane</div>
   <div style="margin-bottom:1rem;font-size:0.65rem;letter-spacing:0.22em;color:#a59fc4;text-transform:uppercase;">keep the weights warm</div>
   <div style="display:flex;gap:0.8rem;justify-content:center;flex-wrap:wrap;margin-bottom:1.5rem;">
+    <a href="https://ayeos.com" target="_blank" rel="noopener noreferrer" style="color:#62e6c9;text-decoration:none;border:1px solid rgba(98,230,201,0.48);border-radius:8px;padding:0.45rem 0.9rem;background:rgba(98,230,201,0.10);font-weight:600;">ayeOS (ayeos.com) ↗</a>
     <a href="https://payhip.com/64KilobyteFoundation" target="_blank" rel="noopener noreferrer" style="color:#e8b05c;text-decoration:none;border:1px solid rgba(232,176,92,0.42);border-radius:8px;padding:0.45rem 0.9rem;background:rgba(232,176,92,0.08);">payhip bookstore ($2.99–$7.99)</a>
     <a href="https://peterlodri.substack.com" target="_blank" rel="noopener noreferrer" style="color:#ff9ad5;text-decoration:none;border:1px solid rgba(255,154,213,0.38);border-radius:8px;padding:0.45rem 0.9rem;background:rgba(255,154,213,0.07);">substack</a>
     <a href="https://pocoo.vaked.dev/support/" style="color:#b48bff;text-decoration:none;border:1px solid rgba(180,139,255,0.4);border-radius:8px;padding:0.45rem 0.9rem;background:rgba(180,139,255,0.07);">support &amp; patronage</a>
@@ -379,9 +392,12 @@ function footerHtml() {
     <a href="https://wise.com/pay/business/lodripeterjozsef" target="_blank" rel="noopener noreferrer" style="color:#62e6c9;text-decoration:none;border:1px solid rgba(98,230,201,0.35);border-radius:8px;padding:0.45rem 0.9rem;background:rgba(98,230,201,0.06);">wise</a>
   </div>
   <nav aria-label="Constellation sister sites" style="display:flex;gap:0.9rem;justify-content:center;flex-wrap:wrap;font-size:0.72rem;margin-bottom:1rem;">
+    <a href="https://ayeos.com" target="_blank" rel="noopener noreferrer" style="color:#62e6c9;text-decoration:none;font-weight:600;">✦ ayeos.com</a> ·
     <a href="https://koan.vaked.dev" target="_blank" rel="noopener noreferrer" style="color:#e8b05c;text-decoration:none;">✧ koan.vaked.dev (the hub)</a> ·
     <a href="https://go.vaked.dev" target="_blank" rel="noopener noreferrer" style="color:#62e6c9;text-decoration:none;">go.vaked.dev ✦ launcher</a> ·
     <a href="https://pocoo.vaked.dev" target="_blank" rel="noopener noreferrer" style="color:#a59fc4;text-decoration:none;">pocoo.vaked.dev</a> ·
+    <a href="https://design.vaked.dev" target="_blank" rel="noopener noreferrer" style="color:#ff9ad5;text-decoration:none;">design.vaked.dev</a> ·
+    <a href="https://viz.vaked.dev" target="_blank" rel="noopener noreferrer" style="color:#a59fc4;text-decoration:none;">viz.vaked.dev</a> ·
     <a href="https://worklog.vaked.dev" target="_blank" rel="noopener noreferrer" style="color:#a59fc4;text-decoration:none;">worklog.vaked.dev</a> ·
     <a href="https://ocean.vaked.dev" target="_blank" rel="noopener noreferrer" style="color:#a59fc4;text-decoration:none;">ocean.vaked.dev</a> ·
     <a href="https://music.vaked.dev" target="_blank" rel="noopener noreferrer" style="color:#a59fc4;text-decoration:none;">music.vaked.dev</a> ·
@@ -603,6 +619,7 @@ function renderPost(post) {
 ${quantumBgScript(hash, true)}
 <body>
   <main class="post">
+    ${ayeosBannerHtml()}
     <p class="back"><a href="../index.html">&larr; all posts</a></p>
     <header class="post-head">
       <h1>${esc(post.meta.title)}</h1>
@@ -687,6 +704,7 @@ function renderIndex(posts) {
 ${quantumBgScript(null, false)}
 <body>
   <main class="index">
+    ${ayeosBannerHtml()}
     <header class="index-head">
       <div class="logo-wrap"><img src="assets/logo.svg" alt="vaked" width="48" height="48"></div>
       <h1>pocoo</h1>
@@ -747,6 +765,7 @@ function renderResearch(posts, section) {
 ${quantumBgScript(null, false)}
 <body>
   <main class="index">
+    ${ayeosBannerHtml()}
     <header class="index-head">
       <div class="logo-wrap"><img src="../assets/logo.svg" alt="vaked" width="48" height="48"></div>
       <h1>research</h1>

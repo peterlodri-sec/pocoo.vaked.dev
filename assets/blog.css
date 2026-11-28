@@ -15,7 +15,16 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 
-html { color-scheme: dark; }
+html {
+  color-scheme: dark;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
 
 body {
   margin: 0;
@@ -29,6 +38,80 @@ body {
 
 a { color: var(--accent); text-decoration: none; }
 a:hover { text-decoration: underline; }
+a:focus-visible, button:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+h1, h2, h3 { text-wrap: balance; }
+p { text-wrap: pretty; }
+.meta, time { font-variant-numeric: tabular-nums; }
+
+/* ── Native ayeOS Constellation Spotlight (zero-JS, zero-CLS) ── */
+.ayeos-constellation-bar {
+  margin: 0 auto 1.5rem;
+  contain: layout style;
+}
+.ayeos-bar-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  padding: 0.55rem 0.95rem;
+  border-radius: 10px;
+  background: linear-gradient(90deg, rgba(15, 26, 20, 0.88), rgba(10, 19, 14, 0.92));
+  border: 1px solid rgba(110, 231, 183, 0.24);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.28);
+  color: var(--fg);
+  font-size: 0.78rem;
+  line-height: 1.4;
+  text-decoration: none !important;
+  transition: border-color 0.2s ease, transform 0.2s ease, background 0.2s ease;
+}
+.ayeos-bar-link:hover {
+  border-color: rgba(110, 231, 183, 0.62);
+  background: linear-gradient(90deg, rgba(18, 34, 26, 0.94), rgba(12, 24, 18, 0.96));
+  transform: translateY(-1px);
+}
+.ayeos-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 10px rgba(110, 231, 183, 0.75);
+  flex-shrink: 0;
+  animation: ayeosPulse 2.8s ease-in-out infinite;
+}
+@keyframes ayeosPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.45; transform: scale(0.85); }
+}
+.ayeos-badge {
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-size: 0.72rem;
+}
+.ayeos-copy {
+  flex: 1 1 220px;
+  color: #cbd5d0;
+}
+.ayeos-cta {
+  color: var(--green);
+  font-weight: 600;
+  white-space: nowrap;
+  padding: 0.18rem 0.55rem;
+  border-radius: 6px;
+  border: 1px solid rgba(110, 231, 183, 0.35);
+  background: rgba(110, 231, 183, 0.08);
+}
+@media (prefers-reduced-motion: reduce) {
+  .ayeos-dot { animation: none; }
+  .ayeos-bar-link { transition: none; }
+}
 
 /* ── Index ──────────────────────────────────────────────────── */
 .index {
@@ -78,6 +161,8 @@ a:hover { text-decoration: underline; }
 .entry {
   padding: 1.5rem 0;
   border-bottom: 1px solid var(--border);
+  content-visibility: auto;
+  contain-intrinsic-size: auto 180px;
 }
 
 .entry-flex {
