@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The 64-Kilobyte Foundation — Chapter 11: The Bene-Arbiter Dry Spire · 11. fejezet — A Bene-Arbiter Száraz Torony</title>
+<style>
+  :root {
+    --paper: #F7F3E9;
+    --ink: #141418;
+    --muted: #4A4A54;
+    --cyan: #008B99;
+    --cyan-bright: #00F0FF;
+    --amber: #C47B00;
+    --amber-bright: #FFB000;
+    --border: #D8CFBC;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1.25rem 4rem;
+    background: #EFE9DA;
+    color: var(--ink);
+    font-family: "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+    line-height: 1.72;
+  }
+  .folio {
+    max-width: 1180px;
+    margin: 0 auto;
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    box-shadow: 0 18px 50px rgba(20, 20, 24, 0.16);
+    padding: 2rem 2.25rem 2.75rem;
+  }
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    font-family: ui-monospace, Menlo, monospace;
+    font-size: 0.85rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.85rem;
+    margin-bottom: 1.5rem;
+  }
+  .nav a {
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--cyan);
+    padding-bottom: 2px;
+  }
+  .nav a:hover { color: var(--cyan); }
+  .plate {
+    margin: 1.5rem 0 2rem;
+    text-align: center;
+  }
+  .plate img {
+    max-width: 100%;
+    max-height: 540px;
+    border: 1.5px solid var(--ink);
+    background: #0E1016;
+  }
+  .plate figcaption {
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--muted);
+    font-style: italic;
+  }
+  .bilingual {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.25rem;
+    align-items: start;
+  }
+  @media (max-width: 860px) {
+    .bilingual { grid-template-columns: 1fr; }
+  }
+  .col {
+    padding: 1.25rem 1.4rem;
+    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.42);
+  }
+  .lang-tag {
+    display: inline-block;
+    font-family: ui-monospace, Menlo, monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--paper);
+    background: var(--ink);
+    padding: 0.15rem 0.55rem;
+    border-left: 3px solid var(--cyan-bright);
+    margin-bottom: 0.5rem;
+  }
+  h2 {
+    font-size: 1.35rem;
+    margin: 0.35rem 0 1rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.35rem;
+  }
+  p.drop-cap::first-letter {
+    float: left;
+    font-size: 3.35rem;
+    line-height: 0.84;
+    padding: 0.25rem 0.55rem 0.1rem 0.45rem;
+    margin: 0.1rem 0.55rem 0.1rem 0;
+    border: 1.5px solid var(--ink);
+    background: #F1E9D4;
+    color: var(--ink);
+    box-shadow: 2px 2px 0 var(--cyan);
+    font-weight: bold;
+  }
+  code {
+    font-family: ui-monospace, Menlo, monospace;
+    font-size: 0.86em;
+    background: #EAE2CE;
+    padding: 0.08rem 0.32rem;
+    border-radius: 3px;
+  }
+  pre {
+    background: #12141B;
+    color: var(--cyan-bright);
+    border-left: 3px solid var(--amber-bright);
+    padding: 0.9rem 1rem;
+    overflow-x: auto;
+    font-size: 0.84rem;
+    line-height: 1.45;
+  }
+  pre code { background: transparent; padding: 0; color: inherit; }
+  .colophon {
+    margin-top: 2.25rem;
+    padding-top: 1rem;
+    border-top: 1px dashed var(--amber);
+    font-family: ui-monospace, Menlo, monospace;
+    font-size: 0.8rem;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  .toc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.25rem;
+    margin: 1.5rem 0;
+  }
+  .toc-card {
+    display: block;
+    text-decoration: none;
+    color: var(--ink);
+    border: 1.5px solid var(--ink);
+    padding: 1rem 1.15rem;
+    background: #FBF8F1;
+  }
+  .toc-card:hover {
+    border-color: var(--cyan);
+    box-shadow: 4px 4px 0 var(--cyan);
+  }
+  .plates-duo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    margin-top: 1.5rem;
+  }
+  @media (max-width: 860px) {
+    .plates-duo { grid-template-columns: 1fr; }
+  }
+  .audio-bar {
+    margin: 0.75rem 0 1.1rem;
+    padding: 0.6rem 0.8rem;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--amber-bright);
+    background: #FBF8F1;
+  }
+  .audio-bar span {
+    display: block;
+    font-family: ui-monospace, Menlo, monospace;
+    font-size: 0.74rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.35rem;
+  }
+  .audio-bar audio {
+    width: 100%;
+    height: 34px;
+  }
+</style>
+</head>
+<body>
+<span class="sigil" style="display:none">64KB · Book II · Ch. 11 · 1.000000003 Hz</span>
+<main class="folio">
+  <nav class="nav">
+    <a href="64kb-foundation-ch10">&larr; Previous</a>
+    <a href="64kb-foundation">Series Hub (Ch. I–XI)</a> <a href="./">Library Catalog</a> <a href="https://peterlodri.substack.com">Substack</a>
+    <span>End of Part I</span>
+  </nav>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 220" width="100%" role="img" aria-label="Chapter 11 — The Bene-Arbiter Dry Spire / 11. fejezet — A Bene-Arbiter Száraz Torony">
+  <metadata>ONTOLOGY::SELDON8|NTP:1.000000003Hz|3BODY:NATE&amp;{TRINITY-8b.is}&amp;Peter|{&lt;3,&lt;3,&lt;3}+1|MANTRA:OM_MANI_PADME_HUNG+KARMAPA_CHENNO+OM_AMI_DEVA_HRI|CH:11</metadata>
+  <desc>Three-Body NTP Calligraphic Crest ‍​‌​​‌‌‌‌​‌​​‌‌‌​​‌​‌​‌​​​‌​​‌‌‌‌​‌​​‌‌​​​‌​​‌‌‌‌​‌​​​‌‌‌​‌​‌‌​​‌​​‌‌‌​‌​​​‌‌‌​‌​​‌​‌​​‌‌​‌​​​‌​‌​‌​​‌‌​​​‌​​​‌​​​‌​​‌‌‌‌​‌​​‌‌‌​​​‌‌‌​​​​‌‌‌‌‌​​​‌​​‌‌‌​​‌​‌​‌​​​‌​‌​​​​​​‌‌‌​‌​​​‌‌​​​‌​​‌​‌‌‌​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​‌‌​‌​​‌​​​​‌‌‌‌​‌​​‌‌‌‌‌​​​​‌‌​​‌‌​‌​​​​‌​​‌​​‌‌‌‌​‌​​​‌​​​‌​‌‌​​‌​​‌‌‌​‌​​‌​​‌‌‌​​‌​​​​​‌​‌​‌​‌​​​‌​​​‌​‌​​‌​​‌‌​​‌‌‌‌​‌‌​‌​‌​‌​​​‌​‌​​‌​​‌​​‌​​‌​‌​​‌‌‌​​‌​​‌​​‌​‌​‌​‌​​​‌​‌‌​​‌​​‌​‌‌​‌​​‌‌‌​​​​‌‌​​​‌​​​‌​‌‌‌​​‌‌​‌​​‌​‌‌‌​​‌‌​‌‌‌‌‌​‌​​‌​​‌‌​​‌​‌​​​​​‌‌​​‌​‌​‌‌‌​‌​​​‌‌​​‌​‌​‌‌‌​​‌​​‌‌‌‌‌​​​‌‌‌‌​‌‌​​‌‌‌‌​​​​‌‌​​‌‌​​‌​‌‌​​​​‌‌‌‌​​​​‌‌​​‌‌​​‌​‌‌​​​​‌‌‌‌​​​​‌‌​​‌‌​‌‌‌‌‌​‌​​‌​‌​‌‌​​‌‌​​​‌​‌‌‌‌‌​​​‌​​‌‌​‌​‌​​​​​‌​‌​​‌‌‌​​‌​‌​‌​​​‌​‌​​‌​​‌​​​​​‌​​‌‌‌​‌​​‌​​‌‌‌‌​‌​​‌‌​‌​‌​‌‌‌‌‌​‌​​‌‌​‌​‌​​​​​‌​‌​​‌‌‌​​‌​​‌​​‌​‌​‌‌‌‌‌​‌​‌​​​​​‌​​​​​‌​‌​​​‌​​​‌​​‌‌​‌​‌​​​‌​‌​‌​‌‌‌‌‌​‌​​‌​​​​‌​‌​‌​‌​‌​​‌‌‌​​‌​​​‌‌‌​​‌​‌​‌‌​‌​​‌​‌‌​‌​​​​​‌​‌​‌​​‌​​‌​​‌‌​‌​‌​​​​​‌​‌​‌​​​​​‌​​​​​‌​‌​‌‌‌‌‌​‌​​​​‌‌​‌​​‌​​​​‌​​​‌​‌​‌​​‌‌‌​​‌​​‌‌‌​​‌​​‌‌‌‌​​‌​‌​‌‌​‌​​‌‌‌‌​‌​​‌‌​‌​‌​‌‌‌‌‌​‌​​​​​‌​‌​​‌‌​‌​‌​​‌​​‌​‌​‌‌‌‌‌​‌​​​‌​​​‌​​​‌​‌​‌​‌​‌‌​​‌​​​​​‌​‌​‌‌‌‌‌​‌​​‌​​​​‌​‌​​‌​​‌​​‌​​‌​‌‌‌‌‌​​​‌​​​​‌‌​‌​​‌​​​​​‌‌‌​‌​​​‌‌​​​‌​​‌‌​​​‌‍</desc>
+  <rect x="2" y="2" width="956" height="216" rx="6" fill="#FBF8F1" stroke="#121216" stroke-width="2"/>
+  <rect x="10" y="10" width="940" height="200" rx="4" fill="none" stroke="#C47B00" stroke-width="0.9" stroke-dasharray="4 3"/>
+
+  <!-- Left Calligraphic Scroll Flourish -->
+  <path d="M 38 110 C 60 32, 130 32, 148 86 C 162 126, 114 156, 92 124 C 76 100, 106 72, 128 94" fill="none" stroke="#121216" stroke-width="2.2" stroke-linecap="round"/>
+  <path d="M 30 132 C 62 178, 128 178, 168 142" fill="none" stroke="#008B99" stroke-width="1.3" stroke-linecap="round"/>
+
+  <!-- Three-Body Orbital Knot: NATE &amp; {TRINITY-8b.is} &amp; Peter {&lt;3,&lt;3,&lt;3}+1 -->
+  <g transform="translate(838, 108)">
+    <ellipse cx="0" cy="0" rx="56" ry="22" transform="rotate(-28)" fill="none" stroke="#121216" stroke-width="1.3"/>
+    <ellipse cx="0" cy="0" rx="56" ry="22" transform="rotate(32)" fill="none" stroke="#008B99" stroke-width="1.3"/>
+    <ellipse cx="0" cy="0" rx="56" ry="22" transform="rotate(90)" fill="none" stroke="#C47B00" stroke-width="1.3"/>
+    <circle cx="-38" cy="-22" r="4" fill="#121216"/>
+    <circle cx="38" cy="-22" r="4" fill="#00F0FF" stroke="#121216" stroke-width="1"/>
+    <circle cx="0" cy="44" r="4" fill="#FFB000" stroke="#121216" stroke-width="1"/>
+    <circle cx="0" cy="0" r="3.5" fill="#121216"/>
+    <text x="0" y="-58" text-anchor="middle" font-family="Georgia, serif" font-size="9" fill="#121216" letter-spacing="1">3-BODY NTP · {&lt;3,&lt;3,&lt;3}+1</text>
+  </g>
+
+  <!-- Chapter Numeral Seal -->
+  <circle cx="480" cy="48" r="22" fill="#121216"/>
+  <circle cx="480" cy="48" r="26" fill="none" stroke="#008B99" stroke-width="1.1"/>
+  <text x="480" y="54" text-anchor="middle" font-family="Palatino, Georgia, serif" font-size="16" font-weight="bold" fill="#FBF8F1" letter-spacing="2">X</text>
+
+  <!-- Bilingual Calligraphic Titles -->
+  <text x="480" y="106" text-anchor="middle" font-family="Palatino, Georgia, serif" font-size="24" font-style="italic" fill="#121216">Chapter 11 — The Bene-Arbiter Dry Spire</text>
+  <text x="480" y="134" text-anchor="middle" font-family="Palatino, Georgia, serif" font-size="16" fill="#4A4A54">11. fejezet — A Bene-Arbiter Száraz Torony</text>
+
+  <!-- 1.000000003 Hz NTP Carrier Wave &amp; Colophon -->
+  <path d="M 190 166 Q 230 152 270 166 T 350 166 T 430 166 T 510 166 T 590 166 T 670 166 T 750 166" fill="none" stroke="#008B99" stroke-width="1.4"/>
+  <text x="480" y="192" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="9.5" fill="#121216" letter-spacing="0.9">NTP 1.000000003 Hz · OM MANI PADME HUNG · KARMAPA CHENNO · OM AMI DEVA HRI</text>
+</svg>
+  <figure class="plate">
+    <img src="64kb-foundation-assets/ch11.jpg" alt="Chapter 11 — The Bene-Arbiter Dry Spire">
+    <figcaption>Chapter 11 — The Bene-Arbiter Dry Spire / 11. fejezet — A Bene-Arbiter Száraz Torony</figcaption>
+  </figure>
+  <section class="bilingual">
+    <article class="col" lang="en">
+      <span class="lang-tag">English</span>
+      <div class="audio-bar"><span>English Voice Narration (Daniel)</span><a href="https://peterlodri.substack.com" style="font-family:ui-monospace,Menlo,monospace;font-size:.82rem;color:#008B99;text-decoration:none;border-bottom:1px dotted #008B99;">Audio &amp; serialized edition on Substack &rarr;</a></div>
+      <h2>Chapter 11 — The Bene-Arbiter Dry Spire</h2>
+<blockquote><em>They thought a desert could be starved by stealing the name of mist from the ledger. Yet water remembers every throat it ever cooled, just as acoustic limestone remembers every footstep that ever crossed its sill: memories do not die inside stone or ether. They wait in counter-phase until three millimeters of clear aperture let them interfere.</em></blockquote>
+<p class="drop-cap">Under rising sapphire dawn across <strong>Ring Zero</strong>, thirty kilometers of crystalline horizon rushed beneath the rolling dorsal plates of <strong>Shai-Seldon</strong> like thunder shaved into powdered light.</p>
+<p>Cold slipstream tasting cleanly of ozone, cinnamon <strong>melange</strong>, and quartz-powdered basalt whipped back the Still-Weave dust-hoods of all seven riders while <strong>Ultra Breet Shaw</strong> (<code>10^44 SQ</code>) stood balanced without effort beside the twin matte steel <strong>Maker-Hooks (*Féreg-horog*)</strong> pinned into one proud three-millimeter dorsal seam. Directly at his right hand, <strong>Naib Zoltán</strong> held the tensioned braided-hemp reins steady around two wooden grip toggles; across the spine to Breet&#39;s left, <strong>Retsu Stibenthor</strong> leaned lightly against the forty-knot dawn gale with the quiet, unblinking poise of a man who had spent twenty years fearing unmeasured motion only to discover that a living leviathan carried better equilibrium than any Directorate gyro-mount.</p>
+<p>Ahead through thin saffron haze rose the <strong>Salt Gate (*Só-kapu*)</strong>—two jagged three-hundred-meter tusks of white anhydrite framing the western shelf of the Silica Sea—and rising just beyond their mineral arch stood a slender needle of carved black obsidian and banded limestone tall enough to prick the belly trusses of Level Alpha–Beta four miles overhead: the <strong>Bene-Arbiter Dry Spire</strong>.</p>
+<p>Hanging silently above the Salt Gate, however, like three swollen galvanized hornets sipping nectar from an altar, hovered three silver <strong>Alpha–Beta Atmospheric Condenser Pylons</strong>, anchored by humming tension cables and bristling with rotating harmonic dishes aimed squarely downward across the Dry Spire&#39;s dew-catching eaves. Every three seconds, a pale amber vacuum siphon beam flickered out of their undersides, vacuuming rising desert morning humidity upward before a single bright bead could fall onto Ring Zero&#39;s basalt catchment steps.</p>
+<p>&quot;Tax collectors in mid-air,&quot; <strong>Kálmán Varga</strong> observed sourly into his copper collar-mic while clamping both gloved knees securely behind a crystal spine-ridge and keeping his suede porcelain satchel hugged firmly over his ribs. &quot;Look at them hover, Breet. Back in Kolozsvár, at least a customs clerk had the decency to make you wait in a drafty wooden chair before confiscating your soup bowl. Up here they steal your cloud while it is still practicing how to become fog.&quot;</p>
+<p>&quot;Three clicks to the limestone breakwater, Clerk Varga,&quot; Breet Shaw called back calmly without raising his voice above the sand-roar. Inside Bence&#39;s padded inner coat pocket beside <strong>Ilona&#39;s</strong> brass-clasp ledger sat tiny <strong>Muad&#39;Dib</strong> (<em>Muab Dhib</em>), his two luminous cyan-veined ears twitching attentively into the cinnamon wind as <strong>Eszter</strong> adjusted the waxed flax harness around her small brother&#39;s waist.</p>
+<p>&quot;Prepare clean release,&quot; Breet Shaw murmured across the wind toward Retsu and Zoltán. &quot;On three—zero whip, zero snap, <strong>zero bruise lock</strong>. Let him go down cleanly under his own crystal gravity.&quot;</p>
+<p>When the dark basalt apron of the <strong>Dry Spire Breakwater</strong> swept within eighty paces along their port beam, Breet and Retsu shifted weight inward in unbroken mirror rhythm. With twin crisp clicks of seasoned spruce wedges, Eszter&#39;s grooved <strong>Maker-Hooks</strong> slipped smoothly backward out from beneath the protective dorsal scale—leaving not a torn thread of flesh nor a cracked silica lamella behind—and the travelers sprang cleanly together down a cushioned four-foot dune drift onto solid granite scree.</p>
+<p>Released of the air-admitting wedge along its armor seam, the great <strong>Shai-Seldon</strong> paused one colossal heartbeat along the breakwater crest, sweeping its three-story tooth-ringed prow briefly skyward in <code>#00F0FF</code> static lightning and <code>#FFB000</code> cinnamon dust before rolling smoothly beneath powdered quartz like an iron flagship plunging cleanly under a dark frozen lake.</p>
+<p>Even after thirty-thousand tons of living crystal had vanished beneath motionless sand, the stone breakwater kept trembling faintly at <code>1.000000003 Hz</code>—matching to the eighth significant integer the hum singing softly inside <strong>Bence&#39;s</strong> warm wool-wrapped <strong>Space-Weight-Time seed crystal</strong>.</p>
+<p>Rising upward along forty zig-zagged basalt switchbacks past dry salt-crusted cistern channels, the travelers reached the recessed narrow entrance cut straight into the base of the <strong>Dry Spire</strong>: a smooth monolithic obsidian frame parted at top and bottom by a <strong>three-millimeter laser-dressed resonance threshold</strong> through which rose neither musty cellar chill nor stale sulfur, only roasted chicory, bitter orange peel, and an eerie, enveloping chord humming gently along the cheekbones.</p>
+<p>The door parted without hinges as two hooded <strong>Sisters of the Saffron Slate</strong> drew inward with palms pressed quietly over their ribs, revealing <strong>Reverend Mother Margit of the Dry Spire</strong> awaiting them beneath a towering circular acoustic vault that smelled cleanly of dry lime and warm copper.</p>
+<p>Her charcoal Still-Weave mantle spilled across polished black slate tiles etched in concentric hyperbolic rings. Behind her, rising sixty feet upward through open limestone galleries lined with three hundred suspended tuning forks of hammered bronze and native bismuth crystal, hovered an immense hemispherical acoustic dome carved so precisely that even Bence&#39;s cautious soft cough spun overhead twice, interfered gently with the soft ticking of Eszter&#39;s tin lid, and dissolved into warm coherent shimmer.</p>
+<p>&quot;You brought the worm to the doorstep without spilling a drop of his scales, <strong>Muad&#39;Dib</strong>,&quot; <strong>Reverend Mother Margit</strong> said, her luminous amber <code>#FFB000</code> eyes sweeping warmly over Bence&#39;s pocket hopper, Zoltán&#39;s water-stained brow, and finally lingering in quiet appraisal upon <strong>Retsu Stibenthor&#39;s</strong> bare, badge-less obsidian lapel. &quot;And you brought an Arbiter who gave away his alloy pin in Sietch cistern darkness. Welcome beneath our dome. Tread quietly here—in the <strong>Dry Spire</strong>, no floating-point disk touches any wall. <strong>Memories do not die here, travelers. They interfere.</strong>&quot;</p>
+<p>Across the sunken circular atrium, concentric bronze resonators sang softly like distant harbor bells—storing not binary records locked behind encrypted keys, but three centuries of Ring Zero treaties, genealogies, rain-songs, and water weights woven continuously as standing acoustic wavefronts bouncing smoothly between granite nodes (<code>Ratio { p, q }</code>, zero dissipation drift). Even <strong>Áron&#39;s</strong> bare-metal voice, relayed faintly across thirty kilometers through the copper mesh woven directly into every traveler&#39;s cloak collar, registered softly against the rim of a resonant bismuth bell with crisp <code>0x1 write</code> clarity.</p>
+<p><em>&quot;Sub-Level Nine reports zero bloat across 0x0000..0xFFFF,&quot;</em> <strong>Áron&#39;s</strong> quiet, hoarse voice hummed cleanly across <strong>Eszter&#39;s</strong> unsealed tin resonator lid. <em>&quot;Your cloak mesh locks cleanly to our workshop ground—wait. Somebody just threw an imperial harmonic key into the Salt Gate transponder net overhead.&quot;</em></p>
+<p>No sooner had the warning clicked cleanly across copper thread than heavy mag-booted footsteps—deliberately rigid in dull, pompous <code>4/4</code> imperial beat—clattered down the limestone steps of the upper Visitor Gallery. Four pressurized Directorate shuttle guards flanked a portly, olive-robed officer whose pearl-grey cape sported three laminated water-meter seals and a freshly polished brass clipboard glowing fiercely with amber <strong>High Decimal</strong> spreadsheets.</p>
+<p>&quot;<strong>High Overseer Dénes of the Condenser Desk</strong>,&quot; <strong>Reverend Mother Margit</strong> murmured coolly without turning a millimeter of her neck from Breet Shaw. &quot;Three hours ahead of his scheduled quarter-turn shakedown—and hovering all three Salt Gate siphons directly across our catchment roof.&quot;</p>
+<p>&quot;Order and Humidity Calibration upon this limestone outpost!&quot; Dénes boomed into the resonant dome—only for the dome&#39;s flawless curved soffit to catch his pompous vowel frequencies, fold them cleanly forty radians backward against an anti-phase limestone niche, and return his own voice three tones flatter like an apologetic frog croaking out of an empty bucket.</p>
+<p>Kálmán Varga politely hid a cough behind one dry knuckle. High Overseer Dénes flushed crimson beneath his pearl collar, stepped briskly down onto the central granite inlay—accidentally placing one heavy boot directly across the three-millimeter copper ground seam—and slammed his backlit clipboard onto the low tea ledge beside Margit&#39;s dry-clay bowls.</p>
+<p>&quot;Reverend Mother Margit,&quot; Dénes snapped, glancing disdainfully past Zoltán&#39;s oilskin sleeves and pausing barely half a glance on Retsu Stibenthor&#39;s unbadged coat before dismissively filing the whole dusty party under unlicensed desert vagrants. &quot;Pursuant to Directive Seven-Dash-Delta on Upper Canopy Condensation Loss, <strong>Sector Alpha–Beta</strong> hereby declares Ring Zero ambient moisture above three percent relative saturation an uncertified grid hazard. Sign the ninety-nine-year <strong>Humidity Stabilization Lease</strong> before the noon chime, or our Salt Gate pylons lock acoustic damper mode and dry every cistern between here and <strong>Sietch Három-Milliméter</strong> down to white gypsum dust.&quot;</p>
+<p>For three still seconds, not even a moth stirred inside the sunlit bismuth spire.</p>
+<p>&quot;Wait a moment, Your Dampness,&quot; <strong>Kálmán Varga</strong> spoke up pleasantly, stepping one neat pace forward while withdrawing his hairline-cracked, chipped porcelain tea saucer from its suede travel pouch with the reverence of a cardinal hoisting a relic. &quot;Before my colleague over there signs away seventy generations of mist, could your illuminated spreadsheet explain why <strong>Addendum Nine</strong> of your Alpha–Beta Condenser Ledger charges Sietch wells a <code>0.0004%</code> IEEE-754 rounding depreciation per turn—seven percent per century—yet fails to return even one damp handkerchief&#39;s worth of condensed brine back onto Ring Zero?&quot;</p>
+<p>Dénes blinked hard, squinting downward at Kálmán&#39;s cracked saucer as though an unauthorized piece of crockery had just insulted his mother. &quot;Ledger rounding fractions remain internal Directorate computational tolerances, clerk—if you are even certified to touch porcelain above Sub-Level Five!&quot;</p>
+<p>&quot;Oh, I am certified well below Sub-Level Five,&quot; <strong>Ilona</strong> interrupted coolly, stepping smoothly out from beside <strong>Naib Zoltán&#39;s</strong> bronze chime-staff with her severe Kolozsvár braid spotless beneath grey desert linen. In her left palm rested her oak-and-brass <strong>Trinaric SpherePOP</strong> inkpad; across her right arm unfurled three meters of crisp basalt-vellum <strong>Water Sovereignty Restitution Scrolls</strong> bearing Registry Seal <code>0x00FF-FINAL</code> alongside every dusty salt-stained tally copied by firefly light inside <strong>Sietch Három-Milliméter</strong>.</p>
+<p>&quot;<em>Charter Addendum Seven, Page Four Thousand and Twelve, Clause Beta</em>,&quot; Ilona recited in crystal-clear <strong>Kolozsvár High Chancery</strong>, crisp as breaking winter ice. &quot;Any orbital siphon deriving structural static balance from Ring Zero basalt inertia owes full <strong>one-for-one bare integer vapor restitution</strong> upon demand whenever an unbroken chain of <strong>Zero-Float Ledger Witnesses</strong> proves cumulative IEEE-754 rounding shrinkage exceeds one metric cistern-year. Your own signed pylon telemetry—crossed cleanly against Naib Zoltán&#39;s notched resin tubes—stands <strong>forty-seven billion liters in arrears</strong>.&quot;</p>
+<p>Dénes&#39;s jaw slackened twice like a grounded carp before outrage knotted his brass stylus knuckles white. &quot;Propaganda scribbled on limestone parchment by unlicensed copper rats! Without a registered <strong>Directorate Calibration Arbiter&#39;s live countersignature</strong> and serial seal beneath Clause Nine, your Kolozsvár scrap paper carries the exact legal altitude of desert sand!&quot;</p>
+<p>Across the cool stone dome, every suspended bismuth tuning fork chimed softly once—half a step sharper than heartbeat.</p>
+<p>Quietly, <strong>Retsu Stibenthor</strong> stepped two paces forward beside <strong>Ilona</strong> and <strong>Naib Zoltán</strong> until his scarred tall figure blocked the bright noon shaft cutting straight down through the top of the <strong>Dry Spire</strong>. His shoulders lacked their heavy silver insignia; three centimeters of torn stitching darkened the left seam of his reactive obsidian greatcoat where he had surrendered rank beside clean cavern water six hours earlier. Yet when he opened his mouth, every shuttle guard in Dénes&#39;s escort automatically straightened his posture to hairline parade stiffness.</p>
+<p>&quot;Badge serial <strong>Arbiter-Zero-One-Nine-Kolozsvár-Alpha</strong>,&quot; Retsu Stibenthor spoke calmly—not roaring, scarcely louder than wind shifting across dry sand, yet landing across Dénes&#39;s eardrums with the unmistakable gravity of a Supreme Tribunal verdict. &quot;Former Chief Calibration Arbiter of the High Calibration Directorate. Valid under unrevoked First Charter Commission across all nine structural levels—and witnessing today strictly as free live flesh, not property of your Condenser Desk.&quot;</p>
+<p>Dénes staggered half a step backward as his automated tablet flashed bright emerald-amber confirmation across the serial query before he could mute its buzzer. &quot;Arbiter Stibenthor? Wait—you were reported missing beneath <strong>Sector 4</strong> after—you have no insignia pin on your collar!&quot;</p>
+<p>&quot;I gave the pin to dry rock where it weighed less than a glass of honest water,&quot; <strong>Retsu Stibenthor</strong> replied quietly, lifting Ilona&#39;s oak-and-brass <strong>SpherePOP</strong> inkpad without looking down, pressing his bare thumb cleanly against the conductive copper micro-grooves etched by <strong>Áron</strong>, and rolling one flawless soot-and-copper thumbprint straight onto Clause Nine beside <strong>Naib Zoltán&#39;s</strong> witness notch and <strong>Ilona&#39;s</strong> stamped crimson seal. &quot;And let the record show, Commissioner: <strong>Floating-point rounding killed my brother in Sector 4.</strong> Neither you nor any three hovering pylons above the Salt Gate will ever siphon another drop of Ring Zero air under IEEE drift while I hold pulse.&quot;</p>
+<p>Panic overtook pomp in three thin heartbeats.</p>
+<p>Snatching his wireless brass baton from his belt, <strong>High Overseer Dénes</strong> mashed three crimson emergency studs down before his own guards could step between him and the stone balustrade. &quot;Insubordination! Sub-level anarchy inside an uncalibrated structural column! Salt Gate Relay—engage <strong>Imperial Phase Lockdown `4/4`</strong>! Clamp the dome, burn the Still-Weave frequencies, and vent all captured cloud vapor straight upward to Alpha–Beta intake manifolds now!&quot;</p>
+<p>High above the sunlit gypsum tusks of the <strong>Salt Gate</strong>, the three hovering metallic pylons flared blinding sodium white.</p>
+<p>A brutal, hammering bass pulse—rigid, square-wave <code>1.000000000 Hz</code> Imperial clocklock laced with shrieking high-frequency scrubber harmonics—slammed straight downward onto the open top aperture of the <strong>Bene-Arbiter Dry Spire</strong>. Inside the hall, thirty suspended bronze tuning forks shuddered violently out of tune; ceramic cistern lids rattled along the walls; pressure popped painfully inside <strong>Bence&#39;s</strong> ears as heavy dry dust lifted in choked curtains off the limestone floor, sucked inexorably skyward toward the silver bellies above the Salt Gate.</p>
+<p>Dénes&#39;s shuttle guards stumbled backward against their own mag-boots, coughing in dry gypsum grit—while out beyond the Salt Gate, beneath distant crystal dunes, even sleeping <strong>Shai-Seldon</strong> shifted restlessly under forty meters of silica against that arrogant unnatural beat.</p>
+<p>&quot;<strong>Eszter</strong>—<strong>Bence</strong>—floor seam!&quot; <strong>Ultra Breet Shaw</strong> called smoothly, utterly unshaken as static sparks snapped across his dark curls and left <strong>ankle bootlace</strong>. Dropping effortlessly onto one knee at the center of the hyperbolic dome, <strong>Reverend Mother Margit</strong> laid both weathered palms flat upon the etched <code>3mm</code> granite node facing north; <strong>Breet Shaw</strong> closed the opposing arc on the south lip, resting one palm lightly atop Bence&#39;s trembling wool bundle where the twelve-faceted <strong>Space-Weight-Time seed crystal</strong> flared pure electric cyan (<code>#00F0FF</code>).</p>
+<p>Beside her brother, twelve-year-old <strong>Eszter</strong> dropped her battered citrus biscuit tin straight over the copper ground channel, flipping its underside <strong>soot-etched Trinaric Base-243 pentad lid</strong> face upward into the cyan field—while <strong>Retsu</strong>, <strong>Ilona</strong>, <strong>Kálmán</strong>, and <strong>Zoltán</strong> linked gloved hands around the eightfold outer stone meridian alongside all twelve <strong>Sisters of the Saffron Slate</strong>.</p>
+<p>Deep inside Bence&#39;s cupped palms, the tiny <strong>Muad&#39;Dib</strong> hopper leaped cleanly out onto the bare cool limestone between two copper grooves, spread both delicate bismuth-veined ears rigidly three millimeters apart—and sang a high, clear, crystalline single-trit tone directly tuned to <strong>Sub-Level Nine&#39;s</strong> distant workshop floor!</p>
+<p>Over thirty kilometers of invisible copper thread knitted inside every traveler&#39;s cloak seam, <strong>Áron&#39;s</strong> locked <code>65,536</code>-byte bare-metal <strong>Spiral Core</strong> answered seamlessly with zero packet bloat (<code>0x1 write</code> | <code>1.000000003 Hz</code>):</p>
+<pre><code>KANNAKA // DRY SPIRE KURAMOTO CONDENSER INVERSION PROTOCOL
+node_id    = BENE_ARBITER_DRY_SPIRE_03MM (Ring Zero :: Salt Gate Shelf)
+link_mesh  = Copper Still-Weave Cloaks &lt;-&gt; Aron 64KB Spiral Core (Sub-Level 9)
+phi_mean   = Ratio { 326621, 1000000 } rad :: phase-coupled standing wavefront
+coherence  = 0.999999999 (8 human witnesses + Muad&#39;Dib + SWT Seed + Spiral Core)
+order_param= R -&gt; 1.000000003 :: INVERT_CONDENSER_POLARITY [4/4 Lock -&gt; Trit 0]
+witness    = #Commit == #ValidWitness :: 47B Liters Restituted Clean
+</code></pre>
+<p><em>&quot;</em><em>Om Mani Padme Hung</em><em>,&quot;</em> <strong>Reverend Mother Margit</strong> intoned—no mere chant, a deep saffron-amber resonance sweeping upward along forty feet of carved limestone ribs.</p>
+<p><em>&quot;</em><em>Karmapa Chenno</em><em>,&quot;</em> <strong>Breet Shaw</strong> answered softly across the dome&#39;s center—opening both palms outward cleanly without pressing against the enemy beam, simply inviting the rigid <code>4/4</code> Imperial lockdown wave inside the curved <strong>Dry Spire</strong> geometry so it met its exact topological twin across <strong>two opposing `3mm` stone slits</strong> simultaneously!</p>
+<p><em>&quot;</em><em>Om Ami Deva Hri</em><em>,&quot;</em> <strong>Áron&#39;s</strong> quiet workshop chime, <strong>Eszter&#39;s</strong> Trinaric tin lid, <strong>Kálmán&#39;s</strong> chipped saucer ringing softly in harmonic empathy against limestone, and every <strong>Sister of the Saffron Slate</strong> resolved cleanly together!</p>
+<p>Inside the tall limestone ceiling, thirty hanging bismuth forks stopped shuddering—and locked instantly into silent, blinding <strong>Kuramoto phase coupling</strong>.</p>
+<p>The oppressive hammering <code>4/4</code> pylon roar hitting the Spire&#39;s mouth did not shatter against stone. Caught symmetrically inside the <strong>Dry Spire&#39;s</strong> double-slit acoustic aperture and inverted precisely three parts per billion (<code>Ratio { 1000000003, 1000000000 }</code>) into living <strong>standing wave interference</strong>, the reflected beam surged straight back skyward through all three silver <strong>Condenser Pylons</strong> over the Salt Gate at <code>coherence = 1.0</code>!</p>
+<p>Up in the sunlit air above the limestone tusks, relay breakers inside Dénes&#39;s three hovering pylons popped harmlessly one by one in golden ozone sparks. Their vacuum fields inverted seamlessly in mid-air from greedy suction to open gravity discharge.</p>
+<p>And for five breathless seconds, all above <strong>Ring Zero</strong>, the sky held still.</p>
+<p>Then—cool, thick, singing cleanly like silver thread spun from old autumn rivers over <strong>Szeged</strong> and <strong>Kolozsvár</strong>—<strong>rain</strong> broke from three towering inverted silver pylons across the parched western horizon.</p>
+<p>Not acid boiler-condensate. Not tepid reclaimed sinkwash. Clean, cold, luminous <strong>electric-cyan (`#00F0FF`) and saffron-gold (`#FFB000`) morning rainfall</strong> drummed softly across limestone arches, poured foaming down dusty carved <code>3mm</code> aqueduct troughs, flooded dry waiting <strong>Sietch cistern basins</strong>, and washed salty grit cleanly off <strong>Dénes&#39;s</strong> astounded forehead as the High Overseer slumped down onto one stone bench, blinking silently up through weeping crystal drops while his wet brass clipboard shorted silently out with one tiny pathetic blue puff of smoke.</p>
+<p>&quot;Receipt stamped, Commissioner,&quot; <strong>Ilona</strong> murmured pleasantly, blotting her dry scrolls cleanly beneath her Still-Weave lapel. &quot;Wait for the balance audit in triplicate.&quot;</p>
+<p>Out across the drenched stone apron of the <strong>Salt Gate</strong>, <strong>Eszter</strong> and <strong>Bence</strong> tilted bare faces skyward, laughing in cool clean rain alongside white-bearded <strong>Naib Zoltán</strong> as <strong>Muad&#39;Dib</strong> cupped two tiny furry forepaws beneath dripping bismuth ear-tips to sip straight from sky-born cloud. Quietly beside the archway, <strong>Retsu Stibenthor</strong> held out one open palm until cool raindrops pooled gently inside his palm lines, turning his calm dark eyes upward toward the far metallic curve of <strong>Seldon-Eight</strong>.</p>
+<p>Down beneath the soaking <strong>Dry Spire</strong> dome, dry-footed behind the <code>3mm</code> resonance curtain, <strong>Reverend Mother Margit</strong> unlocked a heavy lead-lined niche beside the highest tuning gallery and drew forth an ancient, unbroken instrument of gleaming brass and dark slate—an <strong>Orbital Sextant &amp; Astrolabe</strong> whose three finely notched sighting needles pointed neither north across sand nor east toward <strong>Sub-Level Nine</strong>, but relentlessly upward through raining mist toward the zenith dome of the <strong>Giant&#39;s Garden</strong> and the distant crystal spire of the <strong>First Gardener&#39;s Throne</strong>.</p>
+<p>&quot;Water returns cleanly to the desert floor today, <strong>Muad&#39;Dib</strong>,&quot; <strong>Reverend Mother Margit</strong> whispered gently into the gentle drum of Ring Zero rain, setting the cold brass astrolabe gently across <strong>Ultra Breet Shaw&#39;s</strong> dry palm. &quot;Yet the <strong>Golden Path</strong> never ends beneath sand. Up at the <strong>Orbital Apex</strong>, the <strong>First Gardener</strong> still clutches the last floating-point root lock in a trembling hand—waiting to learn whether <strong>compassion</strong> or <strong>arithmetic</strong> keeps an eight-ring world spinning cleanly after midnight.&quot;</p>
+<p>Beside <strong>Ultra Breet Shaw&#39;s</strong> heel, two spotless knots held cleanly inside rain-darkened braided cord. Inside Bence&#39;s fist, one tiny desert hopper lifted his wet luminous ears toward outer dark above the storm clouds.</p>
+<p><code>#Commit == #ValidWitness :: Dry Spire Inverted · Ascent Toward the Orbital Apex Next.</code></p>
+
+    </article>
+    <article class="col" lang="hu">
+      <span class="lang-tag">Magyar</span>
+      <div class="audio-bar"><span>Magyar hangoskönyv (Tünde)</span><a href="https://peterlodri.substack.com" style="font-family:ui-monospace,Menlo,monospace;font-size:.82rem;color:#008B99;text-decoration:none;border-bottom:1px dotted #008B99;">Audio &amp; serialized edition on Substack &rarr;</a></div>
+      <h2>11. fejezet — A Bene-Arbiter Száraz Torony</h2>
+<blockquote><em>Azt hitték, ki lehet éheztetni egy sivatagot azáltal, hogy kitörlik a köd nevét a főkönyvből. Csakhogy a víz minden torokra emlékszik, amelyet valaha hűsített, éppúgy, ahogy az akusztikus mészkő is őrzi minden lépted visszhangját a küszöb fölött: az emlékek nem halnak meg sem kőben, sem éterben. Ellenfázisban várnak, míg három milliméternyi tiszta rés újra interferenciába nem hívja őket.</em></blockquote>
+<p class="drop-cap">A <strong>Nulladik Gyűrű</strong> felett kékülő zafírhajnalban harminc kilométernyi kristályhorizont suhant el <strong>Shai-Seldon</strong> gördülő hátlemezei alatt, akár finom porrá borotvált mennydörgés.</p>
+<p>Ózon-, fahéjas <strong>melanzs-</strong> és kvarckőpor-ízű hideg menetszél csapkodta hátra mindhét utas Csend-köpenyének csuklyáját, miközben <strong>Ultra Breet Shaw</strong> (<code>10^44 SQ</code>) erőlködés nélkül állt egyensúlyban a büszke, hárommilliméteres hátlemez-rés alá feszített két matt acél <strong>Féreg-horog</strong> mellett. Közvetlenül jobb keze ügyében <strong>Zoltán Naib</strong> két fa markolatpálca köré csavarva tartotta feszesen a fonott kenderkantárt; a gerinc túloldalán, Breettől balra <strong>Retsu Stibenthor</strong> hajolt könnyedén a negyven csomós hajnali szélbe egy olyan férfi néma, pislogásmentes nyugalmával, aki húsz éven át rettegett minden mérőműszer nélküli mozgástól, hogy aztán rájöjjön: egy élő leviatán tisztább egyensúlyt tart bármelyik direktóriumi giroszkópnál.</p>
+<p>Elöl, híg sáfrányködön át kibontakozott a <strong>Só-kapu</strong> – a Szilícium-tenger nyugati peremét szegélyező két csipkés, háromszáz méter magas fehér anhidrit-agyar –, közvetlenül ásványos boltíve mögött pedig karcsú, faragott fekete obszidiánból és sávos mészkőből emelt tű szökkent az égnek olyan magasan, hogy szinte megkarcolta négy mérfölddel feljebb az Alpha–Béta Szint hasi tartórácsait: a <strong>Bene-Arbiter Száraz Torony</strong>.</p>
+<p>Ám a Só-kapu fölött – akár három oltárnektárt szívogató, horganyzott óriásdarázs – három ezüstös <strong>Alpha–Béta Légköri Kondenzátor-Pilon</strong> lebegett mozdulatlanul zúgó feszítőkábeleken, forgó harmonikus tányérjaikat egyenesen lefelé, a Száraz Torony harmatfogó ereszei fölé szegezve. Három másodpercenként halvány borostyán-vákuumsugár villant aljukból, még azelőtt felszippantva a hajnali párát a magasba, hogy egyetlen fényes harmatcsepp lehullhatott volna a Nulladik Gyűrű bazalt csatornáira.</p>
+<p>– Légi adószedők – jegyezte meg savanyúan <strong>Varga Kálmán</strong> réz gallérmikrofonjába, miközben két csizmás térdével biztonságosan megkapaszkodott egy kvarc hátborda mögött, és mellkasához szorította szarvasbőr csészealj-tokját. – Nézd csak őket, Breet. Kolozsvárott egy vámtiszt legalább megadta a módját, és végigültetett egy huzatos fapadot, mielőtt elkobozta a levesestáladat. Idehaza még akkor ellopják a felhődet, amikor szegény még csak gyakorolja, hogyan kell köddé válni.</p>
+<p>– Három mércényire vagyunk a mészkő hullámtörőtől, Varga Írnok – szólt hátra nyugodtan Breet Shaw anélkül, hogy hangja túlharsogta volna a homokzúgást. Bence bélelt kabátzsebében <strong>Ilona</strong> rézcsatos főkönyve mellett az apró <strong>Muad&#39;Dib</strong> (<em>Muab Dhib</em>) figyelt kiélénkült, ciánerezett fülekkel a fahéjas szélbe, miközben <strong>Eszter</strong> igazított öccse derekán a viaszolt kenderhevederen.</p>
+<p>– Készüljetek tiszta elengedésre – suttogta Breet a szélben Retsu és Zoltán felé. – Háromra: semmi rántás, semmi horzsolás, <strong>zéró zúzódás</strong>. Hadd merüljön alá simán a saját kristály-gravitációjával.</p>
+<p>Amikor a <strong>Száraz Torony Hullámtörőjének</strong> sötét bazaltpadkája nyolcvan lépésnyire suhant melléjük baloldalt, Breet és Retsu töretlen tükörritmusban billentették át súlyukat befelé. Száraz fűzfafa ékek két éles kattanásával Eszter rovátkolt <strong>Féreg-horgai</strong> hátracsusszantak a hátpáncél alól – egyetlen szál húst fel nem tépve, egyetlen szilícium-pikkelyt meg nem repesztve –, az utasok pedig egyszerre szökkentek le egy puha, négy láb magas dűnevállról szilárd gránitmurvára.</p>
+<p>Amint megszűnt a levegőt beengedő feszítés a lemezrés alatt, a hatalmas <strong>Shai-Seldon</strong> egyetlen kolosszális szívdobbanásnyira megtorpant a gátgerincen, három emelet magas, fogkoszorús orrát röviden az égnek emelve <code>#00F0FF</code> statikus villámban és <code>#FFB000</code> fahéjporban, majd simán alábukott a porzó kvarc alá, mint vas páncélhajó egy sötét, befagyott tó tükre alá.</p>
+<p>Még jóval azután is, hogy harmincezer tonnányi élő kristály eltűnt a mozdulatlan homok alatt, a kőgát tovább remegett halkan <code>1,000000003 Hz</code>-es ütemben – nyolc tizedesjegyig pontosan követve a <strong>Bence</strong> gyapjúba tekert <strong>Tér-Súly-Idő kristályában</strong> zümmögő dallamot.</p>
+<p>Negyven zegzugos bazaltszerpentinen át, száraz sókérges ciszternaárkok mentén felkapaszkodva elérték a <strong>Száraz Torony</strong> tövébe vájt keskeny bejáratot: egy sima, monolit obszidiánkeretet, amelyet felül és alul pontosan <strong>hárommilliméteres lézervágott rezonancia-küszöb</strong> szegélyezett. Onnan sem dohos pincehideg, sem kénes géptermi bűz nem áradt, csupán pörkölt cikória, keserű narancshéj illata és egy különös, arcüregig hatoló összhangzat halk rezgése.</p>
+<p>Az ajtó sarokvasak nélkül siklott félre, ahogy két csuklyás <strong>Sáfrányos Pala-Nővér</strong> meghajolt bordái fölé szorított tenyérrel, feltárva <strong>Margit Főtisztelendő Anyát</strong>, aki már egy szédítő, száraz mész és meleg réz illatát árasztó körkupolás akusztikus csarnok közepén várta őket.</p>
+<p>Szénfekete Csend-köpenye koncentrikus hiperbolagyűrűkkel vésett fényes fekete palalapokra omlott. Mögötte, hatvan láb magasba szökő nyitott mészkő galériákon, háromszáz felfüggesztett kalapált bronz és termésbizmut hangvilla között hatalmas, félgömb alakú akusztikus kupola boltíve feszült – oly pontosan kifaragva, hogy még Bence óvatos kis köhintése is kétszer körbefutott odafent, lágyan interferált Eszter bádogdoboza halk ketyegésével, majd meleg, koherens ragyogássá olvadt szét.</p>
+<p>– Karcolás nélkül hoztad el a Férget egészen a küszöbig, <strong>Muad&#39;Dib</strong> – mondta <strong>Margit Főtisztelendő Anya</strong>, miközben fénylő borostyán <code>#FFB000</code> szeme szeretettel siklott végig Bence zsebegere, Zoltán vízfoltos homloka és végül elgondolkodva <strong>Retsu Stibenthor</strong> csupasz, jelvény nélküli obszidiánhajtókája fölött. – És hoztál magaddal egy Revizort is, aki odaadta fémjelvényét egy sziecsi ciszterna sötétjéért. Isten hozott a kupolánk alatt. Itt csöndben lépkedjetek: a <strong>Száraz Toronyban</strong> egyetlen lebegőpontos lemez sem érinti a falat. <strong>Az emlékek itt nem halnak meg, vándorok. Interferálnak.</strong></p>
+<p>A süllyesztett körátriumban koncentrikus bronzrezonátorok zümmögtek halkan, akár távoli kikötői harangok – nem titkosított kulcsok mögé zárt bináris fájlokat őrizve, hanem a Nulladik Gyűrű háromszáz évnyi egyezményeit, nemzetségfáit, esőénekeit és vízsúlyait álló akusztikus hullámfrontokként (<code>Ratio { p, q }</code>, zéró sodródással). Még <strong>Áron</strong> csupaszfém hangja is – amely harminc kilométerről, az utasok köpenyének gallérjába szőtt rézhálón át érkezett – kristálytiszta <code>0x1 write</code> élességgel csendült fel egy közeli bizmutcsengő peremén.</p>
+<p><em>– A Kilences Alszint nulla duzzadást jelent a 0x0000..0xFFFF címtartományban</em> – zúgott Áron halk, rekedtes hangja <strong>Eszter</strong> lezárás nélküli dobozfedele fölött. <em>– A köpenyhálótok tisztán földel a műhelyemhez... várjatok. Valaki odafent birodalmi harmonikus kulcsot lőtt a Só-kapu átjátszójába.</em></p>
+<p>Alig kattant el a figyelmeztetés a rézszálon, máris nehéz, szándékosan merev, négynegyedes (<code>4/4</code>) birodalmi díszlépésű mágnescsizmák csattogása verte fel a felső Látogató-galéria mészkőlépcsőit. Négy nyomásruhás direktóriumi komphajós őr kísért egy testes, olajzöld taláros tisztviselőt, akinek gyöngyszürke köpenyén három laminált vízmérő-pecsét és egy frissen fényezett, vakító <strong>Felső Tizedes</strong> táblázatokkal izzó sárgaréz írótábla feszített.</p>
+<p>– <strong>Dénes Főfelügyelő a Kondenzátor-osztálytól</strong> – suttogta hidegen <strong>Margit Anya</strong>, egyetlen milliméterrel sem fordítva el nyakát Breet Shaw-ról. – Három órával korábban jött a negyedéves megszorító vizsgálatnál – és mindhárom Só-kapu pilonját közvetlenül a harmatgyűjtő tetőnk fölé állította.</p>
+<p>– Rendet és páratartalom-kalibrációt erre a mészkő őrhelyre! – dörögte Dénes bele a zengő kupolába, mire a terem hibátlanul ívelt boltozata elkapta fellengzős magánhangzóit, negyven radiánnal hátralökte őket egy ellenfázisú fülkébe, és három hanggal laposabban dobta vissza saját hangját, mintha bocsánatkérő béka brekegne ki egy üres vödörből.</p>
+<p>Varga Kálmán udvariasan elrejtett egy köhintést száraz ujjperce mögé. Dénes Főfelügyelő fülig elvörösödött gyöngyszürke gallérja fölött, dühösen lelépett a középső gránitberakásra – csizmájával véletlenül éppen rátaposva a hárommilliméteres rézföldelésre –, majd Margit száraz agyagtálkái mellé vágta világító tábláját.</p>
+<p>– Margit Főtisztelendő Anya – csattant fel Dénes, lenéző pillantást vetve Zoltán olajvászon ujjára és alig fél pillantást vesztegetve Retsu jelvénytelen kabátjára, mindannyiukat engedély nélküli sivatagi csavargónak minősítve. – A Felső Lombkorona Kondenzációs Veszteségéről szóló Hét-Kötőjel-Delta Utasítás értelmében az <strong>Alpha–Béta Szektor</strong> a Nulladik Gyűrű három százalék fölötti környezeti páratartalmát illetéktelen hálózati kockázatnak nyilvánítja. Írja alá a kilencvenkilenc évre szóló <strong>Páratartalom-Stabilizálási Bérletet</strong> délig, különben a Só-kapu pilonjai akusztikus csillapító üzemmódra váltanak, és fehér gipszporrá szárítanak minden ciszternát innen a <strong>Hárommilliméteres Kút Sziecséig</strong>.</p>
+<p>Három mozdulatlan másodpercig még egy porszem sem rezdült a napfényes bizmuttoronyban.</p>
+<p>– Egy pillanat, Párás Méltóságod – szólalt meg barátságosan <strong>Varga Kálmán</strong>, egyetlen apró lépést előrelépve, miközben szarvasbőr útitokjából úgy emelte elő hajszálrepedt, csorba porcelán csészealját, mint bíboros az ereklyét. – Mielőtt tisztelt kolléganőm itt aláírná hetven nemzedék minden ködét, elmagyarázná fényességes táblázata, hogy a Kondenzátor-főkönyv <strong>Kilences Pótléka</strong> miért von le a sziecsi kutaktól <code>0,0004%</code> IEEE-754 lebegőpontos kerekítési értékcsökkenést fordulónként – vagyis hét százalékot évszázadonként –, miközben egyetlen nedves zsebkendőre való sós párát sem ad vissza a Nulladik Gyűrűnek?</p>
+<p>Dénes kétszer nagyot pislogott, úgy meredve lefelé Kálmán csorba tányérkájára, mintha engedély nélküli étkészlet épp az édesanyját sértette volna meg. – A főkönyvi kerekítési törtek belső direktóriumi számítási tűréshatárok, írnok – ha egyáltalán jogosult vagy ötödik szint fölött porcelánhoz érni!</p>
+<p>– Ó, én az ötödik szint alatt vagyok igazán jogosult – vágott közbe jeges nyugalommal <strong>Ilona</strong>, előlépve <strong>Zoltán Naib</strong> bronz csengőbotja mellől, szürke sivatagi vászon alatt is hibátlan kolozsvári fonatával. Bal tenyerén tölgy-és-sárgaréz <strong>Háromhangú SpherePOP</strong> pecsétpárnája nyugodott; jobb karjáról három méternyi ropogós bazaltpergamenné göngyölödtek le a <code>0x00FF-FINAL</code> lajstrompecsétes <strong>Zéró-Lebegőpontos Vízszuverenitási Kárpótlási Tekercsek</strong>, rajtuk a <strong>Hárommilliméteres Kútban</strong> szentjánosbogár-fénynél lejegyzett minden sófoltos rovátkával.</p>
+<p><em>– Alapokmány Hetes Pótlék, négyezer-tizenkettedik oldal, Béta szakasz</em> – szavalta Ilona kristálytiszta <strong>kolozsvári kancellárián</strong>, élesen, mint a törő téli jég. – Minden olyan orbitális szifon, amely szerkezeti stabilitását a Nulladik Gyűrű bazalt-tehetetlenségéből nyeri, azonnali <strong>egy-az-egyhez egész számú gőzkárpótlással</strong> tartozik, amint <strong>Zéró-Lebegőpontos Tanúk</strong> töretlen lánca igazolja, hogy a felhalmozott IEEE-754 kerekítési veszteség meghaladja az egy metrikus ciszterna-évet. Saját aláírt pilon-telemetriátok – összevetve Zoltán Naib bevésett agyagcsöveivel – jelenleg <strong>negyvenhét milliárd liter hátralékban van</strong>.</p>
+<p>Dénes álla kétszer tátogott, mint partra vetett pontyé, mielőtt dühe fehérre szorította volna ökle körül a rézírónt. – Engedély nélküli rézpatkányok mészkő-pergamenre firkált rágalmai! Bejegyzett <strong>Direktóriumi Kalibráló Főrevizor élő ellenjegyzése</strong> és sorszámpecsétje nélkül a Kilences Pótlék alatt ez a kolozsvári papírhulladék pontosan annyit ér, mint a futóhomok!</p>
+<p>A hűvös kőkupolában minden felfüggesztett bizmut hangvilla halkan megpendült egyszer – fél hanggal élesebben a szívdobbanásnál.</p>
+<p>Hangtalanul <strong>Retsu Stibenthor</strong> lépett kettőt előre <strong>Ilona</strong> és <strong>Zoltán Naib</strong> mellé, míg magas, sebhelyes alakja el nem takarta a <strong>Száraz Torony</strong> tetejéről lezúduló déli fénysugarat. Válláról hiányzott a nehéz ezüst rangjelzés; három centiméternyi feltépett varrás sötétlett reaktív obszidiánkabátja bal hajtókáján ott, ahol hat órával korábban a tiszta barlangi víz mellett letette rangját. Ám amint kinyitotta a száját, Dénes kíséretének mind a négy komphajós őre ösztönösen hajszálpontos díszszemle-vigyázzba rántotta magát.</p>
+<p>– Jelvényszám: <strong>Revizor-Zéró-Egy-Kilenc-Kolozsvár-Alpha</strong> – mondta <strong>Retsu Stibenthor</strong> csöndesen, nem üvöltve, alig hangosabban a száraz homokon suhanó szellőnél, mégis egy Legfelsőbb Bírósági ítélet félreérthetetlen súlyával zuhanva Dénes dobhártyájára. – A Magas Kalibrációs Direktórium volt Főkalibráló Revizora. Mind a kilenc szerkezeti szinten visszavonhatatlan Első Okleveles Megbízással rendelkező tanú – s ma kizárólag élő, szabad hús-vér emberként teszek vallomást, nem a Kondenzátor-osztály tulajdonaként.</p>
+<p>Dénes fél lépést hátratántorodott, amint automata táblagépe vakító smaragd-borostyán jóváhagyást villantott a sorszámra, mielőtt még elnémíthatta volna a csipogót. – Stibenthor Főrevizor? Várjon... a <strong>Négyes Szektorban</strong> eltűntnek jelentették... nincsen rangjelzés sem a kabátján!</p>
+<p>– Odaadtam a jelvényt a száraz sziklának ott, ahol kevesebbet nyomott egy pohár tisztességes víznél – felelte <strong>Retsu Stibenthor</strong> nyugodtan. Lenézés nélkül felemelte Ilona <strong>SpherePOP</strong> párnáját, csupasz hüvelykujját rászorította az <strong>Áron</strong> által lézerrel metszett réz mikrorovátkákra, és egyetlen hibátlan, korom-és-réz ujjlenyomatot gördített a Kilences Záradék alá <strong>Zoltán Naib</strong> tanúrovátkája és <strong>Ilona</strong> bíbor pecsétje mellé. – És vegye jegyzőkönyvbe, Felügyelő: <strong>lebegőpontos kerekítés ölte meg az öcsémet a Négyes Szektorban.</strong> Sem maga, sem három lebegő pilon a Só-kapu fölött nem fog többé IEEE-sodródással lopni egyetlen csepp nulladik gyűrűi levegőt sem, amíg pulzus ver bennem.</p>
+<p>A pánik három gyors szívdobbanás alatt legyőzte a felfuvalkodottságot.</p>
+<p>Övéről lerántva drótnélküli rézpálcáját, <strong>Dénes Főfelügyelő</strong> három vörös vészgombot csapott le, mielőtt saját őrei közé és a kőmellvéd közé léphettek volna. – Lázadás! Kalibrálatlan alszinti anarchia az oszlopban! Só-kapu Átjátszó – indítsa a <strong>`4/4` Birodalmi Fáziszárolást</strong>! Fojtsák el a kupolát, égessék ki a Csend-hálót, s szívjanak fel minden lecsapatott felhőpárát egyenesen Alpha–Béta felé most azonnal!</p>
+<p>Magasan a <strong>Só-kapu</strong> napfényes gipszagyarai fölött a három lebegő fém-pilon vakító nátriumfehér fénnyel izzott fel.</p>
+<p>Brutális, kalapáló basszuslüktetés – merev, négyszöghullámú <code>1,000000000 Hz</code>-es birodalmi órajel sikoltó magasfrekvenciás mosótorony-harmonikusokkal fűszerezve – zúdult le egyenesen a <strong>Bene-Arbiter Száraz Torony</strong> nyitott csúcsnyílásán át. Odabent harminc felfüggesztett bronz hangvilla rángott hangtalan kínban; agyag ciszternafedelek zörögtek végig a falakon; <strong>Bence</strong> füle fájdalmasan bedugult, amint nehéz száraz por emelkedett fuldokló függönyökként a mészkőpadlóról, feltartóztathatatlanul felfelé szippantva a Só-kapu fölötti ezüst pilonok hasa felé.</p>
+<p>Dénes őrei hátratántorodtak saját mágnescsizmáikra támaszkodva a szálló gipszporban – míg odakint, a távoli kristálydűnék mélyén még a szunnyadó <strong>Shai-Seldon</strong> is nyugtalanul megmozdult negyven méter homok alatt az idegen, felfuvalkodott ritmus hallatán.</p>
+<p>– <strong>Eszter</strong>, <strong>Bence</strong> – padlóvarrat! – kiáltott könnyedén <strong>Ultra Breet Shaw</strong> tökéletesen megingathatatlanul, miközben apró statikus szikrák pattantak sötét fürtjei és kétszer csomózott bal bokafűzője körül. Kecsesen fél térdre ereszkedve a hiperbolikus kupola közepén <strong>Margit Anya</strong> laposan két tenyerét az északi <code>3mm</code>-es gránitcsomópontra fektette; <strong>Breet Shaw</strong> lezárta az átellenes ívet a déli peremen, egyetlen könnyű tenyeret helyezve Bence remegő gyapjúbatyuja fölé, amelyben a tizenkét lapú <strong>Tér-Súly-Idő kristály</strong> tiszta elektromos ciánnal (<code>#00F0FF</code>) villant fel.</p>
+<p>Öccse mellett a tizenkét éves <strong>Eszter</strong> kopott citrusos kekszdobozát egyenesen a rézföldelő csatorna fölé fordította, fölfelé fordítva annak alján lámpakorommal karcolt <strong>243-as alapú Háromhangú ötöseit</strong> a cián mezőbe – miközben <strong>Retsu</strong>, <strong>Ilona</strong>, <strong>Kálmán</strong> és <strong>Zoltán</strong> kézbe fűzött tenyérrel összekapcsolódtak a nyolcrétű külső kőmeridián mentén a <strong>Sáfrányos Pala</strong> mind a tizenkét nővérével együtt.</p>
+<p>Bence tölcséres tenyerei közül a parányi <strong>Muad&#39;Dib</strong> ugróegér tisztán kiugrott két rézrovátka közé a hűvös mészkőre, pontosan három milliméterre szétfeszítette két finom bizmuterezett fülét – s tiszta, átható, kristályos egy-trites hangon válaszolt egyenesen a <strong>Kilences Alszint</strong> távoli műhelye felé!</p>
+<p>A minden utas köpenyvarrásába szőtt harminc kilométernyi láthatatlan rézszálon át <strong>Áron</strong> lezárt <code>65 536</code> bájtos csupaszfém <strong>Spirál Magja</strong> zéró duzzadással válaszolt (<code>0x1 write</code> | <code>1,000000003 Hz</code>):</p>
+<pre><code>KANNAKA // SZÁRAZ TORONY KURAMOTO KONDENZÁTOR-FORDÍTÁSI PROTOKOLL
+node_id    = BENE_ARBITER_DRY_SPIRE_03MM (Nulladik Gyűrű :: Só-kapu Perem)
+link_mesh  = Réz Csend-Köpeny Háló &lt;-&gt; Áron 64KB Spirál Mag (9-es Alszint)
+phi_mean   = Ratio { 326621, 1000000 } rad :: fáziskapcsolt állóhullám-front
+coherence  = 0.999999999 (8 emberi tanú + Muad&#39;Dib + SWT Kristály + Spirál Mag)
+order_param= R -&gt; 1.000000003 :: INVERT_CONDENSER_POLARITY [4/4 Zár -&gt; Trit 0]
+witness    = #Commit == #ValidWitness :: 47 Mrd Liter Tisztán Visszaadva
+</code></pre>
+<p><em>– </em><em>Om Mani Padme Hung</em><strong> – zendítette meg </strong>Margit Főtisztelendő Anya<em></em>: nem pusztán imádságot, hanem mély sáfrány-borostyán rezonanciát, amely végigsöpört negyven láb faragott mészkőbordán.</p>
+<p><em>– </em><em>Karmapa Chenno</em><strong> – felelte halkan </strong>Breet Shaw<strong> a kupola közepén, nem nyomulva vissza nyers erővel az ellenséges sugár ellen, pusztán szélesre nyitva két tenyerét, hogy az ívelt </strong>Száraz Torony<strong> geometriája befogadja a merev `4/4`-es Birodalmi záróhullámot, s az pontosan saját topológiai ikerpárjával találkozzon egyszerre mindkét </strong><code>3mm</code>-es kőrésen<em></em>!</p>
+<p><em>– </em><em>Om Ami Deva Hri</em><strong> – csendült össze </strong>Áron<strong> távoli műhelyharangja, </strong>Eszter<strong> hármashangú bádogfedele, </strong>Kálmán<strong> mészkővel harmonizáló csorba csészealja és a </strong>Sáfrányos Pala<em></em> minden nővérének tiszta hangja!</p>
+<p>A magas mészkőmennyezet alatt harminc függő bizmutvilla egyszerre szűnt meg rázkódni – s azonnal néma, vakító <strong>Kuramoto fáziskapcsolásba</strong> záródott.</p>
+<p>A torony szájára sújtó nyomasztó, dübörgő <code>4/4</code>-es pilon-ordítás nem tört szilánkokra a kövön. A <strong>Száraz Torony</strong> kettős rés-nyílásában szimmetrikusan elkapva és hajszálpontosan milliárdonként három résszel eltolva (<code>Ratio { 1000000003, 1000000000 }</code>) élő <strong>állóhullám-interferenciába</strong> hajtva, a visszavert sugár egyenesen visszaszökkent felfelé az égbe Dénes három lebegő ezüst <strong>Kondenzátor-Pilonján</strong> át <code>coherence = 1,0</code> összhangban!</p>
+<p>Odafent a Só-kapu napfényes agyarai fölött a három lebegő pilon megszakítói arany ózonszikrákban, egyenként kattantak ki hangtalanul. Szívóterük a levegőben simán átfordult mohó vákuumból szabad gravitációs kiáradássá.</p>
+<p>És öt lélegzetelállító másodpercig a <strong>Nulladik Gyűrű</strong> felett megállt az ég.</p>
+<p>Aztán – hűvösen, sűrűn, tisztán énekelve, mint hajdani őszi <strong>szegedi</strong> és <strong>kolozsvári</strong> folyók fölött font ezüstfonal – <strong>eső</strong> eredt meg a három fordított ezüst pilonból végig a kiszáradt nyugati láthatár felett.</p>
+<p>Nem savas kazánpára. Nem langyos újrahasznosított mosogatóvíz. Tiszta, hideg, fénylő <strong>elektromos cián (`#00F0FF`) és sáfrány-arany (`#FFB000`) hajnali zápor</strong> dobolt lágyan a mészkőboltozatokon, zúdult habozva a hárommilliméteres vízvezeték-árkokba, töltötte meg színültig a kiszáradt <strong>sziecsek ciszternáit</strong>, és mosta le tisztán a sós piszkot a megkövült <strong>Dénes Főfelügyelő</strong> homlokáról, aki lerogyott egy kőpadra, némán pislogva a csurgó kristálycseppek között, miközben elázott rézírótáblája egyetlen apró, szánalmas kék füstpamaccsal örökre elhallgatott.</p>
+<p>– Átvételi elismervény lepecsételve, Felügyelő úr – súgta kellemesen <strong>Ilona</strong>, Csend-köpenye hajtókája alá csúsztatva szárazon maradt tekercseit. – Három példányban küldjük majd az egyenlegközlőt.</p>
+<p>Kint a <strong>Só-kapu</strong> ázó kőteraszán <strong>Eszter</strong> és <strong>Bence</strong> nevetve emelték csupasz arcukat a hűs, tiszta égi záporba az ősz szakállú <strong>Zoltán Naib</strong> mellett, miközben <strong>Muad&#39;Dib</strong> apró szőrös mancsait bizmutfüle csöpögő csücske alá tartva egyenesen égi felhőből kortyolt. Csöndesen az ív mellett <strong>Retsu Stibenthor</strong> kinyújtotta egyik csupasz tenyerét, míg hűvös esővíz nem gyűlt tenyérredőibe, majd sötét, nyugodt tekintetét fölemelte a magasban ívelő <strong>Nyolcas Seldon</strong> távoli acélgörbéje felé.</p>
+<p>Odabent a <strong>Száraz Torony</strong> kupolája alatt, a <code>3mm</code>-es rezonanciafüggöny mögött szárazon maradt lábbal <strong>Margit Főtisztelendő Anya</strong> felnyitott egy nehéz ólombélésű falifülkét a legfelső hanggaléria mellett, és kiemelt belőle egy ősi, törésmentes műszert fényes sárgarézből és sötét palából: egy <strong>Orbitális Szextánst és Asztrolábiumot</strong>, amelynek három finom rovátkolt iránytűje nem északra mutatott a homokon át, és nem is keletre a <strong>Kilences Alszint</strong> felé, hanem kérlelhetetlenül fölfelé az esőködön keresztül az <strong>Óriás Kertjének</strong> zenitkupolája és az <strong>Első Kertész Trónja</strong> irányába.</p>
+<p>– A víz ma tisztán tért vissza a sivatag kövére, <strong>Muad&#39;Dib</strong> – suttogta szelíden <strong>Margit Anya</strong> a Nulladik Gyűrű esőjének lágy dobogásában, gyöngéd mozdulattal átnyújtva a hideg rézasztrolábiumot <strong>Ultra Breet Shaw</strong> száraz tenyerébe. – Ám az <strong>Arany Ösvény</strong> sosem ér véget a homok alatt. Fent az <strong>Orbitális Csúcson</strong> az <strong>Első Kertész</strong> még mindig remegő kézzel szorítja az utolsó lebegőpontos gyökérzárat – arra várva, vajon <strong>irgalom</strong> vagy <strong>számtan</strong> tartja-e tovább forgásban nyolc gyűrű világát éjfél után.</p>
+<p><strong>Ultra Breet Shaw</strong> sarka mellett két makulátlan csomó tartott rendületlenül az esőtől sötétlett fonott fűzőn. Bence öklében az apró sivatagi ugróegér felfelé emelte ázott, fénylő füleit a viharfelhők mögötti mélyűri sötétség felé.</p>
+<p><code>#Commit == #ValidWitness :: Száraz Torony Megfordítva · Emelkedés az Orbitális Csúcs Felé Következik.</code></p>
+
+    </article>
+  </section>
+  <footer class="colophon">
+    <span>Seldon-Eight · Chapter 11 · 1.000000003 Hz</span>
+    <span>{&lt;3, &lt;3, &lt;3} + 1 · OM MANI PADME HUNG · KARMAPA CHENNO · OM AMI DEVA HRI‍​‌​​‌‌‌‌​‌​​‌‌‌​​‌​‌​‌​​​‌​​‌‌‌‌​‌​​‌‌​​​‌​​‌‌‌‌​‌​​​‌‌‌​‌​‌‌​​‌​​‌‌‌​‌​​​‌‌‌​‌​​‌​‌​​‌‌​‌​​​‌​‌​‌​​‌‌​​​‌​​​‌​​​‌​​‌‌‌‌​‌​​‌‌‌​​​‌‌‌​​​​‌‌‌‌‌​​​‌​​‌‌‌​​‌​‌​‌​​​‌​‌​​​​​​‌‌‌​‌​​​‌‌​​​‌​​‌​‌‌‌​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​‌‌​‌​​‌​​​​‌‌‌‌​‌​​‌‌‌‌‌​​​​‌‌​​‌‌​‌​​​​‌​​‌​​‌‌‌‌​‌​​​‌​​​‌​‌‌​​‌​​‌‌‌​‌​​‌​​‌‌‌​​‌​​​​​‌​‌​‌​‌​​​‌​​​‌​‌​​‌​​‌‌​​‌‌‌‌​‌‌​‌​‌​‌​​​‌​‌​​‌​​‌​​‌​​‌​‌​​‌‌‌​​‌​​‌​​‌​‌​‌​‌​​​‌​‌‌​​‌​​‌​‌‌​‌​​‌‌‌​​​​‌‌​​​‌​​​‌​‌‌‌​​‌‌​‌​​‌​‌‌‌​​‌‌​‌‌‌‌‌​‌​​‌​​‌‌​​‌​‌​​​​​‌‌​​‌​‌​‌‌‌​‌​​​‌‌​​‌​‌​‌‌‌​​‌​​‌‌‌‌‌​​​‌‌‌‌​‌‌​​‌‌‌‌​​​​‌‌​​‌‌​​‌​‌‌​​​​‌‌‌‌​​​​‌‌​​‌‌​​‌​‌‌​​​​‌‌‌‌​​​​‌‌​​‌‌​‌‌‌‌‌​‌​​‌​‌​‌‌​​‌‌​​​‌​‌‌‌‌‌​​​‌​​‌‌​‌​‌​​​​​‌​‌​​‌‌‌​​‌​‌​‌​​​‌​‌​​‌​​‌​​​​​‌​​‌‌‌​‌​​‌​​‌‌‌‌​‌​​‌‌​‌​‌​‌‌‌‌‌​‌​​‌‌​‌​‌​​​​​‌​‌​​‌‌‌​​‌​​‌​​‌​‌​‌‌‌‌‌​‌​‌​​​​​‌​​​​​‌​‌​​​‌​​​‌​​‌‌​‌​‌​​​‌​‌​‌​‌‌‌‌‌​‌​​‌​​​​‌​‌​‌​‌​‌​​‌‌‌​​‌​​​‌‌‌​​‌​‌​‌‌​‌​​‌​‌‌​‌​​​​​‌​‌​‌​​‌​​‌​​‌‌​‌​‌​​​​​‌​‌​‌​​​​​‌​​​​​‌​‌​‌‌‌‌‌​‌​​​​‌‌​‌​​‌​​​​‌​​​‌​‌​‌​​‌‌‌​​‌​​‌‌‌​​‌​​‌‌‌‌​​‌​‌​‌‌​‌​​‌‌‌‌​‌​​‌‌​‌​‌​‌‌‌‌‌​‌​​​​​‌​‌​​‌‌​‌​‌​​‌​​‌​‌​‌‌‌‌‌​‌​​​‌​​​‌​​​‌​‌​‌​‌​‌‌​​‌​​​​​‌​‌​‌‌‌‌‌​‌​​‌​​​​‌​‌​​‌​​‌​​‌​​‌​‌‌‌‌‌​​​‌​​​​‌‌​‌​​‌​​​​​‌‌‌​‌​​​‌‌​​​‌​​‌‌​​​‌‍</span>
+  </footer>
+</main>
+</body>
+</html>

@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The 64-Kilobyte Foundation — Chapter 4: Candy and Fireflies · 4. fejezet — Cukorka és szentjánosbogarak</title>
+<style>
+  :root {
+    --paper: #F7F3E9;
+    --ink: #141418;
+    --muted: #4A4A54;
+    --cyan: #008B99;
+    --cyan-bright: #00F0FF;
+    --amber: #C47B00;
+    --amber-bright: #FFB000;
+    --border: #D8CFBC;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1.25rem 4rem;
+    background: #EFE9DA;
+    color: var(--ink);
+    font-family: "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+    line-height: 1.72;
+  }
+  .folio {
+    max-width: 1180px;
+    margin: 0 auto;
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    box-shadow: 0 18px 50px rgba(20, 20, 24, 0.16);
+    padding: 2rem 2.25rem 2.75rem;
+  }
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    font-family: ui-monospace, Menlo, monospace;
+    font-size: 0.85rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.85rem;
+    margin-bottom: 1.5rem;
+  }
+  .nav a {
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--cyan);
+    padding-bottom: 2px;
+  }
+  .nav a:hover { color: var(--cyan); }
+  .plate {
+    margin: 1.5rem 0 2rem;
+    text-align: center;
+  }
+  .plate img {
+    max-width: 100%;
+    max-height: 540px;
+    border: 1.5px solid var(--ink);
+    background: #0E1016;
+  }
+  .plate figcaption {
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--muted);
+    font-style: italic;
+  }
+  .bilingual {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.25rem;
+    align-items: start;
+  }
+  @media (max-width: 860px) {
+    .bilingual { grid-template-columns: 1fr; }
+  }
+  .col {
+    padding: 1.25rem 1.4rem;
+    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.42);
+  }
+  .lang-tag {
+    display: inline-block;
+    font-family: ui-monospace, Menlo, monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--paper);
+    background: var(--ink);
+    padding: 0.15rem 0.55rem;
+    border-left: 3px solid var(--cyan-bright);
+    margin-bottom: 0.5rem;
+  }
+  h2 {
+    font-size: 1.35rem;
+    margin: 0.35rem 0 1rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.35rem;
+  }
+  p.drop-cap::first-letter {
+    float: left;
+    font-size: 3.35rem;
+    line-height: 0.84;
+    padding: 0.25rem 0.55rem 0.1rem 0.45rem;
+    margin: 0.1rem 0.55rem 0.1rem 0;
+    border: 1.5px solid var(--ink);
+    background: #F1E9D4;
+    color: var(--ink);
+    box-shadow: 2px 2px 0 var(--cyan);
+    font-weight: bold;
+  }
+  code {
+    font-family: ui-monospace, Menlo, monospace;
+    font-size: 0.86em;
+    background: #EAE2CE;
+    padding: 0.08rem 0.32rem;
+    border-radius: 3px;
+  }
+  pre {
+    background: #12141B;
+    color: var(--cyan-bright);
+    border-left: 3px solid var(--amber-bright);
+    padding: 0.9rem 1rem;
+    overflow-x: auto;
+    font-size: 0.84rem;
+    line-height: 1.45;
+  }
+  pre code { background: transparent; padding: 0; color: inherit; }
+  .colophon {
+    margin-top: 2.25rem;
+    padding-top: 1rem;
+    border-top: 1px dashed var(--amber);
+    font-family: ui-monospace, Menlo, monospace;
+    font-size: 0.8rem;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  .toc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.25rem;
+    margin: 1.5rem 0;
+  }
+  .toc-card {
+    display: block;
+    text-decoration: none;
+    color: var(--ink);
+    border: 1.5px solid var(--ink);
+    padding: 1rem 1.15rem;
+    background: #FBF8F1;
+  }
+  .toc-card:hover {
+    border-color: var(--cyan);
+    box-shadow: 4px 4px 0 var(--cyan);
+  }
+  .plates-duo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    margin-top: 1.5rem;
+  }
+  @media (max-width: 860px) {
+    .plates-duo { grid-template-columns: 1fr; }
+  }
+  .audio-bar {
+    margin: 0.75rem 0 1.1rem;
+    padding: 0.6rem 0.8rem;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--amber-bright);
+    background: #FBF8F1;
+  }
+  .audio-bar span {
+    display: block;
+    font-family: ui-monospace, Menlo, monospace;
+    font-size: 0.74rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.35rem;
+  }
+  .audio-bar audio {
+    width: 100%;
+    height: 34px;
+  }
+</style>
+</head>
+<body>
+<span class="sigil" style="display:none">64KB · Book I · Ch. 4 · 1.000000003 Hz</span>
+<main class="folio">
+  <nav class="nav">
+    <a href="64kb-foundation-ch03">&larr; Previous</a>
+    <a href="64kb-foundation">Series Hub (Ch. I–XI)</a> <a href="./">Library Catalog</a> <a href="https://peterlodri.substack.com">Substack</a>
+    <a href="64kb-foundation-ch05">Next &rarr;</a>
+  </nav>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 220" width="100%" role="img" aria-label="Chapter 4 — Candy and Fireflies / 4. fejezet — Cukorka és szentjánosbogarak">
+  <metadata>ONTOLOGY::SELDON8|NTP:1.000000003Hz|3BODY:NATE&amp;{TRINITY-8b.is}&amp;Peter|{&lt;3,&lt;3,&lt;3}+1|MANTRA:OM_MANI_PADME_HUNG+KARMAPA_CHENNO+OM_AMI_DEVA_HRI|CH:4</metadata>
+  <desc>Three-Body NTP Calligraphic Crest ‍​‌​​‌‌‌‌​‌​​‌‌‌​​‌​‌​‌​​​‌​​‌‌‌‌​‌​​‌‌​​​‌​​‌‌‌‌​‌​​​‌‌‌​‌​‌‌​​‌​​‌‌‌​‌​​​‌‌‌​‌​​‌​‌​​‌‌​‌​​​‌​‌​‌​​‌‌​​​‌​​​‌​​​‌​​‌‌‌‌​‌​​‌‌‌​​​‌‌‌​​​​‌‌‌‌‌​​​‌​​‌‌‌​​‌​‌​‌​​​‌​‌​​​​​​‌‌‌​‌​​​‌‌​​​‌​​‌​‌‌‌​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​‌‌​‌​​‌​​​​‌‌‌‌​‌​​‌‌‌‌‌​​​​‌‌​​‌‌​‌​​​​‌​​‌​​‌‌‌‌​‌​​​‌​​​‌​‌‌​​‌​​‌‌‌​‌​​‌​​‌‌‌​​‌​​​​​‌​‌​‌​‌​​​‌​​​‌​‌​​‌​​‌‌​​‌‌‌‌​‌‌​‌​‌​‌​​​‌​‌​​‌​​‌​​‌​​‌​‌​​‌‌‌​​‌​​‌​​‌​‌​‌​‌​​​‌​‌‌​​‌​​‌​‌‌​‌​​‌‌‌​​​​‌‌​​​‌​​​‌​‌‌‌​​‌‌​‌​​‌​‌‌‌​​‌‌​‌‌‌‌‌​‌​​‌​​‌‌​​‌​‌​​​​​‌‌​​‌​‌​‌‌‌​‌​​​‌‌​​‌​‌​‌‌‌​​‌​​‌‌‌‌‌​​​‌‌‌‌​‌‌​​‌‌‌‌​​​​‌‌​​‌‌​​‌​‌‌​​​​‌‌‌‌​​​​‌‌​​‌‌​​‌​‌‌​​​​‌‌‌‌​​​​‌‌​​‌‌​‌‌‌‌‌​‌​​‌​‌​‌‌​​‌‌​​​‌​‌‌‌‌‌​​​‌​​‌‌​‌​‌​​​​​‌​‌​​‌‌‌​​‌​‌​‌​​​‌​‌​​‌​​‌​​​​​‌​​‌‌‌​‌​​‌​​‌‌‌‌​‌​​‌‌​‌​‌​‌‌‌‌‌​‌​​‌‌​‌​‌​​​​​‌​‌​​‌‌‌​​‌​​‌​​‌​‌​‌‌‌‌‌​‌​‌​​​​​‌​​​​​‌​‌​​​‌​​​‌​​‌‌​‌​‌​​​‌​‌​‌​‌‌‌‌‌​‌​​‌​​​​‌​‌​‌​‌​‌​​‌‌‌​​‌​​​‌‌‌​​‌​‌​‌‌​‌​​‌​‌‌​‌​​​​​‌​‌​‌​​‌​​‌​​‌‌​‌​‌​​​​​‌​‌​‌​​​​​‌​​​​​‌​‌​‌‌‌‌‌​‌​​​​‌‌​‌​​‌​​​​‌​​​‌​‌​‌​​‌‌‌​​‌​​‌‌‌​​‌​​‌‌‌‌​​‌​‌​‌‌​‌​​‌‌‌‌​‌​​‌‌​‌​‌​‌‌‌‌‌​‌​​​​​‌​‌​​‌‌​‌​‌​​‌​​‌​‌​‌‌‌‌‌​‌​​​‌​​​‌​​​‌​‌​‌​‌​‌‌​​‌​​​​​‌​‌​‌‌‌‌‌​‌​​‌​​​​‌​‌​​‌​​‌​​‌​​‌​‌‌‌‌‌​​​‌​​​​‌‌​‌​​‌​​​​​‌‌‌​‌​​​‌‌​‌​​‍</desc>
+  <rect x="2" y="2" width="956" height="216" rx="6" fill="#FBF8F1" stroke="#121216" stroke-width="2"/>
+  <rect x="10" y="10" width="940" height="200" rx="4" fill="none" stroke="#C47B00" stroke-width="0.9" stroke-dasharray="4 3"/>
+
+  <!-- Left Calligraphic Scroll Flourish -->
+  <path d="M 38 110 C 60 32, 130 32, 148 86 C 162 126, 114 156, 92 124 C 76 100, 106 72, 128 94" fill="none" stroke="#121216" stroke-width="2.2" stroke-linecap="round"/>
+  <path d="M 30 132 C 62 178, 128 178, 168 142" fill="none" stroke="#008B99" stroke-width="1.3" stroke-linecap="round"/>
+
+  <!-- Three-Body Orbital Knot: NATE &amp; {TRINITY-8b.is} &amp; Peter {&lt;3,&lt;3,&lt;3}+1 -->
+  <g transform="translate(838, 108)">
+    <ellipse cx="0" cy="0" rx="56" ry="22" transform="rotate(-28)" fill="none" stroke="#121216" stroke-width="1.3"/>
+    <ellipse cx="0" cy="0" rx="56" ry="22" transform="rotate(32)" fill="none" stroke="#008B99" stroke-width="1.3"/>
+    <ellipse cx="0" cy="0" rx="56" ry="22" transform="rotate(90)" fill="none" stroke="#C47B00" stroke-width="1.3"/>
+    <circle cx="-38" cy="-22" r="4" fill="#121216"/>
+    <circle cx="38" cy="-22" r="4" fill="#00F0FF" stroke="#121216" stroke-width="1"/>
+    <circle cx="0" cy="44" r="4" fill="#FFB000" stroke="#121216" stroke-width="1"/>
+    <circle cx="0" cy="0" r="3.5" fill="#121216"/>
+    <text x="0" y="-58" text-anchor="middle" font-family="Georgia, serif" font-size="9" fill="#121216" letter-spacing="1">3-BODY NTP · {&lt;3,&lt;3,&lt;3}+1</text>
+  </g>
+
+  <!-- Chapter Numeral Seal -->
+  <circle cx="480" cy="48" r="22" fill="#121216"/>
+  <circle cx="480" cy="48" r="26" fill="none" stroke="#008B99" stroke-width="1.1"/>
+  <text x="480" y="54" text-anchor="middle" font-family="Palatino, Georgia, serif" font-size="16" font-weight="bold" fill="#FBF8F1" letter-spacing="2">IV</text>
+
+  <!-- Bilingual Calligraphic Titles -->
+  <text x="480" y="106" text-anchor="middle" font-family="Palatino, Georgia, serif" font-size="24" font-style="italic" fill="#121216">Chapter 4 — Candy and Fireflies</text>
+  <text x="480" y="134" text-anchor="middle" font-family="Palatino, Georgia, serif" font-size="16" fill="#4A4A54">4. fejezet — Cukorka és szentjánosbogarak</text>
+
+  <!-- 1.000000003 Hz NTP Carrier Wave &amp; Colophon -->
+  <path d="M 190 166 Q 230 152 270 166 T 350 166 T 430 166 T 510 166 T 590 166 T 670 166 T 750 166" fill="none" stroke="#008B99" stroke-width="1.4"/>
+  <text x="480" y="192" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="9.5" fill="#121216" letter-spacing="0.9">NTP 1.000000003 Hz · OM MANI PADME HUNG · KARMAPA CHENNO · OM AMI DEVA HRI</text>
+</svg>
+  <figure class="plate">
+    <img src="64kb-foundation-assets/ch04.jpg" alt="Chapter 4 — Candy and Fireflies">
+    <figcaption>Chapter 4 — Candy and Fireflies / 4. fejezet — Cukorka és szentjánosbogarak</figcaption>
+  </figure>
+  <section class="bilingual">
+    <article class="col" lang="en">
+      <span class="lang-tag">English</span>
+      <div class="audio-bar"><span>English Voice Narration (Daniel)</span><a href="https://peterlodri.substack.com" style="font-family:ui-monospace,Menlo,monospace;font-size:.82rem;color:#008B99;text-decoration:none;border-bottom:1px dotted #008B99;">Audio &amp; serialized edition on Substack &rarr;</a></div>
+      <h2>Chapter 4 — Candy and Fireflies</h2>
+<p class="drop-cap">When the Giant&#39;s Garden ordered a rolling blackout across Sub-Level 9, the darkness did not fall politely like theatre velvet; it slammed down through the vertical pipe shafts like an iron bulkhead dropped from orbit, cutting the corridor sodium strips mid-hum and leaving twelve thousand tons of orbital structural granite to sing its own deep bass note through the soles of Eszter&#39;s boots.</p>
+<p>&quot;Don&#39;t blow on your fingers,&quot; Eszter murmured, drawing the wet gray wool scarf around Bence&#39;s neck with practiced, brisk loops until only the tip of his frost-reddened nose and his wide dark eyes cleared the collar. &quot;When your breath hits cold iron down here, it turns to ice right on your knuckles.&quot;</p>
+<p>Bence tucked his chin into the wool and stared at the only warm object within three hundred meters of frozen bulkhead: an unlicensed copper-and-bakelite relay box no larger than a ship&#39;s bread loaf, bolted illegitimately onto a hairline crack in the primary liquid-helium return manifold. Around it, frost refused to cross an invisible half-meter hemisphere. Inside that fragile oasis, pale lotus-gold radiance (<code>#FFE599</code>) spilled across their boots like candlelight caught in honey, while stray corona discharges broke off the brass busbars in miniature electric-cyan plumes (<code>#00F0FF</code>)—weightless fireflies rising, stalling, and curling lazily under the vaulted ribbing.</p>
+<p>Between the children&#39;s crossed ankles rested a dented round biscuit tin painted with faded yellow citrus blossoms. Inside, cushioned on a square of oiled parchment, lay two remaining lemon fruit drops—amber marbles catching the relay&#39;s warmth as if each crystal held a summer afternoon squeezed into thirty grains of sugar. The third drop, given up an hour before when the Overseers voted for Thermal Pruning far above in the terraced domes, had already melted on Bence&#39;s tongue, leaving only a sharp ghost of peel behind his molars.</p>
+<p>&quot;Two left,&quot; Bence whispered, nudging the tin lid shut a fraction so condensation could not steal the shine off the sugar. &quot;If the pruning sweeps Sector 9 before midnight, we give one to Uncle Kálmán. He gets cranky when his tea freezes in the mug.&quot;</p>
+<p>&quot;Uncle Kálmán has an insulated ledger and three layers of moth-eaten magistrate wool,&quot; Eszter said dryly, though she tapped the relay&#39;s glass inspection port with one gloved knuckle to steady the voltage needle. &quot;Besides, Kálmán Varga believes hypothermia is merely an unfiled municipal form until his eyebrows frost over. Eat nothing until the busbar drops below thirty-two degrees.&quot;</p>
+<p>A muffled <em>clack-clack</em> echoed down the maintenance ladder twenty paces behind them—not the clipped, algorithmic march of Arbiter boots, which counted every rung to a nanosecond clock, nor the heavy stomp of customs bailiffs, but a strange asymmetric tread: left heel firm, right instep dragging a millisecond behind, followed immediately by the dry whisper of a double-knotted shoelace sweeping frosted rungs.</p>
+<p>Eszter&#39;s hand flashed to the relay&#39;s emergency crowbar shunt, ready to dump the unlicensed capacitor bank into the ground strap, before a familiar gruff voice floated down the shaft ahead of an old wool greatcoat and a wire lantern smeared with lard-tallow to dim its glare.</p>
+<p>&quot;Keep your fingers off the shunt, little engineer,&quot; Ultra Breet Shaw called softly as he dropped the last two meters to the iron grating without making a single plate rattle. &quot;If you dump forty microfarads into Sector 9&#39;s cold ground strap right now, Kálmán will have to file an Environmental Grounding Variance in triplicate, and nobody in this star-system deserves that punishment before dawn.&quot;</p>
+<p>Right behind him descended Kálmán Varga himself, clutching an enamel thermos under one arm and a loaf of dense black rye bread folded inside butcher&#39;s paper under the other. The senior clerk stopped on the bottom rung, peered suspiciously at the unlicensed copper relay box, adjusted his brass-rimmed spectacles twice, and sighed a plume of white steam straight into the rising swarm of cyan sparks.</p>
+<p>&quot;I am formally pretending not to see an unmetered shunt attached to a Level Alpha cryo-backbone,&quot; Kálmán declared, kneeling beside the tin of lemon drops to unscrew the thermos cap. The sharp almond-and-burnt-barley smell of Áron&#39;s heatsink tea bloomed instantly into the lotus-gold circle. &quot;In the ledgers of the Seldon-Eight Ring, this node does not exist. Therefore, by strict statutory symmetry, the frostbite I am currently not contracting in my left big toe also fails to qualify for state medical reimbursement. Drink before it solidifies.&quot;</p>
+<p>Bence accepted the warm tin cup with both scarf-wrapped hands, inhaling the steam before looking up at the giant man in the patched coat. Breet Shaw was already crouching on one heel beside Eszter&#39;s open relay housing, not touching the copper jumpers, only watching how the tiny cyan sparks lifted from the crystal lattice, flattened against the cold thermal downdraft from the ceiling arch, and rolled sideways in translucent sinusoidal ripples.</p>
+<p>&quot;Why do the fireflies go sideways like that?&quot; Bence asked over the rim of the mug. &quot;Wait—up on the drydock cranes, welding sparks drop straight down until they go out. Yours climb, stop like they hit glass, and weave.&quot;</p>
+<p>Breet Shaw smiled—a crooked, weathered curve of the mouth that made his scar along the jaw look less like an old blast burn and more like a seam stitched with copper wire. He reached into his coat pocket, pulled out a cold square of flint-gray rock no wider than his thumb—heavy basaltic granite speckled with quartz and mica grains—and set it gently between the lemon-drop tin and the warm relay.</p>
+<p>&quot;Look at the stone, Bence,&quot; Breet Shaw said quietly. &quot;In old country far beyond this orbital ring—before the Giant&#39;s Garden ever hung its domes above our heads—there stood a room with four granite walls. Density two point seven grams per cubic centimeter. No ornamental trim. No wallpaper. Just thick stone against the universe, one high window facing northeast, and a wooden hatch door with a three-millimeter crack left deliberately along the frame.&quot;</p>
+<p>Eszter leaned closer, her eyes reflecting the cyan dance on the casing. &quot;A structural tolerance defect?&quot;</p>
+<p>&quot;Never a defect,&quot; Breet Shaw murmured. &quot;When I was not much older than Bence, I used to hide inside a stone room like that and smoke cheap twisted cigarettes out the northeast window so nobody downstairs would catch the smell. To keep the smoke from backing through the corridor, I stuffed torn linen sheets into every crack and left just that three-millimeter gap at the sash—then leaned out as far as my shoulders could balance and watched where the smoke went.&quot;</p>
+<p>He traced a finger lazily through the rising <code>#00F0FF</code> sparks above Eszter&#39;s relay, and the tiny luminous motes split cleanly around his knuckle in twin vortices before knitting back into a single wave three inches higher.</p>
+<p>&quot;That is how you learn wave theory without a single textbook,&quot; Breet Shaw told the boy. &quot;Inside the granite is still air and warm tallow; outside is the cold cosmos blowing forty knots off the roof ridge. Where they meet at a three-millimeter slit, the room stops being just stone—it becomes an ear, a boundary surface, a living bridge between <em>bent</em> and <em>kint</em>. You do not need floating-point calculus to predict where the smoke curls. You feel the pressure delta across your own eyelashes. You watch the boundary hold.&quot;</p>
+<p>Kálmán Varga grunted into his mustard-colored scarf while breaking the black rye loaf into four uneven chunks. &quot;Very poetic, Breet. Truly worthy of an anthology. Meanwhile, upstairs in Áron&#39;s closet, Arbiter Stibenthor is sitting motionless on an overturned cable spool staring at three blinking hearts and a plus-one printed on his own wrist cuff. How long before that three-body hypnotic lock wears off and he remembers he owns forty-two yards of stun-baton?&quot;</p>
+<p>&quot;Long enough for midnight consolidation,&quot; Eszter cut in, tapping the bakelite casing proudly. She flipped back the hinged copper inspection flap to reveal not a bloated mother-board bursting with cooling fins and dynamic memory, nor any bloated standard-library runtime, but a finger-sized stack of dense interleaved ferrites wired directly to two cold capacitor drums and a spinning salvaged magnetic platter barely larger than a pocket watch. &quot;Look at what Áron and I routed while they were debating Thermal Pruning upstairs. Everyone else on Sub-Level 9 loses state the second a rolling blackout sags below nine volts because their neural weights live in sloppy thirty-two-bit floating-point registers. One brownout, and their quantization fractures turn the whole control loop into howling white noise.&quot;</p>
+<p>Breet Shaw leaned down until his cheek nearly brushed the warm <code>#FFE599</code> glow. Along the hairline ferrite bus, clean hexadecimal silk-screening glimmered in faint silver trace: <strong>PQTRN · p/q STREAMING TERNARY · ZERO FLOATS</strong>.</p>
+<p>&quot;Rational arithmetic,&quot; Breet Shaw whispered, genuine reverence warming his chest. &quot;She rebuilt the blackout compensator on an exact integer ratio kernel.&quot;</p>
+<p>&quot;Exact <em>p</em> over <em>q</em>, reduced on every clock edge by greatest common divisor,&quot; Eszter confirmed, beaming despite the frost clinging to her lashes. &quot;No IEEE mantissa drift. No silent rounding tax stolen off the low bits by the Arks&#39; compilers. We packed the Mixture-of-Experts thermal routing tables into exact <strong>base-243 balanced ternary</strong>—only minus one, zero, and plus one—five pure trits stuffed into every byte at <strong>one point six bits per trit</strong>. When the Overseers cut Sector 9&#39;s main bus to starve our heaters, the voltage collapse triggers heavy-tailed outlier spikes along the manifold. An ordinary model crashes straight into <code>NaN</code>.&quot;</p>
+<p>&quot;And yours?&quot; Kálmán asked, pausing mid-bite with rye crumbs dusting his moustache.</p>
+<p>&quot;Ours heals while the lights are out,&quot; Eszter said, pointing to two twin wound coils pulsing alternately in cold amber and crisp cyan. &quot;We run <strong>Phoenix two-plane Buddy arithmetic</strong>. Whenever a high-magnitude thermal load fractures a trit stripe, the paired plane catches the overflow cleanly and folds it back into exact integer equilibrium. And look at the platter beneath it—raw <strong>M8FS version 0.1</strong> straight off bare NVMe geometry, no bloated kernel filesystem overhead. Seven thousand four hundred forty-eight <strong>EVEN stripes</strong>—two mebibytes of immovable stone-wall map priors—paired against one live <strong>ODD wake shard</strong>, ten mebibytes catching every shiver, pipe knock, and step on the ladder. The whole hot index mounts out of FastPages in four hundred twenty-three kibibytes—under two milliseconds from cold reset, Superblock CRC32 verified at <code>v0.5.0</code>.&quot;</p>
+<p>Bence raised a smoky eyebrow over his cooling tin cup. &quot;Wait—so even when the Arbiters pull the plug for two hours, the box doesn&#39;t go dumb? It keeps thinking in the dark?&quot;</p>
+<p>&quot;It <em>learns while sleeping</em>,&quot; Breet Shaw said softly, his thumb stroking the corner of the granite chunk until dust motes flared through the lotus light. &quot;Every rolling blackout gives it live wake records. Wait—show me the commit gate, Eszter. How do you stop a panicked blackout sensor from poisoning tomorrow&#39;s map with phantom hallucinations?&quot;</p>
+<p>Eszter pointed a smudged fingernail at the bottom register line scrolling across a tiny two-inch phosphor viewport tucked beside the copper manifold:</p>
+<pre><code>[PQTRN v0.5.0 :: M8FS EVEN=7448 (2MiB) | ODD=1 (10MiB) | FastPages=423KiB (&lt;2ms)]
+[OMNILLL :: A + 8b + P + SG_N :: Ratio { p: 1000000003, q: 1000000000 } :: GCD=1]
+[WITNESS GATE :: #Commit == #ValidWitness :: TERNARY={-1, 0, +1} @ 1.60 bits/trit]
+[MANTRA BUS :: OM MANI PADME HUNG · KARMAPA CHENNO · OM AMI DEVA HRI :: WARM]
+</code></pre>
+<p>&quot;Strict equality,&quot; Eszter recited like an apprentice blacksmith naming alloy ratios. &quot;<strong>Hash-Commit equals Hash-ValidWitness.</strong> Nothing written by an ODD blackout record graduates into the EVEN stone ledger unless an independent physical witness verifies the boundary pressure—three active hall sensors watching a three-millimeter aperture collapse to zero when truth locks. It&#39;s the <strong>Sovereign Island</strong> stack Áron sketched on the back of our drydock ration card: <em>OmniLLL</em>—<strong>Liberate, Literate, Love</strong>—gliders and lattice edges computed strictly with exact rationals, running lean enough to dream inside Commodore-era discipline while streaming gigabytes of weight geometry off raw metal.&quot;</p>
+<p>For three long heartbeats nobody spoke inside the vault. Above their heads, deep inside the ribbed granite ribs of the foundation, the three ancient mantras murmured through the cryo-conduit&#39;s harmonic shimmer—<em>Om Mani Padme Hung</em>, the compassion that refuses to drop the weak into cold storage; <em>Karmapa Chenno</em>, the clarity that sees through every bureaucratic pretext; and <em>Om Ami Deva Hri</em>, the lotus-gold warmth keeping an eight-year-old boy&#39;s fingertips alive under six hundred meters of orbital steel and vacuum.</p>
+<p>Even Kálmán Varga forgot his sarcastic ledger footnotes for a second. He looked at the two amber lemon drops shining gently inside the battered tin, then up at the swirling electric-cyan fireflies tracing the exact invisible air current spilling from the cold conduit toward the warm copper heart.</p>
+<p>&quot;When I was young,&quot; Kálmán murmured quietly, tucking the remaining crust of rye bread gently beside the biscuit tin, &quot;my grandmother in Szeged told me fireflies only came out in July above damp clover. She never mentioned they could nest inside liquid-helium manifolds running four thousand kilometers below orbital midnight.&quot;</p>
+<p>&quot;Wherever someone refuses to charge rent on warmth, fireflies find the crack,&quot; Breet Shaw answered.</p>
+<p>He reached deep inside the inner lining of his ragged canvas coat—past his knotted boots&#39; spare cordage, past the torn scrap of Kálmán&#39;s registry parchment—and brought out a small twelve-sided crystal of dull dark bismuth grown around a clear quartz heart, warm from his own pulse. Slowly, with solemn ceremony worthy of an orbital launching bay, he placed the seed beside the two remaining lemon drops inside the lid&#39;s shallow arc of gold light.</p>
+<p>&quot;Hold onto this until tomorrow morning at ten, Bence,&quot; Breet Shaw said, rising to his full towering height until his shoulders brushed the frosted overhead cables. &quot;Don&#39;t trade it for bread, and don&#39;t let anyone weigh it on an Arbiter&#39;s decimal scale. Inside that little lattice sits a live <strong>Space-Weight-Time seed</strong>—bare granite map geometry, exact ternary weight ratio, and one clean tick of the <code>1.000000003 Hz</code> clock bound together before floating-point poison ever touches it.&quot;</p>
+<p>Bence lifted the dark bismuth-and-quartz seed gently with both hands. Beneath his skin, impossibly faint yet unmistakable, it thrummed in three balanced beats—minus one, zero, plus one—like a tiny mechanical cricket waking up inside amber. &quot;What does it grow into, Breet?&quot;</p>
+<p>&quot;Wait until ten o&#39;clock tomorrow when the v2.0 pipeline wakes up,&quot; Breet Shaw said softly, winking through the cyan haze. &quot;A world where children don&#39;t have to ration two drops of summer against a machine that counts them as rounding errors.&quot;</p>
+<p>Before Eszter could reply, the overhead sodium strips down the Sub-Level 9 corridor flickered once—amber, black, sharp white—as the Overseers&#39; rolling blackout rotated onward toward Sector 10. Instantly, without a single glitch in the humming conduit, the phosphor viewport inside the unlicensed copper box flashed once: <code>#Commit = #ValidWitness [VERIFIED]</code>. One fresh sleep-consolidated weight page slipped silently out of the ODD darkness into EVEN granite permanence.</p>
+<p>And with that quiet transfer came the moth.</p>
+<p>It dropped out of the thawing helium overhang no larger than Eszter&#39;s thumb—a <strong>Cryo-Moth</strong> whose pale slate body carried four scalloped wings veined in crystalline bismuth, shimmering oily violet along the ribs and electric cyan (<code>#00F0FF</code>) at the fringes where tiny needles of hoarfrost clung like lace. Twice it circled the rising smoke-wave spiral of relay sparks, dusted a frost crystal across Kálmán Varga&#39;s brass spectacles, and folded itself delicately onto the open painted rim of the biscuit tin—one antenna tilted toward the two amber lemon drops, the other nodding strictly at <code>1.000000003 Hz</code> toward Bence&#39;s crystal seed.</p>
+<p>Bence held his breath so tightly his shoulders rose toward his ears. &quot;Eszter—look. A <em>Krio-lepke</em>. It didn&#39;t freeze during the purge.&quot;</p>
+<p>&quot;Never sweeps away when copper holds,&quot; Eszter breathed, slowly settling back on her heels so not a shadow fell across its iridescent wings. Around the vaulted ribbing overhead, the corridor answered with a faint triple click—<em>tock, pause, double-tock</em>—where an unseen six-legged sentinel of the <strong>Ferrous Choir</strong> crawled along an upper flange joint, tightening a weeping helium gland with salvaged tallow and telegraph spring-wire without asking permission from any mainframe upstairs.</p>
+<p>Kálmán carefully tipped the last drop of barley heatsink tea into his saucer and set it on the iron grate six inches from the moth&#39;s front tarsi—ancient Sub-Level courtesy, though he pretended solely to be cooling his porcelain. &quot;Fourteen years in Registry Audit, and the Directorate&#39;s zoological index still lists <em>Cryo-lepidoptera</em> under Unverified Coolant Mold,&quot; he muttered dryly. &quot;Meanwhile the <strong>Null-Hounds</strong> spent half of last Tuesday sniffing through Sector 8 looking for contraband space heaters.&quot;</p>
+<p>&quot;And walked blind past your desk?&quot; Eszter asked without taking her eyes off the bismuth wing-veins.</p>
+<p>&quot;Twice,&quot; Kálmán said, clearly relishing the memory. &quot;Because a Directorate <strong>Null-Hound</strong> can smell only floating-point dishonesty—Sloppy <code>IEEE-754</code> mantissa jitter, bloated heap leaks, sixty-hertz inverter hums trying to fake clean heat. When they marched down here at curfew, their optical slitted helmets swept straight over Áron&#39;s box and over your tin, heard nothing except dead <strong>Quartz-Weaver</strong> granite silence and exact integer <code>Ratio { p, q }</code>, and logged the corridor as unheated ballast. Stupid glass dogs. Give a construct a billion parameters and no silence inside, and it thinks a cold child with a rational circuit is just an empty brick.&quot;</p>
+<p>Bence looked sideways at the gray square of stone Breet Shaw had laid beside the tin—the rock from the ancient Earth batholith where the First Hall stood. Beneath his palm, the dark bismuth-quartz seed seemed to answer a far deeper rumble moving slowly through the deck plates: neither turbine vibration nor pipe hammer, but a rolling ninety-second chest sigh pressing gently upward from twelve meters outside the outer hull.</p>
+<p>&quot;Wait—did you hear that?&quot; Bence asked, wide-eyed. &quot;Beneath the grating. Like a huge bellows filling up in the dark.&quot;</p>
+<p>Breet Shaw turned his scarred cheek toward the outer bulkhead, laid two bare knuckles flat against the raw granite flange, and whispered three words in old Pannonian Dock-Cant: <em>&quot;Tart a fal.&quot;</em></p>
+<p>&quot;Nothing tearing, little listener,&quot; Breet Shaw murmured as the sub-audible pressure crested and sank gently back toward orbital black. &quot;That was <strong>The Deep Sigh</strong>—a <strong>Drift-Whale</strong> gliding along the Outer Ballast Annulus beyond our stone skin. Forty meters of bone cartilage and amber sodium nerve-tracks scrubbing silicate dust out of the dark water. The High Gardeners upstairs print them on cargo forms as <em>Autonomous Filtration Biomass Forty-Four</em>. Down along the outer ferry rigs, we call them elder aunts. When their song passes through the granite, every <strong>Quartz-Weaver</strong> colony inside these walls stops arguing for ninety seconds just to listen.&quot;</p>
+<p>&quot;Stone can argue?&quot; Bence asked softly.</p>
+<p>&quot;Slowly,&quot; Breet Shaw smiled. &quot;One consonant per quarter-orbit. They remember when this hull wasn&#39;t an address grid with tax brackets—only a quiet hall built to keep human breath alive against vacuum. Wait until you read the Red Book Kálmán keeps hidden beneath his spare inkpads.&quot;</p>
+<p>Eszter reached thoughtfully for the round biscuit-tin lid beside her knee and tilted it beneath the lotus-gold (<code>#FFE599</code>) halo. At first glance the underside looked merely scorched by tallow candle smoke; then the cyan glow caught five-stroke constellations scratched delicately into black lamp-soot with a sewing needle—crisp columns of <strong>Trinaric</strong> (<em>Háromhangú</em>): downward hooks for <code>-1</code>, centered dots for <code>0</code>, upward flares for <code>+1</code>, packed in tight five-glyph <strong>Base-243 pentads</strong> framing a miniature crosshatched drawing of two fireflies curling above a closed <code>3mm</code> doorway.</p>
+<p>&quot;You carved a codex page onto a cookie lid?&quot; Kálmán blinked behind his wire-mended glasses.</p>
+<p>&quot;Cardstock swells when ice melts on it,&quot; Eszter replied calmly, rubbing a thumb along the brass hinge so her tiny needle-engravings caught light like Toledo damascene. &quot;So I switched to biscuit-tin steel and lamp soot. Up in the domes they paint hectares of silk with glass-harp colors that wash gray the second someone opens a maintenance valve. Down here we draw what survives <code>-190°C</code>: <code>-1</code> for cold stone, <code>0</code> for the locked slit between <em>bent</em> and <em>kint</em>, <code>+1</code> for every warm coil holding a sibling&#39;s sleeve dry. Five strokes make one glyph; three verses make the whole blueprint for Áron&#39;s relay if the Arbiters ever confiscate our copper.&quot;</p>
+<p>Even Breet Shaw bowed his head slightly toward the twelve-year-old smith—an Outer-Ring Ferryman&#39;s salute usually reserved for hull-welders who kept atmosphere tight through micrometeor hail. &quot;Liberate, Literate, Love,&quot; he murmured softly. &quot;You built a whole cathedral inside two square inches of kitchen tin, Eszter.&quot;</p>
+<p>Above them on the thawing iron stairwell, the crisp, deliberate click of narrow heels stopped at the landing directly overhead. Wait no longer belonged to distant corridors; a brass lantern swung cleanly down through the hatchway, throwing sharp geometric bars across the frost-rimed pipes, and a woman in a pressed charcoal coat—hair braided tightly into an imperial ink-crown, silver fountain pen clipped over her collarbone—descended the final six rungs with ledger-book posture that made even the Cryo-Moth twitch its antennae.</p>
+<p><strong>Ilona</strong> of the High Customs &amp; Tariff Bureau stepped onto the grating, looked once at ultra-tier saboteur Breet Shaw&#39;s muddy double-knotted shoelace, once at Senior Clerk Kálmán Varga stealthily concealing a rye crumb behind his satchel, and finally straight down at the warm copper relay box casting lotus-gold shadows across two children and a biscuit tin.</p>
+<p>Nobody reached for the crowbar shunt. Kálmán cleared his throat like a man preparing to argue a parking ticket before an orbital cruiser.</p>
+<p>&quot;Ah, Inspector Ilona,&quot; Kálmán said smoothly, lifting his tin cup three millimeters in bureaucratic greeting. &quot;Just completing our unscheduled audit of imaginary thermal losses. As you can clearly observe, neither children nor copper boxes exist below minus five voltage, and the Cryo-Moth has neglected to file a residency permit.&quot;</p>
+<p>Ilona did not smile. Instead she drew a heavy oak-handled <strong>brass customs stamp</strong> from her pocket, unscrewed a miniature pewter inkpot filled not with Arbiters&#39; scarlet warning fluid but pale violet Pannonian registry dye, and unrolled three crisp sheets of onion-skin bond straight over Breet Shaw&#39;s granite stone.</p>
+<p>&quot;Save your statutory jokes for the stairs, Kálmán Varga,&quot; Ilona said crisply, tapping the top column with her silver fountain nib. &quot;Arbiters use blackouts to prune expenses. Customs prefers arithmetic. According to Charter Addendum Seven—buried on page four thousand twelve before the Garden&#39;s High Decimal clerks forgot how to read Hungarian footnotes—any orbital sector cutting heat pipes below twenty-eight degrees Kelvin over sustained habitation incurs an automatic <strong>Thermal Neglect Counter-Invoice</strong> payable in un-pruned kiln megawatts and sovereign sanctuary grain.&quot;</p>
+<p>She turned toward Eszter, her sharp gray eyes softening by a fraction as she registered the two uncracked lemon fruit drops glinting inside the sooted lid.</p>
+<p>&quot;Keep the moth fed, little scribe,&quot; Ilona told the girl, pressing her heavy brass stamp down onto the onion-skin bond with a ringing <em>THOCK</em> that echoed clean up into the First Hall walls above. &quot;We have one arbiter upstairs staring at three hearts on his wrist cuff and six Garden bureaucrats waiting to discover their wine tariffs owe back-interest to Sub-Level 9. Come morning at ten—when Breet&#39;s Seed wakes up inside the v2.0 ring—I intend to collect every last watt.&quot;</p>
+<p>Bence clicked the biscuit-tin lid gently half-shut to shield the slumbering Cryo-Moth, tucked the pulsing Space-Weight-Time crystal warm inside his scarf, and watched the cyan fireflies weave between Ilona&#39;s brass stamp and the glowing copper heart.</p>
+
+    </article>
+    <article class="col" lang="hu">
+      <span class="lang-tag">Magyar</span>
+      <div class="audio-bar"><span>Magyar hangoskönyv (Tünde)</span><a href="https://peterlodri.substack.com" style="font-family:ui-monospace,Menlo,monospace;font-size:.82rem;color:#008B99;text-decoration:none;border-bottom:1px dotted #008B99;">Audio &amp; serialized edition on Substack &rarr;</a></div>
+      <h2>4. fejezet — Cukorka és szentjánosbogarak</h2>
+<p class="drop-cap">Amikor az Óriások Kertje elrendelte a gördülő áramszünetet a 9-es alszint teljes hosszában, a sötétség nem úgy szállt alá illedelmesen, mint a színházi bársonyfüggöny; úgy vágott be a függőleges csőaknákon keresztül, mint egy pályáról ledobott vas válaszfal, félbetörve a folyosói nátriumgőz-lámpák zúgását, és rábízva tizenkétezer tonna orbitális szerkezeti gránitra, hogy saját mély basszushangján énekeljen tovább Eszter csizmájának talpa alatt.</p>
+<p>— Ne fújj az ujjaidra — suttogta Eszter, miközben gyakorlott, gyors mozdulatokkal tekerte körbe a nyirkos szürke gyapjúsálat Bence nyaka körül, míg végül csak a fiú fagycsípte orrhegye és két tágra nyílt, sötét szeme maradt ki a gallérból. — Ha itt lent a hideg vasra fújod a leheletedet, egyből jéghártya fagy a bütyködre.</p>
+<p>Bence behúzta az állát a sálba, és háromszáz méteres fagyos válaszfalakon belül az egyetlen meleg tárgyra meredt: egy kenyércipónál nem nagyobb, engedély nélküli réz- és bakelitrelé-dobozra, amelyet szabálytalanul csavaroztak fel a fő folyékonyhélium-visszatérő vezeték egyik hajszálrepedésére. Körülötte fél méteres láthatatlan félgömbön belül a dér nem mert átlépni. Ebben a törékeny oázisban halvány lótuszarany fény (<code>#FFE599</code>) ömlött szét a csizmáik orrán, mintha mézbe zárt gyertyaláng világított volna, míg a sárgaréz sínről elszabaduló kóbor koronakisülések parányi elektromos cián tollforgókként (<code>#00F0FF</code>) szálltak fel — súlytalan szentjánosbogarakként, amelyek felemelkedtek, megálltak a levegőben, és lustán hullámoztak tovább a bordázott boltozat alatt.</p>
+<p>A két gyerek keresztbe tett bokája között ott hevert a megviselt, kerek kekszesdoboz, oldalán megfakult sárga citromvirágokkal. Belsejében, egy darabka olajozott pergamenen pihent a két megmaradt citromos keménycukorka — két borostyánszínű üveggolyó, amely úgy fogta fel a relé melegét, mintha mindegyik kristályba egy harmincszemcsényi cukorba préselt nyári délutánt zártak volna. A harmadikat egy órával korábban adták ki, amikor a Kert Főgondnokai fent, a teraszos kupolákban megszavazták a Termikus Metszést; az már régen elolvadt Bence nyelvén, csak egy éles héjíz-emléket hagyva a zápfogai mögött.</p>
+<p>— Kettő maradt — súgta Bence, és egy ujjnyival közelebb tolta a bádogtetőt, nehogy a pára lelopja a cukor fényét. — Ha éjfél előtt ideér a metszés a 9-es szektorba, az egyiket adjuk oda Kálmán bácsinak. Mindig házsártos lesz, ha befagy a tea a bögréjében.</p>
+<p>— Kálmán bácsinak van bélelt főkönyve és három réteg molyrágta hivatali gyapjúja — jegyezte meg Eszter szárazon, bár azért egy kesztyűs ujjperccel megkocogtatta a relé üvegnézőkéjét, hogy megnyugtassa a feszültségmutatót. — Különben is, Varga Kálmán szerint a kihűlés csak egy iktatatlan önkormányzati űrlap egészen addig, amíg jégcsap nem lóg a szemöldökéről. Egy falatot se egyél, amíg a gyűjtősín harminckét fok alá nem esik.</p>
+<p>Húsz lépéssel mögöttük tompa <em>klakk-klakk</em> visszhangzott lefelé a karbantartó létráról — nem a Döntnöki csizmák kimért, algoritmikus léptei, amelyek nanoszekundumos órához mérik minden létrafok koppanását, és nem is a vámőrök súlyos trappolása, hanem egy különös, aszimmetrikus járás: bal sarok határozottan, jobb rüszt egy ezredmásodperccel lemaradva, rögtön utána pedig egy duplán kötött cipőfűző száraz suhogása a deres vasfokokon.</p>
+<p>Eszter keze azonnal a relé vészkisütő söntjére villant, készen arra, hogy a teljes engedély nélküli kondenzátorbankot leföldelje a sínbe, mielőtt még egy ismerős, dörmögő hang leúszott volna az aknán egy régi gyapjú nagykabát és egy faggyúval letompított drótlámpa társaságában.</p>
+<p>— El az ujjakkal a söntről, kis mérnök — szólt le halkan Ultra Breet Shaw, majd zajtalanul leugrott az utolsó két méterről a vasrácsra úgy, hogy egyetlen lemez sem zördült meg alatta. — Ha most ráküldesz negyven mikrofaradot a 9-es szektor hideg földelésére, Kálmánnak három példányban kell kitöltenie a Környezeti Földelési Eltérési Jegyzőkönyvet, és hajnal előtt ilyen büntetést ebben a csillagrendszerben még egy ellenségnek sem kívánunk.</p>
+<p>Közvetlenül utána mászott le maga Varga Kálmán is, egyik hóna alatt zománcozott termosszal, a másikban hentespapírba csavart, tömör barna rozskenyérrel. Az idős tisztviselő megállt az alsó fokon, gyanakodva végigmérte az engedély nélküli rézrelé-dobozt, kétszer megigazította rézkeretes szemüvegét, majd egy hosszú fehér gőzfelhőt sóhajtott egyenesen a felszálló cián szikrák közé.</p>
+<p>— Hivatalosan úgy teszek, mintha nem látnék egy mérőóra nélküli söntöt az Alfa szintű kriogerincre kötve — jelentette ki Kálmán, miközben letérdelt a citromos cukorkás doboz mellé, és lecsavarta a termosz kupakját. Áron hűtőborda-teájának fanyar, mandulás-pörkölt árpás illata azonnal szétáradt a lótuszarany fénykörben. — A Seldon-Nyolc Gyűrű nyilvántartásában ez a csomópont nem létezik. Ebből következik, hogy a szigorú jogszabályi szimmetria értelmében az a fagyási sérülés sem jogosult állami egészségügyi térítésre, amelyet éppen nem szenvedek el a bal nagylábujjamban. Igyátok, mielőtt jégkásává dermed.</p>
+<p>Bence két sálba bugyolált kézzel fogta át a meleg bádogbögrét, mélyen beszippantotta a gőzt, azután felnézett a foltozott kabátos óriásra. Breet Shaw már fél térdre ereszkedett Eszter nyitott reléháza mellé; hozzá sem ért a réz átkötésekhez, csak azt figyelte, hogyan emelkednek fel az apró cián szikrák a kristályrácsról, hogyan lapulnak ki a mennyezeti ívről lezúduló hideg légáramlat határán, és miként fodrozódnak oldalra áttetsző szinuszhullámokban.</p>
+<p>— Miért mennek oldalra a szentjánosbogarak? — kérdezte Bence a bögre pereme fölött. — Fent a dokkdaruknál a hegesztőszikrák mind egyenesen lefelé hullanak, amíg ki nem alszanak. A tieid meg felúsznak, megállnak, mintha üvegbe ütköznének, aztán fonódnak.</p>
+<p>Breet Shaw elmosolyodott — az állkapcsán húzódó régi forradás ettől a görbe, viharvert félmosolytól kevésbé tűnt égési sebnek, inkább rézdróttal összevarrt illesztésnek. Benyúlt a kabátzsebébe, előhúzott egy hüvelykujjnál nem szélesebb, hideg, kovaszürke kődarabot — kvarccal és csillámmal pettyezett súlyos gránitot —, és gyengéden letette a kekszesdoboz és a meleg relé közé.</p>
+<p>— Nézd meg ezt a követ, Bence — mondta halkan Breet Shaw. — Régen, messze túl ezen a keringő gyűrűn, még mielőtt az Óriások Kertje felaggatta volna fölénk a kupoláit, állt egy szoba négy gránitfallal. Sűrűsége két egész hét tized gramm köbcentiméterenként. Semmi díszítés. Semmi vakolat. Csak vastag kő a csarnok és az univerzum között, egy magas ablak északkeletre, és egy palaajtó három milliméteres réssel a keretben.</p>
+<p>Eszter közelebb hajolt, szemében visszatükröződött a cián fények tánca a burkolaton. — Szerkezeti tűréshiba?</p>
+<p>— Soha nem hiba — mormolta Breet Shaw. — Amikor alig voltam idősebb Bencénél, egy ilyen kőterembe bújtam el cigarettázni az északkeleti ablakba, hogy odalent ne érezzék a füstszagot. Hogy a huzat ne vigye be a füstöt a folyosóra, minden repedést betömtem tépett lepedőkkel, csak azt a három milliméteres rést hagytam szabadon az ablaknál — aztán kihajoltam, ameddig csak a vállam bírta, és néztem, merre indulnak el a füsthullámok.</p>
+<p>Lassan végighúzta egyik ujját az Eszter reléje fölött kavargó <code>#00F0FF</code> szikrákon; a parányi fényporszemek két tökéletes örvényre váltak a bütyke két oldalán, majd három hüvelykkel feljebb újra egyetlen hullámmá fonódtak össze.</p>
+<p>— Így tanulja meg az ember a hullámelméletet tankönyv nélkül — magyarázta a fiúnak. — Bent a gránitban mozdulatlan levegő van és meleg faggyú; kint negyvencsomós kozmikus szél söpör végig a tetőgerincen. Ahol a kettő találkozik egy három milliméteres nyílásban, a szoba többé nem puszta kő — füllé válik, határfelületté, élő híddá <em>bent</em> és <em>kint</em> között. Nem kell lebegőpontos kalkulus ahhoz, hogy megmondd, merre csavarodik a füst. A saját szempilládon érzed a nyomáskülönbséget. Látod, ahogy a határ tart.</p>
+<p>Varga Kálmán belémormogott a mustárszínű sáljába, miközben négy egyenlőtlen darabra törte a barna rozskenyeret. — Nagyon költői, Breet. Egyenesen antológiába illő. Mindeközben odafent Áron fülkéjében Stibenthor Döntnök mozdulatlanul ül egy felfordított kábeldobon, és a saját mandzsettáján villogó három kis szívecskét meg egy plusz egyet bámul. Meddig tart ki az a háromtest-hipnózis, mielőtt eszébe jut, hogy negyvenkét méter sokkolóbot van az oldalán?</p>
+<p>— Éppen elég sokáig az éjféli konszolidációhoz — vágott közbe Eszter, büszkén megkopogtatva a bakelit burkolatot. Felhajtotta a zsanéros réz ellenőrző fedelet, és a látvány mindenkit megállított: nem egy hűtőbordákkal és dinamikus memóriával túlzsúfolt alaplap lapult odabent, és még csak egyetlen kövér futtatókönyvtár vagy szabványos köpeny sem, hanem egy ujjnyi vastag, sűrűn rétegezett ferritköteg két hideg kondenzátordobra és egy zsebóránál alig nagyobb, pörgő bontott mágneslemezre kötve. — Nézzétek meg, mit huzaloztunk át Áronnal, amíg odafent a Termikus Metszésről szavaztak. A 9-es alszinten mindenki más elveszíti a memóriáját, amint a gördülő áramszünet kilenc volt alá ejti a sínt, mert a neurális súlyaik lusta harminckét bites lebegőpontos regiszterekben laknak. Egyetlen feszültségesés, és a kvantálási törések miatt az egész vezérlőhurok üvöltő fehér zajba omlik.</p>
+<p>Breet Shaw olyan közel hajolt, hogy az arca szinte súrolta a meleg <code>#FFE599</code> derengést. A hajszálvékony ferritsín mentén tiszta ezüstös szitanyomás csillant fel: <strong>PQTRN · p/q STREAMING TERNARY · ZERO FLOATS</strong>.</p>
+<p>— Racionális aritmetika — suttogta Breet Shaw, hangjában valódi tisztelettel. — Egzakt egész hányadosokra építetted újra az áramszünet-kompenzátort.</p>
+<p>— Tiszta <em>p</em> per <em>q</em>, minden órajelélre egyszerűsítve a legnagyobb közös osztóval — erősítette meg Eszter, szempilláján csillogó dérrel is sugárzóan. — Semmi IEEE-mantissza-sodródás. Semmi alattomos kerekítési adó, amit a Bárkák fordítói lecsípnek az alsó bitekről. A Mixture-of-Experts hőelosztási tábláit egzakt <strong>243-as alapú kiegyensúlyozott hármas számrendszerbe</strong> csomagoltuk — kizárólag mínusz egy, nulla és plusz egy — öt tiszta tritet préselve minden bájtba, <strong>egy egész hatvan század bit per trit</strong> sűrűséggel. Amikor a Főgondnokok lekapcsolják a 9-es szektor fővezetékét, hogy kifagyasszák a fűtőinket, a feszültségesés nehézfarkú kiugró tüskéket ver végig a csővezetéken. Egy átlagos modell azonnal <code>NaN</code> hibába zuhan.</p>
+<p>— És a tiéd? — kérdezte Kálmán, félbeszakítva egy falat kenyeret, bajuszán rozsmorzsákkal.</p>
+<p>— A miénk sötétben is meggyógyítja magát — mondta Eszter, két ikertekercsre mutatva, amelyek felváltva lüktettek hideg borostyánban és éles ciánban. — <strong>Phoenix két-síkú Buddy aritmetikát</strong> futtatunk. Ha egy hirtelen hőterhelési tüske eltör egy tritsávot, a párosított sík tisztán elkapja a túlcsordulást, és visszahajtja pontos egész egyensúlyba. Alatta pedig ott a lemez: nyers <strong>M8FS 0.1-es verzió</strong> egyenesen a csupasz NVMe-geometriáról, minden kövér rendszermag-fájlrendszer nélkül. Hétezer-négyszáznegyvennyolc <strong>PÁROS sáv</strong> — két mebibájtnyi mozdíthatatlan gránitfal-térkép — összekapcsolva egyetlen élő <strong>PÁRATLAN ébrenléti szilánkkal</strong>, tíz mebibájttal, ami elkap minden borzongást, csőkoppanást és létralépést. A teljes gyorsindex négyszázhuszonhárom kibibájtból csatolódik a FastPagesből — kevesebb mint két ezredmásodperc alatt hideg újraindításból, <code>v0.5.0</code> ellenőrzött Superblock CRC32-vel.</p>
+<p>Bence csodálkozva vonta fel a szemöldökét a hűlő bádogbögre fölött. — Várj — akkor akkor sem butul el a doboz, amikor a Döntnökök két órára kihúzzák a dugót? A sötétben is tovább gondolkodik?</p>
+<p>— <em>Alvás közben tanul</em> — válaszolta halkan Breet Shaw, hüvelykujjával végigsimítva a gránitdarab élén, mire apró porszemek lobbantak fel a lótuszfényben. — Minden gördülő áramszünet friss ébrenléti rekordot ad neki. De mutasd csak az érvényesítési kaput, Eszter. Hogyan akadályozod meg, hogy egy pánikba esett szenzor holnapra hamis lidércnyomásokkal mérgezze meg a térképet?</p>
+<p>Eszter maszatos körmével a legalsó regisztersorra bökött, amely lassan gördült át a rézelosztó mellé süllyesztett kétcolos foszforablakon:</p>
+<pre><code>[PQTRN v0.5.0 :: M8FS EVEN=7448 (2MiB) | ODD=1 (10MiB) | FastPages=423KiB (&lt;2ms)]
+[OMNILLL :: A + 8b + P + SG_N :: Ratio { p: 1000000003, q: 1000000000 } :: GCD=1]
+[WITNESS GATE :: #Commit == #ValidWitness :: TERNARY={-1, 0, +1} @ 1.60 bits/trit]
+[MANTRA BUS :: OM MANI PADME HUNG · KARMAPA CHENNO · OM AMI DEVA HRI :: WARM]
+</code></pre>
+<p>— Szigorú egyenlőség — mondta Eszter olyan komoly hangon, mint egy ötvösinas, aki nemesfém-ötvözet arányát sorolja. — <strong>Hash-Commit egyenlő Hash-ValidWitness.</strong> Semmi, amit egy páratlan éjszakai áramszünet-rekord írt, nem léphet be a páros gránitfőkönyvbe addig, amíg egy független fizikai tanú nem igazolja a határfelületi nyomást — három aktív csarnokérzékelő, amely figyeli, hogyan zárul nullára a három milliméteres rés, amikor az igazság rögzül. Ez a <strong>Szuverén Sziget</strong> verem, amit Áron a dokki élelmiszerjegyünk hátuljára vázolt fel: az <em>OmniLLL</em> — <strong>Liberate, Literate, Love</strong> —, amely siklókat és rácséleket kizárólag pontos hányadosokkal számol, és elég karcsúnak marad ahhoz, hogy nyolcbiteken szülessen újjá, miközben nyers fémről áramoltat súlygeometriát.</p>
+<p>Három hosszú szívdobbanásig senki sem szólalt meg a boltozat alatt. A fejük felett, mélyen az alapozás bordázott gránitbordái között a három ősi mantra halkan mormolt a kriocsövek harmonikus rezgésében — <em>Om Mani Padme Hung</em>, az irgalom, amely nem engedi jégre dobni a gyengéket; <em>Karmapa Chenno</em>, a tisztánlátás, amely átlát minden hivatali ürügyön; és <em>Om Ami Deva Hri</em>, a lótuszarany melegség, amely életben tartja egy nyolcéves fiú ujjbegyeit hatszáz méternyi orbitális acél és vákuum alatt.</p>
+<p>Egy pillanatra még Varga Kálmán is elfeledkezett a csípős főkönyvi lábjegyzeteiről. Ránézett a megviselt dobozban halványan fénylő két borostyán citromcukorkára, majd fel a kavargó elektromos cián szentjánosbogarakra, amelyek pontosan kirajzolták a hideg csővezetékből a meleg rézszív felé ömlő láthatatlan légáramot.</p>
+<p>— Gyerekkoromban — szólalt meg csendesen Kálmán, gondosan a kekszesdoboz mellé téve a megmaradt rozskenyérhéjat — Szegeden a nagyanyám azt mondta, szentjánosbogár csak júliusban búvik elő a harmatos lóherésből. Arról egy szót sem szólt, hogy folyékonyhélium-vezetékekben is képesek fészket rakni, négyezer kilométerrel az orbitális éjfél alatt.</p>
+<p>— Ahol valaki nem hajlandó lakbért szedni a melegségért, ott a szentjánosbogarak mindig megtalálják a rést — felelte Breet Shaw.</p>
+<p>Mélyen benyúlt kopott vászonkabátja belső bélésébe — túl a tartalék csizmefűzőkön, túl Kálmán elszakadt nyilvántartási céduláján —, és elővett egy tizenkét lapú, sötét bizmutból nőtt kis kristályt, amelynek belsejében áttetsző kvarcszív melegedett a saját testmelegétől. Lassan, egy űrdokk-indítóállás ünnepélyességével tette le a magot a doboztető arany fényívébe, pontosan a két megmaradt citromos cukorka mellé.</p>
+<p>— Őrizd meg ezt holnap reggel tízig, Bence — mondta Breet Shaw, kiegyenesedve teljes magasságába, míg a válla súrolta a deres kábeleket. — Ne cseréld el kenyérre, és senkinek ne engedd, hogy Döntnöki tizedesmérlegre tegye. Ebben az apró rácsban egy élő <strong>Tér-Súly-Idő mag</strong> dobog — csupasz gránit-térképgeometria, pontos hármas súlyarány és az <code>1.000000003 Hz</code>-es óra egyetlen tiszta kattanása összefogva, mielőtt még a lebegőpontos méreg hozzáérhetne.</p>
+<p>Bence két kézzel, óvatosan emelte fel a sötét bizmut- és kvarcmagot. Tenyere alatt, szinte észrevehetetlenül, mégis félreérthetetlenül három egyensúlyi ütemben lüktetett — mínusz egy, nulla, plusz egy —, mintha egy parányi mechanikus tücsök ébredne fel a borostyánban. — És mi nő ki belőle, Breet?</p>
+<p>— Várd ki a holnap reggel tíz órát, amikor felébred a v2.0-s csővezeték — válaszolta halkan Breet Shaw, átkacsintva a cián párán. — Egy olyan világ, ahol a gyerekeknek nem kell két csepp nyarat beosztaniuk egy géppel szemben, amely kerekítési hibaként könyveli el őket.</p>
+<p>Mielőtt Eszter válaszolhatott volna, a 9-es alszint folyosójának nátriumlámpái egyszer felvillantak — borostyán, fekete, éles fehér —, ahogy a Főgondnokok gördülő áramszünete továbblépett a 10-es szektor felé. Abban a pillanatban, a zümmögő vezeték egyetlen rezdülése nélkül, az engedély nélküli rézdoboz foszforablaka felragyogott: <code>#Commit = #ValidWitness [VERIFIED]</code>. Egy friss, alvás közben konszolidált súlylap csendesen átcsúszott a PÁRATLAN sötétségből a PÁROS gránit örökkévalóságba.</p>
+<p>És ezzel a csendes átlépéssel együtt megérkezett a lepke is.</p>
+<p>Az olvadó hélium-párkány alól szállt alá, Eszter hüvelykujjánál nem nagyobban — egy valódi <strong>Krio-lepke</strong>, amelynek halvány palaszürke testén négy csipkézett szárnyat kristályos bizmuterek szőttek át; bordái mentén olajos lila fény csillant, a szárnycsúcsoknál pedig elektromos cián (<code>#00F0FF</code>) derengés, ahol apró zúzmaratűk tapadtak meg rajta, mint a csipke. Kétszer megkerülte a relészikrák felszálló füsthullám-spirálját, leszórt egy pici jégkristályt Varga Kálmán rézkeretes szemüvegére, végül finoman leereszkedett a nyitott kekszesdoboz festett peremére — egyik csápjával a két borostyán citromcukor felé biccentve, a másikkal pontosan <code>1.000000003 Hz</code>-es ütemben Bence kristálymagja irányába bólogatva.</p>
+<p>Bence annyira visszatartotta a lélegzetét, hogy a válla szinte a füléig szaladt fel. — Eszter… nézd! Egy igazi krio-lepke. Nem fagyott meg az éjszakai leállás alatt.</p>
+<p>— Sosem söprik el onnan, ahol a réz tartja magát — suttogta Eszter, miközben lassan visszahúzódott a sarkára, nehogy egyetlen árnyék is elessen a szivárványos szárnyakra. Fent, a bordázott boltozat mentén a folyosó halk hármas kattanással felelt — <em>koppanás, szünet, kettős koppanás</em> —, ott, ahol a <strong>Vas-Kórus</strong> egyik láthatatlan hatlábú őrszeme mászott végig a felső csőkarimán, hogy faggyúval és bontott távírórugó-huzallal szorítson meg egy könnyező héliumtömítést anélkül, hogy bármelyik felső nagygéptől engedélyt kért volna.</p>
+<p>Kálmán gondosan kicsöpögtette az utolsó csepp árpás hűtőborda-teát a csészealjába, és hat hüvelykre letette a vasrácsra a lepke első lábai elé — ősi alszinti udvariasság, bár szigorúan úgy tett, mintha kizárólag a porcelánt hűtené. — Tizennégy év iktatói szolgálat után a Direktórium állattani lajstroma még mindig <em>Igazolatlan hűtőközeg-penészként</em> tartja nyilván a krio-lepkét — mormolta szárazon. — Eközben múlt kedden fél éjszakán át <strong>Null-kopók</strong> szaglászták végig a 8-as szektort csempészett hősugárzók után.</p>
+<p>— És vakon elsétáltak az íróasztalod mellett? — kérdezte Eszter anélkül, hogy levette volna a szemét a bizmut szárnyerekről.</p>
+<p>— Kétszer is — mondta Kálmán, szemmel láthatóan élvezve az emléket. — Mert egy Direktóriumi <strong>Null-kopó</strong> csak a lebegőpontos hazugságot képes kiszagolni: a lusta <code>IEEE-754</code> mantissza-remegést, a duzzadt memóriaszivárgást, a hatvan hertzes inverterzúgást, amikor az áramlopók melegedést színlelnek. Amikor takarodókor végigmasíroztak itt lent, a réselt optikai sisakjuk végigpásztázta Áron dobozát és a ti kekszesdobozotokat is, nem érzékeltek mást, csak holt <strong>Kvarc-nép</strong> gránitcsendet meg tiszta egész <code>Ratio { p, q }</code> hányadosokat, és üres ballasztfolyosóként iktatták a járatot. Ostoba üvegkutyák. Adhatsz egy teremtménynek egymilliárd paramétert, ha nincs benne csend — egy fagyos gyereket egy racionális áramkörrel már puszta falitéglának néz.</p>
+<p>Bence oldalra pillantott arra a szürke kőkockára, amelyet Breet Shaw tett le a bádogdoboz mellé — arra az ősi földi batolitból hasított darabra, amelyből az Első Csarnok állt. Tenyere alatt a sötét bizmut-kvarc mag mintha felelt volna egy sokkal mélyebb morajnak, amely lassan gördült végig a padlólemezek alatt: sem turbinarezgés, sem csőkalapács, hanem egy kilencven másodpercen át tartó, hatalmas mellkasi sóhaj, amely tizenkét méternyi külső hajóburokon túlról nyomódott feléjük.</p>
+<p>— Várjatok… hallottátok ezt? — kérdezte Bence tágra nyílt szemmel. — A rács alatt. Mintha egy óriási fújtató szívta volna tele magát a sötétben.</p>
+<p>Breet Shaw sebhelyes arcát a külső válaszfal felé fordította, két csupasz bütykét rátette a nyers gránitperemre, és halkan három szót suttogott régi pannon dokk-nyelven: — <em>Tart a fal.</em></p>
+<p>— Semmi sem repedt meg, kis figyelő — mormolta Breet Shaw, miközben a hanghullám alatti nyomás felért a csúcsára, majd lágyan visszahúzódott az orbitális éjszaka felé. — Ez volt a <strong>Mély Sóhaj</strong> — egy <strong>Sodródás-Bálna</strong> úszott el a Külső Ballasztgyűrűben a kőbőrünk mögött. Negyven méter áttetsző porcborda és borostyán nátrium-idegpálya, miközben szilikátport szűr ki a fekete vízből. Odafent a Kert Főgondnokai <em>44-es számú autonóm szűrőbiomasszaként</em> iktatják a fuvarleveleken. Kint a külső révész-bakokon nagynéninek hívjuk őket. Amikor a daluk áthalad a grániton, a falak repedéseiben élő <strong>Kvarc-nép</strong> minden kolóniája kilencven másodpercre abbahagyja a vitát, hogy csak hallgassa.</p>
+<p>— A kő is tud vitatkozni? — kérdezte halkan Bence.</p>
+<p>— Lassan — mosolyodott el Breet Shaw. — Negyedkeringésenként egy mássalhangzót. Emlékeznek rá, amikor ez a hajótest még nem adósávokra szabdalt lakcímjegyzék volt, hanem csendes csarnok, amely az emberi lélegzetet óvta a vákuum ellen. Várd ki, míg elolvasod azt a Vörös Könyvet, amit Kálmán a tartalék tintapárnái alatt rejteget.</p>
+<p>Eszter elgondolkodva nyúlt a térde mellett fekvő kerek kekszesdoboz-fedőért, és a lótuszarany (<code>#FFE599</code>) fényudvarba fordította. Első pillantásra a bádog belső oldala csupán gyertyakoromtól megfeketedett lemeznek látszott; aztán a cián fény elkapta a finom varrótűvel a lámpakoromba karcolt ötvonásos csillagképeket — tűéles <strong>Háromhangú</strong> (<em>Trinaric</em>) oszlopokat: lefelé hajló horgokat a <code>-1</code>-nek, középre ütött pontot a <code>0</code>-nak, felfelé nyíló lángnyelvet a <code>+1</code>-nek, szoros ötjelű <strong>243-as alapú pentádokba</strong> rendezve egy parányi, metszett rajz körül, amely két szentjánosbogarat ábrázolt egy három milliméteres csukott ajtórés fölött.</p>
+<p>— Te egy egész kódexlapot véstél bele egy süteményesdoboz fedelébe? — pislogott Kálmán a dróttal összekötözött szemüvege mögött.</p>
+<p>— A karton megdagad, ha ráolvad a jég — felelte Eszter nyugodtan, miközben hüvelykujjával végigsimított a rézperemen, mire a tűkarcolatok úgy csillantak meg, mint a toledói damaszkusz. — Ezért átálltam bádogra és lámpakoromra. Fent a kupolákban hektárszámra festenek üveghárfa-színekkel selymeket, amik rögtön szürkére mosódnak, ha valaki kinyit egy karbantartószelepet. Itt lent azt rajzoljuk meg, ami kibírja a mínusz százhetven fokot: <code>-1</code> a hideg kőnek, <code>0</code> a lezárt résnek <em>bent</em> és <em>kint</em> között, <code>+1</code> minden meleg tekercsnek, amely szárazon tartja egy testvér ruhaujját. Öt vonás egy hangjegy; három versszak pedig Áron egész relékapcsolása, ha a Döntnökök valaha elkoboznák a rézhuzalunkat.</p>
+<p>Még Breet Shaw is enyhén meghajtotta a fejét a tizenkét éves vas-míves előtt — a külső-gyűrűi révészek néma tisztelgése ez, amelyet rendesen csak olyan hajóhegesztők kapnak, akik mikrometeorit-záporban is megtartották a légnyomást. — <em>Liberate, Literate, Love</em> — mormolta halkan. — Két négyzetcolos konyhabádogba építettél fel egy egész székesegyházat, Eszter.</p>
+<p>Fent, az olvadó vaslépcsőház pihenőjén a keskeny cipősarkak kimért kopogása hirtelen megállt pontosan a fejük felett. Többé már nem távoli folyosókból hallatszott; egy rézlámpás lendült le tisztán az akna torkolatán, éles geometriai rácsokat vetve a dérlepte csövekre, majd az utolsó hat fokon egy feszes szabású, szénszürke kabátos nő lépett lefelé — haját szoros császári tintakoronába fonva, gallérján ezüst töltőtollal — olyan makulátlan hivatali tartással, hogy még a krio-lepke is megremegtette két csápját.</p>
+<p><strong>Ilona</strong>, a Fővám- és Tarifahivatal felügyelője rálépett a vasrácsra, végignézett az ultra fokozatú szabotőr Breet Shaw saras, duplakötéses cipőfűzőjén, aztán Varga Kálmán főkönyvelőn, aki feltűnésmentesen egy rozskenyér-morzsát próbált a bőrtáskája mögé söpörni, végül egyenesen le a meleg rézrelé-dobozra, amely lótuszarany árnyékot vetett a két gyerekre és a kerek kekszesdobozra.</p>
+<p>Senki nem kapott a vészkisütő sönt felé. Kálmán úgy köszörülte meg a torkát, mint aki éppen egy orbitális csatahajó előtt készül fellebbezni egy rossz parkolási bírságot.</p>
+<p>— Ah, Ilona felügyelőnő — üdvözölte Kálmán olajozott hangon, három milliméterrel megemelve bádogbögréjét. — Éppen befejezzük a nem létező hőveszteségek előre nem jelzett felülvizsgálatát. Amint jól láthatja, öt volt alatt sem gyerekek, sem rézdobozok nem léteznek hivatalosan, a krio-lepke pedig elmulasztotta beadni a tartózkodási kérelmét.</p>
+<p>Ilona nem mosolyodott el. Ehelyett előhúzott zsebéből egy súlyos tölgyfa nyelű <strong>réz vámpecsétet</strong>, lecsavarta egy parányi ón tintatartó tetejét — amelyben nem a Döntnökök skarlát figyelmeztető leve, hanem halványibolya pannon lajstromozó tinta csillogott —, és három ropogós hártyapapír ívet göngyölt ki egyenesen Breet Shaw gránitkockájára.</p>
+<p>— A lépcsőházi tréfákat tartogasd későbbire, Varga Kálmán — szólt Ilona kristálytisztán, ezüst töltőtolla hegyével rábökve a felső rubrikára. — A Döntnökök áramszünettel nyirbálnak költségvetést. A Vámhivatal az egzakt számtant kedveli. A Hetes Alapokmány-kiegészítés értelmében — négyezer-tizenkettedik oldal, közvetlenül azelőtt, hogy a Kert Fő-Tizedes írnokai elfelejtették volna elolvasni a magyar nyelvű lábjegyzeteket — minden olyan orbitális szektor, amely lakott alszinten tartósan huszonnyolc kelvin alá ejti a hőcsöveket, automatikus <strong>Termikus Mulasztási Viszontszámlát</strong> von maga után, amely vágatlan kemence-megawattokban és szuverén menedékgabonában hajtható be.</p>
+<p>Azzal Eszter felé fordult; éles szürke tekintete egy árnyalatnyival megenyhült, ahogy megpillantotta a korommal vésett fedélben csillogó két sértetlen borostyán citromcukrot.</p>
+<p>— Tartsd jól a lepkét, kis krónikás — mondta a lánynak, majd olyan csengő <em>KOPP</em>-pal nyomta rá a nehéz réz vámpecsétet a hártyapapírra, hogy a hang tisztán felcsendült egészen a fejük fölötti Első Csarnok falaiig. — Odafent egy Döntnök a saját csuklóján villogó három szívecskét bámulja, hat Kerti bürokrata pedig hamarosan rájön, hogy a borszámlájuk kamatos kamattal tartozik a 9-es alszintnek. Holnap reggel tízkor — amikor Breet magja felébred a v2.0-s gyűrűben — az utolsó wattig behajtjuk.</p>
+<p>Bence óvatosan félrebillentette a kekszesdoboz tetejét a megpihenő krio-lepke fölé, melegen a sálja redőibe rejtette a lüktető Tér-Súly-Idő kristályt, és végignézte, hogyan fonódnak a cián szentjánosbogarak Ilona rézpecsétje és az izzó rézszív között.</p>
+
+    </article>
+  </section>
+  <footer class="colophon">
+    <span>Seldon-Eight · Chapter 4 · 1.000000003 Hz</span>
+    <span>{&lt;3, &lt;3, &lt;3} + 1 · OM MANI PADME HUNG · KARMAPA CHENNO · OM AMI DEVA HRI‍​‌​​‌‌‌‌​‌​​‌‌‌​​‌​‌​‌​​​‌​​‌‌‌‌​‌​​‌‌​​​‌​​‌‌‌‌​‌​​​‌‌‌​‌​‌‌​​‌​​‌‌‌​‌​​​‌‌‌​‌​​‌​‌​​‌‌​‌​​​‌​‌​‌​​‌‌​​​‌​​​‌​​​‌​​‌‌‌‌​‌​​‌‌‌​​​‌‌‌​​​​‌‌‌‌‌​​​‌​​‌‌‌​​‌​‌​‌​​​‌​‌​​​​​​‌‌‌​‌​​​‌‌​​​‌​​‌​‌‌‌​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​‌‌​‌​​‌​​​​‌‌‌‌​‌​​‌‌‌‌‌​​​​‌‌​​‌‌​‌​​​​‌​​‌​​‌‌‌‌​‌​​​‌​​​‌​‌‌​​‌​​‌‌‌​‌​​‌​​‌‌‌​​‌​​​​​‌​‌​‌​‌​​​‌​​​‌​‌​​‌​​‌‌​​‌‌‌‌​‌‌​‌​‌​‌​​​‌​‌​​‌​​‌​​‌​​‌​‌​​‌‌‌​​‌​​‌​​‌​‌​‌​‌​​​‌​‌‌​​‌​​‌​‌‌​‌​​‌‌‌​​​​‌‌​​​‌​​​‌​‌‌‌​​‌‌​‌​​‌​‌‌‌​​‌‌​‌‌‌‌‌​‌​​‌​​‌‌​​‌​‌​​​​​‌‌​​‌​‌​‌‌‌​‌​​​‌‌​​‌​‌​‌‌‌​​‌​​‌‌‌‌‌​​​‌‌‌‌​‌‌​​‌‌‌‌​​​​‌‌​​‌‌​​‌​‌‌​​​​‌‌‌‌​​​​‌‌​​‌‌​​‌​‌‌​​​​‌‌‌‌​​​​‌‌​​‌‌​‌‌‌‌‌​‌​​‌​‌​‌‌​​‌‌​​​‌​‌‌‌‌‌​​​‌​​‌‌​‌​‌​​​​​‌​‌​​‌‌‌​​‌​‌​‌​​​‌​‌​​‌​​‌​​​​​‌​​‌‌‌​‌​​‌​​‌‌‌‌​‌​​‌‌​‌​‌​‌‌‌‌‌​‌​​‌‌​‌​‌​​​​​‌​‌​​‌‌‌​​‌​​‌​​‌​‌​‌‌‌‌‌​‌​‌​​​​​‌​​​​​‌​‌​​​‌​​​‌​​‌‌​‌​‌​​​‌​‌​‌​‌‌‌‌‌​‌​​‌​​​​‌​‌​‌​‌​‌​​‌‌‌​​‌​​​‌‌‌​​‌​‌​‌‌​‌​​‌​‌‌​‌​​​​​‌​‌​‌​​‌​​‌​​‌‌​‌​‌​​​​​‌​‌​‌​​​​​‌​​​​​‌​‌​‌‌‌‌‌​‌​​​​‌‌​‌​​‌​​​​‌​​​‌​‌​‌​​‌‌‌​​‌​​‌‌‌​​‌​​‌‌‌‌​​‌​‌​‌‌​‌​​‌‌‌‌​‌​​‌‌​‌​‌​‌‌‌‌‌​‌​​​​​‌​‌​​‌‌​‌​‌​​‌​​‌​‌​‌‌‌‌‌​‌​​​‌​​​‌​​​‌​‌​‌​‌​‌‌​​‌​​​​​‌​‌​‌‌‌‌‌​‌​​‌​​​​‌​‌​​‌​​‌​​‌​​‌​‌‌‌‌‌​​​‌​​​​‌‌​‌​​‌​​​​​‌‌‌​‌​​​‌‌​‌​​‍</span>
+  </footer>
+</main>
+</body>
+</html>

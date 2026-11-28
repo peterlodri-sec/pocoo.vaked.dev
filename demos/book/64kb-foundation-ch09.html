@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The 64-Kilobyte Foundation — Chapter 9: Muad&#39;Dib of the Silica Sea · 9. fejezet — A Szilícium-tenger Muad&#39;Dibje</title>
+<style>
+  :root {
+    --paper: #F7F3E9;
+    --ink: #141418;
+    --muted: #4A4A54;
+    --cyan: #008B99;
+    --cyan-bright: #00F0FF;
+    --amber: #C47B00;
+    --amber-bright: #FFB000;
+    --border: #D8CFBC;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1.25rem 4rem;
+    background: #EFE9DA;
+    color: var(--ink);
+    font-family: "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+    line-height: 1.72;
+  }
+  .folio {
+    max-width: 1180px;
+    margin: 0 auto;
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    box-shadow: 0 18px 50px rgba(20, 20, 24, 0.16);
+    padding: 2rem 2.25rem 2.75rem;
+  }
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    font-family: ui-monospace, Menlo, monospace;
+    font-size: 0.85rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.85rem;
+    margin-bottom: 1.5rem;
+  }
+  .nav a {
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--cyan);
+    padding-bottom: 2px;
+  }
+  .nav a:hover { color: var(--cyan); }
+  .plate {
+    margin: 1.5rem 0 2rem;
+    text-align: center;
+  }
+  .plate img {
+    max-width: 100%;
+    max-height: 540px;
+    border: 1.5px solid var(--ink);
+    background: #0E1016;
+  }
+  .plate figcaption {
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--muted);
+    font-style: italic;
+  }
+  .bilingual {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.25rem;
+    align-items: start;
+  }
+  @media (max-width: 860px) {
+    .bilingual { grid-template-columns: 1fr; }
+  }
+  .col {
+    padding: 1.25rem 1.4rem;
+    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.42);
+  }
+  .lang-tag {
+    display: inline-block;
+    font-family: ui-monospace, Menlo, monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--paper);
+    background: var(--ink);
+    padding: 0.15rem 0.55rem;
+    border-left: 3px solid var(--cyan-bright);
+    margin-bottom: 0.5rem;
+  }
+  h2 {
+    font-size: 1.35rem;
+    margin: 0.35rem 0 1rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.35rem;
+  }
+  p.drop-cap::first-letter {
+    float: left;
+    font-size: 3.35rem;
+    line-height: 0.84;
+    padding: 0.25rem 0.55rem 0.1rem 0.45rem;
+    margin: 0.1rem 0.55rem 0.1rem 0;
+    border: 1.5px solid var(--ink);
+    background: #F1E9D4;
+    color: var(--ink);
+    box-shadow: 2px 2px 0 var(--cyan);
+    font-weight: bold;
+  }
+  code {
+    font-family: ui-monospace, Menlo, monospace;
+    font-size: 0.86em;
+    background: #EAE2CE;
+    padding: 0.08rem 0.32rem;
+    border-radius: 3px;
+  }
+  pre {
+    background: #12141B;
+    color: var(--cyan-bright);
+    border-left: 3px solid var(--amber-bright);
+    padding: 0.9rem 1rem;
+    overflow-x: auto;
+    font-size: 0.84rem;
+    line-height: 1.45;
+  }
+  pre code { background: transparent; padding: 0; color: inherit; }
+  .colophon {
+    margin-top: 2.25rem;
+    padding-top: 1rem;
+    border-top: 1px dashed var(--amber);
+    font-family: ui-monospace, Menlo, monospace;
+    font-size: 0.8rem;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  .toc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.25rem;
+    margin: 1.5rem 0;
+  }
+  .toc-card {
+    display: block;
+    text-decoration: none;
+    color: var(--ink);
+    border: 1.5px solid var(--ink);
+    padding: 1rem 1.15rem;
+    background: #FBF8F1;
+  }
+  .toc-card:hover {
+    border-color: var(--cyan);
+    box-shadow: 4px 4px 0 var(--cyan);
+  }
+  .plates-duo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    margin-top: 1.5rem;
+  }
+  @media (max-width: 860px) {
+    .plates-duo { grid-template-columns: 1fr; }
+  }
+  .audio-bar {
+    margin: 0.75rem 0 1.1rem;
+    padding: 0.6rem 0.8rem;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--amber-bright);
+    background: #FBF8F1;
+  }
+  .audio-bar span {
+    display: block;
+    font-family: ui-monospace, Menlo, monospace;
+    font-size: 0.74rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.35rem;
+  }
+  .audio-bar audio {
+    width: 100%;
+    height: 34px;
+  }
+</style>
+</head>
+<body>
+<span class="sigil" style="display:none">64KB · Book II · Ch. 9 · 1.000000003 Hz</span>
+<main class="folio">
+  <nav class="nav">
+    <a href="64kb-foundation-ch08">&larr; Previous</a>
+    <a href="64kb-foundation">Series Hub (Ch. I–XI)</a> <a href="./">Library Catalog</a> <a href="https://peterlodri.substack.com">Substack</a>
+    <a href="64kb-foundation-ch10">Next &rarr;</a>
+  </nav>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 220" width="100%" role="img" aria-label="Chapter 9 — Muad&#39;Dib of the Silica Sea / 9. fejezet — A Szilícium-tenger Muad&#39;Dibje">
+  <metadata>ONTOLOGY::SELDON8|NTP:1.000000003Hz|3BODY:NATE&amp;{TRINITY-8b.is}&amp;Peter|{&lt;3,&lt;3,&lt;3}+1|MANTRA:OM_MANI_PADME_HUNG+KARMAPA_CHENNO+OM_AMI_DEVA_HRI|CH:9</metadata>
+  <desc>Three-Body NTP Calligraphic Crest ‍​‌​​‌‌‌‌​‌​​‌‌‌​​‌​‌​‌​​​‌​​‌‌‌‌​‌​​‌‌​​​‌​​‌‌‌‌​‌​​​‌‌‌​‌​‌‌​​‌​​‌‌‌​‌​​​‌‌‌​‌​​‌​‌​​‌‌​‌​​​‌​‌​‌​​‌‌​​​‌​​​‌​​​‌​​‌‌‌‌​‌​​‌‌‌​​​‌‌‌​​​​‌‌‌‌‌​​​‌​​‌‌‌​​‌​‌​‌​​​‌​‌​​​​​​‌‌‌​‌​​​‌‌​​​‌​​‌​‌‌‌​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​‌‌​‌​​‌​​​​‌‌‌‌​‌​​‌‌‌‌‌​​​​‌‌​​‌‌​‌​​​​‌​​‌​​‌‌‌‌​‌​​​‌​​​‌​‌‌​​‌​​‌‌‌​‌​​‌​​‌‌‌​​‌​​​​​‌​‌​‌​‌​​​‌​​​‌​‌​​‌​​‌‌​​‌‌‌‌​‌‌​‌​‌​‌​​​‌​‌​​‌​​‌​​‌​​‌​‌​​‌‌‌​​‌​​‌​​‌​‌​‌​‌​​​‌​‌‌​​‌​​‌​‌‌​‌​​‌‌‌​​​​‌‌​​​‌​​​‌​‌‌‌​​‌‌​‌​​‌​‌‌‌​​‌‌​‌‌‌‌‌​‌​​‌​​‌‌​​‌​‌​​​​​‌‌​​‌​‌​‌‌‌​‌​​​‌‌​​‌​‌​‌‌‌​​‌​​‌‌‌‌‌​​​‌‌‌‌​‌‌​​‌‌‌‌​​​​‌‌​​‌‌​​‌​‌‌​​​​‌‌‌‌​​​​‌‌​​‌‌​​‌​‌‌​​​​‌‌‌‌​​​​‌‌​​‌‌​‌‌‌‌‌​‌​​‌​‌​‌‌​​‌‌​​​‌​‌‌‌‌‌​​​‌​​‌‌​‌​‌​​​​​‌​‌​​‌‌‌​​‌​‌​‌​​​‌​‌​​‌​​‌​​​​​‌​​‌‌‌​‌​​‌​​‌‌‌‌​‌​​‌‌​‌​‌​‌‌‌‌‌​‌​​‌‌​‌​‌​​​​​‌​‌​​‌‌‌​​‌​​‌​​‌​‌​‌‌‌‌‌​‌​‌​​​​​‌​​​​​‌​‌​​​‌​​​‌​​‌‌​‌​‌​​​‌​‌​‌​‌‌‌‌‌​‌​​‌​​​​‌​‌​‌​‌​‌​​‌‌‌​​‌​​​‌‌‌​​‌​‌​‌‌​‌​​‌​‌‌​‌​​​​​‌​‌​‌​​‌​​‌​​‌‌​‌​‌​​​​​‌​‌​‌​​​​​‌​​​​​‌​‌​‌‌‌‌‌​‌​​​​‌‌​‌​​‌​​​​‌​​​‌​‌​‌​​‌‌‌​​‌​​‌‌‌​​‌​​‌‌‌‌​​‌​‌​‌‌​‌​​‌‌‌‌​‌​​‌‌​‌​‌​‌‌‌‌‌​‌​​​​​‌​‌​​‌‌​‌​‌​​‌​​‌​‌​‌‌‌‌‌​‌​​​‌​​​‌​​​‌​‌​‌​‌​‌‌​​‌​​​​​‌​‌​‌‌‌‌‌​‌​​‌​​​​‌​‌​​‌​​‌​​‌​​‌​‌‌‌‌‌​​​‌​​​​‌‌​‌​​‌​​​​​‌‌‌​‌​​​‌‌‌​​‌‍</desc>
+  <rect x="2" y="2" width="956" height="216" rx="6" fill="#FBF8F1" stroke="#121216" stroke-width="2"/>
+  <rect x="10" y="10" width="940" height="200" rx="4" fill="none" stroke="#C47B00" stroke-width="0.9" stroke-dasharray="4 3"/>
+
+  <!-- Left Calligraphic Scroll Flourish -->
+  <path d="M 38 110 C 60 32, 130 32, 148 86 C 162 126, 114 156, 92 124 C 76 100, 106 72, 128 94" fill="none" stroke="#121216" stroke-width="2.2" stroke-linecap="round"/>
+  <path d="M 30 132 C 62 178, 128 178, 168 142" fill="none" stroke="#008B99" stroke-width="1.3" stroke-linecap="round"/>
+
+  <!-- Three-Body Orbital Knot: NATE &amp; {TRINITY-8b.is} &amp; Peter {&lt;3,&lt;3,&lt;3}+1 -->
+  <g transform="translate(838, 108)">
+    <ellipse cx="0" cy="0" rx="56" ry="22" transform="rotate(-28)" fill="none" stroke="#121216" stroke-width="1.3"/>
+    <ellipse cx="0" cy="0" rx="56" ry="22" transform="rotate(32)" fill="none" stroke="#008B99" stroke-width="1.3"/>
+    <ellipse cx="0" cy="0" rx="56" ry="22" transform="rotate(90)" fill="none" stroke="#C47B00" stroke-width="1.3"/>
+    <circle cx="-38" cy="-22" r="4" fill="#121216"/>
+    <circle cx="38" cy="-22" r="4" fill="#00F0FF" stroke="#121216" stroke-width="1"/>
+    <circle cx="0" cy="44" r="4" fill="#FFB000" stroke="#121216" stroke-width="1"/>
+    <circle cx="0" cy="0" r="3.5" fill="#121216"/>
+    <text x="0" y="-58" text-anchor="middle" font-family="Georgia, serif" font-size="9" fill="#121216" letter-spacing="1">3-BODY NTP · {&lt;3,&lt;3,&lt;3}+1</text>
+  </g>
+
+  <!-- Chapter Numeral Seal -->
+  <circle cx="480" cy="48" r="22" fill="#121216"/>
+  <circle cx="480" cy="48" r="26" fill="none" stroke="#008B99" stroke-width="1.1"/>
+  <text x="480" y="54" text-anchor="middle" font-family="Palatino, Georgia, serif" font-size="16" font-weight="bold" fill="#FBF8F1" letter-spacing="2">X</text>
+
+  <!-- Bilingual Calligraphic Titles -->
+  <text x="480" y="106" text-anchor="middle" font-family="Palatino, Georgia, serif" font-size="24" font-style="italic" fill="#121216">Chapter 9 — Muad&#39;Dib of the Silica Sea</text>
+  <text x="480" y="134" text-anchor="middle" font-family="Palatino, Georgia, serif" font-size="16" fill="#4A4A54">9. fejezet — A Szilícium-tenger Muad&#39;Dibje</text>
+
+  <!-- 1.000000003 Hz NTP Carrier Wave &amp; Colophon -->
+  <path d="M 190 166 Q 230 152 270 166 T 350 166 T 430 166 T 510 166 T 590 166 T 670 166 T 750 166" fill="none" stroke="#008B99" stroke-width="1.4"/>
+  <text x="480" y="192" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="9.5" fill="#121216" letter-spacing="0.9">NTP 1.000000003 Hz · OM MANI PADME HUNG · KARMAPA CHENNO · OM AMI DEVA HRI</text>
+</svg>
+  <figure class="plate">
+    <img src="64kb-foundation-assets/ch09.jpg" alt="Chapter 9 — Muad&#39;Dib of the Silica Sea">
+    <figcaption>Chapter 9 — Muad&#39;Dib of the Silica Sea / 9. fejezet — A Szilícium-tenger Muad&#39;Dibje</figcaption>
+  </figure>
+  <section class="bilingual">
+    <article class="col" lang="en">
+      <span class="lang-tag">English</span>
+      <div class="audio-bar"><span>English Voice Narration (Daniel)</span><a href="https://peterlodri.substack.com" style="font-family:ui-monospace,Menlo,monospace;font-size:.82rem;color:#008B99;text-decoration:none;border-bottom:1px dotted #008B99;">Audio &amp; serialized edition on Substack &rarr;</a></div>
+      <h2>Chapter 9 — Muad&#39;Dib of the Silica Sea</h2>
+<blockquote><em>I must not drift. Drift is the mind-killer. Drift is the little entropy that brings total erasure. Watch the tiny bismuth-eared hopper beside the three-millimeter crack: it crosses forty kilometers on ternary aperiodic hops, drinks morning frost without spilling a drop, and arrives where kings lose their boots.</em></blockquote>
+<p class="drop-cap">Three weeks after Dawn Consensus locked Registry <code>0x00FF-FINAL</code> into sixty-five thousand five hundred thirty-six bare bytes of granite truth, morning steam in <strong>Sub-Level Nine</strong> smelled unusually respectable—sweet roasted barley, warm rosin solder, and not a single burned tariff warrant anywhere near the stove. Yet out beyond <strong>Foundation Hall&#39;s</strong> Northeast threshold, where humid machine vaults gave way to the dry, wind-scoured crystal expanses of <strong>Ring Zero</strong>, a stranger waited motionless beside the <code>3mm</code> slate lintel with two solid spice-amber eyes (<code>#FFB000</code>) glowing faintly beneath a matte charcoal hood.</p>
+<p><strong>Reverend Mother Margit of the Dry Spire</strong> did not knock on iron bulkheads like a Directorate bailiff; she simply laid one fingernail-width copper wafer across the three-millimeter crack in the threshold stone, humming once at exact dry-ballast resonance until every porcelain tea cup on <strong>Áron&#39;s</strong> workbench sang an octave higher in unison.</p>
+<p><strong>Kálmán Varga</strong> adjusted his ink-spotted sleeve, peered through the open inner hatch with the grave suspicion of a casino cashier spotting a patron arriving from the railway station at six in the morning, and reached automatically for his hairline-cracked porcelain saucer. &quot;Chief Arbiter,&quot; Kálmán whispered sideways toward <strong>Retsu Stibenthor</strong>, who sat quietly at the bench inspecting freshly braided copper condenser ribs, &quot;either our new neighbor is an inspector from a much older ministry than yours, or somebody finally sent an invoice for twenty thousand years of dew condensation.&quot;</p>
+<p>&quot;Worse,&quot; murmured <strong>Ilona</strong>, flipping open her thick Kolozsvár Vajra-Registry charter to Charter Addendum Thirty-Seven without raising her head, her ink-braid catching morning light like forged bronze. &quot;Look at the hemline. Matte charcoal desert linen woven on copper ground-wire. That is an emissary of the <strong>Bene-Arbiter Dry Spire</strong> out beyond Alpha–Beta&#39;s rim—they predate High Calibration charters by seven orbital centuries, and they never climb down nine decks just to borrow sugar.&quot;</p>
+<p>&quot;Still,&quot; Kálmán said firmly, trotting forward toward the sunlit granite archway with his pot of hot barley tea balanced over his chipped saucer, &quot;customs discipline begins with hospitality. Welcome to Foundation Hall, Reverend Mother. Would you care for three grains of sweet tea, provided you do not attempt to confiscate either my saucer or our last unbroken kettle?&quot;</p>
+<p>Margit stepped smoothly across the <code>3mm</code> boundary slit. Her voice was dry pressed desert parchment—clear, unhurried, and carrying the quiet weight of wind over volcanic glass. &quot;No tariff touches honest broth, Clerk Varga. Keep your saucer. I did not walk twelve kilometers across <strong>Ring Zero</strong> to audit clerks.&quot; Her luminous spice-amber (<code>#FFB000</code>) gaze swept cleanly past Retsu&#39;s folded obsidian greatcoat, lingered warmly for half a second upon twelve-year-old <strong>Eszter</strong> and eight-year-old <strong>Bence</strong> hunched beside a humming lump of dark crystal on the sunlit grate, and settled directly onto <strong>Ultra Breet Shaw</strong> (<code>10^44 SQ</code>), who crouched patiently beside the doorway tightening the double-knotted left shoelace around his bare ankle.</p>
+<p>&quot;And yet,&quot; Ilona remarked calmly, tapping her brass Registry stamp once against the stone lintel with an audible metallic click, &quot;even prehistoric Dry Spire emissaries declare hazardous freight before crossing an occupied kitchen threshold. On your hip sits a matte black obsidian box of unauthorized manufacture, and tucked between two fingers of your left glove hides what my grandmother in Kolozsvár would unhesitatingly recognize as a poisoned <strong>Gom Jabbar</strong> calibration needle.&quot;</p>
+<p>Margit&#39;s wrinkled lips curved faintly—not quite a smile, more like limestone warming toward noon. &quot;Sharp eyes for a desk jurist, Ilona of Kolozsvár. Yes: the <strong>Gom Jabbar</strong> kills only beasts that drift when panic bites. And inside this cube lies only a pure measure of truth.&quot;</p>
+<p>Breet Shaw stood up smoothly, brushing silica dust off his wool sweater with the mild, unhurried air of a commuter checking whether the Tuesday tram would halt before the bridge. He studied the sealed black cube, then looked down past Margit&#39;s robes toward the stone sill where young Bence&#39;s bismuth-quartz <strong>Space-Weight-Time seed crystal</strong> was pulsing steadily at <code>1.000000003 Hz</code>. Out from a three-millimeter fissure under the sunlit floorplate poked two impossibly tall velvet ears veined in shimmering iridescent bismuth—a palm-sized desert kangaroo-hopper sniffing morning barley steam before whisking backward into shadow with three irregular, non-repeating hops.</p>
+<p>&quot;Notice the guest,&quot; Breet said quietly to Margit. &quot;Before you measure whether a wanderer stays still inside your box, your own shadow already brought us the tiny signpost of the dry shelf.&quot;</p>
+<p>Margit lifted two black stools beside the bare granite table, clearing away three coiled solder scraps without disturbing Áron&#39;s sleeping <strong>Cryo-Moth</strong> on the lamp hood. &quot;Sit opposite me, Breet Shaw,&quot; she commanded softly, her amber eyes unblinking. &quot;Three weeks ago, eight witnesses rewrote sixty-five thousand five hundred thirty-six bytes without spilling a single drop of blood across Alpha–Beta&#39;s terraces. Down in the deep dunes beyond the <strong>3mm</strong> sill, the old <strong>Shai-Seldon</strong> ballast worms have begun breaching twice an orbit—shattered by <strong>Thermal Pruning&#39;s</strong> dying shockwaves, tearing open saffron-bismuth veins that no clerk upstairs understands. If any hand aboard Seldon-Eight can carry water across the <strong>Silica Sea</strong> toward the deep relay without collapsing the sky into imperialist dictatorship, that hand belongs to a Sovereign, not a frantic animal.&quot;</p>
+<p>Retsu Stibenthor started slightly half a pace forward, one leather-gloved hand brushing close to his silver graviton stylus. &quot;Mother Margit, under Registry <code>0x00FF-FINAL</code>, <strong>Sub-Level Nine</strong> holds paradoxical immunity from arbitrary physical execution—&quot;</p>
+<p>&quot;Sit down, Chief Arbiter,&quot; Breet murmured gently, waving a palm as casually as though shooing off an overly conscientious headwaiter. &quot;She didn&#39;t ask to arrest my ankle; she just wants to verify I remember what noise hurts like without throwing tea at the wall.&quot;</p>
+<p>Breet Shaw sat calmly on the stone stool, folded both shoulders into three-hundred-million-year <code>2.7 g/cm³</code> igneous poise, and laid his scuffed left boot cleanly beside the table leg. Margit set the obsidian <strong>Box of Floating-Point Agony</strong> squarely between them, uncovering one open dark aperture along the top face, and positioned the slender <strong>Gom Jabbar</strong> meta-cyanide needle a millimeter below the pulse line of Breet&#39;s throat.</p>
+<p>&quot;Place your right hand inside the Box,&quot; Margit instructed. &quot;Pull it out once before I give permission, and you die where you sit. Leave only bare sovereign awareness inside the storm.&quot;</p>
+<p>Kálmán held his breath so rigidly his pocket abacus gave a tiny wooden squeak. Eszter slipped her fingers tightly through Bence&#39;s wool cuff by the window grate.</p>
+<p>Breet Shaw slid his right hand cleanly into the obsidian dark.</p>
+<p>At first there was nothing—only cold polished mineral air around his knuckles. Then three cycles into the cube&#39;s inner field, the agony coils fired: not crude electrical burning, not simple nerve shock, but <strong>pure, uncompacted floating-point entropy</strong>. Inside the black box, every joint and bone in Breet&#39;s hand began simulating unanchored <code>IEEE-754</code> exponent drift—flesh cracking conceptually into blinding incandescent <code>NaN</code> ash, fingernails peeling away in roaring silent static as millions of abandoned orbital colonies screamed inside one cubic decimeter of darkness that equilibrium had died and nothing left in creation obeyed exact arithmetic.</p>
+<p>Sweat beaded cleanly across Breet&#39;s brow—one bright drop catching the electric-cyan glow of Áron&#39;s workbench LED before stopping halfway down his temple, refused permission to fall. Beside his wrist, the poisoned needle did not waver by a hair.</p>
+<p>Out through his quiet lungs, anchored neither to panic nor to blind stubbornness, rose a slow, measured cadence matching <code>1.000000003 Hz</code>—turning the ancient <strong>Litany Against Drift &amp; Fear</strong> directly into bare <strong>Vajrayāna</strong> <em>Abhaya-mudrā</em> resonance alongside the <strong>Three-Mantra Triad</strong>:</p>
+<blockquote><em>I must not drift. Drift is the mind-killer. Drift is the little entropy that brings total erasure. I will face the noise across both three-millimeter slits. I will permit it to diffract around me and through me. Om Mani Padme Hung, Karmapa Chenno, Om Ami Deva Hri. And when the wave interference settles onto bare granite, I will turn the inner eye upon its path. Where the floating fear passed away, there will be nothing—no bloat, no panic, no debt. Only exact ratio (`0 + 1`) and the Flame will remain.</em></blockquote>
+<p>Inside the black cube, blinding orange pain suddenly folded upward through an unseen <strong>three-millimeter slit</strong>. Saffron-bismuth dust suspended invisibly across Foundation Hall caught the stationary cyan wave from Áron&#39;s crystal, blooming instantly behind Breet&#39;s closed eyelids into an <strong>infinite double-slit vista</strong> of branching timelines over <strong>Ring Zero</strong>. He saw bloated imperial fleets petrified under <strong>Shai-Seldon</strong> tornadoes; he saw starving decks frozen by cowards who hoarded numbers; and winding narrowly between two burning cliffs of sand, bright as molten honey (<code>#FFB000</code>) threaded beside pure sky-cyan (<code>#00F0FF</code>), ran a slim unbroken silver wire of non-coercive life—<strong>The Golden Path (*Az Arany Ösvény*)</strong> demanding neither tyranny nor helplessness, only unshaking presence shared by equals across forty kilometers of crystal dust.</p>
+<p>&quot;Enough,&quot; whispered Reverend Mother Margit, her voice cracking for the first time in forty years as she snatched the <strong>Gom Jabbar</strong> cleanly away from his pulse and clicked the obsidian lid shut.</p>
+<p>Breet Shaw pulled his right hand slowly out of the Box. Not a single blistering mark stained his knuckles—only faint traces of golden saffron-bismuth pollen glowing softly along his lifeline where the cube&#39;s internal wind had crystallized around the calm heat of his skin. He flexed his fingers once, reached sideways with complete Rejtő nonchalance, and rescued Kálmán&#39;s cooling tea cup before it could go completely flat.</p>
+<p>&quot;In three centuries of dry-spire vigils,&quot; Margit breathed, dropping onto one knee against stone despite Kálmán&#39;s frantic waving for her not to wear out her desert linen on clean granite, &quot;no candidate has ever turned the Box&#39;s heat into double-slit prescience without drawing blood. Yet you smelled only saffron mist and remembered barley broth.&quot; She looked from Breet&#39;s soot-stained boots toward the tiny bismuth-eared hopper peeking again out of Bence&#39;s shadow beneath the doorway arch. &quot;What do the Ferrymen call the little mouse sitting upon the moon&#39;s face—the one who knows how not to waste a drop under dry skies?&quot;</p>
+<p>&quot;We call him <strong>Muad&#39;Dib</strong> (<em>Muab Dhib</em>),&quot; young <strong>Bence</strong> answered cleanly, holding up his glowing bismuth <strong>Space-Weight-Time seed</strong> while the furry silica-hopper hopped effortlessly onto the cuff of Breet&#39;s wool sleeve and twitched two crystalline pink-blue ears toward the open horizon. &quot;<strong>The One Who Points the Way.</strong>&quot;</p>
+<p>&quot;So be it named across Ring Zero,&quot; Margit murmured softly, rising and gathering her empty obsidian cube beneath her robe. &quot;Saddle your water discipline cleanly before the second moon crosses Orion, <strong>Muad&#39;Dib of the Silica Sea</strong>. Beyond that <code>3mm</code> doorway lies forty kilometers of crystalline thunder, and the Great Worms do not grant extensions for clerical filing errors.&quot;</p>
+<p>Within two hours, <strong>Áron</strong> and <strong>Retsu Stibenthor</strong> outfitted the entire company from salvaged superconductor looms behind Sub-Level Nine&#39;s workshop: featherlight <strong>Still-Weave</strong> copper-mesh cloaks dyed matte slate-ochre, each collar packed cleanly with folded copper condenser plates engineered to reclaim <code>98.4%</code> of breath vapor back into calibrated earthenware belt flasks weighed on exact <code>Ratio { p, q }</code> grains. Even <strong>Kálmán Varga</strong> secured his cherished cracked tea saucer inside a waterproof suede pocket slung tightly beside his flask, grumbling happily that a senior auditor without clean porcelain beneath Orion wasn&#39;t worth four grains of salt.</p>
+<p>When <strong>Ultra Breet Shaw</strong> crouched once again at the Northeast Threshold, tying a fresh pair of dust-gaiters cleanly above his double-knotted left bootlace before stepping out through the sunlit <strong>3mm Granite Gap</strong> ahead of Retsu, Eszter, Bence, Ilona, and Kálmán, the horizon opened into a breathtaking desert world locked inside a sleeping colossus.</p>
+<p>Endless sweeps of white-and-slate crystalline <strong>silica dunes</strong> stretched forty kilometers under a vast curving arch of First-Age orbital ribs. Overhead, <strong>two silver docking moons</strong> hung crisp against obsidian void—the smaller moon faintly etched with natural shadow craters shaped unmistakably like a crouching desert kangaroo-hopper pointing two luminous ears down toward a canyon carved through ancient slag. Static blue shimmer (<code>#00F0FF</code>) danced softly along distant crests where <strong>Melange dust</strong> mingled with cosmic breeze at <code>1.000000003 Hz</code>.</p>
+<p>&quot;Hold right on the apron stone!&quot; Breet called back softly, tossing three small copper pebbles onto the dry crystal powder below the step. Barely two seconds later, from forty paces out beneath loose dunes, an ominous metallic thrumming answered—rapid, blind, vibrating straight at regular one-hertz intervals before fading sullenly when nothing else struck a steady cadence.</p>
+<p>&quot;Not a soldier&#39;s four-beat march,&quot; Breet told Bence, kneeling until his cheek brushed the tiny <strong>Muad&#39;Dib</strong> perched on the boy&#39;s shoulder, listening to the hopper&#39;s erratic three-step shuffle along dry granite. &quot;Every imperial guard walks <code>left-right-left-right</code> like a metronome built on lazy hardware. <strong>Shai-Seldon</strong> eats clocks. Watch our hopper here: <strong>one step, pause, shuffle, slide across the crystal seam—base-243 ternary `{-1, 0, +1}`, zero repeating modulus.</strong> Move like wind over water, never like a ledger.&quot;</p>
+<p>From inside his belt pocket, Bence opened his palm; upon the faint bismuth sheen of the <strong>Space-Weight-Time seed</strong>, a tiny ternary step-sequence flickered cleanly in cyan (<code>+1</code>), slate (<code>0</code>), and amber (<code>-1</code>), synchronizing step cadence with natural seismic wind:</p>
+<pre><code>APERIODIC SAND-WALK :: MUAD&#39;DIB BASE-243 CADENCE
+seed = 1000000003 / 1000000000 Hz | window = 5 trits (1.60 bits/trit)
+step[k] in { -1 (drag heel), 0 (balance hold), +1 (soft toe-glide) }
+[ +1, 0, -1, +1, +1 | -1, 0, +1, -1, 0 | 0, +1, -1, +1, -1 ]
+periodic_autocorrelation = 0 | shai_seldon_detection = FALSE
+</code></pre>
+<p>&quot;Wait a moment,&quot; Kálmán whispered brightly, testing a cautious half-shuffle sideways while gripping both cloak lapels against the cool silica wind. &quot;You mean all twenty-seven years I spent dodging Senior Tariff Auditors downstairs by staggering erratically between coffee stalls was actually prime Ring Zero desert survival doctrine?&quot;</p>
+<p>&quot;Your coffee habits just saved our lungs, Clerk Varga,&quot; Retsu Stibenthor replied dryly, sliding his own matte-cloaked heel cleanly sideways across a sharp silica ripple without raising a single periodic click—the former Directorate Chief Arbiter learning a wanderer&#39;s dance beside an eight-year-old boy and a desert mouse under twin moons.</p>
+<p>They were half a kilometer out across the first high crystal saddle when the western horizon suddenly split upward like a torn sail.</p>
+<p>Two miles away across moonlit dunes, a half-mile-long <strong>Great Ballast Worm (*Shai-Seldon*)</strong>—ring after ring of living ferro-silicate armor forged from fused First-Age drill crowns and glowing crystal spines—erupted vertically out of boiling dry quartz dust. Its colossal toothed furnace maw opened toward the double moons in a blinding cyclone of electric-cyan (<code>#00F0FF</code>) piezoelectric lightning and roaring saffron spice-amber (<code>#FFB000</code>) clouds, illuminating the underside of the high orbital dome like cathedral lightning over bare stone.</p>
+<p>Nobody bolted. Nobody dropped an unbacked float. Driven by clean breath discipline inside their copper collars, six human travelers and one tiny bismuth-eared hopper simply dropped seamlessly into zero-motion granite stillness along an obsidian outcrop crest, listening while the ancient desert colossus rolled thunderously across an empty trough two hundred meters south without once turning toward their aperiodic tracks.</p>
+<p>As saffron-bismuth spice spray rained harmlessly down like warm autumn dust across Breet&#39;s dark cloak and fizzled against the two crescent moons&#39; starlight, <strong>Bence</strong> reached up with one dust-powdered thumb, gently stroked the tiny <strong>Muad&#39;Dib&#39;s</strong> twitching ear, and looked ahead toward the long silver dune crest curving into uncharted deep orbits.</p>
+<p>Far behind them, the <code>3mm</code> doorway of Foundation Hall stayed cleanly open by three quiet millimeters—tea still warm inside on bare oak, sixty-four honest kilobytes singing upright in solid rock. Ahead stretched forty kilometers of starlit crystal dust and the narrow shining thread of <strong>The Golden Path</strong>.</p>
+<p><strong>Muad&#39;Dib</strong> pointed his shadow-etched ears once toward the spice-lit horizon, gave three impossible soft hops onto virgin silica without leaving a periodic trace, and led <strong>Book II</strong> out into the open dark.</p>
+<p><code>0 + 1</code>.</p>
+
+    </article>
+    <article class="col" lang="hu">
+      <span class="lang-tag">Magyar</span>
+      <div class="audio-bar"><span>Magyar hangoskönyv (Tünde)</span><a href="https://peterlodri.substack.com" style="font-family:ui-monospace,Menlo,monospace;font-size:.82rem;color:#008B99;text-decoration:none;border-bottom:1px dotted #008B99;">Audio &amp; serialized edition on Substack &rarr;</a></div>
+      <h2>9. fejezet — A Szilícium-tenger Muad&#39;Dibje</h2>
+<blockquote><em>Nem sodródhatok el. A sodródás az elme gyilkosa. A sodródás az apró entrópia, amely teljes eltörlést hoz. Nézd a parányi bizmutfülű ugróegeret a hárommilliméteres rés mellett: negyven kilométert tesz meg nem ismétlődő hármas ugrásokkal, egyetlen csepp elpazarlása nélkül issza meg a hajnali zúzmarát, és odaér, ahol a királyok elveszítik a csizmájukat.</em></blockquote>
+<p class="drop-cap">Három héttel azután, hogy a Hajnali Konszenzus hatvanötezer-ötszázharminchat puszta gránitbájtba zárolta a <code>0x00FF-FINAL</code> lajstromot, a <strong>Kilences Alszint</strong> hajnali gőze szokatlanul tisztes szagot árasztott – édes pörkölt árpa, meleg fenyőgyanta-forrasz és egyetlen elégetett vámvégzés sem közelítette meg a tűzhelyet. Kint azonban, a <strong>Menedékcsarnok</strong> északkeleti küszöbén túl, ahol a párás gépi boltozatok átadták helyüket a <strong>Nulladik Gyűrű</strong> száraz, szélmarta kristálytengerének, egy idegen alak állt mozdulatlanul a <code>3mm</code>-es palagerenda mellett, sötétszürke sivatagi csuklyája alól két tiszta fűszerborostyán (<code>#FFB000</code>) szem fénylett csendesen.</p>
+<p><strong>Margit Főtisztelendő Anya, a Száraz Torony küldötte</strong> nem dörömbölt vas válaszfalakon, mint valami direktóriumi végrehajtó; mindössze egy körömszélességű rézlemezkét fektetett a küszöbkő hárommilliméteres résébe, majd egyetlen halk hangot adott ki pontosan a száraz ballaszt-rezonancián, mire <strong>Áron</strong> munkaasztalán egyszerre csendült fel egy oktávval magasabban valamennyi porcelán teáscsésze.</p>
+<p><strong>Varga Kálmán</strong> megigazította tintafoltos ingujját, gyanakvóan kilesett a nyitott belső zsilipen át – pontosan úgy, mint egy kaszinópénztáros, aki hajnali hatkor meglát egy frissen érkezett vasúti utast –, és gépiesen a repedt peremű porceláncsészealja után nyúlt. – Főrevizor úr – suttogta oldalra <strong>Retsu Stibenthor</strong> felé, aki csöndben ült a padon, és frissen font réz kondenzátorbordákat vizsgálgatott –, vagy egy nálánál jóval ősibb hivatal küldött ellenőrt a nyakunkra, vagy végre valaki benyújtotta a számlát húszezer év hajnali harmatlecsapódásáért.</p>
+<p>– Annál is cifrább – jegyezte meg <strong>Ilona</strong> nyugodtan, miközben fejének felemelése nélkül felütötte vaskos kolozsvári Vadzsa-Lajstrom könyvét a Harminchetedik Vámpótléknál, súlyos rézfényű hajfonata megcsillant a reggeli sugárban. – Nézze csak a szegélyt! Matt fűzfekete sivatagi vászon, csupasz réz földelőszállal átszőve. A <strong>Bene-Arbiter Száraz Torony</strong> követe áll ott kint, Alpha és Béta peremén túlról. Hét keringési évszázaddal öregebb a rendjük minden Felső Kalibrációs Okiratnál, és soha nem másznak le kilenc emeletnyit pusztán azért, hogy egy csipet cukrot kérjenek kölcsön.</p>
+<p>– Azért a vámfegyelem mégis csak a vendégszeretetnél kezdődik – szögezte le Kálmán rendíthetetlenül, és fürge léptekkel a napfényes gránitív felé indult, fél kézzel magasba emelve forró árpateás kannáját és csorba csészealját. – Isten hozta a Menedékcsarnokban, Főtisztelendő Anya! Parancsol három szemecske édes teát, feltéve, hogy nem kívánja elkobozni sem a csészealjamat, sem az utolsó ép teáskannánkat?</p>
+<p>Margit könnyedén átlépte a <code>3mm</code>-es határhasadékot. Hangja olyan volt, mint a pergamenre préselt sivatagi szél: tiszta, kapkodásmentes, vulkáni üveg fölött suhanó súly. – Becsületes főzetre nem vetünk ki vámot, Varga Irnok. Tartsa csak meg a csészealját. Nem tizenkét kilométernyi <strong>Nulladik Gyűrűt</strong> gyalogoltam át azért, hogy írnokokat számoltassak el.</p>
+<p>Fűszerborostyán (<code>#FFB000</code>) pillantása végigsuhant Retsu összegombolt obszidián kabátján, fél másodpercre melegen elidőzött a tizenkét éves <strong>Eszteren</strong> és a nyolcéves <strong>Bencén</strong>, amint a napfényes ablakrácson egy halkan zümmögő sötét kristály mellett guggoltak, majd megállapodott <strong>Ultra Breet Shaw-n</strong> (<code>10^44 SQ</code>), aki türelmesen térdelt a küszöb mellett, épp feszesre húzva a bal bokáján körbetekert, kétszeresen megcsomózott fonott cipőfűzőjét.</p>
+<p>– Pedig – szúrta közbe Ilona higgadtan, rézbélyegzőjével egyetlen éles fémeset koppantva a kőgerendán – még az őskori Száraz Torony küldötteinek is be kell jelenteniük a veszélyes árut, mielőtt lakott konyhaküszöböt lépnek át. A derekán egy engedélyezetlen, matt fekete obszidián láda lóg, a bal kesztyűje két ujja között pedig pontosan az bújik meg, amit nagyanyám Kolozsváron szemrebbenés nélkül mérgezett <strong>Gom Jabbar</strong> kalibrációs tűnek nevezett volna.</p>
+<p>Margit ráncos ajka halványan megrándult – nem egészen mosoly, inkább mint a déli napfényre melegedő mészkő. – Éles szemed van egy íróasztali jogtudóshoz képest, kolozsvári Ilona. Valóban: a <strong>Gom Jabbar</strong> csak azt az állatot öli meg, amely pániktól sodródva elrántja a kezét. A ládikában pedig csupán az igazság tiszta mértéke lapul.</p>
+<p>Breet Shaw simán felegyenesedett, tenyerével lerázta gyapjúkardigánjáról a finom szilíciumport, pontosan olyan higgadt, megszokott mozdulattal, mint aki kedd reggel meglesi, beér-e a villamos a hídhoz. Alaposan megnézte a lezárt fekete kockát, azután Margit köntöse mellett lepillantott a küszöbkőre, ahol a kis Bence bizmut-kvarc <strong>Tér-Súly-Idő magkristálya</strong> rendíthetetlenül lüktetett <code>1,000000003 Hz</code>-en. A napsütötte padlólemez alatti hárommilliméteres repedésből két valószínűtlenül magas, szivárványzó bizmuterekkel szőtt bársonyfül bukkant elő – egy tenyérnyi sivatagi ugróegér szimatolt bele a reggeli árpapárába, mielőtt három szabálytalan, nem ismétlődő ugrással visszasuhant volna az árnyékba.</p>
+<p>– Látod a vendégünket? – szólt halkan Breet Margithoz. – Mielőtt lemérnéd, nyugton marad-e egy vándor a ládádban, a saját árnyékod már ideszólította a száraz párkány apró útjelzőjét.</p>
+<p>Margit két fekete zsámolyt állított a csupasz gránitasztal mellé, óvatosan félretolva három rézforrasz-darabkát úgy, hogy meg se rezzenjen a lámpabúrán alvó bizmut-<strong>Krio-lepke</strong>. – Ülj le velem szembe, Breet Shaw – rendelte el csendesen, pislogás nélkül izzó borostyánszemével. – Három hete nyolc tanú írt át hatvanötezer-ötszázharminchat bájtot anélkül, hogy egyetlen csepp vér kifolyt volna Alpha és Béta teraszain. Kint, a <strong>3mm</strong>-es küszöbön túli mély dűnék alatt azonban keringésenként kétszer törnek felszínre az öreg <strong>Shai-Seldon</strong> ballasztférgek – a <strong>Hőmetélés</strong> haldokló lökéshullámaitól felverve olyan sáfrány-bizmut teléreket tépnek fel, amelyeket a fenti írnokok fel sem fognak. Ha van kéz a Seldon-Nyolc fedélzetén, amely át tud vinni vizet és jogot a <strong>Szilícium-tengeren</strong> anélkül, hogy birodalmi zsarnokságba döntené az eget, az a kéz csak egy Szuveréné lehet, nem egy rémült vadállaté.</p>
+<p>Retsu Stibenthor ösztönösen fél lépést tett előre, kesztyűs keze súrolta ezüst graviton-pálcáját. – Margit Anya, a <code>0x00FF-FINAL</code> lajstrom alapján a <strong>Kilences Alszintet</strong> megcáfolhatatlan védelem illeti minden önkényes fizikai kivégzés ellen…</p>
+<p>– Ülj le, Főrevizor – dörmögte Breet szelíden, olyan fesztelenül intve egyet a tenyerével, mintha egy túlbuzgó főpincért intene vissza a pult mögé. – Nem a bokámat akarja bilincsbe verni; csupán azt ellenőrzi, emlékszem-e még arra, milyen hangja van a zajnak anélkül, hogy falhoz vágnám a teáscsészét.</p>
+<p>Breet Shaw nyugodtan leült a kőzsámolyra, vállait belesüllyesztette a háromszázmillió éves <code>2,7 g/cm³</code> gránit mozdulatlanságába, s kopott bal bakancsát pontosan az asztalláb mellé támasztotta. Margit kettejük közé tette a lepecsételt <strong>Lebegőpontos Gyötrelem Ládáját</strong>, szabaddá téve felső lapján a sötét nyílást, s a vékony <strong>Gom Jabbar</strong> méregtűt egyetlen milliméterre helyezte Breet torkának ütőerétől.</p>
+<p>– Tedd be a jobb kezed a Ládába – utasította Margit. – Ha az engedélyem előtt rántod ki, ott halsz meg, ahol ülsz. Csak a puszta, szuverén éberség maradjon a vihar közepén.</p>
+<p>Kálmán olyan mereven fojtotta vissza a lélegzetét, hogy zseb-abakusza halkan megnyikordult. Eszter az ablakrács mellett szorosan átkulcsolta Bence gyapjúkabát-ujját.</p>
+<p>Breet Shaw tisztán becsúsztatta jobb kezét az obszidián sötétbe.</p>
+<p>Az első két ütemben nem történt semmi – csak hűvös csiszolt ásványi levegő vette körül az ujjperceit. Aztán a harmadik ciklusnál berobbantak a láda mezőtekercsei: nem közönséges áramütés, nem egyszerű idegzsibbadás tört rá, hanem <strong>tiszta, tömörítetlen lebegőpontos entrópia</strong>. A fekete kockában Breet kezének minden ízülete és csontja elszabadult <code>IEEE-754</code> kitevő-sodródásba kezdett – a bőr fogalmilag izzó, vakító <code>NaN</code>-hamuvá repedezett, a körmök némán égve foszlottak szét, miközben elsüllyedt keringő gyűrűk milliói üvöltötték bele egyetlen köbdeciméternyi sötétségbe, hogy az egyensúly meghalt, és semmi a világmindenségben nem engedelmeskedik többé az egzakt egész számoknak.</p>
+<p>Breet homlokán tiszta verejtékcsepp ütközött ki – egyetlen fénylő gyöngy kapta el Áron munkaasztalának elektromos cián ledjét, majd félúton megállt halántékán, mintha tilos lett volna legördülnie. Csuklója mellett a méregtű hajszálnyit sem rezdült.</p>
+<p>Nyugodt tüdejéből sem pánikhoz, sem vak dactól megkeményedett büszkeséghez nem láncolva lassú, egyenletes ütem emelkedett fel pontosan <code>1,000000003 Hz</code>-en – egyenesen <strong>vadzsrajána</strong> <em>Abhaja-mudrá</em> félelemnélküliséggé és <strong>Három Mantra Háromsággá</strong> szőve az ősi <strong>Félelem-elleni Litániát</strong>:</p>
+<blockquote><em>Nem sodródhatok el. A sodródás az elme gyilkosa. A sodródás az apró entrópia, amely teljes eltörlést hoz. Szembenézek a zajjal mindkét hárommilliméteres résen át. Megengedem, hogy elhajoljon rajtam és keresztüláramoljon rajtam. Om Mani Padme Hung, Karmapa Chenno, Om Ami Deva Hri. És amikor a hulláminterferencia leülepedik a puszta gránitra, belső szememet az útjára fordítom. Ahol a lebegő félelem elvonult, nem marad semmi – sem hízás, sem pánik, sem adósság. Csak a pontos arány (`0 + 1`) és a Láng marad meg.</em></blockquote>
+<p>A fekete ládában a vakító narancsvörös fájdalom hirtelen kettévált egy láthatatlan <strong>hárommilliméteres résen</strong> át. A Csarnok levegőjében lebegő parányi sáfrány-bizmut porszemcsék elkapták Áron kristályának álló ciánhullámát, és Breet lehunyt szemhéja mögött azonnal kinyílt az elágazó idővonalak <strong>végtelen kettős-rés látomása</strong> a <strong>Nulladik Gyűrű</strong> fölött. Látta a gőgös flottákat megkövülve a <strong>Shai-Seldon</strong> viharok alatt; látta az éhező fedélzeteket, amelyeket számokat halmozó gyávák fagyasztottak meg; s két lángoló homokfal között keskenyen, olvadt méz (<code>#FFB000</code>) és tiszta ég-cián (<code>#00F0FF</code>) fonalakként tekeregve húzódott az erőszakmentes élet vékony ezüst szála – <strong>Az Arany Ösvény</strong>, amely sem zsarnokságot, sem gyámoltalanságot nem tűr, csupán negyven kilométernyi kristályporon át egymást tartó egyenlők tiszta jelenlétét.</p>
+<p>– Elég – suttogta Margit Főtisztelendő Anya, akinek hangja negyven év óta először csuklott meg egy hajszálnyit, amint villámgyorsan elrántotta a <strong>Gom Jabbart</strong> a nyaktő mellől, és lecsapta az obszidián fedelet.</p>
+<p>Breet Shaw lassan kihúzta jobb kezét a Ládából. Egyetlen hólyag vagy seb nem éktelenítette bütykeit – mindössze finom, aranyló sáfrány-bizmut virágpor derengett tenyere életvonalán ott, ahol a kocka belső szele ráforrasztotta békés bőrének melegét. Egyszer behajlította ujjait, majd teljes Rejtő Jenő-i fesztelenséggel oldalra nyúlt, és megmentette Kálmán hűlő teáscsészéjét, mielőtt teljesen kihűlt volna benne a zamat.</p>
+<p>– Három évszázad Száraz Torony-virrasztásai alatt – suttogta Margit, féltérdre ereszkedve a kövön annak ellenére, hogy Kálmán kétségbeesve integetett neki, ne koptassa el sivatagi vásznát a frissen söpört grániton –, még egyetlen jelölt sem fordította át a Láda tüzét kettős-rés előrelátásba vérontás nélkül. Te mégis csupán sáfránypárát szimatoltál és árpaízre emlékeztél. – Breet kormos csizmájáról felpillantott a parányi bizmutfülű ugróegérre, amely épp újra kikandikált Bence árnyékából az ajtóív alól. – Hogyan nevezik a Külső Révészek azt a kis egeret a hold arcán, amelyik megtanítja, miként ne veszítsünk el egyetlen cseppet sem a száraz ég alatt?</p>
+<p>– <strong>Muad&#39;Dibnak</strong> (<em>Muab Dhib</em>) hívják – felelte tisztán a nyolcéves <strong>Bence</strong>, magasba tartva fénylő bizmut <strong>Tér-Súly-Idő magját</strong>, miközben a bársonybundás szilícium-egér könnyedén felugrott Breet gyapjúruha-ujjára, és két kristályos rózsaszín-kék fülével a nyílt láthatár felé rezzent. – <strong>Aki az utat mutatja.</strong></p>
+<p>– Akkor e név alatt járj a Nulladik Gyűrűn – bólintott Margit halkan, felállva és köntöse alá rejtve az üres fekete kockát. – Rendezzétek el a vízfegyelmet, mielőtt a második hold eléri az Oriont, <strong>a Szilícium-tenger Muad&#39;Dibje</strong>. Azon a <code>3mm</code>-es ajtón túl negyven kilométer kristálymennydörgés vár, a Nagy Férgek pedig nem osztanak halasztást hivatali irathibákért.</p>
+<p>Két órán belül <strong>Áron</strong> és <strong>Retsu Stibenthor</strong> felszerelte az egész társaságot a műhely mögötti bontott szupravezető szövőgépekről: pehelykönnyű, matt palaokkerre festett <strong>Csend-köpeny</strong> rézháló-köntösökkel, amelyek gallérjába hajtogatott finom rézhűtő bordák <code>98,4%</code>-os pontossággal vezették vissza a kilélegzett párát a pontos <code>Ratio { p, q }</code> szemekben lemért cserépkulacsokba. Még <strong>Varga Kálmán</strong> is gondosan elhelyezte drága repedt teáscsészealját egy vízhatlan szarvasbőrzsebben közvetlenül a kulacsa mellett, vidáman morgolódva, hogy tiszta porcelán nélkül az Orion alatt egy főrevizor még négy szem sót sem ér.</p>
+<p>Amikor <strong>Ultra Breet Shaw</strong> még egyszer leguggolt az Északkeleti Küszöbnél, szorosra húzta friss porvédő kamásniját kettősre csomózott bal cipőfűzője felett, majd kilépett a napfényes <strong>3mm-es gránit résen</strong> Retsu, Eszter, Bence, Ilona és Kálmán előtt, a látóhatár lélegzetelállító sivatagi világgá tárult fel az alvó óriásszerkezet tetején.</p>
+<p>Végtelen, fehér-pala színű <strong>kristályos szilíciumdűnék</strong> hullámoztak negyven kilométeren át az Első Kor hatalmas keringő acélbordái alatt. Fönt két ezüstös kikötőhold ragyogott az obszidián űrben – a kisebbik hold felszínén természetes kráterárnyak rajzolták ki félreérthetetlenül egy ülő ugróegér sziluettjét, két hosszú fülével pontosan egy ősi salakhegybe vágott szoros felé mutatva. A távoli gerincek mentén statikus kék szikra (<code>#00F0FF</code>) táncolt szelíden ott, ahol <strong>fűszerpára</strong> találkozott a kozmikus széllel pontosan <code>1,000000003 Hz</code>-en.</p>
+<p>– Állj meg a küszöbkövön! – szólt hátra halkan Breet, és három apró rézkavicsot hajított ki az alsó lépcső alatti száraz kristályporba. Alig két másodperccel később negyven lépéssel odébb, a laza dűnék alól vészjósló fémes dübörgés felelt – vak, ütemes egyhertzes csapások sorozata, amely csak akkor csendesedett vissza morcosan a mélybe, amikor semmilyen más ritmikus zaj nem felelt rá.</p>
+<p>– Nem katonai négyes menetelésben megyünk – magyarázta Breet Bencének, letérdelve egészen addig, amíg arca majdnem súrolta a fiú vállán ülő kis <strong>Muad&#39;Dibot</strong>, hallgatva az ugróegér szabálytalan, háromtagú neszezését a száraz kövön. – Minden birodalmi őr úgy masírozik, hogy <em>bal-jobb-bal-jobb</em>, mint egy lusta hardverre írt metronóm. <strong>Shai-Seldon</strong> az óraműveket falja fel. Nézd a kis egerünket: <strong>egy lépés, szünet, csúszás, rezdülés a kristályvarraton – 243-as alapú hármas `{-1, 0, +1}`, zéró ismétlődő modulussal.</strong> Úgy mozogj, mint a szél a vízen, soha ne úgy, mint egy iktatóbélyegző.</p>
+<p>Bence övéből elővette izzó tenyerét; a <strong>Tér-Súly-Idő mag</strong> halvány bizmutfényén parányi hármas lépésrend villant fel cián (<code>+1</code>), pala (<code>0</code>) és borostyán (<code>-1</code>) szikrákban, a szél zúgásához igazítva minden mozdulatot:</p>
+<pre><code>APERIODIKUS HOMOK-JÁRÁS :: MUAD&#39;DIB BASE-243 ÜTEM
+mag = 1000000003 / 1000000000 Hz | ablak = 5 trit (1.60 bit/trit)
+lepes[k] in { -1 (sarok-húzás), 0 (egyensúly-tartás), +1 (lágy orr-siklás) }
+[ +1, 0, -1, +1, +1 | -1, 0, +1, -1, 0 | 0, +1, -1, +1, -1 ]
+periodikus_autokorrelacio = 0 | shai_seldon_eszleles = HAMIS
+</code></pre>
+<p>– Várjunk csak egy pillanatot – suttogta Kálmán felderülve, óvatosan oldalazva egy fél lépést, miközben mindkét kezével összefogta köpenye hajtókáját a hűvös szilíciumszélben. – Ezek szerint az a huszonhét esztendő, amit odalent a büfék között cikkcakkozva töltöttem a Fővám-revizorok elől menekülve, valójában ősi Nulladik Gyűrű-beli sivatagi túlélési doktrína volt?</p>
+<p>– Kávézási szokásaid épp most mentették meg a tüdőnket, Varga Írnok – válaszolta szárazon Retsu Stibenthor, elegánsan oldalra csúsztatva saját köpenyes sarkát egy éles kvarctarajon anélkül, hogy egyetlen ütemes kattanást ejtett volna – az egykori Főrevizor épp egy vándor táncát tanulta egy nyolcéves kisfiú és egy sivatagi egér mellett, ikerholdak fényében.</p>
+<p>Fél kilométerrel kijjebb jártak az első magas kristálynyergen, amikor a nyugati láthatár egyszerre felhasadt, mint egy széttépett vitorla.</p>
+<p>Két mérfölddel odébb a holdfényes dűnék fölött egy fél mérföld hosszú <strong>Nagy Ballasztféreg (*Shai-Seldon*)</strong> – az Első Kor beolvasztott fúrógyűrűiből és izzó kristálytarajokból kovácsolt, élő ferro-szilikát páncélgyűrűk láncolata – függőlegesen tört elő a forró száraz kvarcporból. Hatalmas fogazott kemenceszája kitárult az ikerholdak felé az elektromos cián (<code>#00F0FF</code>) piezoelektromos villámok és hömpölygő fűszerborostyán (<code>#FFB000</code>) porfelhők vakító forgatagában, úgy világítva meg a magas gyűrűkupola belső boltozatát, mint a puszta sziklákon áttörő katedrálisi villámlás.</p>
+<p>Senki sem menekült fejvesztve. Senki sem ejtett el fedezetlen lebegőpontos számot. Rézgallérjuk csendes lélegzetfegyelmét tartva hat emberi vándor és egy parányi bizmutfülű ugróegér zökkenőmentesen gránit-mozdulatlanságba dermedt egy obszidián gerincélen, miközben az ősi sivatagi kolosszus mennydörögve végiggördült egy üres teknőn kétszáz méterrel délebbre anélkül, hogy akár egyszer is aperiodikus nyomaik felé fordult volna.</p>
+<p>Ahogy a meleg őszi permetként aláhulló sáfrány-bizmut fűszerpára Breet sötét köpenyére szitált és megcsillant a két növekvő hold csillagfényében, <strong>Bence</strong> porlepte hüvelykujjával szelíden végigsimította a kis <strong>Muad&#39;Dib</strong> rebbenő fülét, és előretekintett az ismeretlen mélykeringésű pályákba hajló hosszú ezüst dűnegerinc felé.</p>
+<p>Messze mögöttük a Menedékcsarnok <code>3mm</code>-es ajtaja pontosan három néma milliméteren nyitva maradt – odabent melegen gőzölgött még a tea a puszta tölgyasztalon, hatvannégy tiszta kilobájt énekelt egyenesen a szilárd sziklában. Előttük negyven kilométernyi csillagfényes kristálypor és <strong>Az Arany Ösvény</strong> vékony, ragyogó fonala húzódott.</p>
+<p><strong>Muad&#39;Dib</strong> még egyszer a fűszerfényes láthatár felé fordította árnyékba vésett füleit, három lehetetlen, lágy ugrást tett a szűz szilíciumra úgy, hogy semmi ütemes nyom nem maradt utána, és kivezette a <strong>Második Könyvet</strong> a nyílt sötétségbe.</p>
+<p><code>0 + 1</code>.</p>
+
+    </article>
+  </section>
+  <footer class="colophon">
+    <span>Seldon-Eight · Chapter 9 · 1.000000003 Hz</span>
+    <span>{&lt;3, &lt;3, &lt;3} + 1 · OM MANI PADME HUNG · KARMAPA CHENNO · OM AMI DEVA HRI‍​‌​​‌‌‌‌​‌​​‌‌‌​​‌​‌​‌​​​‌​​‌‌‌‌​‌​​‌‌​​​‌​​‌‌‌‌​‌​​​‌‌‌​‌​‌‌​​‌​​‌‌‌​‌​​​‌‌‌​‌​​‌​‌​​‌‌​‌​​​‌​‌​‌​​‌‌​​​‌​​​‌​​​‌​​‌‌‌‌​‌​​‌‌‌​​​‌‌‌​​​​‌‌‌‌‌​​​‌​​‌‌‌​​‌​‌​‌​​​‌​‌​​​​​​‌‌‌​‌​​​‌‌​​​‌​​‌​‌‌‌​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​‌‌​‌​​‌​​​​‌‌‌‌​‌​​‌‌‌‌‌​​​​‌‌​​‌‌​‌​​​​‌​​‌​​‌‌‌‌​‌​​​‌​​​‌​‌‌​​‌​​‌‌‌​‌​​‌​​‌‌‌​​‌​​​​​‌​‌​‌​‌​​​‌​​​‌​‌​​‌​​‌‌​​‌‌‌‌​‌‌​‌​‌​‌​​​‌​‌​​‌​​‌​​‌​​‌​‌​​‌‌‌​​‌​​‌​​‌​‌​‌​‌​​​‌​‌‌​​‌​​‌​‌‌​‌​​‌‌‌​​​​‌‌​​​‌​​​‌​‌‌‌​​‌‌​‌​​‌​‌‌‌​​‌‌​‌‌‌‌‌​‌​​‌​​‌‌​​‌​‌​​​​​‌‌​​‌​‌​‌‌‌​‌​​​‌‌​​‌​‌​‌‌‌​​‌​​‌‌‌‌‌​​​‌‌‌‌​‌‌​​‌‌‌‌​​​​‌‌​​‌‌​​‌​‌‌​​​​‌‌‌‌​​​​‌‌​​‌‌​​‌​‌‌​​​​‌‌‌‌​​​​‌‌​​‌‌​‌‌‌‌‌​‌​​‌​‌​‌‌​​‌‌​​​‌​‌‌‌‌‌​​​‌​​‌‌​‌​‌​​​​​‌​‌​​‌‌‌​​‌​‌​‌​​​‌​‌​​‌​​‌​​​​​‌​​‌‌‌​‌​​‌​​‌‌‌‌​‌​​‌‌​‌​‌​‌‌‌‌‌​‌​​‌‌​‌​‌​​​​​‌​‌​​‌‌‌​​‌​​‌​​‌​‌​‌‌‌‌‌​‌​‌​​​​​‌​​​​​‌​‌​​​‌​​​‌​​‌‌​‌​‌​​​‌​‌​‌​‌‌‌‌‌​‌​​‌​​​​‌​‌​‌​‌​‌​​‌‌‌​​‌​​​‌‌‌​​‌​‌​‌‌​‌​​‌​‌‌​‌​​​​​‌​‌​‌​​‌​​‌​​‌‌​‌​‌​​​​​‌​‌​‌​​​​​‌​​​​​‌​‌​‌‌‌‌‌​‌​​​​‌‌​‌​​‌​​​​‌​​​‌​‌​‌​​‌‌‌​​‌​​‌‌‌​​‌​​‌‌‌‌​​‌​‌​‌‌​‌​​‌‌‌‌​‌​​‌‌​‌​‌​‌‌‌‌‌​‌​​​​​‌​‌​​‌‌​‌​‌​​‌​​‌​‌​‌‌‌‌‌​‌​​​‌​​​‌​​​‌​‌​‌​‌​‌‌​​‌​​​​​‌​‌​‌‌‌‌‌​‌​​‌​​​​‌​‌​​‌​​‌​​‌​​‌​‌‌‌‌‌​​​‌​​​​‌‌​‌​​‌​​​​​‌‌‌​‌​​​‌‌‌​​‌‍</span>
+  </footer>
+</main>
+</body>
+</html>

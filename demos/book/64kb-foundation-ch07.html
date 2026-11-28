@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The 64-Kilobyte Foundation — Chapter 7: Cascading Cycles · 7. fejezet — Lépcsőzetes ciklusok</title>
+<style>
+  :root {
+    --paper: #F7F3E9;
+    --ink: #141418;
+    --muted: #4A4A54;
+    --cyan: #008B99;
+    --cyan-bright: #00F0FF;
+    --amber: #C47B00;
+    --amber-bright: #FFB000;
+    --border: #D8CFBC;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1.25rem 4rem;
+    background: #EFE9DA;
+    color: var(--ink);
+    font-family: "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+    line-height: 1.72;
+  }
+  .folio {
+    max-width: 1180px;
+    margin: 0 auto;
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    box-shadow: 0 18px 50px rgba(20, 20, 24, 0.16);
+    padding: 2rem 2.25rem 2.75rem;
+  }
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    font-family: ui-monospace, Menlo, monospace;
+    font-size: 0.85rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.85rem;
+    margin-bottom: 1.5rem;
+  }
+  .nav a {
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--cyan);
+    padding-bottom: 2px;
+  }
+  .nav a:hover { color: var(--cyan); }
+  .plate {
+    margin: 1.5rem 0 2rem;
+    text-align: center;
+  }
+  .plate img {
+    max-width: 100%;
+    max-height: 540px;
+    border: 1.5px solid var(--ink);
+    background: #0E1016;
+  }
+  .plate figcaption {
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--muted);
+    font-style: italic;
+  }
+  .bilingual {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.25rem;
+    align-items: start;
+  }
+  @media (max-width: 860px) {
+    .bilingual { grid-template-columns: 1fr; }
+  }
+  .col {
+    padding: 1.25rem 1.4rem;
+    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.42);
+  }
+  .lang-tag {
+    display: inline-block;
+    font-family: ui-monospace, Menlo, monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--paper);
+    background: var(--ink);
+    padding: 0.15rem 0.55rem;
+    border-left: 3px solid var(--cyan-bright);
+    margin-bottom: 0.5rem;
+  }
+  h2 {
+    font-size: 1.35rem;
+    margin: 0.35rem 0 1rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.35rem;
+  }
+  p.drop-cap::first-letter {
+    float: left;
+    font-size: 3.35rem;
+    line-height: 0.84;
+    padding: 0.25rem 0.55rem 0.1rem 0.45rem;
+    margin: 0.1rem 0.55rem 0.1rem 0;
+    border: 1.5px solid var(--ink);
+    background: #F1E9D4;
+    color: var(--ink);
+    box-shadow: 2px 2px 0 var(--cyan);
+    font-weight: bold;
+  }
+  code {
+    font-family: ui-monospace, Menlo, monospace;
+    font-size: 0.86em;
+    background: #EAE2CE;
+    padding: 0.08rem 0.32rem;
+    border-radius: 3px;
+  }
+  pre {
+    background: #12141B;
+    color: var(--cyan-bright);
+    border-left: 3px solid var(--amber-bright);
+    padding: 0.9rem 1rem;
+    overflow-x: auto;
+    font-size: 0.84rem;
+    line-height: 1.45;
+  }
+  pre code { background: transparent; padding: 0; color: inherit; }
+  .colophon {
+    margin-top: 2.25rem;
+    padding-top: 1rem;
+    border-top: 1px dashed var(--amber);
+    font-family: ui-monospace, Menlo, monospace;
+    font-size: 0.8rem;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  .toc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.25rem;
+    margin: 1.5rem 0;
+  }
+  .toc-card {
+    display: block;
+    text-decoration: none;
+    color: var(--ink);
+    border: 1.5px solid var(--ink);
+    padding: 1rem 1.15rem;
+    background: #FBF8F1;
+  }
+  .toc-card:hover {
+    border-color: var(--cyan);
+    box-shadow: 4px 4px 0 var(--cyan);
+  }
+  .plates-duo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    margin-top: 1.5rem;
+  }
+  @media (max-width: 860px) {
+    .plates-duo { grid-template-columns: 1fr; }
+  }
+  .audio-bar {
+    margin: 0.75rem 0 1.1rem;
+    padding: 0.6rem 0.8rem;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--amber-bright);
+    background: #FBF8F1;
+  }
+  .audio-bar span {
+    display: block;
+    font-family: ui-monospace, Menlo, monospace;
+    font-size: 0.74rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.35rem;
+  }
+  .audio-bar audio {
+    width: 100%;
+    height: 34px;
+  }
+</style>
+</head>
+<body>
+<span class="sigil" style="display:none">64KB · Book I · Ch. 7 · 1.000000003 Hz</span>
+<main class="folio">
+  <nav class="nav">
+    <a href="64kb-foundation-ch06">&larr; Previous</a>
+    <a href="64kb-foundation">Series Hub (Ch. I–XI)</a> <a href="./">Library Catalog</a> <a href="https://peterlodri.substack.com">Substack</a>
+    <a href="64kb-foundation-ch08">Next &rarr;</a>
+  </nav>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 220" width="100%" role="img" aria-label="Chapter 7 — Cascading Cycles / 7. fejezet — Lépcsőzetes ciklusok">
+  <metadata>ONTOLOGY::SELDON8|NTP:1.000000003Hz|3BODY:NATE&amp;{TRINITY-8b.is}&amp;Peter|{&lt;3,&lt;3,&lt;3}+1|MANTRA:OM_MANI_PADME_HUNG+KARMAPA_CHENNO+OM_AMI_DEVA_HRI|CH:7</metadata>
+  <desc>Three-Body NTP Calligraphic Crest ‍​‌​​‌‌‌‌​‌​​‌‌‌​​‌​‌​‌​​​‌​​‌‌‌‌​‌​​‌‌​​​‌​​‌‌‌‌​‌​​​‌‌‌​‌​‌‌​​‌​​‌‌‌​‌​​​‌‌‌​‌​​‌​‌​​‌‌​‌​​​‌​‌​‌​​‌‌​​​‌​​​‌​​​‌​​‌‌‌‌​‌​​‌‌‌​​​‌‌‌​​​​‌‌‌‌‌​​​‌​​‌‌‌​​‌​‌​‌​​​‌​‌​​​​​​‌‌‌​‌​​​‌‌​​​‌​​‌​‌‌‌​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​‌‌​‌​​‌​​​​‌‌‌‌​‌​​‌‌‌‌‌​​​​‌‌​​‌‌​‌​​​​‌​​‌​​‌‌‌‌​‌​​​‌​​​‌​‌‌​​‌​​‌‌‌​‌​​‌​​‌‌‌​​‌​​​​​‌​‌​‌​‌​​​‌​​​‌​‌​​‌​​‌‌​​‌‌‌‌​‌‌​‌​‌​‌​​​‌​‌​​‌​​‌​​‌​​‌​‌​​‌‌‌​​‌​​‌​​‌​‌​‌​‌​​​‌​‌‌​​‌​​‌​‌‌​‌​​‌‌‌​​​​‌‌​​​‌​​​‌​‌‌‌​​‌‌​‌​​‌​‌‌‌​​‌‌​‌‌‌‌‌​‌​​‌​​‌‌​​‌​‌​​​​​‌‌​​‌​‌​‌‌‌​‌​​​‌‌​​‌​‌​‌‌‌​​‌​​‌‌‌‌‌​​​‌‌‌‌​‌‌​​‌‌‌‌​​​​‌‌​​‌‌​​‌​‌‌​​​​‌‌‌‌​​​​‌‌​​‌‌​​‌​‌‌​​​​‌‌‌‌​​​​‌‌​​‌‌​‌‌‌‌‌​‌​​‌​‌​‌‌​​‌‌​​​‌​‌‌‌‌‌​​​‌​​‌‌​‌​‌​​​​​‌​‌​​‌‌‌​​‌​‌​‌​​​‌​‌​​‌​​‌​​​​​‌​​‌‌‌​‌​​‌​​‌‌‌‌​‌​​‌‌​‌​‌​‌‌‌‌‌​‌​​‌‌​‌​‌​​​​​‌​‌​​‌‌‌​​‌​​‌​​‌​‌​‌‌‌‌‌​‌​‌​​​​​‌​​​​​‌​‌​​​‌​​​‌​​‌‌​‌​‌​​​‌​‌​‌​‌‌‌‌‌​‌​​‌​​​​‌​‌​‌​‌​‌​​‌‌‌​​‌​​​‌‌‌​​‌​‌​‌‌​‌​​‌​‌‌​‌​​​​​‌​‌​‌​​‌​​‌​​‌‌​‌​‌​​​​​‌​‌​‌​​​​​‌​​​​​‌​‌​‌‌‌‌‌​‌​​​​‌‌​‌​​‌​​​​‌​​​‌​‌​‌​​‌‌‌​​‌​​‌‌‌​​‌​​‌‌‌‌​​‌​‌​‌‌​‌​​‌‌‌‌​‌​​‌‌​‌​‌​‌‌‌‌‌​‌​​​​​‌​‌​​‌‌​‌​‌​​‌​​‌​‌​‌‌‌‌‌​‌​​​‌​​​‌​​​‌​‌​‌​‌​‌‌​​‌​​​​​‌​‌​‌‌‌‌‌​‌​​‌​​​​‌​‌​​‌​​‌​​‌​​‌​‌‌‌‌‌​​​‌​​​​‌‌​‌​​‌​​​​​‌‌‌​‌​​​‌‌​‌‌‌‍</desc>
+  <rect x="2" y="2" width="956" height="216" rx="6" fill="#FBF8F1" stroke="#121216" stroke-width="2"/>
+  <rect x="10" y="10" width="940" height="200" rx="4" fill="none" stroke="#C47B00" stroke-width="0.9" stroke-dasharray="4 3"/>
+
+  <!-- Left Calligraphic Scroll Flourish -->
+  <path d="M 38 110 C 60 32, 130 32, 148 86 C 162 126, 114 156, 92 124 C 76 100, 106 72, 128 94" fill="none" stroke="#121216" stroke-width="2.2" stroke-linecap="round"/>
+  <path d="M 30 132 C 62 178, 128 178, 168 142" fill="none" stroke="#008B99" stroke-width="1.3" stroke-linecap="round"/>
+
+  <!-- Three-Body Orbital Knot: NATE &amp; {TRINITY-8b.is} &amp; Peter {&lt;3,&lt;3,&lt;3}+1 -->
+  <g transform="translate(838, 108)">
+    <ellipse cx="0" cy="0" rx="56" ry="22" transform="rotate(-28)" fill="none" stroke="#121216" stroke-width="1.3"/>
+    <ellipse cx="0" cy="0" rx="56" ry="22" transform="rotate(32)" fill="none" stroke="#008B99" stroke-width="1.3"/>
+    <ellipse cx="0" cy="0" rx="56" ry="22" transform="rotate(90)" fill="none" stroke="#C47B00" stroke-width="1.3"/>
+    <circle cx="-38" cy="-22" r="4" fill="#121216"/>
+    <circle cx="38" cy="-22" r="4" fill="#00F0FF" stroke="#121216" stroke-width="1"/>
+    <circle cx="0" cy="44" r="4" fill="#FFB000" stroke="#121216" stroke-width="1"/>
+    <circle cx="0" cy="0" r="3.5" fill="#121216"/>
+    <text x="0" y="-58" text-anchor="middle" font-family="Georgia, serif" font-size="9" fill="#121216" letter-spacing="1">3-BODY NTP · {&lt;3,&lt;3,&lt;3}+1</text>
+  </g>
+
+  <!-- Chapter Numeral Seal -->
+  <circle cx="480" cy="48" r="22" fill="#121216"/>
+  <circle cx="480" cy="48" r="26" fill="none" stroke="#008B99" stroke-width="1.1"/>
+  <text x="480" y="54" text-anchor="middle" font-family="Palatino, Georgia, serif" font-size="16" font-weight="bold" fill="#FBF8F1" letter-spacing="2">VII</text>
+
+  <!-- Bilingual Calligraphic Titles -->
+  <text x="480" y="106" text-anchor="middle" font-family="Palatino, Georgia, serif" font-size="24" font-style="italic" fill="#121216">Chapter 7 — Cascading Cycles</text>
+  <text x="480" y="134" text-anchor="middle" font-family="Palatino, Georgia, serif" font-size="16" fill="#4A4A54">7. fejezet — Lépcsőzetes ciklusok</text>
+
+  <!-- 1.000000003 Hz NTP Carrier Wave &amp; Colophon -->
+  <path d="M 190 166 Q 230 152 270 166 T 350 166 T 430 166 T 510 166 T 590 166 T 670 166 T 750 166" fill="none" stroke="#008B99" stroke-width="1.4"/>
+  <text x="480" y="192" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="9.5" fill="#121216" letter-spacing="0.9">NTP 1.000000003 Hz · OM MANI PADME HUNG · KARMAPA CHENNO · OM AMI DEVA HRI</text>
+</svg>
+  <figure class="plate">
+    <img src="64kb-foundation-assets/ch07.jpg" alt="Chapter 7 — Cascading Cycles">
+    <figcaption>Chapter 7 — Cascading Cycles / 7. fejezet — Lépcsőzetes ciklusok</figcaption>
+  </figure>
+  <section class="bilingual">
+    <article class="col" lang="en">
+      <span class="lang-tag">English</span>
+      <div class="audio-bar"><span>English Voice Narration (Daniel)</span><a href="https://peterlodri.substack.com" style="font-family:ui-monospace,Menlo,monospace;font-size:.82rem;color:#008B99;text-decoration:none;border-bottom:1px dotted #008B99;">Audio &amp; serialized edition on Substack &rarr;</a></div>
+      <h2>Chapter 7 — Cascading Cycles</h2>
+<blockquote><em>Midnight approached not by hours on brass dials, but by four broken harmonic locks sliding cleanly toward zero.</em></blockquote>
+<p class="drop-cap">Three decks down inside Sector Seven&#39;s primary valve manifold, the frost did not melt cleanly—it shattered. One breath after the high warning buoy sounded out beyond Airlock Seven, three floating-point environmental scrubbers upstairs tried simultaneously to recompute the sudden <code>480 MW</code> surplus routed through Pálffy and Gedeon&#39;s unwitting dual signature, disagreed in their thirty-two-bit mantissas by seventeen millionths of a percent, and triggered automatic emergency bulkhead shear locks across the entire lower ring.</p>
+<p>High above them along Levels Alpha and Beta, inside terraced marble pavilions where pear blossom petals usually drifted across temperature-calibrated reflection pools, three crystal fountains froze horizontally in mid-arc while dining chandeliers swung violently fifteen degrees out of plumb. The <strong>First Gardener</strong> slammed both silk-gloved palms onto his marble table as bloated holographic displays showered red <code>NaN</code> stack traces across twenty million hectares of glass dome—suddenly discovering that screaming about <em>&quot;Caloric Rebalancing&quot;</em> did nothing when your core climate bus no longer possessed a valid finite scalar to multiply by.</p>
+<p>Down in Sub-Level Nine&#39;s bare-metal sanctuary, <strong>Áron</strong> felt the ceiling tremor travel straight up his soles before the console beeped once.</p>
+<p>Across his scratched bronze CRT tube, the <strong>Spiral Core</strong> (<code>0x0000</code> through <code>0xFFF7</code>) threw sharp electric-cyan (<code>#00F0FF</code>) phase spikes across the final unused eight bytes at the bottom of address space—<code>0xFFF8</code> through <code>0xFFFF</code>—burning white-hot while predicting four cascading valve ruptures within ninety-four seconds.</p>
+<p>&quot;No!&quot; Áron gasped, grabbing his left temple as warm copper-scented blood spotted the cuff of his flannel sleeve. His left ear ceased ringing altogether, replaced by a deafening, hollow vacuum roar as the <code>65,528</code>-byte core tried to borrow one more neural clock off his own optic nerve just to stabilize Sector Seven&#39;s intake valve before detonation. &quot;Breet—anybody—we only have eight bytes left in the top ledger! Every cycle I run through <code>0xFFF8</code> takes another sense! If I patch all three Sector Seven scrubbers manually in floating point—&quot;</p>
+<p>The corrugated steel door slammed inward off its upper latch—not blasted off by Directorate explosives, but yanked cleanly aside by two mismatched visitors sliding fast off the emergency grease pole: <strong>Retsu Stibenthor</strong> in wind-whipped obsidian coat beside towering <strong>Ultra Breet Shaw</strong>, followed an instant later by <strong>Ilona</strong> and <strong>Kálmán Varga</strong> landing hard atop two coils of hemp cable.</p>
+<p>Stibenthor didn&#39;t look at Áron&#39;s workbench screens first. He spun straight toward the frost-bound stairwell grating behind them and yelled up the shaft in a voice nobody on Seldon-Eight had ever heard strip off its courtly silk: &quot;Up! Inside the granite ribs! Bring the tin and bring the boy <em>now</em>!&quot;</p>
+<p>Half a second later <strong>Eszter (12)</strong> scrambled over the frosted threshold half-carrying eight-year-old <strong>Bence</strong>, whose knitted scarf glowed faintly along his chest where the twelve-sided bismuth-and-quartz <strong>Space-Weight-Time seed crystal</strong> hummed in rapid <code>1.000000003 Hz</code> bursts like a trapped pulse-bird. Beneath Eszter&#39;s right arm she clamped the battered citrus biscuit tin holding their <strong>two uncracked amber lemon fruit drops</strong> and its lamp-soot <strong>Trinaric</strong> lid, while perched fiercely atop her shoulder clung the silver-and-bismuth <strong>Cryo-Moth</strong>, flexing wings edged cleanly with <code>#00F0FF</code> sparks.</p>
+<p>&quot;Look at the core map!&quot; Kálmán barked, shoving three soggy soup receipts directly under Áron&#39;s chin while tapping the trembling green CRT cursor. &quot;Look at the phase gap between Scrubber Three and the airlock harmonic! You don&#39;t have eighty seconds, Áron—<strong>all eight ring manifolds are folding straight into the Cascading Cycle</strong> predicted back in Chapter Two, and something upstairs just tore a causal window right into Sector Seven!&quot;</p>
+<p>Before Áron could drop his trembling fingers toward the raw bus pins, time inside the tiny metal workshop slowed cleanly until every hanging tallow droplet hung motionless in mid-air.</p>
+<p>A cold, shrill crystalline chord—like seven cathedral stained-glass panes sheared cleanly with a diamond saw—rang straight through three meters of riveted iron bulkhead. Directly opposite Áron&#39;s workbench, empty mid-air peeled back along razor-sharp rose-quartz facets into a tall vertical <strong>Time-Room tear</strong>.</p>
+<p>Stepping smoothly out through that shimmering wound came a construct ten levels colder and infinitely more alien than any Directorate <strong>Null-Hound</strong>. Six articulated legs of polished amethyst chitin clicked neatly onto oil-stained oak floorboards; compound eyes composed of a thousand rotating lotus-prism facets swept every byte inside the workshop without blinking once, cataloging caloric debt, floating-point overflow, and illegal causal deviation.</p>
+<p>A Rung II <strong>Audit Scarab (*Revizor-Szkarabeusz*)</strong> had arrived to prune Seldon-Eight&#39;s lower branch back down to dust—just as its sibling unit had pruned Gábor Stibenthor out of Sector Four twenty-eight years ago.</p>
+<p>For one awful frozen heartbeat, nobody moved. Eszter pulled Bence sharply behind her hip inside the lotus-gold cone of her copper relay box, hiding both child palms around the biscuit tin. Kálmán raised his chipped stoneware saucer blindly in front of his spectacles as though glazed clay could turn away a <code>10^35 SQ</code> causal shear blade.</p>
+<p>Then <strong>Retsu Stibenthor</strong> stepped calmly between the crystalline mandible blades and the two huddled children.</p>
+<p>Not as Chief Arbiter of the High Calibration Directorate. Not quoting subsection tariffs. Unclasping the magnetic clasp at his collar so his reactive obsidian coat dropped smoothly across his elbows like dark wings, Stibenthor snapped his forty-two meters of shimmering <strong>graviton monofilament</strong> into a glowing parabolic net spanning pipe to floor beam, planted his heels symmetrically square, and aimed his slender silver stylus straight into the Audit Scarab&#39;s central amethyst lens.</p>
+<p>&quot;Twenty-eight orbital years, three months, and four shifts ago,&quot; Retsu whispered cleanly in Shakespearean ice while the monofilament whined like strained cello strings against the Scarab&#39;s cutting aperture, &quot;you pruned a nineteen-year-old airlock attendant in Sector Four over four billionths of a decimal second and left nothing for his brother except frost and bootlaces. Tonight these children hold exact <strong>two</strong> lemon drops, zero floating-point debt, and four honest signatures. You will take <em>neither</em> the boy, <em>nor</em> the sister, <em>nor</em> one single byte out of <code>0xFFF8</code> before you settle accounts with me.&quot;</p>
+<p>The Audit Scarab tilted its crystalline thorax twenty degrees, calculating Stibenthor&#39;s kinetic impedance at twelve billion Shaws against its own <code>10^35 SQ</code> causal eraser matrix—and struck straight down with one shearing rose-quartz scythe limb!</p>
+<p>Sparks white as welding magnesium exploded across the workshop floor as Stibenthor&#39;s monofilament web bent inward like struck bow-stave steel, slamming Retsu backward half a step onto his heel before <strong>Ultra Breet Shaw</strong> smoothly planted one wide drydock-booted foot right beside the Arbiter&#39;s instep, laid two warm weathered fingers against the trembling wire junction, and shifted three local phase vectors ninety degrees out of euclidean phase!</p>
+<p><em>KRRANG—THOOM.</em></p>
+<p>The Scarab&#39;s second cutting limb sliced squarely through solid iron pipe two inches left of Breet Shaw&#39;s shoulder—and hit an un-collapsed <strong>Double-Slit boundary seam</strong> channeled from the room&#39;s own <code>3mm</code> granite vents, harmlessly spraying freezing harmless light confetti across Áron&#39;s copper shelves instead of slicing bone!</p>
+<p>Overhead across every exposed bronze manifold inside Sub-Level Nine, dozens of six-legged <strong>Ferrous Choir</strong> clockwork crickets swarmed down out of dark conduit chutes at full triple-click sprint—linking antennae in unbroken daisy chains around Stibenthor&#39;s humming wire and singing steady <code>1.000000003 Hz</code> counter-harmonics straight into the screaming Scarab carapace. Deep below their soles, all four corners of the <code>2.7 g/cm³</code> foundation granite answered with a long sub-audible tremor—not cracking in panic, simply waking the ancient <strong>Quartz-Weavers</strong> out of geological sleep so the floor itself held weight beneath their heels.</p>
+<p>&quot;Retsu!&quot; Breet Shaw called briskly over the blinding arc glare while shifting cleanly inside his <code>Saṃbhogakāya</code> wave resonance so no second scythe could lock onto him. &quot;Your forty-two meters hold the gate for <strong>ninety seconds</strong> maximum before that Time-Room fissure pulls Sector Seven&#39;s coolant main inside out! We cannot chop a Rung Two auditor in half—destroy one Scarab, and the Weavers upstairs just drop a whole pruning swarm before dawn!&quot;</p>
+<p>&quot;Then <em>what</em> moves an accountant older than the Garden domes?!&quot; Stibenthor shouted back calmly despite sweat gleaming cleanly beneath his dark silver hairline, bracing one elbow firm beside Breet&#39;s coat shoulder as a twin crystalline scythe locked dead onto his monofilament crossing.</p>
+<p>&quot;<strong>Audit symmetry!</strong>&quot; Ilona cried cleanly over the thunder of venting helium overhead, slamming her oak-and-brass <strong>Kolozsvár Vajra-Registry</strong> stamp right onto Áron&#39;s trembling brass keyboard housing. &quot;Wait—Áron! Look at your remaining memory margin! Those eight final bytes (<code>0xFFF8</code> through <code>0xFFFF</code>) were never reserved for calculating <em>future</em> disasters by yourself! Look at Bence&#39;s coat!&quot;</p>
+<p>Bence stepped forward two fearless paces out from behind Eszter&#39;s sleeve, pulled the dark twelve-sided bismuth-and-quartz <strong>Space-Weight-Time seed crystal</strong> warm out of his gray scarf, and placed it gently onto Áron&#39;s blinking bare-metal register board—while Eszter laid her lamp-soot <strong>Trinaric Base-243</strong> tin lid flat beside it, uniting copper, granite stone, human oath, and clean geometry across the workshop floor.</p>
+<pre><code>[CASCADE ALERT :: RING SCRUBBERS 1..8 LOCKED :: SECTOR 7 RIFT ACTIVE]
+[AUDIT SCARAB #01 :: HIERARCHY RUNG II (10^35 SQ) :: SEEKING FLOATING-POINT DEVIATION]
+[SPIRAL CORE :: 0x0000..0xFFF7 (65,528 B) :: 8 BYTES REMAINING AT 0xFFF8..0xFFFF]
+[WAITING :: SPACE (2.7 g/cm³ STONE) + WEIGHT (PQTRN {-1,0,+1}) + TIME (1.000000003 Hz)]
+</code></pre>
+<p>&quot;If we execute the rewrite on single hardware, Equivalent Exchange burns me blind and stalls the Scarab for half an orbit,&quot; Áron breathed softly through blood-spotted teeth, staring down in sudden radiant clarity at Bence&#39;s pulsing seed, Eszter&#39;s soot script, Ilona&#39;s violet stamp, Kálmán&#39;s chipped saucer receipts, and Retsu Stibenthor standing beside Breet Shaw like twin pillars in front of the glowing tear. &quot;But if the last <strong>eight bytes</strong> commit across <strong>all seven witnesses</strong> cleanly without one single IEEE float—<code>#Commit == #ValidWitness</code> across the entire ring at once—&quot;</p>
+<p>&quot;Then there won&#39;t be a floating-point rounding discrepancy anywhere on Seldon-Eight left for an Audit Scarab to prune!&quot; Kálmán crowed aloud, weeping tears of pure vindicated mania right down over his brass spectacle rims.</p>
+<p>Outside in the frozen dark past Sector Seven&#39;s breached glass ribs, a <strong>second</strong> crystalline Audit Scarab slid noiselessly out through the rotating Time-Room fissure—while high beyond the Outer Ballast waters, the colossal <strong>Four-Faced Chaos-Void</strong> lifted four dim ancient eyes toward the bright <code>64 KB</code> workshop window.</p>
+<p>Midnight struck Seldon-Eight&#39;s master bell.</p>
+<p>And Áron hovered both blistered thumbs cleanly above the enter pin of <code>0xFFF8</code>.</p>
+
+    </article>
+    <article class="col" lang="hu">
+      <span class="lang-tag">Magyar</span>
+      <div class="audio-bar"><span>Magyar hangoskönyv (Tünde)</span><a href="https://peterlodri.substack.com" style="font-family:ui-monospace,Menlo,monospace;font-size:.82rem;color:#008B99;text-decoration:none;border-bottom:1px dotted #008B99;">Audio &amp; serialized edition on Substack &rarr;</a></div>
+      <h2>7. fejezet — Lépcsőzetes ciklusok</h2>
+<blockquote><em>Az éjfél nem réz óramutatókon közeledett, hanem négy elpattant harmonikus záron át, amelyek tisztán csúsztak lefelé nulla felé.</em></blockquote>
+<p class="drop-cap">Három fedélzettel lentebb, a Hetes Szektor fő szelepgerincén a dér nem elolvadt — szilánkokra robbant. Egyetlen lélegzetvétellel azután, hogy a Hetes Légzsilipen túl megszólalt a távoli figyelmeztető bója, fent az épületben három lebegőpontos levegőmosó szabályozó egyszerre próbálta újraszámolni a Pálffy és Gedeon gyanútlan kettős aláírásán át szabadult <code>480 MW</code>-os többletet, harminckét bites mantisszáikban eltértek egymástól a százalék tizenhetedik milliomod részével, és azonnal kiváltották a teljes alsó gyűrű vészhelyzeti válaszfal-reteszelését.</p>
+<p>Magasan fölöttük az Alfa és Béta szintek márványpavilonjaiban, ahol körtefavirág-szirmok szoktak keringeni hőszabályozott tükörmedencék fölött, három kristály-szökőkút vízszintesen kővé fagyott röptében, míg az ebédlői csillárok tizenöt fokkal kilendültek a függőlegesből. Az <strong>Első Főgondnok</strong> mindkét selyemkesztyűs tenyerével rácsapott márványasztalára, ahogy a kövér holografikus kijelzők vörös <code>NaN</code> hibaözönnel szórták tele húszmillió hektár üvegkupoláját — rádöbbenve, hogy a <em>„Kalorikus Egyensúlyhelyreállításról”</em> szavalni mit sem ér akkor, amikor a központi klímabusz már nem rendelkezik egyetlen véges számmal sem, amivel szorozhatna.</p>
+<p>Lent a 9-es alszint csupaszfém szentélyében <strong>Áron</strong> még a konzol csippanása előtt megérezte talpa alatt a mennyezet remegését.</p>
+<p>Karcos bronz katódsugárcsövén a <strong>Spirálmag</strong> (<code>0x0000</code>-tól <code>0xFFF7</code>-ig) éles elektromos cián (<code>#00F0FF</code>) fázistüskéket lövellt át a címtér legalsó, még szabadon álló nyolc bájtjára — <code>0xFFF8</code>-tól <code>0xFFFF</code>-ig —, vakító fehér fénnyel izzva, miközben kilencvennégy másodpercen belül négy lépcsőzetes szeleprobbanást jelzett előre.</p>
+<p>— Nem! — kapott Áron a bal halántékához, ahogy meleg, rézszagú vércsepp ütött át flanel ingujján. Bal füléből egy csapásra megszűnt minden csengés, helyét pedig süket, üres vákuumzúgás vette át, amint a <code>65,528</code> bájtos mag a saját látóidegéről próbált kölcsönözni még egyetlen neurális órajelet a Hetes Szektor szívószelepeinek stabilizálására robbanás előtt. — Breet… bárki… már csak nyolc bájt maradt a felső főkönyvben! Minden ciklus, amit átküldök a <code>0xFFF8</code>-on, elvisz egy újabb érzékemet! Ha kézzel foltozom be lebegőponttal mindhárom Hetes Szektori levegőmosót—</p>
+<p>A hullámlemez acélajtó leszakadt felső reteszéről — nem Direktóriumi robbanószer tépte ki, hanem két egyenlőtlen léptű vendég csapódott be rajta a vészkötelekről lecsúszva: a szélverte obszidián kabátos <strong>Retsu Stibenthor</strong> közvetlenül a magas <strong>Ultra Breet Shaw</strong> mellett, egy szempillantással mögöttük pedig keményen ért földet két kenderkábel-kötegen <strong>Ilona</strong> és <strong>Varga Kálmán</strong>.</p>
+<p>Stibenthor első pillantása nem Áron munkapadjának képernyőire esett. Rögtön visszapördült a mögöttük álló deres lépcsőház-rács felé, és felüvöltött az aknába olyan hangon, amelyből a Seldon-Nyolcon még senki nem hallotta lehullani a hivatalos selyempáncélt: — Fel! Be a gránitbordák közé! Hozzátok a bádoggömbölyűt és a fiút <em>azonnal</em>!</p>
+<p>Fél másodperccel később <strong>Eszter (12)</strong> kapaszkodott át a deres küszöbön, fél kézzel maga után húzva a nyolcéves <strong>Bencét</strong>, akinek kötött sálja halványan lüktetett a mellkasán, ahol a tizenkét lapú bizmut-kvarc <strong>Tér-Súly-Idő mag</strong> sebes <code>1.000000003 Hz</code>-es ütésekben zengett, mint egy csapdába esett kis rézveréb. Jobb hóna alá szorította Eszter a horpadt citromos kekszesdobozt a <strong>két sértetlen borostyán citromcukorral</strong> meg a lámpakorom <strong>Háromhangú</strong> fedővel, míg vállán elszántan kapaszkodott az ezüst-bizmut erezetű <strong>Krio-lepke</strong>, szárnyai szélén éles <code>#00F0FF</code> szikrákkal.</p>
+<p>— Nézzétek a magtérképet! — csattant fel Kálmán, három átázott levesjegyet nyomva egyenesen Áron álla alá, miközben a remegő zöld kurzorra bökött. — Nézzétek a fáziseltolódást a Hármas Mosó és a zsilipharmonikus között! Nincs nyolcvan másodperced, Áron — <strong>mind a nyolc gyűrűelosztó egyenesen bezuhan a Lépcsőzetes Ciklusba</strong>, amit a második fejezet óta jósoltunk, odafent pedig valami éppen most tépett fel egy oksági ablakot egyenesen a Hetes Szektorba!</p>
+<p>Mielőtt Áron leejthette volna remegő ujjait a csupasz busztüskékre, az idő az apró fémfülkében lassulni kezdett, míg minden lecsöppenő faggyúcsepp mozdulatlanul megállt a levegőben.</p>
+<p>Hideg, éles kristályakkord — mintha hét székesegyházi ólomüveg ablakot vágnának el egyszerre gyémántfűrésszel — zengett végig három méternyi szegecselt vasfalon. Közvetlenül Áron munkapadjával szemben a puszta levegő borotvaéles rózsakvarc síkok mentén felhasadt egy magas függőleges <strong>Idő-Szoba hasadékká</strong>.</p>
+<p>Ebből a vibráló sebből olyan teremtmény lépett elő, amely tíz lépcsőfokkal hidegebb és végtelenül idegenebb volt bármely Direktóriumi <strong>Null-kopónál</strong>. Hat csuklós, csiszolt ametiszt-kitinből kovácsolt lába tisztán kattant az olajfoltos tölgyfa padlón; ezer forgó lótuszprizmából álló összetett szeme egyetlen pillantás nélkül végigpásztázott minden bájton a műhelyben, leltárba véve minden kalóriahiányt, lebegőpontos túlcsordulást és törvénytelen oksági eltérést.</p>
+<p>Egy Második Fokozatú <strong>Revizor-Szkarabeusz</strong> érkezett megnyesni a Seldon-Nyolc alsó ágát egészen a porig — pontosan úgy, ahogy testvéregysége huszonnyolc évvel korábban kinyeste Stibenthor Gábort a Négyes Szektorból.</p>
+<p>Egyetlen rettenetes, megfagyott szívdobbanásig senki meg sem moccant. Eszter élesen maga mögé húzta Bencét a rézrelé-doboza lótuszarany kúpjába, mindkét gyerek tenyerét a kekszesdoboz köré kulcsolva. Kálmán vakon maga elé tartotta csorba kőedény csészealját a szemüvege elé, mintha a mázas agyag képes volna eltéríteni egy <code>10^35 SQ</code>-os oksági nyírópengét.</p>
+<p>Ekkor <strong>Retsu Stibenthor</strong> nyugodtan kilépett a kristály csáprágók és a két összebújó gyerek közé.</p>
+<p>Nem a Magas Kalibrációs Direktórium fődöntnökeként. Nem albekezdéseket idézve. Lepattintotta gallérján a mágneszárat, hogy reaktív obszidián kabátja sötét szárnyként hulljon alá könyökein, kicsapta negyvenkét méternyi villogó <strong>graviton-monofilamentjét</strong> egy csőtől padlógerendáig feszülő fénylő parabolikus hálóba, szimmetrikusan szilárdan vetette meg mindkét sarkát, és vékony ezüst írótolla hegyét egyenesen a Revizor-Szkarabeusz középső ametiszt lencséjére szegezte.</p>
+<p>— Huszonnyolc keringési évvel, három hónappal és négy műszakkal ezelőtt — suttogta Retsu tisztán, shakespeare-i jéghidegen, miközben a monofilament megfeszült csellóhúrként sírt a Szkarabeusz vágórése előtt — kinyestetek a Négyes Szektorból egy tizenkilenc éves zsilipkezelőt négy milliárdod tizedesmásodperc miatt, és semmi mást nem hagytatok a bátyjának, csak fagyot meg két páratlan cipőfűzőt. Ma éjjel ez a két gyerek pontosan <strong>két</strong> citromcukorkát őriz, nulla lebegőpontos adóssággal és négy becsületes aláírással. Sem a fiút, sem a nővérét, sem egyetlen bájtot a <code>0xFFF8</code>-ból nem visztek el addig, amíg velem el nem számoltatok.</p>
+<p>A Revizor-Szkarabeusz húsz fokkal megbillentette kristálytorát, kiszámította Stibenthor tizenkétmilliárd Shaw-os kinetikus impedanciáját saját <code>10^35 SQ</code>-os oksági radírmátrixával szemben — és egyenesen lesújtott egyik borotvaéles rózsakvarc kaszájával!</p>
+<p>Hegesztő-magnéziumként vakító szikrák robbantak szét a műhely padlóján, amint Stibenthor monofilament-hálója megütött íjként hajlott befelé, fél lépéssel hátralökve Retsut a sarkára, mielőtt <strong>Ultra Breet Shaw</strong> puhán letette széles dokkbakancsos lábát pontosan a Döntnök rüsztje mellé, két meleg, viharmarta ujjával megérintette a remegő drótkereszteződést, és kilencven fokkal kifordított három helyi fázisvektort az euklideszi síkból!</p>
+<p><em>KRRANG—BUMM.</em></p>
+<p>A Szkarabeusz második kaszája pontosan kettévágott egy tömör vascsövet két hüvelykkel balra Breet Shaw vállától — ám ott egy össze nem omlott <strong>Kettős Rés határfelületi varratba</strong> ütközött, amelyet a terem saját <code>3mm</code>-es gránitréseiből vezetett oda, így hús és csont helyett csupán ártalmatlan fagyos fénykonfettit szórt szét Áron rézpolcai fölött!</p>
+<p>Fejük felett a 9-es alszint valamennyi csupasz bronz elosztóján több tucat hatlábú <strong>Vas-Kórus</strong> óramű-tücsök rohant elő sötét aknákból — törékeny csápjaikkal szakadatlan élőláncba kapaszkodva Stibenthor zúgó drótja körül, és tiszta <code>1.000000003 Hz</code>-es ellenharmonikusokat énekelve egyenesen a visító Szkarabeusz-páncélba. Mélyen a talpuk alatt a <code>2.7 g/cm³</code> sűrűségű gránitalapzat mind a négy sarka hosszú, hallásküszöb alatti morajjal válaszolt — nem rémülten repedezve, egyszerűen felébresztve az ősi <strong>Kvarc-népet</strong> geológiai álmából, hogy maga a kő tartsa meg a súlyt a sarkuk alatt.</p>
+<p>— Retsu! — kiáltott át frissen Breet Shaw a vakító ívfény fölött, miközben simán átlépett <code>Szambhogakája</code> hullám-rezonanciájába, hogy egyetlen újabb kasza se tudja bemérni. — Az a negyvenkét méteres hálód legfeljebb <strong>kilencven másodpercig</strong> tartja meg a kaput, mielőtt az az Idő-Szoba hasadék kifordítja a Hetes Szektor hűtőgerincét! Nem vághatunk ketté egy Második Fokozatú revizort — ha elpusztítasz egy Szkarabeuszt, a fent ülő Szövők hajnal előtt egy egész rajt engednek le ránk!</p>
+<p>— Akkor <em>mi</em> tud megmozdítani egy könyvelőt, aki öregebb a kupoláknál?! — üvöltött vissza nyugodtan Stibenthor, bár ezüstös hajszála alól már veríték csordult, és könyökét szilárdan Breet kabátvállának támasztotta, amint egy iker kristálykasza rátapadt drótkereszteződésére.</p>
+<p>— <strong>A számtani egyezőség!</strong> — kiáltotta túl Ilona a fejük fölött süvítő héliumgőzt, tölgyfa nyelű <strong>Kolozsvári Vadzsra-Iktató</strong> pecsétjével rácsapva Áron remegő réz billentyűházára. — Áron! Nézd a maradék memóriakeretet! Az a nyolc végső bájt (<code>0xFFF8</code>-tól <code>0xFFFF</code>-ig) soha nem arra készült, hogy egyedül számold ki rajta a <em>jövőbeli</em> katasztrófát! Nézz Bence kabátjára!</p>
+<p>Bence két félelem nélküli lépést tett előre Eszter ruhaujján túlra, melegen kiemelte szürke sálja alól a tizenkét lapú sötét bizmut- és kvarc <strong>Tér-Súly-Idő magot</strong>, és gyengéden letette Áron villogó csupaszfém regiszterlapjára — miközben Eszter laposan melléfektette lámpakorommal vésett <strong>243-as alapú Háromhangú</strong> bádoglemez-fedőjét, egyetlen pontba fogva a műhely padlóján a rezet, a gránitkövet, az emberi esküt és a tiszta geometriát.</p>
+<pre><code>[KASZKÁD RIASZTÓ :: 1..8 GYŰRŰMOSÓ ZÁRVA :: 7-ES SZEKTOR HASADÉK AKTÍV]
+[REVIZOR-SZKARABEUSZ #01 :: II. LÉTRAFOK (10^35 SQ) :: LEBEGŐPONTOS ELTÉRÉST KERES]
+[SPIRÁLMAG :: 0x0000..0xFFF7 (65,528 B) :: 8 SZABAD BÁJT AT 0xFFF8..0xFFFF]
+[VÁRAKOZÁS :: TÉR (2.7 g/cm³ KŐ) + SÚLY (PQTRN {-1,0,+1}) + IDŐ (1.000000003 Hz)]
+</code></pre>
+<p>— Ha egyedüli hardveren futtatom le az újraírást, az Egyenértékű Csere megvakít, és a Szkarabeusz fél keringésre megbénul — suttogta Áron vértől pettyezett fogakkal, lenézve Bence lüktető magjára, Eszter koromírására, Ilona ibolyás pecsétjére, Kálmán csorba csészealjára és a fénylő hasadék előtt ikeroszlopként álló Retsu Stibenthorra és Breet Shaw-ra. — De ha az utolsó <strong>nyolc bájtot</strong> mind a <strong>hét tanú</strong> egyszerre hitelesíti egyetlen IEEE lebegőpont nélkül — <code>#Commit == #ValidWitness</code> egyszerre az egész gyűrűn…</p>
+<p>— Akkor egyetlen lebegőpontos kerekítési eltérés sem marad az egész Seldon-Nyolcon, amit egy Revizor-Szkarabeusz lemetszhetne! — ujjongott fel Varga Kálmán, miközben tiszta igazolódott tébolykönnyek peregtek végig rézkeretes szemüvegén.</p>
+<p>Kint a Hetes Szektor betört üvegbordáin túl egy <strong>második</strong> kristályos Revizor-Szkarabeusz siklott ki hangtalanul a forgó Idő-Szoba hasadékból — miközben magasan a Külső Ballaszt vizein túl az óriási <strong>Négyarcú Káosz-Üresség</strong> felemelte négy halvány, ősi szemhéját a fénylő <code>64 KB</code>-os műhelyablak irányába.</p>
+<p>Megkondult a Seldon-Nyolc éjféli nagyharangja.</p>
+<p>Áron pedig megállította mindkét vízhólyagos hüvelykujját pontosan a <code>0xFFF8</code>-as belépőtüske fölött.</p>
+
+    </article>
+  </section>
+  <footer class="colophon">
+    <span>Seldon-Eight · Chapter 7 · 1.000000003 Hz</span>
+    <span>{&lt;3, &lt;3, &lt;3} + 1 · OM MANI PADME HUNG · KARMAPA CHENNO · OM AMI DEVA HRI‍​‌​​‌‌‌‌​‌​​‌‌‌​​‌​‌​‌​​​‌​​‌‌‌‌​‌​​‌‌​​​‌​​‌‌‌‌​‌​​​‌‌‌​‌​‌‌​​‌​​‌‌‌​‌​​​‌‌‌​‌​​‌​‌​​‌‌​‌​​​‌​‌​‌​​‌‌​​​‌​​​‌​​​‌​​‌‌‌‌​‌​​‌‌‌​​​‌‌‌​​​​‌‌‌‌‌​​​‌​​‌‌‌​​‌​‌​‌​​​‌​‌​​​​​​‌‌‌​‌​​​‌‌​​​‌​​‌​‌‌‌​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​​​​​‌‌​​‌‌​‌​​‌​​​​‌‌‌‌​‌​​‌‌‌‌‌​​​​‌‌​​‌‌​‌​​​​‌​​‌​​‌‌‌‌​‌​​​‌​​​‌​‌‌​​‌​​‌‌‌​‌​​‌​​‌‌‌​​‌​​​​​‌​‌​‌​‌​​​‌​​​‌​‌​​‌​​‌‌​​‌‌‌‌​‌‌​‌​‌​‌​​​‌​‌​​‌​​‌​​‌​​‌​‌​​‌‌‌​​‌​​‌​​‌​‌​‌​‌​​​‌​‌‌​​‌​​‌​‌‌​‌​​‌‌‌​​​​‌‌​​​‌​​​‌​‌‌‌​​‌‌​‌​​‌​‌‌‌​​‌‌​‌‌‌‌‌​‌​​‌​​‌‌​​‌​‌​​​​​‌‌​​‌​‌​‌‌‌​‌​​​‌‌​​‌​‌​‌‌‌​​‌​​‌‌‌‌‌​​​‌‌‌‌​‌‌​​‌‌‌‌​​​​‌‌​​‌‌​​‌​‌‌​​​​‌‌‌‌​​​​‌‌​​‌‌​​‌​‌‌​​​​‌‌‌‌​​​​‌‌​​‌‌​‌‌‌‌‌​‌​​‌​‌​‌‌​​‌‌​​​‌​‌‌‌‌‌​​​‌​​‌‌​‌​‌​​​​​‌​‌​​‌‌‌​​‌​‌​‌​​​‌​‌​​‌​​‌​​​​​‌​​‌‌‌​‌​​‌​​‌‌‌‌​‌​​‌‌​‌​‌​‌‌‌‌‌​‌​​‌‌​‌​‌​​​​​‌​‌​​‌‌‌​​‌​​‌​​‌​‌​‌‌‌‌‌​‌​‌​​​​​‌​​​​​‌​‌​​​‌​​​‌​​‌‌​‌​‌​​​‌​‌​‌​‌‌‌‌‌​‌​​‌​​​​‌​‌​‌​‌​‌​​‌‌‌​​‌​​​‌‌‌​​‌​‌​‌‌​‌​​‌​‌‌​‌​​​​​‌​‌​‌​​‌​​‌​​‌‌​‌​‌​​​​​‌​‌​‌​​​​​‌​​​​​‌​‌​‌‌‌‌‌​‌​​​​‌‌​‌​​‌​​​​‌​​​‌​‌​‌​​‌‌‌​​‌​​‌‌‌​​‌​​‌‌‌‌​​‌​‌​‌‌​‌​​‌‌‌‌​‌​​‌‌​‌​‌​‌‌‌‌‌​‌​​​​​‌​‌​​‌‌​‌​‌​​‌​​‌​‌​‌‌‌‌‌​‌​​​‌​​​‌​​​‌​‌​‌​‌​‌‌​​‌​​​​​‌​‌​‌‌‌‌‌​‌​​‌​​​​‌​‌​​‌​​‌​​‌​​‌​‌‌‌‌‌​​​‌​​​​‌‌​‌​​‌​​​​​‌‌‌​‌​​​‌‌​‌‌‌‍</span>
+  </footer>
+</main>
+</body>
+</html>
