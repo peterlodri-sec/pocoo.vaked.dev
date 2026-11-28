@@ -1,10 +1,10 @@
 {
   "schema_version": "1.0.0",
-  "updated_at": "2026-11-27",
+  "updated_at": "2026-11-28",
   "identity": {
     "creator": "Peter Lodri",
     "handle": "peterlodri-sec",
-    "pen_name": "Breet Shaw",
+    "pen_name": "Brett Shaw",
     "imprints": [
       "The Sovereign Library Press",
       "OmniLLL Studio",
@@ -45,12 +45,13 @@
     },
     {
       "channel": "creative_patronage_poems_art",
-      "label": "Poems, Sovereign Library & Painted Art Patronage (Patreon)",
-      "status": "onboarding",
-      "onboarding_url": "https://www.patreon.com/create",
+      "label": "The Sovereign Library & Vaked Constellation (Patreon)",
+      "status": "live",
+      "url": "https://www.patreon.com/c/TheSoverignLibrary",
+      "welcome_post_url": "https://www.patreon.com/TheSoverignLibrary/posts/welcome-to-poems-176592702",
       "fallback_url": "https://pocoo.vaked.dev/support/",
       "tiers_usd": [3, 7, 15],
-      "note": "Monthly patronage for bilingual poetry, Sovereign Library drops, and 3:2 art plates (linked to Support hub until creator URL claim completes)."
+      "note": "Live monthly patronage for bilingual EN/HU poetry cycles, Sovereign Library drafts, 3:2 ink-and-watercolor art & manga plates, and OmniLLL Studio archives."
     },
     {
       "channel": "open_source_sponsorship",
@@ -78,7 +79,7 @@
   "constellation_vaked_dev": [
     { "name": "vaked.dev", "url": "https://vaked.dev", "role": "Root constellation portal & whitepaper" },
     { "name": "pocoo.vaked.dev", "url": "https://pocoo.vaked.dev", "role": "Sovereign AI research blog & essays" },
-    { "name": "pocoo.vaked.dev/demos/book", "url": "https://pocoo.vaked.dev/demos/book/", "role": "The Sovereign Library catalog (215+ works) & free Chapter 1 hub" },
+    { "name": "pocoo.vaked.dev/demos/book", "url": "https://pocoo.vaked.dev/demos/book/", "role": "The Sovereign Library catalog (216+ works) & free Chapter 1 hub" },
     { "name": "pocoo.vaked.dev/support", "url": "https://pocoo.vaked.dev/support/", "role": "Unified store & sponsorship routing hub" },
     { "name": "store.vaked.dev", "url": "https://store.vaked.dev", "role": "Giclée prints, apparel, vinyl & digital bookstore spotlight" },
     { "name": "lovetta.vaked.dev", "url": "https://lovetta.vaked.dev", "role": "Ed25519 Sovereign Key sanctuary & constellation gateway" },
@@ -92,6 +93,7 @@
     { "name": "design.vaked.dev", "url": "https://design.vaked.dev", "role": "Design system & palettes" }
   ],
   "external_presence": {
+    "patreon": "https://www.patreon.com/c/TheSoverignLibrary",
     "github_personal": "https://github.com/peterlodri-sec",
     "github_org": "https://github.com/8b-is",
     "huggingface_profile": "https://huggingface.co/PeetPedro",
